@@ -872,10 +872,15 @@ The Beatles"></textarea>
     const quizSelect = document.getElementById('quizSelect');
     const questionsInput = document.getElementById('questionsInput');
 
-    // Load quiz library from JSON and group by category
+    // Debug: Log fetch start
+    console.log('Attempting to fetch full_quiz_library.json...');
     fetch('full_quiz_library.json')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch full_quiz_library.json: ' + res.status);
+        return res.json();
+      })
       .then(data => {
+        console.log('Quiz library loaded:', data);
         quizLibrary = data;
         // Group quizzes by category
         const categories = {};
@@ -897,6 +902,10 @@ The Beatles"></textarea>
           });
           quizSelect.appendChild(optgroup);
         });
+      })
+      .catch(err => {
+        console.error('Error loading quiz library:', err);
+        quizSelect.innerHTML = '<option value="">(Quiz library failed to load)</option>';
       });
 
     quizSelect.onchange = () => {
