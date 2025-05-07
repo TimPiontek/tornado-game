@@ -1035,6 +1035,7 @@ The Beatles"></textarea>
       answerEl.textContent = qObj.answer || '';
       answerEl.style.color = turn==='A'?'var(--teamA)':'var(--teamB)';
       answerEl.style.textAlign = turn==='A'?'left':'right';
+      console.log('DEBUG: Revealed answer for question:', qObj.question, '| Answer:', qObj.answer);
     };
 
     resetBtn.onclick = () => {
@@ -1187,6 +1188,7 @@ The Beatles"></textarea>
         bubble.classList.remove('bubble-left');
       }
       revealBtn.classList.toggle('hidden', !qObj.answer);
+      console.log('DEBUG: Showing question:', qObj.question, '| Expected answer:', qObj.answer);
     }
 
     function updateScores(){
