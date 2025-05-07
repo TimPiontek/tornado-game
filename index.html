@@ -1029,23 +1029,8 @@ The Beatles"></textarea>
       answerEl.textContent = questions[qIndex]?.answer||'';
       answerEl.style.color = turn==='A'?'var(--teamA)':'var(--teamB)';
       answerEl.style.textAlign = turn==='A'?'left':'right';
-      document.getElementById('correctIncorrectButtons').classList.remove('hidden');
     };
 
-    document.getElementById('correctBtn').onclick = () => {
-      playCorrect();
-      document.getElementById('selectNumberText').classList.remove('hidden');
-      document.getElementById('correctIncorrectButtons').classList.add('hidden');
-    };
-
-    document.getElementById('incorrectBtn').onclick = () => {
-      playIncorrect();
-      turn = turn==='A'?'B':'A';
-      document.getElementById('correctIncorrectButtons').classList.add('hidden');
-      document.getElementById('selectNumberText').classList.add('hidden');
-      updateTurn();
-      showQuestion();
-    };
     resetBtn.onclick = () => {
       // Get current special item counts
       let tornadoCount = parseInt(document.getElementById('tornadoCount').value);
@@ -1154,7 +1139,7 @@ The Beatles"></textarea>
         annB.textContent=`${names.B} got ${out}`; annA.textContent='';
       }
       btn.textContent=out; btn.disabled=true;
-      if(r.type==='points' && r.value>=800){ confettiBurst(btn); playCorrect(); }
+      if(r.type==='points' && r.value>=800){ confettiBurst(btn); }
       updateScores();
       const done=document.querySelectorAll('#grid button:disabled').length;
       if(done===total){
@@ -1292,22 +1277,6 @@ The Beatles"></textarea>
     }
 
     // Sound effect stubs
-    function playCorrect() {
-      const C=new(window.AudioContext||window.webkitAudioContext)(),o=C.createOscillator(),g=C.createGain();
-      o.type='triangle'; o.frequency.value=660;
-      o.connect(g).connect(C.destination);
-      o.start(); g.gain.setValueAtTime(1,C.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,C.currentTime+0.3);
-      setTimeout(()=>o.stop(),300);
-    }
-    function playIncorrect() {
-      const C=new(window.AudioContext||window.webkitAudioContext)(),o=C.createOscillator(),g=C.createGain();
-      o.type='sine'; o.frequency.value=120;
-      o.connect(g).connect(C.destination);
-      o.start(); g.gain.setValueAtTime(1,C.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,C.currentTime+0.4);
-      setTimeout(()=>o.stop(),400);
-    }
     function playWin() {
       const C=new(window.AudioContext||window.webkitAudioContext)(),o=C.createOscillator(),g=C.createGain();
       o.type='triangle'; o.frequency.value=880;
