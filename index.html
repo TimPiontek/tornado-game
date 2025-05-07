@@ -877,37 +877,39 @@
         </div>
       </div>
       <div class="setup-main-grid">
-        <div class="setup-row">
-          <div class="team-box">
-            <label>Team A Name:
-              <input id="teamANameInput" value="Team A" required maxlength="16">
-            </label>
+        <form id="setupForm" onsubmit="return false;">
+          <div class="setup-row">
+            <div class="team-box">
+              <label>Team A Name:
+                <input id="teamANameInput" value="Team A" required maxlength="16">
+              </label>
+            </div>
+            <div class="team-box">
+              <label>Team B Name:
+                <input id="teamBNameInput" value="Team B" required maxlength="16">
+              </label>
+            </div>
           </div>
-          <div class="team-box">
-            <label>Team B Name:
-              <input id="teamBNameInput" value="Team B" required maxlength="16">
-            </label>
+          <div class="setup-row">
+            <div class="quiz-box">
+              <label>Choose a Quiz:
+                <select id="quizSelect" style="width:100%;margin-top:10px;">
+                  <option value="">--</option>
+                </select>
+              </label>
+            </div>
+            <div class="grid-box">
+              <label>Grid Size:
+                <select id="gridSizeInput">
+                  <option>8</option><option>10</option><option>16</option>
+                  <option selected>20</option><option>24</option>
+                  <option>30</option><option>32</option><option>40</option>
+                </select>
+              </label>
+            </div>
           </div>
-        </div>
-        <div class="setup-row">
-          <div class="quiz-box">
-            <label>Choose a Quiz:
-              <select id="quizSelect" style="width:100%;margin-top:10px;">
-                <option value="">--</option>
-              </select>
-            </label>
-          </div>
-          <div class="grid-box">
-            <label>Grid Size:
-              <select id="gridSizeInput">
-                <option>8</option><option>10</option><option>16</option>
-                <option selected>20</option><option>24</option>
-                <option>30</option><option>32</option><option>40</option>
-              </select>
-            </label>
-          </div>
-        </div>
-        <button id="startGameBtnBottom" class="purple-btn start-large">Start Game</button>
+          <button id="startGameBtnBottom" class="purple-btn start-large">Start Game</button>
+        </form>
         <div class="questions-block compact-questions-block slightly-wider-questions-block">
           <label>
             Q&A:
@@ -971,438 +973,440 @@ The Beatles"></textarea>
   </div>
 
   <script>
-    // State
-    let rewards=[], scores={A:0,B:0}, picks={A:0,B:0},
-        turn='A', names={A:'Team A',B:'Team B'}, total=20,
-        questions=[], qIndex=0, usedQuestionIndices=[];
+    document.addEventListener('DOMContentLoaded', function() {
+      // State
+      let rewards=[], scores={A:0,B:0}, picks={A:0,B:0},
+          turn='A', names={A:'Team A',B:'Team B'}, total=20,
+          questions=[], qIndex=0, usedQuestionIndices=[];
 
-    // DOM refs
-    const setupScreen=document.getElementById('setupScreen'),
-          gameScreen=document.getElementById('gameScreen'),
-          startBtnTop=document.getElementById('startGameBtnTop'),
-          startBtnBottom=document.getElementById('startGameBtnBottom'),
-          resetBtn=document.getElementById('resetBtn'),
-          passBtn=document.getElementById('passBtn'),
-          skipBtn=document.getElementById('skipBtn'),
-          revealBtn=document.getElementById('revealBtn'),
-          gridEl=document.getElementById('grid'),
-          annA=document.getElementById('annA'),
-          annB=document.getElementById('annB'),
-          nameAEl=document.getElementById('nameA'),
-          nameBEl=document.getElementById('nameB'),
-          scoreAEl=document.getElementById('scoreA'),
-          scoreBEl=document.getElementById('scoreB'),
-          turnEl=document.getElementById('turnDisplay'),
-          questionEl=document.getElementById('question'),
-          answerEl=document.getElementById('answer'),
-          specialPopup=document.getElementById('specialPopup');
+      // DOM refs
+      const setupScreen=document.getElementById('setupScreen'),
+            gameScreen=document.getElementById('gameScreen'),
+            startBtnTop=document.getElementById('startGameBtnTop'),
+            startBtnBottom=document.getElementById('startGameBtnBottom'),
+            resetBtn=document.getElementById('resetBtn'),
+            passBtn=document.getElementById('passBtn'),
+            skipBtn=document.getElementById('skipBtn'),
+            revealBtn=document.getElementById('revealBtn'),
+            gridEl=document.getElementById('grid'),
+            annA=document.getElementById('annA'),
+            annB=document.getElementById('annB'),
+            nameAEl=document.getElementById('nameA'),
+            nameBEl=document.getElementById('nameB'),
+            scoreAEl=document.getElementById('scoreA'),
+            scoreBEl=document.getElementById('scoreB'),
+            turnEl=document.getElementById('turnDisplay'),
+            questionEl=document.getElementById('question'),
+            answerEl=document.getElementById('answer'),
+            specialPopup=document.getElementById('specialPopup');
 
-    // QUIZ LIBRARY LOGIC
-    let quizLibrary = [];
-    let selectedQuizIndex = null;
-    const quizSelect = document.getElementById('quizSelect');
-    const questionsInput = document.getElementById('questionsInput');
+      // QUIZ LIBRARY LOGIC
+      let quizLibrary = [];
+      let selectedQuizIndex = null;
+      const quizSelect = document.getElementById('quizSelect');
+      const questionsInput = document.getElementById('questionsInput');
 
-    // Debug: Log fetch start
-    console.log('Attempting to fetch quiz_library.json...');
-    fetch('quiz_library.json')
-      .then(res => {
-        console.log('Fetch response:', res);
-        if (!res.ok) throw new Error('Failed to fetch quiz_library.json: ' + res.status);
-        return res.json();
-      })
-      .then(data => {
-        console.log('Quiz library loaded:', data);
-        quizLibrary = data;
-        // Group quizzes by category
-        const categories = {};
-        quizLibrary.forEach((quiz, i) => {
-          if (!quiz.title || !quiz.category || !quiz.questions) {
-            console.error('Malformed quiz object at index', i, quiz);
-          }
-          const cat = quiz.category || 'Other';
-          if (!categories[cat]) categories[cat] = [];
-          categories[cat].push({title: quiz.title, index: i});
-        });
-        // Build dropdown with optgroups
-        quizSelect.innerHTML = '<option value="">--</option>';
-        Object.entries(categories).forEach(([cat, quizzes]) => {
-          const optgroup = document.createElement('optgroup');
-          optgroup.label = cat;
-          let regular = quizzes;
-          if (/music/i.test(cat)) {
-            // Move any quiz with 'grateful dead' or 'beatles' (with or without 'the') to the end
-            const special = [];
-            regular = quizzes.filter(q => {
-              if (/(the\s+)?grateful dead|(the\s+)?beatles/i.test(q.title)) {
-                special.push(q);
-                return false;
-              }
-              return true;
+      // Debug: Log fetch start
+      console.log('Attempting to fetch quiz_library.json...');
+      fetch('quiz_library.json')
+        .then(res => {
+          console.log('Fetch response:', res);
+          if (!res.ok) throw new Error('Failed to fetch quiz_library.json: ' + res.status);
+          return res.json();
+        })
+        .then(data => {
+          console.log('Quiz library loaded:', data);
+          quizLibrary = data;
+          // Group quizzes by category
+          const categories = {};
+          quizLibrary.forEach((quiz, i) => {
+            if (!quiz.title || !quiz.category || !quiz.questions) {
+              console.error('Malformed quiz object at index', i, quiz);
+            }
+            const cat = quiz.category || 'Other';
+            if (!categories[cat]) categories[cat] = [];
+            categories[cat].push({title: quiz.title, index: i});
+          });
+          // Build dropdown with optgroups
+          quizSelect.innerHTML = '<option value="">--</option>';
+          Object.entries(categories).forEach(([cat, quizzes]) => {
+            const optgroup = document.createElement('optgroup');
+            optgroup.label = cat;
+            let regular = quizzes;
+            if (/music/i.test(cat)) {
+              // Move any quiz with 'grateful dead' or 'beatles' (with or without 'the') to the end
+              const special = [];
+              regular = quizzes.filter(q => {
+                if (/(the\s+)?grateful dead|(the\s+)?beatles/i.test(q.title)) {
+                  special.push(q);
+                  return false;
+                }
+                return true;
+              });
+              regular = [...regular, ...special];
+            }
+            regular.forEach(q => {
+              const opt = document.createElement('option');
+              opt.value = q.index;
+              opt.textContent = q.title.replace(/\s*Quiz\s*\d+$/i, '').trim();
+              optgroup.appendChild(opt);
             });
-            regular = [...regular, ...special];
-          }
-          regular.forEach(q => {
-            const opt = document.createElement('option');
-            opt.value = q.index;
-            opt.textContent = q.title.replace(/\s*Quiz\s*\d+$/i, '').trim();
-            optgroup.appendChild(opt);
+            quizSelect.appendChild(optgroup);
           });
-          quizSelect.appendChild(optgroup);
+          console.log('Dropdown build complete.');
+        })
+        .catch(err => {
+          console.error('Error loading quiz library:', err);
+          quizSelect.innerHTML = '<option value="">(Quiz library failed to load)</option>';
         });
-        console.log('Dropdown build complete.');
-      })
-      .catch(err => {
-        console.error('Error loading quiz library:', err);
-        quizSelect.innerHTML = '<option value="">(Quiz library failed to load)</option>';
-      });
 
-    quizSelect.onchange = () => {
-      selectedQuizIndex = quizSelect.value !== '' ? parseInt(quizSelect.value) : null;
-      // Automatically set order to random when a quiz is selected
-      if (selectedQuizIndex !== null) {
-        const randomRadio = document.querySelector('input[name="order"][value="random"]');
-        if (randomRadio) randomRadio.checked = true;
-      }
-    };
+      quizSelect.onchange = () => {
+        selectedQuizIndex = quizSelect.value !== '' ? parseInt(quizSelect.value) : null;
+        // Automatically set order to random when a quiz is selected
+        if (selectedQuizIndex !== null) {
+          const randomRadio = document.querySelector('input[name="order"][value="random"]');
+          if (randomRadio) randomRadio.checked = true;
+        }
+      };
 
-    // Modify Start Game logic to use selected quiz if chosen
-    startBtnTop.onclick = startBtnBottom.onclick = () => {
-      names.A = document.getElementById('teamANameInput').value.trim()||'Team A';
-      names.B = document.getElementById('teamBNameInput').value.trim()||'Team B';
-      total = +document.getElementById('gridSizeInput').value;
+      // Modify Start Game logic to use selected quiz if chosen
+      startBtnTop.onclick = startBtnBottom.onclick = () => {
+        names.A = document.getElementById('teamANameInput').value.trim()||'Team A';
+        names.B = document.getElementById('teamBNameInput').value.trim()||'Team B';
+        total = +document.getElementById('gridSizeInput').value;
 
-      // Get special item counts from selectors
-      let tornadoCount = parseInt(document.getElementById('tornadoCount').value);
-      let doubleCount = parseInt(document.getElementById('doubleCount').value);
-      let loseCount = parseInt(document.getElementById('loseCount').value);
-      let swapCount = parseInt(document.getElementById('swapCount').value);
+        // Get special item counts from selectors
+        let tornadoCount = parseInt(document.getElementById('tornadoCount').value);
+        let doubleCount = parseInt(document.getElementById('doubleCount').value);
+        let loseCount = parseInt(document.getElementById('loseCount').value);
+        let swapCount = parseInt(document.getElementById('swapCount').value);
 
-      // Adjust defaults for small grids
-      if (total <= 10) {
-        tornadoCount = 2;
-        doubleCount = 1;
-        loseCount = 1;
-        swapCount = 1;
-        document.getElementById('tornadoCount').value = 2;
-        document.getElementById('doubleCount').value = 1;
-        document.getElementById('loseCount').value = 1;
-        document.getElementById('swapCount').value = 1;
-      }
+        // Adjust defaults for small grids
+        if (total <= 10) {
+          tornadoCount = 2;
+          doubleCount = 1;
+          loseCount = 1;
+          swapCount = 1;
+          document.getElementById('tornadoCount').value = 2;
+          document.getElementById('doubleCount').value = 1;
+          document.getElementById('loseCount').value = 1;
+          document.getElementById('swapCount').value = 1;
+        }
 
-      // Use quiz if selected, otherwise use textarea
-      if (selectedQuizIndex !== null && quizLibrary[selectedQuizIndex]) {
-        const quiz = quizLibrary[selectedQuizIndex];
-        // Only support the new format: questions as array of objects
-        if (quiz.questions && Array.isArray(quiz.questions) && typeof quiz.questions[0] === 'object') {
-          questions = quiz.questions.map(q => ({ question: q.question, answer: q.answer || null }));
+        // Use quiz if selected, otherwise use textarea
+        if (selectedQuizIndex !== null && quizLibrary[selectedQuizIndex]) {
+          const quiz = quizLibrary[selectedQuizIndex];
+          // Only support the new format: questions as array of objects
+          if (quiz.questions && Array.isArray(quiz.questions) && typeof quiz.questions[0] === 'object') {
+            questions = quiz.questions.map(q => ({ question: q.question, answer: q.answer || null }));
+          } else {
+            questions = [];
+          }
+          console.log('DEBUG: Selected quiz:', quiz.title, 'Questions loaded:', questions.length, questions);
         } else {
-          questions = [];
+          const raw = questionsInput.value;
+          // split blocks on blank line
+          const blocks = raw.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
+          // detect Q&A blocks
+          if(blocks.some(b => b.split('\n').length>1)){
+            questions = blocks.map(b=>{
+              const [q,a] = b.split('\n');
+              return { question:q.trim(), answer:a?.trim()||null };
+            });
+          } else {
+            questions = raw
+              .split('\n').map(l=>l.trim()).filter(l=>l)
+              .map(q=>({ question:q.replace(/^\d+\.\s*/,''), answer:null }));
+          }
         }
-        console.log('DEBUG: Selected quiz:', quiz.title, 'Questions loaded:', questions.length, questions);
-      } else {
-        const raw = questionsInput.value;
-        // split blocks on blank line
-        const blocks = raw.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
-        // detect Q&A blocks
-        if(blocks.some(b => b.split('\n').length>1)){
-          questions = blocks.map(b=>{
-            const [q,a] = b.split('\n');
-            return { question:q.trim(), answer:a?.trim()||null };
-          });
+        // Prepare usedQuestionIndices for unique rotation
+        usedQuestionIndices = [];
+        let order = document.querySelector('input[name="order"]:checked').value;
+        console.log('DEBUG: Questions array at game start:', questions);
+        if (order === 'random') {
+          // Shuffle indices
+          usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
+          for (let i = usedQuestionIndices.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [usedQuestionIndices[i], usedQuestionIndices[j]] = [usedQuestionIndices[j], usedQuestionIndices[i]];
+          }
         } else {
-          questions = raw
-            .split('\n').map(l=>l.trim()).filter(l=>l)
-            .map(q=>({ question:q.replace(/^\d+\.\s*/,''), answer:null }));
+          usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
+        }
+        qIndex = 0;
+        setupScreen.classList.add('hidden');
+        gameScreen.classList.remove('hidden');
+        initGame(tornadoCount, doubleCount, loseCount, swapCount); buildGrid(total); showQuestion();
+      };
+
+      passBtn.onclick = () => { turn = turn==='A'?'B':'A'; updateTurn(); showQuestion(); };
+      skipBtn.onclick = () => { 
+        qIndex = (qIndex + 1) % usedQuestionIndices.length; showQuestion(); 
+      };
+      revealBtn.onclick = () => {
+        const qObj = questions[usedQuestionIndices[qIndex]] || {question:'',answer:null};
+        answerEl.textContent = qObj.answer || '';
+        answerEl.style.color = turn==='A'?'var(--teamA)':'var(--teamB)';
+        answerEl.style.textAlign = turn==='A'?'left':'right';
+        console.log('DEBUG: Revealed answer for question:', qObj.question, '| Answer:', qObj.answer);
+      };
+
+      resetBtn.onclick = () => {
+        // Get current special item counts
+        let tornadoCount = parseInt(document.getElementById('tornadoCount').value);
+        let doubleCount = parseInt(document.getElementById('doubleCount').value);
+        let loseCount = parseInt(document.getElementById('loseCount').value);
+        let swapCount = parseInt(document.getElementById('swapCount').value);
+        // Fully reset game state and grid
+        initGame(tornadoCount, doubleCount, loseCount, swapCount);
+        buildGrid(total);
+        showQuestion();
+        document.getElementById('questionAnswerRow').style.display = 'none';
+      };
+      document.getElementById('homeBtn').onclick = () => {
+        gameScreen.classList.add('hidden');
+        setupScreen.classList.remove('hidden');
+        // Reset everything to initial state
+        scores={A:0,B:0}; picks={A:0,B:0};
+        annA.textContent=''; annB.textContent='';
+        nameAEl.textContent=names.A; nameBEl.textContent=names.B;
+        updateScores(); turn='A'; updateTurn();
+        gridEl.innerHTML='';
+        document.getElementById('questionAnswerRow').style.display = 'none';
+        // No need to reassign selector values; UI is already reset
+        showQuestion();
+      };
+
+      function initGame(tornadoCount=2, doubleCount=2, loseCount=2, swapCount=1){
+        scores={A:0,B:0}; picks={A:0,B:0};
+        annA.textContent=''; annB.textContent='';
+        nameAEl.textContent=names.A; nameBEl.textContent=names.B;
+        updateScores(); turn='A'; updateTurn();
+        buildRewards(total, tornadoCount, doubleCount, loseCount, swapCount); buildGrid(total); showQuestion();
+      }
+
+      function buildRewards(n, tornadoCount=2, doubleCount=2, loseCount=2, swapCount=1){
+        // Always include the exact number of each special item
+        let specialTotal = tornadoCount + doubleCount + loseCount + swapCount;
+        let ptsCount = n - specialTotal;
+        if (ptsCount < 0) ptsCount = 0;
+        rewards=[];
+        for(let i=0;i<ptsCount;i++) rewards.push({type:'points',value:(Math.floor(Math.random()*10)+1)*100});
+        for(let i=0;i<loseCount;i++) rewards.push({type:'lose'});
+        for(let i=0;i<tornadoCount;i++) rewards.push({type:'steal'});
+        for(let i=0;i<doubleCount;i++) rewards.push({type:'double'});
+        for(let i=0;i<swapCount;i++) rewards.push({type:'swap'});
+        // Shuffle rewards to randomize placement
+        for(let i=rewards.length-1;i>0;i--){
+          const j=Math.floor(Math.random()*(i+1));
+          [rewards[i],rewards[j]]=[rewards[j],rewards[i]];
         }
       }
-      // Prepare usedQuestionIndices for unique rotation
-      usedQuestionIndices = [];
-      let order = document.querySelector('input[name="order"]:checked').value;
-      console.log('DEBUG: Questions array at game start:', questions);
-      if (order === 'random') {
-        // Shuffle indices
-        usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
-        for (let i = usedQuestionIndices.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [usedQuestionIndices[i], usedQuestionIndices[j]] = [usedQuestionIndices[j], usedQuestionIndices[i]];
+
+      function buildGrid(n){
+        gridEl.innerHTML='';
+        let cols=Math.floor(Math.sqrt(n)); if(cols<2) cols=2;
+        gridEl.style.gridTemplateColumns=`repeat(${cols},1fr)`;
+        for(let i=0;i<n;i++){
+          const btn=document.createElement('button');
+          btn.textContent=i+1; btn.onclick=()=>handlePick(btn,i);
+          gridEl.appendChild(btn);
         }
-      } else {
-        usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
       }
-      qIndex = 0;
-      setupScreen.classList.add('hidden');
-      gameScreen.classList.remove('hidden');
-      initGame(tornadoCount, doubleCount, loseCount, swapCount); buildGrid(total); showQuestion();
-    };
 
-    passBtn.onclick = () => { turn = turn==='A'?'B':'A'; updateTurn(); showQuestion(); };
-    skipBtn.onclick = () => { 
-      qIndex = (qIndex + 1) % usedQuestionIndices.length; showQuestion(); 
-    };
-    revealBtn.onclick = () => {
-      const qObj = questions[usedQuestionIndices[qIndex]] || {question:'',answer:null};
-      answerEl.textContent = qObj.answer || '';
-      answerEl.style.color = turn==='A'?'var(--teamA)':'var(--teamB)';
-      answerEl.style.textAlign = turn==='A'?'left':'right';
-      console.log('DEBUG: Revealed answer for question:', qObj.question, '| Answer:', qObj.answer);
-    };
-
-    resetBtn.onclick = () => {
-      // Get current special item counts
-      let tornadoCount = parseInt(document.getElementById('tornadoCount').value);
-      let doubleCount = parseInt(document.getElementById('doubleCount').value);
-      let loseCount = parseInt(document.getElementById('loseCount').value);
-      let swapCount = parseInt(document.getElementById('swapCount').value);
-      // Fully reset game state and grid
-      initGame(tornadoCount, doubleCount, loseCount, swapCount);
-      buildGrid(total);
-      showQuestion();
-      document.getElementById('questionAnswerRow').style.display = 'none';
-    };
-    document.getElementById('homeBtn').onclick = () => {
-      gameScreen.classList.add('hidden');
-      setupScreen.classList.remove('hidden');
-      // Reset everything to initial state
-      scores={A:0,B:0}; picks={A:0,B:0};
-      annA.textContent=''; annB.textContent='';
-      nameAEl.textContent=names.A; nameBEl.textContent=names.B;
-      updateScores(); turn='A'; updateTurn();
-      gridEl.innerHTML='';
-      document.getElementById('questionAnswerRow').style.display = 'none';
-      // No need to reassign selector values; UI is already reset
-      showQuestion();
-    };
-
-    function initGame(tornadoCount=2, doubleCount=2, loseCount=2, swapCount=1){
-      scores={A:0,B:0}; picks={A:0,B:0};
-      annA.textContent=''; annB.textContent='';
-      nameAEl.textContent=names.A; nameBEl.textContent=names.B;
-      updateScores(); turn='A'; updateTurn();
-      buildRewards(total, tornadoCount, doubleCount, loseCount, swapCount); buildGrid(total); showQuestion();
-    }
-
-    function buildRewards(n, tornadoCount=2, doubleCount=2, loseCount=2, swapCount=1){
-      // Always include the exact number of each special item
-      let specialTotal = tornadoCount + doubleCount + loseCount + swapCount;
-      let ptsCount = n - specialTotal;
-      if (ptsCount < 0) ptsCount = 0;
-      rewards=[];
-      for(let i=0;i<ptsCount;i++) rewards.push({type:'points',value:(Math.floor(Math.random()*10)+1)*100});
-      for(let i=0;i<loseCount;i++) rewards.push({type:'lose'});
-      for(let i=0;i<tornadoCount;i++) rewards.push({type:'steal'});
-      for(let i=0;i<doubleCount;i++) rewards.push({type:'double'});
-      for(let i=0;i<swapCount;i++) rewards.push({type:'swap'});
-      // Shuffle rewards to randomize placement
-      for(let i=rewards.length-1;i>0;i--){
-        const j=Math.floor(Math.random()*(i+1));
-        [rewards[i],rewards[j]]=[rewards[j],rewards[i]];
-      }
-    }
-
-    function buildGrid(n){
-      gridEl.innerHTML='';
-      let cols=Math.floor(Math.sqrt(n)); if(cols<2) cols=2;
-      gridEl.style.gridTemplateColumns=`repeat(${cols},1fr)`;
-      for(let i=0;i<n;i++){
-        const btn=document.createElement('button');
-        btn.textContent=i+1; btn.onclick=()=>handlePick(btn,i);
-        gridEl.appendChild(btn);
-      }
-    }
-
-    function handlePick(btn,i){
-      let r=rewards[i], me=turn;
-      if(picks[me]===0 && r.type!=='points'){
-        r={type:'points',value:(Math.floor(Math.random()*10)+1)*100};
-      }
-      picks[me]++;
-      let out='';
-      if(r.type==='points'){
-        scores[me]+=r.value; out='+'+r.value;
-        btn.style.color = me==='A'?'var(--teamA)':'var(--teamB)';
-      } else if(r.type==='lose'){
-        scores[me]=0; out='🦨'; 
-        styleSpecial(btn,me); 
-        showSpecialPopup('🦨','Skunked! Lose all your points!');
-        animateSkunk(me);
-        playSad();
-      } else if(r.type==='steal'){
-        const o=me==='A'?'B':'A';
-        scores[me]+=scores[o]; scores[o]=0;
-        out='🌪'; 
-        styleSpecial(btn,me); 
-        btn.classList.add('tornado-animation');
-        showSpecialPopup('🌪️','Tornado! Steal the other team\'s points!', true);
-        playWind();
-      } else if(r.type==='swap'){
-        // Swap scores between teams
-        let temp = scores['A'];
-        scores['A'] = scores['B'];
-        scores['B'] = temp;
-        out='🦘';
-        styleSpecial(btn,me);
-        showSpecialPopup('🦘','Kangaroo Hop Swap! Teams bounce and swap points!');
-        animateKangarooSwap();
-      } else {
-        scores[me]*=2; out='🦁🦁'; 
-        styleSpecial(btn,me); 
-        showSpecialPopup('🦁🦁','Double Lion Roar! Double your points!');
-        animateScore(me, 'lion-roar');
-      }
-      if(me==='A'){
-        annA.textContent=`${names.A} got ${out}`; annB.textContent='';
-      } else {
-        annB.textContent=`${names.B} got ${out}`; annA.textContent='';
-      }
-      btn.textContent=out; btn.disabled=true;
-      if(r.type==='points' && r.value>=800){ confettiBurst(btn); }
-      updateScores();
-      const done=document.querySelectorAll('#grid button:disabled').length;
-      if(done===total){
-        if(scores.A>scores.B){
-          annA.textContent=`${names.A} wins! 🏆`; annB.textContent=''; playWin();
-        } else if(scores.B>scores.A){
-          annB.textContent=`${names.B} wins! 🏆`; annA.textContent=''; playWin();
+      function handlePick(btn,i){
+        let r=rewards[i], me=turn;
+        if(picks[me]===0 && r.type!=='points'){
+          r={type:'points',value:(Math.floor(Math.random()*10)+1)*100};
+        }
+        picks[me]++;
+        let out='';
+        if(r.type==='points'){
+          scores[me]+=r.value; out='+'+r.value;
+          btn.style.color = me==='A'?'var(--teamA)':'var(--teamB)';
+        } else if(r.type==='lose'){
+          scores[me]=0; out='��'; 
+          styleSpecial(btn,me); 
+          showSpecialPopup('🦨','Skunked! Lose all your points!');
+          animateSkunk(me);
+          playSad();
+        } else if(r.type==='steal'){
+          const o=me==='A'?'B':'A';
+          scores[me]+=scores[o]; scores[o]=0;
+          out='🌪'; 
+          styleSpecial(btn,me); 
+          btn.classList.add('tornado-animation');
+          showSpecialPopup('🌪️','Tornado! Steal the other team\'s points!', true);
+          playWind();
+        } else if(r.type==='swap'){
+          // Swap scores between teams
+          let temp = scores['A'];
+          scores['A'] = scores['B'];
+          scores['B'] = temp;
+          out='🦘';
+          styleSpecial(btn,me);
+          showSpecialPopup('🦘','Kangaroo Hop Swap! Teams bounce and swap points!');
+          animateKangarooSwap();
         } else {
-          annA.textContent="It's a tie!"; annB.textContent=''; playWin();
+          scores[me]*=2; out='🦁🦁'; 
+          styleSpecial(btn,me); 
+          showSpecialPopup('🦁🦁','Double Lion Roar! Double your points!');
+          animateScore(me, 'lion-roar');
         }
-      } else {
-        turn = me==='A'?'B':'A';
-        // Advance to next unique question
-        qIndex++;
-        if (qIndex >= usedQuestionIndices.length) qIndex = 0;
-        updateTurn(); showQuestion();
+        if(me==='A'){
+          annA.textContent=`${names.A} got ${out}`; annB.textContent='';
+        } else {
+          annB.textContent=`${names.B} got ${out}`; annA.textContent='';
+        }
+        btn.textContent=out; btn.disabled=true;
+        if(r.type==='points' && r.value>=800){ confettiBurst(btn); }
+        updateScores();
+        const done=document.querySelectorAll('#grid button:disabled').length;
+        if(done===total){
+          if(scores.A>scores.B){
+            annA.textContent=`${names.A} wins! 🏆`; annB.textContent=''; playWin();
+          } else if(scores.B>scores.A){
+            annB.textContent=`${names.B} wins! 🏆`; annA.textContent=''; playWin();
+          } else {
+            annA.textContent="It's a tie!"; annB.textContent=''; playWin();
+          }
+        } else {
+          turn = me==='A'?'B':'A';
+          // Advance to next unique question
+          qIndex++;
+          if (qIndex >= usedQuestionIndices.length) qIndex = 0;
+          updateTurn(); showQuestion();
+        }
       }
-    }
 
-    function showQuestion(){
-      const qObj = questions[usedQuestionIndices[qIndex]] || {question:'',answer:null};
-      questionEl.textContent=qObj.question;
-      answerEl.textContent = '';
-      // Hide question bubble if no questions
-      const questionRow = document.getElementById('questionAnswerRow');
-      if (!qObj.question) {
-        questionRow.style.display = 'none';
-        return;
-      } else {
-        questionRow.style.display = 'flex';
+      function showQuestion(){
+        const qObj = questions[usedQuestionIndices[qIndex]] || {question:'',answer:null};
+        questionEl.textContent=qObj.question;
+        answerEl.textContent = '';
+        // Hide question bubble if no questions
+        const questionRow = document.getElementById('questionAnswerRow');
+        if (!qObj.question) {
+          questionRow.style.display = 'none';
+          return;
+        } else {
+          questionRow.style.display = 'flex';
+        }
+        // Alternate bubble side based on team turn
+        const bubble = document.getElementById('questionBubble');
+        if (turn === 'A') {
+          bubble.classList.add('bubble-left');
+          bubble.classList.remove('bubble-right');
+        } else {
+          bubble.classList.add('bubble-right');
+          bubble.classList.remove('bubble-left');
+        }
+        revealBtn.classList.toggle('hidden', !qObj.answer);
+        console.log('DEBUG: Showing question:', qObj.question, '| Expected answer:', qObj.answer);
       }
-      // Alternate bubble side based on team turn
-      const bubble = document.getElementById('questionBubble');
-      if (turn === 'A') {
-        bubble.classList.add('bubble-left');
-        bubble.classList.remove('bubble-right');
-      } else {
-        bubble.classList.add('bubble-right');
-        bubble.classList.remove('bubble-left');
+
+      function updateScores(){
+        scoreAEl.textContent=scores.A;
+        scoreBEl.textContent=scores.B;
       }
-      revealBtn.classList.toggle('hidden', !qObj.answer);
-      console.log('DEBUG: Showing question:', qObj.question, '| Expected answer:', qObj.answer);
-    }
+      function updateTurn(){
+        turnEl.textContent=`${names[turn]}'s turn`;
+        turnEl.style.color = turn==='A'?'var(--teamA)':'var(--teamB)';
+      }
 
-    function updateScores(){
-      scoreAEl.textContent=scores.A;
-      scoreBEl.textContent=scores.B;
-    }
-    function updateTurn(){
-      turnEl.textContent=`${names[turn]}'s turn`;
-      turnEl.style.color = turn==='A'?'var(--teamA)':'var(--teamB)';
-    }
+      function styleSpecial(btn,team){
+        const clr = team==='A'?'var(--teamA)':'var(--teamB)';
+        btn.style.background = clr;
+        btn.style.color      = '#fff';
+        btn.style.fontSize   = '2.5em';
+      }
 
-    function styleSpecial(btn,team){
-      const clr = team==='A'?'var(--teamA)':'var(--teamB)';
-      btn.style.background = clr;
-      btn.style.color      = '#fff';
-      btn.style.fontSize   = '2.5em';
-    }
+      function playWind(){
+        const C=new(window.AudioContext||window.webkitAudioContext)(),
+              buf=C.createBuffer(1,C.sampleRate*0.5,C.sampleRate),
+              d=buf.getChannelData(0);
+        for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
+        const src=C.createBufferSource(),f=C.createBiquadFilter();
+        src.buffer=buf; f.type='lowpass'; f.frequency.value=800;
+        src.connect(f).connect(C.destination); src.start();
+        setTimeout(()=>src.stop(),500);
+      }
+      function playSad(){
+        const C=new(window.AudioContext||window.webkitAudioContext)(),
+              o=C.createOscillator(),g=C.createGain();
+        o.type='triangle'; o.frequency.value=220;
+        o.connect(g).connect(C.destination);
+        o.start(); g.gain.setValueAtTime(1,C.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001,C.currentTime+0.8);
+        setTimeout(()=>o.stop(),800);
+      }
 
-    function playWind(){
-      const C=new(window.AudioContext||window.webkitAudioContext)(),
-            buf=C.createBuffer(1,C.sampleRate*0.5,C.sampleRate),
-            d=buf.getChannelData(0);
-      for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
-      const src=C.createBufferSource(),f=C.createBiquadFilter();
-      src.buffer=buf; f.type='lowpass'; f.frequency.value=800;
-      src.connect(f).connect(C.destination); src.start();
-      setTimeout(()=>src.stop(),500);
-    }
-    function playSad(){
-      const C=new(window.AudioContext||window.webkitAudioContext)(),
-            o=C.createOscillator(),g=C.createGain();
-      o.type='triangle'; o.frequency.value=220;
-      o.connect(g).connect(C.destination);
-      o.start(); g.gain.setValueAtTime(1,C.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,C.currentTime+0.8);
-      setTimeout(()=>o.stop(),800);
-    }
-
-    function showSpecialPopup(emoji, slogan, tornadoMode=false) {
-      if (tornadoMode) {
-        specialPopup.innerHTML = `<span class='tornado-emoji-big'>🌪️</span><div class='tornado-text'>TORNADO!</div>`;
-        specialPopup.classList.add('show', 'tornado-mode');
+      function showSpecialPopup(emoji, slogan, tornadoMode=false) {
+        if (tornadoMode) {
+          specialPopup.innerHTML = `<span class='tornado-emoji-big'>🌪️</span><div class='tornado-text'>TORNADO!</div>`;
+          specialPopup.classList.add('show', 'tornado-mode');
+          specialPopup.classList.remove('hidden');
+          setTimeout(() => {
+            specialPopup.classList.remove('show');
+            setTimeout(() => specialPopup.classList.add('hidden'), 400);
+            specialPopup.classList.remove('tornado-mode');
+          }, 2650);
+          return;
+        }
+        specialPopup.innerHTML = `<span style="font-size:3.2rem;">${emoji}</span><div style="margin-top:0.5rem;font-size:1.5rem;">${slogan}</div>`;
+        specialPopup.classList.add('show');
         specialPopup.classList.remove('hidden');
         setTimeout(() => {
           specialPopup.classList.remove('show');
           setTimeout(() => specialPopup.classList.add('hidden'), 400);
-          specialPopup.classList.remove('tornado-mode');
         }, 2650);
-        return;
       }
-      specialPopup.innerHTML = `<span style="font-size:3.2rem;">${emoji}</span><div style="margin-top:0.5rem;font-size:1.5rem;">${slogan}</div>`;
-      specialPopup.classList.add('show');
-      specialPopup.classList.remove('hidden');
-      setTimeout(() => {
-        specialPopup.classList.remove('show');
-        setTimeout(() => specialPopup.classList.add('hidden'), 400);
-      }, 2650);
-    }
 
-    function animateScore(team, animationClass) {
-      const el = team === 'A' ? scoreAEl : scoreBEl;
-      el.classList.add('score-animate', animationClass);
-      setTimeout(() => {
-        el.classList.remove(animationClass);
-      }, 800);
-    }
-    function animateKangarooSwap() {
-      scoreAEl.classList.add('score-animate', 'kangaroo-jump');
-      scoreBEl.classList.add('score-animate', 'kangaroo-jump');
-      setTimeout(() => {
-        scoreAEl.classList.remove('kangaroo-jump');
-        scoreBEl.classList.remove('kangaroo-jump');
-      }, 800);
-    }
-    function animateSkunk(team) {
-      const el = team === 'A' ? scoreAEl : scoreBEl;
-      el.classList.add('skunk-cloud');
-      setTimeout(() => {
-        el.classList.remove('skunk-cloud');
-      }, 1100);
-    }
+      function animateScore(team, animationClass) {
+        const el = team === 'A' ? scoreAEl : scoreBEl;
+        el.classList.add('score-animate', animationClass);
+        setTimeout(() => {
+          el.classList.remove(animationClass);
+        }, 800);
+      }
+      function animateKangarooSwap() {
+        scoreAEl.classList.add('score-animate', 'kangaroo-jump');
+        scoreBEl.classList.add('score-animate', 'kangaroo-jump');
+        setTimeout(() => {
+          scoreAEl.classList.remove('kangaroo-jump');
+          scoreBEl.classList.remove('kangaroo-jump');
+        }, 800);
+      }
+      function animateSkunk(team) {
+        const el = team === 'A' ? scoreAEl : scoreBEl;
+        el.classList.add('skunk-cloud');
+        setTimeout(() => {
+          el.classList.remove('skunk-cloud');
+        }, 1100);
+      }
 
-    // Confetti burst function
-    function confettiBurst(targetBtn) {
-      const confetti=document.createElement('div');
-      confetti.style.position='absolute';
-      confetti.style.left=targetBtn.offsetLeft+targetBtn.offsetWidth/2+'px';
-      confetti.style.top=targetBtn.offsetTop+targetBtn.offsetHeight/2+'px';
-      confetti.style.pointerEvents='none';
-      confetti.style.zIndex=10000;
-      confetti.innerHTML = Array.from({length:7}).map(()=>`<span style="display:inline-block;font-size:3em;transform:rotate(${Math.random()*360}deg);color:hsl(${Math.random()*360},90%,60%);">🎉</span>`).join('');
-      document.body.appendChild(confetti);
-      setTimeout(()=>confetti.remove(),900);
-    }
+      // Confetti burst function
+      function confettiBurst(targetBtn) {
+        const confetti=document.createElement('div');
+        confetti.style.position='absolute';
+        confetti.style.left=targetBtn.offsetLeft+targetBtn.offsetWidth/2+'px';
+        confetti.style.top=targetBtn.offsetTop+targetBtn.offsetHeight/2+'px';
+        confetti.style.pointerEvents='none';
+        confetti.style.zIndex=10000;
+        confetti.innerHTML = Array.from({length:7}).map(()=>`<span style="display:inline-block;font-size:3em;transform:rotate(${Math.random()*360}deg);color:hsl(${Math.random()*360},90%,60%);">🎉</span>`).join('');
+        document.body.appendChild(confetti);
+        setTimeout(()=>confetti.remove(),900);
+      }
 
-    // Sound effect stubs
-    function playWin() {
-      const C=new(window.AudioContext||window.webkitAudioContext)(),o=C.createOscillator(),g=C.createGain();
-      o.type='triangle'; o.frequency.value=880;
-      o.connect(g).connect(C.destination);
-      o.start(); g.gain.setValueAtTime(1,C.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,C.currentTime+0.7);
-      setTimeout(()=>o.stop(),700);
-    }
+      // Sound effect stubs
+      function playWin() {
+        const C=new(window.AudioContext||window.webkitAudioContext)(),o=C.createOscillator(),g=C.createGain();
+        o.type='triangle'; o.frequency.value=880;
+        o.connect(g).connect(C.destination);
+        o.start(); g.gain.setValueAtTime(1,C.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001,C.currentTime+0.7);
+        setTimeout(()=>o.stop(),700);
+      }
+    });
   </script>
 </body>
 </html>
