@@ -730,7 +730,7 @@
       padding: 0.7rem 2.5rem;
       font-weight: 900;
       border-radius: 12px;
-      margin-top: 8px;
+      margin-top: 8px !important;
       margin-bottom: 1.2rem;
       min-width: 200px;
       min-height: 60px;
@@ -915,7 +915,20 @@ The Beatles"></textarea>
         Object.entries(categories).forEach(([cat, quizzes]) => {
           const optgroup = document.createElement('optgroup');
           optgroup.label = cat;
-          quizzes.forEach(q => {
+          let regular = quizzes;
+          if (/music/i.test(cat)) {
+            // Move any quiz with 'grateful dead' or 'beatles' (with or without 'the') to the end
+            const special = [];
+            regular = quizzes.filter(q => {
+              if (/grateful dead|beatles/i.test(q.title)) {
+                special.push(q);
+                return false;
+              }
+              return true;
+            });
+            regular = [...regular, ...special];
+          }
+          regular.forEach(q => {
             const opt = document.createElement('option');
             opt.value = q.index;
             opt.textContent = q.title.replace(/\s*Quiz\s*\d+$/i, '').trim();
