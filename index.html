@@ -770,6 +770,8 @@
               <option>30</option><option>32</option><option>40</option>
             </select>
           </label>
+          <div id="quizLibraryBox" class="purple-btn" style="margin-top:10px; cursor:pointer; text-align:center;">Choose a Quiz</div>
+          <div id="quizDropdown" class="hidden" style="background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-top:6px; padding:8px 0; position:absolute; z-index:10; min-width:220px;"></div>
         </form>
         <div class="questions-block compact-questions-block slightly-wider-questions-block">
           <label>
@@ -1201,6 +1203,42 @@ The Beatles"></textarea>
       g.gain.exponentialRampToValueAtTime(0.001,C.currentTime+0.7);
       setTimeout(()=>o.stop(),700);
     }
+
+    // QUIZ LIBRARY LOGIC
+    let quizLibrary = [];
+    const quizLibraryBox = document.getElementById('quizLibraryBox');
+    const quizDropdown = document.getElementById('quizDropdown');
+    const questionsInput = document.getElementById('questionsInput');
+
+    // Load quiz library from JSON
+    fetch('full_quiz_library.json')
+      .then(res => res.json())
+      .then(data => {
+        quizLibrary = data;
+        // Populate dropdown
+        quizDropdown.innerHTML = quizLibrary.map((quiz, i) => `<div class='quiz-option' data-index='${i}' style='padding:8px 16px; cursor:pointer;'>${quiz.title}</div>`).join('');
+      });
+
+    // Show/hide dropdown on click
+    quizLibraryBox.onclick = () => {
+      quizDropdown.classList.toggle('hidden');
+    };
+    // Hide dropdown if click outside
+    document.addEventListener('click', (e) => {
+      if (!quizLibraryBox.contains(e.target) && !quizDropdown.contains(e.target)) {
+        quizDropdown.classList.add('hidden');
+      }
+    });
+    // Handle quiz selection
+    quizDropdown.addEventListener('click', (e) => {
+      const opt = e.target.closest('.quiz-option');
+      if (!opt) return;
+      const quiz = quizLibrary[opt.dataset.index];
+      // Format questions/answers for textarea
+      const text = quiz.questions.map(q => q.answer ? `${q.question}\n${q.answer}` : q.question).join('\n\n');
+      questionsInput.value = text;
+      quizDropdown.classList.add('hidden');
+    });
   </script>
 </body>
 </html>
