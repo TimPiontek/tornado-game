@@ -770,8 +770,11 @@
               <option>30</option><option>32</option><option>40</option>
             </select>
           </label>
-          <div id="quizLibraryBox" class="purple-btn" style="margin-top:10px; cursor:pointer; text-align:center;">Choose a Quiz</div>
-          <div id="quizDropdown" class="hidden" style="background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-top:6px; padding:8px 0; position:absolute; z-index:10; min-width:220px;"></div>
+          <label>Choose a Quiz:
+            <select id="quizSelect" style="width:100%;margin-top:10px;">
+              <option value="">-- None (enter your own below) --</option>
+            </select>
+          </label>
         </form>
         <div class="questions-block compact-questions-block slightly-wider-questions-block">
           <label>
@@ -863,7 +866,31 @@ The Beatles"></textarea>
           answerEl=document.getElementById('answer'),
           specialPopup=document.getElementById('specialPopup');
 
-    // Attach start logic to both buttons
+    // QUIZ LIBRARY LOGIC
+    let quizLibrary = [];
+    let selectedQuizIndex = null;
+    const quizSelect = document.getElementById('quizSelect');
+    const questionsInput = document.getElementById('questionsInput');
+
+    // Load quiz library from JSON
+    fetch('full_quiz_library.json')
+      .then(res => res.json())
+      .then(data => {
+        quizLibrary = data;
+        // Populate select dropdown
+        quizLibrary.forEach((quiz, i) => {
+          const opt = document.createElement('option');
+          opt.value = i;
+          opt.textContent = quiz.title;
+          quizSelect.appendChild(opt);
+        });
+      });
+
+    quizSelect.onchange = () => {
+      selectedQuizIndex = quizSelect.value !== '' ? parseInt(quizSelect.value) : null;
+    };
+
+    // Modify Start Game logic to use selected quiz if chosen
     startBtnTop.onclick = startBtnBottom.onclick = () => {
       names.A = document.getElementById('teamANameInput').value.trim()||'Team A';
       names.B = document.getElementById('teamBNameInput').value.trim()||'Team B';
@@ -887,24 +914,30 @@ The Beatles"></textarea>
         document.getElementById('swapCount').value = 1;
       }
 
-      const raw = document.getElementById('questionsInput').value;
-      // split blocks on blank line
-      const blocks = raw.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
-      // detect Q&A blocks
-      if(blocks.some(b => b.split('\n').length>1)){
-        questions = blocks.map(b=>{
-          const [q,a] = b.split('\n');
-          return { question:q.trim(), answer:a?.trim()||null };
-        });
+      // Use quiz if selected, otherwise use textarea
+      if (selectedQuizIndex !== null && quizLibrary[selectedQuizIndex]) {
+        const quiz = quizLibrary[selectedQuizIndex];
+        questions = quiz.questions.map(q => ({ question: q.question, answer: q.answer || null }));
       } else {
-        questions = raw
-          .split('\n').map(l=>l.trim()).filter(l=>l)
-          .map(q=>({ question:q.replace(/^\d+\.\s*/,''), answer:null }));
-      }
-      if(document.querySelector('input[name="order"]:checked').value==='random'){
-        for(let i=questions.length-1;i>0;i--){
-          const j=Math.floor(Math.random()*(i+1));
-          [questions[i],questions[j]]=[questions[j],questions[i]];
+        const raw = questionsInput.value;
+        // split blocks on blank line
+        const blocks = raw.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
+        // detect Q&A blocks
+        if(blocks.some(b => b.split('\n').length>1)){
+          questions = blocks.map(b=>{
+            const [q,a] = b.split('\n');
+            return { question:q.trim(), answer:a?.trim()||null };
+          });
+        } else {
+          questions = raw
+            .split('\n').map(l=>l.trim()).filter(l=>l)
+            .map(q=>({ question:q.replace(/^\d+\.\s*/,''), answer:null }));
+        }
+        if(document.querySelector('input[name="order"]:checked').value==='random'){
+          for(let i=questions.length-1;i>0;i--){
+            const j=Math.floor(Math.random()*(i+1));
+            [questions[i],questions[j]]=[questions[j],questions[i]];
+          }
         }
       }
       qIndex=0;
@@ -1203,42 +1236,6 @@ The Beatles"></textarea>
       g.gain.exponentialRampToValueAtTime(0.001,C.currentTime+0.7);
       setTimeout(()=>o.stop(),700);
     }
-
-    // QUIZ LIBRARY LOGIC
-    let quizLibrary = [];
-    const quizLibraryBox = document.getElementById('quizLibraryBox');
-    const quizDropdown = document.getElementById('quizDropdown');
-    const questionsInput = document.getElementById('questionsInput');
-
-    // Load quiz library from JSON
-    fetch('full_quiz_library.json')
-      .then(res => res.json())
-      .then(data => {
-        quizLibrary = data;
-        // Populate dropdown
-        quizDropdown.innerHTML = quizLibrary.map((quiz, i) => `<div class='quiz-option' data-index='${i}' style='padding:8px 16px; cursor:pointer;'>${quiz.title}</div>`).join('');
-      });
-
-    // Show/hide dropdown on click
-    quizLibraryBox.onclick = () => {
-      quizDropdown.classList.toggle('hidden');
-    };
-    // Hide dropdown if click outside
-    document.addEventListener('click', (e) => {
-      if (!quizLibraryBox.contains(e.target) && !quizDropdown.contains(e.target)) {
-        quizDropdown.classList.add('hidden');
-      }
-    });
-    // Handle quiz selection
-    quizDropdown.addEventListener('click', (e) => {
-      const opt = e.target.closest('.quiz-option');
-      if (!opt) return;
-      const quiz = quizLibrary[opt.dataset.index];
-      // Format questions/answers for textarea
-      const text = quiz.questions.map(q => q.answer ? `${q.question}\n${q.answer}` : q.question).join('\n\n');
-      questionsInput.value = text;
-      quizDropdown.classList.add('hidden');
-    });
   </script>
 </body>
 </html>
