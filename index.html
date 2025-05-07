@@ -982,7 +982,6 @@ The Beatles"></textarea>
       // DOM refs
       const setupScreen=document.getElementById('setupScreen'),
             gameScreen=document.getElementById('gameScreen'),
-            startBtnTop=document.getElementById('startGameBtnTop'),
             startBtnBottom=document.getElementById('startGameBtnBottom'),
             resetBtn=document.getElementById('resetBtn'),
             passBtn=document.getElementById('passBtn'),
@@ -1070,7 +1069,7 @@ The Beatles"></textarea>
       };
 
       // Modify Start Game logic to use selected quiz if chosen
-      startBtnTop.onclick = startBtnBottom.onclick = () => {
+      startBtnBottom.onclick = () => {
         names.A = document.getElementById('teamANameInput').value.trim()||'Team A';
         names.B = document.getElementById('teamBNameInput').value.trim()||'Team B';
         total = +document.getElementById('gridSizeInput').value;
@@ -1225,7 +1224,7 @@ The Beatles"></textarea>
           scores[me]+=r.value; out='+'+r.value;
           btn.style.color = me==='A'?'var(--teamA)':'var(--teamB)';
         } else if(r.type==='lose'){
-          scores[me]=0; out='��'; 
+          scores[me]=0; out=''; 
           styleSpecial(btn,me); 
           showSpecialPopup('🦨','Skunked! Lose all your points!');
           animateSkunk(me);
