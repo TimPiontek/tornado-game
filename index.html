@@ -855,7 +855,13 @@
       <div class="how-to-play-sym">
         <div class="how-to-play">
           <p class="how-title">How to Play:</p>
-          <p class="how-body">Ask or paste questions. Teams answer, then pick a number for points or a surprise. First to most points wins!</p>
+          <p class="how-body">
+            Play with or without questions!<br>
+            - Choose a premade quiz or paste your own Q&A.<br>
+            - Ask a question (or skip if not using questions).<br>
+            - When a team answers correctly, they pick a number to reveal points or a surprise.<br>
+            - First team to the most points wins!
+          </p>
         </div>
         <div class="special-item-compact-list">
           <div class="special-item-compact">
@@ -1224,7 +1230,7 @@ The Beatles"></textarea>
           scores[me]+=r.value; out='+'+r.value;
           btn.style.color = me==='A'?'var(--teamA)':'var(--teamB)';
         } else if(r.type==='lose'){
-          scores[me]=0; out=''; 
+          scores[me]=0; out='🦨'; 
           styleSpecial(btn,me); 
           showSpecialPopup('🦨','Skunked! Lose all your points!');
           animateSkunk(me);
