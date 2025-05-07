@@ -9,7 +9,21 @@
 <body>
   <!-- ... existing HTML ... -->
   <script>
-    // ... existing code until quiz loading ...
+    let quizLibrary = [];
+    fetch('quiz_library.json')
+      .then(response => {
+        if (!response.ok) throw new Error('Quiz library not found');
+        return response.json();
+      })
+      .then(data => {
+        quizLibrary = data;
+        // If you have a function to populate the quiz dropdown, call it here
+        if (typeof populateQuizDropdown === 'function') populateQuizDropdown();
+      })
+      .catch(err => {
+        alert('Failed to load quiz library: ' + err.message);
+        quizLibrary = [];
+      });
 
     // Modify Start Game logic to use selected quiz if chosen
     startBtnTop.onclick = startBtnBottom.onclick = () => {
