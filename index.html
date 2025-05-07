@@ -897,6 +897,7 @@ The Beatles"></textarea>
     console.log('Attempting to fetch quiz_library.json...');
     fetch('quiz_library.json')
       .then(res => {
+        console.log('Fetch response:', res);
         if (!res.ok) throw new Error('Failed to fetch quiz_library.json: ' + res.status);
         return res.json();
       })
@@ -906,6 +907,9 @@ The Beatles"></textarea>
         // Group quizzes by category
         const categories = {};
         quizLibrary.forEach((quiz, i) => {
+          if (!quiz.title || !quiz.category || !quiz.questions || !quiz.answers) {
+            console.error('Malformed quiz object at index', i, quiz);
+          }
           const cat = quiz.category || 'Other';
           if (!categories[cat]) categories[cat] = [];
           categories[cat].push({title: quiz.title, index: i});
@@ -936,6 +940,7 @@ The Beatles"></textarea>
           });
           quizSelect.appendChild(optgroup);
         });
+        console.log('Dropdown build complete.');
       })
       .catch(err => {
         console.error('Error loading quiz library:', err);
