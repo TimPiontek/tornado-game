@@ -949,6 +949,11 @@ The Beatles"></textarea>
 
     quizSelect.onchange = () => {
       selectedQuizIndex = quizSelect.value !== '' ? parseInt(quizSelect.value) : null;
+      // Automatically set order to random when a quiz is selected
+      if (selectedQuizIndex !== null) {
+        const randomRadio = document.querySelector('input[name="order"][value="random"]');
+        if (randomRadio) randomRadio.checked = true;
+      }
     };
 
     // Modify Start Game logic to use selected quiz if chosen
