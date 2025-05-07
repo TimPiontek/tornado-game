@@ -894,10 +894,10 @@ The Beatles"></textarea>
     const questionsInput = document.getElementById('questionsInput');
 
     // Debug: Log fetch start
-    console.log('Attempting to fetch full_quiz_library.json...');
-    fetch('full_quiz_library.json')
+    console.log('Attempting to fetch quiz_library.json...');
+    fetch('quiz_library.json')
       .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch full_quiz_library.json: ' + res.status);
+        if (!res.ok) throw new Error('Failed to fetch quiz_library.json: ' + res.status);
         return res.json();
       })
       .then(data => {
