@@ -1017,7 +1017,9 @@ The Beatles"></textarea>
     };
 
     passBtn.onclick = () => { turn = turn==='A'?'B':'A'; updateTurn(); showQuestion(); };
-    skipBtn.onclick = () => { qIndex=(qIndex+1)%questions.length; showQuestion(); };
+    skipBtn.onclick = () => { 
+      qIndex = (qIndex + 1) % usedQuestionIndices.length; showQuestion(); 
+    };
     revealBtn.onclick = () => {
       answerEl.textContent = questions[qIndex]?.answer||'';
       answerEl.style.color = turn==='A'?'var(--teamA)':'var(--teamB)';
@@ -1236,7 +1238,7 @@ The Beatles"></textarea>
           specialPopup.classList.remove('show');
           setTimeout(() => specialPopup.classList.add('hidden'), 400);
           specialPopup.classList.remove('tornado-mode');
-        }, 3400);
+        }, 2650);
         return;
       }
       specialPopup.innerHTML = `<span style="font-size:3.2rem;">${emoji}</span><div style="margin-top:0.5rem;font-size:1.5rem;">${slogan}</div>`;
@@ -1245,7 +1247,7 @@ The Beatles"></textarea>
       setTimeout(() => {
         specialPopup.classList.remove('show');
         setTimeout(() => specialPopup.classList.add('hidden'), 400);
-      }, 3400);
+      }, 2650);
     }
 
     function animateScore(team, animationClass) {
