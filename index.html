@@ -872,17 +872,30 @@ The Beatles"></textarea>
     const quizSelect = document.getElementById('quizSelect');
     const questionsInput = document.getElementById('questionsInput');
 
-    // Load quiz library from JSON
+    // Load quiz library from JSON and group by category
     fetch('full_quiz_library.json')
       .then(res => res.json())
       .then(data => {
         quizLibrary = data;
-        // Populate select dropdown
+        // Group quizzes by category
+        const categories = {};
         quizLibrary.forEach((quiz, i) => {
-          const opt = document.createElement('option');
-          opt.value = i;
-          opt.textContent = quiz.title;
-          quizSelect.appendChild(opt);
+          const cat = quiz.category || 'Other';
+          if (!categories[cat]) categories[cat] = [];
+          categories[cat].push({title: quiz.title, index: i});
+        });
+        // Build dropdown with optgroups
+        quizSelect.innerHTML = '<option value="">-- None (enter your own below) --</option>';
+        Object.entries(categories).forEach(([cat, quizzes]) => {
+          const optgroup = document.createElement('optgroup');
+          optgroup.label = cat;
+          quizzes.forEach(q => {
+            const opt = document.createElement('option');
+            opt.value = q.index;
+            opt.textContent = q.title;
+            optgroup.appendChild(opt);
+          });
+          quizSelect.appendChild(optgroup);
         });
       });
 
@@ -917,7 +930,14 @@ The Beatles"></textarea>
       // Use quiz if selected, otherwise use textarea
       if (selectedQuizIndex !== null && quizLibrary[selectedQuizIndex]) {
         const quiz = quizLibrary[selectedQuizIndex];
-        questions = quiz.questions.map(q => ({ question: q.question, answer: q.answer || null }));
+        // Support both {question, answer} and [questions, answers] formats
+        if (quiz.questions && Array.isArray(quiz.questions) && quiz.answers && Array.isArray(quiz.answers) && quiz.questions.length === quiz.answers.length) {
+          questions = quiz.questions.map((q, i) => ({ question: q, answer: quiz.answers[i] }));
+        } else if (quiz.questions && Array.isArray(quiz.questions) && typeof quiz.questions[0] === 'object') {
+          questions = quiz.questions.map(q => ({ question: q.question, answer: q.answer || null }));
+        } else {
+          questions = quiz.questions.map(q => ({ question: q, answer: null }));
+        }
       } else {
         const raw = questionsInput.value;
         // split blocks on blank line
