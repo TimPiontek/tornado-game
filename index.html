@@ -920,7 +920,7 @@ The Beatles"></textarea>
             // Move any quiz with 'grateful dead' or 'beatles' (with or without 'the') to the end
             const special = [];
             regular = quizzes.filter(q => {
-              if (/grateful dead|beatles/i.test(q.title)) {
+              if (/(the\s+)?grateful dead|(the\s+)?beatles/i.test(q.title)) {
                 special.push(q);
                 return false;
               }
