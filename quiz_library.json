@@ -1575,7 +1575,7 @@
   },
   {
     "title": "Logic Puzzles",
-    "category": "General Knowledge",
+    "category": "Logic/Riddles",
     "questions": [
       "What comes next: 2, 4, 8, 16, __?",
       "If a dozen eggs costs $1.20, how much is one egg?",
@@ -4345,7 +4345,7 @@
   },
   {
     "title": "Logic Riddles",
-    "category": "General Knowledge",
+    "category": "Logic/Riddles",
     "questions": [
       "What has to be broken before you can use it?",
       "I’m tall when I’m young and short when I’m old. What am I?",
@@ -5291,7 +5291,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Irregular Verbs",
@@ -5379,7 +5379,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Prepositions",
@@ -5467,7 +5467,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Articles",
@@ -5555,7 +5555,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Modal Verbs",
@@ -5643,7 +5643,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Adjectives & Opposites",
@@ -5731,7 +5731,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Comparatives & Superlatives",
@@ -5819,7 +5819,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Wh- Questions",
@@ -5907,7 +5907,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Countable vs Uncountable Nouns",
@@ -5995,7 +5995,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Telling Time & Dates",
@@ -6083,7 +6083,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Common Phrasal Verbs",
@@ -6171,7 +6171,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Synonyms & Antonyms",
@@ -6259,7 +6259,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Everyday Conversations",
@@ -6347,7 +6347,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Pronouns",
@@ -6435,7 +6435,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Conditionals",
@@ -6523,7 +6523,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Subject-Verb Agreement",
@@ -6611,7 +6611,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Conjunctions & Sentence Structure",
@@ -6699,7 +6699,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Idioms & Expressions",
@@ -6787,7 +6787,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Family & Relationships",
@@ -6875,7 +6875,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Weather & Seasons",
@@ -6963,7 +6963,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Clothes & Accessories",
@@ -7051,7 +7051,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Hobbies & Free Time",
@@ -7139,7 +7139,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "School & Classroom Objects",
@@ -7227,7 +7227,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Transportation & Travel",
@@ -7315,7 +7315,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "House & Furniture",
@@ -7403,7 +7403,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Body Parts & Health",
@@ -7491,7 +7491,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Shopping & Money",
@@ -7579,7 +7579,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Jobs & Workplaces",
@@ -7667,7 +7667,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Emotions & Feelings",
@@ -7755,7 +7755,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Colors & Shapes",
@@ -7843,7 +7843,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Daily Routines",
@@ -7931,7 +7931,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Places in Town",
@@ -8019,7 +8019,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Technology & Gadgets",
@@ -8107,7 +8107,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Animals & Pets",
@@ -8195,7 +8195,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Foods & Meals",
@@ -8283,7 +8283,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Directions & Location Words",
@@ -8371,7 +8371,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Festivals & Holidays",
@@ -8459,7 +8459,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Sports & Physical Activities",
@@ -8547,7 +8547,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Music",
@@ -8635,7 +8635,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Logic Riddles",
@@ -8723,7 +8723,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Logic/Riddles"
   },
   {
     "title": "World Capitals",
@@ -8811,7 +8811,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Geography"
   },
   {
     "title": "U.S. States & Cities",
@@ -8899,7 +8899,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Geography"
   },
   {
     "title": "The Odyssey",
@@ -8987,7 +8987,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Literature"
   },
   {
     "title": "Romeo & Juliet",
@@ -9075,7 +9075,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Literature"
   },
   {
     "title": "Electronic Music",
@@ -9163,7 +9163,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Pop-Punk",
@@ -9251,7 +9251,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "The Beatles",
@@ -9339,7 +9339,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Grateful Dead",
@@ -9427,7 +9427,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Math: Arithmetic",
@@ -9515,7 +9515,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Math"
   },
   {
     "title": "Math: Geometry",
@@ -9603,7 +9603,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Math"
   },
   {
     "title": "Math: Algebra",
@@ -9691,7 +9691,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Math"
   },
   {
     "title": "Math: Measurement",
@@ -9779,7 +9779,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Math"
   },
   {
     "title": "Science: Earth Science",
@@ -9867,7 +9867,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Science"
   },
   {
     "title": "Science: Life Science",
@@ -9955,7 +9955,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Science"
   },
   {
     "title": "Science: Physical Science",
@@ -10043,7 +10043,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Science"
   },
   {
     "title": "Verb Conjugation",
@@ -10131,7 +10131,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Irregular Verbs",
@@ -10219,7 +10219,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Prepositions",
@@ -10307,7 +10307,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Articles",
@@ -10395,7 +10395,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Modal Verbs",
@@ -10483,7 +10483,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Adjectives & Opposites",
@@ -10571,7 +10571,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Comparatives & Superlatives",
@@ -10659,7 +10659,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Wh- Questions",
@@ -10747,7 +10747,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Countable vs Uncountable Nouns",
@@ -10835,7 +10835,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Telling Time & Dates",
@@ -10923,7 +10923,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Common Phrasal Verbs",
@@ -11011,7 +11011,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Synonyms & Antonyms",
@@ -11099,7 +11099,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Everyday Conversations",
@@ -11187,7 +11187,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Pronouns",
@@ -11275,7 +11275,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Conditionals",
@@ -11363,7 +11363,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Subject-Verb Agreement",
@@ -11451,7 +11451,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Conjunctions & Sentence Structure",
@@ -11539,7 +11539,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Idioms & Expressions",
@@ -11627,7 +11627,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Family & Relationships",
@@ -11715,7 +11715,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Weather & Seasons",
@@ -11803,7 +11803,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Clothes & Accessories",
@@ -11891,7 +11891,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Hobbies & Free Time",
@@ -11979,7 +11979,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "School & Classroom Objects",
@@ -12067,7 +12067,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Transportation & Travel",
@@ -12155,7 +12155,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "House & Furniture",
@@ -12243,7 +12243,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Body Parts & Health",
@@ -12331,7 +12331,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Shopping & Money",
@@ -12419,7 +12419,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Jobs & Workplaces",
@@ -12507,7 +12507,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Emotions & Feelings",
@@ -12595,7 +12595,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Colors & Shapes",
@@ -12683,7 +12683,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Daily Routines",
@@ -12771,7 +12771,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Places in Town",
@@ -12859,7 +12859,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Technology & Gadgets",
@@ -12947,7 +12947,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Animals & Pets",
@@ -13035,7 +13035,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Foods & Meals",
@@ -13123,7 +13123,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Directions & Location Words",
@@ -13211,7 +13211,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Festivals & Holidays",
@@ -13299,7 +13299,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Sports & Physical Activities",
@@ -13387,7 +13387,7 @@
       "Example answer 39",
       "Example answer 40"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Music",
@@ -13475,7 +13475,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Logic Riddles",
@@ -13563,7 +13563,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Logic/Riddles"
   },
   {
     "title": "World Capitals",
@@ -13651,7 +13651,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Geography"
   },
   {
     "title": "U.S. States & Cities",
@@ -13739,7 +13739,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Geography"
   },
   {
     "title": "The Odyssey",
@@ -13827,7 +13827,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Literature"
   },
   {
     "title": "Romeo & Juliet",
@@ -13915,7 +13915,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Literature"
   },
   {
     "title": "Electronic Music",
@@ -14003,7 +14003,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Pop-Punk",
@@ -14091,7 +14091,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "The Beatles",
@@ -14179,7 +14179,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Grateful Dead",
@@ -14267,7 +14267,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Math: Arithmetic",
@@ -14355,7 +14355,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Math"
   },
   {
     "title": "Math: Geometry",
@@ -14443,7 +14443,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Math"
   },
   {
     "title": "Math: Algebra",
@@ -14531,7 +14531,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Math"
   },
   {
     "title": "Math: Measurement",
@@ -14619,7 +14619,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Math"
   },
   {
     "title": "Science: Earth Science",
@@ -14707,7 +14707,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Science"
   },
   {
     "title": "Science: Life Science",
@@ -14795,7 +14795,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Science"
   },
   {
     "title": "Science: Physical Science",
@@ -14883,7 +14883,7 @@
       "Unique answer 39",
       "Unique answer 40"
     ],
-    "category": ""
+    "category": "Science"
   },
   {
     "title": "Verb Conjugation",
@@ -14971,7 +14971,7 @@
       "sleep",
       "drink"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Irregular Verbs",
@@ -15059,7 +15059,7 @@
       "heard",
       "broke"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Prepositions",
@@ -15147,7 +15147,7 @@
       "over",
       "into"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Articles",
@@ -15234,7 +15234,7 @@
       "an",
       "an"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Modal Verbs",
@@ -15342,7 +15342,7 @@
       "should",
       "should"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Adjectives & Opposites",
@@ -15430,7 +15430,7 @@
       "mean",
       "kind"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Comparatives & Superlatives",
@@ -15538,7 +15538,7 @@
       "hardest",
       "hardest"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Wh- Questions",
@@ -15626,7 +15626,7 @@
       "Who",
       "Who"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Countable vs Uncountable Nouns",
@@ -15714,7 +15714,7 @@
       "chairs",
       "bread"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Telling Time & Dates",
@@ -15800,7 +15800,7 @@
       "7:45",
       "1:15"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Common Phrasal Verbs",
@@ -15888,7 +15888,7 @@
       "move into a place",
       "move out of a place"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Synonyms & Antonyms",
@@ -15976,7 +15976,7 @@
       "dirty",
       "old"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Everyday Conversations",
@@ -16064,7 +16064,7 @@
       "Let’s eat!",
       "I’m bored."
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Pronouns",
@@ -16152,7 +16152,7 @@
       "them",
       "him"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Conditionals",
@@ -16240,7 +16240,7 @@
       "they die.",
       "I would scream."
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Subject-Verb Agreement",
@@ -16328,7 +16328,7 @@
       "write",
       "bloom"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Family & Relationships",
@@ -16416,7 +16416,7 @@
       "brother-in-law",
       "family"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Weather & Seasons",
@@ -16504,7 +16504,7 @@
       "hat",
       "lightning"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Clothes & Accessories",
@@ -16592,7 +16592,7 @@
       "boots",
       "beanie"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Hobbies & Free Time",
@@ -16680,7 +16680,7 @@
       "visiting the zoo",
       "drawing"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "School & Classroom Objects",
@@ -16768,7 +16768,7 @@
       "dictionary",
       "flashcards"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Transportation & Travel",
@@ -16856,7 +16856,7 @@
       "itinerary",
       "pilot"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "House & Furniture",
@@ -16942,7 +16942,7 @@
       "couch",
       "coffee table"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Body Parts & Health",
@@ -17028,7 +17028,7 @@
       "thermometer",
       "sweat"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Shopping & Money",
@@ -17116,7 +17116,7 @@
       "expensive",
       "Is it on sale?"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Jobs & Workplaces",
@@ -17204,7 +17204,7 @@
       "receptionist",
       "veterinarian"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Emotions & Feelings",
@@ -17292,7 +17292,7 @@
       "bored",
       "excited"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Colors & Shapes",
@@ -17380,7 +17380,7 @@
       "sphere",
       "cone"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Daily Routines",
@@ -17468,7 +17468,7 @@
       "go outside",
       "go to sleep"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Places in Town",
@@ -17554,7 +17554,7 @@
       "library",
       "bike path"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Technology & Gadgets",
@@ -17640,7 +17640,7 @@
       "search engine",
       "power adapter"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Animals & Pets",
@@ -17728,7 +17728,7 @@
       "wolf",
       "dog"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Foods & Meals",
@@ -17816,7 +17816,7 @@
       "broccoli",
       "pasta"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Directions & Location Words",
@@ -17902,7 +17902,7 @@
       "bus stop",
       "direction"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Festivals & Holidays",
@@ -17990,7 +17990,7 @@
       "Presidents' Day",
       "turkey"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Festivals & Holidays",
@@ -18078,7 +18078,7 @@
       "Presidents' Day",
       "turkey"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Sports & Physical Activities",
@@ -18164,7 +18164,7 @@
       "run",
       "gymnastics"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Verb Conjugation",
@@ -18252,7 +18252,7 @@
       "sleep",
       "drink"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Irregular Verbs",
@@ -18340,7 +18340,7 @@
       "heard",
       "broke"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Prepositions",
@@ -18428,7 +18428,7 @@
       "over",
       "into"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Articles",
@@ -18515,7 +18515,7 @@
       "an",
       "an"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Modal Verbs",
@@ -18623,7 +18623,7 @@
       "should",
       "should"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Adjectives & Opposites",
@@ -18711,7 +18711,7 @@
       "mean",
       "kind"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Comparatives & Superlatives",
@@ -18819,7 +18819,7 @@
       "hardest",
       "hardest"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Wh- Questions",
@@ -18907,7 +18907,7 @@
       "Who",
       "Who"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Countable vs Uncountable Nouns",
@@ -18995,7 +18995,7 @@
       "chairs",
       "bread"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Telling Time & Dates",
@@ -19081,7 +19081,7 @@
       "7:45",
       "1:15"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Common Phrasal Verbs",
@@ -19169,7 +19169,7 @@
       "move into a place",
       "move out of a place"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Synonyms & Antonyms",
@@ -19257,7 +19257,7 @@
       "dirty",
       "old"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Everyday Conversations",
@@ -19345,7 +19345,7 @@
       "Let’s eat!",
       "I’m bored."
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Pronouns",
@@ -19433,7 +19433,7 @@
       "them",
       "him"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Conditionals",
@@ -19521,7 +19521,7 @@
       "they die.",
       "I would scream."
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Subject-Verb Agreement",
@@ -19609,7 +19609,7 @@
       "write",
       "bloom"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Family & Relationships",
@@ -19697,7 +19697,7 @@
       "brother-in-law",
       "family"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Weather & Seasons",
@@ -19785,7 +19785,7 @@
       "hat",
       "lightning"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Clothes & Accessories",
@@ -19873,7 +19873,7 @@
       "boots",
       "beanie"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Hobbies & Free Time",
@@ -19961,7 +19961,7 @@
       "visiting the zoo",
       "drawing"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "School & Classroom Objects",
@@ -20049,7 +20049,7 @@
       "dictionary",
       "flashcards"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Transportation & Travel",
@@ -20137,7 +20137,7 @@
       "itinerary",
       "pilot"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "House & Furniture",
@@ -20223,7 +20223,7 @@
       "couch",
       "coffee table"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Body Parts & Health",
@@ -20309,7 +20309,7 @@
       "thermometer",
       "sweat"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Shopping & Money",
@@ -20397,7 +20397,7 @@
       "expensive",
       "Is it on sale?"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Jobs & Workplaces",
@@ -20485,7 +20485,7 @@
       "receptionist",
       "veterinarian"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Emotions & Feelings",
@@ -20573,7 +20573,7 @@
       "bored",
       "excited"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Colors & Shapes",
@@ -20661,7 +20661,7 @@
       "sphere",
       "cone"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Daily Routines",
@@ -20749,7 +20749,7 @@
       "go outside",
       "go to sleep"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Places in Town",
@@ -20835,7 +20835,7 @@
       "library",
       "bike path"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Technology & Gadgets",
@@ -20921,7 +20921,7 @@
       "search engine",
       "power adapter"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Animals & Pets",
@@ -21009,7 +21009,7 @@
       "wolf",
       "dog"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Foods & Meals",
@@ -21097,7 +21097,7 @@
       "broccoli",
       "pasta"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Directions & Location Words",
@@ -21183,7 +21183,7 @@
       "bus stop",
       "direction"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Festivals & Holidays",
@@ -21271,7 +21271,7 @@
       "Presidents' Day",
       "turkey"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Festivals & Holidays",
@@ -21359,7 +21359,7 @@
       "Presidents' Day",
       "turkey"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Sports & Physical Activities",
@@ -21445,7 +21445,7 @@
       "run",
       "gymnastics"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Adjectives & Opposites",
@@ -21533,7 +21533,7 @@
       "mean",
       "kind"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Animals & Pets",
@@ -21621,7 +21621,7 @@
       "wolf",
       "dog"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Articles",
@@ -21708,7 +21708,7 @@
       "an",
       "an"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Body Parts & Health",
@@ -21794,7 +21794,7 @@
       "thermometer",
       "sweat"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Clothes & Accessories",
@@ -21882,7 +21882,7 @@
       "boots",
       "beanie"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Colors & Shapes",
@@ -21970,7 +21970,7 @@
       "sphere",
       "cone"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Common Phrasal Verbs",
@@ -22058,7 +22058,7 @@
       "move into a place",
       "move out of a place"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Comparatives & Superlatives",
@@ -22166,7 +22166,7 @@
       "hardest",
       "hardest"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Conditionals",
@@ -22254,7 +22254,7 @@
       "they die.",
       "I would scream."
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Conjunctions & Sentence Structure",
@@ -22342,7 +22342,7 @@
       "so",
       "so"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Countable vs Uncountable Nouns",
@@ -22430,7 +22430,7 @@
       "chairs",
       "bread"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Daily Routines",
@@ -22518,7 +22518,7 @@
       "go outside",
       "go to sleep"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Directions & Location Words",
@@ -22604,7 +22604,7 @@
       "bus stop",
       "direction"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "ESL Grammar Review",
@@ -22868,7 +22868,7 @@
       "bored",
       "excited"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Everyday Conversations",
@@ -22956,7 +22956,7 @@
       "Let’s eat!",
       "I’m bored."
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Family & Relationships",
@@ -23044,7 +23044,7 @@
       "brother-in-law",
       "family"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Festivals & Holidays",
@@ -23132,7 +23132,7 @@
       "Presidents' Day",
       "turkey"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Foods & Meals",
@@ -23220,7 +23220,7 @@
       "broccoli",
       "pasta"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Hobbies & Free Time",
@@ -23308,7 +23308,7 @@
       "visiting the zoo",
       "drawing"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "House & Furniture",
@@ -23394,7 +23394,7 @@
       "couch",
       "coffee table"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Idioms & Expressions",
@@ -23482,7 +23482,7 @@
       "Good luck",
       "Good luck"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Irregular Verbs",
@@ -23570,7 +23570,7 @@
       "heard",
       "broke"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Jobs & Workplaces",
@@ -23658,7 +23658,7 @@
       "receptionist",
       "veterinarian"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Modal Verbs",
@@ -23766,7 +23766,7 @@
       "should",
       "should"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Places in Town",
@@ -23852,7 +23852,7 @@
       "library",
       "bike path"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Prepositions",
@@ -23940,7 +23940,7 @@
       "over",
       "into"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Pronouns",
@@ -24028,7 +24028,7 @@
       "them",
       "him"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "School & Classroom Objects",
@@ -24116,7 +24116,7 @@
       "dictionary",
       "flashcards"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Shopping & Money",
@@ -24204,7 +24204,7 @@
       "expensive",
       "Is it on sale?"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Sports & Physical Activities",
@@ -24290,7 +24290,7 @@
       "run",
       "gymnastics"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Subject-Verb Agreement",
@@ -24378,7 +24378,7 @@
       "write",
       "bloom"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Synonyms & Antonyms",
@@ -24466,7 +24466,7 @@
       "dirty",
       "old"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Technology & Gadgets",
@@ -24552,7 +24552,7 @@
       "search engine",
       "power adapter"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Telling Time & Dates",
@@ -24638,7 +24638,7 @@
       "7:45",
       "1:15"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Transportation & Travel",
@@ -24726,7 +24726,7 @@
       "itinerary",
       "pilot"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Verb Conjugation",
@@ -24814,7 +24814,7 @@
       "sleep",
       "drink"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Weather & Seasons",
@@ -24902,7 +24902,7 @@
       "hat",
       "lightning"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Wh- Questions",
@@ -24990,7 +24990,7 @@
       "Who",
       "Who"
     ],
-    "category": ""
+    "category": "ESL"
   },
   {
     "title": "Electronic Music",
@@ -25078,7 +25078,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Pop-Punk",
@@ -25166,7 +25166,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Music Theory",
@@ -25254,7 +25254,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Classic Rock",
@@ -25342,7 +25342,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "90s Hip-Hop",
@@ -25430,7 +25430,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Pop Divas",
@@ -25518,7 +25518,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "One-Hit Wonders",
@@ -25606,7 +25606,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Grammy Winners",
@@ -25694,7 +25694,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Grateful Dead",
@@ -25782,7 +25782,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "The Beatles",
@@ -25870,7 +25870,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "The Odyssey",
@@ -25958,7 +25958,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Literature"
   },
   {
     "title": "Romeo & Juliet",
@@ -26046,7 +26046,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Literature"
   },
   {
     "title": "NFL",
@@ -26134,7 +26134,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Sports"
   },
   {
     "title": "NBA",
@@ -26222,7 +26222,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Sports"
   },
   {
     "title": "European Football",
@@ -26310,7 +26310,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Sports"
   },
   {
     "title": "MLB",
@@ -26398,7 +26398,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Sports"
   },
   {
     "title": "NHL",
@@ -26486,7 +26486,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Sports"
   },
   {
     "title": "Disney Movies",
@@ -26574,7 +26574,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Movies & TV"
   },
   {
     "title": "Oscar Winners",
@@ -26662,7 +26662,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Movies & TV"
   },
   {
     "title": "Classic Films",
@@ -26750,7 +26750,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Movies & TV"
   },
   {
     "title": "90s Cartoons",
@@ -26838,7 +26838,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Movies & TV"
   },
   {
     "title": "Countries & Capitals",
@@ -26926,7 +26926,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Geography"
   },
   {
     "title": "US Cities",
@@ -27014,7 +27014,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Geography"
   },
   {
     "title": "State Capitals",
@@ -27102,7 +27102,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Geography"
   },
   {
     "title": "Math Basics",
@@ -27190,7 +27190,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Math"
   },
   {
     "title": "Science Facts",
@@ -27278,7 +27278,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Science"
   },
   {
     "title": "Space & Planets",
@@ -27366,7 +27366,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Science"
   },
   {
     "title": "U.S. Presidents",
@@ -27454,7 +27454,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "History"
   },
   {
     "title": "Famous Inventors",
@@ -27542,7 +27542,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "History"
   },
   {
     "title": "Riddles",
@@ -27630,7 +27630,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Logic/Riddles"
   },
   {
     "title": "Logic Puzzles",
@@ -27718,7 +27718,7 @@
       "Sample answer 39",
       "Sample answer 40"
     ],
-    "category": ""
+    "category": "Logic/Riddles"
   },
   {
     "title": "Electronic Music",
@@ -27806,7 +27806,7 @@
       "EQ",
       "Berghain"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Pop-Punk",
@@ -27894,7 +27894,7 @@
       "The All-American Rejects",
       "Blink-182"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Music Theory",
@@ -27980,7 +27980,7 @@
       "quarter note",
       "caesura"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Classic Rock",
@@ -28068,7 +28068,7 @@
       "KISS",
       "AC/DC"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "90s Hip-Hop",
@@ -28156,7 +28156,7 @@
       "Slick Rick",
       "Wyclef Jean"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Pop Divas",
@@ -28244,7 +28244,7 @@
       "Adele",
       "Beyoncé"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "One-Hit Wonders",
@@ -28332,7 +28332,7 @@
       "Rednex",
       "Tom Cochrane"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "Grammy Winners",
@@ -28420,7 +28420,7 @@
       "Megan Thee Stallion",
       "Bonnie Raitt"
     ],
-    "category": ""
+    "category": "Music"
   },
   {
     "title": "NFL",
@@ -28508,7 +28508,7 @@
       "Tampa Bay Buccaneers",
       "Bill Belichick"
     ],
-    "category": ""
+    "category": "Sports"
   },
   {
     "title": "NBA",
@@ -28596,7 +28596,7 @@
       "Toronto Raptors",
       "Karl Malone"
     ],
-    "category": ""
+    "category": "Sports"
   },
   {
     "title": "European Football",
@@ -28684,7 +28684,7 @@
       "Pep Guardiola",
       "Argentina"
     ],
-    "category": ""
+    "category": "Sports"
   },
   {
     "title": "MLB",
@@ -28772,7 +28772,7 @@
       "Bo Jackson",
       "Boston Red Sox"
     ],
-    "category": ""
+    "category": "Sports"
   },
   {
     "title": "NHL",
@@ -28860,7 +28860,7 @@
       "NHL All-Star Weekend",
       "Calgary Flames"
     ],
-    "category": ""
+    "category": "Sports"
   },
   {
     "title": "The Odyssey",
@@ -28946,7 +28946,7 @@
       "Poseidon",
       "home"
     ],
-    "category": ""
+    "category": "Literature"
   },
   {
     "title": "Romeo & Juliet",
@@ -29032,7 +29032,7 @@
       "to end the family feud",
       "kill herself"
     ],
-    "category": ""
+    "category": "Literature"
   },
   {
     "title": "Disney Movies",
@@ -29120,7 +29120,7 @@
       "Prince Naveen",
       "Anna"
     ],
-    "category": ""
+    "category": "Movies & TV"
   },
   {
     "title": "Oscar Winners",
@@ -29208,7 +29208,7 @@
       "Gladiator",
       "Ben-Hur"
     ],
-    "category": ""
+    "category": "Movies & TV"
   },
   {
     "title": "90s Cartoons",
@@ -29295,7 +29295,7 @@
       "Beast Wars",
       "Porkchop"
     ],
-    "category": ""
+    "category": "Movies & TV"
   },
   {
     "title": "Geography",
@@ -29383,7 +29383,7 @@
       "Lake Superior",
       "Sahara"
     ],
-    "category": ""
+    "category": "Geography"
   },
   {
     "title": "History",
@@ -29471,7 +29471,7 @@
       "Ancient Greece",
       "Britain"
     ],
-    "category": ""
+    "category": "History"
   },
   {
     "title": "Logic & Riddles",
@@ -29559,7 +29559,7 @@
       "An envelope",
       "A rubber band"
     ],
-    "category": ""
+    "category": "Logic/Riddles"
   },
   {
     "title": "Math Basics",
@@ -29647,7 +29647,7 @@
       "14",
       "2"
     ],
-    "category": ""
+    "category": "Math"
   },
   {
     "title": "Algebra",
@@ -29735,7 +29735,7 @@
       "Distributive Property",
       "(x + 1)²"
     ],
-    "category": ""
+    "category": "Math"
   },
   {
     "title": "Geometry",
@@ -29823,7 +29823,7 @@
       "Cube",
       "360"
     ],
-    "category": ""
+    "category": "Math"
   },
   {
     "title": "Earth Science",
@@ -29911,7 +29911,7 @@
       "Anemometer",
       "Static electricity"
     ],
-    "category": ""
+    "category": "Science"
   },
   {
     "title": "Life Science",
@@ -29999,7 +29999,7 @@
       "Pancreas",
       "Population"
     ],
-    "category": ""
+    "category": "Science"
   },
   {
     "title": "Earth Science",
@@ -30087,7 +30087,7 @@
       "Anemometer",
       "Static electricity"
     ],
-    "category": ""
+    "category": "Science"
   },
   {
     "title": "Life Science",
@@ -30175,7 +30175,7 @@
       "Pancreas",
       "Population"
     ],
-    "category": ""
+    "category": "Science"
   },
   {
     "title": "Physical Science",
@@ -30261,6 +30261,6 @@
       "Electricity",
       "Insulator"
     ],
-    "category": ""
+    "category": "Science"
   }
 ]
