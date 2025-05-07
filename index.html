@@ -7,12 +7,8 @@
   </style>
 </head>
 <body>
-  <button id="startBtnTop">Start Game</button>
   <!-- ... existing HTML ... -->
-  <button id="startBtnBottom">Start Game</button>
   <script>
-    const startBtnTop = document.getElementById('startBtnTop');
-    const startBtnBottom = document.getElementById('startBtnBottom');
     let quizLibrary = [];
     fetch('quiz_library.json')
       .then(response => {
