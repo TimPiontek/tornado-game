@@ -858,8 +858,7 @@
           <p class="how-body">
             Play with or without questions!<br>
             - Choose a premade quiz or paste your own Q&A.<br>
-            - Ask a question (or skip if not using questions).<br>
-            - When a team answers correctly, they pick a number to reveal points or a surprise.<br>
+            - Ask a question; when a team answers correctly, they pick a number to reveal points or a surprise.<br>
             - First team to the most points wins!
           </p>
         </div>
@@ -1034,7 +1033,14 @@ The Beatles"></textarea>
           });
           // Build dropdown with optgroups
           quizSelect.innerHTML = '<option value="">--</option>';
-          Object.entries(categories).forEach(([cat, quizzes]) => {
+          // Sort categories so ESL is first, then alphabetical
+          const sortedCats = Object.keys(categories).sort((a, b) => {
+            if (a.toLowerCase() === 'esl') return -1;
+            if (b.toLowerCase() === 'esl') return 1;
+            return a.localeCompare(b);
+          });
+          sortedCats.forEach(cat => {
+            const quizzes = categories[cat];
             const optgroup = document.createElement('optgroup');
             optgroup.label = cat;
             let regular = quizzes;
