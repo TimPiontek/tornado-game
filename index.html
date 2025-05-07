@@ -907,7 +907,7 @@ The Beatles"></textarea>
         // Group quizzes by category
         const categories = {};
         quizLibrary.forEach((quiz, i) => {
-          if (!quiz.title || !quiz.category || !quiz.questions || !quiz.answers) {
+          if (!quiz.title || !quiz.category || !quiz.questions) {
             console.error('Malformed quiz object at index', i, quiz);
           }
           const cat = quiz.category || 'Other';
@@ -983,13 +983,11 @@ The Beatles"></textarea>
       // Use quiz if selected, otherwise use textarea
       if (selectedQuizIndex !== null && quizLibrary[selectedQuizIndex]) {
         const quiz = quizLibrary[selectedQuizIndex];
-        // Support both {question, answer} and [questions, answers] formats
-        if (quiz.questions && Array.isArray(quiz.questions) && quiz.answers && Array.isArray(quiz.answers) && quiz.questions.length === quiz.answers.length) {
-          questions = quiz.questions.map((q, i) => ({ question: q, answer: quiz.answers[i] }));
-        } else if (quiz.questions && Array.isArray(quiz.questions) && typeof quiz.questions[0] === 'object') {
+        // Only support the new format: questions as array of objects
+        if (quiz.questions && Array.isArray(quiz.questions) && typeof quiz.questions[0] === 'object') {
           questions = quiz.questions.map(q => ({ question: q.question, answer: q.answer || null }));
         } else {
-          questions = quiz.questions.map(q => ({ question: q, answer: null }));
+          questions = [];
         }
       } else {
         const raw = questionsInput.value;
