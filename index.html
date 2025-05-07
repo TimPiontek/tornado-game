@@ -989,6 +989,7 @@ The Beatles"></textarea>
         } else {
           questions = [];
         }
+        console.log('DEBUG: Selected quiz:', quiz.title, 'Questions loaded:', questions.length, questions);
       } else {
         const raw = questionsInput.value;
         // split blocks on blank line
@@ -1008,6 +1009,7 @@ The Beatles"></textarea>
       // Prepare usedQuestionIndices for unique rotation
       usedQuestionIndices = [];
       let order = document.querySelector('input[name="order"]:checked').value;
+      console.log('DEBUG: Questions array at game start:', questions);
       if (order === 'random') {
         // Shuffle indices
         usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
