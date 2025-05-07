@@ -9,6 +9,8 @@
 <body>
   <!-- ... existing HTML ... -->
   <script>
+    const startBtnTop = document.getElementById('startBtnTop');
+    const startBtnBottom = document.getElementById('startBtnBottom');
     let quizLibrary = [];
     fetch('quiz_library.json')
       .then(response => {
