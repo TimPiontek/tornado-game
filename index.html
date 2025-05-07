@@ -864,7 +864,7 @@ The Beatles"></textarea>
     // State
     let rewards=[], scores={A:0,B:0}, picks={A:0,B:0},
         turn='A', names={A:'Team A',B:'Team B'}, total=20,
-        questions=[], qIndex=0;
+        questions=[], qIndex=0, usedQuestionIndices=[];
 
     // DOM refs
     const setupScreen=document.getElementById('setupScreen'),
@@ -983,14 +983,21 @@ The Beatles"></textarea>
             .split('\n').map(l=>l.trim()).filter(l=>l)
             .map(q=>({ question:q.replace(/^\d+\.\s*/,''), answer:null }));
         }
-        if(document.querySelector('input[name="order"]:checked').value==='random'){
-          for(let i=questions.length-1;i>0;i--){
-            const j=Math.floor(Math.random()*(i+1));
-            [questions[i],questions[j]]=[questions[j],questions[i]];
-          }
-        }
       }
-      qIndex=0;
+      // Prepare usedQuestionIndices for unique rotation
+      usedQuestionIndices = [];
+      let order = document.querySelector('input[name="order"]:checked').value;
+      if (order === 'random') {
+        // Shuffle indices
+        usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
+        for (let i = usedQuestionIndices.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [usedQuestionIndices[i], usedQuestionIndices[j]] = [usedQuestionIndices[j], usedQuestionIndices[i]];
+        }
+      } else {
+        usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
+      }
+      qIndex = 0;
       setupScreen.classList.add('hidden');
       gameScreen.classList.remove('hidden');
       initGame(tornadoCount, doubleCount, loseCount, swapCount); buildGrid(total); showQuestion();
@@ -1140,14 +1147,15 @@ The Beatles"></textarea>
         }
       } else {
         turn = me==='A'?'B':'A';
-        // Advance to next question
-        qIndex = (qIndex + 1) % questions.length;
+        // Advance to next unique question
+        qIndex++;
+        if (qIndex >= usedQuestionIndices.length) qIndex = 0;
         updateTurn(); showQuestion();
       }
     }
 
     function showQuestion(){
-      const qObj=questions[qIndex]||{question:'',answer:null};
+      const qObj = questions[usedQuestionIndices[qIndex]] || {question:'',answer:null};
       questionEl.textContent=qObj.question;
       answerEl.textContent = '';
       // Hide question bubble if no questions
