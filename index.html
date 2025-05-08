@@ -1472,9 +1472,23 @@ The Beatles"></textarea>
         const btn = available[Math.floor(Math.random() * available.length)];
         // Always answer correctly: reveal answer before picking
         revealBtn.click();
+        // Check if special popup is visible after a short delay (to allow popup to show)
         setTimeout(() => {
-          btn.click();
-        }, 2000);
+          const popup = document.getElementById('specialPopup');
+          if (popup && popup.classList.contains('show')) {
+            // Wait for popup to disappear (2.65s), then wait 2.0s, then pick
+            setTimeout(() => {
+              setTimeout(() => {
+                btn.click();
+              }, 2000);
+            }, 2650);
+          } else {
+            // No popup, normal delay
+            setTimeout(() => {
+              btn.click();
+            }, 2000);
+          }
+        }, 100); // Give popup a moment to appear
       }
     });
   </script>
