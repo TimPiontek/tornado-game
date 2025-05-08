@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://playtornado.com/sitemap.xml 
