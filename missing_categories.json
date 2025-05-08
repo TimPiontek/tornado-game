@@ -1,0 +1,74 @@
+[
+  {
+    "title": "Cambridge English B2",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the Cambridge B2 exam also known as?",
+        "answer": "First Certificate in English (FCE)"
+      },
+      {
+        "question": "What is the minimum score needed to pass Cambridge B2?",
+        "answer": "160 points"
+      },
+      {
+        "question": "How many papers are in the Cambridge B2 exam?",
+        "answer": "4 papers: Reading and Use of English, Writing, Listening, and Speaking"
+      }
+    ]
+  },
+  {
+    "title": "Cambridge English C1",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the Cambridge C1 exam also known as?",
+        "answer": "Certificate in Advanced English (CAE)"
+      },
+      {
+        "question": "What is the minimum score needed to pass Cambridge C1?",
+        "answer": "180 points"
+      },
+      {
+        "question": "How long is the Cambridge C1 Speaking test?",
+        "answer": "15 minutes"
+      }
+    ]
+  },
+  {
+    "title": "Latin - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "What does 'carpe diem' mean?",
+        "answer": "Seize the day"
+      },
+      {
+        "question": "What is the Latin word for 'hello'?",
+        "answer": "Salve"
+      },
+      {
+        "question": "What does 'et cetera' mean?",
+        "answer": "And the rest"
+      }
+    ]
+  },
+  {
+    "title": "YouTubers & Influencers",
+    "category": "Pop Culture",
+    "questions": [
+      {
+        "question": "Who is known as the 'King of YouTube' with the most subscribers?",
+        "answer": "MrBeast (Jimmy Donaldson)"
+      },
+      {
+        "question": "What is the name of the YouTube channel that creates educational content about science?",
+        "answer": "Kurzgesagt – In a Nutshell"
+      },
+      {
+        "question": "Who is the most followed person on Instagram?",
+        "answer": "Cristiano Ronaldo"
+      }
+    ]
+  }
+] 

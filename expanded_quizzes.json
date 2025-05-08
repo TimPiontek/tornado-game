@@ -316,5 +316,52 @@
     {"question": "Who created 'Colleen Ballinger'?", "answer": "Colleen Ballinger"},
     {"question": "Who created the 'David Dobrik' channel?", "answer": "David Dobrik"}
   ]
+},
+// Video Games
+{
+  "title": "Video Games",
+  "category": "Pop Culture",
+  "questions": [
+    {"question": "Which game popularized the battle royale genre in 2017?", "answer": "Fortnite"},
+    {"question": "What is the name of the main character in The Legend of Zelda series?", "answer": "Link"},
+    {"question": "Which console is known for the game 'Animal Crossing: New Horizons'?", "answer": "Nintendo Switch"},
+    {"question": "Which company developed the PlayStation 5?", "answer": "Sony"},
+    {"question": "What is the best-selling video game of all time?", "answer": "Minecraft"},
+    {"question": "Which game features the character Master Chief?", "answer": "Halo"},
+    {"question": "What is the name of the online service for Xbox consoles?", "answer": "Xbox Live"},
+    {"question": "Which game series features the region of Galar?", "answer": "Pokémon"},
+    {"question": "Which 2020 game is set in a dystopian Night City?", "answer": "Cyberpunk 2077"},
+    {"question": "What is the name of the main antagonist in the God of War series?", "answer": "Ares"},
+    {"question": "Which game is known for the phrase 'Victory Royale'?", "answer": "Fortnite"},
+    {"question": "Which console introduced the DualSense controller?", "answer": "PlayStation 5"},
+    {"question": "What is the name of the protagonist in the Uncharted series?", "answer": "Nathan Drake"},
+    {"question": "Which game lets players build and manage their own island paradise?", "answer": "Animal Crossing: New Horizons"},
+    {"question": "Which game studio developed The Witcher 3: Wild Hunt?", "answer": "CD Projekt Red"},
+    {"question": "Which game is set in the city of Los Santos?", "answer": "Grand Theft Auto V"},
+    {"question": "What is the name of the battle royale mode in Call of Duty?", "answer": "Warzone"},
+    {"question": "Which game features the character Aloy?", "answer": "Horizon Zero Dawn"},
+    {"question": "Which console is known for the game 'Spider-Man: Miles Morales'?", "answer": "PlayStation 5"},
+    {"question": "Which game is famous for its blocky graphics and creative building?", "answer": "Minecraft"},
+    {"question": "Which online multiplayer game involves impostors and crewmates?", "answer": "Among Us"},
+    {"question": "Which game series is known for its annual soccer releases?", "answer": "FIFA"},
+    {"question": "Which Nintendo franchise features characters like Mario, Luigi, and Bowser?", "answer": "Super Mario"},
+    {"question": "Which game is set in the land of Hyrule?", "answer": "The Legend of Zelda: Breath of the Wild"},
+    {"question": "Which game is known for the phrase 'It's dangerous to go alone! Take this.'?", "answer": "The Legend of Zelda"},
+    {"question": "Which game features a battle pass system and frequent live events?", "answer": "Fortnite"},
+    {"question": "Which game is a popular team-based shooter from Blizzard Entertainment?", "answer": "Overwatch"},
+    {"question": "Which console is produced by Microsoft?", "answer": "Xbox Series X"},
+    {"question": "Which game lets you catch and train creatures called Pokémon?", "answer": "Pokémon Sword and Shield"},
+    {"question": "Which game is known for its open-world exploration and crafting?", "answer": "Minecraft"},
+    {"question": "Which game features the character Kratos?", "answer": "God of War"},
+    {"question": "Which game is a popular battle royale from Respawn Entertainment?", "answer": "Apex Legends"},
+    {"question": "Which game is set in the world of Tamriel?", "answer": "The Elder Scrolls V: Skyrim"},
+    {"question": "Which game is known for its fast-paced building mechanics?", "answer": "Fortnite"},
+    {"question": "Which game features a haunted animatronic pizzeria?", "answer": "Five Nights at Freddy's"},
+    {"question": "Which game is a life simulation series from EA?", "answer": "The Sims"},
+    {"question": "Which game is a popular racing franchise from Nintendo?", "answer": "Mario Kart"},
+    {"question": "Which game is known for its battle royale mode and creative mode?", "answer": "Fortnite"},
+    {"question": "Which game features the character Geralt of Rivia?", "answer": "The Witcher 3: Wild Hunt"},
+    {"question": "Which game is a popular multiplayer online battle arena (MOBA)?", "answer": "League of Legends"}
+  ]
 }
 ] 

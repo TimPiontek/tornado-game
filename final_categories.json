@@ -1,0 +1,236 @@
+[
+  {
+    "title": "Korean - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Korean?",
+        "answer": "안녕하세요 (Annyeonghaseyo)"
+      },
+      {
+        "question": "What is the Korean word for 'thank you'?",
+        "answer": "감사합니다 (Gamsahamnida)"
+      },
+      {
+        "question": "How do you say 'goodbye' in Korean?",
+        "answer": "안녕히 가세요 (Annyeonghi gaseyo)"
+      }
+    ]
+  },
+  {
+    "title": "Mandarin - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Mandarin?",
+        "answer": "你好 (Nǐ hǎo)"
+      },
+      {
+        "question": "What is the Mandarin word for 'thank you'?",
+        "answer": "谢谢 (Xièxiè)"
+      },
+      {
+        "question": "How do you say 'goodbye' in Mandarin?",
+        "answer": "再见 (Zàijiàn)"
+      }
+    ]
+  },
+  {
+    "title": "Psychology",
+    "category": "Science",
+    "questions": [
+      {
+        "question": "What is cognitive dissonance?",
+        "answer": "Mental discomfort from holding contradictory beliefs"
+      },
+      {
+        "question": "What is the difference between classical and operant conditioning?",
+        "answer": "Classical conditioning pairs stimuli; operant conditioning uses reinforcement and punishment"
+      },
+      {
+        "question": "What is the Stroop effect?",
+        "answer": "Delay in processing conflicting information, like reading color words printed in different colors"
+      }
+    ]
+  },
+  {
+    "title": "Economics",
+    "category": "Social Sciences",
+    "questions": [
+      {
+        "question": "What is supply and demand?",
+        "answer": "Economic model of price determination in a market"
+      },
+      {
+        "question": "What is inflation?",
+        "answer": "General increase in prices and fall in purchasing value of money"
+      },
+      {
+        "question": "What is GDP?",
+        "answer": "Gross Domestic Product - total value of goods and services produced in a country"
+      }
+    ]
+  },
+  {
+    "title": "Philosophy",
+    "category": "Social Sciences",
+    "questions": [
+      {
+        "question": "What is epistemology?",
+        "answer": "Study of knowledge and how we know what we know"
+      },
+      {
+        "question": "What is existentialism?",
+        "answer": "Philosophy emphasizing individual existence, freedom, and choice"
+      },
+      {
+        "question": "Who wrote 'I think, therefore I am'?",
+        "answer": "René Descartes"
+      }
+    ]
+  },
+  {
+    "title": "Art History",
+    "category": "Arts",
+    "questions": [
+      {
+        "question": "Who painted the Mona Lisa?",
+        "answer": "Leonardo da Vinci"
+      },
+      {
+        "question": "What art movement did Vincent van Gogh belong to?",
+        "answer": "Post-Impressionism"
+      },
+      {
+        "question": "What is chiaroscuro?",
+        "answer": "Use of strong contrasts between light and dark in art"
+      }
+    ]
+  },
+  {
+    "title": "Film Studies",
+    "category": "Arts",
+    "questions": [
+      {
+        "question": "Who directed Citizen Kane?",
+        "answer": "Orson Welles"
+      },
+      {
+        "question": "What is mise-en-scène?",
+        "answer": "Everything that appears in the frame of a film"
+      },
+      {
+        "question": "What was the first feature-length animated film?",
+        "answer": "Snow White and the Seven Dwarfs"
+      }
+    ]
+  },
+  {
+    "title": "Nutrition",
+    "category": "Health",
+    "questions": [
+      {
+        "question": "What are macronutrients?",
+        "answer": "Proteins, carbohydrates, and fats"
+      },
+      {
+        "question": "What is the role of fiber in diet?",
+        "answer": "Aids digestion, helps maintain healthy blood sugar and cholesterol levels"
+      },
+      {
+        "question": "What is BMI?",
+        "answer": "Body Mass Index - measure of body fat based on height and weight"
+      }
+    ]
+  },
+  {
+    "title": "Physical Fitness",
+    "category": "Health",
+    "questions": [
+      {
+        "question": "What is the difference between aerobic and anaerobic exercise?",
+        "answer": "Aerobic uses oxygen for energy; anaerobic doesn't require oxygen"
+      },
+      {
+        "question": "What is HIIT?",
+        "answer": "High-Intensity Interval Training - alternating intense exercise with rest periods"
+      },
+      {
+        "question": "What is VO2 max?",
+        "answer": "Maximum rate of oxygen consumption during exercise"
+      }
+    ]
+  },
+  {
+    "title": "World Religions",
+    "category": "Religion",
+    "questions": [
+      {
+        "question": "What are the Five Pillars of Islam?",
+        "answer": "Shahada, Salah, Zakat, Sawm, Hajj"
+      },
+      {
+        "question": "What are the Four Noble Truths in Buddhism?",
+        "answer": "Life is suffering, suffering arises from attachment, suffering can be overcome, the Eightfold Path leads to liberation"
+      },
+      {
+        "question": "What is the holy book of Hinduism?",
+        "answer": "The Vedas"
+      }
+    ]
+  },
+  {
+    "title": "Mythology",
+    "category": "Religion",
+    "questions": [
+      {
+        "question": "Who is the Norse god of thunder?",
+        "answer": "Thor"
+      },
+      {
+        "question": "Who is the Egyptian god of the dead?",
+        "answer": "Osiris"
+      },
+      {
+        "question": "Who is the Hindu god of creation?",
+        "answer": "Brahma"
+      }
+    ]
+  },
+  {
+    "title": "Cybersecurity",
+    "category": "Technology",
+    "questions": [
+      {
+        "question": "What is a firewall?",
+        "answer": "Security system that monitors and controls network traffic"
+      },
+      {
+        "question": "What is encryption?",
+        "answer": "Process of converting information into code to prevent unauthorized access"
+      },
+      {
+        "question": "What is two-factor authentication?",
+        "answer": "Security process requiring two different forms of identification"
+      }
+    ]
+  },
+  {
+    "title": "Web Development",
+    "category": "Technology",
+    "questions": [
+      {
+        "question": "What is HTML?",
+        "answer": "HyperText Markup Language - standard markup language for web pages"
+      },
+      {
+        "question": "What is CSS?",
+        "answer": "Cascading Style Sheets - language used to style web pages"
+      },
+      {
+        "question": "What is JavaScript?",
+        "answer": "Programming language that enables interactive web pages"
+      }
+    ]
+  }
+] 
