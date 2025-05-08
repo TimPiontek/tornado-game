@@ -457,11 +457,10 @@
       margin-bottom: 0.2rem;
     }
     .special-row {
-      display: grid;
-      grid-template-columns: 48px 160px 80px 130px;
+      display: flex;
       align-items: center;
       gap: 0.7em;
-      min-width: 420px;
+      min-width: 320px;
     }
     .special-row select {
       font-size: 1.1rem;
@@ -871,35 +870,39 @@
         </div>
         <div class="special-item-compact-list" style="display: flex; flex-direction: column; gap: 0.2rem; align-items: flex-start;">
           <div class="special-item-compact" style="width: 100%;">
-            <div class="special-row" style="display: grid; grid-template-columns: 48px 160px 80px 130px; align-items: center; gap: 0.7em; min-width: 420px;">
+            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
               <span class="emoji-big">🌪️</span>
-              <b style="min-width: 120px; max-width: 160px; white-space: nowrap; font-size: 1.05em;">Tornado</b>
-              <select id="tornadoCount" style="min-width: 60px;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-              <span class="special-desc" style="white-space: normal; word-break: break-word; font-size: 0.98em; max-width: 120px; display: block;">Steal points</span>
+              <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: block;">Tornado</b>
+              <select id="tornadoCount" style="width: 38px; min-width: 38px; max-width: 38px; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+              <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Steal points</span>
             </div>
           </div>
           <div class="special-item-compact" style="width: 100%;">
-            <div class="special-row" style="display: grid; grid-template-columns: 48px 160px 80px 130px; align-items: center; gap: 0.7em; min-width: 420px;">
+            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
               <span class="emoji-big">🦁🦁</span>
-              <b style="min-width: 120px; max-width: 160px; white-space: nowrap; font-size: 1.05em;">Double Lion</b>
-              <select id="doubleCount" style="min-width: 60px;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-              <span class="special-desc" style="white-space: normal; word-break: break-word; font-size: 0.98em; max-width: 120px; display: block;">Double points</span>
+              <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: block; line-height: 1.1;">
+                Double<br>Lion
+              </b>
+              <select id="doubleCount" style="width: 38px; min-width: 38px; max-width: 38px; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+              <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Double points</span>
             </div>
           </div>
           <div class="special-item-compact" style="width: 100%;">
-            <div class="special-row" style="display: grid; grid-template-columns: 48px 160px 80px 130px; align-items: center; gap: 0.7em; min-width: 420px;">
+            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
               <span class="emoji-big">🦨</span>
-              <b style="min-width: 120px; max-width: 160px; white-space: nowrap; font-size: 1.05em;">Skunk</b>
-              <select id="loseCount" style="min-width: 60px;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-              <span class="special-desc" style="white-space: normal; word-break: break-word; font-size: 0.98em; max-width: 120px; display: block;">Lose all points</span>
+              <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: block;">Skunk</b>
+              <select id="loseCount" style="width: 38px; min-width: 38px; max-width: 38px; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+              <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Lose all points</span>
             </div>
           </div>
           <div class="special-item-compact" style="width: 100%;">
-            <div class="special-row" style="display: grid; grid-template-columns: 48px 160px 80px 130px; align-items: center; gap: 0.7em; min-width: 420px;">
+            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
               <span class="emoji-big">🦘</span>
-              <b style="min-width: 120px; max-width: 160px; white-space: normal; word-break: normal; overflow-wrap: break-word; font-size: 1.05em;">Kangaroo Hop Swap</b>
-              <select id="swapCount" style="min-width: 60px;"> <option>0</option><option selected>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
-              <span class="special-desc" style="white-space: normal; word-break: break-word; font-size: 0.98em; max-width: 120px; display: block;">Swap points</span>
+              <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: block; line-height: 1.1;">
+                Kangaroo<br>Hop<br>Swap
+              </b>
+              <select id="swapCount" style="width: 38px; min-width: 38px; max-width: 38px; text-align: center;"> <option>0</option><option selected>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+              <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Swap points</span>
             </div>
           </div>
         </div>
