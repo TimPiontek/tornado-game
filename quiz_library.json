@@ -7004,42 +7004,6 @@
     ]
   },
   {
-    "title": "Environmental Science",
-    "category": "Science",
-    "questions": [
-      {
-        "question": "What is the greenhouse effect?",
-        "answer": "The trapping of heat in Earth's atmosphere by greenhouse gases"
-      },
-      {
-        "question": "What is the difference between weather and climate?",
-        "answer": "Weather is short-term atmospheric conditions; climate is long-term weather patterns"
-      },
-      {
-        "question": "What is biodiversity?",
-        "answer": "The variety of life in a particular habitat or ecosystem"
-      }
-    ]
-  },
-  {
-    "title": "Environmental Science",
-    "category": "Science",
-    "questions": [
-      {
-        "question": "What is the greenhouse effect?",
-        "answer": "The trapping of heat in Earth's atmosphere by greenhouse gases"
-      },
-      {
-        "question": "What is the difference between weather and climate?",
-        "answer": "Weather is short-term atmospheric conditions; climate is long-term weather patterns"
-      },
-      {
-        "question": "What is biodiversity?",
-        "answer": "The variety of life in a particular habitat or ecosystem"
-      }
-    ]
-  },
-  {
     "title": "Life Science",
     "category": "Science",
     "questions": [
@@ -7360,24 +7324,6 @@
       {
         "question": "What is a material that resists the flow of heat called?",
         "answer": "Insulator"
-      }
-    ]
-  },
-  {
-    "title": "Psychology",
-    "category": "Science",
-    "questions": [
-      {
-        "question": "What is cognitive dissonance?",
-        "answer": "Mental discomfort from holding contradictory beliefs"
-      },
-      {
-        "question": "What is the difference between classical and operant conditioning?",
-        "answer": "Classical conditioning pairs stimuli; operant conditioning uses reinforcement and punishment"
-      },
-      {
-        "question": "What is the Stroop effect?",
-        "answer": "Delay in processing conflicting information, like reading color words printed in different colors"
       }
     ]
   },
@@ -8708,78 +8654,6 @@
     ]
   },
   {
-    "title": "Space Exploration",
-    "category": "Science",
-    "questions": [
-      {
-        "question": "What was the first artificial satellite?",
-        "answer": "Sputnik 1"
-      },
-      {
-        "question": "Who was the first human in space?",
-        "answer": "Yuri Gagarin"
-      },
-      {
-        "question": "What was the first successful Mars rover?",
-        "answer": "Sojourner"
-      }
-    ]
-  },
-  {
-    "title": "Space Exploration",
-    "category": "Science",
-    "questions": [
-      {
-        "question": "What was the first artificial satellite?",
-        "answer": "Sputnik 1"
-      },
-      {
-        "question": "Who was the first human in space?",
-        "answer": "Yuri Gagarin"
-      },
-      {
-        "question": "What was the first successful Mars rover?",
-        "answer": "Sojourner"
-      }
-    ]
-  },
-  {
-    "title": "Ancient Civilizations",
-    "category": "History",
-    "questions": [
-      {
-        "question": "What was the first civilization in the Americas?",
-        "answer": "Olmec"
-      },
-      {
-        "question": "What was the first civilization in China?",
-        "answer": "Xia Dynasty"
-      },
-      {
-        "question": "What was the first civilization in India?",
-        "answer": "Indus Valley Civilization"
-      }
-    ]
-  },
-  {
-    "title": "Ancient Civilizations",
-    "category": "History",
-    "questions": [
-      {
-        "question": "What was the first civilization in the Americas?",
-        "answer": "Olmec"
-      },
-      {
-        "question": "What was the first civilization in China?",
-        "answer": "Xia Dynasty"
-      },
-      {
-        "question": "What was the first civilization in India?",
-        "answer": "Indus Valley Civilization"
-      }
-    ]
-  },
-  {
     "title": "Ancient Civilizations",
     "category": "History",
     "questions": [
@@ -9284,42 +9158,6 @@
       {
         "question": "Who was the 45th President of the United States?",
         "answer": "Donald Trump"
-      }
-    ]
-  },
-  {
-    "title": "World History",
-    "category": "History",
-    "questions": [
-      {
-        "question": "What was the first civilization to develop writing?",
-        "answer": "Sumerian"
-      },
-      {
-        "question": "What was the first empire in history?",
-        "answer": "Akkadian Empire"
-      },
-      {
-        "question": "What was the first democracy?",
-        "answer": "Ancient Athens"
-      }
-    ]
-  },
-  {
-    "title": "World History",
-    "category": "History",
-    "questions": [
-      {
-        "question": "What was the first civilization to develop writing?",
-        "answer": "Sumerian"
-      },
-      {
-        "question": "What was the first empire in history?",
-        "answer": "Akkadian Empire"
-      },
-      {
-        "question": "What was the first democracy?",
-        "answer": "Ancient Athens"
       }
     ]
   },
@@ -10818,42 +10656,6 @@
     ]
   },
   {
-    "title": "Classical Mythology",
-    "category": "Literature",
-    "questions": [
-      {
-        "question": "Who was the king of the Greek gods?",
-        "answer": "Zeus"
-      },
-      {
-        "question": "What was the first work of Greek literature?",
-        "answer": "Iliad"
-      },
-      {
-        "question": "Who wrote the Odyssey?",
-        "answer": "Homer"
-      }
-    ]
-  },
-  {
-    "title": "Classical Mythology",
-    "category": "Literature",
-    "questions": [
-      {
-        "question": "Who was the king of the Greek gods?",
-        "answer": "Zeus"
-      },
-      {
-        "question": "What was the first work of Greek literature?",
-        "answer": "Iliad"
-      },
-      {
-        "question": "Who wrote the Odyssey?",
-        "answer": "Homer"
-      }
-    ]
-  },
-  {
     "title": "Romeo & Juliet",
     "category": "Literature",
     "questions": [
@@ -11174,42 +10976,6 @@
       {
         "question": "What is the major theme of The Odyssey?",
         "answer": "The journey home"
-      }
-    ]
-  },
-  {
-    "title": "World Literature",
-    "category": "Literature",
-    "questions": [
-      {
-        "question": "What is the oldest known work of literature?",
-        "answer": "Epic of Gilgamesh"
-      },
-      {
-        "question": "What is the first novel ever written?",
-        "answer": "The Tale of Genji"
-      },
-      {
-        "question": "What is the first printed book?",
-        "answer": "Gutenberg Bible"
-      }
-    ]
-  },
-  {
-    "title": "World Literature",
-    "category": "Literature",
-    "questions": [
-      {
-        "question": "What is the oldest known work of literature?",
-        "answer": "Epic of Gilgamesh"
-      },
-      {
-        "question": "What is the first novel ever written?",
-        "answer": "The Tale of Genji"
-      },
-      {
-        "question": "What is the first printed book?",
-        "answer": "Gutenberg Bible"
       }
     ]
   },
@@ -20590,42 +20356,6 @@
     ]
   },
   {
-    "title": "ASL Basics",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "What is the ASL sign for 'hello'?",
-        "answer": "Wave hand side to side"
-      },
-      {
-        "question": "What is the ASL sign for 'thank you'?",
-        "answer": "Flat hand moves from chin outward"
-      },
-      {
-        "question": "What is the ASL sign for 'please'?",
-        "answer": "Flat hand moves in circular motion on chest"
-      }
-    ]
-  },
-  {
-    "title": "ASL Basics",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "What is the ASL sign for 'hello'?",
-        "answer": "Wave hand side to side"
-      },
-      {
-        "question": "What is the ASL sign for 'thank you'?",
-        "answer": "Flat hand moves from chin outward"
-      },
-      {
-        "question": "What is the ASL sign for 'please'?",
-        "answer": "Flat hand moves in circular motion on chest"
-      }
-    ]
-  },
-  {
     "title": "French - Advanced",
     "category": "Foreign Languages",
     "questions": [
@@ -20640,78 +20370,6 @@
       {
         "question": "What is the difference between 'depuis' and 'pendant'?",
         "answer": "Depuis is used for ongoing actions; pendant is used for completed actions"
-      }
-    ]
-  },
-  {
-    "title": "French - Advanced",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "What is the subjunctive form of 'être' in the present tense for 'je'?",
-        "answer": "Sois"
-      },
-      {
-        "question": "How do you say 'I would have gone if I had known' in French?",
-        "answer": "Je serais allé si j'avais su"
-      },
-      {
-        "question": "What is the difference between 'depuis' and 'pendant'?",
-        "answer": "Depuis is used for ongoing actions; pendant is used for completed actions"
-      }
-    ]
-  },
-  {
-    "title": "French - Advanced",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "What is the subjunctive form of 'être' in the present tense for 'je'?",
-        "answer": "Sois"
-      },
-      {
-        "question": "How do you say 'I would have gone if I had known' in French?",
-        "answer": "Je serais allé si j'avais su"
-      },
-      {
-        "question": "What is the difference between 'depuis' and 'pendant'?",
-        "answer": "Depuis is used for ongoing actions; pendant is used for completed actions"
-      }
-    ]
-  },
-  {
-    "title": "French - Beginner",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'hello' in French?",
-        "answer": "Bonjour"
-      },
-      {
-        "question": "What is the French word for 'goodbye'?",
-        "answer": "Au revoir"
-      },
-      {
-        "question": "How do you say 'thank you' in French?",
-        "answer": "Merci"
-      }
-    ]
-  },
-  {
-    "title": "French - Beginner",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'hello' in French?",
-        "answer": "Bonjour"
-      },
-      {
-        "question": "What is the French word for 'goodbye'?",
-        "answer": "Au revoir"
-      },
-      {
-        "question": "How do you say 'thank you' in French?",
-        "answer": "Merci"
       }
     ]
   },
@@ -20752,78 +20410,6 @@
     ]
   },
   {
-    "title": "French - Intermediate",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'I would like to make a reservation' in French?",
-        "answer": "Je voudrais faire une réservation"
-      },
-      {
-        "question": "What is the French word for 'nevertheless'?",
-        "answer": "Néanmoins"
-      },
-      {
-        "question": "How do you say 'I have been living in Paris for three years'?",
-        "answer": "J'habite à Paris depuis trois ans"
-      }
-    ]
-  },
-  {
-    "title": "French - Intermediate",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'I would like to make a reservation' in French?",
-        "answer": "Je voudrais faire une réservation"
-      },
-      {
-        "question": "What is the French word for 'nevertheless'?",
-        "answer": "Néanmoins"
-      },
-      {
-        "question": "How do you say 'I have been living in Paris for three years'?",
-        "answer": "J'habite à Paris depuis trois ans"
-      }
-    ]
-  },
-  {
-    "title": "German - Beginner",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'hello' in German?",
-        "answer": "Hallo"
-      },
-      {
-        "question": "What is the German word for 'goodbye'?",
-        "answer": "Auf Wiedersehen"
-      },
-      {
-        "question": "How do you say 'thank you' in German?",
-        "answer": "Danke"
-      }
-    ]
-  },
-  {
-    "title": "German - Beginner",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'hello' in German?",
-        "answer": "Hallo"
-      },
-      {
-        "question": "What is the German word for 'goodbye'?",
-        "answer": "Auf Wiedersehen"
-      },
-      {
-        "question": "How do you say 'thank you' in German?",
-        "answer": "Danke"
-      }
-    ]
-  },
-  {
     "title": "German - Beginner",
     "category": "Foreign Languages",
     "questions": [
@@ -20860,42 +20446,6 @@
     ]
   },
   {
-    "title": "Hungarian - Beginner",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'hello' in Hungarian?",
-        "answer": "Szia"
-      },
-      {
-        "question": "What is the Hungarian word for 'thank you'?",
-        "answer": "Köszönöm"
-      },
-      {
-        "question": "How do you say 'goodbye' in Hungarian?",
-        "answer": "Viszlát"
-      }
-    ]
-  },
-  {
-    "title": "Hungarian - Beginner",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'hello' in Hungarian?",
-        "answer": "Szia"
-      },
-      {
-        "question": "What is the Hungarian word for 'thank you'?",
-        "answer": "Köszönöm"
-      },
-      {
-        "question": "How do you say 'goodbye' in Hungarian?",
-        "answer": "Viszlát"
-      }
-    ]
-  },
-  {
     "title": "Italian - Beginner",
     "category": "Foreign Languages",
     "questions": [
@@ -20910,78 +20460,6 @@
       {
         "question": "How do you say 'goodbye' in Italian?",
         "answer": "Arrivederci"
-      }
-    ]
-  },
-  {
-    "title": "Italian - Beginner",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'hello' in Italian?",
-        "answer": "Ciao"
-      },
-      {
-        "question": "What is the Italian word for 'thank you'?",
-        "answer": "Grazie"
-      },
-      {
-        "question": "How do you say 'goodbye' in Italian?",
-        "answer": "Arrivederci"
-      }
-    ]
-  },
-  {
-    "title": "Italian - Beginner",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'hello' in Italian?",
-        "answer": "Ciao"
-      },
-      {
-        "question": "What is the Italian word for 'thank you'?",
-        "answer": "Grazie"
-      },
-      {
-        "question": "How do you say 'goodbye' in Italian?",
-        "answer": "Arrivederci"
-      }
-    ]
-  },
-  {
-    "title": "Japanese - Beginner",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'hello' in Japanese?",
-        "answer": "こんにちは (Konnichiwa)"
-      },
-      {
-        "question": "What is the Japanese word for 'thank you'?",
-        "answer": "ありがとう (Arigatou)"
-      },
-      {
-        "question": "How do you say 'goodbye' in Japanese?",
-        "answer": "さようなら (Sayonara)"
-      }
-    ]
-  },
-  {
-    "title": "Japanese - Beginner",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'hello' in Japanese?",
-        "answer": "こんにちは (Konnichiwa)"
-      },
-      {
-        "question": "What is the Japanese word for 'thank you'?",
-        "answer": "ありがとう (Arigatou)"
-      },
-      {
-        "question": "How do you say 'goodbye' in Japanese?",
-        "answer": "さようなら (Sayonara)"
       }
     ]
   },
@@ -21022,42 +20500,6 @@
     ]
   },
   {
-    "title": "Korean - Beginner",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'hello' in Korean?",
-        "answer": "안녕하세요 (Annyeonghaseyo)"
-      },
-      {
-        "question": "What is the Korean word for 'thank you'?",
-        "answer": "감사합니다 (Gamsahamnida)"
-      },
-      {
-        "question": "How do you say 'goodbye' in Korean?",
-        "answer": "안녕히 가세요 (Annyeonghi gaseyo)"
-      }
-    ]
-  },
-  {
-    "title": "Latin - Beginner",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "What does 'carpe diem' mean?",
-        "answer": "Seize the day"
-      },
-      {
-        "question": "What is the Latin word for 'hello'?",
-        "answer": "Salve"
-      },
-      {
-        "question": "What does 'et cetera' mean?",
-        "answer": "And the rest"
-      }
-    ]
-  },
-  {
     "title": "Latin - Beginner",
     "category": "Foreign Languages",
     "questions": [
@@ -21094,24 +20536,6 @@
     ]
   },
   {
-    "title": "Mandarin - Beginner",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'hello' in Mandarin?",
-        "answer": "你好 (Nǐ hǎo)"
-      },
-      {
-        "question": "What is the Mandarin word for 'thank you'?",
-        "answer": "谢谢 (Xièxiè)"
-      },
-      {
-        "question": "How do you say 'goodbye' in Mandarin?",
-        "answer": "再见 (Zàijiàn)"
-      }
-    ]
-  },
-  {
     "title": "Spanish - Advanced",
     "category": "Foreign Languages",
     "questions": [
@@ -21126,78 +20550,6 @@
       {
         "question": "What is the difference between 'por' and 'para'?",
         "answer": "Por is used for duration, cause, and means; para is used for purpose, destination, and deadlines"
-      }
-    ]
-  },
-  {
-    "title": "Spanish - Advanced",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "What is the subjunctive form of 'ser' in the present tense for 'yo'?",
-        "answer": "Sea"
-      },
-      {
-        "question": "How do you say 'I would have gone if I had known' in Spanish?",
-        "answer": "Habría ido si hubiera sabido"
-      },
-      {
-        "question": "What is the difference between 'por' and 'para'?",
-        "answer": "Por is used for duration, cause, and means; para is used for purpose, destination, and deadlines"
-      }
-    ]
-  },
-  {
-    "title": "Spanish - Advanced",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "What is the subjunctive form of 'ser' in the present tense for 'yo'?",
-        "answer": "Sea"
-      },
-      {
-        "question": "How do you say 'I would have gone if I had known' in Spanish?",
-        "answer": "Habría ido si hubiera sabido"
-      },
-      {
-        "question": "What is the difference between 'por' and 'para'?",
-        "answer": "Por is used for duration, cause, and means; para is used for purpose, destination, and deadlines"
-      }
-    ]
-  },
-  {
-    "title": "Spanish - Beginner",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'hello' in Spanish?",
-        "answer": "Hola"
-      },
-      {
-        "question": "What is the Spanish word for 'goodbye'?",
-        "answer": "Adiós"
-      },
-      {
-        "question": "How do you say 'thank you' in Spanish?",
-        "answer": "Gracias"
-      }
-    ]
-  },
-  {
-    "title": "Spanish - Beginner",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'hello' in Spanish?",
-        "answer": "Hola"
-      },
-      {
-        "question": "What is the Spanish word for 'goodbye'?",
-        "answer": "Adiós"
-      },
-      {
-        "question": "How do you say 'thank you' in Spanish?",
-        "answer": "Gracias"
       }
     ]
   },
@@ -21238,42 +20590,6 @@
     ]
   },
   {
-    "title": "Spanish - Intermediate",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'I would like to order' in Spanish?",
-        "answer": "Me gustaría ordenar"
-      },
-      {
-        "question": "What is the Spanish word for 'however'?",
-        "answer": "Sin embargo"
-      },
-      {
-        "question": "How do you say 'I have been studying Spanish for two years'?",
-        "answer": "He estado estudiando español por dos años"
-      }
-    ]
-  },
-  {
-    "title": "Spanish - Intermediate",
-    "category": "Foreign Languages",
-    "questions": [
-      {
-        "question": "How do you say 'I would like to order' in Spanish?",
-        "answer": "Me gustaría ordenar"
-      },
-      {
-        "question": "What is the Spanish word for 'however'?",
-        "answer": "Sin embargo"
-      },
-      {
-        "question": "How do you say 'I have been studying Spanish for two years'?",
-        "answer": "He estado estudiando español por dos años"
-      }
-    ]
-  },
-  {
     "title": "Cambridge English B1",
     "category": "Professional Exams",
     "questions": [
@@ -21284,52 +20600,6 @@
       {
         "question": "What are the main components of the B1 exam?",
         "answer": "Reading, Writing, Listening, and Speaking"
-      }
-    ]
-  },
-  {
-    "title": "Cambridge English B1",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is the B1 level equivalent to in the CEFR?",
-        "answer": "Intermediate"
-      },
-      {
-        "question": "What are the main components of the B1 exam?",
-        "answer": "Reading, Writing, Listening, and Speaking"
-      }
-    ]
-  },
-  {
-    "title": "Cambridge English B1",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is the B1 level equivalent to in the CEFR?",
-        "answer": "Intermediate"
-      },
-      {
-        "question": "What are the main components of the B1 exam?",
-        "answer": "Reading, Writing, Listening, and Speaking"
-      }
-    ]
-  },
-  {
-    "title": "Cambridge English B2",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is the Cambridge B2 exam also known as?",
-        "answer": "First Certificate in English (FCE)"
-      },
-      {
-        "question": "What is the minimum score needed to pass Cambridge B2?",
-        "answer": "160 points"
-      },
-      {
-        "question": "How many papers are in the Cambridge B2 exam?",
-        "answer": "4 papers: Reading and Use of English, Writing, Listening, and Speaking"
       }
     ]
   },
@@ -21370,52 +20640,6 @@
     ]
   },
   {
-    "title": "Cambridge English C1",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is the Cambridge C1 exam also known as?",
-        "answer": "Certificate in Advanced English (CAE)"
-      },
-      {
-        "question": "What is the minimum score needed to pass Cambridge C1?",
-        "answer": "180 points"
-      },
-      {
-        "question": "How long is the Cambridge C1 Speaking test?",
-        "answer": "15 minutes"
-      }
-    ]
-  },
-  {
-    "title": "Cambridge English C2",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is the C2 level equivalent to in the CEFR?",
-        "answer": "Mastery"
-      },
-      {
-        "question": "What is the difference between B2 and C2 levels?",
-        "answer": "C2 represents near-native proficiency; B2 represents upper-intermediate proficiency"
-      }
-    ]
-  },
-  {
-    "title": "Cambridge English C2",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is the C2 level equivalent to in the CEFR?",
-        "answer": "Mastery"
-      },
-      {
-        "question": "What is the difference between B2 and C2 levels?",
-        "answer": "C2 represents near-native proficiency; B2 represents upper-intermediate proficiency"
-      }
-    ]
-  },
-  {
     "title": "Cambridge English C2",
     "category": "Professional Exams",
     "questions": [
@@ -21444,34 +20668,6 @@
     ]
   },
   {
-    "title": "Driving Test",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What does a red octagon sign mean?",
-        "answer": "Stop"
-      },
-      {
-        "question": "What does a yellow triangle sign indicate?",
-        "answer": "Warning"
-      }
-    ]
-  },
-  {
-    "title": "Driving Test",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What does a red octagon sign mean?",
-        "answer": "Stop"
-      },
-      {
-        "question": "What does a yellow triangle sign indicate?",
-        "answer": "Warning"
-      }
-    ]
-  },
-  {
     "title": "LSAT",
     "category": "Professional Exams",
     "questions": [
@@ -21482,62 +20678,6 @@
       {
         "question": "What is a logical fallacy?",
         "answer": "An error in reasoning that renders an argument invalid"
-      }
-    ]
-  },
-  {
-    "title": "LSAT",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What are the three main sections of the LSAT?",
-        "answer": "Logical Reasoning, Analytical Reasoning, and Reading Comprehension"
-      },
-      {
-        "question": "What is a logical fallacy?",
-        "answer": "An error in reasoning that renders an argument invalid"
-      }
-    ]
-  },
-  {
-    "title": "LSAT",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What are the three main sections of the LSAT?",
-        "answer": "Logical Reasoning, Analytical Reasoning, and Reading Comprehension"
-      },
-      {
-        "question": "What is a logical fallacy?",
-        "answer": "An error in reasoning that renders an argument invalid"
-      }
-    ]
-  },
-  {
-    "title": "MCAT",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What are the four main sections of the MCAT?",
-        "answer": "Biological and Biochemical Foundations, Chemical and Physical Foundations, Psychological Foundations, and Critical Analysis and Reasoning"
-      },
-      {
-        "question": "What is the normal pH of human blood?",
-        "answer": "7.35-7.45"
-      }
-    ]
-  },
-  {
-    "title": "MCAT",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What are the four main sections of the MCAT?",
-        "answer": "Biological and Biochemical Foundations, Chemical and Physical Foundations, Psychological Foundations, and Critical Analysis and Reasoning"
-      },
-      {
-        "question": "What is the normal pH of human blood?",
-        "answer": "7.35-7.45"
       }
     ]
   },
@@ -21574,42 +20714,6 @@
     ]
   },
   {
-    "title": "NCLEX",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is the normal range for adult blood pressure?",
-        "answer": "120/80 mmHg"
-      },
-      {
-        "question": "What is the first step in the nursing process?",
-        "answer": "Assessment"
-      },
-      {
-        "question": "What is the normal range for adult heart rate?",
-        "answer": "60-100 beats per minute"
-      }
-    ]
-  },
-  {
-    "title": "NCLEX",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is the normal range for adult blood pressure?",
-        "answer": "120/80 mmHg"
-      },
-      {
-        "question": "What is the first step in the nursing process?",
-        "answer": "Assessment"
-      },
-      {
-        "question": "What is the normal range for adult heart rate?",
-        "answer": "60-100 beats per minute"
-      }
-    ]
-  },
-  {
     "title": "Praxis",
     "category": "Professional Exams",
     "questions": [
@@ -21620,62 +20724,6 @@
       {
         "question": "What is the difference between summative and formative assessment?",
         "answer": "Summative evaluates learning at the end; formative monitors learning during the process"
-      }
-    ]
-  },
-  {
-    "title": "Praxis",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is the main purpose of formative assessment?",
-        "answer": "To monitor student learning and provide ongoing feedback"
-      },
-      {
-        "question": "What is the difference between summative and formative assessment?",
-        "answer": "Summative evaluates learning at the end; formative monitors learning during the process"
-      }
-    ]
-  },
-  {
-    "title": "Praxis",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is the main purpose of formative assessment?",
-        "answer": "To monitor student learning and provide ongoing feedback"
-      },
-      {
-        "question": "What is the difference between summative and formative assessment?",
-        "answer": "Summative evaluates learning at the end; formative monitors learning during the process"
-      }
-    ]
-  },
-  {
-    "title": "SAT Math",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is the quadratic formula?",
-        "answer": "x = (-b ± √(b² - 4ac)) / 2a"
-      },
-      {
-        "question": "What is the formula for the area of a circle?",
-        "answer": "πr²"
-      }
-    ]
-  },
-  {
-    "title": "SAT Math",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is the quadratic formula?",
-        "answer": "x = (-b ± √(b² - 4ac)) / 2a"
-      },
-      {
-        "question": "What is the formula for the area of a circle?",
-        "answer": "πr²"
       }
     ]
   },
@@ -21708,34 +20756,6 @@
     ]
   },
   {
-    "title": "Series 7",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is a call option?",
-        "answer": "A contract giving the holder the right to buy a security at a specified price"
-      },
-      {
-        "question": "What is the difference between a stock and a bond?",
-        "answer": "Stocks represent ownership; bonds represent debt"
-      }
-    ]
-  },
-  {
-    "title": "Series 7",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is a call option?",
-        "answer": "A contract giving the holder the right to buy a security at a specified price"
-      },
-      {
-        "question": "What is the difference between a stock and a bond?",
-        "answer": "Stocks represent ownership; bonds represent debt"
-      }
-    ]
-  },
-  {
     "title": "US Citizenship",
     "category": "Professional Exams",
     "questions": [
@@ -21746,62 +20766,6 @@
       {
         "question": "What are the first three words of the Constitution?",
         "answer": "We the People"
-      }
-    ]
-  },
-  {
-    "title": "US Citizenship",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is the supreme law of the land?",
-        "answer": "The Constitution"
-      },
-      {
-        "question": "What are the first three words of the Constitution?",
-        "answer": "We the People"
-      }
-    ]
-  },
-  {
-    "title": "US Citizenship",
-    "category": "Professional Exams",
-    "questions": [
-      {
-        "question": "What is the supreme law of the land?",
-        "answer": "The Constitution"
-      },
-      {
-        "question": "What are the first three words of the Constitution?",
-        "answer": "We the People"
-      }
-    ]
-  },
-  {
-    "title": "Fashion",
-    "category": "Pop Culture",
-    "questions": [
-      {
-        "question": "What fashion house created the little black dress?",
-        "answer": "Chanel"
-      },
-      {
-        "question": "Who is known as the 'King of Pop' in fashion?",
-        "answer": "Karl Lagerfeld"
-      }
-    ]
-  },
-  {
-    "title": "Fashion",
-    "category": "Pop Culture",
-    "questions": [
-      {
-        "question": "What fashion house created the little black dress?",
-        "answer": "Chanel"
-      },
-      {
-        "question": "Who is known as the 'King of Pop' in fashion?",
-        "answer": "Karl Lagerfeld"
       }
     ]
   },
@@ -21834,34 +20798,6 @@
     ]
   },
   {
-    "title": "Social Media",
-    "category": "Pop Culture",
-    "questions": [
-      {
-        "question": "What was Twitter renamed to in 2023?",
-        "answer": "X"
-      },
-      {
-        "question": "What is the maximum length of a TikTok video?",
-        "answer": "10 minutes"
-      }
-    ]
-  },
-  {
-    "title": "Social Media",
-    "category": "Pop Culture",
-    "questions": [
-      {
-        "question": "What was Twitter renamed to in 2023?",
-        "answer": "X"
-      },
-      {
-        "question": "What is the maximum length of a TikTok video?",
-        "answer": "10 minutes"
-      }
-    ]
-  },
-  {
     "title": "Video Games - Retro",
     "category": "Pop Culture",
     "questions": [
@@ -21872,52 +20808,6 @@
       {
         "question": "What was the first home video game console?",
         "answer": "Magnavox Odyssey"
-      }
-    ]
-  },
-  {
-    "title": "Video Games - Retro",
-    "category": "Pop Culture",
-    "questions": [
-      {
-        "question": "What was the first video game to feature Mario?",
-        "answer": "Donkey Kong"
-      },
-      {
-        "question": "What was the first home video game console?",
-        "answer": "Magnavox Odyssey"
-      }
-    ]
-  },
-  {
-    "title": "Video Games - Retro",
-    "category": "Pop Culture",
-    "questions": [
-      {
-        "question": "What was the first video game to feature Mario?",
-        "answer": "Donkey Kong"
-      },
-      {
-        "question": "What was the first home video game console?",
-        "answer": "Magnavox Odyssey"
-      }
-    ]
-  },
-  {
-    "title": "YouTubers & Influencers",
-    "category": "Pop Culture",
-    "questions": [
-      {
-        "question": "Who is known as the 'King of YouTube' with the most subscribers?",
-        "answer": "MrBeast (Jimmy Donaldson)"
-      },
-      {
-        "question": "What is the name of the YouTube channel that creates educational content about science?",
-        "answer": "Kurzgesagt – In a Nutshell"
-      },
-      {
-        "question": "Who is the most followed person on Instagram?",
-        "answer": "Cristiano Ronaldo"
       }
     ]
   },
@@ -21958,42 +20848,6 @@
     ]
   },
   {
-    "title": "Artificial Intelligence",
-    "category": "Technology",
-    "questions": [
-      {
-        "question": "What is the difference between machine learning and deep learning?",
-        "answer": "Deep learning is a subset of machine learning that uses neural networks with multiple layers"
-      },
-      {
-        "question": "What is a neural network?",
-        "answer": "A computing system inspired by biological neural networks in human brains"
-      },
-      {
-        "question": "What is the difference between supervised and unsupervised learning?",
-        "answer": "Supervised learning uses labeled data; unsupervised learning finds patterns in unlabeled data"
-      }
-    ]
-  },
-  {
-    "title": "Artificial Intelligence",
-    "category": "Technology",
-    "questions": [
-      {
-        "question": "What is the difference between machine learning and deep learning?",
-        "answer": "Deep learning is a subset of machine learning that uses neural networks with multiple layers"
-      },
-      {
-        "question": "What is a neural network?",
-        "answer": "A computing system inspired by biological neural networks in human brains"
-      },
-      {
-        "question": "What is the difference between supervised and unsupervised learning?",
-        "answer": "Supervised learning uses labeled data; unsupervised learning finds patterns in unlabeled data"
-      }
-    ]
-  },
-  {
     "title": "Computer Science",
     "category": "Technology",
     "questions": [
@@ -22008,60 +20862,6 @@
       {
         "question": "What is the difference between HTTP and HTTPS?",
         "answer": "HTTPS uses SSL/TLS encryption for secure data transmission"
-      }
-    ]
-  },
-  {
-    "title": "Computer Science",
-    "category": "Technology",
-    "questions": [
-      {
-        "question": "What is the time complexity of binary search?",
-        "answer": "O(log n)"
-      },
-      {
-        "question": "What is the difference between a stack and a queue?",
-        "answer": "Stack is LIFO (Last In First Out); Queue is FIFO (First In First Out)"
-      },
-      {
-        "question": "What is the difference between HTTP and HTTPS?",
-        "answer": "HTTPS uses SSL/TLS encryption for secure data transmission"
-      }
-    ]
-  },
-  {
-    "title": "Computer Science",
-    "category": "Technology",
-    "questions": [
-      {
-        "question": "What is the time complexity of binary search?",
-        "answer": "O(log n)"
-      },
-      {
-        "question": "What is the difference between a stack and a queue?",
-        "answer": "Stack is LIFO (Last In First Out); Queue is FIFO (First In First Out)"
-      },
-      {
-        "question": "What is the difference between HTTP and HTTPS?",
-        "answer": "HTTPS uses SSL/TLS encryption for secure data transmission"
-      }
-    ]
-  },
-  {
-    "title": "Cybersecurity",
-    "category": "Technology",
-    "questions": [
-      {
-        "question": "What is a firewall?",
-        "answer": "Security system that monitors and controls network traffic"
-      },
-      {
-        "question": "What is encryption?",
-        "answer": "Process of converting information into code to prevent unauthorized access"
-      },
-      {
-        "question": "What is two-factor authentication?",
-        "answer": "Security process requiring two different forms of identification"
       }
     ]
   },
@@ -22102,24 +20902,6 @@
     ]
   },
   {
-    "title": "Web Development",
-    "category": "Technology",
-    "questions": [
-      {
-        "question": "What is HTML?",
-        "answer": "HyperText Markup Language - standard markup language for web pages"
-      },
-      {
-        "question": "What is CSS?",
-        "answer": "Cascading Style Sheets - language used to style web pages"
-      },
-      {
-        "question": "What is JavaScript?",
-        "answer": "Programming language that enables interactive web pages"
-      }
-    ]
-  },
-  {
     "title": "Economics",
     "category": "Social Sciences",
     "questions": [
@@ -22134,42 +20916,6 @@
       {
         "question": "What is GDP?",
         "answer": "Gross Domestic Product - total value of goods and services produced in a country"
-      }
-    ]
-  },
-  {
-    "title": "Economics",
-    "category": "Social Sciences",
-    "questions": [
-      {
-        "question": "What is supply and demand?",
-        "answer": "Economic model of price determination in a market"
-      },
-      {
-        "question": "What is inflation?",
-        "answer": "General increase in prices and fall in purchasing value of money"
-      },
-      {
-        "question": "What is GDP?",
-        "answer": "Gross Domestic Product - total value of goods and services produced in a country"
-      }
-    ]
-  },
-  {
-    "title": "Philosophy",
-    "category": "Social Sciences",
-    "questions": [
-      {
-        "question": "What is epistemology?",
-        "answer": "Study of knowledge and how we know what we know"
-      },
-      {
-        "question": "What is existentialism?",
-        "answer": "Philosophy emphasizing individual existence, freedom, and choice"
-      },
-      {
-        "question": "Who wrote 'I think, therefore I am'?",
-        "answer": "René Descartes"
       }
     ]
   },
@@ -22210,24 +20956,6 @@
     ]
   },
   {
-    "title": "Art History",
-    "category": "Arts",
-    "questions": [
-      {
-        "question": "Who painted the Mona Lisa?",
-        "answer": "Leonardo da Vinci"
-      },
-      {
-        "question": "What art movement did Vincent van Gogh belong to?",
-        "answer": "Post-Impressionism"
-      },
-      {
-        "question": "What is chiaroscuro?",
-        "answer": "Use of strong contrasts between light and dark in art"
-      }
-    ]
-  },
-  {
     "title": "Film Studies",
     "category": "Arts",
     "questions": [
@@ -22242,42 +20970,6 @@
       {
         "question": "What was the first feature-length animated film?",
         "answer": "Snow White and the Seven Dwarfs"
-      }
-    ]
-  },
-  {
-    "title": "Film Studies",
-    "category": "Arts",
-    "questions": [
-      {
-        "question": "Who directed Citizen Kane?",
-        "answer": "Orson Welles"
-      },
-      {
-        "question": "What is mise-en-scène?",
-        "answer": "Everything that appears in the frame of a film"
-      },
-      {
-        "question": "What was the first feature-length animated film?",
-        "answer": "Snow White and the Seven Dwarfs"
-      }
-    ]
-  },
-  {
-    "title": "Nutrition",
-    "category": "Health",
-    "questions": [
-      {
-        "question": "What are macronutrients?",
-        "answer": "Proteins, carbohydrates, and fats"
-      },
-      {
-        "question": "What is the role of fiber in diet?",
-        "answer": "Aids digestion, helps maintain healthy blood sugar and cholesterol levels"
-      },
-      {
-        "question": "What is BMI?",
-        "answer": "Body Mass Index - measure of body fat based on height and weight"
       }
     ]
   },
@@ -22318,24 +21010,6 @@
     ]
   },
   {
-    "title": "Physical Fitness",
-    "category": "Health",
-    "questions": [
-      {
-        "question": "What is the difference between aerobic and anaerobic exercise?",
-        "answer": "Aerobic uses oxygen for energy; anaerobic doesn't require oxygen"
-      },
-      {
-        "question": "What is HIIT?",
-        "answer": "High-Intensity Interval Training - alternating intense exercise with rest periods"
-      },
-      {
-        "question": "What is VO2 max?",
-        "answer": "Maximum rate of oxygen consumption during exercise"
-      }
-    ]
-  },
-  {
     "title": "Mythology",
     "category": "Religion",
     "questions": [
@@ -22350,42 +21024,6 @@
       {
         "question": "Who is the Hindu god of creation?",
         "answer": "Brahma"
-      }
-    ]
-  },
-  {
-    "title": "Mythology",
-    "category": "Religion",
-    "questions": [
-      {
-        "question": "Who is the Norse god of thunder?",
-        "answer": "Thor"
-      },
-      {
-        "question": "Who is the Egyptian god of the dead?",
-        "answer": "Osiris"
-      },
-      {
-        "question": "Who is the Hindu god of creation?",
-        "answer": "Brahma"
-      }
-    ]
-  },
-  {
-    "title": "World Religions",
-    "category": "Religion",
-    "questions": [
-      {
-        "question": "What are the Five Pillars of Islam?",
-        "answer": "Shahada, Salah, Zakat, Sawm, Hajj"
-      },
-      {
-        "question": "What are the Four Noble Truths in Buddhism?",
-        "answer": "Life is suffering, suffering arises from attachment, suffering can be overcome, the Eightfold Path leads to liberation"
-      },
-      {
-        "question": "What is the holy book of Hinduism?",
-        "answer": "The Vedas"
       }
     ]
   },
