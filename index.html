@@ -269,9 +269,9 @@
       max-width: 200px;
       height: 200px;
     }
-    .start-large {
-      font-size: 3rem;
-      padding: 1.2rem 2.5rem;
+    .start-large, #startGameBtnBottom.compact-start-btn {
+      font-size: 2.2rem;
+      padding: 0.7rem 0;
       font-weight: 900;
       background: #6F5C91;
       color: #fff;
@@ -279,12 +279,13 @@
       border-radius: 12px;
       cursor: pointer;
       box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-      transition: background 0.2s, transform 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 200px;
-      min-width: 200px;
+      display: block;
+      width: 100%;
+      min-width: 0;
+      min-height: 60px;
+      max-width: 100%;
+      margin: 0 auto 1.2rem auto;
+      height: auto;
     }
     .start-large:hover {
       background: #59487a;
@@ -753,6 +754,7 @@
       gap: 2.5rem;
       max-width: 1200px;
       margin: 0 auto;
+      align-items: flex-end;
     }
     .how-to-play-sym {
       flex: 0 0 320px;
@@ -849,6 +851,20 @@
         max-width: 98vw;
       }
     }
+    /* Make quiz/grid/start button the same width */
+    .quiz-box, .grid-box, #startGameBtnBottom.compact-start-btn {
+      max-width: 240px;
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    /* Align Q&A and How to Play boxes at the bottom */
+    .setup-grid-row {
+      align-items: flex-end;
+    }
+    .align-bottom {
+      align-self: flex-end;
+    }
   </style>
 </head>
 <body>
@@ -942,9 +958,9 @@
               </label>
             </div>
           </div>
-          <button id="startGameBtnBottom" class="purple-btn start-large">Start Game</button>
+          <button id="startGameBtnBottom" class="purple-btn start-large compact-start-btn">Start Game</button>
         </form>
-        <div class="questions-block compact-questions-block slightly-wider-questions-block">
+        <div class="questions-block compact-questions-block slightly-wider-questions-block align-bottom">
           <label>
             Q&A:
             <small>Enter questions (and answers). One per line, or blank line between Q & A.</small>
