@@ -894,6 +894,9 @@
               <label>Team A Name:
                 <input id="teamANameInput" value="Team A" required maxlength="16">
               </label>
+              <label style="display: flex; align-items: center; gap: 0.5em; margin-top: 0.5em;">
+                <input type="checkbox" id="singlePlayerCheckbox" style="margin-right: 0.5em;"> Single Player
+              </label>
             </div>
             <div class="team-box">
               <label>Team B Name:
@@ -964,7 +967,11 @@ The Beatles"></textarea>
       </div>
       <div class="team team-right">
         <div id="annB" class="announcement"></div>
-        <h2 id="nameB">Team B</h2><p id="scoreB">0</p>
+        <div style="display: flex; align-items: center; gap: 0.5em;">
+          <img id="androidImg" src="Daft-Punk-PNG-Photo.png" alt="Android" style="display:none; width: 38px; height: 38px; object-fit: contain; border-radius: 50%; background: #fff; border: 1px solid #ccc;">
+          <h2 id="nameB" style="margin: 0;">Team B</h2>
+        </div>
+        <p id="scoreB">0</p>
       </div>
     </div>
 
@@ -989,6 +996,7 @@ The Beatles"></textarea>
       let rewards=[], scores={A:0,B:0}, picks={A:0,B:0},
           turn='A', names={A:'Team A',B:'Team B'}, total=20,
           questions=[], qIndex=0, usedQuestionIndices=[];
+      let singlePlayer = false;
 
       // DOM refs
       const setupScreen=document.getElementById('setupScreen'),
@@ -1009,6 +1017,21 @@ The Beatles"></textarea>
             questionEl=document.getElementById('question'),
             answerEl=document.getElementById('answer'),
             specialPopup=document.getElementById('specialPopup');
+      const teamBNameInput = document.getElementById('teamBNameInput');
+      const singlePlayerCheckbox = document.getElementById('singlePlayerCheckbox');
+      const androidImg = document.getElementById('androidImg');
+
+      // Single Player Checkbox logic
+      singlePlayerCheckbox.addEventListener('change', function() {
+        singlePlayer = this.checked;
+        if (singlePlayer) {
+          teamBNameInput.value = 'Android';
+          teamBNameInput.disabled = true;
+        } else {
+          teamBNameInput.value = 'Team B';
+          teamBNameInput.disabled = false;
+        }
+      });
 
       // QUIZ LIBRARY LOGIC
       let quizLibrary = [];
@@ -1088,8 +1111,13 @@ The Beatles"></textarea>
 
       // Modify Start Game logic to use selected quiz if chosen
       startBtnBottom.onclick = () => {
+        singlePlayer = singlePlayerCheckbox.checked;
         names.A = document.getElementById('teamANameInput').value.trim()||'Team A';
-        names.B = document.getElementById('teamBNameInput').value.trim()||'Team B';
+        if (singlePlayer) {
+          names.B = 'Android';
+        } else {
+          names.B = document.getElementById('teamBNameInput').value.trim()||'Team B';
+        }
         total = +document.getElementById('gridSizeInput').value;
 
         // Get special item counts from selectors
@@ -1153,6 +1181,14 @@ The Beatles"></textarea>
         qIndex = 0;
         setupScreen.classList.add('hidden');
         gameScreen.classList.remove('hidden');
+        // Show Android image if single player
+        if (singlePlayer) {
+          androidImg.style.display = 'inline-block';
+          nameBEl.textContent = 'Android';
+        } else {
+          androidImg.style.display = 'none';
+          nameBEl.textContent = names.B;
+        }
         initGame(tornadoCount, doubleCount, loseCount, swapCount); buildGrid(total); showQuestion();
       };
 
@@ -1293,6 +1329,10 @@ The Beatles"></textarea>
           qIndex++;
           if (qIndex >= usedQuestionIndices.length) qIndex = 0;
           updateTurn(); showQuestion();
+          // If single player and it's now Android's turn, trigger computer move
+          if (singlePlayer && turn === 'B') {
+            setTimeout(computerTurn, 900);
+          }
         }
       }
 
@@ -1422,6 +1462,19 @@ The Beatles"></textarea>
         o.start(); g.gain.setValueAtTime(1,C.currentTime);
         g.gain.exponentialRampToValueAtTime(0.001,C.currentTime+0.7);
         setTimeout(()=>o.stop(),700);
+      }
+
+      function computerTurn() {
+        // Find all enabled grid buttons
+        const available = Array.from(document.querySelectorAll('#grid button:not(:disabled)'));
+        if (available.length === 0) return;
+        // Pick a random button
+        const btn = available[Math.floor(Math.random() * available.length)];
+        // Always answer correctly: reveal answer before picking
+        revealBtn.click();
+        setTimeout(() => {
+          btn.click();
+        }, 700);
       }
     });
   </script>
