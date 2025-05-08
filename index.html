@@ -873,7 +873,7 @@
             <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
               <span class="emoji-big">🌪️</span>
               <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left;">Tornado</b>
-              <select id="tornadoCount" style="width: 38px; min-width: 38px; max-width: 38px; text-align: center; height: 2.1em; vertical-align: middle;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+              <select id="tornadoCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
               <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Steal points</span>
             </div>
           </div>
@@ -883,7 +883,7 @@
               <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left; line-height: 1.1;">
                 <span>Double</span><span>Lion</span>
               </b>
-              <select id="doubleCount" style="width: 38px; min-width: 38px; max-width: 38px; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+              <select id="doubleCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
               <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Double points</span>
             </div>
           </div>
@@ -891,7 +891,7 @@
             <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
               <span class="emoji-big">🦨</span>
               <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left;">Skunk</b>
-              <select id="loseCount" style="width: 38px; min-width: 38px; max-width: 38px; text-align: center; height: 2.1em; vertical-align: middle;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+              <select id="loseCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
               <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block; line-height: 2.1em; vertical-align: middle;">Lose all points</span>
             </div>
           </div>
@@ -901,7 +901,7 @@
               <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left; line-height: 1.1;">
                 <span>Kangaroo</span><span>Hop</span><span>Swap</span>
               </b>
-              <select id="swapCount" style="width: 38px; min-width: 38px; max-width: 38px; text-align: center; height: 2.1em; vertical-align: middle;"> <option>0</option><option selected>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+              <select id="swapCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option selected>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
               <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block; line-height: 2.1em; vertical-align: middle;">Swap points</span>
             </div>
           </div>
@@ -1318,7 +1318,7 @@ The Beatles"></textarea>
           styleSpecial(btn,me); 
           btn.classList.add('tornado-animation');
           showSpecialPopup('🌪️','Tornado! Steal the other team\'s points!', true);
-          playWind();
+          animateKangarooSwap();
         } else if(r.type==='swap'){
           // Swap scores between teams
           let temp = scores['A'];
