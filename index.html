@@ -465,14 +465,19 @@
       gap: 0.7em;
       min-width: 320px;
     }
+    .special-row select {
+      font-size: 1.1rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      margin-left: 0.3rem;
+    }
     .special-desc {
       font-size: 0.98rem;
       color: #333;
-      margin-left: 0.5em;
-      display: flex;
-      align-items: center;
-      height: 100%;
-      line-height: 1.2em;
+      margin-left: 2.2rem;
+      margin-top: 0.1rem;
+      margin-bottom: 0.2rem;
     }
     .questions-block {
       margin: 1.2rem auto 0 auto;
@@ -915,7 +920,7 @@
             Play with or without questions!<br>
             - Choose a premade quiz or paste your own Q&A.<br>
             - Ask a question; when a team answers correctly, they pick a number to reveal points or a surprise.<br>
-            - The team with the most points at the end wins!
+            - First team to the most points wins!
           </p>
         </div>
         <div class="special-item-compact-list" style="display: flex; flex-direction: column; gap: 0.2rem; align-items: flex-start;">
@@ -961,7 +966,7 @@
         <form id="setupForm" onsubmit="return false;">
           <div class="setup-row">
             <div class="team-box" style="display: flex; flex-direction: column; justify-content: flex-start; min-height: 110px;">
-              <label style="display: block; margin-bottom: 0.3em;"><b>Team A Name:</b>
+              <label style="display: block; margin-bottom: 0.3em;">Team A Name:
                 <input id="teamANameInput" value="Team A" required maxlength="16" style="display: block; width: 100%; margin-bottom: 0.3em;">
               </label>
               <label style="display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.1em;">
@@ -969,21 +974,21 @@
               </label>
             </div>
             <div class="team-box" style="display: flex; flex-direction: column; justify-content: flex-start; min-height: 110px;">
-              <label style="display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.1em;"><b>Team B Name:</b>
+              <label style="display: block; margin-bottom: 0.3em;">Team B Name:
                 <input id="teamBNameInput" value="Team B" required maxlength="16" style="display: block; width: 100%;">
               </label>
             </div>
           </div>
           <div class="setup-row">
             <div class="quiz-box">
-              <label><b>Choose a Quiz:</b>
+              <label>Choose a Quiz:
                 <select id="quizSelect" style="width:100%;margin-top:10px;">
                   <option value="">--</option>
                 </select>
               </label>
             </div>
             <div class="grid-box">
-              <label><b>Grid Size:</b>
+              <label>Grid Size:
                 <select id="gridSizeInput">
                   <option>8</option><option>10</option><option>16</option>
                   <option selected>20</option><option>24</option>
