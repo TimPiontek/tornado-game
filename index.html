@@ -1033,11 +1033,13 @@ The Beatles"></textarea>
           });
           // Build dropdown with optgroups
           quizSelect.innerHTML = '<option value="">--</option>';
-          // Sort categories so ESL is first, then alphabetical
+          // Sort categories so ESL is first, then alphabetical (case/whitespace insensitive)
           const sortedCats = Object.keys(categories).sort((a, b) => {
-            if (a.toLowerCase() === 'esl') return -1;
-            if (b.toLowerCase() === 'esl') return 1;
-            return a.localeCompare(b);
+            const aClean = a.trim().toLowerCase();
+            const bClean = b.trim().toLowerCase();
+            if (aClean === 'esl') return -1;
+            if (bClean === 'esl') return 1;
+            return aClean.localeCompare(bClean);
           });
           sortedCats.forEach(cat => {
             const quizzes = categories[cat];
@@ -1275,7 +1277,7 @@ The Beatles"></textarea>
         const done=document.querySelectorAll('#grid button:disabled').length;
         if(done===total){
           if(scores.A>scores.B){
-            annA.textContent=`${names.A} wins! 🏆`; annB.textContent=''; playWin();
+            annA.textContent=`${names.A} wins! ��`; annB.textContent=''; playWin();
           } else if(scores.B>scores.A){
             annB.textContent=`${names.B} wins! 🏆`; annA.textContent=''; playWin();
           } else {
