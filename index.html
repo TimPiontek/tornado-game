@@ -868,22 +868,34 @@
             - First team to the most points wins!
           </p>
         </div>
-        <div class="special-item-compact-list">
-          <div class="special-item-compact">
-            <div class="special-row"><span class="emoji-big">🌪️</span> <b>Tornado</b> <select id="tornadoCount"><option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></div>
-            <div class="special-desc">Steal points</div>
+        <div class="special-item-compact-list" style="display: flex; flex-direction: column; gap: 0.2rem; align-items: flex-start;">
+          <div class="special-item-compact" style="width: 100%;">
+            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 220px;">
+              <span class="emoji-big">🌪️</span> <b style="min-width: 90px;">Tornado</b>
+              <select id="tornadoCount" style="min-width: 60px;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+              <span class="special-desc" style="margin-left: 1em;">Steal points</span>
+            </div>
           </div>
-          <div class="special-item-compact">
-            <div class="special-row"><span class="emoji-big">🦁🦁</span> <b>Double Lion</b> <select id="doubleCount"><option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></div>
-            <div class="special-desc">Double points</div>
+          <div class="special-item-compact" style="width: 100%;">
+            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 220px;">
+              <span class="emoji-big">🦁🦁</span> <b style="min-width: 90px;">Double Lion</b>
+              <select id="doubleCount" style="min-width: 60px;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+              <span class="special-desc" style="margin-left: 1em;">Double points</span>
+            </div>
           </div>
-          <div class="special-item-compact">
-            <div class="special-row"><span class="emoji-big">🦨</span> <b>Skunk</b> <select id="loseCount"><option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></div>
-            <div class="special-desc">Lose all points</div>
+          <div class="special-item-compact" style="width: 100%;">
+            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 220px;">
+              <span class="emoji-big">🦨</span> <b style="min-width: 90px;">Skunk</b>
+              <select id="loseCount" style="min-width: 60px;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+              <span class="special-desc" style="margin-left: 1em;">Lose all points</span>
+            </div>
           </div>
-          <div class="special-item-compact">
-            <div class="special-row"><span class="emoji-big">🦘</span> <b>Kangaroo Hop Swap</b> <select id="swapCount"><option>0</option><option selected>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
-            <div class="special-desc">Swap points</div>
+          <div class="special-item-compact" style="width: 100%;">
+            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 220px;">
+              <span class="emoji-big">🦘</span> <b style="min-width: 90px;">Kangaroo Hop Swap</b>
+              <select id="swapCount" style="min-width: 60px;"> <option>0</option><option selected>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+              <span class="special-desc" style="margin-left: 1em;">Swap points</span>
+            </div>
           </div>
         </div>
       </div>
@@ -891,11 +903,11 @@
         <form id="setupForm" onsubmit="return false;">
           <div class="setup-row">
             <div class="team-box">
-              <label>Team A Name:
-                <input id="teamANameInput" value="Team A" required maxlength="16">
+              <label style="display: block;">Team A Name:
+                <input id="teamANameInput" value="Team A" required maxlength="16" style="display: block; width: 100%; margin-bottom: 0.7em;">
               </label>
-              <label style="display: flex; align-items: center; gap: 0.5em; margin-top: 0.5em;">
-                <input type="checkbox" id="singlePlayerCheckbox" style="margin-right: 0.5em;"> Single Player
+              <label style="display: flex; align-items: center; gap: 0.5em; margin-top: 0.2em; margin-bottom: 0;">
+                <input type="checkbox" id="singlePlayerCheckbox" style="margin-right: 0.5em;"> <span style="white-space: nowrap;">Single Player</span>
               </label>
             </div>
             <div class="team-box">
