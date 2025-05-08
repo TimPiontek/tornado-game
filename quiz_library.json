@@ -20228,5 +20228,1037 @@
         "answer": "Insulator"
       }
     ]
+  },
+  {
+    "title": "Spanish - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Spanish?",
+        "answer": "Hola"
+      },
+      {
+        "question": "What is the Spanish word for 'goodbye'?",
+        "answer": "Adiós"
+      },
+      {
+        "question": "How do you say 'thank you' in Spanish?",
+        "answer": "Gracias"
+      }
+    ]
+  },
+  {
+    "title": "French - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in French?",
+        "answer": "Bonjour"
+      },
+      {
+        "question": "What is the French word for 'goodbye'?",
+        "answer": "Au revoir"
+      },
+      {
+        "question": "How do you say 'thank you' in French?",
+        "answer": "Merci"
+      }
+    ]
+  },
+  {
+    "title": "German - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in German?",
+        "answer": "Hallo"
+      },
+      {
+        "question": "What is the German word for 'goodbye'?",
+        "answer": "Auf Wiedersehen"
+      },
+      {
+        "question": "How do you say 'thank you' in German?",
+        "answer": "Danke"
+      }
+    ]
+  },
+  {
+    "title": "ASL Basics",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "What is the ASL sign for 'hello'?",
+        "answer": "Wave hand side to side"
+      },
+      {
+        "question": "What is the ASL sign for 'thank you'?",
+        "answer": "Flat hand moves from chin outward"
+      },
+      {
+        "question": "What is the ASL sign for 'please'?",
+        "answer": "Flat hand moves in circular motion on chest"
+      }
+    ]
+  },
+  {
+    "title": "SAT Math",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the quadratic formula?",
+        "answer": "x = (-b ± √(b² - 4ac)) / 2a"
+      },
+      {
+        "question": "What is the formula for the area of a circle?",
+        "answer": "πr²"
+      }
+    ]
+  },
+  {
+    "title": "Driving Test",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What does a red octagon sign mean?",
+        "answer": "Stop"
+      },
+      {
+        "question": "What does a yellow triangle sign indicate?",
+        "answer": "Warning"
+      }
+    ]
+  },
+  {
+    "title": "US Citizenship",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the supreme law of the land?",
+        "answer": "The Constitution"
+      },
+      {
+        "question": "What are the first three words of the Constitution?",
+        "answer": "We the People"
+      }
+    ]
+  },
+  {
+    "title": "Video Games - Retro",
+    "category": "Pop Culture",
+    "questions": [
+      {
+        "question": "What was the first video game to feature Mario?",
+        "answer": "Donkey Kong"
+      },
+      {
+        "question": "What was the first home video game console?",
+        "answer": "Magnavox Odyssey"
+      }
+    ]
+  },
+  {
+    "title": "Social Media",
+    "category": "Pop Culture",
+    "questions": [
+      {
+        "question": "What was Twitter renamed to in 2023?",
+        "answer": "X"
+      },
+      {
+        "question": "What is the maximum length of a TikTok video?",
+        "answer": "10 minutes"
+      }
+    ]
+  },
+  {
+    "title": "Fashion",
+    "category": "Pop Culture",
+    "questions": [
+      {
+        "question": "What fashion house created the little black dress?",
+        "answer": "Chanel"
+      },
+      {
+        "question": "Who is known as the 'King of Pop' in fashion?",
+        "answer": "Karl Lagerfeld"
+      }
+    ]
+  },
+  {
+    "title": "Spanish - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Spanish?",
+        "answer": "Hola"
+      },
+      {
+        "question": "What is the Spanish word for 'goodbye'?",
+        "answer": "Adiós"
+      },
+      {
+        "question": "How do you say 'thank you' in Spanish?",
+        "answer": "Gracias"
+      }
+    ]
+  },
+  {
+    "title": "French - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in French?",
+        "answer": "Bonjour"
+      },
+      {
+        "question": "What is the French word for 'goodbye'?",
+        "answer": "Au revoir"
+      },
+      {
+        "question": "How do you say 'thank you' in French?",
+        "answer": "Merci"
+      }
+    ]
+  },
+  {
+    "title": "German - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in German?",
+        "answer": "Hallo"
+      },
+      {
+        "question": "What is the German word for 'goodbye'?",
+        "answer": "Auf Wiedersehen"
+      },
+      {
+        "question": "How do you say 'thank you' in German?",
+        "answer": "Danke"
+      }
+    ]
+  },
+  {
+    "title": "ASL Basics",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "What is the ASL sign for 'hello'?",
+        "answer": "Wave hand side to side"
+      },
+      {
+        "question": "What is the ASL sign for 'thank you'?",
+        "answer": "Flat hand moves from chin outward"
+      },
+      {
+        "question": "What is the ASL sign for 'please'?",
+        "answer": "Flat hand moves in circular motion on chest"
+      }
+    ]
+  },
+  {
+    "title": "SAT Math",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the quadratic formula?",
+        "answer": "x = (-b ± √(b² - 4ac)) / 2a"
+      },
+      {
+        "question": "What is the formula for the area of a circle?",
+        "answer": "πr²"
+      }
+    ]
+  },
+  {
+    "title": "Driving Test",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What does a red octagon sign mean?",
+        "answer": "Stop"
+      },
+      {
+        "question": "What does a yellow triangle sign indicate?",
+        "answer": "Warning"
+      }
+    ]
+  },
+  {
+    "title": "US Citizenship",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the supreme law of the land?",
+        "answer": "The Constitution"
+      },
+      {
+        "question": "What are the first three words of the Constitution?",
+        "answer": "We the People"
+      }
+    ]
+  },
+  {
+    "title": "Video Games - Retro",
+    "category": "Pop Culture",
+    "questions": [
+      {
+        "question": "What was the first video game to feature Mario?",
+        "answer": "Donkey Kong"
+      },
+      {
+        "question": "What was the first home video game console?",
+        "answer": "Magnavox Odyssey"
+      }
+    ]
+  },
+  {
+    "title": "Social Media",
+    "category": "Pop Culture",
+    "questions": [
+      {
+        "question": "What was Twitter renamed to in 2023?",
+        "answer": "X"
+      },
+      {
+        "question": "What is the maximum length of a TikTok video?",
+        "answer": "10 minutes"
+      }
+    ]
+  },
+  {
+    "title": "Fashion",
+    "category": "Pop Culture",
+    "questions": [
+      {
+        "question": "What fashion house created the little black dress?",
+        "answer": "Chanel"
+      },
+      {
+        "question": "Who is known as the 'King of Pop' in fashion?",
+        "answer": "Karl Lagerfeld"
+      }
+    ]
+  },
+  {
+    "title": "Spanish - Intermediate",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'I would like to order' in Spanish?",
+        "answer": "Me gustaría ordenar"
+      },
+      {
+        "question": "What is the Spanish word for 'however'?",
+        "answer": "Sin embargo"
+      },
+      {
+        "question": "How do you say 'I have been studying Spanish for two years'?",
+        "answer": "He estado estudiando español por dos años"
+      }
+    ]
+  },
+  {
+    "title": "Spanish - Advanced",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "What is the subjunctive form of 'ser' in the present tense for 'yo'?",
+        "answer": "Sea"
+      },
+      {
+        "question": "How do you say 'I would have gone if I had known' in Spanish?",
+        "answer": "Habría ido si hubiera sabido"
+      },
+      {
+        "question": "What is the difference between 'por' and 'para'?",
+        "answer": "Por is used for duration, cause, and means; para is used for purpose, destination, and deadlines"
+      }
+    ]
+  },
+  {
+    "title": "French - Intermediate",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'I would like to make a reservation' in French?",
+        "answer": "Je voudrais faire une réservation"
+      },
+      {
+        "question": "What is the French word for 'nevertheless'?",
+        "answer": "Néanmoins"
+      },
+      {
+        "question": "How do you say 'I have been living in Paris for three years'?",
+        "answer": "J'habite à Paris depuis trois ans"
+      }
+    ]
+  },
+  {
+    "title": "French - Advanced",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "What is the subjunctive form of 'être' in the present tense for 'je'?",
+        "answer": "Sois"
+      },
+      {
+        "question": "How do you say 'I would have gone if I had known' in French?",
+        "answer": "Je serais allé si j'avais su"
+      },
+      {
+        "question": "What is the difference between 'depuis' and 'pendant'?",
+        "answer": "Depuis is used for ongoing actions; pendant is used for completed actions"
+      }
+    ]
+  },
+  {
+    "title": "Hungarian - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Hungarian?",
+        "answer": "Szia"
+      },
+      {
+        "question": "What is the Hungarian word for 'thank you'?",
+        "answer": "Köszönöm"
+      },
+      {
+        "question": "How do you say 'goodbye' in Hungarian?",
+        "answer": "Viszlát"
+      }
+    ]
+  },
+  {
+    "title": "NCLEX",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the normal range for adult blood pressure?",
+        "answer": "120/80 mmHg"
+      },
+      {
+        "question": "What is the first step in the nursing process?",
+        "answer": "Assessment"
+      },
+      {
+        "question": "What is the normal range for adult heart rate?",
+        "answer": "60-100 beats per minute"
+      }
+    ]
+  },
+  {
+    "title": "Praxis",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the main purpose of formative assessment?",
+        "answer": "To monitor student learning and provide ongoing feedback"
+      },
+      {
+        "question": "What is the difference between summative and formative assessment?",
+        "answer": "Summative evaluates learning at the end; formative monitors learning during the process"
+      }
+    ]
+  },
+  {
+    "title": "LSAT",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What are the three main sections of the LSAT?",
+        "answer": "Logical Reasoning, Analytical Reasoning, and Reading Comprehension"
+      },
+      {
+        "question": "What is a logical fallacy?",
+        "answer": "An error in reasoning that renders an argument invalid"
+      }
+    ]
+  },
+  {
+    "title": "MCAT",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What are the four main sections of the MCAT?",
+        "answer": "Biological and Biochemical Foundations, Chemical and Physical Foundations, Psychological Foundations, and Critical Analysis and Reasoning"
+      },
+      {
+        "question": "What is the normal pH of human blood?",
+        "answer": "7.35-7.45"
+      }
+    ]
+  },
+  {
+    "title": "Series 7",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is a call option?",
+        "answer": "A contract giving the holder the right to buy a security at a specified price"
+      },
+      {
+        "question": "What is the difference between a stock and a bond?",
+        "answer": "Stocks represent ownership; bonds represent debt"
+      }
+    ]
+  },
+  {
+    "title": "Cambridge English B1",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the B1 level equivalent to in the CEFR?",
+        "answer": "Intermediate"
+      },
+      {
+        "question": "What are the main components of the B1 exam?",
+        "answer": "Reading, Writing, Listening, and Speaking"
+      }
+    ]
+  },
+  {
+    "title": "Cambridge English C2",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the C2 level equivalent to in the CEFR?",
+        "answer": "Mastery"
+      },
+      {
+        "question": "What is the difference between B2 and C2 levels?",
+        "answer": "C2 represents near-native proficiency; B2 represents upper-intermediate proficiency"
+      }
+    ]
+  },
+  {
+    "title": "Spanish - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Spanish?",
+        "answer": "Hola"
+      },
+      {
+        "question": "What is the Spanish word for 'goodbye'?",
+        "answer": "Adiós"
+      },
+      {
+        "question": "How do you say 'thank you' in Spanish?",
+        "answer": "Gracias"
+      }
+    ]
+  },
+  {
+    "title": "French - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in French?",
+        "answer": "Bonjour"
+      },
+      {
+        "question": "What is the French word for 'goodbye'?",
+        "answer": "Au revoir"
+      },
+      {
+        "question": "How do you say 'thank you' in French?",
+        "answer": "Merci"
+      }
+    ]
+  },
+  {
+    "title": "German - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in German?",
+        "answer": "Hallo"
+      },
+      {
+        "question": "What is the German word for 'goodbye'?",
+        "answer": "Auf Wiedersehen"
+      },
+      {
+        "question": "How do you say 'thank you' in German?",
+        "answer": "Danke"
+      }
+    ]
+  },
+  {
+    "title": "ASL Basics",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "What is the ASL sign for 'hello'?",
+        "answer": "Wave hand side to side"
+      },
+      {
+        "question": "What is the ASL sign for 'thank you'?",
+        "answer": "Flat hand moves from chin outward"
+      },
+      {
+        "question": "What is the ASL sign for 'please'?",
+        "answer": "Flat hand moves in circular motion on chest"
+      }
+    ]
+  },
+  {
+    "title": "SAT Math",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the quadratic formula?",
+        "answer": "x = (-b ± √(b² - 4ac)) / 2a"
+      },
+      {
+        "question": "What is the formula for the area of a circle?",
+        "answer": "πr²"
+      }
+    ]
+  },
+  {
+    "title": "Driving Test",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What does a red octagon sign mean?",
+        "answer": "Stop"
+      },
+      {
+        "question": "What does a yellow triangle sign indicate?",
+        "answer": "Warning"
+      }
+    ]
+  },
+  {
+    "title": "US Citizenship",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the supreme law of the land?",
+        "answer": "The Constitution"
+      },
+      {
+        "question": "What are the first three words of the Constitution?",
+        "answer": "We the People"
+      }
+    ]
+  },
+  {
+    "title": "Video Games - Retro",
+    "category": "Pop Culture",
+    "questions": [
+      {
+        "question": "What was the first video game to feature Mario?",
+        "answer": "Donkey Kong"
+      },
+      {
+        "question": "What was the first home video game console?",
+        "answer": "Magnavox Odyssey"
+      }
+    ]
+  },
+  {
+    "title": "Social Media",
+    "category": "Pop Culture",
+    "questions": [
+      {
+        "question": "What was Twitter renamed to in 2023?",
+        "answer": "X"
+      },
+      {
+        "question": "What is the maximum length of a TikTok video?",
+        "answer": "10 minutes"
+      }
+    ]
+  },
+  {
+    "title": "Fashion",
+    "category": "Pop Culture",
+    "questions": [
+      {
+        "question": "What fashion house created the little black dress?",
+        "answer": "Chanel"
+      },
+      {
+        "question": "Who is known as the 'King of Pop' in fashion?",
+        "answer": "Karl Lagerfeld"
+      }
+    ]
+  },
+  {
+    "title": "Spanish - Intermediate",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'I would like to order' in Spanish?",
+        "answer": "Me gustaría ordenar"
+      },
+      {
+        "question": "What is the Spanish word for 'however'?",
+        "answer": "Sin embargo"
+      },
+      {
+        "question": "How do you say 'I have been studying Spanish for two years'?",
+        "answer": "He estado estudiando español por dos años"
+      }
+    ]
+  },
+  {
+    "title": "Spanish - Advanced",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "What is the subjunctive form of 'ser' in the present tense for 'yo'?",
+        "answer": "Sea"
+      },
+      {
+        "question": "How do you say 'I would have gone if I had known' in Spanish?",
+        "answer": "Habría ido si hubiera sabido"
+      },
+      {
+        "question": "What is the difference between 'por' and 'para'?",
+        "answer": "Por is used for duration, cause, and means; para is used for purpose, destination, and deadlines"
+      }
+    ]
+  },
+  {
+    "title": "French - Intermediate",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'I would like to make a reservation' in French?",
+        "answer": "Je voudrais faire une réservation"
+      },
+      {
+        "question": "What is the French word for 'nevertheless'?",
+        "answer": "Néanmoins"
+      },
+      {
+        "question": "How do you say 'I have been living in Paris for three years'?",
+        "answer": "J'habite à Paris depuis trois ans"
+      }
+    ]
+  },
+  {
+    "title": "French - Advanced",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "What is the subjunctive form of 'être' in the present tense for 'je'?",
+        "answer": "Sois"
+      },
+      {
+        "question": "How do you say 'I would have gone if I had known' in French?",
+        "answer": "Je serais allé si j'avais su"
+      },
+      {
+        "question": "What is the difference between 'depuis' and 'pendant'?",
+        "answer": "Depuis is used for ongoing actions; pendant is used for completed actions"
+      }
+    ]
+  },
+  {
+    "title": "Hungarian - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Hungarian?",
+        "answer": "Szia"
+      },
+      {
+        "question": "What is the Hungarian word for 'thank you'?",
+        "answer": "Köszönöm"
+      },
+      {
+        "question": "How do you say 'goodbye' in Hungarian?",
+        "answer": "Viszlát"
+      }
+    ]
+  },
+  {
+    "title": "NCLEX",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the normal range for adult blood pressure?",
+        "answer": "120/80 mmHg"
+      },
+      {
+        "question": "What is the first step in the nursing process?",
+        "answer": "Assessment"
+      },
+      {
+        "question": "What is the normal range for adult heart rate?",
+        "answer": "60-100 beats per minute"
+      }
+    ]
+  },
+  {
+    "title": "Praxis",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the main purpose of formative assessment?",
+        "answer": "To monitor student learning and provide ongoing feedback"
+      },
+      {
+        "question": "What is the difference between summative and formative assessment?",
+        "answer": "Summative evaluates learning at the end; formative monitors learning during the process"
+      }
+    ]
+  },
+  {
+    "title": "LSAT",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What are the three main sections of the LSAT?",
+        "answer": "Logical Reasoning, Analytical Reasoning, and Reading Comprehension"
+      },
+      {
+        "question": "What is a logical fallacy?",
+        "answer": "An error in reasoning that renders an argument invalid"
+      }
+    ]
+  },
+  {
+    "title": "MCAT",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What are the four main sections of the MCAT?",
+        "answer": "Biological and Biochemical Foundations, Chemical and Physical Foundations, Psychological Foundations, and Critical Analysis and Reasoning"
+      },
+      {
+        "question": "What is the normal pH of human blood?",
+        "answer": "7.35-7.45"
+      }
+    ]
+  },
+  {
+    "title": "Series 7",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is a call option?",
+        "answer": "A contract giving the holder the right to buy a security at a specified price"
+      },
+      {
+        "question": "What is the difference between a stock and a bond?",
+        "answer": "Stocks represent ownership; bonds represent debt"
+      }
+    ]
+  },
+  {
+    "title": "Cambridge English B1",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the B1 level equivalent to in the CEFR?",
+        "answer": "Intermediate"
+      },
+      {
+        "question": "What are the main components of the B1 exam?",
+        "answer": "Reading, Writing, Listening, and Speaking"
+      }
+    ]
+  },
+  {
+    "title": "Cambridge English C2",
+    "category": "Professional Exams",
+    "questions": [
+      {
+        "question": "What is the C2 level equivalent to in the CEFR?",
+        "answer": "Mastery"
+      },
+      {
+        "question": "What is the difference between B2 and C2 levels?",
+        "answer": "C2 represents near-native proficiency; B2 represents upper-intermediate proficiency"
+      }
+    ]
+  },
+  {
+    "title": "Italian - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Italian?",
+        "answer": "Ciao"
+      },
+      {
+        "question": "What is the Italian word for 'thank you'?",
+        "answer": "Grazie"
+      },
+      {
+        "question": "How do you say 'goodbye' in Italian?",
+        "answer": "Arrivederci"
+      }
+    ]
+  },
+  {
+    "title": "Japanese - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Japanese?",
+        "answer": "こんにちは (Konnichiwa)"
+      },
+      {
+        "question": "What is the Japanese word for 'thank you'?",
+        "answer": "ありがとう (Arigatou)"
+      },
+      {
+        "question": "How do you say 'goodbye' in Japanese?",
+        "answer": "さようなら (Sayonara)"
+      }
+    ]
+  },
+  {
+    "title": "Computer Science",
+    "category": "Technology",
+    "questions": [
+      {
+        "question": "What is the time complexity of binary search?",
+        "answer": "O(log n)"
+      },
+      {
+        "question": "What is the difference between a stack and a queue?",
+        "answer": "Stack is LIFO (Last In First Out); Queue is FIFO (First In First Out)"
+      },
+      {
+        "question": "What is the difference between HTTP and HTTPS?",
+        "answer": "HTTPS uses SSL/TLS encryption for secure data transmission"
+      }
+    ]
+  },
+  {
+    "title": "Artificial Intelligence",
+    "category": "Technology",
+    "questions": [
+      {
+        "question": "What is the difference between machine learning and deep learning?",
+        "answer": "Deep learning is a subset of machine learning that uses neural networks with multiple layers"
+      },
+      {
+        "question": "What is a neural network?",
+        "answer": "A computing system inspired by biological neural networks in human brains"
+      },
+      {
+        "question": "What is the difference between supervised and unsupervised learning?",
+        "answer": "Supervised learning uses labeled data; unsupervised learning finds patterns in unlabeled data"
+      }
+    ]
+  },
+  {
+    "title": "World History",
+    "category": "History",
+    "questions": [
+      {
+        "question": "What was the first civilization to develop writing?",
+        "answer": "Sumerian"
+      },
+      {
+        "question": "What was the first empire in history?",
+        "answer": "Akkadian Empire"
+      },
+      {
+        "question": "What was the first democracy?",
+        "answer": "Ancient Athens"
+      }
+    ]
+  },
+  {
+    "title": "Ancient Civilizations",
+    "category": "History",
+    "questions": [
+      {
+        "question": "What was the first civilization in the Americas?",
+        "answer": "Olmec"
+      },
+      {
+        "question": "What was the first civilization in China?",
+        "answer": "Xia Dynasty"
+      },
+      {
+        "question": "What was the first civilization in India?",
+        "answer": "Indus Valley Civilization"
+      }
+    ]
+  },
+  {
+    "title": "Environmental Science",
+    "category": "Science",
+    "questions": [
+      {
+        "question": "What is the greenhouse effect?",
+        "answer": "The trapping of heat in Earth's atmosphere by greenhouse gases"
+      },
+      {
+        "question": "What is the difference between weather and climate?",
+        "answer": "Weather is short-term atmospheric conditions; climate is long-term weather patterns"
+      },
+      {
+        "question": "What is biodiversity?",
+        "answer": "The variety of life in a particular habitat or ecosystem"
+      }
+    ]
+  },
+  {
+    "title": "Space Exploration",
+    "category": "Science",
+    "questions": [
+      {
+        "question": "What was the first artificial satellite?",
+        "answer": "Sputnik 1"
+      },
+      {
+        "question": "Who was the first human in space?",
+        "answer": "Yuri Gagarin"
+      },
+      {
+        "question": "What was the first successful Mars rover?",
+        "answer": "Sojourner"
+      }
+    ]
+  },
+  {
+    "title": "World Literature",
+    "category": "Literature",
+    "questions": [
+      {
+        "question": "What is the oldest known work of literature?",
+        "answer": "Epic of Gilgamesh"
+      },
+      {
+        "question": "What is the first novel ever written?",
+        "answer": "The Tale of Genji"
+      },
+      {
+        "question": "What is the first printed book?",
+        "answer": "Gutenberg Bible"
+      }
+    ]
+  },
+  {
+    "title": "Classical Mythology",
+    "category": "Literature",
+    "questions": [
+      {
+        "question": "Who was the king of the Greek gods?",
+        "answer": "Zeus"
+      },
+      {
+        "question": "What was the first work of Greek literature?",
+        "answer": "Iliad"
+      },
+      {
+        "question": "Who wrote the Odyssey?",
+        "answer": "Homer"
+      }
+    ]
   }
 ]

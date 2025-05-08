@@ -1,0 +1,182 @@
+[
+  {
+    "title": "Italian - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Italian?",
+        "answer": "Ciao"
+      },
+      {
+        "question": "What is the Italian word for 'thank you'?",
+        "answer": "Grazie"
+      },
+      {
+        "question": "How do you say 'goodbye' in Italian?",
+        "answer": "Arrivederci"
+      }
+    ]
+  },
+  {
+    "title": "Japanese - Beginner",
+    "category": "Foreign Languages",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Japanese?",
+        "answer": "こんにちは (Konnichiwa)"
+      },
+      {
+        "question": "What is the Japanese word for 'thank you'?",
+        "answer": "ありがとう (Arigatou)"
+      },
+      {
+        "question": "How do you say 'goodbye' in Japanese?",
+        "answer": "さようなら (Sayonara)"
+      }
+    ]
+  },
+  {
+    "title": "Computer Science",
+    "category": "Technology",
+    "questions": [
+      {
+        "question": "What is the time complexity of binary search?",
+        "answer": "O(log n)"
+      },
+      {
+        "question": "What is the difference between a stack and a queue?",
+        "answer": "Stack is LIFO (Last In First Out); Queue is FIFO (First In First Out)"
+      },
+      {
+        "question": "What is the difference between HTTP and HTTPS?",
+        "answer": "HTTPS uses SSL/TLS encryption for secure data transmission"
+      }
+    ]
+  },
+  {
+    "title": "Artificial Intelligence",
+    "category": "Technology",
+    "questions": [
+      {
+        "question": "What is the difference between machine learning and deep learning?",
+        "answer": "Deep learning is a subset of machine learning that uses neural networks with multiple layers"
+      },
+      {
+        "question": "What is a neural network?",
+        "answer": "A computing system inspired by biological neural networks in human brains"
+      },
+      {
+        "question": "What is the difference between supervised and unsupervised learning?",
+        "answer": "Supervised learning uses labeled data; unsupervised learning finds patterns in unlabeled data"
+      }
+    ]
+  },
+  {
+    "title": "World History",
+    "category": "History",
+    "questions": [
+      {
+        "question": "What was the first civilization to develop writing?",
+        "answer": "Sumerian"
+      },
+      {
+        "question": "What was the first empire in history?",
+        "answer": "Akkadian Empire"
+      },
+      {
+        "question": "What was the first democracy?",
+        "answer": "Ancient Athens"
+      }
+    ]
+  },
+  {
+    "title": "Ancient Civilizations",
+    "category": "History",
+    "questions": [
+      {
+        "question": "What was the first civilization in the Americas?",
+        "answer": "Olmec"
+      },
+      {
+        "question": "What was the first civilization in China?",
+        "answer": "Xia Dynasty"
+      },
+      {
+        "question": "What was the first civilization in India?",
+        "answer": "Indus Valley Civilization"
+      }
+    ]
+  },
+  {
+    "title": "Environmental Science",
+    "category": "Science",
+    "questions": [
+      {
+        "question": "What is the greenhouse effect?",
+        "answer": "The trapping of heat in Earth's atmosphere by greenhouse gases"
+      },
+      {
+        "question": "What is the difference between weather and climate?",
+        "answer": "Weather is short-term atmospheric conditions; climate is long-term weather patterns"
+      },
+      {
+        "question": "What is biodiversity?",
+        "answer": "The variety of life in a particular habitat or ecosystem"
+      }
+    ]
+  },
+  {
+    "title": "Space Exploration",
+    "category": "Science",
+    "questions": [
+      {
+        "question": "What was the first artificial satellite?",
+        "answer": "Sputnik 1"
+      },
+      {
+        "question": "Who was the first human in space?",
+        "answer": "Yuri Gagarin"
+      },
+      {
+        "question": "What was the first successful Mars rover?",
+        "answer": "Sojourner"
+      }
+    ]
+  },
+  {
+    "title": "World Literature",
+    "category": "Literature",
+    "questions": [
+      {
+        "question": "What is the oldest known work of literature?",
+        "answer": "Epic of Gilgamesh"
+      },
+      {
+        "question": "What is the first novel ever written?",
+        "answer": "The Tale of Genji"
+      },
+      {
+        "question": "What is the first printed book?",
+        "answer": "Gutenberg Bible"
+      }
+    ]
+  },
+  {
+    "title": "Classical Mythology",
+    "category": "Literature",
+    "questions": [
+      {
+        "question": "Who was the king of the Greek gods?",
+        "answer": "Zeus"
+      },
+      {
+        "question": "What was the first work of Greek literature?",
+        "answer": "Iliad"
+      },
+      {
+        "question": "Who wrote the Odyssey?",
+        "answer": "Homer"
+      }
+    ]
+  }
+] 

@@ -1,6 +1,6 @@
 {
-  "name": "Tornado Game",
-  "short_name": "Tornado",
+  "name": "Play Tornado",
+  "short_name": "Play Tornado",
   "description": "A fun ESL quiz game for classrooms",
   "start_url": "/",
   "display": "standalone",
