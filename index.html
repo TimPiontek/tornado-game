@@ -895,6 +895,15 @@
       flex-direction: column;
       justify-content: flex-start;
     }
+    .team-b-name-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      justify-content: center;
+    }
+    .team-b-name-container.single-player {
+      justify-content: flex-start;
+    }
   </style>
 </head>
 <body>
@@ -1033,7 +1042,7 @@ The Beatles"></textarea>
       </div>
       <div class="team team-right">
         <div id="annB" class="announcement"></div>
-        <div style="display: flex; align-items: center; gap: 0.5em;">
+        <div id="teamBNameContainer" class="team-b-name-container">
           <img id="androidImg" src="Daft-Punk-PNG-Photo.png" alt="Android" style="display:none; width: 48px; height: 48px; object-fit: contain; border-radius: 50%; background: #fff; border: 1px solid #ccc; margin-right: 0.7em; vertical-align: middle;">
           <h2 id="nameB" style="margin: 0;">Team B</h2>
         </div>
@@ -1087,6 +1096,7 @@ The Beatles"></textarea>
       const teamBNameInput = document.getElementById('teamBNameInput');
       const singlePlayerCheckbox = document.getElementById('singlePlayerCheckbox');
       const androidImg = document.getElementById('androidImg');
+      const teamBNameContainer = document.getElementById('teamBNameContainer');
 
       // Single Player Checkbox logic
       singlePlayerCheckbox.addEventListener('change', function() {
@@ -1252,9 +1262,11 @@ The Beatles"></textarea>
         if (singlePlayer) {
           androidImg.style.display = 'inline-block';
           nameBEl.textContent = 'Android';
+          teamBNameContainer.classList.add('single-player');
         } else {
           androidImg.style.display = 'none';
           nameBEl.textContent = names.B;
+          teamBNameContainer.classList.remove('single-player');
         }
         initGame(tornadoCount, doubleCount, loseCount, swapCount); buildGrid(total); showQuestion();
       };
