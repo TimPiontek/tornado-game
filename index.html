@@ -922,10 +922,173 @@
   </nav>
   <!-- END NAVIGATION BAR -->
 
+  <!-- SETUP SCREEN -->
+  <div id="setupScreen">
+    <div class="logo-start-container">
+      <img src="tornado-logo.png" alt="Tornado Game Logo" class="logo-large">
+    </div>
+    <div class="setup-grid-row">
+      <div class="how-to-play-sym">
+        <div class="how-to-play">
+          <p class="how-title">How to Play:</p>
+          <p class="how-body">
+            Play with or without questions!<br>
+            - Choose a premade quiz or paste your own Q&A.<br>
+            - Ask a question; when a team answers correctly, they pick a number to reveal points or a surprise.<br>
+            - First team to the most points wins!
+          </p>
+        </div>
+        <div class="special-item-compact-list" style="display: flex; flex-direction: column; gap: 0.2rem; align-items: flex-start;">
+          <div class="special-item-compact" style="width: 100%;">
+            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
+              <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🌪️</span>
+              <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left;">Tornado</b>
+              <select id="tornadoCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+              <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Steal points</span>
+            </div>
+          </div>
+          <div class="special-item-compact" style="width: 100%;">
+            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
+              <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🦁🦁</span>
+              <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left; line-height: 1.1; margin: 0; padding: 0;">
+                <span style="margin: 0; padding: 0;">Double</span><span style="margin: 0; padding: 0;">Lion</span>
+              </b>
+              <select id="doubleCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+              <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Double points</span>
+            </div>
+          </div>
+          <div class="special-item-compact" style="width: 100%;">
+            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
+              <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🦨</span>
+              <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left;">Skunk</b>
+              <select id="loseCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+              <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block; line-height: 2.1em; vertical-align: middle;">Lose all points</span>
+            </div>
+          </div>
+          <div class="special-item-compact" style="width: 100%;">
+            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
+              <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🦘</span>
+              <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left; line-height: 1.1;">
+                <span>Kangaroo</span><span>Hop</span><span>Swap</span>
+              </b>
+              <select id="swapCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option selected>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+              <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block; line-height: 2.1em; vertical-align: middle;">Swap points</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="setup-main-grid">
+        <form id="setupForm" onsubmit="return false;">
+          <div class="setup-row">
+            <div class="team-box" style="display: flex; flex-direction: column; justify-content: flex-start; min-height: 110px;">
+              <label style="display: block; margin-bottom: 0.3em;">Team A Name:
+                <input id="teamANameInput" value="Team A" required maxlength="16" style="display: block; width: 100%; margin-bottom: 0.3em;">
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.1em;">
+                <input type="checkbox" id="singlePlayerCheckbox" style="margin-right: 0.5em;"> <span style="white-space: nowrap;">Single Player</span>
+              </label>
+            </div>
+            <div class="team-box" style="display: flex; flex-direction: column; justify-content: flex-start; min-height: 110px;">
+              <label style="display: block; margin-bottom: 0.3em;">Team B Name:
+                <input id="teamBNameInput" value="Team B" required maxlength="16" style="display: block; width: 100%;">
+              </label>
+            </div>
+          </div>
+          <div class="setup-row">
+            <div class="quiz-box">
+              <label>Choose a Quiz:
+                <select id="quizSelect" style="width:100%;margin-top:10px;">
+                  <option value="">--</option>
+                </select>
+              </label>
+            </div>
+            <div class="grid-box">
+              <label>Grid Size:
+                <select id="gridSizeInput">
+                  <option>8</option><option>10</option><option>16</option>
+                  <option selected>20</option><option>24</option>
+                  <option>30</option><option>32</option><option>40</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <button id="startGameBtnBottom" class="purple-btn start-large compact-start-btn">Start Game</button>
+        </form>
+        <div class="questions-block compact-questions-block slightly-wider-questions-block align-bottom">
+          <label>
+            Q&A:
+            <small>Enter questions (and answers). One per line, or blank line between Q & A.</small>
+            <textarea id="questionsInput"
+              placeholder="What city is home to Fenway Park?
+Boston
+
+Which band wrote the song 'Hey Jude'?
+The Beatles"></textarea>
+          </label>
+          <div class="inline-radio">
+            <span>Order:</span>
+            <label><input type="radio" name="order" value="inorder" checked> In order</label>
+            <label><input type="radio" name="order" value="random"> Random</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div id="gameScreen" class="hidden">
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <img src="tornado-logo.png" alt="Tornado Game Logo" style="max-width: 200px;">
+    </div>
+    <div id="specialPopup" class="special-popup hidden"></div>
+
+    <div class="scorebar-row">
+      <div class="team team-left">
+        <div id="annA" class="announcement"></div>
+        <h2 id="nameA">Team A</h2><p id="scoreA">0</p>
+      </div>
+      <div class="center-controls">
+        <div id="turnDisplay">Team A's turn</div>
+        <div class="game-controls compact-controls">
+          <button id="passBtn">Pass</button>
+          <button id="skipBtn">Skip</button>
+          <button id="revealBtn">Reveal Answer</button>
+        </div>
+      </div>
+      <div class="team team-right">
+        <div id="annB" class="announcement"></div>
+        <div id="teamBNameContainer" class="team-b-name-container">
+          <img id="androidImg" src="Daft-Punk-PNG-Photo.png" alt="Android" style="display:none; width: 48px; height: 48px; object-fit: contain; border-radius: 50%; background: #fff; border: 1px solid #ccc; margin-right: 0.7em; vertical-align: middle;">
+          <h2 id="nameB" style="margin: 0;">Team B</h2>
+        </div>
+        <p id="scoreB">0</p>
+      </div>
+    </div>
+
+    <div id="questionAnswerRow" style="display:none;">
+      <div id="questionBubble" class="bubble-left">
+        <div id="question"></div>
+        <div id="answer"></div>
+      </div>
+    </div>
+
+    <div id="grid"></div>
+    <div class="game-footer-btns">
+      <button id="resetBtn">�� Reset Game</button>
+      <button id="homeBtn">🏠 Home</button>
+    </div>
+  </div>
+
   <!-- Remove duplicate tabbed interface below navbar and replace with a single #librarySection container -->
   <div id="librarySection" class="hidden" style="max-width:900px;margin:2rem auto 0 auto;display:flex;flex-direction:column;align-items:center;"></div>
 
-  <!-- Move Supabase CDN script to be immediately before the main <script> block -->
+  <!-- === AUTH MODAL (just before </body>) === -->
+  <div id="authModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(49,114,122,0.85);z-index:2000;display:none;align-items:center;justify-content:center;">
+    <!-- ... modal content ... -->
+  </div>
+  <!-- === END AUTH MODAL === -->
+
+  <!-- Move Supabase CDN script and main script block to the end of <body> -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
