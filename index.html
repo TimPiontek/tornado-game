@@ -922,45 +922,20 @@
   </nav>
   <!-- END NAVIGATION BAR -->
 
-  <!-- Add tabbed interface for My Library and Play Tornado Library below the nav bar -->
-  <div id="libraryTabs" style="max-width:900px;margin:2rem auto 0 auto;display:flex;flex-direction:column;align-items:center;">
-    <div style="display:flex;gap:1.2rem;margin-bottom:1.2rem;">
-      <button id="tabMyLibrary" class="purple-btn" style="font-size:1.1rem;">My Library</button>
-      <button id="tabPublicLibrary" class="purple-btn" style="font-size:1.1rem;">Play Tornado Library</button>
-    </div>
-    <div id="myLibrarySection" class="hidden" style="width:100%;max-width:800px;"></div>
-    <div id="publicLibrarySection" class="hidden" style="width:100%;max-width:800px;"></div>
-  </div>
+  <!-- Remove duplicate tabbed interface below navbar and replace with a single #librarySection container -->
+  <div id="librarySection" class="hidden" style="max-width:900px;margin:2rem auto 0 auto;display:flex;flex-direction:column;align-items:center;"></div>
 
   <script>
   document.addEventListener('DOMContentLoaded', async function() {
     // ... existing Supabase init and auth logic ...
     // (Assume supabaseClient is already initialized)
 
-    // Tab logic
-    const tabMyLibrary = document.getElementById('tabMyLibrary');
-    const tabPublicLibrary = document.getElementById('tabPublicLibrary');
-    const myLibrarySection = document.getElementById('myLibrarySection');
-    const publicLibrarySection = document.getElementById('publicLibrarySection');
-    const libraryTabs = document.getElementById('libraryTabs');
-
-    // Show Play Tornado Library by default
-    function showTab(tab) {
-      if (tab === 'my') {
-        myLibrarySection.classList.remove('hidden');
-        publicLibrarySection.classList.add('hidden');
-        tabMyLibrary.classList.add('purple-btn');
-        tabPublicLibrary.classList.remove('purple-btn');
-      } else {
-        myLibrarySection.classList.add('hidden');
-        publicLibrarySection.classList.remove('hidden');
-        tabMyLibrary.classList.remove('purple-btn');
-        tabPublicLibrary.classList.add('purple-btn');
-      }
-    }
-    tabMyLibrary.onclick = () => showTab('my');
-    tabPublicLibrary.onclick = () => showTab('public');
-    showTab('public');
+    // Library section logic
+    const myLibraryLink = document.getElementById('myLibraryLink');
+    const publicLibraryLink = document.getElementById('publicLibraryLink');
+    const librarySection = document.getElementById('librarySection');
+    const setupScreen = document.getElementById('setupScreen');
+    const gameScreen = document.getElementById('gameScreen');
 
     // Helper: get current user
     async function getCurrentUser() {
@@ -968,20 +943,20 @@
       return user;
     }
 
-    // Fetch and render Play Tornado Library (public quizzes)
-    async function loadPublicLibrary() {
-      publicLibrarySection.innerHTML = '<div>Loading public quizzes...</div>';
+    // Render Play Tornado Library (public quizzes)
+    async function renderPublicLibrary() {
+      librarySection.innerHTML = '<h2>Play Tornado Library</h2><div>Loading public quizzes...</div>';
       let { data, error } = await supabaseClient
         .from('quizzes')
         .select('*')
         .eq('is_public', true)
         .order('created_at', { ascending: false });
       if (error) {
-        publicLibrarySection.innerHTML = '<div style="color:red;">Error loading public quizzes.</div>';
+        librarySection.innerHTML = '<div style="color:red;">Error loading public quizzes.</div>';
         return;
       }
       if (!data || data.length === 0) {
-        publicLibrarySection.innerHTML = '<div>No public quizzes found.</div>';
+        librarySection.innerHTML = '<div>No public quizzes found.</div>';
         return;
       }
       let html = '<ul style="list-style:none;padding:0;">';
@@ -996,28 +971,28 @@
         </li>`;
       }
       html += '</ul>';
-      publicLibrarySection.innerHTML = html;
+      librarySection.innerHTML = '<h2>Play Tornado Library</h2>' + html;
     }
 
-    // Fetch and render My Library (user's quizzes)
-    async function loadMyLibrary() {
+    // Render My Library (user's quizzes)
+    async function renderMyLibrary() {
       const user = await getCurrentUser();
       if (!user) {
-        myLibrarySection.innerHTML = '<div style="color:#e57373;">Please log in to view your library.</div>';
+        librarySection.innerHTML = '<h2>My Library</h2><div style="color:#e57373;">Please log in to view your library.</div>';
         return;
       }
-      myLibrarySection.innerHTML = '<div>Loading your quizzes...</div>';
+      librarySection.innerHTML = '<h2>My Library</h2><div>Loading your quizzes...</div>';
       let { data, error } = await supabaseClient
         .from('quizzes')
         .select('*')
         .eq('owner', user.id)
         .order('created_at', { ascending: false });
       if (error) {
-        myLibrarySection.innerHTML = '<div style="color:red;">Error loading your quizzes.</div>';
+        librarySection.innerHTML = '<div style="color:red;">Error loading your quizzes.</div>';
         return;
       }
       if (!data || data.length === 0) {
-        myLibrarySection.innerHTML = '<div>You have no quizzes yet.</div>';
+        librarySection.innerHTML = '<h2>My Library</h2><div>You have no quizzes yet.</div>';
         return;
       }
       let html = '<ul style="list-style:none;padding:0;">';
@@ -1034,7 +1009,7 @@
         </li>`;
       }
       html += '</ul>';
-      myLibrarySection.innerHTML = html;
+      librarySection.innerHTML = '<h2>My Library</h2>' + html;
     }
 
     // Expose actions globally for inline onclick
@@ -1052,7 +1027,7 @@
     window.publishQuizToPublic = async function(quizId) {
       const { error } = await supabaseClient.from('quizzes').update({ is_public: true }).eq('id', quizId);
       if (error) alert('Error publishing quiz: ' + error.message);
-      else { alert('Quiz published!'); loadMyLibrary(); loadPublicLibrary(); }
+      else { alert('Quiz published!'); renderMyLibrary(); renderPublicLibrary(); }
     };
     window.editQuiz = function(quizId) {
       alert('TODO: Edit quiz with ID: ' + quizId);
@@ -1062,31 +1037,66 @@
       if (!confirm('Are you sure you want to delete this quiz?')) return;
       const { error } = await supabaseClient.from('quizzes').delete().eq('id', quizId);
       if (error) alert('Error deleting quiz: ' + error.message);
-      else { alert('Quiz deleted.'); loadMyLibrary(); loadPublicLibrary(); }
+      else { alert('Quiz deleted.'); renderMyLibrary(); renderPublicLibrary(); }
     };
 
-    // Show/hide My Library tab based on login state
-    async function updateLibraryTabs() {
-      const user = await getCurrentUser();
-      tabMyLibrary.style.display = user ? '' : 'none';
-      if (!user && !publicLibrarySection.classList.contains('hidden')) {
-        showTab('public');
+    // Show/hide library section and main screens
+    function showLibrary(which) {
+      setupScreen.classList.add('hidden');
+      gameScreen.classList.add('hidden');
+      librarySection.classList.remove('hidden');
+      if (which === 'my') {
+        renderMyLibrary();
+        window.location.hash = '#my-library';
+      } else {
+        renderPublicLibrary();
+        window.location.hash = '#public-library';
       }
     }
+    function hideLibrary() {
+      librarySection.classList.add('hidden');
+      setupScreen.classList.remove('hidden');
+      // gameScreen stays hidden until game starts
+    }
 
-    // Initial load
-    await loadPublicLibrary();
-    await loadMyLibrary();
-    await updateLibraryTabs();
+    // Navbar link handlers
+    myLibraryLink.onclick = function(e) {
+      e.preventDefault();
+      showLibrary('my');
+    };
+    publicLibraryLink.onclick = function(e) {
+      e.preventDefault();
+      showLibrary('public');
+    };
+    // Home link returns to main setup
+    document.querySelector('a[href="/"]').onclick = function(e) {
+      e.preventDefault();
+      hideLibrary();
+      window.location.hash = '';
+    };
 
-    // Re-load on auth state change
+    // Hash-based navigation
+    function handleHash() {
+      if (window.location.hash === '#my-library') {
+        showLibrary('my');
+      } else if (window.location.hash === '#public-library') {
+        showLibrary('public');
+      } else {
+        hideLibrary();
+      }
+    }
+    window.addEventListener('hashchange', handleHash);
+    handleHash();
+
+    // Re-render My Library on auth state change
     supabaseClient.auth.onAuthStateChange(async () => {
-      await loadMyLibrary();
-      await updateLibraryTabs();
+      if (!librarySection.classList.contains('hidden') && window.location.hash === '#my-library') {
+        await renderMyLibrary();
+      }
     });
   });
   </script>
-  <!-- End library tab integration -->
+  <!-- End library section integration -->
 
   <!-- SETUP SCREEN -->
   <div id="setupScreen">
