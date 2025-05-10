@@ -922,6 +922,172 @@
   </nav>
   <!-- END NAVIGATION BAR -->
 
+  <!-- Add tabbed interface for My Library and Play Tornado Library below the nav bar -->
+  <div id="libraryTabs" style="max-width:900px;margin:2rem auto 0 auto;display:flex;flex-direction:column;align-items:center;">
+    <div style="display:flex;gap:1.2rem;margin-bottom:1.2rem;">
+      <button id="tabMyLibrary" class="purple-btn" style="font-size:1.1rem;">My Library</button>
+      <button id="tabPublicLibrary" class="purple-btn" style="font-size:1.1rem;">Play Tornado Library</button>
+    </div>
+    <div id="myLibrarySection" class="hidden" style="width:100%;max-width:800px;"></div>
+    <div id="publicLibrarySection" class="hidden" style="width:100%;max-width:800px;"></div>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', async function() {
+    // ... existing Supabase init and auth logic ...
+    // (Assume supabaseClient is already initialized)
+
+    // Tab logic
+    const tabMyLibrary = document.getElementById('tabMyLibrary');
+    const tabPublicLibrary = document.getElementById('tabPublicLibrary');
+    const myLibrarySection = document.getElementById('myLibrarySection');
+    const publicLibrarySection = document.getElementById('publicLibrarySection');
+    const libraryTabs = document.getElementById('libraryTabs');
+
+    // Show Play Tornado Library by default
+    function showTab(tab) {
+      if (tab === 'my') {
+        myLibrarySection.classList.remove('hidden');
+        publicLibrarySection.classList.add('hidden');
+        tabMyLibrary.classList.add('purple-btn');
+        tabPublicLibrary.classList.remove('purple-btn');
+      } else {
+        myLibrarySection.classList.add('hidden');
+        publicLibrarySection.classList.remove('hidden');
+        tabMyLibrary.classList.remove('purple-btn');
+        tabPublicLibrary.classList.add('purple-btn');
+      }
+    }
+    tabMyLibrary.onclick = () => showTab('my');
+    tabPublicLibrary.onclick = () => showTab('public');
+    showTab('public');
+
+    // Helper: get current user
+    async function getCurrentUser() {
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      return user;
+    }
+
+    // Fetch and render Play Tornado Library (public quizzes)
+    async function loadPublicLibrary() {
+      publicLibrarySection.innerHTML = '<div>Loading public quizzes...</div>';
+      let { data, error } = await supabaseClient
+        .from('quizzes')
+        .select('*')
+        .eq('is_public', true)
+        .order('created_at', { ascending: false });
+      if (error) {
+        publicLibrarySection.innerHTML = '<div style="color:red;">Error loading public quizzes.</div>';
+        return;
+      }
+      if (!data || data.length === 0) {
+        publicLibrarySection.innerHTML = '<div>No public quizzes found.</div>';
+        return;
+      }
+      let html = '<ul style="list-style:none;padding:0;">';
+      for (const quiz of data) {
+        html += `<li style="background:#fff;border-radius:10px;padding:1.2em;margin-bottom:1em;box-shadow:0 2px 8px rgba(0,0,0,0.07);text-align:left;">
+          <b>${quiz.title}</b> <span style="color:#888;font-size:0.95em;">(${quiz.category||'Uncategorized'})</span><br>
+          <span style="font-size:0.95em;color:#888;">${quiz.questions ? (Array.isArray(quiz.questions) ? quiz.questions.length : Object.keys(quiz.questions).length) : 0} questions</span>
+          <div style="margin-top:0.7em;display:flex;gap:1em;">
+            <button class="purple-btn" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('${quiz.id}')">Play</button>
+            <button class="purple-btn" onclick="window.saveQuizToMyLibrary && window.saveQuizToMyLibrary('${quiz.id}')">Save to My Library</button>
+          </div>
+        </li>`;
+      }
+      html += '</ul>';
+      publicLibrarySection.innerHTML = html;
+    }
+
+    // Fetch and render My Library (user's quizzes)
+    async function loadMyLibrary() {
+      const user = await getCurrentUser();
+      if (!user) {
+        myLibrarySection.innerHTML = '<div style="color:#e57373;">Please log in to view your library.</div>';
+        return;
+      }
+      myLibrarySection.innerHTML = '<div>Loading your quizzes...</div>';
+      let { data, error } = await supabaseClient
+        .from('quizzes')
+        .select('*')
+        .eq('owner', user.id)
+        .order('created_at', { ascending: false });
+      if (error) {
+        myLibrarySection.innerHTML = '<div style="color:red;">Error loading your quizzes.</div>';
+        return;
+      }
+      if (!data || data.length === 0) {
+        myLibrarySection.innerHTML = '<div>You have no quizzes yet.</div>';
+        return;
+      }
+      let html = '<ul style="list-style:none;padding:0;">';
+      for (const quiz of data) {
+        html += `<li style="background:#fff;border-radius:10px;padding:1.2em;margin-bottom:1em;box-shadow:0 2px 8px rgba(0,0,0,0.07);text-align:left;">
+          <b>${quiz.title}</b> <span style="color:#888;font-size:0.95em;">(${quiz.category||'Uncategorized'})</span><br>
+          <span style="font-size:0.95em;color:#888;">${quiz.questions ? (Array.isArray(quiz.questions) ? quiz.questions.length : Object.keys(quiz.questions).length) : 0} questions</span>
+          <div style="margin-top:0.7em;display:flex;gap:1em;">
+            <button class="purple-btn" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('${quiz.id}')">Play</button>
+            <button class="purple-btn" onclick="window.publishQuizToPublic && window.publishQuizToPublic('${quiz.id}')">Publish to Play Tornado Library</button>
+            <button class="purple-btn" onclick="window.editQuiz && window.editQuiz('${quiz.id}')">Edit</button>
+            <button class="purple-btn" onclick="window.deleteQuiz && window.deleteQuiz('${quiz.id}')">Delete</button>
+          </div>
+        </li>`;
+      }
+      html += '</ul>';
+      myLibrarySection.innerHTML = html;
+    }
+
+    // Expose actions globally for inline onclick
+    window.startQuizFromLibrary = function(quizId) {
+      alert('TODO: Start quiz with ID: ' + quizId);
+      // You can implement quiz loading logic here
+    };
+    window.saveQuizToMyLibrary = async function(quizId) {
+      const user = await getCurrentUser();
+      if (!user) { alert('Please log in to save quizzes.'); return; }
+      const { error } = await supabaseClient.from('user_quiz_links').insert([{ user_id: user.id, quiz_id: quizId }]);
+      if (error) alert('Error saving quiz: ' + error.message);
+      else alert('Quiz saved to your library!');
+    };
+    window.publishQuizToPublic = async function(quizId) {
+      const { error } = await supabaseClient.from('quizzes').update({ is_public: true }).eq('id', quizId);
+      if (error) alert('Error publishing quiz: ' + error.message);
+      else { alert('Quiz published!'); loadMyLibrary(); loadPublicLibrary(); }
+    };
+    window.editQuiz = function(quizId) {
+      alert('TODO: Edit quiz with ID: ' + quizId);
+      // You can implement quiz editing logic here
+    };
+    window.deleteQuiz = async function(quizId) {
+      if (!confirm('Are you sure you want to delete this quiz?')) return;
+      const { error } = await supabaseClient.from('quizzes').delete().eq('id', quizId);
+      if (error) alert('Error deleting quiz: ' + error.message);
+      else { alert('Quiz deleted.'); loadMyLibrary(); loadPublicLibrary(); }
+    };
+
+    // Show/hide My Library tab based on login state
+    async function updateLibraryTabs() {
+      const user = await getCurrentUser();
+      tabMyLibrary.style.display = user ? '' : 'none';
+      if (!user && !publicLibrarySection.classList.contains('hidden')) {
+        showTab('public');
+      }
+    }
+
+    // Initial load
+    await loadPublicLibrary();
+    await loadMyLibrary();
+    await updateLibraryTabs();
+
+    // Re-load on auth state change
+    supabaseClient.auth.onAuthStateChange(async () => {
+      await loadMyLibrary();
+      await updateLibraryTabs();
+    });
+  });
+  </script>
+  <!-- End library tab integration -->
+
   <!-- SETUP SCREEN -->
   <div id="setupScreen">
     <div class="logo-start-container">
@@ -1081,8 +1247,153 @@ The Beatles"></textarea>
 
   <div class="footer">Created by Timothy Piontek</div>
 
+  <!-- === AUTH MODAL (just before </body>) === -->
+  <div id="authModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(49,114,122,0.85);z-index:2000;display:none;align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:18px;box-shadow:0 4px 32px rgba(0,0,0,0.18);padding:2.2rem 2.5rem;max-width:350px;width:100%;text-align:center;position:relative;">
+      <button id="closeAuthModal" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:1.5rem;color:#6F5C91;cursor:pointer;padding:4px 8px;">&times;</button>
+      <img src="android-chrome-192x192.png" alt="Play Tornado Icon" style="height:48px;width:48px;margin-bottom:0.7rem;">
+      <h2 style="color:#6F5C91;font-weight:900;margin-bottom:0.7rem;">Welcome to Play Tornado</h2>
+      <div style="display:flex;justify-content:center;gap:1.2em;margin-bottom:1em;">
+        <button id="tabLogin" style="flex:1;font-weight:700;padding:0.5em 0;border:none;background:#eee;color:#6F5C91;border-radius:6px 0 0 6px;cursor:pointer;">Login</button>
+        <button id="tabSignup" style="flex:1;font-weight:700;padding:0.5em 0;border:none;background:#fff;color:#6F5C91;border-radius:0 6px 6px 0;cursor:pointer;">Sign Up</button>
+      </div>
+      <form id="loginForm" autocomplete="on" style="display:block;">
+        <input id="loginEmail" type="email" placeholder="Email" required style="width:100%;padding:0.7em;margin-bottom:0.7em;border-radius:6px;border:1px solid #ccc;font-size:1.1em;">
+        <input id="loginPassword" type="password" placeholder="Password" required style="width:100%;padding:0.7em;margin-bottom:0.7em;border-radius:6px;border:1px solid #ccc;font-size:1.1em;">
+        <button type="submit" style="width:100%;background:#6F5C91;color:#fff;font-weight:700;border:none;border-radius:6px;padding:0.7em;font-size:1.1em;cursor:pointer;margin-bottom:0.7em;">Login</button>
+      </form>
+      <form id="signupForm" autocomplete="on" style="display:none;">
+        <input id="signupEmail" type="email" placeholder="Email" required style="width:100%;padding:0.7em;margin-bottom:0.7em;border-radius:6px;border:1px solid #ccc;font-size:1.1em;">
+        <input id="signupPassword" type="password" placeholder="Password" required style="width:100%;padding:0.7em;margin-bottom:0.7em;border-radius:6px;border:1px solid #ccc;font-size:1.1em;">
+        <button type="submit" style="width:100%;background:#6F5C91;color:#fff;font-weight:700;border:none;border-radius:6px;padding:0.7em;font-size:1.1em;cursor:pointer;margin-bottom:0.7em;">Sign Up</button>
+      </form>
+      <div style="margin:0.7em 0;font-size:1em;color:#888;">or</div>
+      <button id="googleLoginBtn" style="width:100%;background:#fff;color:#6F5C91;font-weight:700;border:2px solid #6F5C91;border-radius:6px;padding:0.7em;font-size:1.1em;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.7em;">
+        <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" style="height:1.3em;width:1.3em;vertical-align:middle;"> Continue with Google
+      </button>
+      <div id="authError" style="color:#e57373;font-size:1em;margin-top:0.7em;min-height:1.2em;"></div>
+    </div>
+  </div>
+  <!-- === END AUTH MODAL === -->
+
+  <!-- Move Supabase CDN script to be immediately before the main <script> block, and ensure supabase.createClient is the first line inside DOMContentLoaded -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // === SUPABASE INIT ===
+      const supabaseClient = supabase.createClient(
+        'https://dmbbsrcwqpmdxqtzvtqj.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w'
+      );
+
+      // === MODAL LOGIC ===
+      function showAuthModal() {
+        const modal = document.getElementById('authModal');
+        modal.style.display = 'flex';
+        modal.classList.remove('hidden');
+        document.getElementById('authError').textContent = '';
+      }
+      function hideAuthModal() {
+        const modal = document.getElementById('authModal');
+        modal.style.display = 'none';
+        modal.classList.add('hidden');
+      }
+      var loginBtn = document.getElementById('loginLogoutBtn') || document.getElementById('loginBtn');
+      if (loginBtn) {
+        loginBtn.onclick = function() {
+          if (loginBtn.textContent === 'Login') {
+            showAuthModal();
+          } else {
+            supabaseClient.auth.signOut();
+          }
+        };
+      }
+      document.getElementById('closeAuthModal').onclick = hideAuthModal;
+      document.getElementById('authModal').onclick = function(e) {
+        if (e.target === this) hideAuthModal();
+      };
+
+      // === TAB LOGIC ===
+      const tabLogin = document.getElementById('tabLogin');
+      const tabSignup = document.getElementById('tabSignup');
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+      tabLogin.onclick = function() {
+        tabLogin.style.background = '#eee';
+        tabSignup.style.background = '#fff';
+        loginForm.style.display = 'block';
+        signupForm.style.display = 'none';
+        document.getElementById('authError').textContent = '';
+      };
+      tabSignup.onclick = function() {
+        tabLogin.style.background = '#fff';
+        tabSignup.style.background = '#eee';
+        loginForm.style.display = 'none';
+        signupForm.style.display = 'block';
+        document.getElementById('authError').textContent = '';
+      };
+      // Default to login tab
+      tabLogin.click();
+
+      // === LOGIN FORM ===
+      loginForm.onsubmit = async function(e) {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        let { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) {
+          document.getElementById('authError').textContent = error.message;
+          return;
+        }
+        hideAuthModal();
+      };
+      // === SIGNUP FORM ===
+      signupForm.onsubmit = async function(e) {
+        e.preventDefault();
+        const email = document.getElementById('signupEmail').value.trim();
+        const password = document.getElementById('signupPassword').value;
+        let { error } = await supabaseClient.auth.signUp({ email, password });
+        if (error) {
+          document.getElementById('authError').textContent = error.message;
+          return;
+        }
+        document.getElementById('authError').textContent = 'Check your email to confirm your account!';
+      };
+      // === GOOGLE LOGIN ===
+      document.getElementById('googleLoginBtn').onclick = async function() {
+        const { error } = await supabaseClient.auth.signInWithOAuth({
+          provider: 'google',
+          options: { redirectTo: window.location.origin }
+        });
+        if (error) document.getElementById('authError').textContent = error.message;
+      };
+
+      // === LOGIN BUTTON STATE ===
+      async function updateLoginBtn() {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        const btn = document.getElementById('loginLogoutBtn');
+        if (!btn) return;
+        if (user) {
+          btn.textContent = 'Logout';
+          btn.style.background = '#fff';
+          btn.style.color = '#e57373';
+          btn.title = user.email || '';
+        } else {
+          btn.textContent = 'Login';
+          btn.style.background = '#fff';
+          btn.style.color = '#6F5C91';
+          btn.title = '';
+        }
+      }
+      updateLoginBtn();
+      supabaseClient.auth.onAuthStateChange((event, session) => {
+        updateLoginBtn();
+        if (event === 'SIGNED_IN') {
+          hideAuthModal();
+        }
+      });
+
+      // === BEGIN YOUR GAME/QUIZ LOGIC (leave untouched) ===
       // State
       let rewards=[], scores={A:0,B:0}, picks={A:0,B:0},
           turn='A', names={A:'Team A',B:'Team B'}, total=20,
