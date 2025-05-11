@@ -909,9 +909,9 @@
 <body>
   <!-- NAVIGATION BAR -->
   <nav id="mainNav" style="background: #6F5C91; color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 2rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.07);">
-    <div style="display: flex; align-items: center; gap: 1rem;">
+    <div id="logoTitleHome" style="display: flex; align-items: center; gap: 1rem; cursor:pointer;">
       <img src="tornado-logo.png" alt="PlayTornado Logo" style="height: 38px; width: 38px; border-radius: 8px; background: #fff; padding: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.08);">
-      <span style="font-size: 1.5rem; font-weight: 900; letter-spacing: 1px; color: #fff;">PlayTornado</span>
+      <span style="font-size: 1.5rem; font-weight: 900; letter-spacing: 1px; color: #fff;">Play Tornado</span>
     </div>
     <div style="display: flex; align-items: center; gap: 2.2rem; font-size: 1.1rem; font-weight: 600;">
       <a href="/" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Home</a>
@@ -1074,7 +1074,7 @@ The Beatles"></textarea>
 
     <div id="grid"></div>
     <div class="game-footer-btns">
-      <button id="resetBtn">�� Reset Game</button>
+      <button id="resetBtn">Reset Game</button>
       <button id="homeBtn">🏠 Home</button>
     </div>
   </div>
@@ -1156,33 +1156,61 @@ The Beatles"></textarea>
 
       // Render Play Tornado Library (public quizzes)
       async function renderPublicLibrary() {
+        // Load quiz_library.json and group by category and folder
         librarySection.innerHTML = '<h2>Play Tornado Library</h2><div>Loading public quizzes...</div>';
-        let { data, error } = await supabaseClient
-          .from('quizzes')
-          .select('*')
-          .eq('is_public', true)
-          .order('created_at', { ascending: false });
-        if (error) {
+        try {
+          const res = await fetch('quiz_library.json');
+          if (!res.ok) throw new Error('Failed to fetch quiz_library.json');
+          const quizLibrary = await res.json();
+          // Group quizzes by category, then by folder
+          const categories = {};
+          quizLibrary.forEach((quiz, i) => {
+            const cat = quiz.category || 'Other';
+            const folder = quiz.folder || null;
+            if (!categories[cat]) categories[cat] = { folders: {}, root: [] };
+            if (folder) {
+              if (!categories[cat].folders[folder]) categories[cat].folders[folder] = [];
+              categories[cat].folders[folder].push({ ...quiz, index: i });
+            } else {
+              categories[cat].root.push({ ...quiz, index: i });
+            }
+          });
+          // Build folder UI
+          let html = '<div style="width:100%;max-width:700px;text-align:left;margin:0 auto;">';
+          Object.keys(categories).sort((a,b)=>a.localeCompare(b)).forEach(cat => {
+            html += `<details style="margin-bottom:1.2em;">
+              <summary style="font-size:1.2em;font-weight:700;cursor:pointer;background:#eee;padding:0.6em 1em;border-radius:8px;">${cat}</summary>
+              <ul style="list-style:none;padding-left:1.2em;">`;
+            // Folders first
+            const folderNames = Object.keys(categories[cat].folders).sort((a,b)=>a.localeCompare(b));
+            folderNames.forEach(folder => {
+              html += `<details style="margin-bottom:0.7em;">
+                <summary style="font-size:1.08em;font-weight:600;cursor:pointer;background:#f6f6f6;padding:0.4em 1em;border-radius:6px;">${folder}</summary>
+                <ul style="list-style:none;padding-left:1.2em;">`;
+              categories[cat].folders[folder].forEach(quiz => {
+                html += `<li style="margin-bottom:0.5em;">
+                  <b>${quiz.title}</b> <span style="color:#888;font-size:0.95em;">(${quiz.questions && quiz.questions.length ? quiz.questions.length : 0} questions)</span>
+                  <button class="purple-btn" style="margin-left:1em;" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('jsonlib:${quiz.index}')">Play</button>
+                  <button class="purple-btn" style="margin-left:0.5em;" onclick="window.addJsonQuizToMyLibrary && window.addJsonQuizToMyLibrary(${quiz.index})">Add to My Library</button>
+                </li>`;
+              });
+              html += '</ul></details>';
+            });
+            // Quizzes not in a folder
+            categories[cat].root.forEach(quiz => {
+              html += `<li style="margin-bottom:0.5em;">
+                <b>${quiz.title}</b> <span style="color:#888;font-size:0.95em;">(${quiz.questions && quiz.questions.length ? quiz.questions.length : 0} questions)</span>
+                <button class="purple-btn" style="margin-left:1em;" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('jsonlib:${quiz.index}')">Play</button>
+                <button class="purple-btn" style="margin-left:0.5em;" onclick="window.addJsonQuizToMyLibrary && window.addJsonQuizToMyLibrary(${quiz.index})">Add to My Library</button>
+              </li>`;
+            });
+            html += '</ul></details>';
+          });
+          html += '</div>';
+          librarySection.innerHTML = '<h2>Play Tornado Library</h2>' + html;
+        } catch (err) {
           librarySection.innerHTML = '<div style="color:red;">Error loading public quizzes.</div>';
-          return;
         }
-        if (!data || data.length === 0) {
-          librarySection.innerHTML = '<div>No public quizzes found.</div>';
-          return;
-        }
-        let html = '<ul style="list-style:none;padding:0;">';
-        for (const quiz of data) {
-          html += `<li style="background:#fff;border-radius:10px;padding:1.2em;margin-bottom:1em;box-shadow:0 2px 8px rgba(0,0,0,0.07);text-align:left;">
-            <b>${quiz.title}</b> <span style="color:#888;font-size:0.95em;">(${quiz.category||'Uncategorized'})</span><br>
-            <span style="font-size:0.95em;color:#888;">${quiz.questions ? (Array.isArray(quiz.questions) ? quiz.questions.length : Object.keys(quiz.questions).length) : 0} questions</span>
-            <div style="margin-top:0.7em;display:flex;gap:1em;">
-              <button class="purple-btn" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('${quiz.id}')">Play</button>
-              <button class="purple-btn" onclick="window.saveQuizToMyLibrary && window.saveQuizToMyLibrary('${quiz.id}')">Save to My Library</button>
-            </div>
-          </li>`;
-        }
-        html += '</ul>';
-        librarySection.innerHTML = '<h2>Play Tornado Library</h2>' + html;
       }
 
       // Render My Library (user's quizzes)
@@ -1351,9 +1379,62 @@ The Beatles"></textarea>
       }
 
       // Expose actions globally for inline onclick
-      window.startQuizFromLibrary = function(quizId) {
-        alert('TODO: Start quiz with ID: ' + quizId);
-        // You can implement quiz loading logic here
+      window.startQuizFromLibrary = async function(quizId) {
+        if (quizId && quizId.startsWith('jsonlib:')) {
+          // Load from quiz_library.json
+          const idx = parseInt(quizId.replace('jsonlib:', ''));
+          const res = await fetch('quiz_library.json');
+          const quizLibrary = await res.json();
+          const quiz = quizLibrary[idx];
+          if (!quiz) return alert('Quiz not found.');
+          // Start game with this quiz
+          // Set up game state as if selected from dropdown
+          questions = quiz.questions && Array.isArray(quiz.questions) ? quiz.questions.map(q => ({ question: q.question, answer: q.answer || null })) : [];
+          usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
+          // Shuffle if random order is selected
+          let order = 'random';
+          qIndex = 0;
+          names.A = 'Team A';
+          names.B = 'Team B';
+          singlePlayer = false;
+          total = 20;
+          setupScreen.classList.add('hidden');
+          gameScreen.classList.remove('hidden');
+          librarySection.classList.add('hidden');
+          androidImg.style.display = 'none';
+          nameBEl.textContent = names.B;
+          teamBNameContainer.classList.remove('single-player');
+          initGame(2,2,2,1); buildGrid(total); showQuestion();
+          // Set the game title if you want (optional)
+          // document.title = quiz.title + ' - Play Tornado';
+          return;
+        }
+        // ... existing code for DB quizzes ...
+      };
+      window.addJsonQuizToMyLibrary = async function(idx) {
+        // Add a quiz from quiz_library.json to the user's library
+        const user = await getCurrentUser();
+        if (!user) {
+          alert('Please log in to add quizzes to your library.');
+          showAuthModal();
+          return;
+        }
+        const res = await fetch('quiz_library.json');
+        const quizLibrary = await res.json();
+        const quiz = quizLibrary[idx];
+        if (!quiz) return alert('Quiz not found.');
+        // Insert into Supabase quizzes table
+        const { error } = await supabaseClient.from('quizzes').insert([
+          {
+            title: quiz.title,
+            category: quiz.category || null,
+            questions: quiz.questions || [],
+            is_public: false,
+            owner: user.id
+          }
+        ]);
+        if (error) alert('Error adding quiz: ' + error.message);
+        else alert('Quiz added to your library!');
       };
       window.saveQuizToMyLibrary = async function(quizId) {
         const user = await getCurrentUser();
@@ -1407,7 +1488,7 @@ The Beatles"></textarea>
         showLibrary('public');
       };
       // Home link returns to main setup
-      document.querySelector('a[href="/"]').onclick = function(e) {
+      document.getElementById('logoTitleHome').onclick = function(e) {
         e.preventDefault();
         hideLibrary();
         window.location.hash = '';
