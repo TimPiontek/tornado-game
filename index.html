@@ -1172,18 +1172,145 @@ The Beatles"></textarea>
           librarySection.innerHTML = '<h2>My Library</h2><div style="color:#e57373;">Please log in to view your library.</div>';
           return;
         }
-        librarySection.innerHTML = '<h2>My Library</h2><div>Loading your quizzes...</div>';
+        // Add Create Quiz button and modal container (modal is always present)
+        librarySection.innerHTML = `
+          <h2>My Library</h2>
+          <button id="createQuizBtn" class="purple-btn" style="margin-bottom:1.2em;">+ Create Quiz</button>
+          <div id="createQuizModal" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(49,114,122,0.85);z-index:3000;display:none;align-items:center;justify-content:center;">
+            <div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
+              <button id="closeCreateQuizModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
+              <h3 style="margin-top:0;">Create a New Quiz</h3>
+              <form id="createQuizForm">
+                <label>Title:<br><input id="quizTitleInput" required maxlength="60" style="width:100%;margin-bottom:0.7em;"></label>
+                <label>Category:<br>
+                  <select id="quizCategorySelect" style="width:100%;margin-bottom:0.7em;"></select>
+                </label>
+                <div id="newCategoryContainer" class="hidden" style="margin-bottom:0.7em;">
+                  <input id="newCategoryInput" placeholder="New category name" maxlength="32" style="width:100%;">
+                </div>
+                <label>Q&A:<br>
+                  <textarea id="quizQuestionsInput" required placeholder="Question 1?\nAnswer 1\n\nQuestion 2?\nAnswer 2" style="width:100%;height:120px;margin-bottom:0.7em;"></textarea>
+                </label>
+                <label style="display:flex;align-items:center;gap:0.5em;margin-bottom:1em;">
+                  <input type="checkbox" id="quizIsPublicInput"> Publish to Play Tornado Library
+                </label>
+                <button type="submit" class="purple-btn" style="width:100%;">Create Quiz</button>
+                <div id="createQuizError" style="color:#e57373;margin-top:0.7em;"></div>
+              </form>
+            </div>
+          </div>
+          <div id="myLibraryList">Loading your quizzes...</div>
+        `;
+        // Modal logic and event handlers (always attach after render)
+        const createQuizBtn = document.getElementById('createQuizBtn');
+        const createQuizModal = document.getElementById('createQuizModal');
+        const closeCreateQuizModal = document.getElementById('closeCreateQuizModal');
+        const quizCategorySelect = document.getElementById('quizCategorySelect');
+        const newCategoryContainer = document.getElementById('newCategoryContainer');
+        const newCategoryInput = document.getElementById('newCategoryInput');
+        const createQuizForm = document.getElementById('createQuizForm');
+        const createQuizError = document.getElementById('createQuizError');
+        // Show modal
+        createQuizBtn.onclick = () => {
+          createQuizModal.style.display = 'flex';
+          createQuizError.textContent = '';
+          loadCategories();
+          console.log('Create Quiz button clicked, modal opened.');
+        };
+        // Hide modal
+        closeCreateQuizModal.onclick = () => {
+          createQuizModal.style.display = 'none';
+        };
+        createQuizModal.onclick = function(e) {
+          if (e.target === this) closeCreateQuizModal.onclick();
+        };
+        // Load categories from Supabase
+        async function loadCategories() {
+          quizCategorySelect.innerHTML = '<option value="">Select category</option>';
+          let { data, error } = await supabaseClient
+            .from('quizzes')
+            .select('category')
+            .neq('category', null);
+          let cats = (data||[]).map(q => q.category).filter(Boolean);
+          cats = Array.from(new Set(cats)).sort((a,b)=>a.localeCompare(b));
+          cats.forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = cat;
+            quizCategorySelect.appendChild(opt);
+          });
+          // Add 'Create new category...' option
+          const newOpt = document.createElement('option');
+          newOpt.value = '__new__';
+          newOpt.textContent = 'Create new category...';
+          quizCategorySelect.appendChild(newOpt);
+        }
+        // Show/hide new category input
+        quizCategorySelect.onchange = function() {
+          if (quizCategorySelect.value === '__new__') {
+            newCategoryContainer.classList.remove('hidden');
+            newCategoryInput.required = true;
+          } else {
+            newCategoryContainer.classList.add('hidden');
+            newCategoryInput.required = false;
+          }
+        };
+        // Handle quiz creation
+        createQuizForm.onsubmit = async function(e) {
+          e.preventDefault();
+          const title = document.getElementById('quizTitleInput').value.trim();
+          let category = quizCategorySelect.value;
+          if (category === '__new__') {
+            category = newCategoryInput.value.trim();
+            if (!category) {
+              createQuizError.textContent = 'Please enter a new category name.';
+              return;
+            }
+          }
+          const is_public = document.getElementById('quizIsPublicInput').checked;
+          // Parse Q&A
+          const raw = document.getElementById('quizQuestionsInput').value;
+          const blocks = raw.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
+          let questions = [];
+          if(blocks.some(b => b.split('\n').length>1)){
+            questions = blocks.map(b=>{
+              const [q,a] = b.split('\n');
+              return { question:q.trim(), answer:a?.trim()||null };
+            });
+          } else {
+            questions = raw
+              .split('\n').map(l=>l.trim()).filter(l=>l)
+              .map(q=>({ question:q.replace(/^\d+\.\s*/,''), answer:null }));
+          }
+          if (!title || !category || questions.length === 0) {
+            createQuizError.textContent = 'Please fill in all fields.';
+            return;
+          }
+          // Insert quiz
+          const { error } = await supabaseClient.from('quizzes').insert([
+            { title, category, questions, is_public, owner: user.id }
+          ]);
+          if (error) {
+            createQuizError.textContent = error.message;
+            return;
+          }
+          createQuizModal.style.display = 'none';
+          alert('Quiz created!');
+          renderMyLibrary();
+          renderPublicLibrary();
+        };
+        // Fetch and render quizzes
         let { data, error } = await supabaseClient
           .from('quizzes')
           .select('*')
           .eq('owner', user.id)
           .order('created_at', { ascending: false });
         if (error) {
-          librarySection.innerHTML = '<div style="color:red;">Error loading your quizzes.</div>';
+          document.getElementById('myLibraryList').innerHTML = '<div style="color:red;">Error loading your quizzes.</div>';
           return;
         }
         if (!data || data.length === 0) {
-          librarySection.innerHTML = '<h2>My Library</h2><div>You have no quizzes yet.</div>';
+          document.getElementById('myLibraryList').innerHTML = '<div>You have no quizzes yet.</div>';
           return;
         }
         let html = '<ul style="list-style:none;padding:0;">';
@@ -1200,7 +1327,7 @@ The Beatles"></textarea>
           </li>`;
         }
         html += '</ul>';
-        librarySection.innerHTML = '<h2>My Library</h2>' + html;
+        document.getElementById('myLibraryList').innerHTML = html;
       }
 
       // Expose actions globally for inline onclick
@@ -1308,35 +1435,43 @@ The Beatles"></textarea>
           }
         };
       }
-      document.getElementById('closeAuthModal').onclick = hideAuthModal;
-      document.getElementById('authModal').onclick = function(e) {
-        if (e.target === this) hideAuthModal();
-      };
+      if (document.getElementById('closeAuthModal')) {
+        document.getElementById('closeAuthModal').onclick = hideAuthModal;
+      }
+      if (document.getElementById('authModal')) {
+        document.getElementById('authModal').onclick = function(e) {
+          if (e.target === this) hideAuthModal();
+        };
+      }
 
       // === TAB LOGIC ===
       const tabLogin = document.getElementById('tabLogin');
       const tabSignup = document.getElementById('tabSignup');
       const loginForm = document.getElementById('loginForm');
       const signupForm = document.getElementById('signupForm');
-      tabLogin.onclick = function() {
-        tabLogin.style.background = '#eee';
-        tabSignup.style.background = '#fff';
-        loginForm.style.display = 'block';
-        signupForm.style.display = 'none';
-        document.getElementById('authError').textContent = '';
-      };
-      tabSignup.onclick = function() {
-        tabLogin.style.background = '#fff';
-        tabSignup.style.background = '#eee';
-        loginForm.style.display = 'none';
-        signupForm.style.display = 'block';
-        document.getElementById('authError').textContent = '';
-      };
+      if (tabLogin) {
+        tabLogin.onclick = function() {
+          tabLogin.style.background = '#eee';
+          tabSignup.style.background = '#fff';
+          loginForm.style.display = 'block';
+          signupForm.style.display = 'none';
+          document.getElementById('authError').textContent = '';
+        };
+      }
+      if (tabSignup) {
+        tabSignup.onclick = function() {
+          tabLogin.style.background = '#fff';
+          tabSignup.style.background = '#eee';
+          loginForm.style.display = 'none';
+          signupForm.style.display = 'block';
+          document.getElementById('authError').textContent = '';
+        };
+      }
       // Default to login tab
-      tabLogin.click();
+      if (tabLogin) tabLogin.click();
 
       // === LOGIN FORM ===
-      loginForm.onsubmit = async function(e) {
+      if (loginForm) loginForm.onsubmit = async function(e) {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value.trim();
         const password = document.getElementById('loginPassword').value;
@@ -1348,7 +1483,7 @@ The Beatles"></textarea>
         hideAuthModal();
       };
       // === SIGNUP FORM ===
-      signupForm.onsubmit = async function(e) {
+      if (signupForm) signupForm.onsubmit = async function(e) {
         e.preventDefault();
         const email = document.getElementById('signupEmail').value.trim();
         const password = document.getElementById('signupPassword').value;
@@ -1360,13 +1495,15 @@ The Beatles"></textarea>
         document.getElementById('authError').textContent = 'Check your email to confirm your account!';
       };
       // === GOOGLE LOGIN ===
-      document.getElementById('googleLoginBtn').onclick = async function() {
-        const { error } = await supabaseClient.auth.signInWithOAuth({
-          provider: 'google',
-          options: { redirectTo: window.location.origin }
-        });
-        if (error) document.getElementById('authError').textContent = error.message;
-      };
+      if (document.getElementById('googleLoginBtn')) {
+        document.getElementById('googleLoginBtn').onclick = async function() {
+          const { error } = await supabaseClient.auth.signInWithOAuth({
+            provider: 'google',
+            options: { redirectTo: window.location.origin }
+          });
+          if (error) document.getElementById('authError').textContent = error.message;
+        };
+      }
 
       // === LOGIN BUTTON STATE ===
       async function updateLoginBtn() {
@@ -1487,91 +1624,93 @@ The Beatles"></textarea>
       };
 
       // Modify Start Game logic to use selected quiz if chosen
-      startBtnBottom.onclick = () => {
-        singlePlayer = singlePlayerCheckbox.checked;
-        names.A = document.getElementById('teamANameInput').value.trim()||'Team A';
-        if (singlePlayer) {
-          names.B = 'Android';
-        } else {
-          names.B = document.getElementById('teamBNameInput').value.trim()||'Team B';
-        }
-        total = +document.getElementById('gridSizeInput').value;
-
-        // Get special item counts from selectors
-        let tornadoCount = parseInt(document.getElementById('tornadoCount').value);
-        let doubleCount = parseInt(document.getElementById('doubleCount').value);
-        let loseCount = parseInt(document.getElementById('loseCount').value);
-        let swapCount = parseInt(document.getElementById('swapCount').value);
-
-        // Adjust defaults for small grids
-        if (total <= 10) {
-          tornadoCount = 2;
-          doubleCount = 1;
-          loseCount = 1;
-          swapCount = 1;
-          document.getElementById('tornadoCount').value = 2;
-          document.getElementById('doubleCount').value = 1;
-          document.getElementById('loseCount').value = 1;
-          document.getElementById('swapCount').value = 1;
-        }
-
-        // Use quiz if selected, otherwise use textarea
-        if (selectedQuizIndex !== null && quizLibrary[selectedQuizIndex]) {
-          const quiz = quizLibrary[selectedQuizIndex];
-          // Only support the new format: questions as array of objects
-          if (quiz.questions && Array.isArray(quiz.questions) && typeof quiz.questions[0] === 'object') {
-            questions = quiz.questions.map(q => ({ question: q.question, answer: q.answer || null }));
+      if (startBtnBottom) {
+        startBtnBottom.onclick = () => {
+          singlePlayer = singlePlayerCheckbox.checked;
+          names.A = document.getElementById('teamANameInput').value.trim()||'Team A';
+          if (singlePlayer) {
+            names.B = 'Android';
           } else {
-            questions = [];
+            names.B = document.getElementById('teamBNameInput').value.trim()||'Team B';
           }
-          console.log('DEBUG: Selected quiz:', quiz.title, 'Questions loaded:', questions.length, questions);
-        } else {
-          const raw = questionsInput.value;
-          // split blocks on blank line
-          const blocks = raw.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
-          // detect Q&A blocks
-          if(blocks.some(b => b.split('\n').length>1)){
-            questions = blocks.map(b=>{
-              const [q,a] = b.split('\n');
-              return { question:q.trim(), answer:a?.trim()||null };
-            });
-          } else {
-            questions = raw
-              .split('\n').map(l=>l.trim()).filter(l=>l)
-              .map(q=>({ question:q.replace(/^\d+\.\s*/,''), answer:null }));
-          }
-        }
-        // Prepare usedQuestionIndices for unique rotation
-        usedQuestionIndices = [];
-        let order = document.querySelector('input[name="order"]:checked').value;
-        console.log('DEBUG: Questions array at game start:', questions);
-        if (order === 'random') {
-          // Shuffle indices
-          usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
-          for (let i = usedQuestionIndices.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [usedQuestionIndices[i], usedQuestionIndices[j]] = [usedQuestionIndices[j], usedQuestionIndices[i]];
-          }
-        } else {
-          usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
-        }
-        qIndex = 0;
-        setupScreen.classList.add('hidden');
-        gameScreen.classList.remove('hidden');
-        // Show Android image if single player
-        if (singlePlayer) {
-          androidImg.style.display = 'inline-block';
-          nameBEl.textContent = 'Android';
-          teamBNameContainer.classList.add('single-player');
-        } else {
-          androidImg.style.display = 'none';
-          nameBEl.textContent = names.B;
-          teamBNameContainer.classList.remove('single-player');
-        }
-        initGame(tornadoCount, doubleCount, loseCount, swapCount); buildGrid(total); showQuestion();
-      };
+          total = +document.getElementById('gridSizeInput').value;
 
-      passBtn.onclick = () => {
+          // Get special item counts from selectors
+          let tornadoCount = parseInt(document.getElementById('tornadoCount').value);
+          let doubleCount = parseInt(document.getElementById('doubleCount').value);
+          let loseCount = parseInt(document.getElementById('loseCount').value);
+          let swapCount = parseInt(document.getElementById('swapCount').value);
+
+          // Adjust defaults for small grids
+          if (total <= 10) {
+            tornadoCount = 2;
+            doubleCount = 1;
+            loseCount = 1;
+            swapCount = 1;
+            document.getElementById('tornadoCount').value = 2;
+            document.getElementById('doubleCount').value = 1;
+            document.getElementById('loseCount').value = 1;
+            document.getElementById('swapCount').value = 1;
+          }
+
+          // Use quiz if selected, otherwise use textarea
+          if (selectedQuizIndex !== null && quizLibrary[selectedQuizIndex]) {
+            const quiz = quizLibrary[selectedQuizIndex];
+            // Only support the new format: questions as array of objects
+            if (quiz.questions && Array.isArray(quiz.questions) && typeof quiz.questions[0] === 'object') {
+              questions = quiz.questions.map(q => ({ question: q.question, answer: q.answer || null }));
+            } else {
+              questions = [];
+            }
+            console.log('DEBUG: Selected quiz:', quiz.title, 'Questions loaded:', questions.length, questions);
+          } else {
+            const raw = questionsInput.value;
+            // split blocks on blank line
+            const blocks = raw.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
+            // detect Q&A blocks
+            if(blocks.some(b => b.split('\n').length>1)){
+              questions = blocks.map(b=>{
+                const [q,a] = b.split('\n');
+                return { question:q.trim(), answer:a?.trim()||null };
+              });
+            } else {
+              questions = raw
+                .split('\n').map(l=>l.trim()).filter(l=>l)
+                .map(q=>({ question:q.replace(/^\d+\.\s*/,''), answer:null }));
+            }
+          }
+          // Prepare usedQuestionIndices for unique rotation
+          usedQuestionIndices = [];
+          let order = document.querySelector('input[name="order"]:checked').value;
+          console.log('DEBUG: Questions array at game start:', questions);
+          if (order === 'random') {
+            // Shuffle indices
+            usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
+            for (let i = usedQuestionIndices.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [usedQuestionIndices[i], usedQuestionIndices[j]] = [usedQuestionIndices[j], usedQuestionIndices[i]];
+            }
+          } else {
+            usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
+          }
+          qIndex = 0;
+          setupScreen.classList.add('hidden');
+          gameScreen.classList.remove('hidden');
+          // Show Android image if single player
+          if (singlePlayer) {
+            androidImg.style.display = 'inline-block';
+            nameBEl.textContent = 'Android';
+            teamBNameContainer.classList.add('single-player');
+          } else {
+            androidImg.style.display = 'none';
+            nameBEl.textContent = names.B;
+            teamBNameContainer.classList.remove('single-player');
+          }
+          initGame(tornadoCount, doubleCount, loseCount, swapCount); buildGrid(total); showQuestion();
+        };
+      }
+
+      if (passBtn) passBtn.onclick = () => {
         turn = turn==='A'?'B':'A';
         updateTurn();
         showQuestion();
@@ -1580,10 +1719,10 @@ The Beatles"></textarea>
           setTimeout(computerTurn, 1500);
         }
       };
-      skipBtn.onclick = () => { 
+      if (skipBtn) skipBtn.onclick = () => { 
         qIndex = (qIndex + 1) % usedQuestionIndices.length; showQuestion(); 
       };
-      revealBtn.onclick = () => {
+      if (revealBtn) revealBtn.onclick = () => {
         const qObj = questions[usedQuestionIndices[qIndex]] || {question:'',answer:null};
         answerEl.textContent = qObj.answer || '';
         answerEl.style.color = turn==='A'?'var(--teamA)':'var(--teamB)';
@@ -1591,7 +1730,7 @@ The Beatles"></textarea>
         console.log('DEBUG: Revealed answer for question:', qObj.question, '| Answer:', qObj.answer);
       };
 
-      resetBtn.onclick = () => {
+      if (resetBtn) resetBtn.onclick = () => {
         // Get current special item counts
         let tornadoCount = parseInt(document.getElementById('tornadoCount').value);
         let doubleCount = parseInt(document.getElementById('doubleCount').value);
@@ -1603,19 +1742,21 @@ The Beatles"></textarea>
         showQuestion();
         document.getElementById('questionAnswerRow').style.display = 'none';
       };
-      document.getElementById('homeBtn').onclick = () => {
-        gameScreen.classList.add('hidden');
-        setupScreen.classList.remove('hidden');
-        // Reset everything to initial state
-        scores={A:0,B:0}; picks={A:0,B:0};
-        annA.textContent=''; annB.textContent='';
-        nameAEl.textContent=names.A; nameBEl.textContent=names.B;
-        updateScores(); turn='A'; updateTurn();
-        gridEl.innerHTML='';
-        document.getElementById('questionAnswerRow').style.display = 'none';
-        // No need to reassign selector values; UI is already reset
-        showQuestion();
-      };
+      if (document.getElementById('homeBtn')) {
+        document.getElementById('homeBtn').onclick = () => {
+          gameScreen.classList.add('hidden');
+          setupScreen.classList.remove('hidden');
+          // Reset everything to initial state
+          scores={A:0,B:0}; picks={A:0,B:0};
+          annA.textContent=''; annB.textContent='';
+          nameAEl.textContent=names.A; nameBEl.textContent=names.B;
+          updateScores(); turn='A'; updateTurn();
+          gridEl.innerHTML='';
+          document.getElementById('questionAnswerRow').style.display = 'none';
+          // No need to reassign selector values; UI is already reset
+          showQuestion();
+        };
+      }
 
       function initGame(tornadoCount=2, doubleCount=2, loseCount=2, swapCount=1){
         scores={A:0,B:0}; picks={A:0,B:0};
