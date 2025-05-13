@@ -1259,6 +1259,21 @@ The Beatles"></textarea>
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w'
       );
 
+      // === FOLDER MANAGEMENT ===
+      let myLibraryFolders = [];
+
+      function loadMyLibraryFolders() {
+        const stored = localStorage.getItem('myLibraryFolders');
+        myLibraryFolders = stored ? JSON.parse(stored) : [];
+      }
+
+      function saveMyLibraryFolders() {
+        localStorage.setItem('myLibraryFolders', JSON.stringify(myLibraryFolders));
+      }
+
+      // Load folders immediately
+      loadMyLibraryFolders();
+
       // === DOM REFS ===
       const setupScreen = document.getElementById('setupScreen');
       const gameScreen = document.getElementById('gameScreen');
@@ -1295,9 +1310,8 @@ The Beatles"></textarea>
         return user;
       }
 
-      // Render Play Tornado Library (public quizzes)
+      // Refactored renderPublicLibrary
       async function renderPublicLibrary() {
-        // Load quiz_library.json and group by category and folder
         librarySection.innerHTML = '<h2>Play Tornado Library</h2><div>Loading public quizzes...</div>';
         try {
           const res = await fetch('quiz_library.json');
@@ -1329,20 +1343,30 @@ The Beatles"></textarea>
                 <summary style="font-size:1.08em;font-weight:600;cursor:pointer;background:#f6f6f6;padding:0.4em 1em;border-radius:6px;">${folder}</summary>
                 <ul style="list-style:none;padding-left:1.2em;">`;
               categories[cat].folders[folder].forEach(quiz => {
-                html += `<li style="margin-bottom:0.5em;">
-                  <b>${quiz.title}</b> <span style="color:#888;font-size:0.95em;">(${quiz.questions && quiz.questions.length ? quiz.questions.length : 0} questions)</span>
-                  <button class="purple-btn" style="margin-left:1em;" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('jsonlib:${quiz.index}')">Play</button>
-                  <button class="purple-btn" style="margin-left:0.5em;" onclick="window.addJsonQuizToMyLibrary && window.addJsonQuizToMyLibrary(${quiz.index})">Add to My Library</button>
+                html += `<li style="margin-bottom:0.5em;display:flex;align-items:center;justify-content:space-between;">
+                  <div style='flex:1;min-width:0;'>
+                    <a href="#quiz-${quiz.index}" style="font-weight:bold;text-decoration:underline;cursor:pointer;">${quiz.title}</a>
+                    <span style="color:#888;font-size:0.95em;">(${quiz.questions && quiz.questions.length ? quiz.questions.length : 0} questions)</span>
+                  </div>
+                  <div style='display:flex;gap:0.5em;'>
+                    <button class="purple-btn" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('jsonlib:${quiz.index}')">Play</button>
+                    <button class="purple-btn" onclick="window.addJsonQuizToMyLibrary && window.addJsonQuizToMyLibrary(${quiz.index})">Add to My Library</button>
+                  </div>
                 </li>`;
               });
               html += '</ul></details>';
             });
             // Quizzes not in a folder
             categories[cat].root.forEach(quiz => {
-              html += `<li style="margin-bottom:0.5em;">
-                <b>${quiz.title}</b> <span style="color:#888;font-size:0.95em;">(${quiz.questions && quiz.questions.length ? quiz.questions.length : 0} questions)</span>
-                <button class="purple-btn" style="margin-left:1em;" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('jsonlib:${quiz.index}')">Play</button>
-                <button class="purple-btn" style="margin-left:0.5em;" onclick="window.addJsonQuizToMyLibrary && window.addJsonQuizToMyLibrary(${quiz.index})">Add to My Library</button>
+              html += `<li style="margin-bottom:0.5em;display:flex;align-items:center;justify-content:space-between;">
+                <div style='flex:1;min-width:0;'>
+                  <a href="#quiz-${quiz.index}" style="font-weight:bold;text-decoration:underline;cursor:pointer;">${quiz.title}</a>
+                  <span style="color:#888;font-size:0.95em;">(${quiz.questions && quiz.questions.length ? quiz.questions.length : 0} questions)</span>
+                </div>
+                <div style='display:flex;gap:0.5em;'>
+                  <button class="purple-btn" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('jsonlib:${quiz.index}')">Play</button>
+                  <button class="purple-btn" onclick="window.addJsonQuizToMyLibrary && window.addJsonQuizToMyLibrary(${quiz.index})">Add to My Library</button>
+                </div>
               </li>`;
             });
             html += '</ul></details>';
@@ -1354,141 +1378,51 @@ The Beatles"></textarea>
         }
       }
 
+      // New: Render Quiz Detail Page
+      async function renderQuizDetailPage(quizIndex) {
+        librarySection.innerHTML = '<h2>Loading quiz...</h2>';
+        const res = await fetch('quiz_library.json');
+        const quizLibrary = await res.json();
+        const quiz = quizLibrary[quizIndex];
+        if (!quiz) {
+          librarySection.innerHTML = '<div style="color:red;">Quiz not found.</div>';
+          return;
+        }
+        let html = `<div style='max-width:700px;margin:0 auto;'>
+          <h2>${quiz.title}</h2>
+          <div style='margin-bottom:1em;color:#888;'>${quiz.category || ''} &mdash; ${quiz.questions && quiz.questions.length ? quiz.questions.length : 0} questions</div>
+          <div style='display:flex;gap:0.5em;margin-bottom:1.5em;'>
+            <button class="purple-btn" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('jsonlib:${quizIndex}')">Play</button>
+            <button class="purple-btn" onclick="window.addJsonQuizToMyLibrary && window.addJsonQuizToMyLibrary(${quizIndex})">Add to My Library</button>
+            <button class="purple-btn" onclick="navigator.clipboard.writeText(window.location.href)">Share</button>
+          </div>
+          <ol style='background:#f9f9f9;padding:1.2em 1.5em;border-radius:10px;'>`;
+        quiz.questions.forEach((q, i) => {
+          html += `<li style='margin-bottom:1em;'><b>Q:</b> ${q.question}<br><b>A:</b> ${q.answer || ''}</li>`;
+        });
+        html += '</ol></div>';
+        librarySection.innerHTML = html;
+      }
+
       // Render My Library (user's quizzes)
       async function renderMyLibrary() {
+        loadMyLibraryFolders();
         const user = await getCurrentUser();
         if (!user) {
           librarySection.innerHTML = '<h2>My Library</h2><div style="color:#e57373;">Please log in to view your library.</div>';
           return;
         }
-        // Add Create Quiz button and modal container (modal is always present)
+        // Add Create Folder button
         librarySection.innerHTML = `
           <h2>My Library</h2>
-          <button id="createQuizBtn" class="purple-btn" style="margin-bottom:1.2em;">+ Create Quiz</button>
-          <div id="createQuizModal" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(49,114,122,0.85);z-index:3000;display:none;align-items:center;justify-content:center;">
-            <div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
-              <button id="closeCreateQuizModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
-              <h3 style="margin-top:0;">Create a New Quiz</h3>
-              <form id="createQuizForm">
-                <label>Title:<br><input id="quizTitleInput" required maxlength="60" style="width:100%;margin-bottom:0.7em;"></label>
-                <label>Category:<br>
-                  <select id="quizCategorySelect" style="width:100%;margin-bottom:0.7em;"></select>
-                </label>
-                <div id="newCategoryContainer" class="hidden" style="margin-bottom:0.7em;">
-                  <input id="newCategoryInput" placeholder="New category name" maxlength="32" style="width:100%;">
-                </div>
-                <label>Q&A:<br>
-                  <textarea id="quizQuestionsInput" required placeholder="Question 1?\nAnswer 1\n\nQuestion 2?\nAnswer 2" style="width:100%;height:120px;margin-bottom:0.7em;"></textarea>
-                </label>
-                <label style="display:flex;align-items:center;gap:0.5em;margin-bottom:1em;">
-                  <input type="checkbox" id="quizIsPublicInput"> Publish to Play Tornado Library
-                </label>
-                <button type="submit" class="purple-btn" style="width:100%;">Create Quiz</button>
-                <div id="createQuizError" style="color:#e57373;margin-top:0.7em;"></div>
-              </form>
-            </div>
-          </div>
+          <button id="createFolderBtn" class="purple-btn" style="margin-bottom:1.2em;">+ Create Folder</button>
+          <button id="createQuizBtn" class="purple-btn" style="margin-bottom:1.2em;margin-left:1em;">+ Create Quiz</button>
+          <div id="createQuizModal" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(49,114,122,0.85);z-index:3000;display:none;align-items:center;justify-content:center;"></div>
           <div id="myLibraryList">Loading your quizzes...</div>
         `;
-        // Modal logic and event handlers (always attach after render)
-        const createQuizBtn = document.getElementById('createQuizBtn');
-        const createQuizModal = document.getElementById('createQuizModal');
-        const closeCreateQuizModal = document.getElementById('closeCreateQuizModal');
-        const quizCategorySelect = document.getElementById('quizCategorySelect');
-        const newCategoryContainer = document.getElementById('newCategoryContainer');
-        const newCategoryInput = document.getElementById('newCategoryInput');
-        const createQuizForm = document.getElementById('createQuizForm');
-        const createQuizError = document.getElementById('createQuizError');
-        // Show modal
-        createQuizBtn.onclick = () => {
-          createQuizModal.style.display = 'flex';
-          createQuizError.textContent = '';
-          loadCategories();
-          console.log('Create Quiz button clicked, modal opened.');
-        };
-        // Hide modal
-        closeCreateQuizModal.onclick = () => {
-          createQuizModal.style.display = 'none';
-        };
-        createQuizModal.onclick = function(e) {
-          if (e.target === this) closeCreateQuizModal.onclick();
-        };
-        // Load categories from Supabase
-        async function loadCategories() {
-          quizCategorySelect.innerHTML = '<option value="">Select category</option>';
-          let { data, error } = await supabaseClient
-            .from('quizzes')
-            .select('category')
-            .neq('category', null);
-          let cats = (data||[]).map(q => q.category).filter(Boolean);
-          cats = Array.from(new Set(cats)).sort((a,b)=>a.localeCompare(b));
-          cats.forEach(cat => {
-            const opt = document.createElement('option');
-            opt.value = cat;
-            opt.textContent = cat;
-            quizCategorySelect.appendChild(opt);
-          });
-          // Add 'Create new category...' option
-          const newOpt = document.createElement('option');
-          newOpt.value = '__new__';
-          newOpt.textContent = 'Create new category...';
-          quizCategorySelect.appendChild(newOpt);
-        }
-        // Show/hide new category input
-        quizCategorySelect.onchange = function() {
-          if (quizCategorySelect.value === '__new__') {
-            newCategoryContainer.classList.remove('hidden');
-            newCategoryInput.required = true;
-          } else {
-            newCategoryContainer.classList.add('hidden');
-            newCategoryInput.required = false;
-          }
-        };
-        // Handle quiz creation
-        createQuizForm.onsubmit = async function(e) {
-          e.preventDefault();
-          const title = document.getElementById('quizTitleInput').value.trim();
-          let category = quizCategorySelect.value;
-          if (category === '__new__') {
-            category = newCategoryInput.value.trim();
-            if (!category) {
-              createQuizError.textContent = 'Please enter a new category name.';
-              return;
-            }
-          }
-          const is_public = document.getElementById('quizIsPublicInput').checked;
-          // Parse Q&A
-          const raw = document.getElementById('quizQuestionsInput').value;
-          const blocks = raw.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
-          let questions = [];
-          if(blocks.some(b => b.split('\n').length>1)){
-            questions = blocks.map(b=>{
-              const [q,a] = b.split('\n');
-              return { question:q.trim(), answer:a?.trim()||null };
-            });
-          } else {
-            questions = raw
-              .split('\n').map(l=>l.trim()).filter(l=>l)
-              .map(q=>({ question:q.replace(/^\d+\.\s*/,''), answer:null }));
-          }
-          if (!title || !category || questions.length === 0) {
-            createQuizError.textContent = 'Please fill in all fields.';
-            return;
-          }
-          // Insert quiz
-          const { error } = await supabaseClient.from('quizzes').insert([
-            { title, category, questions, is_public, owner: user.id }
-          ]);
-          if (error) {
-            createQuizError.textContent = error.message;
-            return;
-          }
-          createQuizModal.style.display = 'none';
-          alert('Quiz created!');
-          renderMyLibrary();
-          renderPublicLibrary();
-        };
-        // Fetch and render quizzes
+        document.getElementById('createFolderBtn').onclick = showCreateFolderModal;
+        // ... rest of createQuizBtn/modal logic ...
+        // Fetch quizzes
         let { data, error } = await supabaseClient
           .from('quizzes')
           .select('*')
@@ -1502,21 +1436,115 @@ The Beatles"></textarea>
           document.getElementById('myLibraryList').innerHTML = '<div>You have no quizzes yet.</div>';
           return;
         }
-        let html = '<ul style="list-style:none;padding:0;">';
-        for (const quiz of data) {
-          html += `<li style="background:#fff;border-radius:10px;padding:1.2em;margin-bottom:1em;box-shadow:0 2px 8px rgba(0,0,0,0.07);text-align:left;">
-            <b>${quiz.title}</b> <span style="color:#888;font-size:0.95em;">(${quiz.category||'Uncategorized'})</span><br>
-            <span style="font-size:0.95em;color:#888;">${quiz.questions ? (Array.isArray(quiz.questions) ? quiz.questions.length : Object.keys(quiz.questions).length) : 0} questions</span>
-            <div style="margin-top:0.7em;display:flex;gap:1em;">
-              <button class="purple-btn" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('${quiz.id}')">Play</button>
-              <button class="purple-btn" onclick="window.publishQuizToPublic && window.publishQuizToPublic('${quiz.id}')">Publish to Play Tornado Library</button>
-              <button class="purple-btn" onclick="window.editQuiz && window.editQuiz('${quiz.id}')">Edit</button>
-              <button class="purple-btn" onclick="window.deleteQuiz && window.deleteQuiz('${quiz.id}')">Delete</button>
-            </div>
-          </li>`;
-        }
-        html += '</ul>';
+        // Group quizzes by folder
+        const folderGroups = {};
+        myLibraryFolders.forEach(f => folderGroups[f] = []);
+        folderGroups['Uncategorized'] = [];
+        data.forEach(q => {
+          if (q.folder && myLibraryFolders.includes(q.folder)) {
+            folderGroups[q.folder].push(q);
+          } else {
+            folderGroups['Uncategorized'].push(q);
+          }
+        });
+        // Render folders (collapsible), always show all folders
+        let html = '';
+        Object.keys(folderGroups).forEach(folder => {
+          html += `<details open style="margin-bottom:1.2em;" class="folder-dropzone" data-folder="${folder}">
+            <summary style="font-size:1.1em;font-weight:700;cursor:pointer;background:#eee;padding:0.5em 1em;border-radius:8px;">${folder}</summary>
+            <ul style="list-style:none;padding-left:1.2em;">`;
+          if (folderGroups[folder].length === 0) {
+            html += `<li style='color:#888;font-size:0.98em;margin-bottom:0.7em;'>No quizzes in this folder.</li>`;
+          }
+          folderGroups[folder].forEach(quiz => {
+            const dropdownId = `moveFolderDropdown-${quiz.id}`;
+            html += `<li style="background:#fff;border-radius:10px;padding:1.2em;margin-bottom:1em;box-shadow:0 2px 8px rgba(0,0,0,0.07);text-align:left;" draggable="true" data-quizid="${quiz.id}">
+              <a href="#myquiz-${quiz.id}" style="font-weight:bold;text-decoration:underline;cursor:pointer;">${quiz.title}</a> <span style="color:#888;font-size:0.95em;">(${quiz.category||'Uncategorized'})</span><br>
+              <span style="font-size:0.95em;color:#888;">${quiz.questions ? (Array.isArray(quiz.questions) ? quiz.questions.length : Object.keys(quiz.questions).length) : 0} questions</span>
+              <div style="margin-top:0.7em;display:flex;gap:1em;align-items:center;">
+                <button class="purple-btn play-btn" data-quizid="${quiz.id}">Play</button>
+                <button class="purple-btn publish-btn" data-quizid="${quiz.id}">Publish to Play Tornado Library</button>
+                <button class="purple-btn edit-btn" data-quizid="${quiz.id}">Edit</button>
+                <button class="purple-btn delete-btn" data-quizid="${quiz.id}">Delete</button>
+                <select class="move-folder-dropdown" id="${dropdownId}" data-quizid="${quiz.id}" style="margin-left:1em;">
+                  <option value="">Select folder...</option>
+                  ${myLibraryFolders.map(f => `<option value="${f}"${quiz.folder===f?' selected':''}>${f}</option>`).join('')}
+                  <option value="Uncategorized"${!quiz.folder?' selected':''}>Uncategorized</option>
+                </select>
+                <button class="purple-btn move-btn" data-quizid="${quiz.id}" data-dropdownid="${dropdownId}" style="padding:6px 16px;font-size:1em;">Move</button>
+              </div>
+            </li>`;
+          });
+          html += '</ul></details>';
+        });
         document.getElementById('myLibraryList').innerHTML = html;
+
+        // Attach event listeners for Move, Play, Publish, Edit, Delete after rendering
+        const myLibraryList = document.getElementById('myLibraryList');
+        if (myLibraryList) {
+          // Move button
+          myLibraryList.querySelectorAll('.move-btn').forEach(btn => {
+            btn.onclick = async function() {
+              const quizId = btn.getAttribute('data-quizid');
+              const dropdownId = btn.getAttribute('data-dropdownid');
+              const sel = document.getElementById(dropdownId);
+              if (!sel) { console.log('Dropdown not found for quiz', quizId); return; }
+              const folder = sel.value;
+              console.log('Move button clicked:', {quizId, folder});
+              const { error } = await supabaseClient.from('quizzes').update({ folder: folder === 'Uncategorized' ? null : folder }).eq('id', quizId);
+              if (error) {
+                console.error('Supabase update error:', error);
+                alert('Error moving quiz: ' + error.message);
+              } else {
+                console.log('Quiz moved successfully');
+                await renderMyLibrary();
+              }
+            };
+          });
+          // Drag-and-drop support
+          myLibraryList.querySelectorAll('li[draggable="true"]').forEach(li => {
+            li.ondragstart = function(e) {
+              e.dataTransfer.setData('text/plain', li.getAttribute('data-quizid'));
+              li.style.opacity = '0.5';
+              console.log('Drag start:', li.getAttribute('data-quizid'));
+            };
+            li.ondragend = function(e) {
+              li.style.opacity = '1';
+            };
+          });
+          myLibraryList.querySelectorAll('.folder-dropzone').forEach(folderEl => {
+            folderEl.ondragover = function(e) { e.preventDefault(); folderEl.style.background = '#e6e6fa'; };
+            folderEl.ondragleave = function(e) { folderEl.style.background = ''; };
+            folderEl.ondrop = async function(e) {
+              e.preventDefault();
+              folderEl.style.background = '';
+              const quizId = e.dataTransfer.getData('text/plain');
+              const folder = folderEl.getAttribute('data-folder');
+              console.log('Drop event:', {quizId, folder});
+              const { error } = await supabaseClient.from('quizzes').update({ folder: folder === 'Uncategorized' ? null : folder }).eq('id', quizId);
+              if (error) {
+                console.error('Supabase update error:', error);
+                alert('Error moving quiz: ' + error.message);
+              } else {
+                console.log('Quiz moved successfully (drag-and-drop)');
+                await renderMyLibrary();
+              }
+            };
+          });
+          // Play, Publish, Edit, Delete (reuse existing global functions)
+          myLibraryList.querySelectorAll('.play-btn').forEach(btn => {
+            btn.onclick = () => window.startQuizFromLibrary && window.startQuizFromLibrary(btn.getAttribute('data-quizid'));
+          });
+          myLibraryList.querySelectorAll('.publish-btn').forEach(btn => {
+            btn.onclick = () => window.publishQuizToPublic && window.publishQuizToPublic(btn.getAttribute('data-quizid'));
+          });
+          myLibraryList.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.onclick = () => window.editQuiz && window.editQuiz(btn.getAttribute('data-quizid'));
+          });
+          myLibraryList.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.onclick = () => window.deleteQuiz && window.deleteQuiz(btn.getAttribute('data-quizid'));
+          });
+        }
       }
 
       // Expose actions globally for inline onclick
@@ -1585,9 +1613,39 @@ The Beatles"></textarea>
         else alert('Quiz saved to your library!');
       };
       window.publishQuizToPublic = async function(quizId) {
-        const { error } = await supabaseClient.from('quizzes').update({ is_public: true }).eq('id', quizId);
-        if (error) alert('Error publishing quiz: ' + error.message);
-        else { alert('Quiz published!'); renderMyLibrary(); renderPublicLibrary(); }
+        // Get quiz from Supabase
+        const { data, error } = await supabaseClient.from('quizzes').select('*').eq('id', quizId).single();
+        if (error || !data) {
+          alert('Error: Quiz not found.');
+          return;
+        }
+        // Mark as public in DB
+        await supabaseClient.from('quizzes').update({ is_public: true }).eq('id', quizId);
+        // Append to quiz_library.json
+        try {
+          const res = await fetch('quiz_library.json');
+          if (!res.ok) throw new Error('Failed to fetch quiz_library.json');
+          const quizLibrary = await res.json();
+          // Avoid duplicates by title + questions
+          const exists = quizLibrary.some(q => q.title === data.title && JSON.stringify(q.questions) === JSON.stringify(data.questions));
+          if (!exists) {
+            quizLibrary.push({
+              title: data.title,
+              category: data.category,
+              questions: data.questions
+            });
+            await fetch('quiz_library.json', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(quizLibrary)
+            });
+          }
+          alert('Quiz published!');
+          renderMyLibrary();
+          renderPublicLibrary();
+        } catch (e) {
+          alert('Error publishing quiz: ' + e.message);
+        }
       };
       window.editQuiz = function(quizId) {
         alert('TODO: Edit quiz with ID: ' + quizId);
@@ -1637,7 +1695,13 @@ The Beatles"></textarea>
 
       // Hash-based navigation
       function handleHash() {
-        if (window.location.hash === '#my-library') {
+        if (window.location.hash.startsWith('#quiz-')) {
+          const quizIndex = parseInt(window.location.hash.replace('#quiz-', ''));
+          renderQuizDetailPage(quizIndex);
+        } else if (window.location.hash.startsWith('#myquiz-')) {
+          const quizId = window.location.hash.replace('#myquiz-', '');
+          renderMyQuizDetailPage(quizId);
+        } else if (window.location.hash === '#my-library') {
           showLibrary('my');
         } else if (window.location.hash === '#public-library') {
           showLibrary('public');
@@ -2403,6 +2467,222 @@ The Beatles"></textarea>
           }, 400);
         }, 3500);
       }
+
+      // 1. Make quiz titles in 'My Library' clickable and add detail page
+      async function renderMyQuizDetailPage(quizId) {
+        librarySection.innerHTML = '<h2>Loading quiz...</h2>';
+        // Try to fetch from Supabase
+        const { data, error } = await supabaseClient.from('quizzes').select('*').eq('id', quizId).single();
+        if (error || !data) {
+          librarySection.innerHTML = '<div style="color:red;">Quiz not found.</div>';
+          return;
+        }
+        const quiz = data;
+        let html = `<div style='max-width:700px;margin:0 auto;'>
+          <h2>${quiz.title}</h2>
+          <div style='margin-bottom:1em;color:#888;'>${quiz.category || ''} &mdash; ${quiz.questions && quiz.questions.length ? quiz.questions.length : 0} questions</div>
+          <div style='display:flex;gap:0.5em;margin-bottom:1.5em;'>
+            <button class="purple-btn" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('${quiz.id}')">Play</button>
+            <button class="purple-btn" onclick="window.publishQuizToPublic && window.publishQuizToPublic('${quiz.id}')">Publish to Play Tornado Library</button>
+            <button class="purple-btn" onclick="navigator.clipboard.writeText(window.location.href)">Share</button>
+          </div>
+          <ol style='background:#f9f9f9;padding:1.2em 1.5em;border-radius:10px;'>`;
+        (quiz.questions||[]).forEach((q, i) => {
+          html += `<li style='margin-bottom:1em;'><b>Q:</b> ${q.question}<br><b>A:</b> ${q.answer || ''}</li>`;
+        });
+        html += '</ol></div>';
+        librarySection.innerHTML = html;
+      }
+
+      // 2. Merge all categories from quiz_library.json and user quizzes for Create Quiz dropdown
+      async function loadCategories() {
+        quizCategorySelect.innerHTML = '<option value="">Select category</option>';
+        // Get user categories
+        let { data, error } = await supabaseClient.from('quizzes').select('category').neq('category', null);
+        let cats = (data||[]).map(q => q.category).filter(Boolean);
+        // Get public library categories
+        try {
+          const res = await fetch('quiz_library.json');
+          if (res.ok) {
+            const quizLibrary = await res.json();
+            const publicCats = quizLibrary.map(q => q.category).filter(Boolean);
+            cats = cats.concat(publicCats);
+          }
+        } catch (e) {}
+        cats = Array.from(new Set(cats)).sort((a,b)=>a.localeCompare(b));
+        cats.forEach(cat => {
+          const opt = document.createElement('option');
+          opt.value = cat;
+          opt.textContent = cat;
+          quizCategorySelect.appendChild(opt);
+        });
+        // Add 'Create new category...' option
+        const newOpt = document.createElement('option');
+        newOpt.value = '__new__';
+        newOpt.textContent = 'Create new category...';
+        quizCategorySelect.appendChild(newOpt);
+      }
+
+      // Add Create Folder button and modal
+      function showCreateFolderModal() {
+        const modal = document.createElement('div');
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100vw';
+        modal.style.height = '100vh';
+        modal.style.background = 'rgba(49,114,122,0.85)';
+        modal.style.zIndex = '4000';
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.innerHTML = `<div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
+          <button id="closeCreateFolderModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
+          <h3 style="margin-top:0;">Create a New Folder</h3>
+          <input id="newFolderNameInput" placeholder="Folder name" maxlength="32" style="width:100%;margin-bottom:1em;">
+          <button id="createFolderConfirmBtn" class="purple-btn" style="width:100%;">Create Folder</button>
+          <div id="createFolderError" style="color:#e57373;margin-top:0.7em;"></div>
+        </div>`;
+        document.body.appendChild(modal);
+        document.getElementById('closeCreateFolderModal').onclick = () => modal.remove();
+        modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
+        document.getElementById('createFolderConfirmBtn').onclick = async function() {
+          const name = document.getElementById('newFolderNameInput').value.trim();
+          if (!name) {
+            document.getElementById('createFolderError').textContent = 'Please enter a folder name.';
+            return;
+          }
+          if (myLibraryFolders.includes(name)) {
+            document.getElementById('createFolderError').textContent = 'Folder already exists.';
+            return;
+          }
+          myLibraryFolders.push(name);
+          saveMyLibraryFolders();
+          modal.remove();
+          await renderMyLibrary();
+        };
+      }
+
+      // ... inside renderMyLibrary, after rendering the buttons ...
+      const createQuizBtn = document.getElementById('createQuizBtn');
+      const createQuizModal = document.getElementById('createQuizModal');
+      createQuizBtn.onclick = () => {
+        createQuizModal.innerHTML = `<div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
+          <button id="closeCreateQuizModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
+          <h3 style="margin-top:0;">Create a New Quiz</h3>
+          <form id="createQuizForm">
+            <label>Title:<br><input id="quizTitleInput" required maxlength="60" style="width:100%;margin-bottom:0.7em;"></label>
+            <label>Category:<br>
+              <select id="quizCategorySelect" style="width:100%;margin-bottom:0.7em;"></select>
+            </label>
+            <div id="newCategoryContainer" class="hidden" style="margin-bottom:0.7em;">
+              <input id="newCategoryInput" placeholder="New category name" maxlength="32" style="width:100%;">
+            </div>
+            <label>Folder:<br>
+              <select id="quizFolderSelect" style="width:100%;margin-bottom:0.7em;">
+                <option value="">Uncategorized</option>
+                ${myLibraryFolders.map(f => `<option value="${f}">${f}</option>`).join('')}
+              </select>
+            </label>
+            <label>Q&A:<br>
+              <textarea id="quizQuestionsInput" required placeholder="Question 1?\nAnswer 1\n\nQuestion 2?\nAnswer 2" style="width:100%;height:120px;margin-bottom:0.7em;"></textarea>
+            </label>
+            <label style="display:flex;align-items:center;gap:0.5em;margin-bottom:1em;">
+              <input type="checkbox" id="quizIsPublicInput"> Publish to Play Tornado Library
+            </label>
+            <button type="submit" class="purple-btn" style="width:100%;">Create Quiz</button>
+            <div id="createQuizError" style="color:#e57373;margin-top:0.7em;"></div>
+          </form>
+        </div>`;
+        createQuizModal.style.display = 'flex';
+        createQuizModal.classList.remove('hidden');
+        attachCreateQuizModalLogic();
+      };
+      function attachCreateQuizModalLogic() {
+        const createQuizModal = document.getElementById('createQuizModal');
+        const closeCreateQuizModal = document.getElementById('closeCreateQuizModal');
+        const quizCategorySelect = document.getElementById('quizCategorySelect');
+        const newCategoryContainer = document.getElementById('newCategoryContainer');
+        const newCategoryInput = document.getElementById('newCategoryInput');
+        const createQuizForm = document.getElementById('createQuizForm');
+        const createQuizError = document.getElementById('createQuizError');
+        // Load categories
+        loadCategories();
+        // Show/hide modal
+        closeCreateQuizModal.onclick = () => {
+          createQuizModal.style.display = 'none';
+          createQuizModal.classList.add('hidden');
+        };
+        createQuizModal.onclick = function(e) {
+          if (e.target === this) closeCreateQuizModal.onclick();
+        };
+        // Show/hide new category input
+        quizCategorySelect.onchange = function() {
+          if (quizCategorySelect.value === '__new__') {
+            newCategoryContainer.classList.remove('hidden');
+            newCategoryInput.required = true;
+          } else {
+            newCategoryContainer.classList.add('hidden');
+            newCategoryInput.required = false;
+          }
+        };
+        // Handle quiz creation
+        createQuizForm.onsubmit = async function(e) {
+          e.preventDefault();
+          const title = document.getElementById('quizTitleInput').value.trim();
+          let category = quizCategorySelect.value;
+          if (category === '__new__') {
+            category = newCategoryInput.value.trim();
+            if (!category) {
+              createQuizError.textContent = 'Please enter a new category name.';
+              return;
+            }
+          }
+          const folder = document.getElementById('quizFolderSelect').value || null;
+          const is_public = document.getElementById('quizIsPublicInput').checked;
+          // Parse Q&A
+          const raw = document.getElementById('quizQuestionsInput').value;
+          const blocks = raw.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
+          let questions = [];
+          if(blocks.some(b => b.split('\n').length>1)){
+            questions = blocks.map(b=>{
+              const [q,a] = b.split('\n');
+              return { question:q.trim(), answer:a?.trim()||null };
+            });
+          } else {
+            questions = raw
+              .split('\n').map(l=>l.trim()).filter(l=>l)
+              .map(q=>({ question:q.replace(/^\d+\.\s*/,''), answer:null }));
+          }
+          if (!title || !category || questions.length === 0) {
+            createQuizError.textContent = 'Please fill in all fields.';
+            return;
+          }
+          // Insert quiz
+          const user = await getCurrentUser();
+          const { error } = await supabaseClient.from('quizzes').insert([
+            { title, category, questions, is_public, owner: user.id, folder }
+          ]);
+          if (error) {
+            createQuizError.textContent = error.message;
+            return;
+          }
+          createQuizModal.style.display = 'none';
+          createQuizModal.classList.add('hidden');
+          alert('Quiz created!');
+          renderMyLibrary();
+          renderPublicLibrary();
+        };
+      }
+
+      // Move quiz to folder (button-based)
+      window.moveQuizToFolderBtn = async function(quizId, dropdownId) {
+        const sel = document.getElementById(dropdownId);
+        if (!sel) return;
+        const folder = sel.value;
+        await supabaseClient.from('quizzes').update({ folder: folder === 'Uncategorized' ? null : folder }).eq('id', quizId);
+        await renderMyLibrary();
+      };
     });
   </script>
 </body>
