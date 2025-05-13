@@ -2612,14 +2612,30 @@ The Beatles"></textarea>
                   ${myLibraryFolders.map(f => `<option value="${f}">${f}</option>`).join('')}
                 </select>
               </label>
+              <label style="display:flex;align-items:center;gap:0.5em;margin-bottom:0.7em;">
+                <input type="checkbox" id="quizIsPublicInput">
+                <span>Publish to Play Tornado Library</span>
+              </label>
               <label>Q&A:<br>
-                <textarea id="quizQuestionsInput" required placeholder="Question 1?\nAnswer 1\n\nQuestion 2?\nAnswer 2" style="width:100%;height:120px;margin-bottom:0.7em;"></textarea>
+                <textarea id="quizQuestionsInput" required placeholder="Enter questions and answers in one of these formats:
+
+Format 1 (with answers):
+What is the capital of France?
+Paris
+
+What is 2+2?
+4
+
+Format 2 (questions only):
+What is the capital of France?
+What is 2+2?
+What is the largest planet in our solar system?" style="width:100%;height:120px;margin-bottom:0.7em;"></textarea>
               </label>
-              <label style="display:flex;align-items:center;gap:0.5em;margin-bottom:1em;">
-                <input type="checkbox" id="quizIsPublicInput"> Publish to Play Tornado Library
-              </label>
-              <button type="submit" class="purple-btn" style="width:100%;">Create Quiz</button>
+              <div style="display:flex;gap:0.7em;margin-bottom:1em;">
+                <button type="submit" class="purple-btn" style="flex:1;">Create Quiz</button>
+              </div>
               <div id="createQuizError" style="color:#e57373;margin-top:0.7em;"></div>
+              <div id="quizPreview" class="hidden" style="margin-top:1em;padding:1em;background:#f9f9f9;border-radius:8px;"></div>
             </form>
           </div>`;
           createQuizModal.style.display = 'flex';
@@ -2641,16 +2657,21 @@ The Beatles"></textarea>
         const newCategoryInput = document.getElementById('newCategoryInput');
         const createQuizForm = document.getElementById('createQuizForm');
         const createQuizError = document.getElementById('createQuizError');
+        const quizPreview = document.getElementById('quizPreview');
+        
         // Load categories
         loadCategories();
+        
         // Show/hide modal
         closeCreateQuizModal.onclick = () => {
           createQuizModal.style.display = 'none';
           createQuizModal.classList.add('hidden');
+          quizPreview.classList.add('hidden');
         };
         createQuizModal.onclick = function(e) {
           if (e.target === this) closeCreateQuizModal.onclick();
         };
+        
         // Show/hide new category input
         quizCategorySelect.onchange = function() {
           if (quizCategorySelect.value === '__new__') {
@@ -2661,6 +2682,48 @@ The Beatles"></textarea>
             newCategoryInput.required = false;
           }
         };
+
+        // Preview quiz
+        previewQuizBtn.onclick = function() {
+          const title = document.getElementById('quizTitleInput').value.trim();
+          let category = quizCategorySelect.value;
+          if (category === '__new__') {
+            category = newCategoryInput.value.trim();
+          }
+          const raw = document.getElementById('quizQuestionsInput').value;
+          const blocks = raw.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
+          let questions = [];
+          if(blocks.some(b => b.split('\n').length>1)){
+            questions = blocks.map(b=>{
+              const [q,a] = b.split('\n');
+              return { question:q.trim(), answer:a?.trim()||null };
+            });
+          } else {
+            questions = raw
+              .split('\n').map(l=>l.trim()).filter(l=>l)
+              .map(q=>({ question:q.replace(/^\d+\.\s*/,''), answer:null }));
+          }
+          
+          if (!title || !category || questions.length === 0) {
+            createQuizError.textContent = 'Please fill in all fields.';
+            return;
+          }
+          
+          let previewHtml = `
+            <h4 style="margin-top:0;">${title}</h4>
+            <div style="color:#666;margin-bottom:1em;">${category} • ${questions.length} questions</div>
+            <ol style="margin:0;padding-left:1.2em;">`;
+          questions.forEach((q, i) => {
+            previewHtml += `<li style="margin-bottom:0.7em;">
+              <div><b>Q:</b> ${q.question}</div>
+              ${q.answer ? `<div style="color:#666;"><b>A:</b> ${q.answer}</div>` : ''}
+            </li>`;
+          });
+          previewHtml += '</ol>';
+          quizPreview.innerHTML = previewHtml;
+          quizPreview.classList.remove('hidden');
+        };
+        
         // Handle quiz creation
         createQuizForm.onsubmit = async function(e) {
           e.preventDefault();
@@ -2675,6 +2738,13 @@ The Beatles"></textarea>
           }
           const folder = document.getElementById('quizFolderSelect').value || null;
           const is_public = document.getElementById('quizIsPublicInput').checked;
+          
+          // Validate category when publishing to library
+          if (is_public && (!category || category === '__new__')) {
+            createQuizError.textContent = 'Please select an existing category when publishing to the library.';
+            return;
+          }
+          
           // Parse Q&A
           const raw = document.getElementById('quizQuestionsInput').value;
           const blocks = raw.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
