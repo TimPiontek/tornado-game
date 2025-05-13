@@ -2593,38 +2593,42 @@ The Beatles"></textarea>
       // ... inside renderMyLibrary, after rendering the buttons ...
       const createQuizBtn = document.getElementById('createQuizBtn');
       const createQuizModal = document.getElementById('createQuizModal');
-      createQuizBtn.onclick = () => {
-        createQuizModal.innerHTML = `<div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
-          <button id="closeCreateQuizModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
-          <h3 style="margin-top:0;">Create a New Quiz</h3>
-          <form id="createQuizForm">
-            <label>Title:<br><input id="quizTitleInput" required maxlength="60" style="width:100%;margin-bottom:0.7em;"></label>
-            <label>Category:<br>
-              <select id="quizCategorySelect" style="width:100%;margin-bottom:0.7em;"></select>
-            </label>
-            <div id="newCategoryContainer" class="hidden" style="margin-bottom:0.7em;">
-              <input id="newCategoryInput" placeholder="New category name" maxlength="32" style="width:100%;">
-            </div>
-            <label>Folder:<br>
-              <select id="quizFolderSelect" style="width:100%;margin-bottom:0.7em;">
-                <option value="">Uncategorized</option>
-                ${myLibraryFolders.map(f => `<option value="${f}">${f}</option>`).join('')}
-              </select>
-            </label>
-            <label>Q&A:<br>
-              <textarea id="quizQuestionsInput" required placeholder="Question 1?\nAnswer 1\n\nQuestion 2?\nAnswer 2" style="width:100%;height:120px;margin-bottom:0.7em;"></textarea>
-            </label>
-            <label style="display:flex;align-items:center;gap:0.5em;margin-bottom:1em;">
-              <input type="checkbox" id="quizIsPublicInput"> Publish to Play Tornado Library
-            </label>
-            <button type="submit" class="purple-btn" style="width:100%;">Create Quiz</button>
-            <div id="createQuizError" style="color:#e57373;margin-top:0.7em;"></div>
-          </form>
-        </div>`;
-        createQuizModal.style.display = 'flex';
-        createQuizModal.classList.remove('hidden');
-        attachCreateQuizModalLogic();
-      };
+      if (createQuizBtn && createQuizModal) {
+        createQuizBtn.onclick = () => {
+          createQuizModal.innerHTML = `<div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
+            <button id="closeCreateQuizModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
+            <h3 style="margin-top:0;">Create a New Quiz</h3>
+            <form id="createQuizForm">
+              <label>Title:<br><input id="quizTitleInput" required maxlength="60" style="width:100%;margin-bottom:0.7em;"></label>
+              <label>Category:<br>
+                <select id="quizCategorySelect" style="width:100%;margin-bottom:0.7em;"></select>
+              </label>
+              <div id="newCategoryContainer" class="hidden" style="margin-bottom:0.7em;">
+                <input id="newCategoryInput" placeholder="New category name" maxlength="32" style="width:100%;">
+              </div>
+              <label>Folder:<br>
+                <select id="quizFolderSelect" style="width:100%;margin-bottom:0.7em;">
+                  <option value="">Uncategorized</option>
+                  ${myLibraryFolders.map(f => `<option value="${f}">${f}</option>`).join('')}
+                </select>
+              </label>
+              <label>Q&A:<br>
+                <textarea id="quizQuestionsInput" required placeholder="Question 1?\nAnswer 1\n\nQuestion 2?\nAnswer 2" style="width:100%;height:120px;margin-bottom:0.7em;"></textarea>
+              </label>
+              <label style="display:flex;align-items:center;gap:0.5em;margin-bottom:1em;">
+                <input type="checkbox" id="quizIsPublicInput"> Publish to Play Tornado Library
+              </label>
+              <button type="submit" class="purple-btn" style="width:100%;">Create Quiz</button>
+              <div id="createQuizError" style="color:#e57373;margin-top:0.7em;"></div>
+            </form>
+          </div>`;
+          createQuizModal.style.display = 'flex';
+          createQuizModal.classList.remove('hidden');
+          attachCreateQuizModalLogic();
+        };
+      } else {
+        console.warn('Create Quiz button or modal not found in DOM');
+      }
       function attachCreateQuizModalLogic() {
         const createQuizModal = document.getElementById('createQuizModal');
         const closeCreateQuizModal = document.getElementById('closeCreateQuizModal');
