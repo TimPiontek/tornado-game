@@ -2714,6 +2714,95 @@ The Beatles"></textarea>
         await supabaseClient.from('quizzes').update({ folder: folder === 'Uncategorized' ? null : folder }).eq('id', quizId);
         await renderMyLibrary();
       };
+
+      // 1. Change Home to How to Play in the header
+      // In the nav bar HTML:
+      // <a href="#" id="myLibraryLink" ...>My Library</a>
+      // <a href="#" id="publicLibraryLink" ...>Play Tornado Library</a>
+      // <button id="loginLogoutBtn" ...>Login</button>
+      // Change the Home link:
+      document.querySelector('nav a[href="/"]').textContent = 'How to Play';
+      document.querySelector('nav a[href="/"]').id = 'howToPlayLink';
+
+      // 2. Add How to Play page/section
+      function renderHowToPlayPage() {
+        librarySection.innerHTML = `
+          <div style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:center;gap:2.5rem;max-width:1100px;margin:2.5rem auto 0 auto;">
+            <div style="flex:0 0 220px;max-width:220px;display:flex;align-items:center;justify-content:center;">
+              <img src="tornado-logo.png" alt="Play Tornado Logo" style="width:200px;height:200px;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.10);background:#fff;">
+            </div>
+            <div style="flex:1 1 400px;min-width:320px;max-width:700px;text-align:left;">
+              <h1 style="font-size:2.2rem;margin-top:0;display:flex;align-items:center;gap:0.5em;">🌪️ How to Play Tornado</h1>
+              <p style="font-size:1.13rem;line-height:1.7;">Tornado is a fun, flexible classroom game that works great for review, practice, or just getting students excited to participate. You can use it with any content you already have: quizzes, worksheets, discussion questions, or even just verbal prompts. The game can be played as a whole class activity led by a teacher or host, or in single-player mode against the computer.</p>
+              <h2 style="margin-top:2.2em;display:flex;align-items:center;gap:0.5em;">🎯 Objective</h2>
+              <p>Earn the most points by answering questions correctly and avoiding surprise penalties hidden on the board.</p>
+              <h2 style="margin-top:2.2em;display:flex;align-items:center;gap:0.5em;">👥 Game Setup</h2>
+              <ul style="margin-bottom:1.2em;">
+                <li><b>Enter Team Names:</b> Choose two teams (or just one if playing solo).</li>
+                <li><b>Choose Grid Size:</b> Pick how many boxes you want in the game (e.g., 5x5).</li>
+                <li><b>Select Question Source:</b> Type in your questions, or leave it blank and use your own worksheet, quiz, or verbal questions.</li>
+                <li><b>Set Power-Ups and Penalties:</b> Choose how many of each special box to include. These are explained below.</li>
+              </ul>
+              <h2 style="margin-top:2.2em;display:flex;align-items:center;gap:0.5em;">🧠 How It Works</h2>
+              <ul style="margin-bottom:1.2em;">
+                <li>One team takes a turn choosing a numbered box.</li>
+                <li>The teacher or host reads a question.</li>
+                <li>If the team answers correctly, the host clicks the number.</li>
+                <li>The box reveals either a point value or a surprise effect.</li>
+                <li>If incorrect, the host decides whether to let the other team try or move on.</li>
+              </ul>
+              <p style="margin-bottom:1.2em;">You can use the <b>Skip</b> and <b>Pass</b> buttons to control the flow. The teacher or host has full control over pacing, turns, and score updates. In single-player mode, turns alternate automatically between the player and the computer.<br>Answers can be revealed at the teacher's or host's discretion.</p>
+              <h2 style="margin-top:2.2em;display:flex;align-items:center;gap:0.5em;">💥 Power-Ups and Penalties</h2>
+              <table style="width:100%;max-width:500px;background:#f9f9f9;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.04);margin-bottom:1.2em;">
+                <thead><tr style="font-weight:700;background:#eee;"><td style="padding:0.5em;">Emoji</td><td style="padding:0.5em;">Name</td><td style="padding:0.5em;">What It Does</td></tr></thead>
+                <tbody>
+                  <tr><td style="padding:0.5em;">🌪️</td><td style="padding:0.5em;">Tornado</td><td style="padding:0.5em;">Steal all of the other team's current points.</td></tr>
+                  <tr><td style="padding:0.5em;">🦁🦁</td><td style="padding:0.5em;">Double Lion</td><td style="padding:0.5em;">Double the number of points your team just earned.</td></tr>
+                  <tr><td style="padding:0.5em;">🦨</td><td style="padding:0.5em;">Skunk</td><td style="padding:0.5em;">Lose all of your team's points.</td></tr>
+                  <tr><td style="padding:0.5em;">🦘</td><td style="padding:0.5em;">Kangaroo Hop Swap</td><td style="padding:0.5em;">Swap your team's total score with the other team.</td></tr>
+                </tbody>
+              </table>
+              <p style="margin-bottom:1.2em;">You can choose how many of each to include before the game begins.</p>
+              <h2 style="margin-top:2.2em;display:flex;align-items:center;gap:0.5em;">✅ Tips for a Smooth Game</h2>
+              <ul style="margin-bottom:1.2em;">
+                <li>Keep the pace lively by preparing questions in advance.</li>
+                <li>Encourage team collaboration before answering.</li>
+                <li>Adjust difficulty and surprise settings based on your group.</li>
+                <li>Use it to reinforce key ideas, prep for a test, or wrap up a unit in a fun way.</li>
+              </ul>
+              <p style="font-size:1.08rem;color:#6F5C91;font-weight:600;">Tornado is powered by your creativity—use it however fits your classroom best!</p>
+              <button class="purple-btn" id="backToMainBtn" style="margin-top:2.5em;">← Back</button>
+            </div>
+          </div>
+        `;
+        document.getElementById('backToMainBtn').onclick = function() {
+          hideLibrary();
+          window.location.hash = '';
+        };
+      }
+
+      // 3. Hook up How to Play link in header
+      const howToPlayLink = document.getElementById('howToPlayLink');
+      if (howToPlayLink) {
+        howToPlayLink.onclick = function(e) {
+          e.preventDefault();
+          setupScreen.classList.add('hidden');
+          gameScreen.classList.add('hidden');
+          librarySection.classList.remove('hidden');
+          renderHowToPlayPage();
+          window.location.hash = '#how-to-play';
+        };
+      }
+
+      // 4. On main page, remove instructional text from How to Play box, leaving only the special item selectors
+      // Find the element that contains the How to Play instructions and remove its text content, keeping only the selectors
+      const howToPlayBox = document.querySelector('.how-to-play');
+      if (howToPlayBox) {
+        howToPlayBox.innerHTML = '';
+        // Move the special item selectors (if any) back in
+        const selectors = document.querySelector('.special-item-compact-list');
+        if (selectors) howToPlayBox.appendChild(selectors);
+      }
     });
   </script>
 </body>
