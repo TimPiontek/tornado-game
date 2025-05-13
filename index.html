@@ -92,9 +92,8 @@
 
     /* GAME */
     #gameScreen {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      max-width: 900px;
+      margin: auto;
     }
     #grid {
       flex: 1 1 auto;
@@ -120,9 +119,9 @@
       margin-bottom: 5px;
       font-weight: bold;
     }
-    .team h2 { margin: 5px 0 0; }
+    .team h2 { margin: 5px 0 0; font-size: 2.5rem; }
     .team p { font-size: 2em; margin: 5px 0 0; }
-    #turnDisplay { margin-bottom: 20px; color: var(--teamA); }
+    #turnDisplay { margin-bottom: 20px; color: var(--teamA); font-size: 1.5rem; }
 
     /* Question & Controls */
     #questionContainer {
@@ -697,19 +696,8 @@
       justify-content: center;
       align-items: center;
     }
-    .game-footer-btns {
-      width: 100%;
-      background: #6F5C91;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1.2rem 0 1.2rem 0;
-      margin: 0;
-      position: relative;
-      z-index: 10;
-    }
+    .game-footer-btns { display: none; }
+    #gameScreen:not(.hidden) .game-footer-btns { display: flex !important; }
     #resetBtn, #homeBtn {
       padding: 8px 16px;
       font-weight: 700;
