@@ -2626,9 +2626,13 @@ The Beatles"></textarea>
           createQuizModal.classList.remove('hidden');
           attachCreateQuizModalLogic();
         };
-      } else {
-        console.warn('Create Quiz button or modal not found in DOM');
       }
+      // On auth state change, always call renderMyLibrary if on My Library page
+      supabaseClient.auth.onAuthStateChange(async () => {
+        if (!librarySection.classList.contains('hidden') && window.location.hash === '#my-library') {
+          await renderMyLibrary();
+        }
+      });
       function attachCreateQuizModalLogic() {
         const createQuizModal = document.getElementById('createQuizModal');
         const closeCreateQuizModal = document.getElementById('closeCreateQuizModal');
