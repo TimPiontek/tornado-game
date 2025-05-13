@@ -1451,7 +1451,10 @@ The Beatles"></textarea>
         let html = '';
         Object.keys(folderGroups).forEach(folder => {
           html += `<details open style="margin-bottom:1.2em;" class="folder-dropzone" data-folder="${folder}">
-            <summary style="font-size:1.1em;font-weight:700;cursor:pointer;background:#eee;padding:0.5em 1em;border-radius:8px;">${folder}</summary>
+            <summary style="font-size:1.1em;font-weight:700;cursor:pointer;background:#eee;padding:0.5em 1em;border-radius:8px;display:flex;justify-content:space-between;align-items:center;">
+              <span>${folder}</span>
+              ${folder !== 'Uncategorized' ? `<button class="delete-folder-btn" data-folder="${folder}" style="background:none;border:none;color:#e57373;cursor:pointer;font-size:1.2em;padding:0 0.5em;">🗑️</button>` : ''}
+            </summary>
             <ul style="list-style:none;padding-left:1.2em;">`;
           if (folderGroups[folder].length === 0) {
             html += `<li style='color:#888;font-size:0.98em;margin-bottom:0.7em;'>No quizzes in this folder.</li>`;
@@ -1545,6 +1548,30 @@ The Beatles"></textarea>
             btn.onclick = () => window.deleteQuiz && window.deleteQuiz(btn.getAttribute('data-quizid'));
           });
         }
+
+        // Add delete folder functionality
+        myLibraryList.querySelectorAll('.delete-folder-btn').forEach(btn => {
+          btn.onclick = async function(e) {
+            e.stopPropagation(); // Prevent folder from toggling
+            const folder = btn.getAttribute('data-folder');
+            if (!confirm(`Are you sure you want to delete the folder "${folder}"? All quizzes in this folder will be moved to Uncategorized.`)) {
+              return;
+            }
+            // Move all quizzes in this folder to Uncategorized
+            const { error } = await supabaseClient
+              .from('quizzes')
+              .update({ folder: null })
+              .eq('folder', folder);
+            if (error) {
+              alert('Error moving quizzes: ' + error.message);
+              return;
+            }
+            // Remove folder from myLibraryFolders
+            myLibraryFolders = myLibraryFolders.filter(f => f !== folder);
+            saveMyLibraryFolders();
+            await renderMyLibrary();
+          };
+        });
       }
 
       // Expose actions globally for inline onclick
