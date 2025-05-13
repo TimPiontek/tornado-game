@@ -1870,11 +1870,23 @@ The Beatles"></textarea>
         }
       }
       updateLoginBtn();
-      supabaseClient.auth.onAuthStateChange((event, session) => {
+      supabaseClient.auth.onAuthStateChange(async (event, session) => {
         console.log('[DEBUG] onAuthStateChange:', event, session);
         updateLoginBtn();
         if (event === 'SIGNED_IN') {
           hideAuthModal();
+          // Immediately check user and update UI
+          const { data: { user }, error } = await supabaseClient.auth.getUser();
+          console.log('[DEBUG] onAuthStateChange SIGNED_IN, getUser:', user, error);
+          if (user) {
+            const btn = document.getElementById('loginLogoutBtn');
+            btn.textContent = 'Logout';
+            btn.style.background = '#fff';
+            btn.style.color = '#e57373';
+            btn.title = user.email || '';
+            // Fallback: reload if UI does not update
+            setTimeout(() => { if (!btn.textContent.includes('Logout')) window.location.reload(); }, 1000);
+          }
         }
       });
 
