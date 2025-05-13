@@ -1646,33 +1646,103 @@ The Beatles"></textarea>
           alert('Error: Quiz not found.');
           return;
         }
-        // Mark as public in DB
-        await supabaseClient.from('quizzes').update({ is_public: true }).eq('id', quizId);
-        // Append to quiz_library.json
+        // Fetch categories from quiz_library.json
+        let categories = [];
         try {
           const res = await fetch('quiz_library.json');
-          if (!res.ok) throw new Error('Failed to fetch quiz_library.json');
-          const quizLibrary = await res.json();
-          // Avoid duplicates by title + questions
-          const exists = quizLibrary.some(q => q.title === data.title && JSON.stringify(q.questions) === JSON.stringify(data.questions));
-          if (!exists) {
-            quizLibrary.push({
-              title: data.title,
-              category: data.category,
-              questions: data.questions
-            });
-            await fetch('quiz_library.json', {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(quizLibrary)
-            });
+          if (res.ok) {
+            const quizLibrary = await res.json();
+            categories = quizLibrary.map(q => q.category).filter(Boolean);
           }
-          alert('Quiz published!');
-          renderMyLibrary();
-          renderPublicLibrary();
-        } catch (e) {
-          alert('Error publishing quiz: ' + e.message);
-        }
+        } catch (e) {}
+        categories = Array.from(new Set(categories)).sort((a,b)=>a.localeCompare(b));
+        // Show modal to select/create category
+        const modal = document.createElement('div');
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100vw';
+        modal.style.height = '100vh';
+        modal.style.background = 'rgba(49,114,122,0.85)';
+        modal.style.zIndex = '4000';
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.innerHTML = `<div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
+          <button id="closePublishModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
+          <h3 style="margin-top:0;">Publish to Play Tornado Library</h3>
+          <label>Category:<br>
+            <select id="publishCategorySelect" style="width:100%;margin-bottom:0.7em;">
+              <option value="">Select category</option>
+              ${categories.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+              <option value="__new__">Create new category...</option>
+            </select>
+          </label>
+          <div id="publishNewCategoryContainer" class="hidden" style="margin-bottom:0.7em;">
+            <input id="publishNewCategoryInput" placeholder="New category name" maxlength="32" style="width:100%;">
+          </div>
+          <button id="publishConfirmBtn" class="purple-btn" style="width:100%;margin-top:1em;">Publish</button>
+          <div id="publishError" style="color:#e57373;margin-top:0.7em;"></div>
+        </div>`;
+        document.body.appendChild(modal);
+        document.getElementById('closePublishModal').onclick = () => modal.remove();
+        modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
+        const publishCategorySelect = document.getElementById('publishCategorySelect');
+        const publishNewCategoryContainer = document.getElementById('publishNewCategoryContainer');
+        const publishNewCategoryInput = document.getElementById('publishNewCategoryInput');
+        const publishConfirmBtn = document.getElementById('publishConfirmBtn');
+        const publishError = document.getElementById('publishError');
+        publishCategorySelect.onchange = function() {
+          if (publishCategorySelect.value === '__new__') {
+            publishNewCategoryContainer.classList.remove('hidden');
+            publishNewCategoryInput.required = true;
+          } else {
+            publishNewCategoryContainer.classList.add('hidden');
+            publishNewCategoryInput.required = false;
+          }
+        };
+        publishConfirmBtn.onclick = async function() {
+          let category = publishCategorySelect.value;
+          if (category === '__new__') {
+            category = publishNewCategoryInput.value.trim();
+            if (!category) {
+              publishError.textContent = 'Please enter a new category name.';
+              return;
+            }
+          }
+          if (!category) {
+            publishError.textContent = 'Please select or create a category.';
+            return;
+          }
+          // Mark as public in DB
+          await supabaseClient.from('quizzes').update({ is_public: true, category }).eq('id', quizId);
+          // Append to quiz_library.json
+          try {
+            const res = await fetch('quiz_library.json');
+            if (!res.ok) throw new Error('Failed to fetch quiz_library.json');
+            const quizLibrary = await res.json();
+            // Avoid duplicates by title + questions
+            const exists = quizLibrary.some(q => q.title === data.title && JSON.stringify(q.questions) === JSON.stringify(data.questions));
+            if (!exists) {
+              quizLibrary.push({
+                title: data.title,
+                category,
+                questions: data.questions
+              });
+              await fetch('quiz_library.json', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(quizLibrary)
+              });
+            }
+            alert('Quiz published!');
+            modal.remove();
+            renderMyLibrary();
+            renderPublicLibrary();
+          } catch (e) {
+            publishError.textContent = 'Error publishing quiz: ' + e.message;
+          }
+        };
       };
       window.editQuiz = function(quizId) {
         alert('TODO: Edit quiz with ID: ' + quizId);
