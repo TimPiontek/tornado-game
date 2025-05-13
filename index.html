@@ -166,10 +166,15 @@
       gap: 10px;
       margin-bottom: 20px;
       padding: 0 20px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      aspect-ratio: 1;
+      max-height: 70vh;
     }
     #grid button {
       font-size: 1.2em;
-      padding: 20px;
+      padding: 0;
       border: none;
       border-radius: 10px;
       background: var(--btn-bg);
@@ -178,11 +183,15 @@
       align-items: center;
       justify-content: center;
       transition: background .2s, color .2s;
+      aspect-ratio: 1;
+      font-weight: 700;
     }
     #grid button:hover { background: var(--btn-hover); }
     #grid button:disabled {
       background: #ccc;
       cursor: not-allowed;
+      font-size: 1.2em !important;
+      transform: none !important;
     }
 
     #resetBtn {
@@ -198,22 +207,101 @@
 
     /* Animations */
     @keyframes tornado {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% { transform: rotate(0deg) scale(1) translate(0, 0); }
+      20% { transform: rotate(180deg) scale(1.5) translate(-100px, -50px); }
+      40% { transform: rotate(360deg) scale(2) translate(100px, -100px); }
+      60% { transform: rotate(540deg) scale(1.8) translate(-50px, 50px); }
+      80% { transform: rotate(720deg) scale(1.3) translate(50px, 0); }
+      100% { transform: rotate(1080deg) scale(1) translate(0, 0); }
     }
     @keyframes double {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
+      0% { transform: scale(1) rotate(0deg); }
+      20% { transform: scale(1.4) rotate(-10deg); }
+      40% { transform: scale(1.8) rotate(10deg); }
+      60% { transform: scale(1.6) rotate(-5deg); }
+      80% { transform: scale(1.2) rotate(5deg); }
+      100% { transform: scale(1) rotate(0deg); }
     }
     @keyframes sad {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
+      0% { transform: translateY(0) rotate(0deg); }
+      20% { transform: translateY(-30px) rotate(-15deg); }
+      40% { transform: translateY(0) rotate(0deg); }
+      60% { transform: translateY(-20px) rotate(15deg); }
+      80% { transform: translateY(-10px) rotate(-5deg); }
+      100% { transform: translateY(0) rotate(0deg); }
     }
-    .tornado-animation { animation: tornado 0.5s linear; }
-    .double-animation { animation: double 0.5s ease; }
-    .sad-animation { animation: sad 0.5s ease; }
+    @keyframes kangaroo {
+      0% { transform: translateY(0) rotate(0deg); }
+      20% { transform: translateY(-60px) rotate(-20deg); }
+      40% { transform: translateY(0) rotate(0deg); }
+      60% { transform: translateY(-40px) rotate(20deg); }
+      80% { transform: translateY(-20px) rotate(-10deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+    @keyframes pointsReveal {
+      0% { transform: perspective(1000px) rotateX(0deg) scale(0.5) translateY(20px); opacity: 0; }
+      20% { transform: perspective(1000px) rotateX(20deg) scale(1.4) translateY(-20px); opacity: 1; }
+      40% { transform: perspective(1000px) rotateX(-15deg) scale(1.2) translateY(10px); }
+      60% { transform: perspective(1000px) rotateX(10deg) scale(1.3) translateY(-5px); }
+      80% { transform: perspective(1000px) rotateX(-5deg) scale(1.1) translateY(2px); }
+      100% { transform: perspective(1000px) rotateX(0deg) scale(1) translateY(0); }
+    }
+    @keyframes pointsTextGlow {
+      0% { text-shadow: 0 0 20px rgba(255,255,255,0.8); }
+      100% { text-shadow: 0 0 20px rgba(255,255,255,0.8); }
+    }
+    @keyframes specialPopup3D {
+      0% { transform: perspective(1000px) rotateX(0deg) scale(0.5); opacity: 0; }
+      20% { transform: perspective(1000px) rotateX(30deg) scale(1.4); opacity: 1; }
+      40% { transform: perspective(1000px) rotateX(-20deg) scale(1.3); }
+      60% { transform: perspective(1000px) rotateX(15deg) scale(1.4); }
+      80% { transform: perspective(1000px) rotateX(-5deg) scale(1.2); }
+      100% { transform: perspective(1000px) rotateX(0deg) scale(1); }
+    }
+    .tornado-animation { animation: tornado 2s cubic-bezier(.68,-0.55,.27,1.55); }
+    .double-animation { animation: double 1.5s cubic-bezier(.68,-0.55,.27,1.55); }
+    .sad-animation { animation: sad 1.5s cubic-bezier(.68,-0.55,.27,1.55); }
+    .kangaroo-animation { animation: kangaroo 1.5s cubic-bezier(.68,-0.55,.27,1.55); }
+    .points-reveal-animation { animation: pointsReveal 1.2s cubic-bezier(.68,-0.55,.27,1.55); }
+    .points-text-glow { animation: pointsTextGlow 2s ease-in-out infinite; }
+    .special-popup-3d { animation: specialPopup3D 1.5s cubic-bezier(.68,-0.55,.27,1.55); }
+
+    .special-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(111,92,145,0.95);
+      color: #fff;
+      font-size: 2.5rem;
+      font-weight: 900;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      padding: 2rem 3rem;
+      z-index: 1000;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+      max-width: 90vw;
+    }
+    .special-popup.show {
+      opacity: 1;
+    }
+    .special-popup .emoji {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .special-popup .slogan {
+      font-size: 1.8rem;
+      line-height: 1.2;
+      margin: 0;
+    }
 
     /* Game Info */
     .game-info {
@@ -571,9 +659,10 @@
       gap: 1.2rem;
       margin-bottom: 0.7rem;
       width: 100%;
-      max-width: 1100px;
+      max-width: 900px;
       margin-left: auto;
       margin-right: auto;
+      padding: 0 20px;
     }
     .team-left, .team-right {
       flex: 0 0 220px;
@@ -587,6 +676,7 @@
       align-items: center;
       justify-content: center;
       min-width: 0;
+      max-width: 400px;
     }
     #turnDisplay {
       font-size: 1.5rem;
@@ -904,6 +994,42 @@
     .team-b-name-container.single-player {
       justify-content: flex-start;
     }
+    /* Custom quiz dropdown */
+    .custom-quiz-dropdown-container { position: relative; width: 100%; max-width: none; margin: 0; }
+    .custom-quiz-dropdown { background: #fff; border-radius: 8px; border: 1px solid #ccc; padding: 0.7em 1em; cursor: pointer; min-height: 2.2em; font-size: 1.1em; text-align: left; position: relative; width: 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: flex-start; }
+    .custom-quiz-dropdown-list { position: absolute; top: 100%; left: 0; width: 100%; min-width: 0; max-width: none; background: #fff; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); z-index: 100; max-height: 320px; overflow-y: auto; margin-top: 4px; box-sizing: border-box; }
+    .custom-quiz-category, .custom-quiz-folder { font-weight: 700; font-size: 1.08em; cursor: pointer; background: #eee; padding: 0.5em 1em; border-radius: 6px; margin-bottom: 0.3em; display: flex; align-items: center; justify-content: space-between; }
+    .custom-quiz-category.open, .custom-quiz-folder.open { background: #d6d6f6; }
+    .custom-quiz-category-arrow, .custom-quiz-folder-arrow { margin-left: 0.7em; font-size: 0.9em; transition: transform 0.2s; }
+    .custom-quiz-category.open .custom-quiz-category-arrow, .custom-quiz-folder.open .custom-quiz-folder-arrow { transform: rotate(90deg); }
+    .custom-quiz-quizlist, .custom-quiz-folderlist { list-style: none; padding-left: 1.2em; margin: 0 0 0.5em 0; }
+    .custom-quiz-quizlist li, .custom-quiz-folderlist li { margin-bottom: 0.4em; cursor: pointer; padding: 0.2em 0.5em; border-radius: 4px; white-space: normal; word-break: break-word; background: none; }
+    .custom-quiz-quizlist li.selected, .custom-quiz-quizlist li:hover, .custom-quiz-folderlist li.selected, .custom-quiz-folderlist li:hover { background: #e6e6fa; }
+    /* Add styles for the unified card and grid */
+    .setup-unified-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+      padding: 2.2em 2.5em 1.5em 2.5em;
+      margin-bottom: 1.5em;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .setup-unified-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 1.2em 2.2em;
+      align-items: flex-start;
+    }
+    .setup-unified-cell { min-width: 0; width: 100%; }
+    .setup-unified-cell.full-width { grid-column: 1 / span 2; }
+    @media (max-width: 700px) {
+      .setup-unified-card { padding: 1.2em 0.7em 1em 0.7em; }
+      .setup-unified-grid { grid-template-columns: 1fr; grid-template-rows: none; gap: 1.2em 0; }
+      .setup-unified-cell.full-width { grid-column: 1 / span 1; }
+    }
   </style>
 </head>
 <body>
@@ -971,7 +1097,7 @@
               <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left; line-height: 1.1;">
                 <span>Kangaroo</span><span>Hop</span><span>Swap</span>
               </b>
-              <select id="swapCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option selected>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+              <select id="swapCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
               <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block; line-height: 2.1em; vertical-align: middle;">Swap points</span>
             </div>
           </div>
@@ -979,41 +1105,44 @@
       </div>
       <div class="setup-main-grid">
         <form id="setupForm" onsubmit="return false;">
-          <div class="setup-row">
-            <div class="team-box" style="display: flex; flex-direction: column; justify-content: flex-start; min-height: 110px;">
-              <label style="display: block; margin-bottom: 0.3em;">Team A Name:
-                <input id="teamANameInput" value="Team A" required maxlength="16" style="display: block; width: 100%; margin-bottom: 0.3em;">
-              </label>
-              <label style="display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.1em;">
-                <input type="checkbox" id="singlePlayerCheckbox" style="margin-right: 0.5em;"> <span style="white-space: nowrap;">Single Player</span>
-              </label>
-            </div>
-            <div class="team-box" style="display: flex; flex-direction: column; justify-content: flex-start; min-height: 110px;">
-              <label style="display: block; margin-bottom: 0.3em;">Team B Name:
-                <input id="teamBNameInput" value="Team B" required maxlength="16" style="display: block; width: 100%;">
-              </label>
+          <div class="setup-unified-card">
+            <div class="setup-unified-grid">
+              <div class="setup-unified-cell">
+                <label style="display: block; margin-bottom: 0.3em;">Team A Name:
+                  <input id="teamANameInput" value="Team A" required maxlength="16" style="display: block; width: 100%; margin-bottom: 0.3em;">
+                </label>
+              </div>
+              <div class="setup-unified-cell">
+                <label style="display: block; margin-bottom: 0.3em;">Team B Name:
+                  <input id="teamBNameInput" value="Team B" required maxlength="16" style="display: block; width: 100%;">
+                </label>
+              </div>
+              <div class="setup-unified-cell">
+                <label style="display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.1em;">
+                  <input type="checkbox" id="singlePlayerCheckbox" style="margin-right: 0.5em;"> <span style="white-space: nowrap;">Single Player</span>
+                </label>
+              </div>
+              <div class="setup-unified-cell">
+                <label>Grid Size:
+                  <select id="gridSizeInput">
+                    <option>8</option><option>10</option><option>16</option>
+                    <option selected>20</option><option>24</option>
+                    <option>30</option><option>32</option><option>40</option>
+                  </select>
+                </label>
+              </div>
+              <div class="setup-unified-cell full-width">
+                <label>Choose a Quiz:
+                  <div class="custom-quiz-dropdown-container" style="width:100%;">
+                    <div id="customQuizDropdown" class="custom-quiz-dropdown">--</div>
+                  </div>
+                </label>
+              </div>
             </div>
           </div>
-          <div class="setup-row">
-            <div class="quiz-box">
-              <label>Choose a Quiz:
-                <select id="quizSelect" style="width:100%;margin-top:10px;">
-                  <option value="">--</option>
-                </select>
-              </label>
-            </div>
-            <div class="grid-box">
-              <label>Grid Size:
-                <select id="gridSizeInput">
-                  <option>8</option><option>10</option><option>16</option>
-                  <option selected>20</option><option>24</option>
-                  <option>30</option><option>32</option><option>40</option>
-                </select>
-              </label>
-            </div>
-          </div>
-          <button id="startGameBtnBottom" class="purple-btn start-large compact-start-btn">Start Game</button>
+          <!-- Start Game button is now outside the card -->
         </form>
+        <button id="startGameBtnBottom" class="purple-btn start-large compact-start-btn" style="margin:1.2em auto 0 auto;display:block;">Start Game</button>
         <div class="questions-block compact-questions-block slightly-wider-questions-block align-bottom">
           <label>
             Q&A:
@@ -1666,65 +1795,16 @@ The Beatles"></textarea>
         .then(data => {
           console.log('Quiz library loaded:', data);
           quizLibrary = data;
-          // Group quizzes by category
-          const categories = {};
-          quizLibrary.forEach((quiz, i) => {
-            if (!quiz.title || !quiz.category || !quiz.questions) {
-              console.error('Malformed quiz object at index', i, quiz);
-            }
-            const cat = quiz.category || 'Other';
-            if (!categories[cat]) categories[cat] = [];
-            categories[cat].push({title: quiz.title, index: i});
-          });
-          // Build dropdown with optgroups
-          quizSelect.innerHTML = '<option value="">--</option>';
-          // Sort categories so ESL is first, then alphabetical
-          const sortedCats = Object.keys(categories).sort((a, b) => {
-            if (a.toLowerCase() === 'esl') return -1;
-            if (b.toLowerCase() === 'esl') return 1;
-            return a.localeCompare(b);
-          });
-          sortedCats.forEach(cat => {
-            const quizzes = categories[cat];
-            const optgroup = document.createElement('optgroup');
-            optgroup.label = cat;
-            let regular = quizzes;
-            if (/music/i.test(cat)) {
-              // Move any quiz with 'grateful dead' or 'beatles' (with or without 'the') to the end
-              const special = [];
-              regular = quizzes.filter(q => {
-                if (/(the\s+)?grateful dead|(the\s+)?beatles/i.test(q.title)) {
-                  special.push(q);
-                  return false;
-                }
-                return true;
-              });
-              regular = [...regular, ...special];
-            }
-            regular.forEach(q => {
-              const opt = document.createElement('option');
-              opt.value = q.index;
-              opt.textContent = q.title.replace(/\s*Quiz\s*\d+$/i, '').trim();
-              optgroup.appendChild(opt);
-            });
-            quizSelect.appendChild(optgroup);
-          });
-          console.log('Dropdown build complete.');
+          // No more quizSelect logic here!
+          // Custom dropdown is built dynamically when opened.
         })
         .catch(err => {
           console.error('Error loading quiz library:', err);
-          quizSelect.innerHTML = '<option value="">(Quiz library failed to load)</option>';
+          // Optionally show an error in the custom dropdown
         });
 
-      quizSelect.onchange = () => {
-        selectedQuizIndex = quizSelect.value !== '' ? parseInt(quizSelect.value) : null;
-        // Automatically set order to random when a quiz is selected
-        if (selectedQuizIndex !== null) {
-          const randomRadio = document.querySelector('input[name="order"][value="random"]');
-          if (randomRadio) randomRadio.checked = true;
-        }
-      };
-
+      // Remove quizSelect.onchange and all quizSelect references
+      // ... existing code ...
       // Modify Start Game logic to use selected quiz if chosen
       if (startBtnBottom) {
         startBtnBottom.onclick = () => {
@@ -1907,6 +1987,7 @@ The Beatles"></textarea>
         if(r.type==='points'){
           scores[me]+=r.value; out='+'+r.value;
           btn.style.color = me==='A'?'var(--teamA)':'var(--teamB)';
+          showPointsPopup(out, me);
         } else if(r.type==='lose'){
           scores[me]=0; out='🦨'; 
           styleSpecial(btn,me); 
@@ -1928,7 +2009,7 @@ The Beatles"></textarea>
           scores['B'] = temp;
           out='🦘';
           styleSpecial(btn,me);
-          showSpecialPopup('🦘','Kangaroo Hop Swap! Teams bounce and swap points!');
+          showSpecialPopup('🦘','Kangaroo Hop Swap! Teams swap points!');
           animateKangarooSwap();
         } else {
           scores[me]*=2; out='🦁🦁'; 
@@ -2000,11 +2081,11 @@ The Beatles"></textarea>
         turnEl.style.color = turn==='A'?'var(--teamA)':'var(--teamB)';
       }
 
-      function styleSpecial(btn,team){
+      function styleSpecial(btn, team) {
         const clr = team==='A'?'var(--teamA)':'var(--teamB)';
         btn.style.background = clr;
-        btn.style.color      = '#fff';
-        btn.style.fontSize   = '2.5em';
+        btn.style.color = '#fff';
+        btn.style.fontSize = '1.2em';
       }
 
       function playWind(){
@@ -2029,23 +2110,31 @@ The Beatles"></textarea>
 
       function showSpecialPopup(emoji, slogan, tornadoMode=false) {
         if (tornadoMode) {
-          specialPopup.innerHTML = `<span class='tornado-emoji-big'>🌪️</span><div class='tornado-text'>TORNADO!</div>`;
+          specialPopup.innerHTML = `
+            <div class="special-popup-3d">
+              <span class="emoji">🌪️</span>
+              <div class="slogan">TORNADO!</div>
+            </div>`;
           specialPopup.classList.add('show', 'tornado-mode');
           specialPopup.classList.remove('hidden');
           setTimeout(() => {
             specialPopup.classList.remove('show');
             setTimeout(() => specialPopup.classList.add('hidden'), 400);
             specialPopup.classList.remove('tornado-mode');
-          }, 2650);
+          }, 4000);
           return;
         }
-        specialPopup.innerHTML = `<span style="font-size:3.2rem;">${emoji}</span><div style="margin-top:0.5rem;font-size:1.5rem;">${slogan}</div>`;
+        specialPopup.innerHTML = `
+          <div class="special-popup-3d">
+            <span class="emoji">${emoji}</span>
+            <div class="slogan">${slogan}</div>
+          </div>`;
         specialPopup.classList.add('show');
         specialPopup.classList.remove('hidden');
         setTimeout(() => {
           specialPopup.classList.remove('show');
           setTimeout(() => specialPopup.classList.add('hidden'), 400);
-        }, 2650);
+        }, 3000);
       }
 
       function animateScore(team, animationClass) {
@@ -2073,15 +2162,48 @@ The Beatles"></textarea>
 
       // Confetti burst function
       function confettiBurst(targetBtn) {
-        const confetti=document.createElement('div');
-        confetti.style.position='absolute';
-        confetti.style.left=targetBtn.offsetLeft+targetBtn.offsetWidth/2+'px';
-        confetti.style.top=targetBtn.offsetTop+targetBtn.offsetHeight/2+'px';
-        confetti.style.pointerEvents='none';
-        confetti.style.zIndex=10000;
-        confetti.innerHTML = Array.from({length:7}).map(()=>`<span style="display:inline-block;font-size:3em;transform:rotate(${Math.random()*360}deg);color:hsl(${Math.random()*360},90%,60%);">🎉</span>`).join('');
-        document.body.appendChild(confetti);
-        setTimeout(()=>confetti.remove(),900);
+        const effect = document.createElement('div');
+        effect.style.position = 'absolute';
+        effect.style.left = targetBtn.offsetLeft + targetBtn.offsetWidth/2 + 'px';
+        effect.style.top = targetBtn.offsetTop + targetBtn.offsetHeight/2 + 'px';
+        effect.style.pointerEvents = 'none';
+        effect.style.zIndex = 10000;
+        
+        // Create a circular burst of particles
+        const particles = [];
+        const numParticles = 12;
+        const colors = ['#FFD700', '#FFA500', '#FF69B4', '#87CEEB', '#98FB98'];
+        
+        for (let i = 0; i < numParticles; i++) {
+          const particle = document.createElement('div');
+          const angle = (i / numParticles) * Math.PI * 2;
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          
+          particle.style.position = 'absolute';
+          particle.style.width = '8px';
+          particle.style.height = '8px';
+          particle.style.background = color;
+          particle.style.borderRadius = '50%';
+          particle.style.transform = 'translate(-50%, -50%)';
+          
+          const animation = particle.animate([
+            { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+            { transform: `translate(${Math.cos(angle) * 100}px, ${Math.sin(angle) * 100}px) scale(0)`, opacity: 0 }
+          ], {
+            duration: 1500,
+            easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+          });
+          
+          particles.push({ element: particle, animation });
+          effect.appendChild(particle);
+        }
+        
+        document.body.appendChild(effect);
+        
+        // Remove the effect after animation completes
+        setTimeout(() => {
+          effect.remove();
+        }, 1500);
       }
 
       // Sound effect stubs
@@ -2119,6 +2241,135 @@ The Beatles"></textarea>
             }, 2000);
           }
         }, 100); // Give popup a moment to appear
+      }
+
+      // --- Custom Expandable Quiz Dropdown Logic ---
+      const customQuizDropdown = document.getElementById('customQuizDropdown');
+      let customQuizDropdownList = null;
+      let customQuizDropdownOpen = false;
+      function closeCustomQuizDropdown() {
+        if (customQuizDropdownList) {
+          customQuizDropdownList.remove();
+          customQuizDropdownList = null;
+        }
+        customQuizDropdownOpen = false;
+      }
+      function openCustomQuizDropdown() {
+        if (customQuizDropdownOpen) return;
+        if (!quizLibrary || !quizLibrary.length) return;
+        // Group quizzes by category/folder
+        const categories = {};
+        quizLibrary.forEach((quiz, i) => {
+          const cat = quiz.category || 'Other';
+          const folder = quiz.folder || null;
+          if (!categories[cat]) categories[cat] = { folders: {}, root: [] };
+          if (folder) {
+            if (!categories[cat].folders[folder]) categories[cat].folders[folder] = [];
+            categories[cat].folders[folder].push({ ...quiz, index: i });
+          } else {
+            categories[cat].root.push({ ...quiz, index: i });
+          }
+        });
+        // Build dropdown list (no <details> or <summary>)
+        customQuizDropdownList = document.createElement('div');
+        customQuizDropdownList.className = 'custom-quiz-dropdown-list';
+        Object.keys(categories).sort((a,b)=>a.localeCompare(b)).forEach(cat => {
+          // Category header
+          const catDiv = document.createElement('div');
+          catDiv.className = 'custom-quiz-category';
+          catDiv.tabIndex = 0;
+          catDiv.innerHTML = `<span>${cat}</span><span class="custom-quiz-category-arrow">▶</span>`;
+          let open = false;
+          const quizList = document.createElement('ul');
+          quizList.className = 'custom-quiz-quizlist';
+          quizList.style.display = 'none';
+          // Folders
+          const folderNames = Object.keys(categories[cat].folders).sort((a,b)=>a.localeCompare(b));
+          folderNames.forEach(folder => {
+            const folderDiv = document.createElement('div');
+            folderDiv.className = 'custom-quiz-folder';
+            folderDiv.tabIndex = 0;
+            folderDiv.innerHTML = `<span>${folder}</span><span class="custom-quiz-folder-arrow">▶</span>`;
+            let folderOpen = false;
+            const folderList = document.createElement('ul');
+            folderList.className = 'custom-quiz-folderlist';
+            folderList.style.display = 'none';
+            categories[cat].folders[folder].forEach(quiz => {
+              const li = document.createElement('li');
+              li.textContent = quiz.title;
+              li.onclick = function(e) {
+                e.stopPropagation();
+                customQuizDropdown.textContent = quiz.title;
+                selectedQuizIndex = quiz.index;
+                closeCustomQuizDropdown();
+              };
+              if (selectedQuizIndex === quiz.index) li.classList.add('selected');
+              folderList.appendChild(li);
+            });
+            folderDiv.onclick = function(e) {
+              e.stopPropagation();
+              folderOpen = !folderOpen;
+              folderDiv.classList.toggle('open', folderOpen);
+              folderList.style.display = folderOpen ? '' : 'none';
+            };
+            folderDiv.appendChild(folderList);
+            quizList.appendChild(folderDiv);
+          });
+          // Root quizzes
+          categories[cat].root.forEach(quiz => {
+            const li = document.createElement('li');
+            li.textContent = quiz.title;
+            li.onclick = function(e) {
+              e.stopPropagation();
+              customQuizDropdown.textContent = quiz.title;
+              selectedQuizIndex = quiz.index;
+              closeCustomQuizDropdown();
+            };
+            if (selectedQuizIndex === quiz.index) li.classList.add('selected');
+            quizList.appendChild(li);
+          });
+          catDiv.onclick = function(e) {
+            e.stopPropagation();
+            open = !open;
+            catDiv.classList.toggle('open', open);
+            quizList.style.display = open ? '' : 'none';
+          };
+          customQuizDropdownList.appendChild(catDiv);
+          customQuizDropdownList.appendChild(quizList);
+        });
+        customQuizDropdown.parentNode.appendChild(customQuizDropdownList);
+        customQuizDropdownOpen = true;
+      }
+      if (customQuizDropdown) {
+        customQuizDropdown.onclick = function(e) {
+          e.stopPropagation();
+          if (customQuizDropdownOpen) {
+            closeCustomQuizDropdown();
+          } else {
+            openCustomQuizDropdown();
+          }
+        };
+        document.addEventListener('click', function(e) {
+          if (customQuizDropdownOpen) closeCustomQuizDropdown();
+        });
+      }
+      // Remove old quizSelect logic (dropdown and onchange)
+      // ... existing code ...
+
+      function showPointsPopup(points, team) {
+        const specialPopup = document.getElementById('specialPopup');
+        specialPopup.innerHTML = `<div class="points-reveal-animation points-text-glow">${points}</div>`;
+        specialPopup.classList.add('show', 'points-mode');
+        specialPopup.classList.remove('hidden');
+        specialPopup.style.color = team === 'A' ? 'var(--teamA)' : 'var(--teamB)';
+        
+        setTimeout(() => {
+          specialPopup.classList.remove('show');
+          setTimeout(() => {
+            specialPopup.classList.add('hidden');
+            specialPopup.classList.remove('points-mode');
+          }, 400);
+        }, 2500);
       }
     });
   </script>
