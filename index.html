@@ -62,7 +62,12 @@
     .hidden { display: none; }
 
     /* SETUP */
-    #setupScreen { max-width: 600px; margin: auto; text-align: left; }
+    #setupScreen {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: left;
+      margin-top: 0.5rem;
+    }
     #setupScreen p { margin-bottom: 15px; }
     #setupForm label { display: block; margin: 10px 0; }
     #setupForm input,
@@ -96,102 +101,30 @@
       margin: auto;
     }
     #grid {
-      flex: 1 1 auto;
-      margin-bottom: 0;
-    }
-    .scoreboard {
-      display: flex;
-      justify-content: center;
-      gap: 50px;
-      margin-bottom: 20px;
-    }
-    .team {
-      background: white;
-      padding: 10px 20px;
-      border-radius: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      min-width: 150px;
-    }
-    #nameA { color: var(--teamA); }
-    #nameB { color: var(--teamB); }
-    .announcement {
-      min-height: 1.4em;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    .team h2 { margin: 5px 0 0; font-size: 2.5rem; }
-    .team p { font-size: 2em; margin: 5px 0 0; }
-    #turnDisplay { margin-bottom: 20px; color: var(--teamA); font-size: 1.5rem; }
-
-    /* Question & Controls */
-    #questionContainer {
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
-    #question {
-      font-weight: bold;
-      max-width: 700px;
-      text-align: center;
-      color: #fff;
-      font-size: 2.2rem;
-      line-height: 1.2;
-      margin: 0 auto 0.5em auto;
-      word-break: break-word;
-      overflow-wrap: break-word;
-    }
-    #answer {
-      font-style: italic;
-      margin-top: 5px;
-      color: #fff;
-      font-size: 1.5rem;
-      text-align: center;
-      line-height: 1.2;
-      word-break: break-word;
-      overflow-wrap: break-word;
-    }
-
-    #passBtn, #skipBtn, #revealBtn {
-      padding: 8px 16px;
-      cursor: pointer;
-      font-weight: 700;
-      background: #6F5C91;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      margin: 0 5px;
-    }
-    #passBtn:hover, #skipBtn:hover, #revealBtn:hover {
-      opacity: 0.9;
-    }
-
-    /* Grid */
-    #grid {
       display: grid;
       gap: 10px;
       margin-bottom: 60px;
-      padding: 0 20px;
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-      aspect-ratio: 1;
-      max-height: 70vh;
+      width: 100%;
+      height: 100%;
+      justify-items: stretch;
+      align-items: stretch;
     }
-    #grid button {
-      font-size: 1.2em;
-      padding: 0;
-      border: none;
-      border-radius: 10px;
-      background: var(--btn-bg);
-      cursor: pointer;
+    #grid button, #grid button > * {
+      font-size: clamp(2rem, 4vw, 3.2rem) !important;
+      line-height: 1;
+      max-width: 100%;
+      max-height: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background .2s, color .2s;
-      aspect-ratio: 1;
-      font-weight: 700;
+      word-break: break-all;
+      text-align: center;
+    }
+    #grid button:empty::before {
+      content: '\200b';
     }
     #grid button:hover { background: var(--btn-hover); }
     #grid button:disabled {
@@ -1077,14 +1010,45 @@
         padding: 1.2rem 0 1.2rem 0;
       }
     }
+    .team {
+      background: white;
+      padding: 10px 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      min-width: 150px;
+      max-width: 220px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #nameA {
+      color: var(--teamA);
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 5px 0 0;
+    }
+    #nameB {
+      color: var(--teamB);
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 5px 0 0;
+    }
+    .team p {
+      font-size: 2em;
+      margin: 5px 0 0;
+    }
+    .team, .team h2, .team p, .announcement, #turnDisplay {
+      font-family: 'Lexend Deca', sans-serif !important;
+    }
   </style>
 </head>
 <body>
   <!-- NAVIGATION BAR -->
   <nav id="mainNav" style="background: #6F5C91; color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 2rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.07);">
     <div id="logoTitleHome" style="display: flex; align-items: center; gap: 1rem; cursor:pointer;">
-      <img src="tornado-logo.png" alt="PlayTornado Logo" style="height: 38px; width: 38px; border-radius: 8px; background: #fff; padding: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.08);">
-      <span style="font-size: 1.5rem; font-weight: 900; letter-spacing: 1px; color: #fff;">Play Tornado</span>
+      <img src="tornado-logo.png" alt="PlayTornado Logo" style="height: 64px; width: 64px; border-radius: 8px; background: #fff; padding: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.08);">
+      <span style="font-size: 2rem; font-weight: 900; letter-spacing: 1px; color: #fff;">Play Tornado</span>
     </div>
     <div style="display: flex; align-items: center; gap: 2.2rem; font-size: 1.1rem; font-weight: 600;">
       <a href="/" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Home</a>
@@ -1096,115 +1060,115 @@
   <!-- END NAVIGATION BAR -->
 
   <!-- SETUP SCREEN -->
-  <div id="setupScreen">
-    <div class="logo-start-container">
-      <img src="tornado-logo.png" alt="Tornado Game Logo" class="logo-large">
-    </div>
-    <div class="setup-grid-row">
-      <div class="how-to-play-sym">
-        <div class="how-to-play">
-          <p class="how-title">How to Play:</p>
-          <p class="how-body">
-            Play with or without questions!<br>
-            - Choose a premade quiz or paste your own Q&A.<br>
-            - Ask a question; when a team answers correctly, they pick a number to reveal points or a surprise.<br>
-            - First team to the most points wins!
-          </p>
+  <div id="setupScreen" style="position: relative;">
+    <!-- Removed the large logo image from here -->
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 80vh; margin-top: 0;">
+      <div class="setup-grid-row" style="margin-top: 2.5rem;">
+        <div class="how-to-play-sym">
+          <div class="how-to-play">
+            <p class="how-title">How to Play:</p>
+            <p class="how-body">
+              Play with or without questions!<br>
+              - Choose a premade quiz or paste your own Q&A.<br>
+              - Ask a question; when a team answers correctly, they pick a number to reveal points or a surprise.<br>
+              - First team to the most points wins!
+            </p>
+          </div>
+          <div class="special-item-compact-list" style="display: flex; flex-direction: column; gap: 0.2rem; align-items: flex-start;">
+            <div class="special-item-compact" style="width: 100%;">
+              <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
+                <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🌪️</span>
+                <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left;">Tornado</b>
+                <select id="tornadoCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+                <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Steal points</span>
+              </div>
+            </div>
+            <div class="special-item-compact" style="width: 100%;">
+              <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
+                <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🦁🦁</span>
+                <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left; line-height: 1.1; margin: 0; padding: 0;">
+                  <span style="margin: 0; padding: 0;">Double</span><span style="margin: 0; padding: 0;">Lion</span>
+                </b>
+                <select id="doubleCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+                <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Double points</span>
+              </div>
+            </div>
+            <div class="special-item-compact" style="width: 100%;">
+              <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
+                <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🦨</span>
+                <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left;">Skunk</b>
+                <select id="loseCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+                <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block; line-height: 2.1em; vertical-align: middle;">Lose all points</span>
+              </div>
+            </div>
+            <div class="special-item-compact" style="width: 100%;">
+              <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
+                <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🦘</span>
+                <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left; line-height: 1.1;">
+                  <span>Kangaroo</span><span>Hop</span><span>Swap</span>
+                </b>
+                <select id="swapCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+                <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block; line-height: 2.1em; vertical-align: middle;">Swap points</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="special-item-compact-list" style="display: flex; flex-direction: column; gap: 0.2rem; align-items: flex-start;">
-          <div class="special-item-compact" style="width: 100%;">
-            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
-              <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🌪️</span>
-              <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left;">Tornado</b>
-              <select id="tornadoCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-              <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Steal points</span>
-            </div>
-          </div>
-          <div class="special-item-compact" style="width: 100%;">
-            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
-              <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🦁🦁</span>
-              <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left; line-height: 1.1; margin: 0; padding: 0;">
-                <span style="margin: 0; padding: 0;">Double</span><span style="margin: 0; padding: 0;">Lion</span>
-              </b>
-              <select id="doubleCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-              <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Double points</span>
-            </div>
-          </div>
-          <div class="special-item-compact" style="width: 100%;">
-            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
-              <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🦨</span>
-              <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left;">Skunk</b>
-              <select id="loseCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-              <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block; line-height: 2.1em; vertical-align: middle;">Lose all points</span>
-            </div>
-          </div>
-          <div class="special-item-compact" style="width: 100%;">
-            <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
-              <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🦘</span>
-              <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left; line-height: 1.1;">
-                <span>Kangaroo</span><span>Hop</span><span>Swap</span>
-              </b>
-              <select id="swapCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-              <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block; line-height: 2.1em; vertical-align: middle;">Swap points</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="setup-main-grid">
-        <form id="setupForm" onsubmit="return false;">
-          <div class="setup-unified-card">
-            <div class="setup-unified-grid">
-              <div class="setup-unified-cell">
-                <label style="display: block; margin-bottom: 0.3em;">Team A Name:
-                  <input id="teamANameInput" value="Team A" required maxlength="16" style="display: block; width: 100%; margin-bottom: 0.3em;">
-                </label>
-              </div>
-              <div class="setup-unified-cell">
-                <label style="display: block; margin-bottom: 0.3em;">Team B Name:
-                  <input id="teamBNameInput" value="Team B" required maxlength="16" style="display: block; width: 100%;">
-                </label>
-              </div>
-              <div class="setup-unified-cell">
-                <label style="display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.1em;">
-                  <input type="checkbox" id="singlePlayerCheckbox" style="margin-right: 0.5em;"> <span style="white-space: nowrap;">Single Player</span>
-                </label>
-              </div>
-              <div class="setup-unified-cell">
-                <label>Grid Size:
-                  <select id="gridSizeInput">
-                    <option>8</option><option>10</option><option>16</option>
-                    <option selected>20</option><option>24</option>
-                    <option>30</option><option>32</option><option>40</option>
-                  </select>
-                </label>
-              </div>
-              <div class="setup-unified-cell full-width">
-                <label>Choose a Quiz:
-                  <div class="custom-quiz-dropdown-container" style="width:100%;">
-                    <div id="customQuizDropdown" class="custom-quiz-dropdown">--</div>
-                  </div>
-                </label>
+        <div class="setup-main-grid">
+          <form id="setupForm" onsubmit="return false;">
+            <div class="setup-unified-card">
+              <div class="setup-unified-grid">
+                <div class="setup-unified-cell">
+                  <label style="display: block; margin-bottom: 0.3em;">Team A Name:
+                    <input id="teamANameInput" value="Team A" required maxlength="16" style="display: block; width: 100%; margin-bottom: 0.3em;">
+                  </label>
+                </div>
+                <div class="setup-unified-cell">
+                  <label style="display: block; margin-bottom: 0.3em;">Team B Name:
+                    <input id="teamBNameInput" value="Team B" required maxlength="16" style="display: block; width: 100%;">
+                  </label>
+                </div>
+                <div class="setup-unified-cell">
+                  <label style="display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.1em;">
+                    <input type="checkbox" id="singlePlayerCheckbox" style="margin-right: 0.5em;"> <span style="white-space: nowrap;">Single Player</span>
+                  </label>
+                </div>
+                <div class="setup-unified-cell">
+                  <label>Grid Size:
+                    <select id="gridSizeInput">
+                      <option>8</option><option>10</option><option>16</option>
+                      <option selected>18</option><option>20</option><option>24</option>
+                      <option>30</option><option>32</option><option>40</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="setup-unified-cell full-width">
+                  <label>Choose a Quiz:
+                    <div class="custom-quiz-dropdown-container" style="width:100%;">
+                      <div id="customQuizDropdown" class="custom-quiz-dropdown">--</div>
+                    </div>
+                  </label>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- Start Game button is now outside the card -->
-        </form>
-        <button id="startGameBtnBottom" class="purple-btn start-large compact-start-btn" style="margin:1.2em auto 0 auto;display:block;">Start Game</button>
-        <div class="questions-block compact-questions-block slightly-wider-questions-block align-bottom">
-          <label>
-            Q&A:
-            <small>Enter questions (and answers). One per line, or blank line between Q & A.</small>
-            <textarea id="questionsInput"
-              placeholder="What city is home to Fenway Park?
+            <!-- Start Game button is now outside the card -->
+          </form>
+          <button id="startGameBtnBottom" class="purple-btn start-large compact-start-btn" style="margin:1.2em auto 0 auto;display:block;">Start Game</button>
+          <div class="questions-block compact-questions-block slightly-wider-questions-block align-bottom">
+            <label>
+              Q&A:
+              <small>Enter questions (and answers). One per line, or blank line between Q & A.</small>
+              <textarea id="questionsInput"
+                placeholder="What city is home to Fenway Park?
 Boston
 
 Which band wrote the song 'Hey Jude'?
 The Beatles"></textarea>
-          </label>
-          <div class="inline-radio">
-            <span>Order:</span>
-            <label><input type="radio" name="order" value="inorder" checked> In order</label>
-            <label><input type="radio" name="order" value="random"> Random</label>
+            </label>
+            <div class="inline-radio">
+              <span>Order:</span>
+              <label><input type="radio" name="order" value="inorder" checked> In order</label>
+              <label><input type="radio" name="order" value="random"> Random</label>
+            </div>
           </div>
         </div>
       </div>
@@ -1212,10 +1176,8 @@ The Beatles"></textarea>
   </div>
 
   <!-- GAME SCREEN -->
-  <div id="gameScreen" class="hidden" style="display: flex; flex-direction: column; min-height: 100vh;">
-    <div style="text-align: center; margin-bottom: 2rem;">
-      <img src="tornado-logo.png" alt="Tornado Game Logo" style="max-width: 200px;">
-    </div>
+  <div id="gameScreen" class="hidden">
+    <!-- Remove the logo image from here -->
     <div id="specialPopup" class="special-popup hidden"></div>
     <div class="scorebar-row">
       <div class="team team-left">
@@ -1248,12 +1210,13 @@ The Beatles"></textarea>
     </div>
 
     <div id="grid" style="flex: 1 1 auto;"></div>
-    <footer class="game-footer-btns" style="width: 100%; background: #6F5C91; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.2rem 0 1.2rem 0; margin: 0; position: relative;">
-      <div style="display: flex; gap: 1.2rem; margin-bottom: 0.5rem;">
+    <footer class="game-footer-btns" style="width: 100%; background: #6F5C91; color: #fff; display: flex; flex-direction: row; align-items: center; justify-content: center; padding: 1.2rem 0 1.2rem 0; margin: 0; position: relative;">
+      <div style="display: flex; gap: 1.2rem; align-items: center;">
         <button id="resetBtn"><span class="emoji">🔄</span> Reset Game</button>
         <button id="homeBtn"><span class="emoji">🏠</span> Home</button>
       </div>
-      <div style="font-size: 1rem; opacity: 0.85;">Created by Timothy Piontek</div>
+      <div style="flex: 1 1 auto;"></div>
+      <div style="font-size: 1rem; opacity: 0.85; margin-left: 2rem; white-space: nowrap; padding-right: 2rem;">Created by Timothy Piontek</div>
     </footer>
   </div>
 
@@ -2017,7 +1980,28 @@ The Beatles"></textarea>
 
       function buildGrid(n){
         gridEl.innerHTML='';
-        let cols=Math.floor(Math.sqrt(n)); if(cols<2) cols=2;
+        let cols;
+        if (n === 18) {
+          cols = 6;
+        } else if (n === 20) {
+          cols = 5;
+        } else {
+          // Find the widest possible layout (favor wide)
+          let bestCols = 1;
+          for (let c = Math.floor(Math.sqrt(n)); c <= n; c++) {
+            if (n % c === 0 && c >= bestCols) {
+              bestCols = c;
+            }
+          }
+          cols = bestCols > 1 ? bestCols : Math.floor(Math.sqrt(n));
+          if (n / cols > cols) {
+            for (let c = cols + 1; c <= n; c++) {
+              if (n % c === 0 && c > cols) {
+                cols = c;
+              }
+            }
+          }
+        }
         gridEl.style.gridTemplateColumns=`repeat(${cols},1fr)`;
         for(let i=0;i<n;i++){
           const btn=document.createElement('button');
@@ -2034,7 +2018,7 @@ The Beatles"></textarea>
         picks[me]++;
         let out='';
         if(r.type==='points'){
-          scores[me]+=r.value; out='+'+r.value;
+          scores[me]+=r.value; out=r.value;
           btn.style.color = me==='A'?'var(--teamA)':'var(--teamB)';
           showPointsPopup(out, me);
         } else if(r.type==='lose'){
@@ -2071,7 +2055,7 @@ The Beatles"></textarea>
         } else {
           annB.textContent=`${names.B} got ${out}`; annA.textContent='';
         }
-        btn.textContent=out; btn.disabled=true;
+        btn.innerHTML = `<span>${out}</span>`; btn.disabled=true;
         if(r.type==='points' && r.value>=800){ confettiBurst(btn); }
         updateScores();
         const done=document.querySelectorAll('#grid button:disabled').length;
