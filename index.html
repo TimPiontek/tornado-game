@@ -1258,7 +1258,12 @@ The Beatles"></textarea>
         'https://dmbbsrcwqpmdxqtzvtqj.supabase.co',
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w'
       );
-
+      
+      // Debug: Log session on page load
+      supabaseClient.auth.getUser().then(({ data: { user }, error }) => {
+        console.log('[DEBUG] On page load, supabaseClient.auth.getUser:', user, error);
+      });
+      
       // === FOLDER MANAGEMENT ===
       let myLibraryFolders = [];
 
@@ -1814,7 +1819,15 @@ The Beatles"></textarea>
           document.getElementById('authError').textContent = error.message;
           return;
         }
-        hideAuthModal();
+        // Debug: Log session after login
+        const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+        console.log('[DEBUG] After login, supabaseClient.auth.getUser:', user, userError);
+        if (user) {
+          hideAuthModal();
+          updateLoginBtn();
+          // Fallback: reload if UI does not update
+          setTimeout(() => { if (!document.getElementById('loginLogoutBtn').textContent.includes('Logout')) window.location.reload(); }, 1000);
+        }
       };
       // === SIGNUP FORM ===
       if (signupForm) signupForm.onsubmit = async function(e) {
@@ -1858,6 +1871,7 @@ The Beatles"></textarea>
       }
       updateLoginBtn();
       supabaseClient.auth.onAuthStateChange((event, session) => {
+        console.log('[DEBUG] onAuthStateChange:', event, session);
         updateLoginBtn();
         if (event === 'SIGNED_IN') {
           hideAuthModal();
