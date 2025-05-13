@@ -1881,20 +1881,20 @@ The Beatles"></textarea>
           console.log('[DEBUG] onAuthStateChange SIGNED_IN, getUser:', user, error);
           console.log('[DEBUG] loginLogoutBtn before update:', btn ? btn.textContent : 'NO BUTTON');
           if (user) {
-            btn.textContent = 'Logout';
-            btn.style.background = '#fff';
-            btn.style.color = '#e57373';
-            btn.title = user.email || '';
-            console.log('[DEBUG] loginLogoutBtn after update:', btn.textContent);
-            // Fallback: reload if UI does not update
-            setTimeout(() => {
+            let count = 0;
+            const interval = setInterval(async () => {
+              const { data: { user: intervalUser } } = await supabaseClient.auth.getUser();
               const btnNow = document.getElementById('loginLogoutBtn');
-              console.log('[DEBUG] loginLogoutBtn after timeout:', btnNow ? btnNow.textContent : 'NO BUTTON');
-              if (!btnNow || !btnNow.textContent.includes('Logout')) {
-                console.log('[DEBUG] Forcing full reload due to UI not updating');
-                window.location.reload();
+              console.log(`[DEBUG] Interval #${count}: user=`, intervalUser, 'btn=', btnNow ? btnNow.textContent : 'NO BUTTON');
+              if (intervalUser && btnNow) {
+                btnNow.textContent = 'Logout';
+                btnNow.style.background = '#fff';
+                btnNow.style.color = '#e57373';
+                btnNow.title = intervalUser.email || '';
               }
-            }, 1000);
+              count++;
+              if (count > 10) clearInterval(interval);
+            }, 500);
           } else {
             console.log('[DEBUG] No user found after SIGNED_IN');
           }
