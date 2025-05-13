@@ -91,7 +91,15 @@
     }
 
     /* GAME */
-    #gameScreen { max-width: 900px; margin: auto; }
+    #gameScreen {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    #grid {
+      flex: 1 1 auto;
+      margin-bottom: 0;
+    }
     .scoreboard {
       display: flex;
       justify-content: center;
@@ -164,7 +172,7 @@
     #grid {
       display: grid;
       gap: 10px;
-      margin-bottom: 20px;
+      margin-bottom: 60px;
       padding: 0 20px;
       max-width: 900px;
       margin-left: auto;
@@ -262,9 +270,9 @@
     .double-animation { animation: double 1.5s cubic-bezier(.68,-0.55,.27,1.55); }
     .sad-animation { animation: sad 1.5s cubic-bezier(.68,-0.55,.27,1.55); }
     .kangaroo-animation { animation: kangaroo 1.5s cubic-bezier(.68,-0.55,.27,1.55); }
-    .points-reveal-animation { animation: pointsReveal 1.2s cubic-bezier(.68,-0.55,.27,1.55); }
+    .points-reveal-animation { animation: pointsReveal 2.2s cubic-bezier(.68,-0.55,.27,1.55); }
     .points-text-glow { animation: pointsTextGlow 2s ease-in-out infinite; }
-    .special-popup-3d { animation: specialPopup3D 1.5s cubic-bezier(.68,-0.55,.27,1.55); }
+    .special-popup-3d { animation: specialPopup3D 2.2s cubic-bezier(.68,-0.55,.27,1.55); }
 
     .special-popup {
       position: fixed;
@@ -690,11 +698,17 @@
       align-items: center;
     }
     .game-footer-btns {
+      width: 100%;
+      background: #6F5C91;
+      color: #fff;
       display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      gap: 1.2rem;
-      margin-top: 0.5rem;
-      margin-bottom: 0.5rem;
+      padding: 1.2rem 0 1.2rem 0;
+      margin: 0;
+      position: relative;
+      z-index: 10;
     }
     #resetBtn, #homeBtn {
       padding: 8px 16px;
@@ -744,6 +758,16 @@
         min-width: 0;
         max-width: 98vw;
         width: 100%;
+      }
+      #grid {
+        gap: 6px;
+        padding: 0 10px;
+        max-height: 60vh;
+        margin-bottom: 80px;
+      }
+      .game-footer-btns {
+        margin-top: 2.2rem;
+        margin-bottom: 2.2rem;
       }
     }
     .slightly-wider-questions-block {
@@ -1030,6 +1054,41 @@
       .setup-unified-grid { grid-template-columns: 1fr; grid-template-rows: none; gap: 1.2em 0; }
       .setup-unified-cell.full-width { grid-column: 1 / span 1; }
     }
+    .game-footer-btns button {
+      position: relative;
+      font-size: 1.2rem;
+      padding: 0.7em 2em;
+      font-weight: 700;
+      border-radius: 12px;
+      background: #6F5C91;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      margin: 0 0.5em;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+    .game-footer-btns button span.emoji {
+      font-size: 2.1em;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .game-footer-btns div[style*='font-size: 1rem'] {
+      margin-top: 0.5rem;
+    }
+    @media (max-width: 900px) {
+      #gameScreen {
+        min-height: 100vh;
+      }
+      #grid {
+        margin-bottom: 0;
+      }
+      .game-footer-btns {
+        padding: 1.2rem 0 1.2rem 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1165,12 +1224,11 @@ The Beatles"></textarea>
   </div>
 
   <!-- GAME SCREEN -->
-  <div id="gameScreen" class="hidden">
+  <div id="gameScreen" class="hidden" style="display: flex; flex-direction: column; min-height: 100vh;">
     <div style="text-align: center; margin-bottom: 2rem;">
       <img src="tornado-logo.png" alt="Tornado Game Logo" style="max-width: 200px;">
     </div>
     <div id="specialPopup" class="special-popup hidden"></div>
-
     <div class="scorebar-row">
       <div class="team team-left">
         <div id="annA" class="announcement"></div>
@@ -1201,11 +1259,14 @@ The Beatles"></textarea>
       </div>
     </div>
 
-    <div id="grid"></div>
-    <div class="game-footer-btns">
-      <button id="resetBtn">Reset Game</button>
-      <button id="homeBtn">🏠 Home</button>
-    </div>
+    <div id="grid" style="flex: 1 1 auto;"></div>
+    <footer class="game-footer-btns" style="width: 100%; background: #6F5C91; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.2rem 0 1.2rem 0; margin: 0; position: relative;">
+      <div style="display: flex; gap: 1.2rem; margin-bottom: 0.5rem;">
+        <button id="resetBtn"><span class="emoji">🔄</span> Reset Game</button>
+        <button id="homeBtn"><span class="emoji">🏠</span> Home</button>
+      </div>
+      <div style="font-size: 1rem; opacity: 0.85;">Created by Timothy Piontek</div>
+    </footer>
   </div>
 
   <!-- Remove duplicate tabbed interface below navbar and replace with a single #librarySection container -->
@@ -2121,7 +2182,7 @@ The Beatles"></textarea>
             specialPopup.classList.remove('show');
             setTimeout(() => specialPopup.classList.add('hidden'), 400);
             specialPopup.classList.remove('tornado-mode');
-          }, 4000);
+          }, 5000);
           return;
         }
         specialPopup.innerHTML = `
@@ -2134,7 +2195,7 @@ The Beatles"></textarea>
         setTimeout(() => {
           specialPopup.classList.remove('show');
           setTimeout(() => specialPopup.classList.add('hidden'), 400);
-        }, 3000);
+        }, 4000);
       }
 
       function animateScore(team, animationClass) {
@@ -2362,14 +2423,13 @@ The Beatles"></textarea>
         specialPopup.classList.add('show', 'points-mode');
         specialPopup.classList.remove('hidden');
         specialPopup.style.color = team === 'A' ? 'var(--teamA)' : 'var(--teamB)';
-        
         setTimeout(() => {
           specialPopup.classList.remove('show');
           setTimeout(() => {
             specialPopup.classList.add('hidden');
             specialPopup.classList.remove('points-mode');
           }, 400);
-        }, 2500);
+        }, 3500);
       }
     });
   </script>
