@@ -1877,15 +1877,26 @@ The Beatles"></textarea>
           hideAuthModal();
           // Immediately check user and update UI
           const { data: { user }, error } = await supabaseClient.auth.getUser();
+          const btn = document.getElementById('loginLogoutBtn');
           console.log('[DEBUG] onAuthStateChange SIGNED_IN, getUser:', user, error);
+          console.log('[DEBUG] loginLogoutBtn before update:', btn ? btn.textContent : 'NO BUTTON');
           if (user) {
-            const btn = document.getElementById('loginLogoutBtn');
             btn.textContent = 'Logout';
             btn.style.background = '#fff';
             btn.style.color = '#e57373';
             btn.title = user.email || '';
+            console.log('[DEBUG] loginLogoutBtn after update:', btn.textContent);
             // Fallback: reload if UI does not update
-            setTimeout(() => { if (!btn.textContent.includes('Logout')) window.location.reload(); }, 1000);
+            setTimeout(() => {
+              const btnNow = document.getElementById('loginLogoutBtn');
+              console.log('[DEBUG] loginLogoutBtn after timeout:', btnNow ? btnNow.textContent : 'NO BUTTON');
+              if (!btnNow || !btnNow.textContent.includes('Logout')) {
+                console.log('[DEBUG] Forcing full reload due to UI not updating');
+                window.location.reload();
+              }
+            }, 1000);
+          } else {
+            console.log('[DEBUG] No user found after SIGNED_IN');
           }
         }
       });
