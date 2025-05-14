@@ -2669,6 +2669,9 @@ What is the largest planet in our solar system?" style="width:100%;height:120px;
           attachCreateQuizModalLogic();
         };
         console.log('[DEBUG] createQuizBtn.onclick handler attached');
+      } else {
+        document.body.insertAdjacentHTML('beforeend', '<div style="color:red;position:fixed;top:0;left:0;z-index:9999;background:#fff;padding:1em;">[ERROR] Could not attach Create Quiz handler</div>');
+        console.error('[ERROR] Could not attach Create Quiz handler', { createQuizBtn, createQuizModal });
       }
       // On auth state change, always call renderMyLibrary if on My Library page
       supabaseClient.auth.onAuthStateChange(async () => {
