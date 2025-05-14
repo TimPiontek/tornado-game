@@ -2627,42 +2627,50 @@ The Beatles"></textarea>
 
       // Add Create Folder button and modal
       function showCreateFolderModal() {
-        const modal = document.createElement('div');
-        modal.style.position = 'fixed';
-        modal.style.top = '0';
-        modal.style.left = '0';
-        modal.style.width = '100vw';
-        modal.style.height = '100vh';
-        modal.style.background = 'rgba(49,114,122,0.85)';
-        modal.style.zIndex = '4000';
-        modal.style.display = 'flex';
-        modal.style.alignItems = 'center';
-        modal.style.justifyContent = 'center';
-        modal.innerHTML = `<div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
-          <button id="closeCreateFolderModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
-          <h3 style="margin-top:0;">Create a New Folder</h3>
-          <input id="newFolderNameInput" placeholder="Folder name" maxlength="32" style="width:100%;margin-bottom:1em;">
-          <button id="createFolderConfirmBtn" class="purple-btn" style="width:100%;">Create Folder</button>
-          <div id="createFolderError" style="color:#e57373;margin-top:0.7em;"></div>
-        </div>`;
-        document.body.appendChild(modal);
-        document.getElementById('closeCreateFolderModal').onclick = () => modal.remove();
-        modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
-        document.getElementById('createFolderConfirmBtn').onclick = async function() {
-          const name = document.getElementById('newFolderNameInput').value.trim();
-          if (!name) {
-            document.getElementById('createFolderError').textContent = 'Please enter a folder name.';
-            return;
-          }
-          if (myLibraryFolders.includes(name)) {
-            document.getElementById('createFolderError').textContent = 'Folder already exists.';
-            return;
-          }
-          myLibraryFolders.push(name);
-          saveMyLibraryFolders();
-          modal.remove();
-          await renderMyLibrary();
-        };
+        try {
+          const modal = document.createElement('div');
+          modal.style.position = 'fixed';
+          modal.style.top = '0';
+          modal.style.left = '0';
+          modal.style.width = '100vw';
+          modal.style.height = '100vh';
+          modal.style.background = 'rgba(49,114,122,0.85)';
+          modal.style.zIndex = '4000';
+          modal.style.display = 'flex';
+          modal.style.alignItems = 'center';
+          modal.style.justifyContent = 'center';
+          modal.innerHTML = `<div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
+            <button id="closeCreateFolderModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
+            <h3 style="margin-top:0;">Create a New Folder</h3>
+            <input id="newFolderNameInput" placeholder="Folder name" maxlength="32" style="width:100%;margin-bottom:1em;">
+            <button id="createFolderConfirmBtn" class="purple-btn" style="width:100%;">Create Folder</button>
+            <div id="createFolderError" style="color:#e57373;margin-top:0.7em;"></div>
+          </div>`;
+          document.body.appendChild(modal);
+          document.getElementById('closeCreateFolderModal').onclick = () => modal.remove();
+          modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
+          document.getElementById('createFolderConfirmBtn').onclick = async function() {
+            const name = document.getElementById('newFolderNameInput').value.trim();
+            if (!name) {
+              document.getElementById('createFolderError').textContent = 'Please enter a folder name.';
+              return;
+            }
+            if (myLibraryFolders.includes(name)) {
+              document.getElementById('createFolderError').textContent = 'Folder already exists.';
+              return;
+            }
+            myLibraryFolders.push(name);
+            saveMyLibraryFolders();
+            modal.remove();
+            try {
+              await renderMyLibrary();
+            } catch (e) {
+              showErrorPopup('Error updating library after folder creation: ' + (e.message || e));
+            }
+          };
+        } catch (e) {
+          showErrorPopup('Error opening Create Folder modal: ' + (e.message || e));
+        }
       }
 
       // ... inside renderMyLibrary, after rendering the buttons ...
@@ -2773,94 +2781,79 @@ The Beatles"></textarea>
         };
         createQuizForm.onsubmit = async function(e) {
           e.preventDefault();
-          createQuizError.textContent = '';
-          // Gather form data
-          const title = document.getElementById('quizTitleInput').value.trim();
-          let category = quizCategorySelect.value;
-          if (category === '__new__') {
-            category = newCategoryInput.value.trim();
-            if (!category) {
-              createQuizError.textContent = 'Please enter a new category name.';
+          try {
+            createQuizError.textContent = '';
+            // Gather form data
+            const title = document.getElementById('quizTitleInput').value.trim();
+            let category = quizCategorySelect.value;
+            if (category === '__new__') {
+              category = newCategoryInput.value.trim();
+              if (!category) {
+                createQuizError.textContent = 'Please enter a new category name.';
+                return;
+              }
+            }
+            const folder = document.getElementById('quizFolderSelect').value || null;
+            const isPublic = document.getElementById('quizIsPublicInput').checked;
+            const questionsRaw = document.getElementById('quizQuestionsInput').value.trim();
+            // Parse questions
+            let questions = [];
+            const lines = questionsRaw.split('\n').map(l => l.trim()).filter(Boolean);
+            for (let i = 0; i < lines.length; i++) {
+              const q = lines[i];
+              const a = lines[i+1] && lines[i+1] !== '' && !lines[i+1].endsWith('?') ? lines[i+1] : '';
+              if (a) {
+                questions.push({ question: q, answer: a });
+                i++;
+              } else {
+                questions.push({ question: q, answer: '' });
+              }
+            }
+            if (!title || !category || questions.length === 0) {
+              createQuizError.textContent = 'Please fill out all required fields.';
               return;
             }
-          }
-          const folder = document.getElementById('quizFolderSelect').value || null;
-          const isPublic = document.getElementById('quizIsPublicInput').checked;
-          const questionsRaw = document.getElementById('quizQuestionsInput').value.trim();
-          // Parse questions
-          let questions = [];
-          const lines = questionsRaw.split('\n').map(l => l.trim()).filter(Boolean);
-          for (let i = 0; i < lines.length; i++) {
-            const q = lines[i];
-            const a = lines[i+1] && lines[i+1] !== '' && !lines[i+1].endsWith('?') ? lines[i+1] : '';
-            if (a) {
-              questions.push({ question: q, answer: a });
-              i++;
-            } else {
-              questions.push({ question: q, answer: '' });
-            }
-          }
-          if (!title || !category || questions.length === 0) {
-            createQuizError.textContent = 'Please fill out all required fields.';
-            return;
-          }
-          // Prevent duplicate quiz titles (case-insensitive) in user's library
-          const user = await getCurrentUser();
-          if (!user) {
-            createQuizError.textContent = 'Please log in to create quizzes.';
-            showAuthModal();
-            return;
-          }
-          let { data: userQuizzes } = await supabaseClient.from('quizzes').select('title').eq('owner', user.id);
-          if (userQuizzes && userQuizzes.some(q => q.title.toLowerCase() === title.toLowerCase())) {
-            createQuizError.textContent = 'You already have a quiz with this title in your library.';
-            return;
-          }
-          // Prevent duplicate quiz titles in Play Tornado Library if publishing
-          let quizLibrary = [];
-          if (isPublic) {
-            try {
-              const res = await fetch('quiz_library.json');
-              if (res.ok) quizLibrary = await res.json();
-            } catch (e) {}
-            if (quizLibrary.some(q => q.title.toLowerCase() === title.toLowerCase())) {
-              createQuizError.textContent = 'A quiz with this title already exists in the Play Tornado Library.';
+            // Prevent duplicate quiz titles (case-insensitive) in user's library
+            const user = await getCurrentUser();
+            if (!user) {
+              createQuizError.textContent = 'Please log in to create quizzes.';
+              showAuthModal();
               return;
             }
-          }
-          // Actually add the quiz
-          if (isPublic) {
-            // Add to Play Tornado Library (simulate PUT for demo)
-            quizLibrary.push({ title, category, questions });
-            try {
-              await fetch('quiz_library.json', {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(quizLibrary)
-              });
-            } catch (e) {
-              createQuizError.textContent = 'Error saving to Play Tornado Library.';
+            let { data: userQuizzes } = await supabaseClient.from('quizzes').select('title').eq('owner', user.id);
+            if (userQuizzes && userQuizzes.some(q => q.title.toLowerCase() === title.toLowerCase())) {
+              createQuizError.textContent = 'You already have a quiz with this title in your library.';
               return;
             }
-          }
-          // Add to user's library
-          const { error } = await supabaseClient.from('quizzes').insert([
-            {
-              title,
-              category,
-              questions,
-              is_public: isPublic,
-              owner: user.id,
-              folder: folder === 'Uncategorized' ? null : folder
+            // Prevent duplicate quiz titles in Play Tornado Library if publishing
+            let quizLibrary = [];
+            if (isPublic) {
+              createQuizError.textContent = 'Publishing to the Play Tornado Library is not available from the browser. Please contact the site admin.';
+              return;
             }
-          ]);
-          if (error) {
-            createQuizError.textContent = 'Error saving quiz: ' + error.message;
-            return;
+            // Add to user's library
+            const { error } = await supabaseClient.from('quizzes').insert([
+              {
+                title,
+                category,
+                questions,
+                is_public: isPublic,
+                owner: user.id,
+                folder: folder === 'Uncategorized' ? null : folder
+              }
+            ]);
+            if (error) {
+              createQuizError.textContent = 'Error saving quiz: ' + error.message;
+              showErrorPopup('Error saving quiz: ' + error.message);
+              return;
+            }
+            createQuizModal.style.display = 'none';
+            await renderMyLibrary();
+            alert('Quiz created successfully and added to your library!');
+          } catch (err) {
+            createQuizError.textContent = 'Unexpected error: ' + (err.message || err);
+            showErrorPopup('Unexpected error: ' + (err.message || err));
           }
-          createQuizModal.style.display = 'none';
-          await renderMyLibrary();
-          alert('Quiz created successfully!');
         };
       }
 
