@@ -1059,92 +1059,11 @@
   </nav>
   <!-- END NAVIGATION BAR -->
 
-  <button id="createQuizBtn" class="purple-btn" style="margin:2em auto 1em auto;display:none;">+ Create Quiz</button>
-  <div id="createQuizModal" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(49,114,122,0.85);z-index:3000;display:none;align-items:center;justify-content:center;">
-    <div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
-      <button id="closeCreateQuizModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
-      <h3 style="margin-top:0;">Create a New Quiz</h3>
-      <p>This is a minimal modal. Add your quiz creation form here.</p>
-    </div>
-  </div>
-  <script>
-  function toggleCreateQuizBtn() {
-    var btn = document.getElementById('createQuizBtn');
-    var modal = document.getElementById('createQuizModal');
-    if (window.location.hash === '#my-library') {
-      btn.style.display = 'block';
-    } else {
-      btn.style.display = 'none';
-      modal.style.display = 'none';
-    }
-  }
-  window.addEventListener('hashchange', toggleCreateQuizBtn);
-  document.addEventListener('DOMContentLoaded', toggleCreateQuizBtn);
-  document.getElementById('createQuizBtn').onclick = function() {
-    document.getElementById('createQuizModal').style.display = 'flex';
-  };
-  document.getElementById('closeCreateQuizModal').onclick = function() {
-    document.getElementById('createQuizModal').style.display = 'none';
-  };
-  document.getElementById('createQuizModal').onclick = function(e) {
-    if (e.target === this) document.getElementById('createQuizModal').style.display = 'none';
-  };
-  </script>
-
   <!-- SETUP SCREEN -->
   <div id="setupScreen" style="position: relative;">
     <!-- Removed the large logo image from here -->
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 80vh; margin-top: 0;">
       <div class="setup-grid-row" style="margin-top: 2.5rem;">
-        <div class="how-to-play-sym">
-          <div class="how-to-play">
-            <p class="how-title">How to Play:</p>
-            <p class="how-body">
-              Play with or without questions!<br>
-              - Choose a premade quiz or paste your own Q&A.<br>
-              - Ask a question; when a team answers correctly, they pick a number to reveal points or a surprise.<br>
-              - First team to the most points wins!
-            </p>
-          </div>
-          <div class="special-item-compact-list" style="display: flex; flex-direction: column; gap: 0.2rem; align-items: flex-start;">
-            <div class="special-item-compact" style="width: 100%;">
-              <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
-                <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🌪️</span>
-                <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left;">Tornado</b>
-                <select id="tornadoCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-                <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Steal points</span>
-              </div>
-            </div>
-            <div class="special-item-compact" style="width: 100%;">
-              <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
-                <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🦁🦁</span>
-                <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left; line-height: 1.1; margin: 0; padding: 0;">
-                  <span style="margin: 0; padding: 0;">Double</span><span style="margin: 0; padding: 0;">Lion</span>
-                </b>
-                <select id="doubleCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-                <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Double points</span>
-              </div>
-            </div>
-            <div class="special-item-compact" style="width: 100%;">
-              <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
-                <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🦨</span>
-                <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left;">Skunk</b>
-                <select id="loseCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-                <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block; line-height: 2.1em; vertical-align: middle;">Lose all points</span>
-              </div>
-            </div>
-            <div class="special-item-compact" style="width: 100%;">
-              <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
-                <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🦘</span>
-                <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left; line-height: 1.1;">
-                  <span>Kangaroo</span><span>Hop</span><span>Swap</span>
-                </b>
-                <select id="swapCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-                <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block; line-height: 2.1em; vertical-align: middle;">Swap points</span>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="setup-main-grid">
           <form id="setupForm" onsubmit="return false;">
             <div class="setup-unified-card">
@@ -1200,6 +1119,55 @@ The Beatles"></textarea>
               <span>Order:</span>
               <label><input type="radio" name="order" value="inorder" checked> In order</label>
               <label><input type="radio" name="order" value="random"> Random</label>
+            </div>
+          </div>
+        </div>
+        <div class="how-to-play-sym">
+          <div class="how-to-play">
+            <p class="how-title">How to Play:</p>
+            <p class="how-body">
+              Play with or without questions!<br>
+              - Choose a premade quiz or paste your own Q&A.<br>
+              - Ask a question; when a team answers correctly, they pick a number to reveal points or a surprise.<br>
+              - First team to the most points wins!
+            </p>
+          </div>
+          <div class="special-item-compact-list" style="display: flex; flex-direction: column; gap: 0.2rem; align-items: flex-start;">
+            <div class="special-item-compact" style="width: 100%;">
+              <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
+                <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🌪️</span>
+                <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left;">Tornado</b>
+                <select id="tornadoCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+                <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Steal points</span>
+              </div>
+            </div>
+            <div class="special-item-compact" style="width: 100%;">
+              <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
+                <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🦁🦁</span>
+                <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left; line-height: 1.1; margin: 0; padding: 0;">
+                  <span style="margin: 0; padding: 0;">Double</span><span style="margin: 0; padding: 0;">Lion</span>
+                </b>
+                <select id="doubleCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+                <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block;">Double points</span>
+              </div>
+            </div>
+            <div class="special-item-compact" style="width: 100%;">
+              <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
+                <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🦨</span>
+                <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left;">Skunk</b>
+                <select id="loseCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+                <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block; line-height: 2.1em; vertical-align: middle;">Lose all points</span>
+              </div>
+            </div>
+            <div class="special-item-compact" style="width: 100%;">
+              <div class="special-row" style="display: flex; align-items: center; gap: 0.7em; min-width: 320px;">
+                <span class="emoji-big" style="width: 48px; display: inline-flex; justify-content: center;">🦘</span>
+                <b style="min-width: 90px; max-width: 120px; font-size: 1.05em; display: flex; flex-direction: column; justify-content: center; text-align: left; line-height: 1.1;">
+                  <span>Kangaroo</span><span>Hop</span><span>Swap</span>
+                </b>
+                <select id="swapCount" style="width: 2.5em; min-width: 2.5em; max-width: 2.5em; text-align: center;"> <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+                <span class="special-desc" style="margin-left: 0.5em; font-size: 0.98em; display: block; line-height: 2.1em; vertical-align: middle;">Swap points</span>
+              </div>
             </div>
           </div>
         </div>
@@ -1739,7 +1707,7 @@ The Beatles"></textarea>
       function hideLibrary() {
         librarySection.classList.add('hidden');
         setupScreen.classList.remove('hidden');
-        // gameScreen stays hidden until game starts
+        gameScreen.classList.add('hidden'); // Ensure game screen is hidden
       }
 
       // Navbar link handlers
@@ -1770,6 +1738,11 @@ The Beatles"></textarea>
           showLibrary('my');
         } else if (window.location.hash === '#public-library') {
           showLibrary('public');
+        } else if (window.location.hash === '#how-to-play') {
+          setupScreen.classList.add('hidden');
+          gameScreen.classList.add('hidden');
+          librarySection.classList.remove('hidden');
+          renderHowToPlayPage();
         } else {
           hideLibrary();
         }
@@ -2815,10 +2788,6 @@ What is the largest planet in our solar system?" style="width:100%;height:120px;
       if (howToPlayLink) {
         howToPlayLink.onclick = function(e) {
           e.preventDefault();
-          setupScreen.classList.add('hidden');
-          gameScreen.classList.add('hidden');
-          librarySection.classList.remove('hidden');
-          renderHowToPlayPage();
           window.location.hash = '#how-to-play';
         };
       }
