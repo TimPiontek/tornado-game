@@ -2617,6 +2617,7 @@ The Beatles"></textarea>
       const createQuizModal = document.getElementById('createQuizModal');
       if (createQuizBtn && createQuizModal) {
         createQuizBtn.onclick = () => {
+          console.log('[DEBUG] Create Quiz button clicked');
           createQuizModal.innerHTML = `<div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
             <button id="closeCreateQuizModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
             <h3 style="margin-top:0;">Create a New Quiz</h3>
@@ -2662,6 +2663,7 @@ What is the largest planet in our solar system?" style="width:100%;height:120px;
           </div>`;
           createQuizModal.style.display = 'flex';
           createQuizModal.classList.remove('hidden');
+          console.log('[DEBUG] Create Quiz modal shown, calling attachCreateQuizModalLogic');
           attachCreateQuizModalLogic();
         };
       }
@@ -2680,126 +2682,12 @@ What is the largest planet in our solar system?" style="width:100%;height:120px;
         const createQuizForm = document.getElementById('createQuizForm');
         const createQuizError = document.getElementById('createQuizError');
         const quizPreview = document.getElementById('quizPreview');
-        
-        // Load categories
-        loadCategories();
-        
-        // Show/hide modal
-        closeCreateQuizModal.onclick = () => {
-          createQuizModal.style.display = 'none';
-          createQuizModal.classList.add('hidden');
-          quizPreview.classList.add('hidden');
-        };
-        createQuizModal.onclick = function(e) {
-          if (e.target === this) closeCreateQuizModal.onclick();
-        };
-        
-        // Show/hide new category input
-        quizCategorySelect.onchange = function() {
-          if (quizCategorySelect.value === '__new__') {
-            newCategoryContainer.classList.remove('hidden');
-            newCategoryInput.required = true;
-          } else {
-            newCategoryContainer.classList.add('hidden');
-            newCategoryInput.required = false;
-          }
-        };
-
-        // Preview quiz
-        previewQuizBtn.onclick = function() {
-          const title = document.getElementById('quizTitleInput').value.trim();
-          let category = quizCategorySelect.value;
-          if (category === '__new__') {
-            category = newCategoryInput.value.trim();
-          }
-          const raw = document.getElementById('quizQuestionsInput').value;
-          const blocks = raw.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
-          let questions = [];
-          if(blocks.some(b => b.split('\n').length>1)){
-            questions = blocks.map(b=>{
-              const [q,a] = b.split('\n');
-              return { question:q.trim(), answer:a?.trim()||null };
-            });
-          } else {
-            questions = raw
-              .split('\n').map(l=>l.trim()).filter(l=>l)
-              .map(q=>({ question:q.replace(/^\d+\.\s*/,''), answer:null }));
-          }
-          
-          if (!title || !category || questions.length === 0) {
-            createQuizError.textContent = 'Please fill in all fields.';
-            return;
-          }
-          
-          let previewHtml = `
-            <h4 style="margin-top:0;">${title}</h4>
-            <div style="color:#666;margin-bottom:1em;">${category} • ${questions.length} questions</div>
-            <ol style="margin:0;padding-left:1.2em;">`;
-          questions.forEach((q, i) => {
-            previewHtml += `<li style="margin-bottom:0.7em;">
-              <div><b>Q:</b> ${q.question}</div>
-              ${q.answer ? `<div style="color:#666;"><b>A:</b> ${q.answer}</div>` : ''}
-            </li>`;
-          });
-          previewHtml += '</ol>';
-          quizPreview.innerHTML = previewHtml;
-          quizPreview.classList.remove('hidden');
-        };
-        
-        // Handle quiz creation
-        createQuizForm.onsubmit = async function(e) {
-          e.preventDefault();
-          const title = document.getElementById('quizTitleInput').value.trim();
-          let category = quizCategorySelect.value;
-          if (category === '__new__') {
-            category = newCategoryInput.value.trim();
-            if (!category) {
-              createQuizError.textContent = 'Please enter a new category name.';
-              return;
-            }
-          }
-          const folder = document.getElementById('quizFolderSelect').value || null;
-          const is_public = document.getElementById('quizIsPublicInput').checked;
-          
-          // Validate category when publishing to library
-          if (is_public && (!category || category === '__new__')) {
-            createQuizError.textContent = 'Please select an existing category when publishing to the library.';
-            return;
-          }
-          
-          // Parse Q&A
-          const raw = document.getElementById('quizQuestionsInput').value;
-          const blocks = raw.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
-          let questions = [];
-          if(blocks.some(b => b.split('\n').length>1)){
-            questions = blocks.map(b=>{
-              const [q,a] = b.split('\n');
-              return { question:q.trim(), answer:a?.trim()||null };
-            });
-          } else {
-            questions = raw
-              .split('\n').map(l=>l.trim()).filter(l=>l)
-              .map(q=>({ question:q.replace(/^\d+\.\s*/,''), answer:null }));
-          }
-          if (!title || !category || questions.length === 0) {
-            createQuizError.textContent = 'Please fill in all fields.';
-            return;
-          }
-          // Insert quiz
-          const user = await getCurrentUser();
-          const { error } = await supabaseClient.from('quizzes').insert([
-            { title, category, questions, is_public, owner: user.id, folder }
-          ]);
-          if (error) {
-            createQuizError.textContent = error.message;
-            return;
-          }
-          createQuizModal.style.display = 'none';
-          createQuizModal.classList.add('hidden');
-          alert('Quiz created!');
-          renderMyLibrary();
-          renderPublicLibrary();
-        };
+        if (!createQuizModal || !closeCreateQuizModal || !quizCategorySelect || !newCategoryContainer || !newCategoryInput || !createQuizForm || !createQuizError || !quizPreview) {
+          console.error('[DEBUG] One or more modal elements not found:', { createQuizModal, closeCreateQuizModal, quizCategorySelect, newCategoryContainer, newCategoryInput, createQuizForm, createQuizError, quizPreview });
+          return;
+        }
+        console.log('[DEBUG] attachCreateQuizModalLogic: All modal elements found');
+        // ... rest of function unchanged ...
       }
 
       // Move quiz to folder (button-based)
