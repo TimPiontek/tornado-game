@@ -2700,8 +2700,135 @@ The Beatles"></textarea>
           console.error('[DEBUG] One or more modal elements not found:', { createQuizModal, closeCreateQuizModal, quizCategorySelect, newCategoryContainer, newCategoryInput, createQuizForm, createQuizError, quizPreview });
           return;
         }
-        console.log('[DEBUG] attachCreateQuizModalLogic: All modal elements found');
-        // ... rest of function unchanged ...
+        // Populate category dropdown
+        (async function loadCategories() {
+          quizCategorySelect.innerHTML = '<option value="">Select category</option>';
+          let cats = [];
+          // Get user categories
+          let { data, error } = await supabaseClient.from('quizzes').select('category').neq('category', null);
+          cats = (data||[]).map(q => q.category).filter(Boolean);
+          // Get public library categories
+          try {
+            const res = await fetch('quiz_library.json');
+            if (res.ok) {
+              const quizLibrary = await res.json();
+              const publicCats = quizLibrary.map(q => q.category).filter(Boolean);
+              cats = cats.concat(publicCats);
+            }
+          } catch (e) {}
+          cats = Array.from(new Set(cats)).sort((a,b)=>a.localeCompare(b));
+          cats.forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = cat;
+            quizCategorySelect.appendChild(opt);
+          });
+          // Add 'Create new category...' option
+          const newOpt = document.createElement('option');
+          newOpt.value = '__new__';
+          newOpt.textContent = 'Create new category...';
+          quizCategorySelect.appendChild(newOpt);
+        })();
+        quizCategorySelect.onchange = function() {
+          if (quizCategorySelect.value === '__new__') {
+            newCategoryContainer.classList.remove('hidden');
+            newCategoryInput.required = true;
+          } else {
+            newCategoryContainer.classList.add('hidden');
+            newCategoryInput.required = false;
+          }
+        };
+        createQuizForm.onsubmit = async function(e) {
+          e.preventDefault();
+          createQuizError.textContent = '';
+          // Gather form data
+          const title = document.getElementById('quizTitleInput').value.trim();
+          let category = quizCategorySelect.value;
+          if (category === '__new__') {
+            category = newCategoryInput.value.trim();
+            if (!category) {
+              createQuizError.textContent = 'Please enter a new category name.';
+              return;
+            }
+          }
+          const folder = document.getElementById('quizFolderSelect').value || null;
+          const isPublic = document.getElementById('quizIsPublicInput').checked;
+          const questionsRaw = document.getElementById('quizQuestionsInput').value.trim();
+          // Parse questions
+          let questions = [];
+          const lines = questionsRaw.split('\n').map(l => l.trim()).filter(Boolean);
+          for (let i = 0; i < lines.length; i++) {
+            const q = lines[i];
+            const a = lines[i+1] && lines[i+1] !== '' && !lines[i+1].endsWith('?') ? lines[i+1] : '';
+            if (a) {
+              questions.push({ question: q, answer: a });
+              i++;
+            } else {
+              questions.push({ question: q, answer: '' });
+            }
+          }
+          if (!title || !category || questions.length === 0) {
+            createQuizError.textContent = 'Please fill out all required fields.';
+            return;
+          }
+          // Prevent duplicate quiz titles (case-insensitive) in user's library
+          const user = await getCurrentUser();
+          if (!user) {
+            createQuizError.textContent = 'Please log in to create quizzes.';
+            showAuthModal();
+            return;
+          }
+          let { data: userQuizzes } = await supabaseClient.from('quizzes').select('title').eq('owner', user.id);
+          if (userQuizzes && userQuizzes.some(q => q.title.toLowerCase() === title.toLowerCase())) {
+            createQuizError.textContent = 'You already have a quiz with this title in your library.';
+            return;
+          }
+          // Prevent duplicate quiz titles in Play Tornado Library if publishing
+          let quizLibrary = [];
+          if (isPublic) {
+            try {
+              const res = await fetch('quiz_library.json');
+              if (res.ok) quizLibrary = await res.json();
+            } catch (e) {}
+            if (quizLibrary.some(q => q.title.toLowerCase() === title.toLowerCase())) {
+              createQuizError.textContent = 'A quiz with this title already exists in the Play Tornado Library.';
+              return;
+            }
+          }
+          // Actually add the quiz
+          if (isPublic) {
+            // Add to Play Tornado Library (simulate PUT for demo)
+            quizLibrary.push({ title, category, questions });
+            try {
+              await fetch('quiz_library.json', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(quizLibrary)
+              });
+            } catch (e) {
+              createQuizError.textContent = 'Error saving to Play Tornado Library.';
+              return;
+            }
+          }
+          // Add to user's library
+          const { error } = await supabaseClient.from('quizzes').insert([
+            {
+              title,
+              category,
+              questions,
+              is_public: isPublic,
+              owner: user.id,
+              folder: folder === 'Uncategorized' ? null : folder
+            }
+          ]);
+          if (error) {
+            createQuizError.textContent = 'Error saving quiz: ' + error.message;
+            return;
+          }
+          createQuizModal.style.display = 'none';
+          await renderMyLibrary();
+          alert('Quiz created successfully!');
+        };
       }
 
       // Move quiz to folder (button-based)
