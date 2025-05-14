@@ -1059,6 +1059,26 @@
   </nav>
   <!-- END NAVIGATION BAR -->
 
+  <button id="createQuizBtn" class="purple-btn" style="margin:2em auto 1em auto;display:block;">+ Create Quiz</button>
+  <div id="createQuizModal" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(49,114,122,0.85);z-index:3000;display:none;align-items:center;justify-content:center;">
+    <div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
+      <button id="closeCreateQuizModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
+      <h3 style="margin-top:0;">Create a New Quiz</h3>
+      <p>This is a minimal modal. Add your quiz creation form here.</p>
+    </div>
+  </div>
+  <script>
+  document.getElementById('createQuizBtn').onclick = function() {
+    document.getElementById('createQuizModal').style.display = 'flex';
+  };
+  document.getElementById('closeCreateQuizModal').onclick = function() {
+    document.getElementById('createQuizModal').style.display = 'none';
+  };
+  document.getElementById('createQuizModal').onclick = function(e) {
+    if (e.target === this) document.getElementById('createQuizModal').style.display = 'none';
+  };
+  </script>
+
   <!-- SETUP SCREEN -->
   <div id="setupScreen" style="position: relative;">
     <!-- Removed the large logo image from here -->
@@ -2673,9 +2693,6 @@ What is the largest planet in our solar system?" style="width:100%;height:120px;
         setTimeout(() => { const s = document.querySelector('[data-create-quiz-success]'); if (s) s.remove(); }, 2000);
         const err = document.querySelector('[data-create-quiz-error]');
         if (err) err.remove();
-      } else {
-        document.body.insertAdjacentHTML('beforeend', '<div data-create-quiz-error style="color:red;position:fixed;top:0;left:0;z-index:9999;background:#fff;padding:1em;">[ERROR] Could not attach Create Quiz handler</div>');
-        console.error('[ERROR] Could not attach Create Quiz handler', { createQuizBtn, createQuizModal });
       }
       // On auth state change, always call renderMyLibrary if on My Library page
       supabaseClient.auth.onAuthStateChange(async () => {
