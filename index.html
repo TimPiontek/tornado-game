@@ -2831,7 +2831,8 @@ The Beatles"></textarea>
               createQuizError.textContent = 'Publishing to the Play Tornado Library is not available from the browser. Please contact the site admin.';
               return;
             }
-            // Add to user's library
+            // Add debug logging
+            console.log('User before insert:', user);
             const { error } = await supabaseClient.from('quizzes').insert([
               {
                 title,
@@ -2842,6 +2843,7 @@ The Beatles"></textarea>
                 folder: folder === 'Uncategorized' ? null : folder
               }
             ]);
+            console.log('Insert error:', error);
             if (error) {
               createQuizError.textContent = 'Error saving quiz: ' + error.message;
               showErrorPopup('Error saving quiz: ' + error.message);
