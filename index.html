@@ -2669,7 +2669,8 @@ What is the largest planet in our solar system?" style="width:100%;height:120px;
           attachCreateQuizModalLogic();
         };
         console.log('[DEBUG] createQuizBtn.onclick handler attached');
-        // Remove any previous error message
+        document.body.insertAdjacentHTML('beforeend', '<div data-create-quiz-success style="color:green;position:fixed;top:0;left:0;z-index:9999;background:#fff;padding:1em;">[DEBUG] Create Quiz handler attached</div>');
+        setTimeout(() => { const s = document.querySelector('[data-create-quiz-success]'); if (s) s.remove(); }, 2000);
         const err = document.querySelector('[data-create-quiz-error]');
         if (err) err.remove();
       } else {
