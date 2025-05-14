@@ -2650,7 +2650,6 @@ The Beatles"></textarea>
       const createQuizModal = document.getElementById('createQuizModal');
       if (createQuizBtn && createQuizModal) {
         createQuizBtn.onclick = () => {
-          alert('[DEBUG] Create Quiz button clicked (alert fallback)');
           console.log('[DEBUG] Create Quiz button clicked');
           createQuizModal.innerHTML = `<div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
             <button id="closeCreateQuizModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
@@ -2699,9 +2698,16 @@ What is the largest planet in our solar system?" style="width:100%;height:120px;
           createQuizModal.classList.remove('hidden');
           console.log('[DEBUG] Create Quiz modal shown, calling attachCreateQuizModalLogic');
           attachCreateQuizModalLogic();
+          // Modal close logic
+          createQuizModal.onclick = function(e) {
+            if (e.target === createQuizModal) createQuizModal.style.display = 'none';
+          };
+          const closeBtn = document.getElementById('closeCreateQuizModal');
+          if (closeBtn) closeBtn.onclick = function() {
+            createQuizModal.style.display = 'none';
+          };
         };
         console.log('[DEBUG] createQuizBtn.onclick handler attached');
-        document.body.insertAdjacentHTML('beforeend', '<div data-create-quiz-success style="color:green;position:fixed;top:0;left:0;z-index:9999;background:#fff;padding:1em;">[DEBUG] Create Quiz handler attached</div>');
         setTimeout(() => { const s = document.querySelector('[data-create-quiz-success]'); if (s) s.remove(); }, 2000);
         const err = document.querySelector('[data-create-quiz-error]');
         if (err) err.remove();
