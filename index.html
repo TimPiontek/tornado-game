@@ -2618,6 +2618,7 @@ The Beatles"></textarea>
       const createQuizModal = document.getElementById('createQuizModal');
       if (createQuizBtn && createQuizModal) {
         createQuizBtn.onclick = () => {
+          alert('[DEBUG] Create Quiz button clicked (alert fallback)');
           console.log('[DEBUG] Create Quiz button clicked');
           createQuizModal.innerHTML = `<div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
             <button id="closeCreateQuizModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
@@ -2667,6 +2668,7 @@ What is the largest planet in our solar system?" style="width:100%;height:120px;
           console.log('[DEBUG] Create Quiz modal shown, calling attachCreateQuizModalLogic');
           attachCreateQuizModalLogic();
         };
+        console.log('[DEBUG] createQuizBtn.onclick handler attached');
       }
       // On auth state change, always call renderMyLibrary if on My Library page
       supabaseClient.auth.onAuthStateChange(async () => {
@@ -2794,6 +2796,11 @@ What is the largest planet in our solar system?" style="width:100%;height:120px;
         renderMyLibrary();
       }
     });
+
+    window.onerror = function(message, source, lineno, colno, error) {
+      alert('JavaScript Error: ' + message + '\n' + source + ':' + lineno + ':' + colno);
+      console.error('Global JS Error:', message, source, lineno, colno, error);
+    };
   </script>
 </body>
 </html>
