@@ -1833,14 +1833,16 @@ The Beatles"></textarea>
           document.getElementById('authError').textContent = error.message;
           return;
         }
-        // Debug: Log session after login
+        // After login, always check user and update UI
         const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
         console.log('[DEBUG] After login, supabaseClient.auth.getUser:', user, userError);
         if (user) {
           hideAuthModal();
           updateLoginBtn();
-          // Fallback: reload if UI does not update
-          setTimeout(() => { if (!document.getElementById('loginLogoutBtn').textContent.includes('Logout')) window.location.reload(); }, 1000);
+          // If UI does not update, fallback: reload (should not be needed in most browsers)
+          setTimeout(() => {
+            if (!document.getElementById('loginLogoutBtn').textContent.includes('Logout')) window.location.reload();
+          }, 1000);
         }
       };
       // === SIGNUP FORM ===
@@ -1858,11 +1860,13 @@ The Beatles"></textarea>
       // === GOOGLE LOGIN ===
       if (document.getElementById('googleLoginBtn')) {
         document.getElementById('googleLoginBtn').onclick = async function() {
+          // Use redirectTo to ensure session is set on your domain
           const { error } = await supabaseClient.auth.signInWithOAuth({
             provider: 'google',
             options: { redirectTo: window.location.origin }
           });
           if (error) document.getElementById('authError').textContent = error.message;
+          // After Google login, Supabase will redirect and session will persist
         };
       }
 
