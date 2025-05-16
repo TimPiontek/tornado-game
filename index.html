@@ -2835,8 +2835,11 @@ The Beatles"></textarea>
             }
             // Prevent duplicate quiz titles (case-insensitive) in user's library
             const user = await getCurrentUser();
-            if (!user) {
-              createQuizError.textContent = 'Please log in to create quizzes.';
+            const session = await supabaseClient.auth.getSession();
+            console.log('[CREATE QUIZ] User:', user);
+            console.log('[CREATE QUIZ] Session:', session);
+            if (!user || !session.data.session) {
+              createQuizError.textContent = 'Session expired or user not logged in. Please log in again.';
               showAuthModal();
               return;
             }
@@ -2864,10 +2867,15 @@ The Beatles"></textarea>
                 folder: folder === 'Uncategorized' ? null : folder
               }
             ]);
-            console.log('Insert error:', error);
+            const sessionAfter = await supabaseClient.auth.getSession();
+            console.log('[CREATE QUIZ] Insert error:', error);
+            console.log('[CREATE QUIZ] Session after insert:', sessionAfter);
             if (error) {
               createQuizError.textContent = 'Error saving quiz: ' + error.message;
               showErrorPopup('Error saving quiz: ' + error.message);
+              if (error.message && error.message.toLowerCase().includes('jwt')) {
+                showAuthModal();
+              }
               return;
             }
             createQuizModal.style.display = 'none';
@@ -2876,6 +2884,7 @@ The Beatles"></textarea>
           } catch (err) {
             createQuizError.textContent = 'Unexpected error: ' + (err.message || err);
             showErrorPopup('Unexpected error: ' + (err.message || err));
+            showAuthModal();
           }
         };
       }
