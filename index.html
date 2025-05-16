@@ -1661,29 +1661,44 @@ The Beatles"></textarea>
         // ... existing code for DB quizzes ...
       };
       window.addJsonQuizToMyLibrary = async function(idx) {
-        // Add a quiz from quiz_library.json to the user's library
-        const user = await getCurrentUser();
-        if (!user) {
-          alert('Please log in to add quizzes to your library.');
-          showAuthModal();
-          return;
-        }
-        const res = await fetch('quiz_library.json');
-        const quizLibrary = await res.json();
-        const quiz = quizLibrary[idx];
-        if (!quiz) return alert('Quiz not found.');
-        // Insert into Supabase quizzes table
-        const { error } = await supabaseClient.from('quizzes').insert([
-          {
-            title: quiz.title,
-            category: quiz.category || null,
-            questions: quiz.questions || [],
-            is_public: false,
-            owner: user.id
+        try {
+          const user = await getCurrentUser();
+          if (!user) {
+            alert('Please log in to add quizzes to your library.');
+            showAuthModal();
+            return;
           }
-        ]);
-        if (error) alert('Error adding quiz: ' + error.message);
-        else alert('Quiz added to your library!');
+          const res = await fetch('quiz_library.json');
+          if (!res.ok) throw new Error('Failed to fetch quiz_library.json');
+          const quizLibrary = await res.json();
+          const quiz = quizLibrary[idx];
+          if (!quiz) return alert('Quiz not found.');
+          // Insert into Supabase quizzes table
+          const { error } = await supabaseClient.from('quizzes').insert([
+            {
+              title: quiz.title,
+              category: quiz.category || null,
+              questions: quiz.questions || [],
+              is_public: false,
+              owner: user.id
+            }
+          ]);
+          if (error) {
+            console.error('[AddQuiz] Supabase insert error:', error);
+            alert('Error adding quiz: ' + error.message);
+            // If error is JWT/session related, log out and show login modal
+            if (error.message && error.message.toLowerCase().includes('jwt')) {
+              await supabaseClient.auth.signOut();
+              showAuthModal();
+            }
+            return;
+          }
+          alert('Quiz added to your library!');
+        } catch (err) {
+          console.error('[AddQuiz] Unexpected error:', err);
+          alert('Unexpected error: ' + (err.message || err));
+          showAuthModal();
+        }
       };
       window.saveQuizToMyLibrary = async function(quizId) {
         const user = await getCurrentUser();
