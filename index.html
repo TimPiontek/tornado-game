@@ -1471,6 +1471,10 @@ The Beatles"></textarea>
           // ...rest of modal logic...
         };
         // ... rest of createQuizBtn/modal logic ...
+        
+        // Connect Create Folder button to its function
+        document.getElementById('createFolderBtn').onclick = showCreateFolderModal;
+        
         // Fetch quizzes
         let { data, error } = await supabaseClient
           .from('quizzes')
@@ -1751,6 +1755,7 @@ The Beatles"></textarea>
         librarySection.classList.add('hidden');
         setupScreen.classList.remove('hidden');
         gameScreen.classList.add('hidden'); // Ensure game screen is hidden
+        window.scrollTo(0, 0); // Reset scroll position to top
       }
 
       // Navbar link handlers
@@ -2828,8 +2833,9 @@ The Beatles"></textarea>
             // Prevent duplicate quiz titles in Play Tornado Library if publishing
             let quizLibrary = [];
             if (isPublic) {
-              createQuizError.textContent = 'Publishing to the Play Tornado Library is not available from the browser. Please contact the site admin.';
-              return;
+              // We'll still create the quiz, just not publish it to the library yet
+              console.log('Note: Publishing to the library will be done by admin.');
+              // Don't return here - continue with quiz creation
             }
             // Add debug logging
             console.log('User before insert:', user);
@@ -2923,7 +2929,6 @@ The Beatles"></textarea>
                 <li>Adjust difficulty and surprise settings based on your group.</li>
                 <li>Use it to reinforce key ideas, prep for a test, or wrap up a unit in a fun way.</li>
               </ul>
-              <p style="font-size:1.08rem;color:#6F5C91;font-weight:600;">Tornado is powered by your creativity—use it however fits your classroom best!</p>
               <button class="purple-btn" id="backToMainBtn" style="margin-top:2.5em;">← Back</button>
             </div>
           </div>
