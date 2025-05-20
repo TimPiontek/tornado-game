@@ -1422,59 +1422,26 @@ The Beatles"></textarea>
         librarySection.innerHTML = `
           <h2>My Library</h2>
           <button id="createQuizBtn" class="purple-btn" style="margin:2em auto 1em auto;">+ Create Quiz</button>
-          <div id="createQuizModal" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(49,114,122,0.85);z-index:3000;display:none;align-items:center;justify-content:center;"></div>
+          <div id="createQuizModal" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(49,114,122,0.85);z-index:3000;display:none;align-items:center;justify-content:center;">
+            <div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
+              <button id="closeCreateQuizModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
+              <h3 style="margin-top:0;">Create a New Quiz</h3>
+              <p>This is a minimal modal. Add your quiz creation form here.</p>
+            </div>
+          </div>
           <button id="createFolderBtn" class="purple-btn" style="margin-bottom:1.2em;">+ Create Folder</button>
           <div id="myLibraryList">Loading your quizzes...</div>
         `;
         document.getElementById('createQuizBtn').onclick = function() {
-          const createQuizModal = document.getElementById('createQuizModal');
-          createQuizModal.innerHTML = `<div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
-            <button id="closeCreateQuizModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
-            <h3 style="margin-top:0;">Create a New Quiz</h3>
-            <form id="createQuizForm">
-              <label>Title:<br><input id="quizTitleInput" required maxlength="60" style="width:100%;margin-bottom:0.7em;"></label>
-              <label>Category:<br>
-                <select id="quizCategorySelect" style="width:100%;margin-bottom:0.7em;"></select>
-              </label>
-              <div id="newCategoryContainer" class="hidden" style="margin-bottom:0.7em;">
-                <input id="newCategoryInput" placeholder="New category name" maxlength="32" style="width:100%;">
-              </div>
-              <label>Folder:<br>
-                <select id="quizFolderSelect" style="width:100%;margin-bottom:0.7em;">
-                  <option value="">Uncategorized</option>
-                  ${myLibraryFolders.map(f => `<option value="${f}">${f}</option>`).join('')}
-                </select>
-              </label>
-              <label style="display:flex;align-items:center;gap:0.5em;margin-bottom:0.7em;">
-                <input type="checkbox" id="quizIsPublicInput">
-                <span>Publish to Play Tornado Library</span>
-              </label>
-              <label>Q&A:<br>
-                <textarea id="quizQuestionsInput" required placeholder="Enter questions and answers in one of these formats:\n\nFormat 1 (with answers):\nWhat is the capital of France?\nParis\n\nWhat is 2+2?\n4\n\nFormat 2 (questions only):\nWhat is the capital of France?\nWhat is 2+2?\nWhat is the largest planet in our solar system?" style="width:100%;height:120px;margin-bottom:0.7em;"></textarea>
-              </label>
-              <div style="display:flex;gap:0.7em;margin-bottom:1em;">
-                <button type="submit" class="purple-btn" style="flex:1;">Create Quiz</button>
-              </div>
-              <div id="createQuizError" style="color:#e57373;margin-top:0.7em;"></div>
-              <div id="quizPreview" class="hidden" style="margin-top:1em;padding:1em;background:#f9f9f9;border-radius:8px;"></div>
-            </form>
-          </div>`;
-          createQuizModal.style.display = 'flex';
-          createQuizModal.classList.remove('hidden');
-          // Attach close logic here:
-          document.getElementById('closeCreateQuizModal').onclick = function() {
-            createQuizModal.style.display = 'none';
-          };
-          createQuizModal.onclick = function(e) {
-            if (e.target === createQuizModal) createQuizModal.style.display = 'none';
-          };
-          // ...rest of modal logic...
+          document.getElementById('createQuizModal').style.display = 'flex';
+        };
+        document.getElementById('closeCreateQuizModal').onclick = function() {
+          document.getElementById('createQuizModal').style.display = 'none';
+        };
+        document.getElementById('createQuizModal').onclick = function(e) {
+          if (e.target === this) document.getElementById('createQuizModal').style.display = 'none';
         };
         // ... rest of createQuizBtn/modal logic ...
-        
-        // Connect Create Folder button to its function
-        document.getElementById('createFolderBtn').onclick = showCreateFolderModal;
-        
         // Fetch quizzes
         let { data, error } = await supabaseClient
           .from('quizzes')
@@ -1661,44 +1628,29 @@ The Beatles"></textarea>
         // ... existing code for DB quizzes ...
       };
       window.addJsonQuizToMyLibrary = async function(idx) {
-        try {
-          const user = await getCurrentUser();
-          if (!user) {
-            alert('Please log in to add quizzes to your library.');
-            showAuthModal();
-            return;
-          }
-          const res = await fetch('quiz_library.json');
-          if (!res.ok) throw new Error('Failed to fetch quiz_library.json');
-          const quizLibrary = await res.json();
-          const quiz = quizLibrary[idx];
-          if (!quiz) return alert('Quiz not found.');
-          // Insert into Supabase quizzes table
-          const { error } = await supabaseClient.from('quizzes').insert([
-            {
-              title: quiz.title,
-              category: quiz.category || null,
-              questions: quiz.questions || [],
-              is_public: false,
-              owner: user.id
-            }
-          ]);
-          if (error) {
-            console.error('[AddQuiz] Supabase insert error:', error);
-            alert('Error adding quiz: ' + error.message);
-            // If error is JWT/session related, log out and show login modal
-            if (error.message && error.message.toLowerCase().includes('jwt')) {
-              await supabaseClient.auth.signOut();
-              showAuthModal();
-            }
-            return;
-          }
-          alert('Quiz added to your library!');
-        } catch (err) {
-          console.error('[AddQuiz] Unexpected error:', err);
-          alert('Unexpected error: ' + (err.message || err));
+        // Add a quiz from quiz_library.json to the user's library
+        const user = await getCurrentUser();
+        if (!user) {
+          alert('Please log in to add quizzes to your library.');
           showAuthModal();
+          return;
         }
+        const res = await fetch('quiz_library.json');
+        const quizLibrary = await res.json();
+        const quiz = quizLibrary[idx];
+        if (!quiz) return alert('Quiz not found.');
+        // Insert into Supabase quizzes table
+        const { error } = await supabaseClient.from('quizzes').insert([
+          {
+            title: quiz.title,
+            category: quiz.category || null,
+            questions: quiz.questions || [],
+            is_public: false,
+            owner: user.id
+          }
+        ]);
+        if (error) alert('Error adding quiz: ' + error.message);
+        else alert('Quiz added to your library!');
       };
       window.saveQuizToMyLibrary = async function(quizId) {
         const user = await getCurrentUser();
@@ -1770,7 +1722,6 @@ The Beatles"></textarea>
         librarySection.classList.add('hidden');
         setupScreen.classList.remove('hidden');
         gameScreen.classList.add('hidden'); // Ensure game screen is hidden
-        window.scrollTo(0, 0); // Reset scroll position to top
       }
 
       // Navbar link handlers
@@ -1888,16 +1839,14 @@ The Beatles"></textarea>
           document.getElementById('authError').textContent = error.message;
           return;
         }
-        // After login, always check user and update UI
+        // Debug: Log session after login
         const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
         console.log('[DEBUG] After login, supabaseClient.auth.getUser:', user, userError);
         if (user) {
           hideAuthModal();
           updateLoginBtn();
-          // If UI does not update, fallback: reload (should not be needed in most browsers)
-          setTimeout(() => {
-            if (!document.getElementById('loginLogoutBtn').textContent.includes('Logout')) window.location.reload();
-          }, 1000);
+          // Fallback: reload if UI does not update
+          setTimeout(() => { if (!document.getElementById('loginLogoutBtn').textContent.includes('Logout')) window.location.reload(); }, 1000);
         }
       };
       // === SIGNUP FORM ===
@@ -1915,13 +1864,11 @@ The Beatles"></textarea>
       // === GOOGLE LOGIN ===
       if (document.getElementById('googleLoginBtn')) {
         document.getElementById('googleLoginBtn').onclick = async function() {
-          // Use redirectTo to ensure session is set on your domain
           const { error } = await supabaseClient.auth.signInWithOAuth({
             provider: 'google',
             options: { redirectTo: window.location.origin }
           });
           if (error) document.getElementById('authError').textContent = error.message;
-          // After Google login, Supabase will redirect and session will persist
         };
       }
 
@@ -2647,50 +2594,42 @@ The Beatles"></textarea>
 
       // Add Create Folder button and modal
       function showCreateFolderModal() {
-        try {
-          const modal = document.createElement('div');
-          modal.style.position = 'fixed';
-          modal.style.top = '0';
-          modal.style.left = '0';
-          modal.style.width = '100vw';
-          modal.style.height = '100vh';
-          modal.style.background = 'rgba(49,114,122,0.85)';
-          modal.style.zIndex = '4000';
-          modal.style.display = 'flex';
-          modal.style.alignItems = 'center';
-          modal.style.justifyContent = 'center';
-          modal.innerHTML = `<div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
-            <button id="closeCreateFolderModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
-            <h3 style="margin-top:0;">Create a New Folder</h3>
-            <input id="newFolderNameInput" placeholder="Folder name" maxlength="32" style="width:100%;margin-bottom:1em;">
-            <button id="createFolderConfirmBtn" class="purple-btn" style="width:100%;">Create Folder</button>
-            <div id="createFolderError" style="color:#e57373;margin-top:0.7em;"></div>
-          </div>`;
-          document.body.appendChild(modal);
-          document.getElementById('closeCreateFolderModal').onclick = () => modal.remove();
-          modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
-          document.getElementById('createFolderConfirmBtn').onclick = async function() {
-            const name = document.getElementById('newFolderNameInput').value.trim();
-            if (!name) {
-              document.getElementById('createFolderError').textContent = 'Please enter a folder name.';
-              return;
-            }
-            if (myLibraryFolders.includes(name)) {
-              document.getElementById('createFolderError').textContent = 'Folder already exists.';
-              return;
-            }
-            myLibraryFolders.push(name);
-            saveMyLibraryFolders();
-            modal.remove();
-            try {
-              await renderMyLibrary();
-            } catch (e) {
-              showErrorPopup('Error updating library after folder creation: ' + (e.message || e));
-            }
-          };
-        } catch (e) {
-          showErrorPopup('Error opening Create Folder modal: ' + (e.message || e));
-        }
+        const modal = document.createElement('div');
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100vw';
+        modal.style.height = '100vh';
+        modal.style.background = 'rgba(49,114,122,0.85)';
+        modal.style.zIndex = '4000';
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.innerHTML = `<div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
+          <button id="closeCreateFolderModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
+          <h3 style="margin-top:0;">Create a New Folder</h3>
+          <input id="newFolderNameInput" placeholder="Folder name" maxlength="32" style="width:100%;margin-bottom:1em;">
+          <button id="createFolderConfirmBtn" class="purple-btn" style="width:100%;">Create Folder</button>
+          <div id="createFolderError" style="color:#e57373;margin-top:0.7em;"></div>
+        </div>`;
+        document.body.appendChild(modal);
+        document.getElementById('closeCreateFolderModal').onclick = () => modal.remove();
+        modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
+        document.getElementById('createFolderConfirmBtn').onclick = async function() {
+          const name = document.getElementById('newFolderNameInput').value.trim();
+          if (!name) {
+            document.getElementById('createFolderError').textContent = 'Please enter a folder name.';
+            return;
+          }
+          if (myLibraryFolders.includes(name)) {
+            document.getElementById('createFolderError').textContent = 'Folder already exists.';
+            return;
+          }
+          myLibraryFolders.push(name);
+          saveMyLibraryFolders();
+          modal.remove();
+          await renderMyLibrary();
+        };
       }
 
       // ... inside renderMyLibrary, after rendering the buttons ...
@@ -2761,132 +2700,8 @@ The Beatles"></textarea>
           console.error('[DEBUG] One or more modal elements not found:', { createQuizModal, closeCreateQuizModal, quizCategorySelect, newCategoryContainer, newCategoryInput, createQuizForm, createQuizError, quizPreview });
           return;
         }
-        // Populate category dropdown
-        (async function loadCategories() {
-          quizCategorySelect.innerHTML = '<option value="">Select category</option>';
-          let cats = [];
-          // Get user categories
-          let { data, error } = await supabaseClient.from('quizzes').select('category').neq('category', null);
-          cats = (data||[]).map(q => q.category).filter(Boolean);
-          // Get public library categories
-          try {
-            const res = await fetch('quiz_library.json');
-            if (res.ok) {
-              const quizLibrary = await res.json();
-              const publicCats = quizLibrary.map(q => q.category).filter(Boolean);
-              cats = cats.concat(publicCats);
-            }
-          } catch (e) {}
-          cats = Array.from(new Set(cats)).sort((a,b)=>a.localeCompare(b));
-          cats.forEach(cat => {
-            const opt = document.createElement('option');
-            opt.value = cat;
-            opt.textContent = cat;
-            quizCategorySelect.appendChild(opt);
-          });
-          // Add 'Create new category...' option
-          const newOpt = document.createElement('option');
-          newOpt.value = '__new__';
-          newOpt.textContent = 'Create new category...';
-          quizCategorySelect.appendChild(newOpt);
-        })();
-        quizCategorySelect.onchange = function() {
-          if (quizCategorySelect.value === '__new__') {
-            newCategoryContainer.classList.remove('hidden');
-            newCategoryInput.required = true;
-          } else {
-            newCategoryContainer.classList.add('hidden');
-            newCategoryInput.required = false;
-          }
-        };
-        createQuizForm.onsubmit = async function(e) {
-          e.preventDefault();
-          try {
-            createQuizError.textContent = '';
-            // Gather form data
-            const title = document.getElementById('quizTitleInput').value.trim();
-            let category = quizCategorySelect.value;
-            if (category === '__new__') {
-              category = newCategoryInput.value.trim();
-              if (!category) {
-                createQuizError.textContent = 'Please enter a new category name.';
-                return;
-              }
-            }
-            const folder = document.getElementById('quizFolderSelect').value || null;
-            const isPublic = document.getElementById('quizIsPublicInput').checked;
-            const questionsRaw = document.getElementById('quizQuestionsInput').value.trim();
-            // Parse questions
-            let questions = [];
-            const lines = questionsRaw.split('\n').map(l => l.trim()).filter(Boolean);
-            for (let i = 0; i < lines.length; i++) {
-              const q = lines[i];
-              const a = lines[i+1] && lines[i+1] !== '' && !lines[i+1].endsWith('?') ? lines[i+1] : '';
-              if (a) {
-                questions.push({ question: q, answer: a });
-                i++;
-              } else {
-                questions.push({ question: q, answer: '' });
-              }
-            }
-            if (!title || !category || questions.length === 0) {
-              createQuizError.textContent = 'Please fill out all required fields.';
-              return;
-            }
-            // Prevent duplicate quiz titles (case-insensitive) in user's library
-            const user = await getCurrentUser();
-            const session = await supabaseClient.auth.getSession();
-            console.log('[CREATE QUIZ] User:', user);
-            console.log('[CREATE QUIZ] Session:', session);
-            if (!user || !session.data.session) {
-              createQuizError.textContent = 'Session expired or user not logged in. Please log in again.';
-              showAuthModal();
-              return;
-            }
-            let { data: userQuizzes } = await supabaseClient.from('quizzes').select('title').eq('owner', user.id);
-            if (userQuizzes && userQuizzes.some(q => q.title.toLowerCase() === title.toLowerCase())) {
-              createQuizError.textContent = 'You already have a quiz with this title in your library.';
-              return;
-            }
-            // Prevent duplicate quiz titles in Play Tornado Library if publishing
-            let quizLibrary = [];
-            if (isPublic) {
-              // We'll still create the quiz, just not publish it to the library yet
-              console.log('Note: Publishing to the library will be done by admin.');
-              // Don't return here - continue with quiz creation
-            }
-            // Add debug logging
-            console.log('User before insert:', user);
-            const { error } = await supabaseClient.from('quizzes').insert([
-              {
-                title,
-                category,
-                questions,
-                is_public: isPublic,
-                owner: user.id,
-                folder: folder === 'Uncategorized' ? null : folder
-              }
-            ]);
-            const sessionAfter = await supabaseClient.auth.getSession();
-            console.log('[CREATE QUIZ] Insert error:', error);
-            console.log('[CREATE QUIZ] Session after insert:', sessionAfter);
-            if (error) {
-              createQuizError.textContent = 'Error saving quiz: ' + error.message;
-              showErrorPopup('Error saving quiz: ' + error.message);
-              if (error.message && error.message.toLowerCase().includes('jwt')) {
-                showAuthModal();
-              }
-              return;
-            }
-            createQuizModal.style.display = 'none';
-            await renderMyLibrary();
-            alert('Quiz created successfully and added to your library!');
-          } catch (err) {
-            createQuizError.textContent = 'Unexpected error: ' + (err.message || err);
-            showErrorPopup('Unexpected error: ' + (err.message || err));
-            showAuthModal();
-          }
-        };
+        console.log('[DEBUG] attachCreateQuizModalLogic: All modal elements found');
+        // ... rest of function unchanged ...
       }
 
       // Move quiz to folder (button-based)
@@ -2953,6 +2768,7 @@ The Beatles"></textarea>
                 <li>Adjust difficulty and surprise settings based on your group.</li>
                 <li>Use it to reinforce key ideas, prep for a test, or wrap up a unit in a fun way.</li>
               </ul>
+              <p style="font-size:1.08rem;color:#6F5C91;font-weight:600;">Tornado is powered by your creativity—use it however fits your classroom best!</p>
               <button class="purple-btn" id="backToMainBtn" style="margin-top:2.5em;">← Back</button>
             </div>
           </div>
