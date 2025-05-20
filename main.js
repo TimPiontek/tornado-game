@@ -230,11 +230,38 @@ function startGame() {
 // Generate game grid
 function generateGrid() {
     grid.innerHTML = '';
-    const totalCells = gameState.gridSize * gameState.gridSize;
-    // Calculate columns and rows for a near-square grid, favoring width
-    const columns = Math.ceil(Math.sqrt(totalCells));
-    const rows = Math.ceil(totalCells / columns);
-    
+    let totalCells = gameState.gridSize;
+    let columns, rows;
+    // Explicit grid layouts for each option
+    switch (totalCells) {
+        case 8:
+            columns = 4; rows = 2; break;
+        case 10:
+            columns = 5; rows = 2; break;
+        case 16:
+            columns = 4; rows = 4; break;
+        case 18:
+            // Use current logic for 18
+            columns = Math.ceil(Math.sqrt(totalCells));
+            rows = Math.ceil(totalCells / columns);
+            break;
+        case 20:
+            // Use current logic for 20
+            columns = Math.ceil(Math.sqrt(totalCells));
+            rows = Math.ceil(totalCells / columns);
+            break;
+        case 24:
+            columns = 6; rows = 4; break;
+        case 30:
+            columns = 6; rows = 5; break;
+        case 32:
+            columns = 8; rows = 4; break;
+        case 40:
+            columns = 8; rows = 5; break;
+        default:
+            columns = Math.ceil(Math.sqrt(totalCells));
+            rows = Math.ceil(totalCells / columns);
+    }
     // Calculate number of special items
     const specialCounts = {
         tornado: gameState.specialItems.tornado,
@@ -242,26 +269,21 @@ function generateGrid() {
         lose: gameState.specialItems.lose,
         swap: gameState.specialItems.swap
     };
-    
     // Create array of cell values
     let cells = [];
-    
     // Add special items
     Object.entries(specialCounts).forEach(([type, count]) => {
         for (let i = 0; i < count; i++) {
             cells.push(type);
         }
     });
-    
     // Add point values
     const remainingCells = totalCells - cells.length;
     for (let i = 0; i < remainingCells; i++) {
         cells.push(Math.floor(Math.random() * 5) + 1); // Random points 1-5
     }
-    
     // Shuffle cells
     cells = cells.sort(() => Math.random() - 0.5);
-    
     // Create grid
     grid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
     grid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
