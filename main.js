@@ -241,15 +241,9 @@ function generateGrid() {
         case 16:
             columns = 4; rows = 4; break;
         case 18:
-            // Use current logic for 18
-            columns = Math.ceil(Math.sqrt(totalCells));
-            rows = Math.ceil(totalCells / columns);
-            break;
+            columns = 6; rows = 3; break;
         case 20:
-            // Use current logic for 20
-            columns = Math.ceil(Math.sqrt(totalCells));
-            rows = Math.ceil(totalCells / columns);
-            break;
+            columns = 5; rows = 4; break;
         case 24:
             columns = 6; rows = 4; break;
         case 30:
