@@ -61,6 +61,11 @@ function showSection(section) {
   if (publicLibrarySection) publicLibrarySection.classList.add('hidden');
   // Show the requested section
   if (section) section.classList.remove('hidden');
+  // Always scroll to top when showing a section (especially home)
+  if (section === setupScreen) {
+    window.scrollTo(0, 0);
+    if (setupScreen.scrollTop !== undefined) setupScreen.scrollTop = 0;
+  }
 }
 
 if (homeLink && setupScreen) {
