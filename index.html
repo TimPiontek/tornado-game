@@ -2696,15 +2696,116 @@ The Beatles"></textarea>
           </div>`;
           createQuizModal.style.display = 'flex';
           createQuizModal.classList.remove('hidden');
-          attachCreateQuizModalLogic();
-          // Modal close logic
-          createQuizModal.onclick = function(e) {
-            if (e.target === createQuizModal) createQuizModal.style.display = 'none';
-          };
-          const closeBtn = document.getElementById('closeCreateQuizModal');
-          if (closeBtn) closeBtn.onclick = function() {
-            createQuizModal.style.display = 'none';
-          };
+          // Inline logic to attach form listeners and logic
+          const createQuizForm = document.getElementById('createQuizForm');
+          const quizTitleInput = document.getElementById('quizTitleInput');
+          const quizCategorySelect = document.getElementById('quizCategorySelect');
+          const newCategoryContainer = document.getElementById('newCategoryContainer');
+          const newCategoryInput = document.getElementById('newCategoryInput');
+          const quizFolderSelect = document.getElementById('quizFolderSelect');
+          const quizIsPublicInput = document.getElementById('quizIsPublicInput');
+          const quizQuestionsInput = document.getElementById('quizQuestionsInput');
+          const createQuizError = document.getElementById('createQuizError');
+          if (createQuizForm) {
+            // Populate categories
+            (async function loadCategories() {
+              quizCategorySelect.innerHTML = '<option value="">Select category</option>';
+              let { data, error } = await supabaseClient.from('quizzes').select('category').neq('category', null);
+              let cats = (data||[]).map(q => q.category).filter(Boolean);
+              try {
+                const res = await fetch('quiz_library.json');
+                if (res.ok) {
+                  const quizLibrary = await res.json();
+                  const publicCats = quizLibrary.map(q => q.category).filter(Boolean);
+                  cats = cats.concat(publicCats);
+                }
+              } catch (e) {}
+              cats = Array.from(new Set(cats)).sort((a,b)=>a.localeCompare(b));
+              cats.forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat;
+                opt.textContent = cat;
+                quizCategorySelect.appendChild(opt);
+              });
+              // Add 'Create new category...' option
+              const newOpt = document.createElement('option');
+              newOpt.value = '__new__';
+              newOpt.textContent = 'Create new category...';
+              quizCategorySelect.appendChild(newOpt);
+            })();
+            // Show/hide new category input
+            quizCategorySelect.onchange = function() {
+              if (quizCategorySelect.value === '__new__') {
+                newCategoryContainer.classList.remove('hidden');
+                newCategoryInput.required = true;
+              } else {
+                newCategoryContainer.classList.add('hidden');
+                newCategoryInput.required = false;
+              }
+            };
+            // Form submit logic
+            createQuizForm.onsubmit = async function(e) {
+              e.preventDefault();
+              createQuizError.textContent = '';
+              const title = quizTitleInput.value.trim();
+              let category = quizCategorySelect.value;
+              if (category === '__new__') {
+                category = newCategoryInput.value.trim();
+              }
+              const folder = quizFolderSelect.value || null;
+              const isPublic = quizIsPublicInput.checked;
+              const qaText = quizQuestionsInput.value.trim();
+              if (!title || !category || !qaText) {
+                createQuizError.textContent = 'All fields are required.';
+                return;
+              }
+              // Parse Q&A
+              const lines = qaText.split('\n');
+              const questions = [];
+              for (let i = 0; i < lines.length; i += 2) {
+                if (lines[i] && lines[i+1]) {
+                  questions.push({ question: lines[i].trim(), answer: lines[i+1].trim() });
+                } else if (lines[i]) {
+                  questions.push({ question: lines[i].trim(), answer: null });
+                }
+              }
+              if (questions.length === 0) {
+                createQuizError.textContent = 'Please enter at least one Q&A pair.';
+                return;
+              }
+              // Insert into Supabase
+              try {
+                const user = await getCurrentUser();
+                if (!user) {
+                  createQuizError.textContent = 'You must be logged in to create a quiz.';
+                  return;
+                }
+                const { error } = await supabaseClient.from('quizzes').insert([
+                  {
+                    title,
+                    category,
+                    folder,
+                    questions,
+                    is_public: isPublic,
+                    owner: user.id
+                  }
+                ]);
+                if (error) {
+                  createQuizError.textContent = 'Error saving quiz: ' + error.message;
+                  return;
+                }
+                createQuizError.style.color = 'green';
+                createQuizError.textContent = 'Quiz saved!';
+                setTimeout(() => {
+                  document.getElementById('createQuizModal').style.display = 'none';
+                  renderMyLibrary();
+                }, 1000);
+              } catch (err) {
+                createQuizError.textContent = 'Network error.';
+              }
+            };
+          }
+          // ... existing code ...
         };
       }
       // On auth state change, always call renderMyLibrary if on My Library page
