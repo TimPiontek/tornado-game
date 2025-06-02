@@ -1259,10 +1259,50 @@ The Beatles"></textarea>
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w'
       );
       
-      // Debug: Log session on page load
-      supabaseClient.auth.getUser().then(({ data: { user }, error }) => {
-        console.log('[DEBUG] On page load, supabaseClient.auth.getUser:', user, error);
+      // === GLOBAL AUTH STATE HANDLER ===
+      async function updateAuthUI() {
+        const { data: { user }, error } = await supabaseClient.auth.getUser();
+        const btn = document.getElementById('loginLogoutBtn');
+        if (btn) {
+          if (user) {
+            btn.textContent = 'Logout';
+            btn.style.background = '#fff';
+            btn.style.color = '#e57373';
+            btn.title = user.email || '';
+          } else {
+            btn.textContent = 'Login';
+            btn.style.background = '#fff';
+            btn.style.color = '#6F5C91';
+            btn.title = '';
+          }
+        }
+        // Optionally, update other UI elements here
+      }
+
+      // Always update UI on auth state change
+      supabaseClient.auth.onAuthStateChange(async (event, session) => {
+        await updateAuthUI();
+        if (event === 'SIGNED_OUT' || !session) {
+          // Clear any user-specific UI, force modal
+          if (window.location.hash === '#my-library') {
+            showAuthModal();
+          }
+        }
       });
+
+      // On page load, always update UI
+      updateAuthUI();
+
+      // Helper: force logout and prompt login if session is invalid
+      async function ensureValidSession() {
+        const { data: { user }, error } = await supabaseClient.auth.getUser();
+        if (error || !user) {
+          await supabaseClient.auth.signOut();
+          showAuthModal();
+          throw new Error('Session invalid or expired. Please log in again.');
+        }
+        return user;
+      }
       
       // === FOLDER MANAGEMENT ===
       let myLibraryFolders = [];
@@ -2747,39 +2787,36 @@ The Beatles"></textarea>
             createQuizForm.onsubmit = async function(e) {
               e.preventDefault();
               createQuizError.textContent = '';
-              const title = quizTitleInput.value.trim();
-              let category = quizCategorySelect.value;
-              if (category === '__new__') {
-                category = newCategoryInput.value.trim();
-              }
-              const folder = quizFolderSelect.value || null;
-              const isPublic = quizIsPublicInput.checked;
-              const qaText = quizQuestionsInput.value.trim();
-              if (!title || !category || !qaText) {
-                createQuizError.textContent = 'All fields are required.';
-                return;
-              }
-              // Parse Q&A
-              const lines = qaText.split('\n');
-              const questions = [];
-              for (let i = 0; i < lines.length; i += 2) {
-                if (lines[i] && lines[i+1]) {
-                  questions.push({ question: lines[i].trim(), answer: lines[i+1].trim() });
-                } else if (lines[i]) {
-                  questions.push({ question: lines[i].trim(), answer: null });
-                }
-              }
-              if (questions.length === 0) {
-                createQuizError.textContent = 'Please enter at least one Q&A pair.';
-                return;
-              }
-              // Insert into Supabase
               try {
-                const user = await getCurrentUser();
-                if (!user) {
-                  createQuizError.textContent = 'You must be logged in to create a quiz.';
+                // Robust session validation
+                const user = await ensureValidSession();
+                const title = quizTitleInput.value.trim();
+                let category = quizCategorySelect.value;
+                if (category === '__new__') {
+                  category = newCategoryInput.value.trim();
+                }
+                const folder = quizFolderSelect.value || null;
+                const isPublic = quizIsPublicInput.checked;
+                const qaText = quizQuestionsInput.value.trim();
+                if (!title || !category || !qaText) {
+                  createQuizError.textContent = 'All fields are required.';
                   return;
                 }
+                // Parse Q&A
+                const lines = qaText.split('\n');
+                const questions = [];
+                for (let i = 0; i < lines.length; i += 2) {
+                  if (lines[i] && lines[i+1]) {
+                    questions.push({ question: lines[i].trim(), answer: lines[i+1].trim() });
+                  } else if (lines[i]) {
+                    questions.push({ question: lines[i].trim(), answer: null });
+                  }
+                }
+                if (questions.length === 0) {
+                  createQuizError.textContent = 'Please enter at least one Q&A pair.';
+                  return;
+                }
+                // Insert into Supabase
                 const { error } = await supabaseClient.from('quizzes').insert([
                   {
                     title,
@@ -2791,6 +2828,7 @@ The Beatles"></textarea>
                   }
                 ]);
                 if (error) {
+                  console.error('Error saving quiz:', error);
                   createQuizError.textContent = 'Error saving quiz: ' + error.message;
                   return;
                 }
@@ -2801,7 +2839,7 @@ The Beatles"></textarea>
                   renderMyLibrary();
                 }, 1000);
               } catch (err) {
-                createQuizError.textContent = 'Network error.';
+                createQuizError.textContent = err.message || 'Session error. Please log in again.';
               }
             };
           }
@@ -2928,6 +2966,115 @@ The Beatles"></textarea>
       if (window.location.hash === '#my-library') {
         renderMyLibrary();
       }
+
+      // === GAME OPTIONS MODAL LOGIC ===
+      function showGameOptionsModal(defaults, onSubmit) {
+        const modal = document.getElementById('gameOptionsModal');
+        const form = document.getElementById('gameOptionsForm');
+        document.getElementById('modalTeamAName').value = defaults.teamA || 'Team A';
+        document.getElementById('modalTeamBName').value = defaults.teamB || 'Team B';
+        document.getElementById('modalSinglePlayer').checked = !!defaults.singlePlayer;
+        document.getElementById('modalGridSize').value = defaults.gridSize || '18';
+        document.getElementById('modalTornadoCount').value = defaults.tornadoCount || '2';
+        document.getElementById('modalDoubleCount').value = defaults.doubleCount || '2';
+        document.getElementById('modalLoseCount').value = defaults.loseCount || '2';
+        document.getElementById('modalSwapCount').value = defaults.swapCount || '2';
+        modal.style.display = 'flex';
+        modal.classList.remove('hidden');
+        document.getElementById('closeGameOptionsModal').onclick = function() {
+          modal.style.display = 'none';
+          modal.classList.add('hidden');
+        };
+        form.onsubmit = function(e) {
+          e.preventDefault();
+          const opts = {
+            teamA: document.getElementById('modalTeamAName').value.trim() || 'Team A',
+            teamB: document.getElementById('modalTeamBName').value.trim() || 'Team B',
+            singlePlayer: document.getElementById('modalSinglePlayer').checked,
+            gridSize: +document.getElementById('modalGridSize').value,
+            tornadoCount: +document.getElementById('modalTornadoCount').value,
+            doubleCount: +document.getElementById('modalDoubleCount').value,
+            loseCount: +document.getElementById('modalLoseCount').value,
+            swapCount: +document.getElementById('modalSwapCount').value
+          };
+          modal.style.display = 'none';
+          modal.classList.add('hidden');
+          if (onSubmit) onSubmit(opts);
+        };
+      }
+      // Patch Play buttons in My Library after render
+      function patchMyLibraryPlayButtons() {
+        const myLibraryList = document.getElementById('myLibraryList');
+        if (myLibraryList) {
+          myLibraryList.querySelectorAll('.play-btn').forEach(btn => {
+            btn.onclick = () => {
+              showGameOptionsModal({}, opts => window.startQuizFromLibrary(btn.getAttribute('data-quizid'), opts));
+            };
+          });
+        }
+      }
+      // Patch Play buttons in Public Library after render
+      function patchPublicLibraryPlayButtons() {
+        const librarySection = document.getElementById('librarySection');
+        if (librarySection) {
+          librarySection.querySelectorAll('button.purple-btn').forEach(btn => {
+            if (btn.textContent.trim() === 'Play') {
+              const quizId = btn.getAttribute('onclick')?.match(/startQuizFromLibrary\(['"]([^'"]+)['"]\)/)?.[1];
+              if (quizId) {
+                btn.onclick = () => {
+                  showGameOptionsModal({}, opts => window.startQuizFromLibrary(quizId, opts));
+                };
+              }
+            }
+          });
+        }
+      }
+      // Call patchers after rendering libraries
+      const origRenderMyLibrary = window.renderMyLibrary;
+      window.renderMyLibrary = async function() {
+        await origRenderMyLibrary.apply(this, arguments);
+        patchMyLibraryPlayButtons();
+      };
+      const origRenderPublicLibrary = window.renderPublicLibrary;
+      window.renderPublicLibrary = async function() {
+        await origRenderPublicLibrary.apply(this, arguments);
+        patchPublicLibraryPlayButtons();
+      };
+      // Update startQuizFromLibrary to accept options
+      window.startQuizFromLibrary = async function(quizId, options) {
+        if (!options) {
+          // If no options, show modal first
+          showGameOptionsModal({}, opts => window.startQuizFromLibrary(quizId, opts));
+          return;
+        }
+        if (quizId && quizId.startsWith('jsonlib:')) {
+          const idx = parseInt(quizId.replace('jsonlib:', ''));
+          const res = await fetch('quiz_library.json');
+          const quizLibrary = await res.json();
+          const quiz = quizLibrary[idx];
+          if (!quiz) return alert('Quiz not found.');
+          questions = quiz.questions && Array.isArray(quiz.questions) ? quiz.questions.map(q => ({ question: q.question, answer: q.answer || null })) : [];
+          usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
+          let order = 'random';
+          qIndex = 0;
+          names.A = options.teamA;
+          names.B = options.singlePlayer ? 'Android' : options.teamB;
+          singlePlayer = options.singlePlayer;
+          total = options.gridSize;
+          setupScreen.classList.add('hidden');
+          gameScreen.classList.remove('hidden');
+          librarySection.classList.add('hidden');
+          androidImg.style.display = options.singlePlayer ? 'inline-block' : 'none';
+          nameBEl.textContent = names.B;
+          if (options.singlePlayer) teamBNameContainer.classList.add('single-player');
+          else teamBNameContainer.classList.remove('single-player');
+          initGame(options.tornadoCount, options.doubleCount, options.loseCount, options.swapCount);
+          buildGrid(total);
+          showQuestion();
+          return;
+        }
+        // ... existing code for DB quizzes ...
+      }
     });
 
     window.onerror = function(message, source, lineno, colno, error) {
@@ -2935,5 +3082,46 @@ The Beatles"></textarea>
       console.error('Global JS Error:', message, source, lineno, colno, error);
     };
   </script>
+  <!-- === GAME OPTIONS MODAL === -->
+  <div id="gameOptionsModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(49,114,122,0.85);z-index:3000;display:none;align-items:center;justify-content:center;">
+    <form id="gameOptionsForm" style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;display:flex;flex-direction:column;gap:1.2em;">
+      <button type="button" id="closeGameOptionsModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
+      <h3 style="margin-top:0;">Customize Game</h3>
+      <label>Team A Name:<br>
+        <input id="modalTeamAName" value="Team A" maxlength="16" style="width:100%;font-size:1.1em;">
+      </label>
+      <label>Team B Name:<br>
+        <input id="modalTeamBName" value="Team B" maxlength="16" style="width:100%;font-size:1.1em;">
+      </label>
+      <label style="display:flex;align-items:center;gap:0.5em;">
+        <input type="checkbox" id="modalSinglePlayer"> <span>Single Player</span>
+      </label>
+      <label>Grid Size:
+        <select id="modalGridSize" style="font-size:1.1em;">
+          <option>8</option><option>10</option><option>16</option>
+          <option>18</option><option>20</option><option>24</option>
+          <option>30</option><option>32</option><option>40</option>
+        </select>
+      </label>
+      <div style="display:flex;gap:1em;">
+        <label style="flex:1;">Tornado:
+          <select id="modalTornadoCount"><option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+        </label>
+        <label style="flex:1;">Double Lion:
+          <select id="modalDoubleCount"><option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+        </label>
+      </div>
+      <div style="display:flex;gap:1em;">
+        <label style="flex:1;">Skunk:
+          <select id="modalLoseCount"><option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+        </label>
+        <label style="flex:1;">Kangaroo Hop Swap:
+          <select id="modalSwapCount"><option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+        </label>
+      </div>
+      <button type="submit" class="purple-btn" style="margin-top:1em;font-size:1.2em;">Start Game</button>
+    </form>
+  </div>
+  <!-- === END GAME OPTIONS MODAL === -->
 </body>
 </html>
