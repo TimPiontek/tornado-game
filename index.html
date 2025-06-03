@@ -2141,9 +2141,17 @@ The Beatles"></textarea>
       function buildGrid(n){
         gridEl.innerHTML='';
         let cols;
-        if (n === 18) {
+        if (n === 8) {
+          cols = 4;
+          
+        }  else if (n === 10) {
+          cols = 5;
+        }  else if (n === 16) {
+          cols = 4;
+        }  else if (n === 18) {
           cols = 6;
-        } else if (n === 20) {
+        } 
+        else if (n === 20) {
           cols = 6;
         } 
         else if (n === 24) {
@@ -2153,9 +2161,9 @@ The Beatles"></textarea>
           cols = 6;
         } 
         else if (n === 32) {
-          cols = 8;
+          cols = 6;
         } else if (n === 40) {
-          cols = 10;
+          cols = 6;
         } else {
           // Find the widest possible layout (favor wide)
           let bestCols = 1;
