@@ -1460,8 +1460,12 @@ The Beatles"></textarea>
           <button id="createFolderBtn" class="purple-btn" style="margin-bottom:1.2em;">+ Create Folder</button>
           <div id="myLibraryList">Loading your quizzes...</div>
         `;
+     
+         document.getElementById('createFolderBtn').onclick = function() {
+         showCreateFolderModal()
+        };
         document.getElementById('createQuizBtn').onclick = function() {
-          document.getElementById('createQuizModal').style.display = 'flex';
+         openCreateQuizModal()
         };
         document.getElementById('closeCreateQuizModal').onclick = function() {
           document.getElementById('createQuizModal').style.display = 'none';
@@ -1702,6 +1706,7 @@ The Beatles"></textarea>
           const res = await fetch('quiz_library.json');
           if (!res.ok) throw new Error('Failed to fetch quiz_library.json');
           const quizLibrary = await res.json();
+          console.log(quizLibrary , "lib")
           // Avoid duplicates by title + questions
           const exists = quizLibrary.some(q => q.title === data.title && JSON.stringify(q.questions) === JSON.stringify(data.questions));
           if (!exists) {
@@ -1711,7 +1716,7 @@ The Beatles"></textarea>
               questions: data.questions
             });
             await fetch('quiz_library.json', {
-              method: 'PUT',
+              method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(quizLibrary)
             });
@@ -2141,17 +2146,9 @@ The Beatles"></textarea>
       function buildGrid(n){
         gridEl.innerHTML='';
         let cols;
-        if (n === 8) {
-          cols = 4;
-          
-        }  else if (n === 10) {
-          cols = 5;
-        }  else if (n === 16) {
-          cols = 4;
-        }  else if (n === 18) {
+        if (n === 18) {
           cols = 6;
-        } 
-        else if (n === 20) {
+        } else if (n === 20) {
           cols = 6;
         } 
         else if (n === 24) {
@@ -2161,9 +2158,9 @@ The Beatles"></textarea>
           cols = 6;
         } 
         else if (n === 32) {
-          cols = 6;
+          cols = 8;
         } else if (n === 40) {
-          cols = 6;
+          cols = 10;
         } else {
           // Find the widest possible layout (favor wide)
           let bestCols = 1;
@@ -2678,42 +2675,14 @@ The Beatles"></textarea>
         };
       }
 
+
       // ... inside renderMyLibrary, after rendering the buttons ...
-      const createQuizBtn = document.getElementById('createQuizBtn');
+
+      async function openCreateQuizModal() {
       const createQuizModal = document.getElementById('createQuizModal');
-      if (createQuizBtn && createQuizModal) {
-        createQuizBtn.onclick = () => {
-          createQuizModal.innerHTML = `<div style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;">
-            <button id="closeCreateQuizModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
-            <h3 style="margin-top:0;">Create a New Quiz</h3>
-            <form id="createQuizForm">
-              <label>Title:<br><input id="quizTitleInput" required maxlength="60" style="width:100%;margin-bottom:0.7em;"></label>
-              <label>Category:<br>
-                <select id="quizCategorySelect" style="width:100%;margin-bottom:0.7em;"></select>
-              </label>
-              <div id="newCategoryContainer" class="hidden" style="margin-bottom:0.7em;">
-                <input id="newCategoryInput" placeholder="New category name" maxlength="32" style="width:100%;">
-              </div>
-              <label>Folder:<br>
-                <select id="quizFolderSelect" style="width:100%;margin-bottom:0.7em;">
-                  <option value="">Uncategorized</option>
-                  ${myLibraryFolders.map(f => `<option value="${f}">${f}</option>`).join('')}
-                </select>
-              </label>
-              <label style="display:flex;align-items:center;gap:0.5em;margin-bottom:0.7em;">
-                <input type="checkbox" id="quizIsPublicInput">
-                <span>Publish to Play Tornado Library</span>
-              </label>
-              <label>Q&A:<br>
-                <textarea id="quizQuestionsInput" required placeholder="Enter questions and answers in one of these formats:\n\nFormat 1 (with answers):\nWhat is the capital of France?\nParis\n\nWhat is 2+2?\n4\n\nFormat 2 (questions only):\nWhat is the capital of France?\nWhat is 2+2?\nWhat is the largest planet in our solar system?" style="width:100%;height:120px;margin-bottom:0.7em;"></textarea>
-              </label>
-              <div style="display:flex;gap:0.7em;margin-bottom:1em;">
-                <button type="submit" class="purple-btn" style="flex:1;">Create Quiz</button>
-              </div>
-              <div id="createQuizError" style="color:#e57373;margin-top:0.7em;"></div>
-              <div id="quizPreview" class="hidden" style="margin-top:1em;padding:1em;background:#f9f9f9;border-radius:8px;"></div>
-            </form>
-          </div>`;
+      if (createQuizModal) {
+          console.log( createQuizModal , " createQuizModal are defined");
+          console.log("first click")
           createQuizModal.style.display = 'flex';
           createQuizModal.classList.remove('hidden');
           // Inline logic to attach form listeners and logic
@@ -2765,6 +2734,16 @@ The Beatles"></textarea>
             };
             // Form submit logic
             createQuizForm.onsubmit = async function(e) {
+              console.log(e , "e")
+              console.log(createQuizForm , "createQuizForm")
+              console.log(quizTitleInput , "quizTitleInput")
+              console.log(quizCategorySelect , "quizCategorySelect")
+              console.log(newCategoryInput , "newCategoryInput")
+              console.log(quizFolderSelect , "quizFolderSelect")
+              console.log(quizIsPublicInput , "quizIsPublicInput")
+              console.log(quizQuestionsInput , "quizQuestionsInput")
+              console.log(createQuizError , "createQuizError")
+              console.log(createQuizForm.onsubmit , "createQuizForm.onsubmit")
               e.preventDefault();
               createQuizError.textContent = '';
               const title = quizTitleInput.value.trim();
@@ -2833,31 +2812,16 @@ The Beatles"></textarea>
             };
           }
           // ... existing code ...
-        };
       }
+
+    }
       // On auth state change, always call renderMyLibrary if on My Library page
       supabaseClient.auth.onAuthStateChange(async () => {
         if (!librarySection.classList.contains('hidden') && window.location.hash === '#my-library') {
           await renderMyLibrary();
         }
       });
-      function attachCreateQuizModalLogic() {
-        const createQuizModal = document.getElementById('createQuizModal');
-        const closeCreateQuizModal = document.getElementById('closeCreateQuizModal');
-        const quizCategorySelect = document.getElementById('quizCategorySelect');
-        const newCategoryContainer = document.getElementById('newCategoryContainer');
-        const newCategoryInput = document.getElementById('newCategoryInput');
-        const createQuizForm = document.getElementById('createQuizForm');
-        const createQuizError = document.getElementById('createQuizError');
-        const quizPreview = document.getElementById('quizPreview');
-        if (!createQuizModal || !closeCreateQuizModal || !quizCategorySelect || !newCategoryContainer || !newCategoryInput || !createQuizForm || !createQuizError || !quizPreview) {
-          console.error('[DEBUG] One or more modal elements not found:', { createQuizModal, closeCreateQuizModal, quizCategorySelect, newCategoryContainer, newCategoryInput, createQuizForm, createQuizError, quizPreview });
-          return;
-        }
-        console.log('[DEBUG] attachCreateQuizModalLogic: All modal elements found');
-        // ... rest of function unchanged ...
-      }
-
+    
       // Move quiz to folder (button-based)
       window.moveQuizToFolderBtn = async function(quizId, dropdownId) {
         const sel = document.getElementById(dropdownId);
