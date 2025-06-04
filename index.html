@@ -2258,7 +2258,6 @@ The Beatles"
               .order("created_at", { ascending: false });
 
             if (error) {
-              console.log("first" , error);
               librarySection.innerHTML =
                 '<div style="color:red;">Error loading public quizzes.</div>';
               return;
@@ -2284,7 +2283,7 @@ The Beatles"
             });
             // Build folder UI
             let html =
-              '<div style="width:100%;max-width:700px;text-align:left;margin:0 auto;">';
+              '<div id="publicLibraryList" style="width:100%;max-width:700px;text-align:left;margin:0 auto;">';
             Object.keys(categories)
               .sort((a, b) => a.localeCompare(b))
               .forEach((cat) => {
@@ -2303,7 +2302,7 @@ The Beatles"
                     html += `<li style="margin-bottom:0.5em;display:flex;align-items:center;justify-content:space-between;">
                   <div style='flex:1;min-width:0;'>
                     <a href="#quiz-${
-                      quiz.index
+                      quiz.id
                     }" style="font-weight:bold;text-decoration:underline;cursor:pointer;">${
                       quiz.title
                     }</a>
@@ -2314,11 +2313,9 @@ The Beatles"
                     } questions)</span>
                   </div>
                   <div style='display:flex;gap:0.5em;'>
-                    <button class="purple-btn" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('jsonlib:${
-                      quiz.index
-                    }')">Play</button>
+                   <button class="purple-btn play-btn" data-quizid="${quiz.id}">Play</button>
                     <button class="purple-btn" onclick="window.addJsonQuizToMyLibrary && window.addJsonQuizToMyLibrary(${
-                      quiz.index
+                      quiz.id
                     })">Add to My Library</button>
                   </div>
                 </li>`;
@@ -2330,7 +2327,7 @@ The Beatles"
                   html += `<li style="margin-bottom:0.5em;display:flex;align-items:center;justify-content:space-between;">
                 <div style='flex:1;min-width:0;'>
                   <a href="#quiz-${
-                    quiz.index
+                    quiz.id
                   }" style="font-weight:bold;text-decoration:underline;cursor:pointer;">${
                     quiz.title
                   }</a>
@@ -2341,11 +2338,9 @@ The Beatles"
                   } questions)</span>
                 </div>
                 <div style='display:flex;gap:0.5em;'>
-                  <button class="purple-btn" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('jsonlib:${
-                    quiz.index
-                  }')">Play</button>
+                 <button class="purple-btn play-btn" data-quizid="${quiz.id}">Play</button>
                   <button class="purple-btn" onclick="window.addJsonQuizToMyLibrary && window.addJsonQuizToMyLibrary(${
-                    quiz.index
+                    quiz.id
                   })">Add to My Library</button>
                 </div>
               </li>`;
@@ -2354,19 +2349,34 @@ The Beatles"
               });
             html += "</div>";
             librarySection.innerHTML = "<h2>Play Tornado Library</h2>" + html;
+              // ✅ Add this part HERE, after the DOM is updated
+            const publicLibraryList = document.getElementById("publicLibraryList");
+            console.log(publicLibraryList, "publicLibraryList");
+
+            if (publicLibraryList) {
+              publicLibraryList.querySelectorAll(".play-btn").forEach((btn) => {
+                btn.onclick = () => {
+                  const id = btn.getAttribute("data-quizid");
+                  if (window.startQuizFromLibrary) {
+                    window.startQuizFromLibrary(id);
+                  }
+                };
+              });
+              }
           } catch (err) {
-            console.log("second", err);
             librarySection.innerHTML =
               '<div style="color:red;">Error loading public quizzes.</div>';
           }
         }
-
-        // New: Render Quiz Detail Page
-        async function renderQuizDetailPage(quizIndex) {
+      
+          // New: Render Quiz Detail Page
+        async function renderQuizDetailPage(quizId) {
           librarySection.innerHTML = "<h2>Loading quiz...</h2>";
-          const res = await fetch("quiz_library.json");
-          const quizLibrary = await res.json();
-          const quiz = quizLibrary[quizIndex];
+             let { data: quiz, error } = await supabaseClient
+              .from("quizzes")
+              .select("*")
+              .eq("id", quizId).single();
+
           if (!quiz) {
             librarySection.innerHTML =
               '<div style="color:red;">Quiz not found.</div>';
@@ -2380,8 +2390,8 @@ The Beatles"
             quiz.questions && quiz.questions.length ? quiz.questions.length : 0
           } questions</div>
           <div style='display:flex;gap:0.5em;margin-bottom:1.5em;'>
-            <button class="purple-btn" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('jsonlib:${quizIndex}')">Play</button>
-            <button class="purple-btn" onclick="window.addJsonQuizToMyLibrary && window.addJsonQuizToMyLibrary(${quizIndex})">Add to My Library</button>
+            <button class="purple-btn play-btn" data-quizid="${quiz.id}">Play</button> 
+            <button class="purple-btn" onclick="window.addJsonQuizToMyLibrary && window.addJsonQuizToMyLibrary(${quiz.id})">Add to My Library</button>
             <button class="purple-btn" onclick="navigator.clipboard.writeText(window.location.href)">Share</button>
           </div>
           <ol style='background:#f9f9f9;padding:1.2em 1.5em;border-radius:10px;'>`;
@@ -2642,9 +2652,12 @@ The Beatles"
               });
             // Play, Publish, Edit, Delete (reuse existing global functions)
             myLibraryList.querySelectorAll(".play-btn").forEach((btn) => {
-              btn.onclick = () =>
-                window.startQuizFromLibrary &&
-                window.startQuizFromLibrary(btn.getAttribute("data-quizid"));
+               btn.onclick = () => {
+                const id = btn.getAttribute("data-quizid");
+                if (window.startQuizFromLibrary) {
+                  window.startQuizFromLibrary(id);
+                }
+              };
             });
             myLibraryList.querySelectorAll(".publish-btn").forEach((btn) => {
               btn.onclick = () =>
@@ -2696,12 +2709,15 @@ The Beatles"
 
         // Expose actions globally for inline onclick
         window.startQuizFromLibrary = async function (quizId) {
-          if (quizId && quizId.startsWith("jsonlib:")) {
-            // Load from quiz_library.json
-            const idx = parseInt(quizId.replace("jsonlib:", ""));
-            const res = await fetch("quiz_library.json");
-            const quizLibrary = await res.json();
-            const quiz = quizLibrary[idx];
+          console.log("quizId:", quizId);
+          if (quizId) {
+             const { data : quiz, error } = await supabaseClient
+            .from("quizzes")
+            .select("*")
+            .eq("id", quizId)
+            .single();
+
+            console.log(quiz, "quiz data");
             if (!quiz) return alert("Quiz not found.");
             // Start game with this quiz
             // Set up game state as if selected from dropdown
@@ -2791,7 +2807,6 @@ The Beatles"
             .from("quizzes")
             .update({ is_public: true })
             .eq("id", quizId);
-          console.log(response, updateError, "response");
 
           if (updateError) {
             alert("Error publishing quiz: " + updateError.message);
@@ -2863,10 +2878,8 @@ The Beatles"
         // Hash-based navigation
         function handleHash() {
           if (window.location.hash.startsWith("#quiz-")) {
-            const quizIndex = parseInt(
-              window.location.hash.replace("#quiz-", "")
-            );
-            renderQuizDetailPage(quizIndex);
+            const quizId =  window.location.hash.replace("#quiz-", "")
+            renderQuizDetailPage(quizId);
           } else if (window.location.hash.startsWith("#myquiz-")) {
             const quizId = window.location.hash.replace("#myquiz-", "");
             renderMyQuizDetailPage(quizId);
@@ -3355,18 +3368,24 @@ The Beatles"
         function buildGrid(n) {
           gridEl.innerHTML = "";
           let cols;
-          if (n === 18) {
+          if (n === 8) {
+            cols = 4;
+          } else if (n === 10) {
+            cols = 5;
+          }  else if (n === 16) {
+            cols = 4;
+          } else if (n === 18) {
             cols = 6;
           } else if (n === 20) {
-            cols = 6;
-          } else if (n === 24) {
+            cols = 5;
+          }else if (n === 24) {
             cols = 6;
           } else if (n === 30) {
             cols = 6;
           } else if (n === 32) {
-            cols = 8;
+            cols = 6;
           } else if (n === 40) {
-            cols = 10;
+            cols = 6;
           } else {
             // Find the widest possible layout (favor wide)
             let bestCols = 1;
@@ -3785,10 +3804,10 @@ The Beatles"
                   li.onclick = function (e) {
                     e.stopPropagation();
                     customQuizDropdown.textContent = quiz.title;
-                    selectedQuizIndex = quiz.index;
+                    selectedQuizIndex = quiz.id;
                     closeCustomQuizDropdown();
                   };
-                  if (selectedQuizIndex === quiz.index)
+                  if (selectedQuizIndex === quiz.id)
                     li.classList.add("selected");
                   folderList.appendChild(li);
                 });
@@ -3808,10 +3827,10 @@ The Beatles"
                 li.onclick = function (e) {
                   e.stopPropagation();
                   customQuizDropdown.textContent = quiz.title;
-                  selectedQuizIndex = quiz.index;
+                  selectedQuizIndex = quiz.id;
                   closeCustomQuizDropdown();
                 };
-                if (selectedQuizIndex === quiz.index)
+                if (selectedQuizIndex === quiz.id)
                   li.classList.add("selected");
                 quizList.appendChild(li);
               });
@@ -3882,12 +3901,10 @@ The Beatles"
             quiz.questions && quiz.questions.length ? quiz.questions.length : 0
           } questions</div>
           <div style='display:flex;gap:0.5em;margin-bottom:1.5em;'>
-            <button class="purple-btn" onclick="window.startQuizFromLibrary && window.startQuizFromLibrary('${
+           <button class="purple-btn play-btn" data-quizid="${quiz.id}">Play</button>
+            <button class="purple-btn" onclick="window.publishQuizToPublic && window.publishQuizToPublic(${
               quiz.id
-            }')">Play</button>
-            <button class="purple-btn" onclick="window.publishQuizToPublic && window.publishQuizToPublic('${
-              quiz.id
-            }')">Publish to Play Tornado Library</button>
+            })">Publish to Play Tornado Library</button>
             <button class="purple-btn" onclick="navigator.clipboard.writeText(window.location.href)">Share</button>
           </div>
           <ol style='background:#f9f9f9;padding:1.2em 1.5em;border-radius:10px;'>`;
