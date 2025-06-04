@@ -2314,9 +2314,7 @@ The Beatles"
                   </div>
                   <div style='display:flex;gap:0.5em;'>
                    <button class="purple-btn play-btn" data-quizid="${quiz.id}">Play</button>
-                    <button class="purple-btn" onclick="window.addJsonQuizToMyLibrary && window.addJsonQuizToMyLibrary(${
-                      quiz.id
-                    })">Add to My Library</button>
+                    <button class="purple-btn add-to-my-lib" data-quizid="${quiz.id}">Add to My Library</button>
                   </div>
                 </li>`;
                   });
@@ -2339,9 +2337,7 @@ The Beatles"
                 </div>
                 <div style='display:flex;gap:0.5em;'>
                  <button class="purple-btn play-btn" data-quizid="${quiz.id}">Play</button>
-                  <button class="purple-btn" onclick="window.addJsonQuizToMyLibrary && window.addJsonQuizToMyLibrary(${
-                    quiz.id
-                  })">Add to My Library</button>
+                  <button class="purple-btn add-to-my-lib" data-quizid="${quiz.id}">Add to My Library</button>
                 </div>
               </li>`;
                 });
@@ -2349,20 +2345,6 @@ The Beatles"
               });
             html += "</div>";
             librarySection.innerHTML = "<h2>Play Tornado Library</h2>" + html;
-              // ✅ Add this part HERE, after the DOM is updated
-            const publicLibraryList = document.getElementById("publicLibraryList");
-            console.log(publicLibraryList, "publicLibraryList");
-
-            // if (publicLibraryList) {
-            //   publicLibraryList.querySelectorAll(".play-btn").forEach((btn) => {
-            //     btn.onclick = () => {
-            //       const id = btn.getAttribute("data-quizid");
-            //       if (window.startQuizFromLibrary) {
-            //         window.startQuizFromLibrary(id);
-            //       }
-            //     };
-            //   });
-            //   }
           } catch (err) {
             librarySection.innerHTML =
               '<div style="color:red;">Error loading public quizzes.</div>';
@@ -2373,6 +2355,19 @@ The Beatles"
             const id = e.target.getAttribute("data-quizid");
             if (id && window.startQuizFromLibrary) {
               window.startQuizFromLibrary(id);
+            }
+          }
+        });
+        document.addEventListener("click", async (e) => {
+          if (e.target.classList.contains("add-to-my-lib")) {
+            const quizId  = e.target.getAttribute("data-quizid");
+            const { data : quiz, error } = await supabaseClient
+            .from("quizzes")
+            .select("*")
+            .eq("id", quizId)
+            .single();
+            if (quiz && window.addJsonQuizToMyLibrary) {
+              window.addJsonQuizToMyLibrary(quiz);
             }
           }
         });
@@ -2399,7 +2394,7 @@ The Beatles"
           } questions</div>
           <div style='display:flex;gap:0.5em;margin-bottom:1.5em;'>
             <button class="purple-btn play-btn" data-quizid="${quiz.id}">Play</button> 
-            <button class="purple-btn" onclick="window.addJsonQuizToMyLibrary && window.addJsonQuizToMyLibrary(${quiz.id})">Add to My Library</button>
+            <button class="purple-btn add-to-my-lib" data-quizid="${quiz.id}">Add to My Library</button>
             <button class="purple-btn" onclick="navigator.clipboard.writeText(window.location.href)">Share</button>
           </div>
           <ol style='background:#f9f9f9;padding:1.2em 1.5em;border-radius:10px;'>`;
@@ -2658,15 +2653,7 @@ The Beatles"
                   }
                 };
               });
-            // Play, Publish, Edit, Delete (reuse existing global functions)
-            myLibraryList.querySelectorAll(".play-btn").forEach((btn) => {
-               btn.onclick = () => {
-                const id = btn.getAttribute("data-quizid");
-                if (window.startQuizFromLibrary) {
-                  window.startQuizFromLibrary(id);
-                }
-              };
-            });
+       
             myLibraryList.querySelectorAll(".publish-btn").forEach((btn) => {
               btn.onclick = () =>
                 window.publishQuizToPublic &&
@@ -2762,18 +2749,14 @@ The Beatles"
           }
           // ... existing code for DB quizzes ...
         };
-        window.addJsonQuizToMyLibrary = async function (idx) {
+        window.addJsonQuizToMyLibrary = async function (quiz) {
           // Add a quiz from quiz_library.json to the user's library
           const user = await getCurrentUser();
-          console.log(idx, user, "add function call");
           if (!user) {
             alert("Please log in to add quizzes to your library.");
             showAuthModal();
             return;
           }
-          const res = await fetch("quiz_library.json");
-          const quizLibrary = await res.json();
-          const quiz = quizLibrary[idx];
           if (!quiz) return alert("Quiz not found.");
           // Insert into Supabase quizzes table
           const { error } = await supabaseClient.from("quizzes").insert([
