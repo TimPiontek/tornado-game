@@ -2353,22 +2353,30 @@ The Beatles"
             const publicLibraryList = document.getElementById("publicLibraryList");
             console.log(publicLibraryList, "publicLibraryList");
 
-            if (publicLibraryList) {
-              publicLibraryList.querySelectorAll(".play-btn").forEach((btn) => {
-                btn.onclick = () => {
-                  const id = btn.getAttribute("data-quizid");
-                  if (window.startQuizFromLibrary) {
-                    window.startQuizFromLibrary(id);
-                  }
-                };
-              });
-              }
+            // if (publicLibraryList) {
+            //   publicLibraryList.querySelectorAll(".play-btn").forEach((btn) => {
+            //     btn.onclick = () => {
+            //       const id = btn.getAttribute("data-quizid");
+            //       if (window.startQuizFromLibrary) {
+            //         window.startQuizFromLibrary(id);
+            //       }
+            //     };
+            //   });
+            //   }
           } catch (err) {
             librarySection.innerHTML =
               '<div style="color:red;">Error loading public quizzes.</div>';
           }
         }
-      
+        document.addEventListener("click", (e) => {
+          if (e.target.classList.contains("play-btn")) {
+            const id = e.target.getAttribute("data-quizid");
+            if (id && window.startQuizFromLibrary) {
+              window.startQuizFromLibrary(id);
+            }
+          }
+        });
+
           // New: Render Quiz Detail Page
         async function renderQuizDetailPage(quizId) {
           librarySection.innerHTML = "<h2>Loading quiz...</h2>";
@@ -2878,7 +2886,7 @@ The Beatles"
         // Hash-based navigation
         function handleHash() {
           if (window.location.hash.startsWith("#quiz-")) {
-            const quizId =  window.location.hash.replace("#quiz-", "")
+             const quizId =  window.location.hash.replace("#quiz-", "")
             renderQuizDetailPage(quizId);
           } else if (window.location.hash.startsWith("#myquiz-")) {
             const quizId = window.location.hash.replace("#myquiz-", "");
