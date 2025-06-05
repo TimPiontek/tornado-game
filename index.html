@@ -1255,7 +1255,14 @@
         font-size: 2.2rem;
         padding: 1.1rem 0;
       }
-
+      .library-section{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .hidden {
+        display: none !important;
+      }
       @media (max-width: 900px) {
         .setup-grid-row {
           flex-direction: column;
@@ -2185,13 +2192,11 @@ The Beatles"
     <!-- Remove duplicate tabbed interface below navbar and replace with a single #librarySection container -->
     <div
       id="librarySection"
-      class="hidden"
+      class="hidden library-section"
       style="
         max-width: 900px;
         margin: 2rem auto 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        
       "
     ></div>
 
@@ -3240,6 +3245,7 @@ The Beatles"
           }
         }
         function hideLibrary() {
+          console.log("hide lib called");
           librarySection.classList.add("hidden");
           setupScreen.classList.remove("hidden");
           gameScreen.classList.add("hidden"); // Ensure game screen is hidden
@@ -3685,11 +3691,11 @@ The Beatles"
             let swapCount = parseInt(
               document.getElementById("swapCount").value
             );
+            qIndex = 0;
             // Fully reset game state and grid
             initGame(tornadoCount, doubleCount, loseCount, swapCount);
             buildGrid(total);
             showQuestion();
-            document.getElementById("questionAnswerRow").style.display = "none";
           };
         if (document.getElementById("homeBtn")) {
           document.getElementById("homeBtn").onclick = () => {
@@ -3906,6 +3912,8 @@ The Beatles"
         }
 
         function showQuestion() {
+            console.log(qIndex, "qIndex");
+            console.warn(usedQuestionIndices , "usedQuestionIndices");
           const qObj = questions[usedQuestionIndices[qIndex]] || {
             question: "",
             answer: null,
