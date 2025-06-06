@@ -175,6 +175,152 @@ function populateQuizDropdown(quizzes) {
     });
 }
 
+// Game customization dialog elements
+const gameCustomizationDialog = document.getElementById('gameCustomizationDialog');
+const closeCustomizationDialog = document.getElementById('closeCustomizationDialog');
+const startCustomizedGame = document.getElementById('startCustomizedGame');
+let selectedQuizId = null;
+
+// Show customization dialog
+function showGameCustomizationDialog(quizId) {
+  selectedQuizId = quizId;
+  gameCustomizationDialog.style.display = 'flex';
+  gameCustomizationDialog.classList.remove('hidden');
+}
+
+// Close customization dialog
+if (closeCustomizationDialog) {
+  closeCustomizationDialog.addEventListener('click', () => {
+    gameCustomizationDialog.style.display = 'none';
+    gameCustomizationDialog.classList.add('hidden');
+  });
+}
+
+// Start game with customization
+if (startCustomizedGame) {
+  startCustomizedGame.addEventListener('click', () => {
+    const teamAName = document.getElementById('customizationTeamA').value || 'Team A';
+    const teamBName = document.getElementById('customizationTeamB').value || 'Team B';
+    const isSinglePlayer = document.getElementById('customizationSinglePlayer').checked;
+    const gridSize = parseInt(document.getElementById('customizationGridSize').value);
+    const tornadoCount = parseInt(document.getElementById('customizationTornadoCount').value);
+    const doubleCount = parseInt(document.getElementById('customizationDoubleCount').value);
+    const loseCount = parseInt(document.getElementById('customizationLoseCount').value);
+    const swapCount = parseInt(document.getElementById('customizationSwapCount').value);
+
+    // Close the dialog
+    gameCustomizationDialog.style.display = 'none';
+    gameCustomizationDialog.classList.add('hidden');
+
+    // Start the game with custom settings
+    startQuizFromLibrary(selectedQuizId, {
+      teamAName,
+      teamBName,
+      isSinglePlayer,
+      gridSize,
+      specialItems: {
+        tornado: tornadoCount,
+        double: doubleCount,
+        lose: loseCount,
+        swap: swapCount
+      }
+    });
+  });
+}
+
+// Modified startQuizFromLibrary function
+window.startQuizFromLibrary = async function(quizId, customSettings = null) {
+  if (quizId && quizId.startsWith('jsonlib:')) {
+    // Load from quiz_library.json
+    const idx = parseInt(quizId.replace('jsonlib:', ''));
+    const res = await fetch('quiz_library.json');
+    const quizLibrary = await res.json();
+    const quiz = quizLibrary[idx];
+    if (!quiz) return alert('Quiz not found.');
+
+    // If no custom settings provided, show customization dialog
+    if (!customSettings) {
+      showGameCustomizationDialog(quizId);
+      return;
+    }
+
+    // Set up game state with custom settings
+    questions = quiz.questions && Array.isArray(quiz.questions) ? 
+      quiz.questions.map(q => ({ question: q.question, answer: q.answer || null })) : [];
+    usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
+    qIndex = 0;
+    names.A = customSettings.teamAName;
+    names.B = customSettings.teamBName;
+    singlePlayer = customSettings.isSinglePlayer;
+    total = customSettings.gridSize;
+
+    // Hide/show appropriate screens
+    setupScreen.classList.add('hidden');
+    gameScreen.classList.remove('hidden');
+    librarySection.classList.add('hidden');
+    androidImg.style.display = singlePlayer ? 'block' : 'none';
+    nameBEl.textContent = names.B;
+    teamBNameContainer.classList.toggle('single-player', singlePlayer);
+
+    // Initialize game with custom special item counts
+    initGame(
+      customSettings.specialItems.tornado,
+      customSettings.specialItems.double,
+      customSettings.specialItems.lose,
+      customSettings.specialItems.swap
+    );
+    buildGrid(total);
+    showQuestion();
+    return;
+  }
+
+  // Handle DB quizzes
+  const { data: quiz, error } = await supabaseClient
+    .from('quizzes')
+    .select('*')
+    .eq('id', quizId)
+    .single();
+
+  if (error || !quiz) {
+    alert('Error: Quiz not found.');
+    return;
+  }
+
+  // If no custom settings provided, show customization dialog
+  if (!customSettings) {
+    showGameCustomizationDialog(quizId);
+    return;
+  }
+
+  // Set up game state with custom settings
+  questions = quiz.questions && Array.isArray(quiz.questions) ? 
+    quiz.questions.map(q => ({ question: q.question, answer: q.answer || null })) : [];
+  usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
+  qIndex = 0;
+  names.A = customSettings.teamAName;
+  names.B = customSettings.teamBName;
+  singlePlayer = customSettings.isSinglePlayer;
+  total = customSettings.gridSize;
+
+  // Hide/show appropriate screens
+  setupScreen.classList.add('hidden');
+  gameScreen.classList.remove('hidden');
+  librarySection.classList.add('hidden');
+  androidImg.style.display = singlePlayer ? 'block' : 'none';
+  nameBEl.textContent = names.B;
+  teamBNameContainer.classList.toggle('single-player', singlePlayer);
+
+  // Initialize game with custom special item counts
+  initGame(
+    customSettings.specialItems.tornado,
+    customSettings.specialItems.double,
+    customSettings.specialItems.lose,
+    customSettings.specialItems.swap
+  );
+  buildGrid(total);
+  showQuestion();
+};
+
 // Start game
 function startGame() {
     // Get team names
