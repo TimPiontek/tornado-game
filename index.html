@@ -1661,7 +1661,13 @@ The Beatles"></textarea>
       }
 
       // Expose actions globally for inline onclick
-      window.startQuizFromLibrary = async function(quizId) {
+      window.startQuizFromLibrary = async function(quizId, options) {
+        if (!options) {
+          // If no options provided, show modal first
+          showGameOptionsModal({}, opts => window.startQuizFromLibrary(quizId, opts));
+          return;
+        }
+        
         if (quizId && quizId.startsWith('jsonlib:')) {
           // Load from quiz_library.json
           const idx = parseInt(quizId.replace('jsonlib:', ''));
@@ -1669,26 +1675,34 @@ The Beatles"></textarea>
           const quizLibrary = await res.json();
           const quiz = quizLibrary[idx];
           if (!quiz) return alert('Quiz not found.');
+          
           // Start game with this quiz
-          // Set up game state as if selected from dropdown
           questions = quiz.questions && Array.isArray(quiz.questions) ? quiz.questions.map(q => ({ question: q.question, answer: q.answer || null })) : [];
           usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
-          // Shuffle if random order is selected
-          let order = 'random';
-          qIndex = 0;
-          names.A = 'Team A';
-          names.B = 'Team B';
-          singlePlayer = false;
-          total = 20;
+          
+          // Apply options from modal
+          names.A = options.teamA || 'Team A';
+          names.B = options.teamB || 'Team B';
+          singlePlayer = options.singlePlayer || false;
+          total = options.gridSize || 20;
+          
+          // Set special item counts
+          const tornadoCount = options.tornadoCount || 2;
+          const doubleCount = options.doubleCount || 2;
+          const loseCount = options.loseCount || 2;
+          const swapCount = options.swapCount || 2;
+          
+          // Start the game
           setupScreen.classList.add('hidden');
           gameScreen.classList.remove('hidden');
           librarySection.classList.add('hidden');
-          androidImg.style.display = 'none';
+          androidImg.style.display = singlePlayer ? 'inline-block' : 'none';
           nameBEl.textContent = names.B;
-          teamBNameContainer.classList.remove('single-player');
-          initGame(2,2,2,1); buildGrid(total); showQuestion();
-          // Set the game title if you want (optional)
-          // document.title = quiz.title + ' - Play Tornado';
+          if (singlePlayer) teamBNameContainer.classList.add('single-player');
+          else teamBNameContainer.classList.remove('single-player');
+          initGame(tornadoCount, doubleCount, loseCount, swapCount);
+          buildGrid(total);
+          showQuestion();
           return;
         }
         // ... existing code for DB quizzes ...
@@ -3008,7 +3022,8 @@ The Beatles"></textarea>
         if (myLibraryList) {
           myLibraryList.querySelectorAll('.play-btn').forEach(btn => {
             btn.onclick = () => {
-              showGameOptionsModal({}, opts => window.startQuizFromLibrary(btn.getAttribute('data-quizid'), opts));
+              const quizId = btn.getAttribute('data-quizid');
+              window.startQuizFromLibrary(quizId);
             };
           });
         }
@@ -3022,7 +3037,7 @@ The Beatles"></textarea>
               const quizId = btn.getAttribute('onclick')?.match(/startQuizFromLibrary\(['"]([^'"]+)['"]\)/)?.[1];
               if (quizId) {
                 btn.onclick = () => {
-                  showGameOptionsModal({}, opts => window.startQuizFromLibrary(quizId, opts));
+                  window.startQuizFromLibrary(quizId);
                 };
               }
             }
@@ -3058,7 +3073,7 @@ The Beatles"></textarea>
           let order = 'random';
           qIndex = 0;
           names.A = options.teamA;
-          names.B = options.singlePlayer ? 'Android' : options.teamB;
+          names.B = options.teamB;
           singlePlayer = options.singlePlayer;
           total = options.gridSize;
           setupScreen.classList.add('hidden');
