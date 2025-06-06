@@ -1255,7 +1255,7 @@
         font-size: 2.2rem;
         padding: 1.1rem 0;
       }
-      .library-section{
+      .library-section {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -2193,11 +2193,7 @@ The Beatles"
     <div
       id="librarySection"
       class="hidden library-section"
-      style="
-        max-width: 900px;
-        margin: 2rem auto 0 auto;
-        
-      "
+      style="max-width: 900px; margin: 2rem auto 0 auto"
     ></div>
 
     <!-- AUTH MODAL -->
@@ -2705,6 +2701,7 @@ The Beatles"
 
         // New: Render Quiz Detail Page
         async function renderQuizDetailPage(quizId) {
+          console.log("quizDetailPage", quizId);
           librarySection.innerHTML = "<h2>Loading quiz...</h2>";
           let { data: quiz, error } = await supabaseClient
             .from("quizzes")
@@ -3063,27 +3060,6 @@ The Beatles"
           }
           // ... existing code for DB quizzes ...
         };
-        window.addJsonQuizToMyLibrary = async function (quiz) {
-          const user = await getCurrentUser();
-          if (!user) {
-            alert("Please log in to add quizzes to your library.");
-            showAuthModal();
-            return;
-          }
-          if (!quiz) return alert("Quiz not found.");
-          // Insert into Supabase quizzes table
-          const { error } = await supabaseClient.from("quizzes").insert([
-            {
-              title: quiz.title,
-              category: quiz.category || null,
-              questions: quiz.questions || [],
-              is_public: false,
-              owner: user.id,
-            },
-          ]);
-          if (error) alert("Error adding quiz: " + error.message);
-          else alert("Quiz added to your library!");
-        };
         window.saveQuizToMyLibrary = async function (quizId) {
           console.log(quizId, "quizId");
 
@@ -3233,19 +3209,16 @@ The Beatles"
 
         // Show/hide library section and main screens
         function showLibrary(which) {
-          setupScreen.classList.add("hidden");
-          gameScreen.classList.add("hidden");
-          librarySection.classList.remove("hidden");
+          hideGameAndSetUpScreen()
           if (which === "my") {
             renderMyLibrary();
             window.location.hash = "#my-library";
-          } else {
+          } else if (which === "public") {
             renderPublicLibrary();
             window.location.hash = "#public-library";
           }
         }
-        function hideLibrary() {
-          console.log("hide lib called");
+        function hideLibraryScreen() {
           librarySection.classList.add("hidden");
           setupScreen.classList.remove("hidden");
           gameScreen.classList.add("hidden"); // Ensure game screen is hidden
@@ -3263,16 +3236,25 @@ The Beatles"
         // Home link returns to main setup
         document.getElementById("logoTitleHome").onclick = function (e) {
           e.preventDefault();
-          hideLibrary();
+          hideLibraryScreen();
           window.location.hash = "";
         };
+function hideGameAndSetUpScreen() {
+  setupScreen.classList.add("hidden");
+  gameScreen.classList.add("hidden");
+  librarySection.classList.remove("hidden");
+}
 
         // Hash-based navigation
         function handleHash() {
+          console.log("first hash change", window.location.hash);
+
           if (window.location.hash.startsWith("#quiz-")) {
+            hideGameAndSetUpScreen();
             const quizId = window.location.hash.replace("#quiz-", "");
             renderQuizDetailPage(quizId);
           } else if (window.location.hash.startsWith("#myquiz-")) {
+            hideGameAndSetUpScreen();
             const quizId = window.location.hash.replace("#myquiz-", "");
             renderMyQuizDetailPage(quizId);
           } else if (window.location.hash === "#my-library") {
@@ -3280,14 +3262,14 @@ The Beatles"
           } else if (window.location.hash === "#public-library") {
             showLibrary("public");
           } else if (window.location.hash === "#how-to-play") {
-            setupScreen.classList.add("hidden");
-            gameScreen.classList.add("hidden");
-            librarySection.classList.remove("hidden");
+            hideGameAndSetUpScreen();
             renderHowToPlayPage();
           } else {
-            hideLibrary();
+            console.log("first", "hash is empty or not recognized");
+            hideLibraryScreen();
           }
         }
+
         window.addEventListener("hashchange", handleHash);
         handleHash();
 
@@ -3912,8 +3894,8 @@ The Beatles"
         }
 
         function showQuestion() {
-            console.log(qIndex, "qIndex");
-            console.warn(usedQuestionIndices , "usedQuestionIndices");
+          console.log(qIndex, "qIndex");
+          console.warn(usedQuestionIndices, "usedQuestionIndices");
           const qObj = questions[usedQuestionIndices[qIndex]] || {
             question: "",
             answer: null,
@@ -4283,6 +4265,7 @@ The Beatles"
 
         // 1. Make quiz titles in 'My Library' clickable and add detail page
         async function renderMyQuizDetailPage(quizId) {
+          console.log("renderMyQuizDetailPage called with quizId:", quizId);
           librarySection.innerHTML = "<h2>Loading quiz...</h2>";
           // Try to fetch from Supabase
           const { data, error } = await supabaseClient
@@ -4580,7 +4563,7 @@ The Beatles"
           </div>
         `;
           document.getElementById("backToMainBtn").onclick = function () {
-            hideLibrary();
+            hideLibraryScreen();
             window.location.hash = "";
           };
         }
