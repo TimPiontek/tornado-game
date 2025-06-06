@@ -1,0 +1,128 @@
+[
+  {
+    "title": "World Literature",
+    "category": "Literature",
+    "questions": [
+      {
+        "question": "Who wrote 'One Hundred Years of Solitude'?",
+        "answer": "Gabriel García Márquez"
+      },
+      {
+        "question": "What is the main theme of 'The Alchemist' by Paulo Coelho?",
+        "answer": "Personal legend and following one's dreams"
+      },
+      {
+        "question": "Who wrote 'The Kite Runner'?",
+        "answer": "Khaled Hosseini"
+      },
+      {
+        "question": "What is the setting of 'The God of Small Things' by Arundhati Roy?",
+        "answer": "Kerala, India"
+      },
+      {
+        "question": "Who wrote 'The House of the Spirits'?",
+        "answer": "Isabel Allende"
+      },
+      {
+        "question": "What is the main theme of 'The Stranger' by Albert Camus?",
+        "answer": "Absurdism and existentialism"
+      },
+      {
+        "question": "Who wrote 'The Wind-Up Bird Chronicle'?",
+        "answer": "Haruki Murakami"
+      },
+      {
+        "question": "What is the setting of 'Midnight's Children' by Salman Rushdie?",
+        "answer": "India during and after independence"
+      },
+      {
+        "question": "Who wrote 'The Shadow of the Wind'?",
+        "answer": "Carlos Ruiz Zafón"
+      },
+      {
+        "question": "What is the main theme of 'The Unbearable Lightness of Being' by Milan Kundera?",
+        "answer": "The concept of eternal return and the weight of choices"
+      },
+      {
+        "question": "Who wrote 'The Master and Margarita'?",
+        "answer": "Mikhail Bulgakov"
+      },
+      {
+        "question": "What is the setting of 'The House of the Spirits' by Isabel Allende?",
+        "answer": "Chile"
+      },
+      {
+        "question": "Who wrote 'The Book Thief'?",
+        "answer": "Markus Zusak"
+      },
+      {
+        "question": "What is the main theme of 'The Kite Runner' by Khaled Hosseini?",
+        "answer": "Redemption and the relationship between fathers and sons"
+      },
+      {
+        "question": "Who wrote 'The Shadow of the Wind'?",
+        "answer": "Carlos Ruiz Zafón"
+      },
+      {
+        "question": "What is the setting of 'The Wind-Up Bird Chronicle' by Haruki Murakami?",
+        "answer": "Tokyo, Japan"
+      },
+      {
+        "question": "Who wrote 'The God of Small Things'?",
+        "answer": "Arundhati Roy"
+      },
+      {
+        "question": "What is the main theme of 'One Hundred Years of Solitude' by Gabriel García Márquez?",
+        "answer": "The cyclical nature of history and the Buendía family's destiny"
+      },
+      {
+        "question": "Who wrote 'The Unbearable Lightness of Being'?",
+        "answer": "Milan Kundera"
+      },
+      {
+        "question": "What is the setting of 'The Master and Margarita' by Mikhail Bulgakov?",
+        "answer": "Moscow, Soviet Union"
+      },
+      {
+        "question": "Who wrote 'The House of the Spirits'?",
+        "answer": "Isabel Allende"
+      },
+      {
+        "question": "What is the main theme of 'The Book Thief' by Markus Zusak?",
+        "answer": "The power of words and the resilience of the human spirit during war"
+      },
+      {
+        "question": "Who wrote 'The Shadow of the Wind'?",
+        "answer": "Carlos Ruiz Zafón"
+      },
+      {
+        "question": "What is the setting of 'The Alchemist' by Paulo Coelho?",
+        "answer": "Spain and Egypt"
+      },
+      {
+        "question": "Who wrote 'The Stranger'?",
+        "answer": "Albert Camus"
+      },
+      {
+        "question": "What is the main theme of 'Midnight's Children' by Salman Rushdie?",
+        "answer": "The connection between personal and national history"
+      },
+      {
+        "question": "Who wrote 'The Wind-Up Bird Chronicle'?",
+        "answer": "Haruki Murakami"
+      },
+      {
+        "question": "What is the setting of 'The Kite Runner' by Khaled Hosseini?",
+        "answer": "Afghanistan and the United States"
+      },
+      {
+        "question": "Who wrote 'The God of Small Things'?",
+        "answer": "Arundhati Roy"
+      },
+      {
+        "question": "What is the main theme of 'The House of the Spirits' by Isabel Allende?",
+        "answer": "Family, love, and political turmoil in Chile"
+      }
+    ]
+  }
+] 

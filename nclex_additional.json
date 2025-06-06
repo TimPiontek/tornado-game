@@ -1,0 +1,128 @@
+[
+  {
+    "title": "NCLEX",
+    "category": "Medical",
+    "questions": [
+      {
+        "question": "What is the normal range for adult blood pressure?",
+        "answer": "120/80 mmHg"
+      },
+      {
+        "question": "What is the first step in the nursing process?",
+        "answer": "Assessment"
+      },
+      {
+        "question": "What is the normal respiratory rate for an adult?",
+        "answer": "12-20 breaths per minute"
+      },
+      {
+        "question": "What is the normal heart rate for an adult?",
+        "answer": "60-100 beats per minute"
+      },
+      {
+        "question": "What is the normal temperature range for an adult?",
+        "answer": "97.8-99.0°F (36.5-37.2°C)"
+      },
+      {
+        "question": "What is the normal oxygen saturation level?",
+        "answer": "95-100%"
+      },
+      {
+        "question": "What is the normal blood glucose level?",
+        "answer": "70-100 mg/dL"
+      },
+      {
+        "question": "What is the normal pH range for blood?",
+        "answer": "7.35-7.45"
+      },
+      {
+        "question": "What is the normal potassium level?",
+        "answer": "3.5-5.0 mEq/L"
+      },
+      {
+        "question": "What is the normal sodium level?",
+        "answer": "135-145 mEq/L"
+      },
+      {
+        "question": "What is the normal calcium level?",
+        "answer": "8.5-10.5 mg/dL"
+      },
+      {
+        "question": "What is the normal magnesium level?",
+        "answer": "1.5-2.5 mEq/L"
+      },
+      {
+        "question": "What is the normal hemoglobin level for adult males?",
+        "answer": "13.5-17.5 g/dL"
+      },
+      {
+        "question": "What is the normal hemoglobin level for adult females?",
+        "answer": "12.0-15.5 g/dL"
+      },
+      {
+        "question": "What is the normal white blood cell count?",
+        "answer": "4,500-11,000 cells/µL"
+      },
+      {
+        "question": "What is the normal platelet count?",
+        "answer": "150,000-450,000 cells/µL"
+      },
+      {
+        "question": "What is the normal creatinine level?",
+        "answer": "0.6-1.2 mg/dL"
+      },
+      {
+        "question": "What is the normal BUN level?",
+        "answer": "7-20 mg/dL"
+      },
+      {
+        "question": "What is the normal albumin level?",
+        "answer": "3.5-5.0 g/dL"
+      },
+      {
+        "question": "What is the normal bilirubin level?",
+        "answer": "0.1-1.2 mg/dL"
+      },
+      {
+        "question": "What is the normal INR for someone on warfarin?",
+        "answer": "2.0-3.0"
+      },
+      {
+        "question": "What is the normal aPTT for someone on heparin?",
+        "answer": "1.5-2.5 times the control"
+      },
+      {
+        "question": "What is the normal PT?",
+        "answer": "11-13.5 seconds"
+      },
+      {
+        "question": "What is the normal aPTT?",
+        "answer": "25-35 seconds"
+      },
+      {
+        "question": "What is the normal fibrinogen level?",
+        "answer": "200-400 mg/dL"
+      },
+      {
+        "question": "What is the normal D-dimer level?",
+        "answer": "Less than 0.5 µg/mL"
+      },
+      {
+        "question": "What is the normal troponin level?",
+        "answer": "Less than 0.04 ng/mL"
+      },
+      {
+        "question": "What is the normal BNP level?",
+        "answer": "Less than 100 pg/mL"
+      },
+      {
+        "question": "What is the normal TSH level?",
+        "answer": "0.4-4.0 mIU/L"
+      },
+      {
+        "question": "What is the normal T4 level?",
+        "answer": "4.5-11.2 µg/dL"
+      }
+    ]
+  }
+] 

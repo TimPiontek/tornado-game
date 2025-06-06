@@ -1,0 +1,182 @@
+[
+  {
+    "title": "French - Advanced",
+    "category": "Language",
+    "questions": [
+      {
+        "question": "What is the French term for 'environmental protection'?",
+        "answer": "la protection de l'environnement"
+      },
+      {
+        "question": "In French, how do you express 'I would have gone if I had known' using the correct tense?",
+        "answer": "Je serais allé(e) si j'avais su"
+      },
+      {
+        "question": "What is the subjunctive form of 'venir' for 'nous'?",
+        "answer": "que nous venions"
+      }
+    ]
+  },
+  {
+    "title": "French - Intermediate",
+    "category": "Language",
+    "questions": [
+      {
+        "question": "How do you say 'I am learning French' in French?",
+        "answer": "J'apprends le français"
+      },
+      {
+        "question": "What is the French word for 'library'?",
+        "answer": "la bibliothèque"
+      },
+      {
+        "question": "How do you ask 'What time is it?' in French?",
+        "answer": "Quelle heure est-il ?"
+      }
+    ]
+  },
+  {
+    "title": "Hungarian - Beginner",
+    "category": "Language",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Hungarian?",
+        "answer": "Szia"
+      },
+      {
+        "question": "What is the Hungarian word for 'thank you'?",
+        "answer": "Köszönöm"
+      },
+      {
+        "question": "How do you say 'goodbye' in Hungarian?",
+        "answer": "Viszlát"
+      }
+    ]
+  },
+  {
+    "title": "Italian - Beginner",
+    "category": "Language",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Italian?",
+        "answer": "Ciao"
+      },
+      {
+        "question": "What is the Italian word for 'thank you'?",
+        "answer": "Grazie"
+      },
+      {
+        "question": "How do you say 'goodbye' in Italian?",
+        "answer": "Arrivederci"
+      }
+    ]
+  },
+  {
+    "title": "Korean - Beginner",
+    "category": "Language",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Korean?",
+        "answer": "안녕하세요 (Annyeong haseyo)"
+      },
+      {
+        "question": "What is the Korean word for 'thank you'?",
+        "answer": "감사합니다 (Gamsahamnida)"
+      },
+      {
+        "question": "How do you say 'goodbye' in Korean?",
+        "answer": "안녕히 가세요 (Annyeonghi gaseyo) / 안녕히 계세요 (Annyeonghi gyeseyo)"
+      }
+    ]
+  },
+  {
+    "title": "Mandarin - Beginner",
+    "category": "Language",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Mandarin?",
+        "answer": "你好 (nǐ hǎo)"
+      },
+      {
+        "question": "What is the Mandarin word for 'thank you'?",
+        "answer": "谢谢 (xièxie)"
+      },
+      {
+        "question": "How do you say 'goodbye' in Mandarin?",
+        "answer": "再见 (zàijiàn)"
+      }
+    ]
+  },
+  {
+    "title": "Spanish - Advanced",
+    "category": "Language",
+    "questions": [
+      {
+        "question": "How do you express 'If I had known, I would have come' using the correct tenses in Spanish?",
+        "answer": "Si lo hubiera sabido, habría venido"
+      },
+      {
+        "question": "What is the Spanish word for 'scholarship' (financial aid)?",
+        "answer": "beca"
+      },
+      {
+        "question": "Give an example of a Spanish idiom meaning 'to pull someone's leg.'",
+        "answer": "tomar el pelo a alguien"
+      }
+    ]
+  },
+  {
+    "title": "Spanish - Intermediate",
+    "category": "Language",
+    "questions": [
+      {
+        "question": "How do you say 'I am learning Spanish' in Spanish?",
+        "answer": "Estoy aprendiendo español"
+      },
+      {
+        "question": "What is the Spanish word for 'library'?",
+        "answer": "biblioteca"
+      },
+      {
+        "question": "How do you ask 'What time is it?' in Spanish?",
+        "answer": "¿Qué hora es?"
+      }
+    ]
+  },
+  {
+    "title": "Ancient Civilizations",
+    "category": "History",
+    "questions": [
+      {
+        "question": "Which river was central to the development of Ancient Egypt?",
+        "answer": "The Nile"
+      },
+      {
+        "question": "What writing system did the Sumerians invent?",
+        "answer": "Cuneiform"
+      },
+      {
+        "question": "Who was the first emperor of unified China?",
+        "answer": "Qin Shi Huang"
+      }
+    ]
+  },
+  {
+    "title": "Classical Mythology",
+    "category": "History",
+    "questions": [
+      {
+        "question": "Who is the king of the Greek gods?",
+        "answer": "Zeus"
+      },
+      {
+        "question": "Who is the Roman equivalent of the Greek goddess Athena?",
+        "answer": "Minerva"
+      },
+      {
+        "question": "What is the name of the Greek god of the sea?",
+        "answer": "Poseidon"
+      }
+    ]
+  }
+] 

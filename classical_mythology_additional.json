@@ -1,0 +1,128 @@
+[
+  {
+    "title": "Classical Mythology",
+    "category": "History",
+    "questions": [
+      {
+        "question": "Who was the king of the gods in Greek mythology?",
+        "answer": "Zeus"
+      },
+      {
+        "question": "What was the name of the three-headed dog that guarded the underworld?",
+        "answer": "Cerberus"
+      },
+      {
+        "question": "Who was the goddess of wisdom and warfare in Greek mythology?",
+        "answer": "Athena"
+      },
+      {
+        "question": "What was the name of the winged horse in Greek mythology?",
+        "answer": "Pegasus"
+      },
+      {
+        "question": "Who was the god of the sea in Greek mythology?",
+        "answer": "Poseidon"
+      },
+      {
+        "question": "What was the name of the three Fates in Greek mythology?",
+        "answer": "Clotho, Lachesis, and Atropos"
+      },
+      {
+        "question": "Who was the god of war in Greek mythology?",
+        "answer": "Ares"
+      },
+      {
+        "question": "What was the name of the river that separated the living from the dead?",
+        "answer": "Styx"
+      },
+      {
+        "question": "Who was the goddess of love and beauty in Greek mythology?",
+        "answer": "Aphrodite"
+      },
+      {
+        "question": "What was the name of the monster with snakes for hair?",
+        "answer": "Medusa"
+      },
+      {
+        "question": "Who was the god of the underworld in Greek mythology?",
+        "answer": "Hades"
+      },
+      {
+        "question": "What was the name of the hero who completed twelve labors?",
+        "answer": "Hercules (Heracles)"
+      },
+      {
+        "question": "Who was the goddess of the hunt in Greek mythology?",
+        "answer": "Artemis"
+      },
+      {
+        "question": "What was the name of the monster that was half-man, half-bull?",
+        "answer": "Minotaur"
+      },
+      {
+        "question": "Who was the god of the sun in Greek mythology?",
+        "answer": "Apollo"
+      },
+      {
+        "question": "What was the name of the hero who killed the Minotaur?",
+        "answer": "Theseus"
+      },
+      {
+        "question": "Who was the goddess of the harvest in Greek mythology?",
+        "answer": "Demeter"
+      },
+      {
+        "question": "What was the name of the hero who flew too close to the sun?",
+        "answer": "Icarus"
+      },
+      {
+        "question": "Who was the god of wine in Greek mythology?",
+        "answer": "Dionysus"
+      },
+      {
+        "question": "What was the name of the hero who killed Medusa?",
+        "answer": "Perseus"
+      },
+      {
+        "question": "Who was the goddess of the hearth in Greek mythology?",
+        "answer": "Hestia"
+      },
+      {
+        "question": "What was the name of the hero who sailed with the Argonauts?",
+        "answer": "Jason"
+      },
+      {
+        "question": "Who was the god of the forge in Greek mythology?",
+        "answer": "Hephaestus"
+      },
+      {
+        "question": "What was the name of the hero who fought in the Trojan War?",
+        "answer": "Achilles"
+      },
+      {
+        "question": "Who was the goddess of the rainbow in Greek mythology?",
+        "answer": "Iris"
+      },
+      {
+        "question": "What was the name of the hero who built the Labyrinth?",
+        "answer": "Daedalus"
+      },
+      {
+        "question": "Who was the god of the winds in Greek mythology?",
+        "answer": "Aeolus"
+      },
+      {
+        "question": "What was the name of the hero who was known for his strength?",
+        "answer": "Atlas"
+      },
+      {
+        "question": "Who was the goddess of the dawn in Greek mythology?",
+        "answer": "Eos"
+      },
+      {
+        "question": "What was the name of the hero who was known for his wisdom?",
+        "answer": "Odysseus"
+      }
+    ]
+  }
+] 

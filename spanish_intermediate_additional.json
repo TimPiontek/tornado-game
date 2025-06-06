@@ -1,0 +1,128 @@
+[
+  {
+    "title": "Spanish - Intermediate",
+    "category": "Language",
+    "questions": [
+      {
+        "question": "How do you form the present progressive tense in Spanish?",
+        "answer": "Estar (in present) + present participle (-ando/-iendo)"
+      },
+      {
+        "question": "What is the Spanish word for 'to become'?",
+        "answer": "Llegar a ser / Volverse / Convertirse en"
+      },
+      {
+        "question": "How do you form the imperfect tense in Spanish?",
+        "answer": "Add -aba/-ía to the stem for -ar/-er/-ir verbs"
+      },
+      {
+        "question": "What is the Spanish word for 'to realize'?",
+        "answer": "Darse cuenta de"
+      },
+      {
+        "question": "How do you form the preterite tense in Spanish?",
+        "answer": "Add -é/-í to the stem for -ar/-er/-ir verbs"
+      },
+      {
+        "question": "What is the Spanish word for 'to get used to'?",
+        "answer": "Acostumbrarse a"
+      },
+      {
+        "question": "How do you form the future tense in Spanish?",
+        "answer": "Add -é/-ás/-á/-emos/-éis/-án to the infinitive"
+      },
+      {
+        "question": "What is the Spanish word for 'to take care of'?",
+        "answer": "Cuidar de"
+      },
+      {
+        "question": "How do you form the conditional tense in Spanish?",
+        "answer": "Add -ía/-ías/-ía/-íamos/-íais/-ían to the infinitive"
+      },
+      {
+        "question": "What is the Spanish word for 'to make up one's mind'?",
+        "answer": "Decidirse a"
+      },
+      {
+        "question": "How do you form the present perfect tense in Spanish?",
+        "answer": "Haber (in present) + past participle"
+      },
+      {
+        "question": "What is the Spanish word for 'to run into'?",
+        "answer": "Toparse con"
+      },
+      {
+        "question": "How do you form the pluperfect tense in Spanish?",
+        "answer": "Haber (in imperfect) + past participle"
+      },
+      {
+        "question": "What is the Spanish word for 'to take advantage of'?",
+        "answer": "Aprovecharse de"
+      },
+      {
+        "question": "How do you form the present subjunctive in Spanish?",
+        "answer": "Take the 'yo' form of present tense, drop the -o, add opposite endings"
+      },
+      {
+        "question": "What is the Spanish word for 'to get along with'?",
+        "answer": "Llevarse bien con"
+      },
+      {
+        "question": "How do you form the imperfect subjunctive in Spanish?",
+        "answer": "Take the third person plural preterite, drop -ron, add -ra/-se endings"
+      },
+      {
+        "question": "What is the Spanish word for 'to be about to'?",
+        "answer": "Estar a punto de"
+      },
+      {
+        "question": "How do you form the past participle in Spanish?",
+        "answer": "Add -ado/-ido to the stem for -ar/-er/-ir verbs"
+      },
+      {
+        "question": "What is the Spanish word for 'to be in the mood for'?",
+        "answer": "Tener ganas de"
+      },
+      {
+        "question": "How do you form the present participle in Spanish?",
+        "answer": "Add -ando/-iendo to the stem for -ar/-er/-ir verbs"
+      },
+      {
+        "question": "What is the Spanish word for 'to be fed up with'?",
+        "answer": "Estar harto de"
+      },
+      {
+        "question": "How do you form the imperative mood in Spanish?",
+        "answer": "Use present subjunctive for negative, special forms for positive"
+      },
+      {
+        "question": "What is the Spanish word for 'to be in charge of'?",
+        "answer": "Encargarse de"
+      },
+      {
+        "question": "How do you form the passive voice in Spanish?",
+        "answer": "Ser + past participle"
+      },
+      {
+        "question": "What is the Spanish word for 'to be in a hurry'?",
+        "answer": "Tener prisa"
+      },
+      {
+        "question": "How do you form the reflexive verbs in Spanish?",
+        "answer": "Add reflexive pronouns (me/te/se/nos/os/se)"
+      },
+      {
+        "question": "What is the Spanish word for 'to be in the middle of'?",
+        "answer": "Estar en medio de"
+      },
+      {
+        "question": "How do you form the reciprocal verbs in Spanish?",
+        "answer": "Use 'nos' or 'se' with plural subjects"
+      },
+      {
+        "question": "What is the Spanish word for 'to be in the process of'?",
+        "answer": "Estar en proceso de"
+      }
+    ]
+  }
+] 

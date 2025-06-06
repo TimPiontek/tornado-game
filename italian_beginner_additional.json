@@ -1,0 +1,128 @@
+[
+  {
+    "title": "Italian - Beginner",
+    "category": "Language",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Italian?",
+        "answer": "Ciao"
+      },
+      {
+        "question": "What is the Italian word for 'thank you'?",
+        "answer": "Grazie"
+      },
+      {
+        "question": "How do you say 'goodbye' in Italian?",
+        "answer": "Arrivederci"
+      },
+      {
+        "question": "What is the Italian word for 'please'?",
+        "answer": "Per favore"
+      },
+      {
+        "question": "How do you say 'yes' in Italian?",
+        "answer": "Sì"
+      },
+      {
+        "question": "What is the Italian word for 'no'?",
+        "answer": "No"
+      },
+      {
+        "question": "How do you say 'How are you?' in Italian?",
+        "answer": "Come stai?"
+      },
+      {
+        "question": "What is the Italian word for 'friend'?",
+        "answer": "Amico (male) / Amica (female)"
+      },
+      {
+        "question": "How do you say 'My name is Marco' in Italian?",
+        "answer": "Mi chiamo Marco"
+      },
+      {
+        "question": "What is the Italian word for 'family'?",
+        "answer": "Famiglia"
+      },
+      {
+        "question": "How do you say 'Where is the bathroom?' in Italian?",
+        "answer": "Dove è il bagno?"
+      },
+      {
+        "question": "What is the Italian word for 'water'?",
+        "answer": "Acqua"
+      },
+      {
+        "question": "How do you say 'I don't understand' in Italian?",
+        "answer": "Non capisco"
+      },
+      {
+        "question": "What is the Italian word for 'school'?",
+        "answer": "Scuola"
+      },
+      {
+        "question": "How do you say 'I am hungry' in Italian?",
+        "answer": "Ho fame"
+      },
+      {
+        "question": "What is the Italian word for 'book'?",
+        "answer": "Libro"
+      },
+      {
+        "question": "How do you say 'I am from Italy' in Italian?",
+        "answer": "Vengo dall'Italia"
+      },
+      {
+        "question": "What is the Italian word for 'teacher'?",
+        "answer": "Insegnante"
+      },
+      {
+        "question": "How do you say 'I like music' in Italian?",
+        "answer": "Mi piace la musica"
+      },
+      {
+        "question": "What is the Italian word for 'cat'?",
+        "answer": "Gatto"
+      },
+      {
+        "question": "How do you say 'I am a student' in Italian?",
+        "answer": "Sono uno studente / Sono una studentessa"
+      },
+      {
+        "question": "What is the Italian word for 'dog'?",
+        "answer": "Cane"
+      },
+      {
+        "question": "How do you say 'What is your name?' in Italian?",
+        "answer": "Come ti chiami?"
+      },
+      {
+        "question": "What is the Italian word for 'city'?",
+        "answer": "Città"
+      },
+      {
+        "question": "How do you say 'I live in Rome' in Italian?",
+        "answer": "Vivo a Roma"
+      },
+      {
+        "question": "What is the Italian word for 'mother'?",
+        "answer": "Madre"
+      },
+      {
+        "question": "How do you say 'father' in Italian?",
+        "answer": "Padre"
+      },
+      {
+        "question": "What is the Italian word for 'food'?",
+        "answer": "Cibo"
+      },
+      {
+        "question": "How do you say 'I am tired' in Italian?",
+        "answer": "Sono stanco/a"
+      },
+      {
+        "question": "What is the Italian word for 'car'?",
+        "answer": "Macchina"
+      }
+    ]
+  }
+] 

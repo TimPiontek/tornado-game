@@ -1,0 +1,128 @@
+[
+  {
+    "title": "Korean - Beginner",
+    "category": "Language",
+    "questions": [
+      {
+        "question": "How do you say 'hello' in Korean?",
+        "answer": "안녕하세요 (Annyeong haseyo)"
+      },
+      {
+        "question": "What is the Korean word for 'thank you'?",
+        "answer": "감사합니다 (Gamsahamnida)"
+      },
+      {
+        "question": "How do you say 'goodbye' in Korean?",
+        "answer": "안녕히 가세요 (Annyeonghi gaseyo) / 안녕히 계세요 (Annyeonghi gyeseyo)"
+      },
+      {
+        "question": "What is the Korean word for 'please'?",
+        "answer": "제발 (Jebal)"
+      },
+      {
+        "question": "How do you say 'yes' in Korean?",
+        "answer": "네 (Ne)"
+      },
+      {
+        "question": "What is the Korean word for 'no'?",
+        "answer": "아니요 (Aniyo)"
+      },
+      {
+        "question": "How do you say 'How are you?' in Korean?",
+        "answer": "잘 지내세요? (Jal jinaeseyo?)"
+      },
+      {
+        "question": "What is the Korean word for 'friend'?",
+        "answer": "친구 (Chingu)"
+      },
+      {
+        "question": "How do you say 'My name is Minji' in Korean?",
+        "answer": "제 이름은 민지예요 (Je ireumeun Minji-yeyo)"
+      },
+      {
+        "question": "What is the Korean word for 'family'?",
+        "answer": "가족 (Gajok)"
+      },
+      {
+        "question": "How do you say 'Where is the bathroom?' in Korean?",
+        "answer": "화장실 어디에요? (Hwajangsil eodieyo?)"
+      },
+      {
+        "question": "What is the Korean word for 'water'?",
+        "answer": "물 (Mul)"
+      },
+      {
+        "question": "How do you say 'I don't understand' in Korean?",
+        "answer": "이해하지 못해요 (Ihaehaji mothaeyo)"
+      },
+      {
+        "question": "What is the Korean word for 'school'?",
+        "answer": "학교 (Hakgyo)"
+      },
+      {
+        "question": "How do you say 'I am hungry' in Korean?",
+        "answer": "배고파요 (Baegopayo)"
+      },
+      {
+        "question": "What is the Korean word for 'book'?",
+        "answer": "책 (Chaek)"
+      },
+      {
+        "question": "How do you say 'I am from Korea' in Korean?",
+        "answer": "저는 한국에서 왔어요 (Jeoneun Hanguk-eseo wasseoyo)"
+      },
+      {
+        "question": "What is the Korean word for 'teacher'?",
+        "answer": "선생님 (Seonsaengnim)"
+      },
+      {
+        "question": "How do you say 'I like music' in Korean?",
+        "answer": "저는 음악을 좋아해요 (Jeoneun eumageul joahaeyo)"
+      },
+      {
+        "question": "What is the Korean word for 'cat'?",
+        "answer": "고양이 (Goyangi)"
+      },
+      {
+        "question": "How do you say 'I am a student' in Korean?",
+        "answer": "저는 학생이에요 (Jeoneun haksaeng-ieyo)"
+      },
+      {
+        "question": "What is the Korean word for 'dog'?",
+        "answer": "개 (Gae)"
+      },
+      {
+        "question": "How do you say 'What is your name?' in Korean?",
+        "answer": "이름이 뭐예요? (Ireumi mwoyeyo?)"
+      },
+      {
+        "question": "What is the Korean word for 'city'?",
+        "answer": "도시 (Dosi)"
+      },
+      {
+        "question": "How do you say 'I live in Seoul' in Korean?",
+        "answer": "저는 서울에 살아요 (Jeoneun Seoul-e sarayo)"
+      },
+      {
+        "question": "What is the Korean word for 'mother'?",
+        "answer": "어머니 (Eomeoni)"
+      },
+      {
+        "question": "How do you say 'father' in Korean?",
+        "answer": "아버지 (Abeoji)"
+      },
+      {
+        "question": "What is the Korean word for 'food'?",
+        "answer": "음식 (Eumsik)"
+      },
+      {
+        "question": "How do you say 'I am tired' in Korean?",
+        "answer": "피곤해요 (Pigonhaeyo)"
+      },
+      {
+        "question": "What is the Korean word for 'car'?",
+        "answer": "자동차 (Jadongcha)"
+      }
+    ]
+  }
+] 

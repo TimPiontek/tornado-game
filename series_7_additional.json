@@ -1,0 +1,128 @@
+[
+  {
+    "title": "Series 7",
+    "category": "Finance",
+    "questions": [
+      {
+        "question": "What is the maximum amount of margin debt allowed for a customer?",
+        "answer": "50% of the current market value of the securities"
+      },
+      {
+        "question": "What is the minimum maintenance margin requirement?",
+        "answer": "25% of the current market value of the securities"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a margin call?",
+        "answer": "5 business days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a maintenance call?",
+        "answer": "3 business days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a day trading call?",
+        "answer": "5 business days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a pattern day trader call?",
+        "answer": "5 business days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a restricted account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a frozen account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a suspended account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a closed account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a restricted account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a frozen account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a suspended account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a closed account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a restricted account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a frozen account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a suspended account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a closed account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a restricted account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a frozen account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a suspended account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a closed account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a restricted account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a frozen account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a suspended account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a closed account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a restricted account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a frozen account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a suspended account?",
+        "answer": "90 days"
+      },
+      {
+        "question": "What is the maximum amount of time a customer can be in a closed account?",
+        "answer": "90 days"
+      }
+    ]
+  }
+] 
