@@ -2487,9 +2487,9 @@ The Beatles"
                     <span>Publish to Play Tornado Library</span>
                   </label>`
                  }
-                  <label>Q&A:<br>
-                    <textarea id="quizQuestionsInput" required placeholder="Enter questions and answers..." style="width:100%;height:120px;margin-bottom:0.7em;"></textarea>
-                  </label>
+                <label>Q&A:<br>
+                  <textarea id="quizQuestionsInput" required placeholder="Enter questions and answers in one of these formats:\n\nFormat 1 (with answers):\nWhat is the capital of France?\nParis\n\nWhat is 2+2?\n4\n\nFormat 2 (questions only):\nWhat is the capital of France?\nWhat is 2+2?\nWhat is the largest planet in our solar system?" style="width:100%;height:120px;margin-bottom:0.7em;"></textarea>
+                </label>
                   <div style="display:flex;gap:0.7em;margin-bottom:1em;">
                     <button type="submit" class="purple-btn" style="flex:1;">Create Quiz</button>
                   </div>
@@ -3172,11 +3172,10 @@ The Beatles"
 
           if (is_owner) {
             // Delete quiz from quizzes table
-            const { error } = await supabaseClient
+            const { data, error } = await supabaseClient
               .from("quizzes")
               .delete()
               .eq("id", quizId);
-
             if (error) {
               alert("Error deleting quiz: " + error.message);
               return;
@@ -3188,16 +3187,23 @@ The Beatles"
               .delete()
               .eq("quiz_id", quizId);
           } else {
-            // Delete only user's saved quiz
-            const { error } = await supabaseClient
-              .from("user_quiz_links")
-              .delete()
-              .eq("user_id", user.id)
-              .eq("quiz_id", quizId);
+            if (is_public) {
+              const { data: response, error: updateError } =
+                await supabaseClient
+                  .from("quizzes")
+                  .update({ is_public: false })
+                  .eq("id", quizId);
+            } else {
+              const { error } = await supabaseClient
+                .from("user_quiz_links")
+                .delete()
+                .eq("user_id", user.id)
+                .eq("quiz_id", quizId);
 
-            if (error) {
-              alert("Error removing quiz from library: " + error.message);
-              return;
+              if (error) {
+                alert("Error removing quiz from library: " + error.message);
+                return;
+              }
             }
           }
 
@@ -3209,7 +3215,7 @@ The Beatles"
 
         // Show/hide library section and main screens
         function showLibrary(which) {
-          hideGameAndSetUpScreen()
+          hideGameAndSetUpScreen();
           if (which === "my") {
             renderMyLibrary();
             window.location.hash = "#my-library";
@@ -3239,11 +3245,11 @@ The Beatles"
           hideLibraryScreen();
           window.location.hash = "";
         };
-function hideGameAndSetUpScreen() {
-  setupScreen.classList.add("hidden");
-  gameScreen.classList.add("hidden");
-  librarySection.classList.remove("hidden");
-}
+        function hideGameAndSetUpScreen() {
+          setupScreen.classList.add("hidden");
+          gameScreen.classList.add("hidden");
+          librarySection.classList.remove("hidden");
+        }
 
         // Hash-based navigation
         function handleHash() {
@@ -3486,12 +3492,12 @@ function hideGameAndSetUpScreen() {
               alert("Please log in to start the game.");
               return;
             }
-
-            // ✅ Step 2: Check if a quiz is selected
-            if (!selectedQuizId) {
-              alert("Please select a quiz to start the game.");
+            // ✅ check if a quiz is selected or questions are provided
+            if (questionsInput.value.trim() === "" && selectedQuizId === null) {
+              alert("Please select a quiz or enter questions.");
               return;
             }
+
             singlePlayer = singlePlayerCheckbox.checked;
             names.A =
               document.getElementById("teamANameInput").value.trim() ||
@@ -4423,24 +4429,36 @@ function hideGameAndSetUpScreen() {
                 }
                 const folder = quizFolderSelect.value || null;
                 const isPublic = is_public ? true : quizIsPublicInput.checked;
-                const qaText = quizQuestionsInput.value.trim();
-                if (!title || !category || !qaText) {
+                const rawQaText = quizQuestionsInput.value;
+
+                if (!title || !category || !rawQaText) {
                   createQuizError.textContent = "All fields are required.";
                   return;
                 }
                 // Parse Q&A
-                const lines = qaText.split("\n");
-                const questions = [];
-                for (let i = 0; i < lines.length; i += 2) {
-                  if (lines[i] && lines[i + 1]) {
-                    questions.push({
-                      question: lines[i].trim(),
-                      answer: lines[i + 1].trim(),
-                    });
-                  } else if (lines[i]) {
-                    questions.push({ question: lines[i].trim(), answer: null });
-                  }
+                let questions = [];
+                // split blocks on blank line
+                const blocks = rawQaText
+                  .split(/\n\s*\n/)
+                  .map((b) => b.trim())
+                  .filter((b) => b);
+                // detect Q&A blocks
+                if (blocks.some((b) => b.split("\n").length > 1)) {
+                  questions = blocks.map((b) => {
+                    const [q, a] = b.split("\n");
+                    return { question: q.trim(), answer: a?.trim() || null };
+                  });
+                } else {
+                  questions = rawQaText
+                    .split("\n")
+                    .map((l) => l.trim())
+                    .filter((l) => l)
+                    .map((q) => ({
+                      question: q.replace(/^\d+\.\s*/, ""),
+                      answer: null,
+                    }));
                 }
+                console.log(questions, "Parsed questions");
                 if (questions.length === 0) {
                   createQuizError.textContent =
                     "Please enter at least one Q&A pair.";
