@@ -6,18 +6,29 @@
 
     <!-- Title & SEO -->
     <title>Play Tornado</title>
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="shortcut icon" href="favicon.ico">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#ffffff">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A fun quiz game to play in classrooms or with friends">
-  <meta property="og:description" content="A fun quiz game to play in classrooms or with friends">
-  <meta name="twitter:description" content="A fun quiz game to play in classrooms or with friends">
-  <meta name="keywords"
-        content="ESL game, classroom trivia, online quiz, educational game, team quiz, interactive quiz, quiz maker, web quiz, trivia game, Q&A, browser quiz" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A fun quiz game to play in classrooms or with friends"
+    />
+    <meta
+      property="og:description"
+      content="A fun quiz game to play in classrooms or with friends"
+    />
+    <meta
+      name="twitter:description"
+      content="A fun quiz game to play in classrooms or with friends"
+    />
+    <meta
+      name="keywords"
+      content="ESL game, classroom trivia, online quiz, educational game, team quiz, interactive quiz, quiz maker, web quiz, trivia game, Q&A, browser quiz"
+    />
 
     <!-- Schema.org markup -->
     <script type="application/ld+json">
@@ -2476,9 +2487,9 @@ The Beatles"
                     <span>Publish to Play Tornado Library</span>
                   </label>`
                  }
-                  <label>Q&A:<br>
-                    <textarea id="quizQuestionsInput" required placeholder="Enter questions and answers..." style="width:100%;height:120px;margin-bottom:0.7em;"></textarea>
-                  </label>
+                <label>Q&A:<br>
+                  <textarea id="quizQuestionsInput" required placeholder="Enter questions and answers in one of these formats:\n\nFormat 1 (with answers):\nWhat is the capital of France?\nParis\n\nWhat is 2+2?\n4\n\nFormat 2 (questions only):\nWhat is the capital of France?\nWhat is 2+2?\nWhat is the largest planet in our solar system?" style="width:100%;height:120px;margin-bottom:0.7em;"></textarea>
+                </label>
                   <div style="display:flex;gap:0.7em;margin-bottom:1em;">
                     <button type="submit" class="purple-btn" style="flex:1;">Create Quiz</button>
                   </div>
@@ -3000,120 +3011,211 @@ The Beatles"
             });
         }
 
-      // Expose actions globally for inline onclick
-      window.startQuizFromLibrary = async function(quizId) {
-        if (quizId && quizId.startsWith('jsonlib:')) {
-          // Load from quiz_library.json
-          const idx = parseInt(quizId.replace('jsonlib:', ''));
-          const res = await fetch('quiz_library.json');
-          const quizLibrary = await res.json();
-          const quiz = quizLibrary[idx];
-          if (!quiz) return alert('Quiz not found.');
-          // Start game with this quiz
-          // Set up game state as if selected from dropdown
-          questions = quiz.questions && Array.isArray(quiz.questions) ? quiz.questions.map(q => ({ question: q.question, answer: q.answer || null })) : [];
-          usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
-          // Shuffle if random order is selected
-          let order = 'random';
-          qIndex = 0;
-          names.A = 'Team A';
-          names.B = 'Team B';
-          singlePlayer = false;
-          total = 20;
-          setupScreen.classList.add('hidden');
-          gameScreen.classList.remove('hidden');
-          librarySection.classList.add('hidden');
-          androidImg.style.display = 'none';
-          nameBEl.textContent = names.B;
-          teamBNameContainer.classList.remove('single-player');
-          initGame(2,2,2,1); buildGrid(total); showQuestion();
-          // Set the game title if you want (optional)
-          // document.title = quiz.title + ' - Play Tornado';
-          return;
-        }
-        // ... existing code for DB quizzes ...
-      };
-      window.addJsonQuizToMyLibrary = async function(idx) {
-        // Add a quiz from quiz_library.json to the user's library
-        const user = await getCurrentUser();
-        if (!user) {
-          alert('Please log in to add quizzes to your library.');
-          showAuthModal();
-          return;
-        }
-        const res = await fetch('quiz_library.json');
-        const quizLibrary = await res.json();
-        const quiz = quizLibrary[idx];
-        if (!quiz) return alert('Quiz not found.');
-        // Insert into Supabase quizzes table
-        const { error } = await supabaseClient.from('quizzes').insert([
-          {
-            title: quiz.title,
-            category: quiz.category || null,
-            questions: quiz.questions || [],
-            is_public: false,
-            owner: user.id
+        // Expose actions globally for inline onclick
+        window.startQuizFromLibrary = async function (quizId) {
+          console.log("quizId:", quizId);
+          window.scrollTo(0, 0);
+          if (!quizId) return alert("Quiz ID is required.");
+          if (quizId) {
+            const { data: quiz, error } = await supabaseClient
+              .from("quizzes")
+              .select("*")
+              .eq("id", quizId)
+              .single();
+
+            console.log(quiz, "quiz data");
+            if (!quiz) return alert("Quiz not found.");
+            // Start game with this quiz
+            // Set up game state as if selected from dropdown
+            questions =
+              quiz.questions && Array.isArray(quiz.questions)
+                ? quiz.questions.map((q) => ({
+                    question: q.question,
+                    answer: q.answer || null,
+                  }))
+                : [];
+            usedQuestionIndices = Array.from(
+              { length: questions.length },
+              (_, i) => i
+            );
+            // Shuffle if random order is selected
+            let order = "random";
+            qIndex = 0;
+            names.A = "Team A";
+            names.B = "Team B";
+            singlePlayer = false;
+            total = 20;
+            setupScreen.classList.add("hidden");
+            gameScreen.classList.remove("hidden");
+            librarySection.classList.add("hidden");
+            androidImg.style.display = "none";
+            nameBEl.textContent = names.B;
+            teamBNameContainer.classList.remove("single-player");
+            initGame(2, 2, 2, 1);
+            buildGrid(total);
+            showQuestion();
+            // Set the game title if you want (optional)
+            // document.title = quiz.title + ' - Play Tornado';
+            return;
           }
-        ]);
-        if (error) alert('Error adding quiz: ' + error.message);
-        else alert('Quiz added to your library!');
-      };
-      window.saveQuizToMyLibrary = async function(quizId) {
-        const user = await getCurrentUser();
-        if (!user) alert('Please log in to save quizzes.'); return;
-        const { error } = await supabaseClient.from('user_quiz_links').insert([{ user_id: user.id, quiz_id: quizId }]);
-        if (error) alert('Error saving quiz: ' + error.message);
-        else alert('Quiz saved to your library!');
-      };
-      window.publishQuizToPublic = async function(quizId) {
-        // Get quiz from Supabase
-        const { data, error } = await supabaseClient.from('quizzes').select('*').eq('id', quizId).single();
-        if (error || !data) {
-          alert('Error: Quiz not found.');
-          return;
-        }
-        // Mark as public in DB
-        await supabaseClient.from('quizzes').update({ is_public: true }).eq('id', quizId);
-        // Append to quiz_library.json
-        try {
-          const res = await fetch('quiz_library.json');
-          if (!res.ok) throw new Error('Failed to fetch quiz_library.json');
-          const quizLibrary = await res.json();
-          // Avoid duplicates by title + questions
-          const exists = quizLibrary.some(q => q.title === data.title && JSON.stringify(q.questions) === JSON.stringify(data.questions));
-          if (!exists) {
-            quizLibrary.push({
-              title: data.title,
-              category: data.category,
-              questions: data.questions
-            });
-            await fetch('quiz_library.json', {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(quizLibrary)
-            });
+          // ... existing code for DB quizzes ...
+        };
+        window.saveQuizToMyLibrary = async function (quizId) {
+          console.log(quizId, "quizId");
+
+          const user = await getCurrentUser();
+          console.log(user, "test");
+
+          if (!user) {
+            alert("Please log in to save quizzes.");
+            return;
           }
-          alert('Quiz published!');
-          renderMyLibrary();
-          renderPublicLibrary();
-        } catch (e) {
-          alert('Error publishing quiz: ' + e.message);
-        }
-      };
-      window.editQuiz = function(quizId) {
-        alert('TODO: Edit quiz with ID: ' + quizId);
-        // You can implement quiz editing logic here
-      };
-      window.deleteQuiz = async function(quizId) {
-        if (!confirm('Are you sure you want to delete this quiz?')) return;
-        const { error } = await supabaseClient.from('quizzes').delete().eq('id', quizId);
-        if (error) alert('Error deleting quiz: ' + error.message);
-        else { alert('Quiz deleted.'); renderMyLibrary(); renderPublicLibrary(); }
-      };
+
+          // Step 1: Check if user is the creator of the quiz
+          const { data: quiz, error: quizFetchError } = await supabaseClient
+            .from("quizzes")
+            .select("id, owner")
+            .eq("id", quizId)
+            .maybeSingle();
+
+          if (quizFetchError) {
+            alert("Error checking quiz ownership: " + quizFetchError.message);
+            return;
+          }
+
+          if (quiz?.owner === user.id) {
+            alert("You created this quiz. It's already in your library.");
+            return;
+          }
+
+          // Step 2: Check if it's already saved in user_quiz_links
+          const { data: existing, error: linkFetchError } = await supabaseClient
+            .from("user_quiz_links")
+            .select("id")
+            .eq("user_id", user.id)
+            .eq("quiz_id", quizId)
+            .maybeSingle();
+
+          if (linkFetchError) {
+            alert("Error checking saved quizzes: " + linkFetchError.message);
+            return;
+          }
+
+          if (existing) {
+            alert("This quiz is already in your library.");
+            return;
+          }
+
+          // Step 3: Save the quiz to the user's library
+          const { error, data } = await supabaseClient
+            .from("user_quiz_links")
+            .insert([{ user_id: user.id, quiz_id: quizId }]);
+
+          console.log(data, "response");
+
+          if (error) {
+            alert("Error saving quiz: " + error.message);
+          } else {
+            alert("Quiz saved to your library!");
+            showLibrary("my");
+          }
+        };
+
+        window.publishQuizToPublic = async function (quizId) {
+          // Get quiz from Supabase
+          const { data, error } = await supabaseClient
+            .from("quizzes")
+            .select("*")
+            .eq("id", quizId)
+            .single();
+          if (error || !data) {
+            alert("Error: Quiz not found.");
+            return;
+          }
+          if (data.is_public) {
+            alert("This quiz is already public.");
+            return;
+          }
+          // Mark as public in DB
+          const { data: response, error: updateError } = await supabaseClient
+            .from("quizzes")
+            .update({ is_public: true })
+            .eq("id", quizId);
+
+          if (updateError) {
+            alert("Error publishing quiz: " + updateError.message);
+            return;
+          }
+          alert("Quiz published successfully!"); // <-- Success alert
+          try {
+            showLibrary("public");
+          } catch (e) {
+            alert("Error refreshing public library: " + e.message);
+          }
+        };
+
+        window.editQuiz = function (quizId) {
+          alert("TODO: Edit quiz with ID: " + quizId);
+          // You can implement quiz editing logic here
+        };
+        // Delete quiz function
+        window.deleteQuiz = async function (quizId, is_public, is_owner) {
+          const user = await getCurrentUser();
+          if (!user) {
+            alert("Please log in first.");
+            return;
+          }
+
+          if (!confirm("Are you sure you want to delete this quiz?")) return;
+
+          console.log({ quizId, is_public, is_owner });
+
+          if (is_owner) {
+            // Delete quiz from quizzes table
+            const { data, error } = await supabaseClient
+              .from("quizzes")
+              .delete()
+              .eq("id", quizId);
+            if (error) {
+              alert("Error deleting quiz: " + error.message);
+              return;
+            }
+
+            // Optional: clean up links
+            await supabaseClient
+              .from("user_quiz_links")
+              .delete()
+              .eq("quiz_id", quizId);
+          } else {
+            if (is_public) {
+              const { data: response, error: updateError } =
+                await supabaseClient
+                  .from("quizzes")
+                  .update({ is_public: false })
+                  .eq("id", quizId);
+            } else {
+              const { error } = await supabaseClient
+                .from("user_quiz_links")
+                .delete()
+                .eq("user_id", user.id)
+                .eq("quiz_id", quizId);
+
+              if (error) {
+                alert("Error removing quiz from library: " + error.message);
+                return;
+              }
+            }
+          }
+
+          alert("Quiz deleted.");
+
+          // Refresh the correct section
+          is_public ? renderPublicLibrary() : renderMyLibrary();
+        };
 
         // Show/hide library section and main screens
         function showLibrary(which) {
-          hideGameAndSetUpScreen()
+          hideGameAndSetUpScreen();
           if (which === "my") {
             renderMyLibrary();
             window.location.hash = "#my-library";
@@ -3143,11 +3245,11 @@ The Beatles"
           hideLibraryScreen();
           window.location.hash = "";
         };
-function hideGameAndSetUpScreen() {
-  setupScreen.classList.add("hidden");
-  gameScreen.classList.add("hidden");
-  librarySection.classList.remove("hidden");
-}
+        function hideGameAndSetUpScreen() {
+          setupScreen.classList.add("hidden");
+          gameScreen.classList.add("hidden");
+          librarySection.classList.remove("hidden");
+        }
 
         // Hash-based navigation
         function handleHash() {
@@ -3390,12 +3492,12 @@ function hideGameAndSetUpScreen() {
               alert("Please log in to start the game.");
               return;
             }
-
-            // ✅ Step 2: Check if a quiz is selected
-            if (!selectedQuizId) {
-              alert("Please select a quiz to start the game.");
+            // ✅ check if a quiz is selected or questions are provided
+            if (questionsInput.value.trim() === "" && selectedQuizId === null) {
+              alert("Please select a quiz or enter questions.");
               return;
             }
+
             singlePlayer = singlePlayerCheckbox.checked;
             names.A =
               document.getElementById("teamANameInput").value.trim() ||
@@ -4327,24 +4429,36 @@ function hideGameAndSetUpScreen() {
                 }
                 const folder = quizFolderSelect.value || null;
                 const isPublic = is_public ? true : quizIsPublicInput.checked;
-                const qaText = quizQuestionsInput.value.trim();
-                if (!title || !category || !qaText) {
+                const rawQaText = quizQuestionsInput.value;
+
+                if (!title || !category || !rawQaText) {
                   createQuizError.textContent = "All fields are required.";
                   return;
                 }
                 // Parse Q&A
-                const lines = qaText.split("\n");
-                const questions = [];
-                for (let i = 0; i < lines.length; i += 2) {
-                  if (lines[i] && lines[i + 1]) {
-                    questions.push({
-                      question: lines[i].trim(),
-                      answer: lines[i + 1].trim(),
-                    });
-                  } else if (lines[i]) {
-                    questions.push({ question: lines[i].trim(), answer: null });
-                  }
+                let questions = [];
+                // split blocks on blank line
+                const blocks = rawQaText
+                  .split(/\n\s*\n/)
+                  .map((b) => b.trim())
+                  .filter((b) => b);
+                // detect Q&A blocks
+                if (blocks.some((b) => b.split("\n").length > 1)) {
+                  questions = blocks.map((b) => {
+                    const [q, a] = b.split("\n");
+                    return { question: q.trim(), answer: a?.trim() || null };
+                  });
+                } else {
+                  questions = rawQaText
+                    .split("\n")
+                    .map((l) => l.trim())
+                    .filter((l) => l)
+                    .map((q) => ({
+                      question: q.replace(/^\d+\.\s*/, ""),
+                      answer: null,
+                    }));
                 }
+                console.log(questions, "Parsed questions");
                 if (questions.length === 0) {
                   createQuizError.textContent =
                     "Please enter at least one Q&A pair.";
@@ -4493,270 +4607,32 @@ function hideGameAndSetUpScreen() {
           if (selectors) howToPlayBox.appendChild(selectors);
         }
 
-      // ... existing code ...
-      if (window.location.hash === '#my-library') {
-        renderMyLibrary();
-      }
+        // ... existing code ...
+        if (window.location.hash === "#my-library") {
+          renderMyLibrary();
+        }
+      });
 
-      // === GAME OPTIONS MODAL LOGIC ===
-      function showGameOptionsModal(defaults, onSubmit) {
-        const modal = document.getElementById('gameOptionsModal');
-        const form = document.getElementById('gameOptionsForm');
-        document.getElementById('modalTeamAName').value = defaults.teamA || 'Team A';
-        document.getElementById('modalTeamBName').value = defaults.teamB || 'Team B';
-        document.getElementById('modalSinglePlayer').checked = !!defaults.singlePlayer;
-        document.getElementById('modalGridSize').value = defaults.gridSize || '18';
-        document.getElementById('modalTornadoCount').value = defaults.tornadoCount || '2';
-        document.getElementById('modalDoubleCount').value = defaults.doubleCount || '2';
-        document.getElementById('modalLoseCount').value = defaults.loseCount || '2';
-        document.getElementById('modalSwapCount').value = defaults.swapCount || '2';
-        modal.style.display = 'flex';
-        modal.classList.remove('hidden');
-        document.getElementById('closeGameOptionsModal').onclick = function() {
-          modal.style.display = 'none';
-          modal.classList.add('hidden');
-        };
-        form.onsubmit = function(e) {
-          e.preventDefault();
-          const opts = {
-            teamA: document.getElementById('modalTeamAName').value.trim() || 'Team A',
-            teamB: document.getElementById('modalTeamBName').value.trim() || 'Team B',
-            singlePlayer: document.getElementById('modalSinglePlayer').checked,
-            gridSize: +document.getElementById('modalGridSize').value,
-            tornadoCount: +document.getElementById('modalTornadoCount').value,
-            doubleCount: +document.getElementById('modalDoubleCount').value,
-            loseCount: +document.getElementById('modalLoseCount').value,
-            swapCount: +document.getElementById('modalSwapCount').value
-          };
-          modal.style.display = 'none';
-          modal.classList.add('hidden');
-          if (onSubmit) onSubmit(opts);
-        };
-      }
-      // Patch Play buttons in My Library after render
-      function patchMyLibraryPlayButtons() {
-        const myLibraryList = document.getElementById('myLibraryList');
-        if (myLibraryList) {
-          myLibraryList.querySelectorAll('.play-btn').forEach(btn => {
-            btn.onclick = () => {
-              showGameOptionsModal({}, opts => window.startQuizFromLibrary(btn.getAttribute('data-quizid'), opts));
-            };
-          });
-        }
-      }
-      // Patch Play buttons in Public Library after render
-      function patchPublicLibraryPlayButtons() {
-        const librarySection = document.getElementById('librarySection');
-        if (librarySection) {
-          librarySection.querySelectorAll('button.purple-btn').forEach(btn => {
-            if (btn.textContent.trim() === 'Play') {
-              const quizId = btn.getAttribute('onclick')?.match(/startQuizFromLibrary\(['"]([^'"]+)['"]\)/)?.[1];
-              if (quizId) {
-                btn.onclick = () => {
-                  showGameOptionsModal({}, opts => window.startQuizFromLibrary(quizId, opts));
-                };
-              }
-            }
-          });
-        }
-      }
-      // Call patchers after rendering libraries
-      const origRenderMyLibrary = window.renderMyLibrary;
-      window.renderMyLibrary = async function() {
-        await origRenderMyLibrary.apply(this, arguments);
-        patchMyLibraryPlayButtons();
+      window.onerror = function (message, source, lineno, colno, error) {
+        alert(
+          "JavaScript Error: " +
+            message +
+            "\n" +
+            source +
+            ":" +
+            lineno +
+            ":" +
+            colno
+        );
+        console.error(
+          "Global JS Error:",
+          message,
+          source,
+          lineno,
+          colno,
+          error
+        );
       };
-      const origRenderPublicLibrary = window.renderPublicLibrary;
-      window.renderPublicLibrary = async function() {
-        await origRenderPublicLibrary.apply(this, arguments);
-        patchPublicLibraryPlayButtons();
-      };
-      // Update startQuizFromLibrary to accept options
-      window.startQuizFromLibrary = async function(quizId, options) {
-        if (!options) {
-          // If no options, show modal first
-          showGameOptionsModal({}, opts => window.startQuizFromLibrary(quizId, opts));
-          return;
-        }
-        if (quizId && quizId.startsWith('jsonlib:')) {
-          const idx = parseInt(quizId.replace('jsonlib:', ''));
-          const res = await fetch('quiz_library.json');
-          const quizLibrary = await res.json();
-          const quiz = quizLibrary[idx];
-          if (!quiz) return alert('Quiz not found.');
-          questions = quiz.questions && Array.isArray(quiz.questions) ? quiz.questions.map(q => ({ question: q.question, answer: q.answer || null })) : [];
-          usedQuestionIndices = Array.from({length: questions.length}, (_, i) => i);
-          let order = 'random';
-          qIndex = 0;
-          names.A = options.teamA;
-          names.B = options.singlePlayer ? 'Android' : options.teamB;
-          singlePlayer = options.singlePlayer;
-          total = options.gridSize;
-          setupScreen.classList.add('hidden');
-          gameScreen.classList.remove('hidden');
-          librarySection.classList.add('hidden');
-          androidImg.style.display = options.singlePlayer ? 'inline-block' : 'none';
-          nameBEl.textContent = names.B;
-          if (options.singlePlayer) teamBNameContainer.classList.add('single-player');
-          else teamBNameContainer.classList.remove('single-player');
-          initGame(options.tornadoCount, options.doubleCount, options.loseCount, options.swapCount);
-          buildGrid(total);
-          showQuestion();
-          return;
-        }
-        // ... existing code for DB quizzes ...
-      }
-    });
-
-    window.onerror = function(message, source, lineno, colno, error) {
-      alert('JavaScript Error: ' + message + '\n' + source + ':' + lineno + ':' + colno);
-      console.error('Global JS Error:', message, source, lineno, colno, error);
-    };
-  </script>
-  <!-- === GAME OPTIONS MODAL === -->
-  <div id="gameOptionsModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(49,114,122,0.85);z-index:3000;display:none;align-items:center;justify-content:center;">
-    <form id="gameOptionsForm" style="background:#fff;padding:2.2em 2.5em;border-radius:16px;max-width:420px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;display:flex;flex-direction:column;gap:1.2em;">
-      <button type="button" id="closeGameOptionsModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#6F5C91;">&times;</button>
-      <h3 style="margin-top:0;">Customize Game</h3>
-      <label>Team A Name:<br>
-        <input id="modalTeamAName" value="Team A" maxlength="16" style="width:100%;font-size:1.1em;">
-      </label>
-      <label>Team B Name:<br>
-        <input id="modalTeamBName" value="Team B" maxlength="16" style="width:100%;font-size:1.1em;">
-      </label>
-      <label style="display:flex;align-items:center;gap:0.5em;">
-        <input type="checkbox" id="modalSinglePlayer"> <span>Single Player</span>
-      </label>
-      <label>Grid Size:
-        <select id="modalGridSize" style="font-size:1.1em;">
-          <option>8</option><option>10</option><option>16</option>
-          <option>18</option><option>20</option><option>24</option>
-          <option>30</option><option>32</option><option>40</option>
-        </select>
-      </label>
-      <div style="display:flex;gap:1em;">
-        <label style="flex:1;">Tornado:
-          <select id="modalTornadoCount"><option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-        </label>
-        <label style="flex:1;">Double Lion:
-          <select id="modalDoubleCount"><option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-        </label>
-      </div>
-      <div style="display:flex;gap:1em;">
-        <label style="flex:1;">Skunk:
-          <select id="modalLoseCount"><option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-        </label>
-        <label style="flex:1;">Kangaroo Hop Swap:
-          <select id="modalSwapCount"><option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
-        </label>
-      </div>
-      <button type="submit" class="purple-btn" style="margin-top:1em;font-size:1.2em;">Start Game</button>
-    </form>
-  </div>
-  <!-- === END GAME OPTIONS MODAL === -->
-
-  <!-- Game Customization Dialog -->
-  <div id="gameCustomizationDialog" class="modal" style="display: none;">
-    <div class="modal-content" style="max-width: 500px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5em;">
-        <h2 style="margin: 0;">Game Settings</h2>
-        <button id="closeCustomizationDialog" style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: #666;">&times;</button>
-      </div>
-      <div class="setup-unified-grid" style="gap: 1.2em;">
-        <div class="setup-unified-cell">
-          <label>Team A Name:
-            <input type="text" id="customizationTeamA" placeholder="Team A" style="width: 100%;">
-          </label>
-        </div>
-        <div class="setup-unified-cell">
-          <label>Team B Name:
-            <input type="text" id="customizationTeamB" placeholder="Team B" style="width: 100%;">
-          </label>
-        </div>
-        <div class="setup-unified-cell">
-          <label style="display: flex; align-items: center; gap: 0.5em;">
-            <input type="checkbox" id="customizationSinglePlayer">
-            <span>Single Player</span>
-          </label>
-        </div>
-        <div class="setup-unified-cell">
-          <label>Grid Size:
-            <select id="customizationGridSize">
-              <option>8</option>
-              <option>10</option>
-              <option>16</option>
-              <option selected>18</option>
-              <option>20</option>
-              <option>24</option>
-              <option>30</option>
-              <option>32</option>
-              <option>40</option>
-            </select>
-          </label>
-        </div>
-        <div class="setup-unified-cell full-width">
-          <label>Special Items:
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1em; margin-top: 0.5em;">
-              <div class="special-item-compact">
-                <div class="special-row">
-                  <span class="emoji-big">🌪️</span>
-                  <b>Tornado</b>
-                  <select id="customizationTornadoCount">
-                    <option>0</option>
-                    <option>1</option>
-                    <option selected>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                  </select>
-                </div>
-              </div>
-              <div class="special-item-compact">
-                <div class="special-row">
-                  <span class="emoji-big">🦁</span>
-                  <b>Double</b>
-                  <select id="customizationDoubleCount">
-                    <option>0</option>
-                    <option>1</option>
-                    <option selected>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                  </select>
-                </div>
-              </div>
-              <div class="special-item-compact">
-                <div class="special-row">
-                  <span class="emoji-big">🦨</span>
-                  <b>Lose</b>
-                  <select id="customizationLoseCount">
-                    <option>0</option>
-                    <option>1</option>
-                    <option selected>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                  </select>
-                </div>
-              </div>
-              <div class="special-item-compact">
-                <div class="special-row">
-                  <span class="emoji-big">🦘</span>
-                  <b>Swap</b>
-                  <select id="customizationSwapCount">
-                    <option>0</option>
-                    <option>1</option>
-                    <option selected>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </label>
-        </div>
-      </div>
-      <div style="display: flex; justify-content: flex-end; margin-top: 1.5em;">
-        <button id="startCustomizedGame" class="purple-btn">Start Game</button>
-      </div>
-    </div>
-  </div>
+    </script>
   </body>
 </html>
