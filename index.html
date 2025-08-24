@@ -4230,35 +4230,28 @@ The Beatles"
               document.getElementById("coinFlipCount")?.value || "2"
             );
 
-            // Adjust defaults for small grids
-            if (total <= 10) {
-              tornadoCount = 2;
-              doubleCount = 1;
-              loseCount = 1;
-              swapCount = 1;
-      
-              shieldCount = 1;
-              hotStreakCount = 1;
-              coinFlipCount = 1;
-              
-              const tornadoCountEl = document.getElementById("tornadoCount");
-              const doubleCountEl = document.getElementById("doubleCount");
-              const loseCountEl = document.getElementById("loseCount");
-              const swapCountEl = document.getElementById("swapCount");
-
-              const shieldCountEl = document.getElementById("shieldCount");
-              const hotStreakCountEl = document.getElementById("hotStreakCount");
-              const coinFlipCountEl = document.getElementById("coinFlipCount");
-              
-              if (tornadoCountEl) tornadoCountEl.value = 2;
-              if (doubleCountEl) doubleCountEl.value = 1;
-              if (loseCountEl) loseCountEl.value = 1;
-              if (swapCountEl) swapCountEl.value = 1;
-
-              if (shieldCountEl) shieldCountEl.value = 1;
-              if (hotStreakCountEl) hotStreakCountEl.value = 1;
-              if (coinFlipCountEl) coinFlipCountEl.value = 1;
+            // Only adjust for very small grids (8 or less), but still respect user selections
+            if (total <= 8) {
+              // For very small grids, cap the total special effects but maintain proportions
+              const totalSpecial = tornadoCount + doubleCount + loseCount + swapCount + shieldCount + hotStreakCount + coinFlipCount;
+              if (totalSpecial > total - 4) { // Leave at least 4 points
+                const scaleFactor = (total - 4) / totalSpecial;
+                tornadoCount = Math.max(1, Math.floor(tornadoCount * scaleFactor));
+                doubleCount = Math.max(1, Math.floor(doubleCount * scaleFactor));
+                loseCount = Math.max(1, Math.floor(loseCount * scaleFactor));
+                swapCount = Math.max(1, Math.floor(swapCount * scaleFactor));
+                shieldCount = Math.max(1, Math.floor(shieldCount * scaleFactor));
+                hotStreakCount = Math.max(1, Math.floor(hotStreakCount * scaleFactor));
+                coinFlipCount = Math.max(1, Math.floor(coinFlipCount * scaleFactor));
+              }
             }
+            
+            // Debug: Log the final values being used
+            console.log("Special effect counts being used:", {
+              tornadoCount, doubleCount, loseCount, swapCount, 
+              shieldCount, hotStreakCount, coinFlipCount, 
+              total, gridSize: total
+            });
 
             // Use quiz if selected, otherwise use textarea
             if (selectedQuizId !== null) {
