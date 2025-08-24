@@ -1741,6 +1741,94 @@
           padding: 0.8em 1.2em !important;
         }
       }
+
+      /* Multi-team support styles */
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .team-card {
+        background: white;
+        padding: 1rem;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .team-card.active {
+        border: 3px solid #6f5c91;
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(111, 92, 145, 0.3);
+      }
+
+      .team-card.frozen {
+        opacity: 0.6;
+        background: #f0f8ff;
+      }
+
+      .team-status {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        align-items: center;
+      }
+
+      .status-icon {
+        font-size: 1.2rem;
+        padding: 0.2rem;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .status-label {
+        font-size: 0.7rem;
+        color: #666;
+        text-align: center;
+        max-width: 60px;
+        line-height: 1;
+      }
+
+      .freeze-icon {
+        color: #87ceeb;
+      }
+
+      .shield-icon {
+        color: #32cd32;
+      }
+
+      .hotstreak-icon {
+        color: #ff4500;
+      }
+
+      /* Coin flip animation */
+      @keyframes coinFlip {
+        0% { transform: rotateY(0deg) scale(1); }
+        25% { transform: rotateY(90deg) scale(1.2); }
+        50% { transform: rotateY(180deg) scale(1.1); }
+        75% { transform: rotateY(270deg) scale(1.2); }
+        100% { transform: rotateY(360deg) scale(1); }
+      }
+
+      .coin-flipping {
+        animation: coinFlip 1.5s ease-in-out;
+      }
+
+      /* Grid border highlight for active team */
+      #grid.active-team-A { border: 3px solid var(--teamA); }
+      #grid.active-team-B { border: 3px solid var(--teamB); }
+      #grid.active-team-C { border: 3px solid #ff6b6b; }
+      #grid.active-team-D { border: 3px solid #4ecdc4; }
+      #grid.active-team-E { border: 3px solid #45b7d1; }
+      #grid.active-team-F { border: 3px solid #96ceb4; }
     </style>
   </head>
 
@@ -1912,6 +2000,18 @@
                         style="margin-right: 0.5em"
                       />
                       <span style="white-space: nowrap">Single Player</span>
+                    </label>
+                  </div>
+                  <div class="setup-unified-cell">
+                    <label>
+                      Number of Teams:
+                      <select id="teamCountInput">
+                        <option value="2">2 Teams</option>
+                        <option value="3">3 Teams</option>
+                        <option value="4">4 Teams</option>
+                        <option value="5">5 Teams</option>
+                        <option value="6">6 Teams</option>
+                      </select>
                     </label>
                   </div>
                   <div class="setup-unified-cell">
@@ -2251,6 +2351,260 @@ The Beatles"
                   >
                 </div>
               </div>
+              
+              <!-- New Special Items -->
+              <div class="special-item-compact" style="width: 100%">
+                <div
+                  class="special-row"
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 0.7em;
+                    min-width: 320px;
+                  "
+                >
+                  <span
+                    class="emoji-big"
+                    style="
+                      width: 48px;
+                      display: inline-flex;
+                      justify-content: center;
+                    "
+                    >❄️</span
+                  >
+                  <b
+                    style="
+                      min-width: 90px;
+                      max-width: 120px;
+                      font-size: 1.05em;
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: center;
+                      text-align: left;
+                      line-height: 1.1;
+                    "
+                  >
+                    <span>Freeze</span>
+                  </b>
+                  <select
+                    id="freezeCount"
+                    style="
+                      width: 2.5em;
+                      min-width: 2.5em;
+                      max-width: 2.5em;
+                      text-align: center;
+                    "
+                  >
+                    <option>0</option>
+                    <option>1</option>
+                    <option selected>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                  </select>
+                  <span
+                    class="special-desc"
+                    style="
+                      margin-left: 0.5em;
+                      font-size: 0.98em;
+                      display: block;
+                      line-height: 2.1em;
+                      vertical-align: middle;
+                    "
+                    >Skip opponent turn</span
+                  >
+                </div>
+              </div>
+              
+              <div class="special-item-compact" style="width: 100%">
+                <div
+                  class="special-row"
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 0.7em;
+                    min-width: 320px;
+                  "
+                >
+                  <span
+                    class="emoji-big"
+                    style="
+                      width: 48px;
+                      display: inline-flex;
+                      justify-content: center;
+                    "
+                    >🛡️</span
+                  >
+                  <b
+                    style="
+                      min-width: 90px;
+                      max-width: 120px;
+                      font-size: 1.05em;
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: center;
+                      text-align: left;
+                      line-height: 1.1;
+                    "
+                  >
+                    <span>Shield</span>
+                  </b>
+                  <select
+                    id="shieldCount"
+                    style="
+                      width: 2.5em;
+                      min-width: 2.5em;
+                      max-width: 2.5em;
+                      text-align: center;
+                      text-align: center;
+                    "
+                  >
+                    <option>0</option>
+                    <option>1</option>
+                    <option selected>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                  </select>
+                  <span
+                    class="special-desc"
+                    style="
+                      margin-left: 0.5em;
+                      font-size: 0.98em;
+                      display: block;
+                      line-height: 2.1em;
+                      vertical-align: middle;
+                    "
+                    >Block negative effects</span
+                  >
+                </div>
+              </div>
+              
+              <div class="special-item-compact" style="width: 100%">
+                <div
+                  class="special-row"
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 0.7em;
+                    min-width: 320px;
+                  "
+                >
+                  <span
+                    class="emoji-big"
+                    style="
+                      width: 48px;
+                      display: inline-flex;
+                      justify-content: center;
+                    "
+                    >🔥</span
+                  >
+                  <b
+                    style="
+                      min-width: 90px;
+                      max-width: 120px;
+                      font-size: 1.05em;
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: center;
+                      text-align: left;
+                      line-height: 1.1;
+                    "
+                  >
+                    <span>Hot Streak</span>
+                  </b>
+                  <select
+                    id="hotStreakCount"
+                    style="
+                      width: 2.5em;
+                      min-width: 2.5em;
+                      max-width: 2.5em;
+                      text-align: center;
+                    "
+                  >
+                    <option>0</option>
+                    <option>1</option>
+                    <option selected>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                  </select>
+                  <span
+                    class="special-desc"
+                    style="
+                      margin-left: 0.5em;
+                      font-size: 0.98em;
+                      display: block;
+                      line-height: 2.1em;
+                      vertical-align: middle;
+                    "
+                    >Triple next answer</span
+                  >
+                </div>
+              </div>
+              
+              <div class="special-item-compact" style="width: 100%">
+                <div
+                  class="special-row"
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 0.7em;
+                    min-width: 320px;
+                  "
+                >
+                  <span
+                    class="emoji-big"
+                    style="
+                      width: 48px;
+                      display: inline-flex;
+                      justify-content: center;
+                    "
+                    >🪙</span
+                  >
+                  <b
+                    style="
+                      min-width: 90px;
+                      max-width: 120px;
+                      font-size: 1.05em;
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: center;
+                      text-align: left;
+                      line-height: 1.1;
+                    "
+                  >
+                    <span>Coin Flip</span>
+                  </b>
+                  <select
+                    id="coinFlipCount"
+                    style="
+                      width: 2.5em;
+                      min-width: 2.5em;
+                      max-width: 2.5em;
+                      text-align: center;
+                    "
+                  >
+                    <option>0</option>
+                    <option>1</option>
+                    <option selected>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                  </select>
+                  <span
+                    class="special-desc"
+                    style="
+                      margin-left: 0.5em;
+                      font-size: 0.98em;
+                      display: block;
+                      line-height: 2.1em;
+                      vertical-align: middle;
+                    "
+                    >Double or lose points</span
+                  >
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -2261,42 +2615,15 @@ The Beatles"
     <div id="gameScreen" class="hidden">
       <!-- Remove the logo image from here -->
       <div id="specialPopup" class="special-popup hidden"></div>
-      <div class="scorebar-row">
-        <div class="team team-left">
-          <div id="annA" class="announcement"></div>
-          <h2 id="nameA">Team A</h2>
-          <p id="scoreA">0</p>
-        </div>
-        <div class="center-controls">
-          <div id="turnDisplay">Team A's turn</div>
-          <div class="game-controls compact-controls">
-            <button id="passBtn">Pass</button>
-            <button id="skipBtn">Skip</button>
-            <button id="revealBtn">Reveal Answer</button>
-          </div>
-        </div>
-        <div class="team team-right">
-          <div id="annB" class="announcement"></div>
-          <div id="teamBNameContainer" class="team-b-name-container">
-            <img
-              id="androidImg"
-              src="Daft-Punk-PNG-Photo.png"
-              alt="Android"
-              style="
-                display: none;
-                width: 48px;
-                height: 48px;
-                object-fit: contain;
-                border-radius: 50%;
-                background: #fff;
-                border: 1px solid #ccc;
-                margin-right: 0.7em;
-                vertical-align: middle;
-              "
-            />
-            <h2 id="nameB" style="margin: 0">Team B</h2>
-          </div>
-          <p id="scoreB">0</p>
+      <div id="teamGrid" class="team-grid">
+        <!-- Teams will be dynamically generated here -->
+      </div>
+      <div class="center-controls" style="margin: 1rem auto;">
+        <div id="turnDisplay">Team A's turn</div>
+        <div class="game-controls compact-controls">
+          <button id="passBtn">Pass</button>
+          <button id="skipBtn">Skip</button>
+          <button id="revealBtn">Reveal Answer</button>
         </div>
       </div>
 
@@ -3614,15 +3941,28 @@ The Beatles"
         // === BEGIN YOUR GAME/QUIZ LOGIC (leave untouched) ===
         // State
         let rewards = [],
-          scores = { A: 0, B: 0 },
-          picks = { A: 0, B: 0 },
+          scores = {},
+          picks = {},
           turn = "A",
-          names = { A: "Team A", B: "Team B" },
+          names = {},
           total = 20,
           questions = [],
           qIndex = 0,
-          usedQuestionIndices = [];
+          usedQuestionIndices = [],
+          teamCount = 2,
+          teamOrder = ["A", "B", "C", "D", "E", "F"],
+          teamColors = {
+            A: "#e57373",
+            B: "#3498db", 
+            C: "#ff6b6b",
+            D: "#4ecdc4",
+            E: "#45b7d1",
+            F: "#96ceb4"
+          };
         let singlePlayer = false;
+        
+        // Team status tracking for special effects
+        let teamStatus = {};
 
         // Single Player Checkbox logic
         singlePlayerCheckbox.addEventListener("change", function () {
@@ -3735,18 +4075,24 @@ The Beatles"
             }
 
             singlePlayer = singlePlayerCheckbox.checked;
-            names.A =
-              document.getElementById("teamANameInput").value.trim() ||
-              "Team A";
-            if (singlePlayer) {
-              names.B = "Android";
-            } else {
-              names.B =
-                document.getElementById("teamBNameInput").value.trim() ||
-                "Team B";
+            
+            // Initialize team names
+            names = {};
+            for (let i = 0; i < teamCount; i++) {
+              const teamId = teamOrder[i];
+              if (i === 0) {
+                names[teamId] = document.getElementById("teamANameInput").value.trim() || "Team A";
+              } else if (i === 1) {
+                names[teamId] = singlePlayer ? "Android" : (document.getElementById("teamBNameInput").value.trim() || "Team B");
+              } else {
+                names[teamId] = `Team ${teamId}`;
+              }
             }
             total = +document.getElementById("gridSizeInput").value;
 
+            // Get team count
+            teamCount = parseInt(document.getElementById("teamCountInput").value);
+            
             // Get special item counts from selectors
             let tornadoCount = parseInt(
               document.getElementById("tornadoCount").value
@@ -3760,6 +4106,18 @@ The Beatles"
             let swapCount = parseInt(
               document.getElementById("swapCount").value
             );
+            let freezeCount = parseInt(
+              document.getElementById("freezeCount").value
+            );
+            let shieldCount = parseInt(
+              document.getElementById("shieldCount").value
+            );
+            let hotStreakCount = parseInt(
+              document.getElementById("hotStreakCount").value
+            );
+            let coinFlipCount = parseInt(
+              document.getElementById("coinFlipCount").value
+            );
 
             // Adjust defaults for small grids
             if (total <= 10) {
@@ -3767,10 +4125,18 @@ The Beatles"
               doubleCount = 1;
               loseCount = 1;
               swapCount = 1;
+              freezeCount = 1;
+              shieldCount = 1;
+              hotStreakCount = 1;
+              coinFlipCount = 1;
               document.getElementById("tornadoCount").value = 2;
               document.getElementById("doubleCount").value = 1;
               document.getElementById("loseCount").value = 1;
               document.getElementById("swapCount").value = 1;
+              document.getElementById("freezeCount").value = 1;
+              document.getElementById("shieldCount").value = 1;
+              document.getElementById("hotStreakCount").value = 1;
+              document.getElementById("coinFlipCount").value = 1;
             }
 
             // Use quiz if selected, otherwise use textarea
@@ -3861,7 +4227,7 @@ The Beatles"
               nameBEl.textContent = names.B;
               teamBNameContainer.classList.remove("single-player");
             }
-            initGame(tornadoCount, doubleCount, loseCount, swapCount);
+            initGame(tornadoCount, doubleCount, loseCount, swapCount, freezeCount, shieldCount, hotStreakCount, coinFlipCount);
             buildGrid(total);
             showQuestion();
           };
@@ -3869,7 +4235,18 @@ The Beatles"
 
         if (passBtn)
           passBtn.onclick = () => {
-            turn = turn === "A" ? "B" : "A";
+            // Move to next team
+            do {
+              let currentIndex = teamOrder.indexOf(turn);
+              currentIndex = (currentIndex + 1) % teamCount;
+              turn = teamOrder[currentIndex];
+            } while (teamStatus[turn]?.frozen > 0);
+            
+            // Reduce freeze count
+            if (teamStatus[turn]?.frozen > 0) {
+              teamStatus[turn].frozen--;
+            }
+            
             updateTurn();
             
             // Hide current modal and show next question
@@ -3993,8 +4370,18 @@ The Beatles"
         // Change teams button
         if (document.getElementById("changeTeamsBtn")) {
           document.getElementById("changeTeamsBtn").onclick = () => {
-            // Switch teams
-            turn = turn === "A" ? "B" : "A";
+            // Move to next team
+            do {
+              let currentIndex = teamOrder.indexOf(turn);
+              currentIndex = (currentIndex + 1) % teamCount;
+              turn = teamOrder[currentIndex];
+            } while (teamStatus[turn]?.frozen > 0);
+            
+            // Reduce freeze count
+            if (teamStatus[turn]?.frozen > 0) {
+              teamStatus[turn].frozen--;
+            }
+            
             updateTurn();
             
             // Hide modal and show next question
@@ -4070,9 +4457,21 @@ The Beatles"
             let swapCount = parseInt(
               document.getElementById("swapCount").value
             );
+            let freezeCount = parseInt(
+              document.getElementById("freezeCount").value
+            );
+            let shieldCount = parseInt(
+              document.getElementById("shieldCount").value
+            );
+            let hotStreakCount = parseInt(
+              document.getElementById("hotStreakCount").value
+            );
+            let coinFlipCount = parseInt(
+              document.getElementById("coinFlipCount").value
+            );
             qIndex = 0;
             // Fully reset game state and grid
-            initGame(tornadoCount, doubleCount, loseCount, swapCount);
+            initGame(tornadoCount, doubleCount, loseCount, swapCount, freezeCount, shieldCount, hotStreakCount, coinFlipCount);
             buildGrid(total);
             
             // Hide question modal if it's open
@@ -4089,12 +4488,17 @@ The Beatles"
             gameScreen.classList.add("hidden");
             setupScreen.classList.remove("hidden");
             // Reset everything to initial state
-            scores = { A: 0, B: 0 };
-            picks = { A: 0, B: 0 };
-            annA.textContent = "";
-            annB.textContent = "";
-            nameAEl.textContent = names.A;
-            nameBEl.textContent = names.B;
+            scores = {};
+            picks = {};
+            teamStatus = {};
+            teamCount = 2;
+            
+            // Clear team grid
+            const teamGrid = document.getElementById("teamGrid");
+            if (teamGrid) {
+              teamGrid.innerHTML = "";
+            }
+            
             updateScores();
             turn = "A";
             updateTurn();
@@ -4117,18 +4521,39 @@ The Beatles"
           tornadoCount = 2,
           doubleCount = 2,
           loseCount = 2,
-          swapCount = 1
+          swapCount = 1,
+          freezeCount = 1,
+          shieldCount = 1,
+          hotStreakCount = 1,
+          coinFlipCount = 1
         ) {
-          scores = { A: 0, B: 0 };
-          picks = { A: 0, B: 0 };
-          annA.textContent = "";
-          annB.textContent = "";
-          nameAEl.textContent = names.A;
-          nameBEl.textContent = names.B;
+          // Initialize scores and picks for all teams
+          scores = {};
+          picks = {};
+          teamStatus = {};
+          
+          for (let i = 0; i < teamCount; i++) {
+            const teamId = teamOrder[i];
+            scores[teamId] = 0;
+            picks[teamId] = 0;
+            teamStatus[teamId] = {
+              frozen: 0,
+              shield: false,
+              hotStreak: false
+            };
+          }
+          
+          // Clear announcements
+          const teamGrid = document.getElementById("teamGrid");
+          if (teamGrid) {
+            teamGrid.querySelectorAll(".announcement").forEach(ann => ann.textContent = "");
+          }
+          
+          updateTeamDisplay();
           updateScores();
           turn = "A";
           updateTurn();
-          buildRewards(total, tornadoCount, doubleCount, loseCount, swapCount);
+          buildRewards(total, tornadoCount, doubleCount, loseCount, swapCount, freezeCount, shieldCount, hotStreakCount, coinFlipCount);
           buildGrid(total);
           showQuestion();
         }
@@ -4138,10 +4563,14 @@ The Beatles"
           tornadoCount = 2,
           doubleCount = 2,
           loseCount = 2,
-          swapCount = 1
+          swapCount = 1,
+          freezeCount = 1,
+          shieldCount = 1,
+          hotStreakCount = 1,
+          coinFlipCount = 1
         ) {
           // Always include the exact number of each special item
-          let specialTotal = tornadoCount + doubleCount + loseCount + swapCount;
+          let specialTotal = tornadoCount + doubleCount + loseCount + swapCount + freezeCount + shieldCount + hotStreakCount + coinFlipCount;
           let ptsCount = n - specialTotal;
           if (ptsCount < 0) ptsCount = 0;
           rewards = [];
@@ -4156,6 +4585,10 @@ The Beatles"
           for (let i = 0; i < doubleCount; i++)
             rewards.push({ type: "double" });
           for (let i = 0; i < swapCount; i++) rewards.push({ type: "swap" });
+          for (let i = 0; i < freezeCount; i++) rewards.push({ type: "freeze" });
+          for (let i = 0; i < shieldCount; i++) rewards.push({ type: "shield" });
+          for (let i = 0; i < hotStreakCount; i++) rewards.push({ type: "hotStreak" });
+          for (let i = 0; i < coinFlipCount; i++) rewards.push({ type: "coinFlip" });
           // Shuffle rewards to randomize placement
           for (let i = rewards.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -4221,79 +4654,187 @@ The Beatles"
           }
           picks[me]++;
           let out = "";
+          let pointsEarned = 0;
+          
+          // Handle points first
           if (r.type === "points") {
-            scores[me] += r.value;
-            out = r.value;
-            btn.style.color = me === "A" ? "var(--teamA)" : "var(--teamB)";
+            pointsEarned = r.value;
+            // Apply Hot Streak if active
+            if (teamStatus[me]?.hotStreak) {
+              pointsEarned *= 3;
+              teamStatus[me].hotStreak = false;
+              showSpecialPopup("🔥", "Hot Streak! Triple points!");
+            }
+            scores[me] += pointsEarned;
+            out = pointsEarned;
+            btn.style.color = teamColors[me];
             showPointsPopup(out, me);
-          } else if (r.type === "lose") {
-            scores[me] = 0;
-            out = "🦨";
-            styleSpecial(btn, me);
-            showSpecialPopup("🦨", "Skunked! Lose all your points!");
-            animateSkunk(me);
-            playSad();
+          }
+          
+          // Handle special effects
+          if (r.type === "lose") {
+            if (teamStatus[me]?.shield) {
+              // Shield blocks the effect
+              teamStatus[me].shield = false;
+              out = "🛡️";
+              showSpecialPopup("🛡️", "Shield blocked the Skunk effect!");
+              animateShieldBlock(me);
+            } else {
+              scores[me] = 0;
+              out = "🦨";
+              styleSpecial(btn, me);
+              showSpecialPopup("🦨", "Skunked! Lose all your points!");
+              animateSkunk(me);
+              playSad();
+            }
           } else if (r.type === "steal") {
-            const o = me === "A" ? "B" : "A";
-            scores[me] += scores[o];
-            scores[o] = 0;
-            out = "🌪";
-            styleSpecial(btn, me);
-            btn.classList.add("tornado-animation");
-            showSpecialPopup(
-              "🌪️",
-              "Tornado! Steal the other team's points!",
-              true
-            );
-            animateKangarooSwap();
+            // Find team with highest score (excluding current team)
+            let targetTeam = null;
+            let highestScore = -1;
+            for (let teamId in scores) {
+              if (teamId !== me && scores[teamId] > highestScore) {
+                highestScore = scores[teamId];
+                targetTeam = teamId;
+              }
+            }
+            
+            if (targetTeam && scores[targetTeam] > 0) {
+              if (teamStatus[targetTeam]?.shield) {
+                // Shield blocks the effect
+                teamStatus[targetTeam].shield = false;
+                out = "🛡️";
+                showSpecialPopup("🛡️", `${names[targetTeam]}'s Shield blocked the Tornado!`);
+                animateShieldBlock(targetTeam);
+              } else {
+                scores[me] += scores[targetTeam];
+                scores[targetTeam] = 0;
+                out = "🌪";
+                styleSpecial(btn, me);
+                btn.classList.add("tornado-animation");
+                showSpecialPopup("🌪️", "Tornado! Steal the other team's points!", true);
+                animateKangarooSwap();
+              }
+            } else {
+              out = "🌪";
+              styleSpecial(btn, me);
+            }
           } else if (r.type === "swap") {
-            // Swap scores between teams
-            let temp = scores["A"];
-            scores["A"] = scores["B"];
-            scores["B"] = temp;
-            out = "🦘";
-            styleSpecial(btn, me);
-            showSpecialPopup("🦘", "Kangaroo Hop Swap! Teams swap points!");
-            animateKangarooSwap();
-          } else {
+            // Find team with highest score (excluding current team)
+            let targetTeam = null;
+            let highestScore = -1;
+            for (let teamId in scores) {
+              if (teamId !== me && scores[teamId] > highestScore) {
+                highestScore = scores[teamId];
+                targetTeam = teamId;
+              }
+            }
+            
+            if (targetTeam) {
+              let temp = scores[me];
+              scores[me] = scores[targetTeam];
+              scores[targetTeam] = temp;
+              out = "🦘";
+              styleSpecial(btn, me);
+              showSpecialPopup("🦘", "Kangaroo Hop Swap! Teams swap points!");
+              animateKangarooSwap();
+            }
+          } else if (r.type === "double") {
             scores[me] *= 2;
             out = "🦁🦁";
             styleSpecial(btn, me);
             showSpecialPopup("🦁🦁", "Double Lion Roar! Double your points!");
             animateScore(me, "lion-roar");
+          } else if (r.type === "freeze") {
+            // Find team with highest score (excluding current team)
+            let targetTeam = null;
+            let highestScore = -1;
+            for (let teamId in scores) {
+              if (teamId !== me && scores[teamId] > highestScore) {
+                highestScore = scores[teamId];
+                targetTeam = teamId;
+              }
+            }
+            
+            if (targetTeam) {
+              teamStatus[targetTeam].frozen++;
+              out = "❄️";
+              styleSpecial(btn, me);
+              showSpecialPopup("❄️", `${names[targetTeam]} is frozen! Skips next turn!`);
+              animateFreeze(targetTeam);
+            }
+          } else if (r.type === "shield") {
+            teamStatus[me].shield = true;
+            out = "🛡️";
+            styleSpecial(btn, me);
+            showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!");
+            animateShield(me);
+          } else if (r.type === "hotStreak") {
+            if (teamStatus[me]?.hotStreak) {
+              // Already active, convert to bonus
+              scores[me] += 100;
+              out = "🔥+100";
+              showSpecialPopup("🔥", "Hot Streak already active! +100 bonus points!");
+            } else {
+              teamStatus[me].hotStreak = true;
+              out = "🔥";
+              styleSpecial(btn, me);
+              showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!");
+            }
+          } else if (r.type === "coinFlip") {
+            out = "🪙";
+            styleSpecial(btn, me);
+            // Show coin flip modal
+            showCoinFlipModal(pointsEarned);
           }
-          if (me === "A") {
-            annA.textContent = `${names.A} got ${out}`;
-            annB.textContent = "";
-          } else {
-            annB.textContent = `${names.B} got ${out}`;
-            annA.textContent = "";
+          
+          // Update announcement
+          const annEl = document.getElementById(`ann${me}`);
+          if (annEl) {
+            annEl.textContent = `${names[me]} got ${out}`;
           }
+          
           btn.innerHTML = `<span>${out}</span>`;
           btn.disabled = true;
-          if (r.type === "points" && r.value >= 800) {
+          
+          if (r.type === "points" && pointsEarned >= 800) {
             confettiBurst(btn);
           }
+          
           updateScores();
-          const done = document.querySelectorAll(
-            "#grid button:disabled"
-          ).length;
+          updateTeamDisplay();
+          
+          const done = document.querySelectorAll("#grid button:disabled").length;
           if (done === total) {
-            if (scores.A > scores.B) {
-              annA.textContent = `${names.A} wins! 🏆`;
-              annB.textContent = "";
-              playWin();
-            } else if (scores.B > scores.A) {
-              annB.textContent = `${names.B} wins! 🏆`;
-              annA.textContent = "";
-              playWin();
-            } else {
-              annA.textContent = "It's a tie!";
-              annB.textContent = "";
+            // Game over - find winner
+            let winner = null;
+            let highestScore = -1;
+            for (let teamId in scores) {
+              if (scores[teamId] > highestScore) {
+                highestScore = scores[teamId];
+                winner = teamId;
+              }
+            }
+            
+            if (winner) {
+              const annEl = document.getElementById(`ann${winner}`);
+              if (annEl) {
+                annEl.textContent = `${names[winner]} wins! 🏆`;
+              }
               playWin();
             }
           } else {
-            turn = me === "A" ? "B" : "A";
+            // Move to next team
+            do {
+              let currentIndex = teamOrder.indexOf(turn);
+              currentIndex = (currentIndex + 1) % teamCount;
+              turn = teamOrder[currentIndex];
+            } while (teamStatus[turn]?.frozen > 0);
+            
+            // Reduce freeze count
+            if (teamStatus[turn]?.frozen > 0) {
+              teamStatus[turn].frozen--;
+            }
+            
             // Advance to next unique question
             qIndex++;
             if (qIndex >= usedQuestionIndices.length) qIndex = 0;
@@ -4302,11 +4843,11 @@ The Beatles"
             // Show next question in modal
             setTimeout(() => {
               showQuestion();
-            }, 1000); // Small delay for smooth transition
+            }, 1000);
             
             // If single player and it's now Android's turn, trigger computer move
             if (singlePlayer && turn === "B") {
-              setTimeout(computerTurn, 2500); // Longer delay to account for modal
+              setTimeout(computerTurn, 2500);
             }
           }
         }
@@ -4358,12 +4899,87 @@ The Beatles"
         }
 
         function updateScores() {
-          scoreAEl.textContent = scores.A;
-          scoreBEl.textContent = scores.B;
+          // Update all team scores
+          for (let i = 0; i < teamCount; i++) {
+            const teamId = teamOrder[i];
+            const scoreEl = document.getElementById(`score${teamId}`);
+            if (scoreEl) {
+              scoreEl.textContent = scores[teamId];
+            }
+          }
         }
+        function updateTeamDisplay() {
+          const teamGrid = document.getElementById("teamGrid");
+          if (!teamGrid) return;
+          
+          teamGrid.innerHTML = "";
+          
+          for (let i = 0; i < teamCount; i++) {
+            const teamId = teamOrder[i];
+            const teamCard = document.createElement("div");
+            teamCard.className = `team-card ${turn === teamId ? 'active' : ''} ${teamStatus[teamId]?.frozen > 0 ? 'frozen' : ''}`;
+            teamCard.id = `teamCard${teamId}`;
+            
+            const statusDiv = document.createElement("div");
+            statusDiv.className = "team-status";
+            
+            // Add status icons
+            if (teamStatus[teamId]?.frozen > 0) {
+              const freezeIcon = document.createElement("div");
+              freezeIcon.className = "status-icon freeze-icon";
+              freezeIcon.innerHTML = "❄️";
+              freezeIcon.title = `Skips next ${teamStatus[teamId].frozen} turn(s)`;
+              statusDiv.appendChild(freezeIcon);
+            }
+            
+            if (teamStatus[teamId]?.shield) {
+              const shieldIcon = document.createElement("div");
+              shieldIcon.className = "status-icon shield-icon";
+              shieldIcon.innerHTML = "🛡️";
+              shieldIcon.title = "Protects from next negative effect";
+              statusDiv.appendChild(shieldIcon);
+            }
+            
+            if (teamStatus[teamId]?.hotStreak) {
+              const hotStreakIcon = document.createElement("div");
+              hotStreakIcon.className = "status-icon hotstreak-icon";
+              hotStreakIcon.innerHTML = "🔥";
+              hotStreakIcon.title = "Next correct answer worth 3x points";
+              statusDiv.appendChild(hotStreakIcon);
+            }
+            
+            teamCard.appendChild(statusDiv);
+            
+            const announcement = document.createElement("div");
+            announcement.className = "announcement";
+            announcement.id = `ann${teamId}`;
+            teamCard.appendChild(announcement);
+            
+            const teamName = document.createElement("h2");
+            teamName.id = `name${teamId}`;
+            teamName.textContent = names[teamId];
+            teamName.style.color = teamColors[teamId];
+            teamCard.appendChild(teamName);
+            
+            const score = document.createElement("p");
+            score.id = `score${teamId}`;
+            score.textContent = scores[teamId];
+            teamCard.appendChild(score);
+            
+            teamGrid.appendChild(teamCard);
+          }
+          
+          // Update grid border for active team
+          const grid = document.getElementById("grid");
+          if (grid) {
+            grid.className = `active-team-${turn}`;
+          }
+        }
+
         function updateTurn() {
           turnEl.textContent = `${names[turn]}'s turn`;
-          turnEl.style.color = turn === "A" ? "var(--teamA)" : "var(--teamB)";
+          turnEl.style.color = teamColors[turn] || "#6f5c91";
+          updateTeamDisplay();
         }
 
         function styleSpecial(btn, team) {
@@ -5011,6 +5627,10 @@ The Beatles"
                   <tr><td style="padding:0.5em;">🦁🦁</td><td style="padding:0.5em;">Double Lion</td><td style="padding:0.5em;">Double the number of points your team just earned.</td></tr>
                   <tr><td style="padding:0.5em;">🦨</td><td style="padding:0.5em;">Skunk</td><td style="padding:0.5em;">Lose all of your team's points.</td></tr>
                   <tr><td style="padding:0.5em;">🦘</td><td style="padding:0.5em;">Kangaroo Hop Swap</td><td style="padding:0.5em;">Swap your team's total score with the other team.</td></tr>
+                  <tr><td style="padding:0.5em;">❄️</td><td style="padding:0.5em;">Freeze</td><td style="padding:0.5em;">Target team skips their next turn.</td></tr>
+                  <tr><td style="padding:0.5em;">🛡️</td><td style="padding:0.5em;">Shield</td><td style="padding:0.5em;">Protects from the next negative effect.</td></tr>
+                  <tr><td style="padding:0.5em;">🔥</td><td style="padding:0.5em;">Hot Streak</td><td style="padding:0.5em;">Next correct answer worth 3x points.</td></tr>
+                  <tr><td style="padding:0.5em;">🪙</td><td style="padding:0.5em;">Coin Flip</td><td style="padding:0.5em;">Double or lose revealed points.</td></tr>
                 </tbody>
               </table>
               <p style="margin-bottom:1.2em;">You can choose how many of each to include before the game begins.</p>
@@ -5090,6 +5710,10 @@ The Beatles"
           document.getElementById('libraryDoubleCount').value = '2';
           document.getElementById('libraryLoseCount').value = '2';
           document.getElementById('librarySwapCount').value = '1';
+          document.getElementById('libraryFreezeCount').value = '1';
+          document.getElementById('libraryShieldCount').value = '1';
+          document.getElementById('libraryHotStreakCount').value = '1';
+          document.getElementById('libraryCoinFlipCount').value = '1';
 
           // Handle close button
           document.getElementById('closeLibraryGameOptionsModal').onclick = function() {
@@ -5108,6 +5732,10 @@ The Beatles"
             const doubleCount = +document.getElementById('libraryDoubleCount').value;
             const loseCount = +document.getElementById('libraryLoseCount').value;
             const swapCount = +document.getElementById('librarySwapCount').value;
+            const freezeCount = +document.getElementById('libraryFreezeCount').value;
+            const shieldCount = +document.getElementById('libraryShieldCount').value;
+            const hotStreakCount = +document.getElementById('libraryHotStreakCount').value;
+            const coinFlipCount = +document.getElementById('libraryCoinFlipCount').value;
 
             // Close modal
             modal.style.display = 'none';
@@ -5116,7 +5744,8 @@ The Beatles"
             // Start the game with these settings
             await startGameWithSettings(quiz, {
               teamA, teamB, singlePlayer, gridSize, 
-              tornadoCount, doubleCount, loseCount, swapCount
+              tornadoCount, doubleCount, loseCount, swapCount,
+              freezeCount, shieldCount, hotStreakCount, coinFlipCount
             });
           };
         }
@@ -5168,9 +5797,152 @@ The Beatles"
           }
           
           // Initialize and start game
-          initGame(settings.tornadoCount, settings.doubleCount, settings.loseCount, settings.swapCount);
+          initGame(settings.tornadoCount, settings.doubleCount, settings.loseCount, settings.swapCount, 
+                   settings.freezeCount, settings.shieldCount, settings.hotStreakCount, settings.coinFlipCount);
           buildGrid(total);
           showQuestion();
+        }
+
+        // Coin Flip Modal Functions
+        function showCoinFlipModal(pointsAtStake) {
+          const modal = document.getElementById("coinFlipModal");
+          const description = document.getElementById("coinFlipDescription");
+          const resultDiv = document.getElementById("coinFlipResult");
+          const buttons = document.getElementById("coinFlipButtons");
+          
+          if (pointsAtStake === 0) {
+            description.innerHTML = "No points at stake. You can still choose Heads or Tails for fun, or Skip.";
+          } else {
+            description.innerHTML = `Choose Heads or Tails. If you are right, your revealed points (${pointsAtStake}) are doubled. If you are wrong, you lose those revealed points.`;
+          }
+          
+          resultDiv.style.display = "none";
+          buttons.style.display = "flex";
+          
+          modal.style.display = "flex";
+          modal.classList.remove("hidden");
+          
+          // Store points at stake for later use
+          modal.dataset.pointsAtStake = pointsAtStake;
+        }
+
+        function hideCoinFlipModal() {
+          const modal = document.getElementById("coinFlipModal");
+          modal.style.display = "none";
+          modal.classList.add("hidden");
+        }
+
+        // Coin Flip Event Handlers
+        document.addEventListener("DOMContentLoaded", function() {
+          const coinFlipModal = document.getElementById("coinFlipModal");
+          if (coinFlipModal) {
+            // Close modal when clicking outside
+            coinFlipModal.onclick = function(e) {
+              if (e.target === this) {
+                hideCoinFlipModal();
+              }
+            };
+            
+            // Heads button
+            const headsBtn = document.getElementById("coinFlipHeads");
+            if (headsBtn) {
+              headsBtn.onclick = function() {
+                handleCoinFlip("heads");
+              };
+            }
+            
+            // Tails button
+            const tailsBtn = document.getElementById("coinFlipTails");
+            if (tailsBtn) {
+              tailsBtn.onclick = function() {
+                handleCoinFlip("tails");
+              };
+            }
+            
+            // Skip button
+            const skipBtn = document.getElementById("coinFlipSkip");
+            if (skipBtn) {
+              skipBtn.onclick = function() {
+                hideCoinFlipModal();
+              };
+            }
+          }
+        });
+
+        function handleCoinFlip(choice) {
+          const modal = document.getElementById("coinFlipModal");
+          const pointsAtStake = parseInt(modal.dataset.pointsAtStake) || 0;
+          const resultDiv = document.getElementById("coinFlipResult");
+          const buttons = document.getElementById("coinFlipButtons");
+          const animation = document.getElementById("coinFlipAnimation");
+          const outcome = document.getElementById("coinFlipOutcome");
+          
+          // Hide buttons, show result
+          buttons.style.display = "none";
+          resultDiv.style.display = "block";
+          
+          // Run coin flip animation
+          animation.classList.add("coin-flipping");
+          
+          // Determine result
+          const isCorrect = Math.random() < 0.5;
+          const result = isCorrect ? choice : (choice === "heads" ? "tails" : "heads");
+          
+          setTimeout(() => {
+            animation.classList.remove("coin-flipping");
+            animation.innerHTML = result === "heads" ? "🪙" : "🪙";
+            outcome.textContent = result.toUpperCase();
+            
+            if (isCorrect) {
+              outcome.style.color = "#4caf50";
+              outcome.textContent += " - CORRECT! +" + pointsAtStake;
+              scores[turn] += pointsAtStake;
+            } else {
+              outcome.style.color = "#f44336";
+              outcome.textContent += " - WRONG! -" + pointsAtStake;
+              scores[turn] -= pointsAtStake;
+              if (scores[turn] < 0) scores[turn] = 0;
+            }
+            
+            updateScores();
+            updateTeamDisplay();
+            
+            // Close modal after 2 seconds
+            setTimeout(() => {
+              hideCoinFlipModal();
+            }, 2000);
+          }, 1500);
+        }
+
+        // New animation functions for special effects
+        function animateFreeze(teamId) {
+          const teamCard = document.getElementById(`teamCard${teamId}`);
+          if (teamCard) {
+            teamCard.style.animation = "sad 1.5s ease-in-out";
+            setTimeout(() => {
+              teamCard.style.animation = "";
+            }, 1500);
+          }
+        }
+
+        function animateShield(teamId) {
+          const teamCard = document.getElementById(`teamCard${teamId}`);
+          if (teamCard) {
+            teamCard.style.animation = "double 1.5s ease-in-out";
+            setTimeout(() => {
+              teamCard.style.animation = "";
+            }, 1500);
+          }
+        }
+
+        function animateShieldBlock(teamId) {
+          const teamCard = document.getElementById(`teamCard${teamId}`);
+          if (teamCard) {
+            teamCard.style.animation = "kangaroo 1.5s ease-in-out";
+            setTimeout(() => {
+              teamCard.style.animation = "";
+            }, 1500);
+          }
         }
       });
 
@@ -5306,6 +6078,67 @@ The Beatles"
                   <option>4</option>
                 </select>
               </div>
+              
+              <!-- New Special Items -->
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8em;background:#f8f9fa;border-radius:8px;">
+                <div style="display:flex;align-items:center;gap:0.8em;">
+                  <span style="font-size:1.5em;">❄️</span>
+                  <span style="font-weight:600;color:#333;">Freeze</span>
+                </div>
+                <select id="libraryFreezeCount" style="padding:0.5em;border:1px solid #ddd;border-radius:4px;background:#fff;">
+                  <option>0</option>
+                  <option>1</option>
+                  <option selected>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                </select>
+              </div>
+              
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8em;background:#f8f9fa;border-radius:8px;">
+                <div style="display:flex;align-items:center;gap:0.8em;">
+                  <span style="font-size:1.5em;">🛡️</span>
+                  <span style="font-weight:600;color:#333;">Shield</span>
+                </div>
+                <select id="libraryShieldCount" style="padding:0.5em;border:1px solid #ddd;border-radius:4px;background:#fff;">
+                  <option>0</option>
+                  <option>1</option>
+                  <option selected>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                </select>
+              </div>
+              
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8em;background:#f8f9fa;border-radius:8px;">
+                <div style="display:flex;align-items:center;gap:0.8em;">
+                  <span style="font-size:1.5em;">🔥</span>
+                  <span style="font-weight:600;color:#333;">Hot Streak</span>
+                </div>
+                <select id="libraryHotStreakCount" style="padding:0.5em;border:1px solid #ddd;border-radius:4px;background:#fff;">
+                  <option>0</option>
+                  <option>1</option>
+                  <option selected>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                </select>
+              </div>
+              
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8em;background:#f8f9fa;border-radius:8px;">
+                <div style="display:flex;align-items:center;gap:0.8em;">
+                  <span style="font-size:1.5em;">🪙</span>
+                  <span style="font-weight:600;color:#333;">Coin Flip</span>
+                </div>
+                <select id="libraryCoinFlipCount" style="padding:0.5em;border:1px solid #ddd;border-radius:4px;background:#fff;">
+                  <option>0</option>
+                  <option>1</option>
+                  <option selected>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
@@ -5319,6 +6152,26 @@ The Beatles"
       </div>
     </div>
     <!-- === END LIBRARY GAME OPTIONS MODAL === -->
+
+    <!-- === COIN FLIP MODAL === -->
+    <div id="coinFlipModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(49,114,122,0.9);z-index:2500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+      <div style="background:#fff;padding:2.5em 3em;border-radius:20px;max-width:500px;width:95vw;box-shadow:0 8px 32px rgba(0,0,0,0.18);position:relative;text-align:center;">
+        <h2 style="margin:0 0 1em 0;color:#6F5C91;font-size:2rem;">🪙 Coin Flip</h2>
+        <p id="coinFlipDescription" style="margin:0 0 2em 0;color:#666;font-size:1.1rem;">Choose Heads or Tails. If you are right, your revealed points are doubled. If you are wrong, you lose those revealed points.</p>
+        
+        <div id="coinFlipResult" style="display:none;margin:2em 0;">
+          <div id="coinFlipAnimation" style="font-size:4rem;margin:1em 0;">🪙</div>
+          <div id="coinFlipOutcome" style="font-size:1.5rem;font-weight:700;color:#6F5C91;"></div>
+        </div>
+        
+        <div id="coinFlipButtons" style="display:flex;gap:1em;justify-content:center;margin-top:2em;">
+          <button id="coinFlipHeads" class="purple-btn" style="padding:1em 2em;font-size:1.2rem;">Heads</button>
+          <button id="coinFlipTails" class="purple-btn" style="padding:1em 2em;font-size:1.2rem;">Tails</button>
+          <button id="coinFlipSkip" class="purple-btn" style="padding:1em 2em;font-size:1.2rem;background:#6c757d;">Skip</button>
+        </div>
+      </div>
+    </div>
+    <!-- === END COIN FLIP MODAL === -->
 
   </body>
 </html>
