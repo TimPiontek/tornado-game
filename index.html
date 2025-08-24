@@ -4728,6 +4728,13 @@ The Beatles"
           let specialTotal = tornadoCount + doubleCount + loseCount + swapCount + shieldCount + hotStreakCount + coinFlipCount;
           let ptsCount = n - specialTotal;
           if (ptsCount < 0) ptsCount = 0;
+          
+          console.log("Building rewards with counts:", {
+            tornadoCount, doubleCount, loseCount, swapCount, 
+            shieldCount, hotStreakCount, coinFlipCount, 
+            specialTotal, ptsCount, total: n
+          });
+          
           rewards = [];
           for (let i = 0; i < ptsCount; i++)
             rewards.push({
@@ -4743,11 +4750,16 @@ The Beatles"
           for (let i = 0; i < shieldCount; i++) rewards.push({ type: "shield" });
           for (let i = 0; i < hotStreakCount; i++) rewards.push({ type: "hotStreak" });
           for (let i = 0; i < coinFlipCount; i++) rewards.push({ type: "coinFlip" });
+          
+          console.log("Rewards array created:", rewards.map(r => r.type));
+          
           // Shuffle rewards to randomize placement
           for (let i = rewards.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [rewards[i], rewards[j]] = [rewards[j], rewards[i]];
           }
+          
+          console.log("Final shuffled rewards:", rewards.map(r => r.type));
         }
 
         function buildGrid(n) {
@@ -4800,6 +4812,9 @@ The Beatles"
         function handlePick(btn, i) {
           let r = rewards[i],
             me = turn;
+          
+          console.log(`Team ${me} picked position ${i}:`, r);
+          
           // Special effects should work on first pick - don't convert them to points
           picks[me]++;
           let out = "";
@@ -6263,12 +6278,24 @@ The Beatles"
             return;
           }
           
-          // Reset modal state
+          // Reset modal state completely
           resultDiv.style.display = "none";
           wagerDiv.style.display = "block";
           buttons.style.display = "flex";
           wagerError.style.display = "none";
           scoresDiv.style.display = "block";
+          
+          // Clear any previous results
+          const animation = document.getElementById("coinFlipAnimation");
+          const outcome = document.getElementById("coinFlipOutcome");
+          if (animation) {
+            animation.innerHTML = "🪙";
+            animation.classList.remove("coin-flipping");
+          }
+          if (outcome) {
+            outcome.textContent = "";
+            outcome.style.color = "";
+          }
           
           // Populate team scores display - only show teams that are actually playing
           const activeTeams = teamOrder.slice(0, teamCount); // Only show teams up to teamCount
