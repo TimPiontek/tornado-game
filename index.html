@@ -4833,13 +4833,33 @@ The Beatles"
                 finalTotal: pointsEarned
               };
               
-              showSpecialPopup("🔥", "Hot Streak! Triple points!");
+              // Don't show special popup here - let the points breakdown show the math
+              // showSpecialPopup("🔥", "Hot Streak! Triple points!");
             }
             
             scores[me] += pointsEarned;
             out = pointsEarned;
             btn.style.color = teamColors[me];
-            showPointsPopup(out, me, breakdown);
+            
+            // Show points breakdown with math (if breakdown exists)
+            if (breakdown) {
+              // Wait for points breakdown to be dismissed before continuing
+              const breakdownPromise = showPointsPopup(out, me, breakdown);
+              if (breakdownPromise) {
+                pendingPromises.push(breakdownPromise); // Track this promise
+                breakdownPromise.then(() => {
+                  // After breakdown is dismissed, show the special effect popup
+                  showSpecialPopup("🔥", "Hot Streak! Triple points!");
+                });
+              } else {
+                // Fallback if no promise returned
+                showSpecialPopup("🔥", "Hot Streak! Triple points!");
+              }
+              return; // Important: return here to prevent further execution
+            } else {
+              // No breakdown, show simple points
+              showPointsPopup(out, me);
+            }
           }
           
           // Handle special effects
