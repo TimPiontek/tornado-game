@@ -4954,10 +4954,11 @@ The Beatles"
             }
             
             const basePoints = scores[me];
+            const pointsEarned = basePoints; // Points earned = original score (doubled)
             scores[me] *= 2;
-            const finalTotal = scores[me] - basePoints;
-            out = "🦁🦁";
-            styleSpecial(btn, me);
+            const finalTotal = pointsEarned; // Final total = points earned from doubling
+            out = pointsEarned; // Show actual points earned, not emoji
+            btn.style.color = teamColors[me];
             
             const breakdown = {
               basePoints: basePoints,
@@ -5015,7 +5016,7 @@ The Beatles"
                 teamStatus[me] = teamStatus[me] || {};
                 teamStatus[me].hotStreak = true;
                 teamStatus[me].hotStreakUsed = false; // Mark as not used yet
-                showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!", false, true);
+                showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!", false, false);
               }
             }, 1000);
             // No return - game continues to next team
@@ -5033,7 +5034,10 @@ The Beatles"
             setTimeout(() => {
               showCoinFlipModal();
             }, 1000);
-            // No return - game continues to next team
+            
+            // IMPORTANT: Return here to prevent turn change until coin flip is completed
+            // The turn will change after the coin flip is processed in handleCoinFlip
+            return;
           }
           
           // Update announcement
@@ -6264,6 +6268,41 @@ The Beatles"
             modal.style.display = "none";
             modal.classList.add("hidden");
           }
+          
+          // After coin flip is completed, change to next team and continue game
+          // This is called after the coin flip result is shown
+          setTimeout(() => {
+            // Move to next team
+            do {
+              let currentIndex = teamOrder.indexOf(turn);
+              currentIndex = (currentIndex + 1) % teamCount;
+              turn = teamOrder[currentIndex];
+            } while (teamStatus[turn]?.frozen > 0);
+            
+            // Clear team status effects that should disappear after turn
+            clearTeamStatusEffects();
+            
+            // Advance to next unique question
+            qIndex++;
+            if (qIndex >= usedQuestionIndices.length) qIndex = 0;
+            updateTurn();
+            
+            // Wait for all pending promises (points breakdowns) to resolve before showing next question
+            if (pendingPromises.length > 0) {
+              Promise.all(pendingPromises).then(() => {
+                // Clear the promises array
+                pendingPromises = [];
+                // Next Question button is always visible, no need to show it
+              });
+            } else {
+              // No pending promises, Next Question button is always visible
+            }
+            
+            // If single player and it's now Android's turn, trigger computer move
+            if (singlePlayer && turn === "B") {
+              setTimeout(computerTurn, 2500);
+            }
+          }, 500); // Small delay to ensure modal is fully hidden
         }
 
         // Coin Flip Event Handlers
