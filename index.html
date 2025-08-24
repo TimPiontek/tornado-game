@@ -4280,9 +4280,7 @@ The Beatles"
             let swapCount = parseInt(
               document.getElementById("swapCount")?.value || "2"
             );
-            let freezeCount = parseInt(
-              document.getElementById("freezeCount")?.value || "2"
-            );
+            
             let shieldCount = parseInt(
               document.getElementById("shieldCount")?.value || "2"
             );
@@ -4308,7 +4306,7 @@ The Beatles"
               const doubleCountEl = document.getElementById("doubleCount");
               const loseCountEl = document.getElementById("loseCount");
               const swapCountEl = document.getElementById("swapCount");
-              const freezeCountEl = document.getElementById("freezeCount");
+
               const shieldCountEl = document.getElementById("shieldCount");
               const hotStreakCountEl = document.getElementById("hotStreakCount");
               const coinFlipCountEl = document.getElementById("coinFlipCount");
@@ -4317,7 +4315,7 @@ The Beatles"
               if (doubleCountEl) doubleCountEl.value = 1;
               if (loseCountEl) loseCountEl.value = 1;
               if (swapCountEl) swapCountEl.value = 1;
-              if (freezeCountEl) freezeCountEl.value = 1;
+
               if (shieldCountEl) shieldCountEl.value = 1;
               if (hotStreakCountEl) hotStreakCountEl.value = 1;
               if (coinFlipCountEl) coinFlipCountEl.value = 1;
@@ -4411,7 +4409,7 @@ The Beatles"
               if (teamBNameContainer) teamBNameContainer.classList.remove("single-player");
             }
             if (typeof initGame === 'function') {
-              initGame(tornadoCount, doubleCount, loseCount, swapCount, freezeCount, shieldCount, hotStreakCount, coinFlipCount);
+              initGame(tornadoCount, doubleCount, loseCount, swapCount, shieldCount, hotStreakCount, coinFlipCount);
             }
             if (typeof buildGrid === 'function') {
               buildGrid(total);
@@ -4425,16 +4423,9 @@ The Beatles"
         if (passBtn)
           passBtn.onclick = () => {
             // Move to next team
-            do {
-              let currentIndex = teamOrder.indexOf(turn);
-              currentIndex = (currentIndex + 1) % teamCount;
-              turn = teamOrder[currentIndex];
-            } while (teamStatus[turn]?.frozen > 0);
-            
-            // Reduce freeze count
-            if (teamStatus[turn]?.frozen > 0) {
-              teamStatus[turn].frozen--;
-            }
+            let currentIndex = teamOrder.indexOf(turn);
+            currentIndex = (currentIndex + 1) % teamCount;
+            turn = teamOrder[currentIndex];
             
             if (typeof updateTurn === 'function') {
               updateTurn();
@@ -4796,7 +4787,7 @@ The Beatles"
           updateScores();
           turn = "A";
           updateTurn();
-          buildRewards(total, tornadoCount, doubleCount, loseCount, swapCount, freezeCount, shieldCount, hotStreakCount, coinFlipCount);
+                      buildRewards(total, tornadoCount, doubleCount, loseCount, swapCount, shieldCount, hotStreakCount, coinFlipCount);
           buildGrid(total);
           showQuestion();
         }
@@ -4807,13 +4798,12 @@ The Beatles"
           doubleCount = 2,
           loseCount = 2,
           swapCount = 1,
-          freezeCount = 1,
           shieldCount = 1,
           hotStreakCount = 1,
           coinFlipCount = 1
         ) {
           // Always include the exact number of each special item
-          let specialTotal = tornadoCount + doubleCount + loseCount + swapCount + freezeCount + shieldCount + hotStreakCount + coinFlipCount;
+          let specialTotal = tornadoCount + doubleCount + loseCount + swapCount + shieldCount + hotStreakCount + coinFlipCount;
           let ptsCount = n - specialTotal;
           if (ptsCount < 0) ptsCount = 0;
           rewards = [];
@@ -4828,7 +4818,6 @@ The Beatles"
           for (let i = 0; i < doubleCount; i++)
             rewards.push({ type: "double" });
           for (let i = 0; i < swapCount; i++) rewards.push({ type: "swap" });
-          for (let i = 0; i < freezeCount; i++) rewards.push({ type: "freeze" });
           for (let i = 0; i < shieldCount; i++) rewards.push({ type: "shield" });
           for (let i = 0; i < hotStreakCount; i++) rewards.push({ type: "hotStreak" });
           for (let i = 0; i < coinFlipCount; i++) rewards.push({ type: "coinFlip" });
@@ -5050,21 +5039,6 @@ The Beatles"
             showPointsPopup(finalTotal, me, breakdown);
             showSpecialPopup("🦁🦁", "Double Lion Roar! Double your points!");
             animateScore(me, "double-bounce");
-          } else if (r.type === "freeze") {
-            // Freeze effect - give points only (no more freezing teams)
-            pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
-            scores[me] += pointsEarned;
-            out = pointsEarned;
-            btn.style.color = teamColors[me];
-            
-            const breakdown = {
-              basePoints: pointsEarned,
-              effect: "❄️ Freeze: Points from special effect",
-              finalTotal: pointsEarned
-            };
-            
-            showPointsPopup(out, me, breakdown);
-            // No return - game continues to next team
           } else if (r.type === "shield") {
             // Shield effect - give points AND shield
             pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
@@ -5145,7 +5119,13 @@ The Beatles"
             annEl.textContent = `${names[me]} got ${out}`;
           }
           
-          btn.innerHTML = `<span>${out}</span>`;
+          // For special effects that give points, show the points value on the grid
+          let displayValue = out;
+          if (r.type !== "points" && pointsEarned > 0) {
+            displayValue = pointsEarned; // Show the actual points earned
+          }
+          
+          btn.innerHTML = `<span>${displayValue}</span>`;
           btn.disabled = true;
           
           if (r.type === "points" && pointsEarned >= 800) {
@@ -5185,10 +5165,7 @@ The Beatles"
             // Clear team status effects that should disappear after turn
             clearTeamStatusEffects();
             
-            // Reduce freeze count (keeping this for now but it won't matter since we're removing freeze)
-            if (teamStatus[turn]?.frozen > 0) {
-              teamStatus[turn].frozen--;
-            }
+
             
             // Advance to next unique question
             qIndex++;
@@ -5699,15 +5676,28 @@ The Beatles"
           if (!specialPopup) return;
           
           if (breakdown) {
-            // Show detailed breakdown
+            // Show detailed breakdown with click to continue
             specialPopup.innerHTML = `
               <div class="points-breakdown-animation" style="text-align:center;padding:1rem;">
                 <div style="font-size:1.1rem;margin-bottom:0.8rem;color:#666;font-weight:600;">Points Breakdown:</div>
                 <div style="font-size:1.4rem;font-weight:bold;color:#4caf50;margin-bottom:0.5rem;">+${breakdown.basePoints}</div>
                 <div style="font-size:1rem;color:#666;margin-bottom:0.8rem;font-style:italic;">${breakdown.effect}</div>
                 <div style="font-size:1.6rem;font-weight:bold;color:#6f5c91;border-top:2px solid #ddd;padding-top:0.8rem;margin-top:0.8rem;">= +${breakdown.finalTotal}</div>
+                <div style="margin-top:1rem;font-size:0.9rem;color:#666;font-style:italic;">Click anywhere to continue...</div>
               </div>
             `;
+            
+            // Add click handler to continue
+            specialPopup.onclick = () => {
+              specialPopup.classList.remove("show");
+              setTimeout(() => {
+                if (specialPopup) {
+                  specialPopup.classList.add("hidden");
+                  specialPopup.classList.remove("points-mode");
+                  specialPopup.onclick = null; // Remove click handler
+                }
+              }, 400);
+            };
           } else {
             // Show simple points
             specialPopup.innerHTML = `<div class="points-reveal-animation points-text-glow">${points}</div>`;
@@ -5718,19 +5708,20 @@ The Beatles"
           specialPopup.style.color =
             team === "A" ? "var(--teamA)" : "var(--teamB)";
           
-          const displayTime = breakdown ? 4500 : 3500; // Longer for breakdown
-          
-          setTimeout(() => {
-            if (specialPopup) {
-              specialPopup.classList.remove("show");
-              setTimeout(() => {
-                if (specialPopup) {
-                  specialPopup.classList.add("hidden");
-                  specialPopup.classList.remove("points-mode");
-                }
-              }, 400);
-            }
-          }, displayTime);
+          // For simple points, auto-hide after 3.5 seconds
+          if (!breakdown) {
+            setTimeout(() => {
+              if (specialPopup) {
+                specialPopup.classList.remove("show");
+                setTimeout(() => {
+                  if (specialPopup) {
+                    specialPopup.classList.add("hidden");
+                    specialPopup.classList.remove("points-mode");
+                  }
+                }, 400);
+              }
+            }, 3500);
+          }
         }
 
         // 1. Make quiz titles in 'My Library' clickable and add detail page
@@ -6030,7 +6021,7 @@ The Beatles"
                   <tr><td style="padding:0.5em;">🦁🦁</td><td style="padding:0.5em;">Double Lion</td><td style="padding:0.5em;">Double the number of points your team just earned.</td></tr>
                   <tr><td style="padding:0.5em;">🦨</td><td style="padding:0.5em;">Skunk</td><td style="padding:0.5em;">Lose all of your team's points.</td></tr>
                   <tr><td style="padding:0.5em;">🦘</td><td style="padding:0.5em;">Kangaroo Hop Swap</td><td style="padding:0.5em;">Swap your team's total score with the other team.</td></tr>
-                  <tr><td style="padding:0.5em;">❄️</td><td style="padding:0.5em;">Freeze</td><td style="padding:0.5em;">Target team skips their next turn.</td></tr>
+  
                   <tr><td style="padding:0.5em;">🛡️</td><td style="padding:0.5em;">Shield</td><td style="padding:0.5em;">Protects from the next negative effect.</td></tr>
                   <tr><td style="padding:0.5em;">🔥</td><td style="padding:0.5em;">Hot Streak</td><td style="padding:0.5em;">Next correct answer worth 3x points.</td></tr>
                   <tr><td style="padding:0.5em;">🪙</td><td style="padding:0.5em;">Coin Flip</td><td style="padding:0.5em;">Double or lose revealed points.</td></tr>
@@ -6113,7 +6104,7 @@ The Beatles"
           document.getElementById('libraryDoubleCount').value = '2';
           document.getElementById('libraryLoseCount').value = '2';
           document.getElementById('librarySwapCount').value = '1';
-          document.getElementById('libraryFreezeCount').value = '1';
+  
           document.getElementById('libraryShieldCount').value = '1';
           document.getElementById('libraryHotStreakCount').value = '1';
           document.getElementById('libraryCoinFlipCount').value = '1';
@@ -6135,7 +6126,7 @@ The Beatles"
             const doubleCount = +document.getElementById('libraryDoubleCount').value;
             const loseCount = +document.getElementById('libraryLoseCount').value;
             const swapCount = +document.getElementById('librarySwapCount').value;
-            const freezeCount = +document.getElementById('libraryFreezeCount').value;
+  
             const shieldCount = +document.getElementById('libraryShieldCount').value;
             const hotStreakCount = +document.getElementById('libraryHotStreakCount').value;
             const coinFlipCount = +document.getElementById('libraryCoinFlipCount').value;
@@ -6148,7 +6139,7 @@ The Beatles"
             await startGameWithSettings(quiz, {
               teamA, teamB, singlePlayer, gridSize, 
               tornadoCount, doubleCount, loseCount, swapCount,
-              freezeCount, shieldCount, hotStreakCount, coinFlipCount
+              shieldCount, hotStreakCount, coinFlipCount
             });
           };
         }
@@ -6202,7 +6193,7 @@ The Beatles"
           // Initialize and start game
           if (typeof initGame === 'function') {
             initGame(settings.tornadoCount, settings.doubleCount, settings.loseCount, settings.swapCount, 
-                     settings.freezeCount, settings.shieldCount, settings.hotStreakCount, settings.coinFlipCount);
+                     settings.shieldCount, settings.hotStreakCount, settings.coinFlipCount);
           }
           if (typeof buildGrid === 'function') {
             buildGrid(total);
@@ -6443,15 +6434,7 @@ The Beatles"
         }
 
         // New animation functions for special effects
-        function animateFreeze(teamId) {
-          const teamCard = document.getElementById(`teamCard${teamId}`);
-          if (teamCard) {
-            teamCard.style.animation = "sad 1.5s ease-in-out";
-            setTimeout(() => {
-              teamCard.style.animation = "";
-            }, 1500);
-          }
-        }
+
 
         function animateShield(teamId) {
           const teamCard = document.getElementById(`teamCard${teamId}`);
@@ -6608,20 +6591,7 @@ The Beatles"
               </div>
               
               <!-- New Special Items -->
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8em;background:#f8f9fa;border-radius:8px;">
-                <div style="display:flex;align-items:center;gap:0.8em;">
-                  <span style="font-size:1.5em;">❄️</span>
-                  <span style="font-weight:600;color:#333;">Freeze</span>
-                </div>
-                <select id="libraryFreezeCount" style="padding:0.5em;border:1px solid #ddd;border-radius:4px;background:#fff;">
-                  <option>0</option>
-                  <option>1</option>
-                  <option selected>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                </select>
-              </div>
+
               
               <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8em;background:#f8f9fa;border-radius:8px;">
                 <div style="display:flex;align-items:center;gap:0.8em;">
