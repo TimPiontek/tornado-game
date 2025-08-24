@@ -4070,6 +4070,7 @@ The Beatles"
         
         // Team status tracking for special effects
         let teamStatus = {};
+        let pendingPromises = []; // Track pending points breakdown promises
 
         // Single Player Checkbox logic
         singlePlayerCheckbox.addEventListener("change", function () {
@@ -5039,9 +5040,18 @@ The Beatles"
               finalTotal: finalTotal
             };
             
-            showPointsPopup(finalTotal, me, breakdown);
-            showSpecialPopup("🦁🦁", "Double Lion Roar! Double your points!");
-            animateScore(me, "double-bounce");
+            // Wait for points breakdown to be dismissed before continuing
+            const breakdownPromise = showPointsPopup(finalTotal, me, breakdown);
+            if (breakdownPromise) {
+              pendingPromises.push(breakdownPromise); // Track this promise
+              breakdownPromise.then(() => {
+                showSpecialPopup("🦁🦁", "Double Lion Roar! Double your points!");
+                animateScore(me, "double-bounce");
+              });
+            } else {
+              showSpecialPopup("🦁🦁", "Double Lion Roar! Double your points!");
+              animateScore(me, "double-bounce");
+            }
           } else if (r.type === "shield") {
             // Shield effect - give points AND shield
             pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
@@ -5055,15 +5065,28 @@ The Beatles"
               finalTotal: pointsEarned
             };
             
-            showPointsPopup(out, me, breakdown);
-            
-            // Then show shield effect (but don't return - let game continue)
-            setTimeout(() => {
-              teamStatus[me] = teamStatus[me] || {};
-              teamStatus[me].shield = true;
-              teamStatus[me].shieldUsed = false; // Mark as not used yet
-              showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!");
-            }, 1000);
+            // Wait for points breakdown to be dismissed before continuing
+            const breakdownPromise = showPointsPopup(out, me, breakdown);
+            if (breakdownPromise) {
+              pendingPromises.push(breakdownPromise); // Track this promise
+              breakdownPromise.then(() => {
+                // Then show shield effect
+                setTimeout(() => {
+                  teamStatus[me] = teamStatus[me] || {};
+                  teamStatus[me].shield = true;
+                  teamStatus[me].shieldUsed = false; // Mark as not used yet
+                  showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!");
+                }, 1000);
+              });
+            } else {
+              // Then show shield effect (but don't return - let game continue)
+              setTimeout(() => {
+                teamStatus[me] = teamStatus[me] || {};
+                teamStatus[me].shield = true;
+                teamStatus[me].shieldUsed = false; // Mark as not used yet
+                showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!");
+              }, 1000);
+            }
             // No return - game continues to next team
           } else if (r.type === "hotStreak") {
             // Hot Streak effect - give points AND hot streak
@@ -5078,21 +5101,40 @@ The Beatles"
               finalTotal: pointsEarned
             };
             
-            showPointsPopup(out, me, breakdown);
-            
-            // Then show hot streak effect (but don't return - let game continue)
-            setTimeout(() => {
-              if (teamStatus[me]?.hotStreak) {
-                scores[me] += 100;
-                showSpecialPopup("🔥", "Hot Streak already active! +100 bonus points!");
-                animateScore(me, "hot-streak-bounce");
-              } else {
-                teamStatus[me] = teamStatus[me] || {};
-                teamStatus[me].hotStreak = true;
-                teamStatus[me].hotStreakUsed = false; // Mark as not used yet
-                showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!");
-              }
-            }, 1000);
+            // Wait for points breakdown to be dismissed before continuing
+            const breakdownPromise = showPointsPopup(out, me, breakdown);
+            if (breakdownPromise) {
+              pendingPromises.push(breakdownPromise); // Track this promise
+              breakdownPromise.then(() => {
+                // Then show hot streak effect
+                setTimeout(() => {
+                  if (teamStatus[me]?.hotStreak) {
+                    scores[me] += 100;
+                    showSpecialPopup("🔥", "Hot Streak already active! +100 bonus points!");
+                    animateScore(me, "hot-streak-bounce");
+                  } else {
+                    teamStatus[me] = teamStatus[me] || {};
+                    teamStatus[me].hotStreak = true;
+                    teamStatus[me].hotStreakUsed = false; // Mark as not used yet
+                    showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!");
+                  }
+                }, 1000);
+              });
+            } else {
+              // Then show hot streak effect (but don't return - let game continue)
+              setTimeout(() => {
+                if (teamStatus[me]?.hotStreak) {
+                  scores[me] += 100;
+                  showSpecialPopup("🔥", "Hot Streak already active! +100 bonus points!");
+                  animateScore(me, "hot-streak-bounce");
+                } else {
+                  teamStatus[me] = teamStatus[me] || {};
+                  teamStatus[me].hotStreak = true;
+                  teamStatus[me].hotStreakUsed = false; // Mark as not used yet
+                  showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!");
+                }
+              }, 1000);
+            }
             // No return - game continues to next team
           } else if (r.type === "coinFlip") {
             // Coin Flip effect - give points AND coin flip
@@ -5107,12 +5149,22 @@ The Beatles"
               finalTotal: pointsEarned
             };
             
-            showPointsPopup(out, me, breakdown);
-            
-            // Then show coin flip modal
-            setTimeout(() => {
-              showCoinFlipModal();
-            }, 1000);
+            // Wait for points breakdown to be dismissed before continuing
+            const breakdownPromise = showPointsPopup(out, me, breakdown);
+            if (breakdownPromise) {
+              pendingPromises.push(breakdownPromise); // Track this promise
+              breakdownPromise.then(() => {
+                // Then show coin flip modal
+                setTimeout(() => {
+                  showCoinFlipModal();
+                }, 1000);
+              });
+            } else {
+              // Then show coin flip modal
+              setTimeout(() => {
+                showCoinFlipModal();
+              }, 1000);
+            }
             // No return - game continues to next team
           }
           
@@ -5175,10 +5227,22 @@ The Beatles"
             if (qIndex >= usedQuestionIndices.length) qIndex = 0;
             updateTurn();
             
-            // Show next question in modal - increased delay to allow popups to be read
-            setTimeout(() => {
-              showQuestion();
-            }, 3000);
+            // Wait for all pending promises (points breakdowns) to resolve before showing next question
+            if (pendingPromises.length > 0) {
+              Promise.all(pendingPromises).then(() => {
+                // Clear the promises array
+                pendingPromises = [];
+                // Show next question after a short delay
+                setTimeout(() => {
+                  showQuestion();
+                }, 1000);
+              });
+            } else {
+              // No pending promises, show next question normally
+              setTimeout(() => {
+                showQuestion();
+              }, 3000);
+            }
             
             // If single player and it's now Android's turn, trigger computer move
             if (singlePlayer && turn === "B") {
@@ -5706,19 +5770,22 @@ The Beatles"
               </div>
             `;
             
-            // Add click handler to continue
-            specialPopup.onclick = () => {
-              console.log("Points breakdown clicked - hiding popup");
-              specialPopup.classList.remove("show");
-              setTimeout(() => {
-                if (specialPopup) {
-                  specialPopup.classList.add("hidden");
-                  specialPopup.classList.remove("points-mode");
-                  specialPopup.onclick = null; // Remove click handler
-                  console.log("Points breakdown hidden");
-                }
-              }, 400);
-            };
+            // Return a promise that resolves when the popup is dismissed
+            return new Promise((resolve) => {
+              specialPopup.onclick = () => {
+                console.log("Points breakdown clicked - hiding popup");
+                specialPopup.classList.remove("show");
+                setTimeout(() => {
+                  if (specialPopup) {
+                    specialPopup.classList.add("hidden");
+                    specialPopup.classList.remove("points-mode");
+                    specialPopup.onclick = null; // Remove click handler
+                    console.log("Points breakdown hidden");
+                    resolve(); // Resolve the promise when dismissed
+                  }
+                }, 400);
+              };
+            });
           } else {
             // Show simple points
             specialPopup.innerHTML = `<div class="points-reveal-animation points-text-glow">${points}</div>`;
@@ -5744,6 +5811,9 @@ The Beatles"
               }
             }, 3500);
           }
+          
+          // Return undefined for simple points (no promise needed)
+          return undefined;
         }
 
         // 1. Make quiz titles in 'My Library' clickable and add detail page
@@ -6249,8 +6319,9 @@ The Beatles"
           wagerError.style.display = "none";
           scoresDiv.style.display = "block";
           
-          // Populate team scores display
-          scoresDisplay.innerHTML = teamOrder.map(teamId => {
+          // Populate team scores display - only show teams that are actually playing
+          const activeTeams = teamOrder.slice(0, teamCount); // Only show teams up to teamCount
+          scoresDisplay.innerHTML = activeTeams.map(teamId => {
             const teamColor = teamColors[teamId] || "#6f5c91";
             const isCurrentTeam = teamId === turn;
             return `
