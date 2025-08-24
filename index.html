@@ -4891,6 +4891,7 @@ The Beatles"
             if (teamStatus[me]?.shield) {
               // Shield blocks the effect
               teamStatus[me].shield = false;
+              teamStatus[me].shieldUsed = true;
               out = "🛡️";
               showSpecialPopup("🛡️", "Shield blocked the Skunk effect!");
               animateShieldBlock(me);
@@ -4926,6 +4927,7 @@ The Beatles"
             if (teamStatus[targetTeam]?.shield) {
               // Shield blocks the effect
               teamStatus[targetTeam].shield = false;
+              teamStatus[targetTeam].shieldUsed = true;
               out = "🛡️";
               showSpecialPopup("🛡️", `${names[targetTeam]}'s Shield blocked the Tornado!`);
               animateShieldBlock(targetTeam);
@@ -4990,29 +4992,12 @@ The Beatles"
             showSpecialPopup("🦁🦁", "Double Lion Roar! Double your points!");
             animateScore(me, "double-bounce");
           } else if (r.type === "freeze") {
-            // Freeze effect - give points AND freeze
+            // Freeze effect - give points only (no more freezing teams)
             pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
             scores[me] += pointsEarned;
             out = pointsEarned;
             btn.style.color = teamColors[me];
             showPointsPopup(out, me);
-            
-            // Then show freeze effect (but don't return - let game continue)
-            setTimeout(() => {
-              // If more than 2 teams, let the player choose which team to freeze
-              if (teamCount > 2) {
-                showTeamSelectionModal(me, "freeze");
-              } else {
-                // Just 2 teams, freeze the other team directly
-                let targetTeam = teamOrder.find(id => id !== me);
-                if (targetTeam) {
-                  teamStatus[targetTeam] = teamStatus[targetTeam] || {};
-                  teamStatus[targetTeam].frozen = (teamStatus[targetTeam].frozen || 0) + 1;
-                  showSpecialPopup("❄️", `${names[targetTeam]} is frozen! Skips next turn!`);
-                  animateFreeze(targetTeam);
-                }
-              }
-            }, 1000);
             // No return - game continues to next team
           } else if (r.type === "shield") {
             // Shield effect - give points AND shield
@@ -5026,6 +5011,7 @@ The Beatles"
             setTimeout(() => {
               teamStatus[me] = teamStatus[me] || {};
               teamStatus[me].shield = true;
+              teamStatus[me].shieldUsed = false; // Mark as not used yet
               showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!");
             }, 1000);
             // No return - game continues to next team
@@ -5046,6 +5032,7 @@ The Beatles"
               } else {
                 teamStatus[me] = teamStatus[me] || {};
                 teamStatus[me].hotStreak = true;
+                teamStatus[me].hotStreakUsed = false; // Mark as not used yet
                 showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!");
               }
             }, 1000);
@@ -5060,7 +5047,7 @@ The Beatles"
             
             // Then show coin flip modal
             setTimeout(() => {
-              showCoinFlipModal(pointsEarned);
+              showCoinFlipModal();
             }, 1000);
             // No return - game continues to next team
           }
@@ -5108,7 +5095,10 @@ The Beatles"
               turn = teamOrder[currentIndex];
             } while (teamStatus[turn]?.frozen > 0);
             
-            // Reduce freeze count
+            // Clear team status effects that should disappear after turn
+            clearTeamStatusEffects();
+            
+            // Reduce freeze count (keeping this for now but it won't matter since we're removing freeze)
             if (teamStatus[turn]?.frozen > 0) {
               teamStatus[turn].frozen--;
             }
@@ -5186,6 +5176,25 @@ The Beatles"
             }
           }
         }
+        function clearTeamStatusEffects() {
+          // Clear status effects that should disappear after each turn
+          for (let teamId in teamStatus) {
+            if (teamStatus[teamId]) {
+              // Clear shield after it's used (it's a one-time protection)
+              if (teamStatus[teamId].shieldUsed) {
+                teamStatus[teamId].shield = false;
+                teamStatus[teamId].shieldUsed = false;
+              }
+              
+              // Clear hot streak after it's used (it's a one-time bonus)
+              if (teamStatus[teamId].hotStreakUsed) {
+                teamStatus[teamId].hotStreak = false;
+                teamStatus[teamId].hotStreakUsed = false;
+              }
+            }
+          }
+        }
+        
         function updateTeamDisplay() {
           const teamGrid = document.getElementById("teamGrid");
           if (!teamGrid) return;
@@ -5195,21 +5204,13 @@ The Beatles"
           for (let i = 0; i < teamCount; i++) {
             const teamId = teamOrder[i];
             const teamCard = document.createElement("div");
-            teamCard.className = `team-card ${turn === teamId ? 'active' : ''} ${teamStatus[teamId]?.frozen > 0 ? 'frozen' : ''}`;
+            teamCard.className = `team-card ${turn === teamId ? 'active' : ''}`;
             teamCard.id = `teamCard${teamId}`;
             
             const statusDiv = document.createElement("div");
             statusDiv.className = "team-status";
             
-            // Add status icons
-            if (teamStatus[teamId]?.frozen > 0) {
-              const freezeIcon = document.createElement("div");
-              freezeIcon.className = "status-icon freeze-icon";
-              freezeIcon.innerHTML = "❄️";
-              freezeIcon.title = `Skips next ${teamStatus[teamId].frozen} turn(s)`;
-              statusDiv.appendChild(freezeIcon);
-            }
-            
+            // Add status icons (only show active effects)
             if (teamStatus[teamId]?.shield) {
               const shieldIcon = document.createElement("div");
               shieldIcon.className = "status-icon shield-icon";
@@ -6108,33 +6109,34 @@ The Beatles"
         }
 
         // Coin Flip Modal Functions
-        function showCoinFlipModal(pointsAtStake) {
+        function showCoinFlipModal() {
           const modal = document.getElementById("coinFlipModal");
           const description = document.getElementById("coinFlipDescription");
           const resultDiv = document.getElementById("coinFlipResult");
           const buttons = document.getElementById("coinFlipButtons");
+          const wagerDiv = document.getElementById("coinFlipWager");
+          const wagerInput = document.getElementById("wagerInput");
+          const wagerError = document.getElementById("wagerError");
           
-          if (!modal || !description || !resultDiv || !buttons) {
+          if (!modal || !description || !resultDiv || !buttons || !wagerDiv || !wagerInput || !wagerError) {
             console.error("Coin flip modal elements not found!");
             return;
           }
           
-          if (pointsAtStake === 0) {
-            description.innerHTML = "No points at stake. You can still choose Heads or Tails for fun, or Skip.";
-          } else {
-            description.innerHTML = `Choose Heads or Tails. If you are right, your revealed points (${pointsAtStake}) are doubled. If you are wrong, you lose those revealed points.`;
-          }
-          
           // Reset modal state
           resultDiv.style.display = "none";
+          wagerDiv.style.display = "block";
           buttons.style.display = "flex";
+          wagerError.style.display = "none";
+          
+          // Set wager input max value to current team's score
+          wagerInput.max = scores[turn];
+          wagerInput.value = "";
+          wagerInput.placeholder = `Max: ${scores[turn]}`;
           
           // Show modal
           modal.style.display = "flex";
           modal.classList.remove("hidden");
-          
-          // Store points at stake for later use
-          modal.dataset.pointsAtStake = pointsAtStake;
           
           // Ensure event handlers are attached
           attachCoinFlipHandlers();
@@ -6201,18 +6203,37 @@ The Beatles"
           console.log("handleCoinFlip called with choice:", choice);
           
           const modal = document.getElementById("coinFlipModal");
-          const pointsAtStake = parseInt(modal.dataset.pointsAtStake) || 0;
+          const wagerInput = document.getElementById("wagerInput");
+          const wagerError = document.getElementById("wagerError");
           const resultDiv = document.getElementById("coinFlipResult");
           const buttons = document.getElementById("coinFlipButtons");
           const animation = document.getElementById("coinFlipAnimation");
           const outcome = document.getElementById("coinFlipOutcome");
           
-          if (!modal || !resultDiv || !buttons || !animation || !outcome) {
+          if (!modal || !wagerInput || !wagerError || !resultDiv || !buttons || !animation || !outcome) {
             console.error("Coin flip result elements not found!");
             return;
           }
           
-          // Hide buttons, show result
+          // Get wager amount
+          const wager = parseInt(wagerInput.value);
+          const maxWager = scores[turn];
+          
+          // Validate wager
+          if (!wager || wager <= 0) {
+            wagerError.textContent = "Please enter a valid wager amount!";
+            wagerError.style.display = "block";
+            return;
+          }
+          
+          if (wager > maxWager) {
+            wagerError.textContent = "Wager cannot exceed your team's total points!";
+            wagerError.style.display = "block";
+            return;
+          }
+          
+          // Hide wager input and buttons, show result
+          document.getElementById("coinFlipWager").style.display = "none";
           buttons.style.display = "none";
           resultDiv.style.display = "block";
           
@@ -6223,7 +6244,7 @@ The Beatles"
           const isCorrect = Math.random() < 0.5;
           const result = isCorrect ? choice : (choice === "heads" ? "tails" : "heads");
           
-          console.log("Coin flip result:", result, "Correct:", isCorrect);
+          console.log("Coin flip result:", result, "Correct:", isCorrect, "Wager:", wager);
           
           setTimeout(() => {
             animation.classList.remove("coin-flipping");
@@ -6232,15 +6253,15 @@ The Beatles"
             
             if (isCorrect) {
               outcome.style.color = "#4caf50";
-              outcome.textContent += " - CORRECT! +" + pointsAtStake;
-              scores[turn] += pointsAtStake;
-              console.log("Player won! Added", pointsAtStake, "points");
+              outcome.textContent += " - CORRECT! +" + wager;
+              scores[turn] += wager;
+              console.log("Player won! Added", wager, "points");
             } else {
               outcome.style.color = "#f44336";
-              outcome.textContent += " - WRONG! -" + pointsAtStake;
-              scores[turn] -= pointsAtStake;
+              outcome.textContent += " - WRONG! -" + wager;
+              scores[turn] -= wager;
               if (scores[turn] < 0) scores[turn] = 0;
-              console.log("Player lost! Subtracted", pointsAtStake, "points");
+              console.log("Player lost! Subtracted", wager, "points");
             }
             
             updateScores();
@@ -6269,7 +6290,6 @@ The Beatles"
           
           let actionText = "";
           if (action === "steal") actionText = "🌪️ Choose which team to steal points from:";
-          else if (action === "freeze") actionText = "❄️ Choose which team to freeze:";
           
           modal.innerHTML = `
             <div style="background:#fff;padding:2em;border-radius:16px;max-width:500px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);">
@@ -6295,6 +6315,7 @@ The Beatles"
             // Steal points from selected team
             if (teamStatus[targetTeam]?.shield) {
               teamStatus[targetTeam].shield = false;
+              teamStatus[targetTeam].shieldUsed = true;
               showSpecialPopup("🛡️", `${names[targetTeam]}'s Shield blocked the Tornado!`);
               animateShieldBlock(targetTeam);
             } else {
@@ -6303,12 +6324,6 @@ The Beatles"
               showSpecialPopup("🌪️", `Tornado! Stole ${names[targetTeam]}'s points!`, true);
               animateKangarooSwap();
             }
-          } else if (action === "freeze") {
-            // Freeze selected team
-            teamStatus[targetTeam] = teamStatus[targetTeam] || {};
-            teamStatus[targetTeam].frozen = (teamStatus[targetTeam].frozen || 0) + 1;
-            showSpecialPopup("❄️", `${names[targetTeam]} is frozen! Skips next turn!`);
-            animateFreeze(targetTeam);
           }
           
           updateScores();
@@ -6558,7 +6573,13 @@ The Beatles"
     <div id="coinFlipModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(49,114,122,0.9);z-index:2500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
       <div style="background:#fff;padding:2.5em 3em;border-radius:20px;max-width:500px;width:95vw;box-shadow:0 8px 32px rgba(0,0,0,0.18);position:relative;text-align:center;">
         <h2 style="margin:0 0 1em 0;color:#6F5C91;font-size:2rem;">🪙 Coin Flip</h2>
-        <p id="coinFlipDescription" style="margin:0 0 2em 0;color:#666;font-size:1.1rem;">Choose Heads or Tails. If you are right, your revealed points are doubled. If you are wrong, you lose those revealed points.</p>
+        <p id="coinFlipDescription" style="margin:0 0 2em 0;color:#666;font-size:1.1rem;">Enter your wager amount and choose Heads or Tails. If you're right, you double your wager. If you're wrong, you lose your wager.</p>
+        
+        <div id="coinFlipWager" style="margin:2em 0;">
+          <label for="wagerInput" style="display:block;margin-bottom:0.5em;color:#666;font-weight:600;">Wager Amount:</label>
+          <input type="number" id="wagerInput" min="1" style="padding:0.8em;border:2px solid #ddd;border-radius:8px;font-size:1.1rem;width:150px;text-align:center;" placeholder="Enter amount">
+          <div id="wagerError" style="color:#f44336;font-size:0.9rem;margin-top:0.5em;display:none;">Wager cannot exceed your team's total points!</div>
+        </div>
         
         <div id="coinFlipResult" style="display:none;margin:2em 0;">
           <div id="coinFlipAnimation" style="font-size:4rem;margin:1em 0;">🪙</div>
