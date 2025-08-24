@@ -2566,7 +2566,7 @@ The Beatles"
               .from("quizzes")
               .select("*")
               .eq("is_public", true)
-              .order("created_at", { ascending: false });
+              .order("title", { ascending: true }); // Sort by title A-Z
             
             if (error) {
               console.error("Database error, using fallback quizzes:", error);
@@ -2590,9 +2590,22 @@ The Beatles"
                 categories[cat].root.push({ ...quiz, index: i });
               }
             });
+            
+            // Sort quizzes within each category/folder by title (A-Z)
+            Object.keys(categories).forEach(cat => {
+              // Sort root quizzes by title
+              categories[cat].root.sort((a, b) => a.title.localeCompare(b.title));
+              
+              // Sort quizzes within each folder by title
+              Object.keys(categories[cat].folders).forEach(folder => {
+                categories[cat].folders[folder].sort((a, b) => a.title.localeCompare(b.title));
+              });
+            });
+            
             // Build folder UI
             let html =
               '<div id="publicLibraryList" style="width:100%;max-width:700px;text-align:left;margin:0 auto;">';
+            html += '<div style="text-align:center;margin-bottom:1.5em;color:#666;font-size:0.9em;">📚 Quizzes sorted alphabetically by title</div>';
             Object.keys(categories)
               .sort((a, b) => a.localeCompare(b))
               .forEach((cat) => {
@@ -2812,7 +2825,7 @@ The Beatles"
               .from("quizzes")
               .select("*")
               .eq("owner", user.id)
-              .order("created_at", { ascending: false });
+              .order("title", { ascending: true }); // Sort by title A-Z
 
           if (createdError) {
             document.getElementById("myLibraryList").innerHTML =
@@ -2864,6 +2877,12 @@ The Beatles"
               folderGroups["Uncategorized"].push(q);
             }
           });
+          
+          // Sort quizzes within each folder by title (A-Z)
+          Object.keys(folderGroups).forEach(folder => {
+            folderGroups[folder].sort((a, b) => a.title.localeCompare(b.title));
+          });
+          
           // Render folders (collapsible), always show all folders
           let html = "";
           Object.keys(folderGroups).forEach((folder) => {
@@ -3519,7 +3538,7 @@ The Beatles"
               .from("quizzes")
               .select("*")
               .eq("is_public", true)
-              .order("created_at", { ascending: false });
+              .order("title", { ascending: true }); // Sort by title A-Z
             
             if (error) {
               console.error("Database error, using fallback quizzes:", error);
@@ -4233,6 +4252,18 @@ The Beatles"
               categories[cat].root.push({ ...quiz, index: i });
             }
           });
+          
+          // Sort quizzes within each category/folder by title (A-Z)
+          Object.keys(categories).forEach(cat => {
+            // Sort root quizzes by title
+            categories[cat].root.sort((a, b) => a.title.localeCompare(b.title));
+            
+            // Sort quizzes within each folder by title
+            Object.keys(categories[cat].folders).forEach(folder => {
+              categories[cat].folders[folder].sort((a, b) => a.title.localeCompare(b.title));
+            });
+          });
+          
           // Build dropdown list (no <details> or <summary>)
           customQuizDropdownList = document.createElement("div");
           customQuizDropdownList.className = "custom-quiz-dropdown-list";
