@@ -1635,6 +1635,112 @@
           gap: 1.5em !important;
         }
       }
+
+      /* Question Modal Styles */
+      .question-action-btn {
+        padding: 1em 1.5em;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5em;
+        min-height: 60px;
+      }
+
+      .correct-btn {
+        background: #4caf50;
+        color: white;
+      }
+
+      .correct-btn:hover {
+        background: #45a049;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+      }
+
+      .incorrect-btn {
+        background: #f44336;
+        color: white;
+      }
+
+      .incorrect-btn:hover {
+        background: #da190b;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+      }
+
+      .secondary-btn {
+        background: #6f5c91;
+        color: white;
+      }
+
+      .secondary-btn:hover {
+        background: #59487a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(111, 92, 145, 0.3);
+      }
+
+      #closeQuestionModal:hover {
+        opacity: 1 !important;
+        color: #e57373 !important;
+        transform: scale(1.1);
+      }
+
+      /* Question Modal Animation */
+      @keyframes questionModalSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-30px) scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      #questionModal > div {
+        animation: questionModalSlideIn 0.4s ease-out;
+      }
+
+      /* Answer transition effects */
+      #modalAnswer {
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      #modalAnswer[style*="display: flex"] {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Responsive design for question modal */
+      @media (max-width: 700px) {
+        #questionModal > div {
+          padding: 2em 1.5em !important;
+          margin: 1em;
+        }
+        
+        #modalQuestion {
+          font-size: 2rem !important;
+          min-height: 100px !important;
+        }
+        
+        #modalAnswer {
+          font-size: 1.5rem !important;
+          min-height: 60px !important;
+        }
+        
+        .question-action-btn {
+          font-size: 1rem !important;
+          padding: 0.8em 1.2em !important;
+        }
+      }
     </style>
   </head>
 
@@ -2194,6 +2300,49 @@ The Beatles"
         </div>
       </div>
 
+      <!-- New Question Modal -->
+      <div id="questionModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(49,114,122,0.9);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+        <div style="background:#fff;padding:3em 4em;border-radius:24px;max-width:800px;width:95vw;box-shadow:0 12px 48px rgba(0,0,0,0.25);position:relative;text-align:center;">
+          <!-- Close button (for emergencies) -->
+          <button id="closeQuestionModal" style="position:absolute;top:15px;right:20px;background:none;border:none;font-size:2em;cursor:pointer;color:#6F5C91;opacity:0.7;">&times;</button>
+          
+          <!-- Question Display -->
+          <div id="modalQuestion" style="font-size:2.5rem;font-weight:700;color:#6F5C91;margin-bottom:2em;line-height:1.3;min-height:120px;display:flex;align-items:center;justify-content:center;"></div>
+          
+          <!-- Answer Display (hidden initially) -->
+          <div id="modalAnswer" style="font-size:2rem;font-weight:600;color:#31727a;margin-bottom:2.5em;line-height:1.3;min-height:80px;display:none;align-items:center;justify-content:center;font-style:italic;"></div>
+          
+          <!-- Action Buttons -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5em;margin-bottom:2em;">
+            <button id="correctBtn" class="question-action-btn correct-btn">
+              <span style="font-size:1.5em;">✅</span>
+              <span>Correct!</span>
+            </button>
+            <button id="incorrectBtn" class="question-action-btn incorrect-btn">
+              <span style="font-size:1.5em;">❌</span>
+              <span>Incorrect</span>
+            </button>
+          </div>
+          
+          <!-- Secondary Action Buttons -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1em;">
+            <button id="skipQuestionBtn" class="question-action-btn secondary-btn">
+              <span style="font-size:1.3em;">⏭️</span>
+              <span>Skip Question</span>
+            </button>
+            <button id="changeTeamsBtn" class="question-action-btn secondary-btn">
+              <span style="font-size:1.3em;">🔄</span>
+              <span>Change Teams</span>
+            </button>
+            <button id="revealAnswerBtn" class="question-action-btn secondary-btn">
+              <span style="font-size:1.3em;">👁️</span>
+              <span>Reveal Answer</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Old question display (keeping for now, will remove later) -->
       <div id="questionAnswerRow" style="display: none">
         <div id="questionBubble" class="bubble-left">
           <div id="question"></div>
@@ -3722,15 +3871,31 @@ The Beatles"
           passBtn.onclick = () => {
             turn = turn === "A" ? "B" : "A";
             updateTurn();
+            
+            // Hide current modal and show next question
+            const questionModal = document.getElementById("questionModal");
+            if (questionModal && !questionModal.classList.contains("hidden")) {
+              questionModal.style.display = "none";
+              questionModal.classList.add("hidden");
+            }
+            
             showQuestion();
             // In single player mode, if it's now the computer's turn, trigger computer move
             if (singlePlayer && turn === "B") {
-              setTimeout(computerTurn, 1500);
+              setTimeout(computerTurn, 2000);
             }
           };
         if (skipBtn)
           skipBtn.onclick = () => {
             qIndex = (qIndex + 1) % usedQuestionIndices.length;
+            
+            // Hide current modal and show next question
+            const questionModal = document.getElementById("questionModal");
+            if (questionModal && !questionModal.classList.contains("hidden")) {
+              questionModal.style.display = "none";
+              questionModal.classList.add("hidden");
+            }
+            
             showQuestion();
           };
         if (revealBtn)
@@ -3751,6 +3916,145 @@ The Beatles"
             );
           };
 
+        // === NEW QUESTION MODAL BUTTON HANDLERS ===
+        
+        // Correct button - show answer, hide modal, show board
+        if (document.getElementById("correctBtn")) {
+          document.getElementById("correctBtn").onclick = () => {
+            const qObj = questions[usedQuestionIndices[qIndex]] || {
+              question: "",
+              answer: null,
+            };
+            
+            // Show answer with animation
+            const modalAnswer = document.getElementById("modalAnswer");
+            modalAnswer.textContent = qObj.answer || "No answer provided";
+            modalAnswer.style.display = "flex";
+            modalAnswer.style.animation = "questionModalSlideIn 0.3s ease-out";
+            
+            // Hide modal after a short delay to show the answer
+            setTimeout(() => {
+              const questionModal = document.getElementById("questionModal");
+              questionModal.style.display = "none";
+              questionModal.classList.add("hidden");
+              
+              // Ensure the grid is visible for number selection
+              gridEl.style.display = "grid";
+              gridEl.style.visibility = "visible";
+            }, 2000); // Show answer for 2 seconds
+          };
+        }
+
+        // Incorrect button - show options
+        if (document.getElementById("incorrectBtn")) {
+          document.getElementById("incorrectBtn").onclick = () => {
+            // Show the secondary action buttons more prominently
+            const secondaryButtons = document.querySelectorAll('.secondary-btn');
+            secondaryButtons.forEach(btn => {
+              btn.style.transform = 'scale(1.05)';
+              btn.style.boxShadow = '0 6px 20px rgba(111, 92, 145, 0.4)';
+            });
+            
+            // Add a subtle highlight to indicate these are now the focus
+            const modalAnswer = document.getElementById("modalAnswer");
+            if (modalAnswer) {
+              modalAnswer.innerHTML = '<span style="color:#f44336;font-style:normal;">Choose an action below:</span>';
+              modalAnswer.style.display = "flex";
+            }
+            
+            // Reset after animation
+            setTimeout(() => {
+              secondaryButtons.forEach(btn => {
+                btn.style.transform = '';
+                btn.style.boxShadow = '';
+              });
+            }, 300);
+          };
+        }
+
+        // Skip question button
+        if (document.getElementById("skipQuestionBtn")) {
+          document.getElementById("skipQuestionBtn").onclick = () => {
+            // Go to next question
+            qIndex = (qIndex + 1) % usedQuestionIndices.length;
+            
+            // Hide modal and show next question
+            const questionModal = document.getElementById("questionModal");
+            questionModal.style.display = "none";
+            questionModal.classList.add("hidden");
+            
+            // Small delay for smooth transition
+            setTimeout(() => {
+              showQuestion();
+            }, 150);
+          };
+        }
+
+        // Change teams button
+        if (document.getElementById("changeTeamsBtn")) {
+          document.getElementById("changeTeamsBtn").onclick = () => {
+            // Switch teams
+            turn = turn === "A" ? "B" : "A";
+            updateTurn();
+            
+            // Hide modal and show next question
+            const questionModal = document.getElementById("questionModal");
+            questionModal.style.display = "none";
+            questionModal.classList.add("hidden");
+            
+            // Small delay for smooth transition
+            setTimeout(() => {
+              showQuestion();
+            }, 100);
+          };
+        }
+
+        // Reveal answer button
+        if (document.getElementById("revealAnswerBtn")) {
+          document.getElementById("revealAnswerBtn").onclick = () => {
+            const qObj = questions[usedQuestionIndices[qIndex]] || {
+              question: "",
+              answer: null,
+            };
+            
+            // Show answer with animation
+            const modalAnswer = document.getElementById("modalAnswer");
+            modalAnswer.textContent = qObj.answer || "No answer provided";
+            modalAnswer.style.display = "flex";
+            modalAnswer.style.animation = "questionModalSlideIn 0.3s ease-out";
+          };
+        }
+
+        // Close question modal button
+        if (document.getElementById("closeQuestionModal")) {
+          document.getElementById("closeQuestionModal").onclick = () => {
+            const questionModal = document.getElementById("questionModal");
+            questionModal.style.display = "none";
+            questionModal.classList.add("hidden");
+          };
+        }
+
+        // Close modal when clicking outside
+        if (document.getElementById("questionModal")) {
+          document.getElementById("questionModal").onclick = function(e) {
+            if (e.target === this) {
+              this.style.display = "none";
+              this.classList.add("hidden");
+            }
+          };
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            const questionModal = document.getElementById("questionModal");
+            if (questionModal && !questionModal.classList.contains("hidden")) {
+              questionModal.style.display = "none";
+              questionModal.classList.add("hidden");
+            }
+          }
+        });
+
         if (resetBtn)
           resetBtn.onclick = () => {
             // Get current special item counts
@@ -3770,6 +4074,14 @@ The Beatles"
             // Fully reset game state and grid
             initGame(tornadoCount, doubleCount, loseCount, swapCount);
             buildGrid(total);
+            
+            // Hide question modal if it's open
+            const questionModal = document.getElementById("questionModal");
+            if (questionModal) {
+              questionModal.style.display = "none";
+              questionModal.classList.add("hidden");
+            }
+            
             showQuestion();
           };
         if (document.getElementById("homeBtn")) {
@@ -3788,6 +4100,14 @@ The Beatles"
             updateTurn();
             gridEl.innerHTML = "";
             document.getElementById("questionAnswerRow").style.display = "none";
+            
+            // Hide question modal if it's open
+            const questionModal = document.getElementById("questionModal");
+            if (questionModal) {
+              questionModal.style.display = "none";
+              questionModal.classList.add("hidden");
+            }
+            
             // No need to reassign selector values; UI is already reset
             showQuestion();
           };
@@ -3978,10 +4298,15 @@ The Beatles"
             qIndex++;
             if (qIndex >= usedQuestionIndices.length) qIndex = 0;
             updateTurn();
-            showQuestion();
+            
+            // Show next question in modal
+            setTimeout(() => {
+              showQuestion();
+            }, 1000); // Small delay for smooth transition
+            
             // If single player and it's now Android's turn, trigger computer move
             if (singlePlayer && turn === "B") {
-              setTimeout(computerTurn, 1500);
+              setTimeout(computerTurn, 2500); // Longer delay to account for modal
             }
           }
         }
@@ -3993,28 +4318,39 @@ The Beatles"
             question: "",
             answer: null,
           };
-          questionEl.textContent = qObj.question;
-          answerEl.textContent = "";
+          
           // Hide question bubble if no questions
           const questionRow = document.getElementById("questionAnswerRow");
           if (!qObj.question) {
             questionRow.style.display = "none";
             return;
-          } else {
-            questionRow.style.display = "flex";
           }
-          // Alternate bubble side based on team turn
-          const bubble = document.getElementById("questionBubble");
-          if (turn === "A") {
-            bubble.classList.add("bubble-left");
-            bubble.classList.remove("bubble-right");
-          } else {
-            bubble.classList.add("bubble-right");
-            bubble.classList.remove("bubble-left");
-          }
-          revealBtn.classList.toggle("hidden", !qObj.answer);
+          
+                  // Show the new question modal
+        const questionModal = document.getElementById("questionModal");
+        const modalQuestion = document.getElementById("modalQuestion");
+        const modalAnswer = document.getElementById("modalAnswer");
+        
+        // Set question text
+        modalQuestion.textContent = qObj.question;
+        modalAnswer.textContent = "";
+        modalAnswer.style.display = "none";
+        
+        // Show modal
+        questionModal.style.display = "flex";
+        questionModal.classList.remove("hidden");
+        
+        // Focus on the correct button for accessibility
+        const correctBtn = document.getElementById("correctBtn");
+        if (correctBtn) {
+          setTimeout(() => correctBtn.focus(), 100);
+        }
+        
+        // Hide the old question bubble
+        questionRow.style.display = "none";
+          
           console.log(
-            "DEBUG: Showing question:",
+            "DEBUG: Showing question in modal:",
             qObj.question,
             "| Expected answer:",
             qObj.answer
@@ -4198,27 +4534,34 @@ The Beatles"
             document.querySelectorAll("#grid button:not(:disabled)")
           );
           if (available.length === 0) return;
-          // Pick a random button
-          const btn = available[Math.floor(Math.random() * available.length)];
-          // Always answer correctly: reveal answer before picking
-          revealBtn.click();
-          // Check if special popup is visible after a short delay (to allow popup to show)
+          
+          // Always answer correctly: click correct button in modal
+          const correctBtn = document.getElementById("correctBtn");
+          if (correctBtn) {
+            correctBtn.click();
+          }
+          
+          // Pick a random button after the modal closes and board appears
           setTimeout(() => {
-            const popup = document.getElementById("specialPopup");
-            if (popup && popup.classList.contains("show")) {
-              // Wait for popup to disappear (2.65s), then wait 2.0s, then pick
-              setTimeout(() => {
+            const btn = available[Math.floor(Math.random() * available.length)];
+            // Check if special popup is visible after a short delay (to allow popup to show)
+            setTimeout(() => {
+              const popup = document.getElementById("specialPopup");
+              if (popup && popup.classList.contains("show")) {
+                // Wait for popup to disappear (2.65s), then wait 2.0s, then pick
+                setTimeout(() => {
+                  setTimeout(() => {
+                    btn.click();
+                  }, 2000);
+                }, 2650);
+              } else {
+                // No popup, normal delay
                 setTimeout(() => {
                   btn.click();
                 }, 2000);
-              }, 2650);
-            } else {
-              // No popup, normal delay
-              setTimeout(() => {
-                btn.click();
-              }, 2000);
-            }
-          }, 100); // Give popup a moment to appear
+              }
+            }, 100); // Give popup a moment to appear
+          }, 3000); // Wait for modal to close and board to appear
         }
 
         // --- Custom Expandable Quiz Dropdown Logic ---
