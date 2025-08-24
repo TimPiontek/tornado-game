@@ -1586,6 +1586,55 @@
       #turnDisplay {
         font-family: "Lexend Deca", sans-serif !important;
       }
+
+      /* Library Game Options Modal Styles */
+      #libraryGameOptionsModal input:focus,
+      #libraryGameOptionsModal select:focus {
+        border-color: #6f5c91 !important;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(111, 92, 145, 0.1);
+      }
+
+      #libraryGameOptionsModal input:hover,
+      #libraryGameOptionsModal select:hover {
+        border-color: #6f5c91;
+      }
+
+      #closeLibraryGameOptionsModal:hover {
+        color: #e57373 !important;
+        transform: scale(1.1);
+        transition: all 0.2s;
+      }
+
+      #startLibraryGameBtn:hover {
+        background: #59487a !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      /* Responsive design for modal */
+      @media (max-width: 700px) {
+        #libraryGameOptionsModal > div {
+          padding: 2em 1.5em !important;
+          margin: 1em;
+        }
+        
+        #libraryGameOptionsModal .grid {
+          grid-template-columns: 1fr !important;
+          gap: 1.5em !important;
+        }
+      }
     </style>
   </head>
 
@@ -3015,49 +3064,9 @@ The Beatles"
           console.log("quizId:", quizId);
           window.scrollTo(0, 0);
           if (!quizId) return alert("Quiz ID is required.");
-          if (quizId) {
-            const { data: quiz, error } = await supabaseClient
-              .from("quizzes")
-              .select("*")
-              .eq("id", quizId)
-              .single();
-
-            console.log(quiz, "quiz data");
-            if (!quiz) return alert("Quiz not found.");
-            // Start game with this quiz
-            // Set up game state as if selected from dropdown
-            questions =
-              quiz.questions && Array.isArray(quiz.questions)
-                ? quiz.questions.map((q) => ({
-                    question: q.question,
-                    answer: q.answer || null,
-                  }))
-                : [];
-            usedQuestionIndices = Array.from(
-              { length: questions.length },
-              (_, i) => i
-            );
-            // Shuffle if random order is selected
-            let order = "random";
-            qIndex = 0;
-            names.A = "Team A";
-            names.B = "Team B";
-            singlePlayer = false;
-            total = 20;
-            setupScreen.classList.add("hidden");
-            gameScreen.classList.remove("hidden");
-            librarySection.classList.add("hidden");
-            androidImg.style.display = "none";
-            nameBEl.textContent = names.B;
-            teamBNameContainer.classList.remove("single-player");
-            initGame(2, 2, 2, 1);
-            buildGrid(total);
-            showQuestion();
-            // Set the game title if you want (optional)
-            // document.title = quiz.title + ' - Play Tornado';
-            return;
-          }
-          // ... existing code for DB quizzes ...
+          
+          // Show game options modal for library quizzes
+          showGameOptionsModalFromLibrary(quizId);
         };
         window.saveQuizToMyLibrary = async function (quizId) {
           console.log(quizId, "quizId");
@@ -4673,6 +4682,122 @@ The Beatles"
         if (window.location.hash === "#my-library") {
           renderMyLibrary();
         }
+
+        // === LIBRARY GAME OPTIONS MODAL FUNCTIONS ===
+        
+        // Function to show game options modal for library quizzes
+        async function showGameOptionsModalFromLibrary(quizId) {
+          // Fetch the quiz data first
+          const { data: quiz, error } = await supabaseClient
+            .from("quizzes")
+            .select("*")
+            .eq("id", quizId)
+            .single();
+
+          if (error || !quiz) {
+            alert("Error loading quiz. Please try again.");
+            return;
+          }
+
+          // Show the library game options modal
+          const modal = document.getElementById('libraryGameOptionsModal');
+          modal.style.display = 'flex';
+          modal.classList.remove('hidden');
+
+          // Set quiz title
+          document.getElementById('libraryQuizTitle').textContent = quiz.title;
+          
+          // Set default values
+          document.getElementById('libraryTeamAName').value = 'Team A';
+          document.getElementById('libraryTeamBName').value = 'Team B';
+          document.getElementById('librarySinglePlayer').checked = false;
+          document.getElementById('libraryGridSize').value = '18';
+          document.getElementById('libraryTornadoCount').value = '2';
+          document.getElementById('libraryDoubleCount').value = '2';
+          document.getElementById('libraryLoseCount').value = '2';
+          document.getElementById('librarySwapCount').value = '1';
+
+          // Handle close button
+          document.getElementById('closeLibraryGameOptionsModal').onclick = function() {
+            modal.style.display = 'none';
+            modal.classList.add('hidden');
+          };
+
+          // Handle start game button
+          document.getElementById('startLibraryGameBtn').onclick = async function() {
+            // Get all the values
+            const teamA = document.getElementById('libraryTeamAName').value.trim() || 'Team A';
+            const teamB = document.getElementById('libraryTeamBName').value.trim() || 'Team B';
+            const singlePlayer = document.getElementById('librarySinglePlayer').checked;
+            const gridSize = +document.getElementById('libraryGridSize').value;
+            const tornadoCount = +document.getElementById('libraryTornadoCount').value;
+            const doubleCount = +document.getElementById('libraryDoubleCount').value;
+            const loseCount = +document.getElementById('libraryLoseCount').value;
+            const swapCount = +document.getElementById('librarySwapCount').value;
+
+            // Close modal
+            modal.style.display = 'none';
+            modal.classList.add('hidden');
+
+            // Start the game with these settings
+            await startGameWithSettings(quiz, {
+              teamA, teamB, singlePlayer, gridSize, 
+              tornadoCount, doubleCount, loseCount, swapCount
+            });
+          };
+        }
+
+        // Function to start game with specific settings
+        async function startGameWithSettings(quiz, settings) {
+          // Set up game state
+          questions = quiz.questions && Array.isArray(quiz.questions)
+            ? quiz.questions.map((q) => ({
+                question: q.question,
+                answer: q.answer || null,
+              }))
+            : [];
+          
+          usedQuestionIndices = Array.from(
+            { length: questions.length },
+            (_, i) => i
+          );
+          
+          // Shuffle questions
+          for (let i = usedQuestionIndices.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [usedQuestionIndices[i], usedQuestionIndices[j]] = [
+              usedQuestionIndices[j],
+              usedQuestionIndices[i],
+            ];
+          }
+          
+          qIndex = 0;
+          names.A = settings.teamA;
+          names.B = settings.singlePlayer ? 'Android' : settings.teamB;
+          singlePlayer = settings.singlePlayer;
+          total = settings.gridSize;
+          
+          // Hide library, show game
+          setupScreen.classList.add("hidden");
+          gameScreen.classList.remove("hidden");
+          librarySection.classList.add("hidden");
+          
+          // Show Android image if single player
+          if (settings.singlePlayer) {
+            androidImg.style.display = "inline-block";
+            nameBEl.textContent = "Android";
+            teamBNameContainer.classList.add("single-player");
+          } else {
+            androidImg.style.display = "none";
+            nameBEl.textContent = names.B;
+            teamBNameContainer.classList.remove("single-player");
+          }
+          
+          // Initialize and start game
+          initGame(settings.tornadoCount, settings.doubleCount, settings.loseCount, settings.swapCount);
+          buildGrid(total);
+          showQuestion();
+        }
       });
 
       window.onerror = function (message, source, lineno, colno, error) {
@@ -4696,5 +4821,130 @@ The Beatles"
         );
       };
     </script>
+
+    <!-- === LIBRARY GAME OPTIONS MODAL === -->
+    <div id="libraryGameOptionsModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(49,114,122,0.85);z-index:3000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+      <div style="background:#fff;padding:2.5em 3em;border-radius:20px;max-width:600px;width:95vw;box-shadow:0 8px 32px rgba(0,0,0,0.18);position:relative;animation:modalSlideIn 0.3s ease-out;">
+        <button id="closeLibraryGameOptionsModal" style="position:absolute;top:15px;right:15px;background:none;border:none;font-size:1.8em;cursor:pointer;color:#6F5C91;">&times;</button>
+        
+        <!-- Quiz Title Header -->
+        <div style="text-align:center;margin-bottom:2em;">
+          <h2 id="libraryQuizTitle" style="margin:0;color:#6F5C91;font-size:2rem;">Quiz Title</h2>
+          <p style="margin:0.5em 0 0 0;color:#666;font-size:1.1rem;">Customize your game settings</p>
+        </div>
+        
+        <!-- Game Settings Form -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2em;margin-bottom:2.5em;">
+          <!-- Left Column -->
+          <div>
+            <label style="display:block;margin-bottom:1em;">
+              <span style="display:block;margin-bottom:0.5em;font-weight:600;color:#333;">Team A Name:</span>
+              <input id="libraryTeamAName" type="text" value="Team A" style="width:100%;padding:0.8em;border:2px solid #e0e0e0;border-radius:8px;font-size:1rem;transition:border-color 0.2s;" placeholder="Team A">
+            </label>
+            
+            <label style="display:block;margin-bottom:1em;">
+              <span style="display:block;margin-bottom:0.5em;font-weight:600;color:#333;">Team B Name:</span>
+              <input id="libraryTeamBName" type="text" value="Team B" style="width:100%;padding:0.8em;border:2px solid #e0e0e0;border-radius:8px;font-size:1rem;transition:border-color 0.2s;" placeholder="Team B">
+            </label>
+            
+            <label style="display:flex;align-items:center;gap:0.8em;margin-bottom:1em;">
+              <input type="checkbox" id="librarySinglePlayer" style="width:1.2em;height:1.2em;">
+              <span style="font-weight:600;color:#333;">Single Player Mode</span>
+            </label>
+            
+            <label style="display:block;margin-bottom:1em;">
+              <span style="display:block;margin-bottom:0.5em;font-weight:600;color:#333;">Grid Size:</span>
+              <select id="libraryGridSize" style="width:100%;padding:0.8em;border:2px solid #e0e0e0;border-radius:8px;font-size:1rem;background:#fff;">
+                <option>8</option>
+                <option>10</option>
+                <option>16</option>
+                <option selected>18</option>
+                <option>20</option>
+                <option>24</option>
+                <option>30</option>
+                <option>32</option>
+                <option>40</option>
+              </select>
+            </label>
+          </div>
+          
+          <!-- Right Column - Special Items -->
+          <div>
+            <h3 style="margin:0 0 1em 0;color:#333;font-size:1.2rem;">Special Items</h3>
+            
+            <div style="display:flex;flex-direction:column;gap:1em;">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8em;background:#f8f9fa;border-radius:8px;">
+                <div style="display:flex;align-items:center;gap:0.8em;">
+                  <span style="font-size:1.5em;">🌪️</span>
+                  <span style="font-weight:600;color:#333;">Tornado</span>
+                </div>
+                <select id="libraryTornadoCount" style="padding:0.5em;border:1px solid #ddd;border-radius:4px;background:#fff;">
+                  <option>0</option>
+                  <option>1</option>
+                  <option selected>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+              
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8em;background:#f8f9fa;border-radius:8px;">
+                <div style="display:flex;align-items:center;gap:0.8em;">
+                  <span style="font-size:1.5em;">🦁🦁</span>
+                  <span style="font-weight:600;color:#333;">Double Lion</span>
+                </div>
+                <select id="libraryDoubleCount" style="padding:0.5em;border:1px solid #ddd;border-radius:4px;background:#fff;">
+                  <option>0</option>
+                  <option>1</option>
+                  <option selected>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+              
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8em;background:#f8f9fa;border-radius:8px;">
+                <div style="display:flex;align-items:center;gap:0.8em;">
+                  <span style="font-size:1em;">🦨</span>
+                  <span style="font-weight:600;color:#333;">Skunk</span>
+                </div>
+                <select id="libraryLoseCount" style="padding:0.5em;border:1px solid #ddd;border-radius:4px;background:#fff;">
+                  <option>0</option>
+                  <option>1</option>
+                  <option selected>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+              
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8em;background:#f8f9fa;border-radius:8px;">
+                <div style="display:flex;align-items:center;gap:0.8em;">
+                  <span style="font-size:1.5em;">🦘</span>
+                  <span style="font-weight:600;color:#333;">Kangaroo Hop</span>
+                </div>
+                <select id="librarySwapCount" style="padding:0.5em;border:1px solid #ddd;border-radius:4px;background:#fff;">
+                  <option>0</option>
+                  <option>1</option>
+                  <option selected>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Start Game Button -->
+        <div style="text-align:center;">
+          <button id="startLibraryGameBtn" class="purple-btn" style="font-size:1.3rem;padding:1em 3em;background:#6f5c91;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.1);transition:all 0.2s;">
+            🎮 Start Game
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- === END LIBRARY GAME OPTIONS MODAL === -->
+
   </body>
 </html>
