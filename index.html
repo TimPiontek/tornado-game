@@ -4886,6 +4886,9 @@ The Beatles"
               updateTeamDisplay();
               
               showPointsPopup(out, me);
+              
+              // CRITICAL: Advance turn before returning
+              advanceTurn();
               return;
             }
             
@@ -4934,6 +4937,9 @@ The Beatles"
               updateTeamDisplay();
               
               showPointsPopup(out, me);
+              
+              // CRITICAL: Advance turn before returning
+              advanceTurn();
               return;
             }
             
@@ -4989,6 +4995,9 @@ The Beatles"
               updateTeamDisplay();
               
               showPointsPopup(out, me);
+              
+              // CRITICAL: Advance turn before returning
+              advanceTurn();
               return;
             }
             
@@ -5048,10 +5057,6 @@ The Beatles"
             out = pointsEarned;
             btn.style.color = teamColors[me];
             
-            // CRITICAL: Update button content and disable it
-            btn.innerHTML = `<span>${out}</span>`;
-            btn.disabled = true;
-            
             // Show points first, then shield effect (no math breakdown needed)
             showPointsPopup(out, me);
             
@@ -5069,10 +5074,6 @@ The Beatles"
             scores[me] += pointsEarned;
             out = pointsEarned;
             btn.style.color = teamColors[me];
-            
-            // CRITICAL: Update button content and disable it
-            btn.innerHTML = `<span>${out}</span>`;
-            btn.disabled = true;
             
             // Show points first, then hot streak effect (no math breakdown needed for activation)
             showPointsPopup(out, me);
@@ -5168,38 +5169,41 @@ The Beatles"
               playWin();
             }
           } else {
-            // Move to next team
-            do {
-              let currentIndex = teamOrder.indexOf(turn);
-              currentIndex = (currentIndex + 1) % teamCount;
-              turn = teamOrder[currentIndex];
-            } while (teamStatus[turn]?.frozen > 0);
-            
-            // Clear team status effects that should disappear after turn
-            clearTeamStatusEffects();
-            
+            // Use the centralized advanceTurn function
+            advanceTurn();
+          }
+        }
 
-            
-            // Advance to next unique question
-            qIndex++;
-            if (qIndex >= usedQuestionIndices.length) qIndex = 0;
-            updateTurn();
-            
-            // Wait for all pending promises (points breakdowns) to resolve before showing next question
-            if (pendingPromises.length > 0) {
-              Promise.all(pendingPromises).then(() => {
-                // Clear the promises array
-                pendingPromises = [];
-                // Next Question button is always visible, no need to show it
-              });
-            } else {
-              // No pending promises, Next Question button is always visible
-            }
-            
-            // If single player and it's now Android's turn, trigger computer move
-            if (singlePlayer && turn === "B") {
-              setTimeout(computerTurn, 2500);
-            }
+        function advanceTurn() {
+          // Move to next team
+          do {
+            let currentIndex = teamOrder.indexOf(turn);
+            currentIndex = (currentIndex + 1) % teamCount;
+            turn = teamOrder[currentIndex];
+          } while (teamStatus[turn]?.frozen > 0);
+          
+          // Clear team status effects that should disappear after turn
+          clearTeamStatusEffects();
+          
+          // Advance to next unique question
+          qIndex++;
+          if (qIndex >= usedQuestionIndices.length) qIndex = 0;
+          updateTurn();
+          
+          // Wait for all pending promises (points breakdowns) to resolve before showing next question
+          if (pendingPromises.length > 0) {
+            Promise.all(pendingPromises).then(() => {
+              // Clear the promises array
+              pendingPromises = [];
+              // Next Question button is always visible, no need to show it
+            });
+          } else {
+            // No pending promises, Next Question button is always visible
+          }
+          
+          // If single player and it's now Android's turn, trigger computer move
+          if (singlePlayer && turn === "B") {
+            setTimeout(computerTurn, 2500);
           }
         }
 
