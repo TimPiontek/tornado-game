@@ -5058,7 +5058,7 @@ The Beatles"
             btn.style.color = teamColors[me];
             showPointsPopup(out, me);
             
-            // Then show coin flip modal (but don't return - let game continue)
+            // Then show coin flip modal
             setTimeout(() => {
               showCoinFlipModal(pointsEarned);
             }, 1000);
@@ -6114,26 +6114,30 @@ The Beatles"
           const resultDiv = document.getElementById("coinFlipResult");
           const buttons = document.getElementById("coinFlipButtons");
           
+          if (!modal || !description || !resultDiv || !buttons) {
+            console.error("Coin flip modal elements not found!");
+            return;
+          }
+          
           if (pointsAtStake === 0) {
-            if (description) {
-              description.innerHTML = "No points at stake. You can still choose Heads or Tails for fun, or Skip.";
-            }
+            description.innerHTML = "No points at stake. You can still choose Heads or Tails for fun, or Skip.";
           } else {
-            if (description) {
-              description.innerHTML = `Choose Heads or Tails. If you are right, your revealed points (${pointsAtStake}) are doubled. If you are wrong, you lose those revealed points.`;
-            }
+            description.innerHTML = `Choose Heads or Tails. If you are right, your revealed points (${pointsAtStake}) are doubled. If you are wrong, you lose those revealed points.`;
           }
           
-          if (resultDiv) resultDiv.style.display = "none";
-          if (buttons) buttons.style.display = "flex";
+          // Reset modal state
+          resultDiv.style.display = "none";
+          buttons.style.display = "flex";
           
-          if (modal) {
-            modal.style.display = "flex";
-            modal.classList.remove("hidden");
-            
-            // Store points at stake for later use
-            modal.dataset.pointsAtStake = pointsAtStake;
-          }
+          // Show modal
+          modal.style.display = "flex";
+          modal.classList.remove("hidden");
+          
+          // Store points at stake for later use
+          modal.dataset.pointsAtStake = pointsAtStake;
+          
+          // Ensure event handlers are attached
+          attachCoinFlipHandlers();
         }
 
         function hideCoinFlipModal() {
@@ -6145,49 +6149,68 @@ The Beatles"
         }
 
         // Coin Flip Event Handlers
-        document.addEventListener("DOMContentLoaded", function() {
+        function attachCoinFlipHandlers() {
           const coinFlipModal = document.getElementById("coinFlipModal");
-          if (coinFlipModal) {
-            // Close modal when clicking outside
-            coinFlipModal.onclick = function(e) {
-              if (e.target === this) {
-                hideCoinFlipModal();
-              }
-            };
-            
-            // Heads button
-            const headsBtn = document.getElementById("coinFlipHeads");
-            if (headsBtn) {
-              headsBtn.onclick = function() {
-                handleCoinFlip("heads");
-              };
-            }
-            
-            // Tails button
-            const tailsBtn = document.getElementById("coinFlipTails");
-            if (tailsBtn) {
-              tailsBtn.onclick = function() {
-                handleCoinFlip("tails");
-              };
-            }
-            
-            // Skip button
-            const skipBtn = document.getElementById("coinFlipSkip");
-            if (skipBtn) {
-              skipBtn.onclick = function() {
-                hideCoinFlipModal();
-              };
-            }
+          const headsBtn = document.getElementById("coinFlipHeads");
+          const tailsBtn = document.getElementById("coinFlipTails");
+          const skipBtn = document.getElementById("coinFlipSkip");
+          
+          if (!coinFlipModal || !headsBtn || !tailsBtn || !skipBtn) {
+            console.error("Coin flip elements not found for handlers!");
+            return;
           }
+          
+          // Remove existing handlers to prevent duplicates
+          headsBtn.onclick = null;
+          tailsBtn.onclick = null;
+          skipBtn.onclick = null;
+          coinFlipModal.onclick = null;
+          
+          // Close modal when clicking outside
+          coinFlipModal.onclick = function(e) {
+            if (e.target === this) {
+              hideCoinFlipModal();
+            }
+          };
+          
+          // Heads button
+          headsBtn.onclick = function() {
+            console.log("Heads button clicked!");
+            handleCoinFlip("heads");
+          };
+          
+          // Tails button
+          tailsBtn.onclick = function() {
+            console.log("Tails button clicked!");
+            handleCoinFlip("tails");
+          };
+          
+          // Skip button
+          skipBtn.onclick = function() {
+            console.log("Skip button clicked!");
+            hideCoinFlipModal();
+          };
+        }
+        
+        // Attach handlers when DOM is ready
+        document.addEventListener("DOMContentLoaded", function() {
+          attachCoinFlipHandlers();
         });
 
         function handleCoinFlip(choice) {
+          console.log("handleCoinFlip called with choice:", choice);
+          
           const modal = document.getElementById("coinFlipModal");
           const pointsAtStake = parseInt(modal.dataset.pointsAtStake) || 0;
           const resultDiv = document.getElementById("coinFlipResult");
           const buttons = document.getElementById("coinFlipButtons");
           const animation = document.getElementById("coinFlipAnimation");
           const outcome = document.getElementById("coinFlipOutcome");
+          
+          if (!modal || !resultDiv || !buttons || !animation || !outcome) {
+            console.error("Coin flip result elements not found!");
+            return;
+          }
           
           // Hide buttons, show result
           buttons.style.display = "none";
@@ -6200,6 +6223,8 @@ The Beatles"
           const isCorrect = Math.random() < 0.5;
           const result = isCorrect ? choice : (choice === "heads" ? "tails" : "heads");
           
+          console.log("Coin flip result:", result, "Correct:", isCorrect);
+          
           setTimeout(() => {
             animation.classList.remove("coin-flipping");
             animation.innerHTML = result === "heads" ? "🪙" : "🪙";
@@ -6209,11 +6234,13 @@ The Beatles"
               outcome.style.color = "#4caf50";
               outcome.textContent += " - CORRECT! +" + pointsAtStake;
               scores[turn] += pointsAtStake;
+              console.log("Player won! Added", pointsAtStake, "points");
             } else {
               outcome.style.color = "#f44336";
               outcome.textContent += " - WRONG! -" + pointsAtStake;
               scores[turn] -= pointsAtStake;
               if (scores[turn] < 0) scores[turn] = 0;
+              console.log("Player lost! Subtracted", pointsAtStake, "points");
             }
             
             updateScores();
