@@ -620,7 +620,7 @@
 
       .special-popup {
         position: fixed;
-        top: 20%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         background: rgba(255, 255, 255, 0.97);
@@ -4984,13 +4984,10 @@ The Beatles"
             out = pointsEarned;
             btn.style.color = teamColors[me];
             
-            const breakdown = {
-              basePoints: pointsEarned,
-              effect: "🛡️ Shield: Points from special effect",
-              finalTotal: pointsEarned
-            };
+            // Show points first, then shield effect (no math breakdown needed)
+            showPointsPopup(out, me);
             
-            // Show shield effect directly (no points breakdown for special effects)
+            // Then show shield effect
             setTimeout(() => {
               teamStatus[me] = teamStatus[me] || {};
               teamStatus[me].shield = true;
@@ -4998,20 +4995,17 @@ The Beatles"
               showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!", false, true);
             }, 1000);
             // No return - game continues to next team
-          } else if (r.type === "hotStreak") {
+                    } else if (r.type === "hotStreak") {
             // Hot Streak effect - give points AND hot streak
             pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
             scores[me] += pointsEarned;
             out = pointsEarned;
             btn.style.color = teamColors[me];
             
-            const breakdown = {
-              basePoints: pointsEarned,
-              effect: "🔥 Hot Streak: Points from special effect",
-              finalTotal: pointsEarned
-            };
+            // Show points first, then hot streak effect (no math breakdown needed for activation)
+            showPointsPopup(out, me);
             
-            // Show hot streak effect directly (no points breakdown for special effects)
+            // Then show hot streak effect
             setTimeout(() => {
               if (teamStatus[me]?.hotStreak) {
                 scores[me] += 100;
@@ -5032,13 +5026,10 @@ The Beatles"
             out = pointsEarned;
             btn.style.color = teamColors[me];
             
-            const breakdown = {
-              basePoints: pointsEarned,
-              effect: "🪙 Coin Flip: Points from special effect",
-              finalTotal: pointsEarned
-            };
+            // Show points first, then coin flip modal (no math breakdown needed for activation)
+            showPointsPopup(out, me);
             
-            // Show coin flip modal directly (no points breakdown for special effects)
+            // Then show coin flip modal
             setTimeout(() => {
               showCoinFlipModal();
             }, 1000);
