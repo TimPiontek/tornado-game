@@ -349,6 +349,39 @@
           transform: perspective(1000px) rotateX(0deg) scale(1) translateY(0);
         }
       }
+      
+      @keyframes pointsBreakdown {
+        0% {
+          transform: perspective(1000px) rotateX(0deg) scale(0.8)
+            translateY(15px);
+          opacity: 0;
+        }
+
+        20% {
+          transform: perspective(1000px) rotateX(15deg) scale(1.2)
+            translateY(-10px);
+          opacity: 1;
+        }
+
+        40% {
+          transform: perspective(1000px) rotateX(-10deg) scale(1.1)
+            translateY(5px);
+        }
+
+        60% {
+          transform: perspective(1000px) rotateX(8deg) scale(1.15)
+            translateY(-3px);
+        }
+
+        80% {
+          transform: perspective(1000px) rotateX(-3deg) scale(1.05)
+            translateY(1px);
+        }
+
+        100% {
+          transform: perspective(1000px) rotateX(0deg) scale(1) translateY(0);
+        }
+      }
 
       @keyframes pointsTextGlow {
         0% {
@@ -406,6 +439,10 @@
 
       .points-reveal-animation {
         animation: pointsReveal 2.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      }
+      
+      .points-breakdown-animation {
+        animation: pointsBreakdown 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
       }
 
       .points-text-glow {
@@ -4863,16 +4900,28 @@ The Beatles"
           // Handle points first
           if (r.type === "points") {
             pointsEarned = r.value;
+            let breakdown = null;
+            
             // Apply Hot Streak if active
             if (teamStatus[me]?.hotStreak) {
+              const basePoints = pointsEarned;
               pointsEarned *= 3;
               teamStatus[me].hotStreak = false;
+              teamStatus[me].hotStreakUsed = true;
+              
+              breakdown = {
+                basePoints: basePoints,
+                effect: "🔥 Hot Streak: Triple points!",
+                finalTotal: pointsEarned
+              };
+              
               showSpecialPopup("🔥", "Hot Streak! Triple points!");
             }
+            
             scores[me] += pointsEarned;
             out = pointsEarned;
             btn.style.color = teamColors[me];
-            showPointsPopup(out, me);
+            showPointsPopup(out, me, breakdown);
           }
           
           // Handle special effects
@@ -4986,9 +5035,19 @@ The Beatles"
               return;
             }
             
+            const basePoints = scores[me];
             scores[me] *= 2;
+            const finalTotal = scores[me] - basePoints;
             out = "🦁🦁";
             styleSpecial(btn, me);
+            
+            const breakdown = {
+              basePoints: basePoints,
+              effect: "🦁🦁 Double Lion Roar: Double your points!",
+              finalTotal: finalTotal
+            };
+            
+            showPointsPopup(finalTotal, me, breakdown);
             showSpecialPopup("🦁🦁", "Double Lion Roar! Double your points!");
             animateScore(me, "double-bounce");
           } else if (r.type === "freeze") {
@@ -4997,7 +5056,14 @@ The Beatles"
             scores[me] += pointsEarned;
             out = pointsEarned;
             btn.style.color = teamColors[me];
-            showPointsPopup(out, me);
+            
+            const breakdown = {
+              basePoints: pointsEarned,
+              effect: "❄️ Freeze: Points from special effect",
+              finalTotal: pointsEarned
+            };
+            
+            showPointsPopup(out, me, breakdown);
             // No return - game continues to next team
           } else if (r.type === "shield") {
             // Shield effect - give points AND shield
@@ -5005,7 +5071,14 @@ The Beatles"
             scores[me] += pointsEarned;
             out = pointsEarned;
             btn.style.color = teamColors[me];
-            showPointsPopup(out, me);
+            
+            const breakdown = {
+              basePoints: pointsEarned,
+              effect: "🛡️ Shield: Points from special effect",
+              finalTotal: pointsEarned
+            };
+            
+            showPointsPopup(out, me, breakdown);
             
             // Then show shield effect (but don't return - let game continue)
             setTimeout(() => {
@@ -5021,7 +5094,14 @@ The Beatles"
             scores[me] += pointsEarned;
             out = pointsEarned;
             btn.style.color = teamColors[me];
-            showPointsPopup(out, me);
+            
+            const breakdown = {
+              basePoints: pointsEarned,
+              effect: "🔥 Hot Streak: Points from special effect",
+              finalTotal: pointsEarned
+            };
+            
+            showPointsPopup(out, me, breakdown);
             
             // Then show hot streak effect (but don't return - let game continue)
             setTimeout(() => {
@@ -5043,7 +5123,14 @@ The Beatles"
             scores[me] += pointsEarned;
             out = pointsEarned;
             btn.style.color = teamColors[me];
-            showPointsPopup(out, me);
+            
+            const breakdown = {
+              basePoints: pointsEarned,
+              effect: "🪙 Coin Flip: Points from special effect",
+              finalTotal: pointsEarned
+            };
+            
+            showPointsPopup(out, me, breakdown);
             
             // Then show coin flip modal
             setTimeout(() => {
@@ -5607,15 +5694,32 @@ The Beatles"
         // Remove old quizSelect logic (dropdown and onchange)
         // ... existing code ...
 
-        function showPointsPopup(points, team) {
+        function showPointsPopup(points, team, breakdown = null) {
           const specialPopup = document.getElementById("specialPopup");
           if (!specialPopup) return;
           
-          specialPopup.innerHTML = `<div class="points-reveal-animation points-text-glow">${points}</div>`;
+          if (breakdown) {
+            // Show detailed breakdown
+            specialPopup.innerHTML = `
+              <div class="points-breakdown-animation" style="text-align:center;padding:1rem;">
+                <div style="font-size:1.1rem;margin-bottom:0.8rem;color:#666;font-weight:600;">Points Breakdown:</div>
+                <div style="font-size:1.4rem;font-weight:bold;color:#4caf50;margin-bottom:0.5rem;">+${breakdown.basePoints}</div>
+                <div style="font-size:1rem;color:#666;margin-bottom:0.8rem;font-style:italic;">${breakdown.effect}</div>
+                <div style="font-size:1.6rem;font-weight:bold;color:#6f5c91;border-top:2px solid #ddd;padding-top:0.8rem;margin-top:0.8rem;">= +${breakdown.finalTotal}</div>
+              </div>
+            `;
+          } else {
+            // Show simple points
+            specialPopup.innerHTML = `<div class="points-reveal-animation points-text-glow">${points}</div>`;
+          }
+          
           specialPopup.classList.add("show", "points-mode");
           specialPopup.classList.remove("hidden");
           specialPopup.style.color =
             team === "A" ? "var(--teamA)" : "var(--teamB)";
+          
+          const displayTime = breakdown ? 4500 : 3500; // Longer for breakdown
+          
           setTimeout(() => {
             if (specialPopup) {
               specialPopup.classList.remove("show");
@@ -5626,7 +5730,7 @@ The Beatles"
                 }
               }, 400);
             }
-          }, 3500);
+          }, displayTime);
         }
 
         // 1. Make quiz titles in 'My Library' clickable and add detail page
@@ -6256,6 +6360,14 @@ The Beatles"
               outcome.textContent += " - CORRECT! +" + wager;
               scores[turn] += wager;
               console.log("Player won! Added", wager, "points");
+              
+              // Show points breakdown for coin flip win
+              const breakdown = {
+                basePoints: wager,
+                effect: "🪙 Coin Flip: Correct guess - Double points!",
+                finalTotal: wager
+              };
+              showPointsPopup(wager, turn, breakdown);
             } else {
               outcome.style.color = "#f44336";
               outcome.textContent += " - WRONG! -" + wager;
