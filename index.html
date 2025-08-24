@@ -4856,10 +4856,14 @@ The Beatles"
                 breakdownPromise.then(() => {
                   // After breakdown is dismissed, show the special effect popup
                   showSpecialPopup("🔥", "Hot Streak! Triple points!");
+                  
+                  // CRITICAL: Advance turn AFTER breakdown is dismissed
+                  advanceTurn();
                 });
               } else {
                 // Fallback if no promise returned
                 showSpecialPopup("🔥", "Hot Streak! Triple points!");
+                advanceTurn();
               }
               
               return; // Important: return here to prevent further execution
@@ -5098,6 +5102,12 @@ The Beatles"
             scores[me] += pointsEarned;
             out = pointsEarned;
             btn.style.color = teamColors[me];
+            
+            // CRITICAL: Update button content and disable it immediately
+            btn.innerHTML = `<span>${out}</span>`;
+            btn.disabled = true;
+            updateScores();
+            updateTeamDisplay();
             
             // Show points first, then coin flip modal (no math breakdown needed for activation)
             showPointsPopup(out, me);
