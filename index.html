@@ -5030,14 +5030,29 @@ The Beatles"
             // Show points first, then coin flip modal (no math breakdown needed for activation)
             showPointsPopup(out, me);
             
+            // Check if this is the last block in the game
+            const done = document.querySelectorAll("#grid button:disabled").length + 1; // +1 because this button isn't disabled yet
+            const isLastBlock = done === total;
+            
             // Then show coin flip modal
             setTimeout(() => {
-              showCoinFlipModal();
+              if (isLastBlock) {
+                // If this is the last block, don't show coin flip modal - just end the game
+                console.log("Last block is coin flip - ending game immediately");
+                // The game will end naturally when the button is disabled below
+              } else {
+                showCoinFlipModal();
+              }
             }, 1000);
             
-            // IMPORTANT: Return here to prevent turn change until coin flip is completed
-            // The turn will change after the coin flip is processed in handleCoinFlip
-            return;
+            // If this is the last block, don't return - let the game end naturally
+            if (isLastBlock) {
+              // Continue to game end logic below
+            } else {
+              // IMPORTANT: Return here to prevent turn change until coin flip is completed
+              // The turn will change after the coin flip is processed in handleCoinFlip
+              return;
+            }
           }
           
           // Update announcement
