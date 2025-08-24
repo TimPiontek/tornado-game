@@ -4855,6 +4855,13 @@ The Beatles"
                 // Fallback if no promise returned
                 showSpecialPopup("🔥", "Hot Streak! Triple points!");
               }
+              
+              // IMPORTANT: Update button and scores BEFORE returning
+              btn.innerHTML = `<span>${out}</span>`;
+              btn.disabled = true;
+              updateScores();
+              updateTeamDisplay();
+              
               return; // Important: return here to prevent further execution
             } else {
               // No breakdown, show simple points
