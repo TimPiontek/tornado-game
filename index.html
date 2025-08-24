@@ -2737,6 +2737,9 @@ The Beatles"
           <!-- Close button (for emergencies) -->
           <button id="closeQuestionModal" style="position:absolute;top:15px;right:20px;background:none;border:none;font-size:2em;cursor:pointer;color:#6F5C91;opacity:0.7;">&times;</button>
           
+          <!-- Team Name Display -->
+          <div id="modalTeamName" style="font-size:1rem;color:#666;margin-bottom:1em;font-style:italic;text-align:center;"></div>
+          
           <!-- Question Display -->
           <div id="modalQuestion" style="font-size:2.5rem;font-weight:700;color:#6F5C91;margin-bottom:2em;line-height:1.3;min-height:120px;display:flex;align-items:center;justify-content:center;"></div>
           
@@ -5199,28 +5202,35 @@ The Beatles"
             return;
           }
           
-                  // Show the new question modal
-        const questionModal = document.getElementById("questionModal");
-        const modalQuestion = document.getElementById("modalQuestion");
-        const modalAnswer = document.getElementById("modalAnswer");
-        
-        // Set question text
-        modalQuestion.textContent = qObj.question;
-        modalAnswer.textContent = "";
-        modalAnswer.style.display = "none";
-        
-        // Show modal
-        questionModal.style.display = "flex";
-        questionModal.classList.remove("hidden");
-        
-        // Focus on the correct button for accessibility
-        const correctBtn = document.getElementById("correctBtn");
-        if (correctBtn) {
-          setTimeout(() => correctBtn.focus(), 100);
-        }
-        
-        // Hide the old question bubble
-        questionRow.style.display = "none";
+          // Show the new question modal
+          const questionModal = document.getElementById("questionModal");
+          const modalQuestion = document.getElementById("modalQuestion");
+          const modalAnswer = document.getElementById("modalAnswer");
+          const modalTeamName = document.getElementById("modalTeamName");
+          
+          // Set question text
+          modalQuestion.textContent = qObj.question;
+          modalAnswer.textContent = "";
+          modalAnswer.style.display = "none";
+          
+          // Set team name
+          if (modalTeamName) {
+            modalTeamName.textContent = `${names[turn] || `Team ${turn}`}'s turn`;
+            modalTeamName.style.color = teamColors[turn] || "#6f5c91";
+          }
+          
+          // Show modal
+          questionModal.style.display = "flex";
+          questionModal.classList.remove("hidden");
+          
+          // Focus on the correct button for accessibility
+          const correctBtn = document.getElementById("correctBtn");
+          if (correctBtn) {
+            setTimeout(() => correctBtn.focus(), 100);
+          }
+          
+          // Hide the old question bubble
+          questionRow.style.display = "none";
           
           console.log(
             "DEBUG: Showing question in modal:",
@@ -6212,8 +6222,10 @@ The Beatles"
           const wagerDiv = document.getElementById("coinFlipWager");
           const wagerInput = document.getElementById("wagerInput");
           const wagerError = document.getElementById("wagerError");
+          const scoresDiv = document.getElementById("coinFlipScores");
+          const scoresDisplay = document.getElementById("coinFlipScoresDisplay");
           
-          if (!modal || !description || !resultDiv || !buttons || !wagerDiv || !wagerInput || !wagerError) {
+          if (!modal || !description || !resultDiv || !buttons || !wagerDiv || !wagerInput || !wagerError || !scoresDiv || !scoresDisplay) {
             console.error("Coin flip modal elements not found!");
             return;
           }
@@ -6223,6 +6235,19 @@ The Beatles"
           wagerDiv.style.display = "block";
           buttons.style.display = "flex";
           wagerError.style.display = "none";
+          scoresDiv.style.display = "block";
+          
+          // Populate team scores display
+          scoresDisplay.innerHTML = teamOrder.map(teamId => {
+            const teamColor = teamColors[teamId] || "#6f5c91";
+            const isCurrentTeam = teamId === turn;
+            return `
+              <div style="text-align:center;padding:0.5em;border-radius:6px;${isCurrentTeam ? `background:${teamColor};color:white;` : ''}">
+                <div style="font-weight:600;font-size:0.9rem;">${names[teamId] || `Team ${teamId}`}</div>
+                <div style="font-size:1.2rem;font-weight:bold;">${scores[teamId] || 0}</div>
+              </div>
+            `;
+          }).join("");
           
           // Set wager input max value to current team's score
           wagerInput.max = scores[turn];
@@ -6656,6 +6681,13 @@ The Beatles"
       <div style="background:#fff;padding:2.5em 3em;border-radius:20px;max-width:500px;width:95vw;box-shadow:0 8px 32px rgba(0,0,0,0.18);position:relative;text-align:center;">
         <h2 style="margin:0 0 1em 0;color:#6F5C91;font-size:2rem;">🪙 Coin Flip</h2>
         <p id="coinFlipDescription" style="margin:0 0 2em 0;color:#666;font-size:1.1rem;">Enter your wager amount and choose Heads or Tails. If you're right, you double your wager. If you're wrong, you lose your wager.</p>
+        
+        <div id="coinFlipScores" style="margin:1.5em 0;padding:1em;background:#f8f9fa;border-radius:8px;border:1px solid #e9ecef;">
+          <div style="font-size:0.9rem;color:#666;margin-bottom:0.5em;text-align:center;">Current Team Scores:</div>
+          <div id="coinFlipScoresDisplay" style="display:flex;justify-content:space-around;gap:1em;font-size:1rem;">
+            <!-- Team scores will be populated here -->
+          </div>
+        </div>
         
         <div id="coinFlipWager" style="margin:2em 0;">
           <label for="wagerInput" style="display:block;margin-bottom:0.5em;color:#666;font-weight:600;">Wager Amount:</label>
