@@ -4997,7 +4997,7 @@ The Beatles"
             btn.style.color = teamColors[me];
             showPointsPopup(out, me);
             
-            // Then show freeze effect
+            // Then show freeze effect (but don't return - let game continue)
             setTimeout(() => {
               // If more than 2 teams, let the player choose which team to freeze
               if (teamCount > 2) {
@@ -5013,7 +5013,7 @@ The Beatles"
                 }
               }
             }, 1000);
-            return;
+            // No return - game continues to next team
           } else if (r.type === "shield") {
             // Shield effect - give points AND shield
             pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
@@ -5022,13 +5022,13 @@ The Beatles"
             btn.style.color = teamColors[me];
             showPointsPopup(out, me);
             
-            // Then show shield effect
+            // Then show shield effect (but don't return - let game continue)
             setTimeout(() => {
               teamStatus[me] = teamStatus[me] || {};
               teamStatus[me].shield = true;
               showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!");
             }, 1000);
-            return;
+            // No return - game continues to next team
           } else if (r.type === "hotStreak") {
             // Hot Streak effect - give points AND hot streak
             pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
@@ -5037,7 +5037,7 @@ The Beatles"
             btn.style.color = teamColors[me];
             showPointsPopup(out, me);
             
-            // Then show hot streak effect
+            // Then show hot streak effect (but don't return - let game continue)
             setTimeout(() => {
               if (teamStatus[me]?.hotStreak) {
                 scores[me] += 100;
@@ -5049,7 +5049,7 @@ The Beatles"
                 showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!");
               }
             }, 1000);
-            return;
+            // No return - game continues to next team
           } else if (r.type === "coinFlip") {
             // Coin Flip effect - give points AND coin flip
             pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
@@ -5058,11 +5058,11 @@ The Beatles"
             btn.style.color = teamColors[me];
             showPointsPopup(out, me);
             
-            // Then show coin flip modal
+            // Then show coin flip modal (but don't return - let game continue)
             setTimeout(() => {
               showCoinFlipModal(pointsEarned);
             }, 1000);
-            return;
+            // No return - game continues to next team
           }
           
           // Update announcement
