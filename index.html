@@ -4667,14 +4667,13 @@ The Beatles"
         }
 
         function initGame(
-          tornadoCount = 2,
-          doubleCount = 2,
-          loseCount = 2,
-          swapCount = 1,
-  
-          shieldCount = 1,
-          hotStreakCount = 1,
-          coinFlipCount = 1
+          tornadoCount,
+          doubleCount,
+          loseCount,
+          swapCount,
+          shieldCount,
+          hotStreakCount,
+          coinFlipCount
         ) {
           // Initialize scores and picks for all teams
           scores = {};
@@ -4709,13 +4708,13 @@ The Beatles"
 
         function buildRewards(
           n,
-          tornadoCount = 2,
-          doubleCount = 2,
-          loseCount = 2,
-          swapCount = 1,
-          shieldCount = 1,
-          hotStreakCount = 1,
-          coinFlipCount = 1
+          tornadoCount,
+          doubleCount,
+          loseCount,
+          swapCount,
+          shieldCount,
+          hotStreakCount,
+          coinFlipCount
         ) {
           // Always include the exact number of each special item
           let specialTotal = tornadoCount + doubleCount + loseCount + swapCount + shieldCount + hotStreakCount + coinFlipCount;
@@ -4991,28 +4990,13 @@ The Beatles"
               finalTotal: pointsEarned
             };
             
-            // Wait for points breakdown to be dismissed before continuing
-            const breakdownPromise = showPointsPopup(out, me, breakdown);
-            if (breakdownPromise) {
-              pendingPromises.push(breakdownPromise); // Track this promise
-              breakdownPromise.then(() => {
-                // Then show shield effect
-                setTimeout(() => {
-                  teamStatus[me] = teamStatus[me] || {};
-                  teamStatus[me].shield = true;
-                  teamStatus[me].shieldUsed = false; // Mark as not used yet
-                  showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!", false, true);
-                }, 1000);
-              });
-            } else {
-              // Then show shield effect (but don't return - let game continue)
-              setTimeout(() => {
-                teamStatus[me] = teamStatus[me] || {};
-                teamStatus[me].shield = true;
-                teamStatus[me].shieldUsed = false; // Mark as not used yet
-                showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!", false, true);
-              }, 1000);
-            }
+            // Show shield effect directly (no points breakdown for special effects)
+            setTimeout(() => {
+              teamStatus[me] = teamStatus[me] || {};
+              teamStatus[me].shield = true;
+              teamStatus[me].shieldUsed = false; // Mark as not used yet
+              showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!", false, true);
+            }, 1000);
             // No return - game continues to next team
           } else if (r.type === "hotStreak") {
             // Hot Streak effect - give points AND hot streak
@@ -5027,40 +5011,19 @@ The Beatles"
               finalTotal: pointsEarned
             };
             
-            // Wait for points breakdown to be dismissed before continuing
-            const breakdownPromise = showPointsPopup(out, me, breakdown);
-            if (breakdownPromise) {
-              pendingPromises.push(breakdownPromise); // Track this promise
-              breakdownPromise.then(() => {
-                // Then show hot streak effect
-                setTimeout(() => {
-                  if (teamStatus[me]?.hotStreak) {
-                    scores[me] += 100;
-                    showSpecialPopup("🔥", "Hot Streak already active! +100 bonus points!");
-                    animateScore(me, "hot-streak-bounce");
-                  } else {
-                    teamStatus[me] = teamStatus[me] || {};
-                    teamStatus[me].hotStreak = true;
-                    teamStatus[me].hotStreakUsed = false; // Mark as not used yet
-                    showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!", false, true);
-                  }
-                }, 1000);
-              });
-            } else {
-              // Then show hot streak effect (but don't return - let game continue)
-              setTimeout(() => {
-                if (teamStatus[me]?.hotStreak) {
-                  scores[me] += 100;
-                  showSpecialPopup("🔥", "Hot Streak already active! +100 bonus points!");
-                  animateScore(me, "hot-streak-bounce");
-                } else {
-                  teamStatus[me] = teamStatus[me] || {};
-                  teamStatus[me].hotStreak = true;
-                  teamStatus[me].hotStreakUsed = false; // Mark as not used yet
-                  showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!", false, true);
-                }
-              }, 1000);
-            }
+            // Show hot streak effect directly (no points breakdown for special effects)
+            setTimeout(() => {
+              if (teamStatus[me]?.hotStreak) {
+                scores[me] += 100;
+                showSpecialPopup("🔥", "Hot Streak already active! +100 bonus points!");
+                animateScore(me, "hot-streak-bounce");
+              } else {
+                teamStatus[me] = teamStatus[me] || {};
+                teamStatus[me].hotStreak = true;
+                teamStatus[me].hotStreakUsed = false; // Mark as not used yet
+                showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!", false, true);
+              }
+            }, 1000);
             // No return - game continues to next team
           } else if (r.type === "coinFlip") {
             // Coin Flip effect - give points AND coin flip
@@ -5075,22 +5038,10 @@ The Beatles"
               finalTotal: pointsEarned
             };
             
-            // Wait for points breakdown to be dismissed before continuing
-            const breakdownPromise = showPointsPopup(out, me, breakdown);
-            if (breakdownPromise) {
-              pendingPromises.push(breakdownPromise); // Track this promise
-              breakdownPromise.then(() => {
-                // Then show coin flip modal
-                setTimeout(() => {
-                  showCoinFlipModal();
-                }, 1000);
-              });
-            } else {
-              // Then show coin flip modal
-              setTimeout(() => {
-                showCoinFlipModal();
-              }, 1000);
-            }
+            // Show coin flip modal directly (no points breakdown for special effects)
+            setTimeout(() => {
+              showCoinFlipModal();
+            }, 1000);
             // No return - game continues to next team
           }
           
