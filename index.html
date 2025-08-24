@@ -4841,6 +4841,12 @@ The Beatles"
             out = pointsEarned;
             btn.style.color = teamColors[me];
             
+            // CRITICAL: Update button and scores IMMEDIATELY for all points
+            btn.innerHTML = `<span>${out}</span>`;
+            btn.disabled = true;
+            updateScores();
+            updateTeamDisplay();
+            
             // Show points breakdown with math (if breakdown exists)
             if (breakdown) {
               // Wait for points breakdown to be dismissed before continuing
@@ -4855,12 +4861,6 @@ The Beatles"
                 // Fallback if no promise returned
                 showSpecialPopup("🔥", "Hot Streak! Triple points!");
               }
-              
-              // IMPORTANT: Update button and scores BEFORE returning
-              btn.innerHTML = `<span>${out}</span>`;
-              btn.disabled = true;
-              updateScores();
-              updateTeamDisplay();
               
               return; // Important: return here to prevent further execution
             } else {
