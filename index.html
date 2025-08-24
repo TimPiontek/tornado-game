@@ -1985,6 +1985,54 @@
                       />
                     </label>
                   </div>
+                  <div class="setup-unified-cell" id="teamCContainer" style="display: none;">
+                    <label style="display: block; margin-bottom: 0.3em"
+                      >Team C Name:
+                      <input
+                        id="teamCNameInput"
+                        value="Team C"
+                        required
+                        maxlength="16"
+                        style="display: block; width: 100%"
+                      />
+                    </label>
+                  </div>
+                  <div class="setup-unified-cell" id="teamDContainer" style="display: none;">
+                    <label style="display: block; margin-bottom: 0.3em"
+                      >Team D Name:
+                      <input
+                        id="teamDNameInput"
+                        value="Team D"
+                        required
+                        maxlength="16"
+                        style="display: block; width: 100%"
+                      />
+                    </label>
+                  </div>
+                  <div class="setup-unified-cell" id="teamEContainer" style="display: none;">
+                    <label style="display: block; margin-bottom: 0.3em"
+                      >Team E Name:
+                      <input
+                        id="teamENameInput"
+                        value="Team E"
+                        required
+                        maxlength="16"
+                        style="display: block; width: 100%"
+                      />
+                    </label>
+                  </div>
+                  <div class="setup-unified-cell" id="teamFContainer" style="display: none;">
+                    <label style="display: block; margin-bottom: 0.3em"
+                      >Team F Name:
+                      <input
+                        id="teamFNameInput"
+                        value="Team F"
+                        required
+                        maxlength="16"
+                        style="display: block; width: 100%"
+                      />
+                    </label>
+                  </div>
                   <div class="setup-unified-cell">
                     <label
                       style="
@@ -2718,7 +2766,7 @@ The Beatles"
     <div
       id="librarySection"
       class="hidden library-section"
-      style="max-width: 900px; margin: 2rem auto 0 auto"
+      style="max-width: 95vw; margin: 2rem auto 0 auto; padding: 0 1rem;"
     ></div>
 
     <!-- AUTH MODAL -->
@@ -4057,6 +4105,39 @@ The Beatles"
             }
           }
         });
+
+        // Team count change handler
+        const teamCountInput = document.getElementById("teamCountInput");
+        if (teamCountInput) {
+          teamCountInput.addEventListener("change", function() {
+            const teamCount = parseInt(this.value);
+            
+            // Hide all team containers first
+            const teamCContainer = document.getElementById("teamCContainer");
+            const teamDContainer = document.getElementById("teamDContainer");
+            const teamEContainer = document.getElementById("teamEContainer");
+            const teamFContainer = document.getElementById("teamFContainer");
+            
+            if (teamCContainer) teamCContainer.style.display = "none";
+            if (teamDContainer) teamDContainer.style.display = "none";
+            if (teamEContainer) teamEContainer.style.display = "none";
+            if (teamFContainer) teamFContainer.style.display = "none";
+            
+            // Show containers based on team count
+            if (teamCount >= 3 && teamCContainer) {
+              teamCContainer.style.display = "block";
+            }
+            if (teamCount >= 4 && teamDContainer) {
+              teamDContainer.style.display = "block";
+            }
+            if (teamCount >= 5 && teamEContainer) {
+              teamEContainer.style.display = "block";
+            }
+            if (teamCount >= 6 && teamFContainer) {
+              teamFContainer.style.display = "block";
+            }
+          });
+        }
         // Remove quizSelect.onchange and all quizSelect references
         // ... existing code ...
         // Modify Start Game logic to use selected quiz if chosen
@@ -4069,7 +4150,8 @@ The Beatles"
               return;
             }
             // ✅ check if a quiz is selected or questions are provided
-            if (questionsInput.value.trim() === "" && selectedQuizId === null) {
+            const questionsInputEl = document.getElementById("questionsInput");
+            if ((!questionsInputEl || questionsInputEl.value.trim() === "") && selectedQuizId === null) {
               alert("Please select a quiz or enter questions.");
               return;
             }
@@ -4081,42 +4163,58 @@ The Beatles"
             for (let i = 0; i < teamCount; i++) {
               const teamId = teamOrder[i];
               if (i === 0) {
-                names[teamId] = document.getElementById("teamANameInput").value.trim() || "Team A";
+                const teamAInput = document.getElementById("teamANameInput");
+                names[teamId] = teamAInput ? teamAInput.value.trim() || "Team A" : "Team A";
               } else if (i === 1) {
-                names[teamId] = singlePlayer ? "Android" : (document.getElementById("teamBNameInput").value.trim() || "Team B");
+                const teamBInput = document.getElementById("teamBNameInput");
+                names[teamId] = singlePlayer ? "Android" : (teamBInput ? teamBInput.value.trim() || "Team B" : "Team B");
+              } else if (i === 2) {
+                const teamCInput = document.getElementById("teamCNameInput");
+                names[teamId] = teamCInput ? teamCInput.value.trim() || "Team C" : "Team C";
+              } else if (i === 3) {
+                const teamDInput = document.getElementById("teamDNameInput");
+                names[teamId] = teamDInput ? teamDInput.value.trim() || "Team D" : "Team D";
+              } else if (i === 4) {
+                const teamEInput = document.getElementById("teamENameInput");
+                names[teamId] = teamEInput ? teamEInput.value.trim() || "Team E" : "Team E";
+              } else if (i === 5) {
+                const teamFInput = document.getElementById("teamFNameInput");
+                names[teamId] = teamFInput ? teamFInput.value.trim() || "Team F" : "Team F";
               } else {
                 names[teamId] = `Team ${teamId}`;
               }
             }
-            total = +document.getElementById("gridSizeInput").value;
+            const gridSizeInput = document.getElementById("gridSizeInput");
+            total = gridSizeInput ? +gridSizeInput.value : 18;
 
             // Get team count
-            teamCount = parseInt(document.getElementById("teamCountInput").value);
+            const teamCountInput = document.getElementById("teamCountInput");
+            teamCount = teamCountInput ? parseInt(teamCountInput.value) : 2;
             
             // Get special item counts from selectors
             let tornadoCount = parseInt(
-              document.getElementById("tornadoCount").value
+              document.getElementById("tornadoCount")?.value || "2"
             );
             let doubleCount = parseInt(
-              document.getElementById("doubleCount").value
+              document.getElementById("doubleCount")?.value || "2"
             );
             let loseCount = parseInt(
-              document.getElementById("loseCount").value
+              document.getElementById("loseCount")?.value || "2"
             );
             let swapCount = parseInt(
-              document.getElementById("swapCount").value
+              document.getElementById("swapCount")?.value || "2"
             );
             let freezeCount = parseInt(
-              document.getElementById("freezeCount").value
+              document.getElementById("freezeCount")?.value || "2"
             );
             let shieldCount = parseInt(
-              document.getElementById("shieldCount").value
+              document.getElementById("shieldCount")?.value || "2"
             );
             let hotStreakCount = parseInt(
-              document.getElementById("hotStreakCount").value
+              document.getElementById("hotStreakCount")?.value || "2"
             );
             let coinFlipCount = parseInt(
-              document.getElementById("coinFlipCount").value
+              document.getElementById("coinFlipCount")?.value || "2"
             );
 
             // Adjust defaults for small grids
@@ -4129,14 +4227,24 @@ The Beatles"
               shieldCount = 1;
               hotStreakCount = 1;
               coinFlipCount = 1;
-              document.getElementById("tornadoCount").value = 2;
-              document.getElementById("doubleCount").value = 1;
-              document.getElementById("loseCount").value = 1;
-              document.getElementById("swapCount").value = 1;
-              document.getElementById("freezeCount").value = 1;
-              document.getElementById("shieldCount").value = 1;
-              document.getElementById("hotStreakCount").value = 1;
-              document.getElementById("coinFlipCount").value = 1;
+              
+              const tornadoCountEl = document.getElementById("tornadoCount");
+              const doubleCountEl = document.getElementById("doubleCount");
+              const loseCountEl = document.getElementById("loseCount");
+              const swapCountEl = document.getElementById("swapCount");
+              const freezeCountEl = document.getElementById("freezeCount");
+              const shieldCountEl = document.getElementById("shieldCount");
+              const hotStreakCountEl = document.getElementById("hotStreakCount");
+              const coinFlipCountEl = document.getElementById("coinFlipCount");
+              
+              if (tornadoCountEl) tornadoCountEl.value = 2;
+              if (doubleCountEl) doubleCountEl.value = 1;
+              if (loseCountEl) loseCountEl.value = 1;
+              if (swapCountEl) swapCountEl.value = 1;
+              if (freezeCountEl) freezeCountEl.value = 1;
+              if (shieldCountEl) shieldCountEl.value = 1;
+              if (hotStreakCountEl) hotStreakCountEl.value = 1;
+              if (coinFlipCountEl) coinFlipCountEl.value = 1;
             }
 
             // Use quiz if selected, otherwise use textarea
@@ -4166,7 +4274,7 @@ The Beatles"
                 questions
               );
             } else {
-              const raw = questionsInput.value;
+              const raw = questionsInputEl ? questionsInputEl.value : "";
               // split blocks on blank line
               const blocks = raw
                 .split(/\n\s*\n/)
@@ -4191,9 +4299,8 @@ The Beatles"
             }
             // Prepare usedQuestionIndices for unique rotation
             usedQuestionIndices = [];
-            let order = document.querySelector(
-              'input[name="order"]:checked'
-            ).value;
+            const orderRadio = document.querySelector('input[name="order"]:checked');
+            let order = orderRadio ? orderRadio.value : "inorder";
             console.log("DEBUG: Questions array at game start:", questions);
             if (order === "random") {
               // Shuffle indices
@@ -4215,21 +4322,27 @@ The Beatles"
               );
             }
             qIndex = 0;
-            setupScreen.classList.add("hidden");
-            gameScreen.classList.remove("hidden");
+            if (setupScreen) setupScreen.classList.add("hidden");
+            if (gameScreen) gameScreen.classList.remove("hidden");
             // Show Android image if single player
             if (singlePlayer) {
-              androidImg.style.display = "inline-block";
-              nameBEl.textContent = "Android";
-              teamBNameContainer.classList.add("single-player");
+              if (androidImg) androidImg.style.display = "inline-block";
+              if (nameBEl) nameBEl.textContent = "Android";
+              if (teamBNameContainer) teamBNameContainer.classList.add("single-player");
             } else {
-              androidImg.style.display = "none";
-              nameBEl.textContent = names.B;
-              teamBNameContainer.classList.remove("single-player");
+              if (androidImg) androidImg.style.display = "none";
+              if (nameBEl) nameBEl.textContent = names.B;
+              if (teamBNameContainer) teamBNameContainer.classList.remove("single-player");
             }
-            initGame(tornadoCount, doubleCount, loseCount, swapCount, freezeCount, shieldCount, hotStreakCount, coinFlipCount);
-            buildGrid(total);
-            showQuestion();
+            if (typeof initGame === 'function') {
+              initGame(tornadoCount, doubleCount, loseCount, swapCount, freezeCount, shieldCount, hotStreakCount, coinFlipCount);
+            }
+            if (typeof buildGrid === 'function') {
+              buildGrid(total);
+            }
+            if (typeof showQuestion === 'function') {
+              showQuestion();
+            }
           };
         }
 
@@ -4247,7 +4360,9 @@ The Beatles"
               teamStatus[turn].frozen--;
             }
             
-            updateTurn();
+            if (typeof updateTurn === 'function') {
+              updateTurn();
+            }
             
             // Hide current modal and show next question
             const questionModal = document.getElementById("questionModal");
@@ -4256,9 +4371,11 @@ The Beatles"
               questionModal.classList.add("hidden");
             }
             
-            showQuestion();
+            if (typeof showQuestion === 'function') {
+              showQuestion();
+            }
             // In single player mode, if it's now the computer's turn, trigger computer move
-            if (singlePlayer && turn === "B") {
+            if (singlePlayer && turn === "B" && typeof computerTurn === 'function') {
               setTimeout(computerTurn, 2000);
             }
           };
@@ -4273,7 +4390,9 @@ The Beatles"
               questionModal.classList.add("hidden");
             }
             
-            showQuestion();
+            if (typeof showQuestion === 'function') {
+              showQuestion();
+            }
           };
         if (revealBtn)
           revealBtn.onclick = () => {
@@ -4281,10 +4400,13 @@ The Beatles"
               question: "",
               answer: null,
             };
-            answerEl.textContent = qObj.answer || "";
-            answerEl.style.color =
-              turn === "A" ? "var(--teamA)" : "var(--teamB)";
-            answerEl.style.textAlign = turn === "A" ? "left" : "right";
+            const answerEl = document.getElementById("answerEl");
+            if (answerEl) {
+              answerEl.textContent = qObj.answer || "";
+              answerEl.style.color =
+                turn === "A" ? "var(--teamA)" : "var(--teamB)";
+              answerEl.style.textAlign = turn === "A" ? "left" : "right";
+            }
             console.log(
               "DEBUG: Revealed answer for question:",
               qObj.question,
@@ -4305,19 +4427,25 @@ The Beatles"
             
             // Show answer with animation
             const modalAnswer = document.getElementById("modalAnswer");
-            modalAnswer.textContent = qObj.answer || "No answer provided";
-            modalAnswer.style.display = "flex";
-            modalAnswer.style.animation = "questionModalSlideIn 0.3s ease-out";
+            if (modalAnswer) {
+              modalAnswer.textContent = qObj.answer || "No answer provided";
+              modalAnswer.style.display = "flex";
+              modalAnswer.style.animation = "questionModalSlideIn 0.3s ease-out";
+            }
             
             // Hide modal after a short delay to show the answer
             setTimeout(() => {
               const questionModal = document.getElementById("questionModal");
-              questionModal.style.display = "none";
-              questionModal.classList.add("hidden");
+              if (questionModal) {
+                questionModal.style.display = "none";
+                questionModal.classList.add("hidden");
+              }
               
               // Ensure the grid is visible for number selection
-              gridEl.style.display = "grid";
-              gridEl.style.visibility = "visible";
+              if (gridEl) {
+                gridEl.style.display = "grid";
+                gridEl.style.visibility = "visible";
+              }
             }, 2000); // Show answer for 2 seconds
           };
         }
@@ -4327,10 +4455,14 @@ The Beatles"
           document.getElementById("incorrectBtn").onclick = () => {
             // Show the secondary action buttons more prominently
             const secondaryButtons = document.querySelectorAll('.secondary-btn');
-            secondaryButtons.forEach(btn => {
-              btn.style.transform = 'scale(1.05)';
-              btn.style.boxShadow = '0 6px 20px rgba(111, 92, 145, 0.4)';
-            });
+            if (secondaryButtons && secondaryButtons.length > 0) {
+              secondaryButtons.forEach(btn => {
+                if (btn) {
+                  btn.style.transform = 'scale(1.05)';
+                  btn.style.boxShadow = '0 6px 20px rgba(111, 92, 145, 0.4)';
+                }
+              });
+            }
             
             // Add a subtle highlight to indicate these are now the focus
             const modalAnswer = document.getElementById("modalAnswer");
@@ -4341,10 +4473,14 @@ The Beatles"
             
             // Reset after animation
             setTimeout(() => {
-              secondaryButtons.forEach(btn => {
-                btn.style.transform = '';
-                btn.style.boxShadow = '';
-              });
+              if (secondaryButtons && secondaryButtons.length > 0) {
+                secondaryButtons.forEach(btn => {
+                  if (btn) {
+                    btn.style.transform = '';
+                    btn.style.boxShadow = '';
+                  }
+                });
+              }
             }, 300);
           };
         }
@@ -4357,12 +4493,16 @@ The Beatles"
             
             // Hide modal and show next question
             const questionModal = document.getElementById("questionModal");
-            questionModal.style.display = "none";
-            questionModal.classList.add("hidden");
+            if (questionModal) {
+              questionModal.style.display = "none";
+              questionModal.classList.add("hidden");
+            }
             
             // Small delay for smooth transition
             setTimeout(() => {
-              showQuestion();
+              if (typeof showQuestion === 'function') {
+                showQuestion();
+              }
             }, 150);
           };
         }
@@ -4382,16 +4522,22 @@ The Beatles"
               teamStatus[turn].frozen--;
             }
             
-            updateTurn();
+            if (typeof updateTurn === 'function') {
+              updateTurn();
+            }
             
             // Hide modal and show next question
             const questionModal = document.getElementById("questionModal");
-            questionModal.style.display = "none";
-            questionModal.classList.add("hidden");
+            if (questionModal) {
+              questionModal.style.display = "none";
+              questionModal.classList.add("hidden");
+            }
             
             // Small delay for smooth transition
             setTimeout(() => {
-              showQuestion();
+              if (typeof showQuestion === 'function') {
+                showQuestion();
+              }
             }, 100);
           };
         }
@@ -4406,9 +4552,11 @@ The Beatles"
             
             // Show answer with animation
             const modalAnswer = document.getElementById("modalAnswer");
-            modalAnswer.textContent = qObj.answer || "No answer provided";
-            modalAnswer.style.display = "flex";
-            modalAnswer.style.animation = "questionModalSlideIn 0.3s ease-out";
+            if (modalAnswer) {
+              modalAnswer.textContent = qObj.answer || "No answer provided";
+              modalAnswer.style.display = "flex";
+              modalAnswer.style.animation = "questionModalSlideIn 0.3s ease-out";
+            }
           };
         }
 
@@ -4416,8 +4564,10 @@ The Beatles"
         if (document.getElementById("closeQuestionModal")) {
           document.getElementById("closeQuestionModal").onclick = () => {
             const questionModal = document.getElementById("questionModal");
-            questionModal.style.display = "none";
-            questionModal.classList.add("hidden");
+            if (questionModal) {
+              questionModal.style.display = "none";
+              questionModal.classList.add("hidden");
+            }
           };
         }
 
@@ -4425,8 +4575,10 @@ The Beatles"
         if (document.getElementById("questionModal")) {
           document.getElementById("questionModal").onclick = function(e) {
             if (e.target === this) {
-              this.style.display = "none";
-              this.classList.add("hidden");
+              if (this) {
+                this.style.display = "none";
+                this.classList.add("hidden");
+              }
             }
           };
         }
@@ -4446,33 +4598,37 @@ The Beatles"
           resetBtn.onclick = () => {
             // Get current special item counts
             let tornadoCount = parseInt(
-              document.getElementById("tornadoCount").value
+              document.getElementById("tornadoCount")?.value || "2"
             );
             let doubleCount = parseInt(
-              document.getElementById("doubleCount").value
+              document.getElementById("doubleCount")?.value || "2"
             );
             let loseCount = parseInt(
-              document.getElementById("loseCount").value
+              document.getElementById("loseCount")?.value || "2"
             );
             let swapCount = parseInt(
-              document.getElementById("swapCount").value
+              document.getElementById("swapCount")?.value || "1"
             );
             let freezeCount = parseInt(
-              document.getElementById("freezeCount").value
+              document.getElementById("freezeCount")?.value || "1"
             );
             let shieldCount = parseInt(
-              document.getElementById("shieldCount").value
+              document.getElementById("shieldCount")?.value || "1"
             );
             let hotStreakCount = parseInt(
-              document.getElementById("hotStreakCount").value
+              document.getElementById("hotStreakCount")?.value || "1"
             );
             let coinFlipCount = parseInt(
-              document.getElementById("coinFlipCount").value
+              document.getElementById("coinFlipCount")?.value || "1"
             );
             qIndex = 0;
             // Fully reset game state and grid
-            initGame(tornadoCount, doubleCount, loseCount, swapCount, freezeCount, shieldCount, hotStreakCount, coinFlipCount);
-            buildGrid(total);
+            if (typeof initGame === 'function') {
+              initGame(tornadoCount, doubleCount, loseCount, swapCount, freezeCount, shieldCount, hotStreakCount, coinFlipCount);
+            }
+            if (typeof buildGrid === 'function') {
+              buildGrid(total);
+            }
             
             // Hide question modal if it's open
             const questionModal = document.getElementById("questionModal");
@@ -4481,12 +4637,14 @@ The Beatles"
               questionModal.classList.add("hidden");
             }
             
-            showQuestion();
+            if (typeof showQuestion === 'function') {
+              showQuestion();
+            }
           };
         if (document.getElementById("homeBtn")) {
           document.getElementById("homeBtn").onclick = () => {
-            gameScreen.classList.add("hidden");
-            setupScreen.classList.remove("hidden");
+            if (gameScreen) gameScreen.classList.add("hidden");
+            if (setupScreen) setupScreen.classList.remove("hidden");
             // Reset everything to initial state
             scores = {};
             picks = {};
@@ -4499,11 +4657,18 @@ The Beatles"
               teamGrid.innerHTML = "";
             }
             
-            updateScores();
+            if (typeof updateScores === 'function') {
+              updateScores();
+            }
             turn = "A";
-            updateTurn();
-            gridEl.innerHTML = "";
-            document.getElementById("questionAnswerRow").style.display = "none";
+            if (typeof updateTurn === 'function') {
+              updateTurn();
+            }
+            if (gridEl) gridEl.innerHTML = "";
+            const questionAnswerRow = document.getElementById("questionAnswerRow");
+            if (questionAnswerRow) {
+              questionAnswerRow.style.display = "none";
+            }
             
             // Hide question modal if it's open
             const questionModal = document.getElementById("questionModal");
@@ -4513,7 +4678,9 @@ The Beatles"
             }
             
             // No need to reassign selector values; UI is already reset
-            showQuestion();
+            if (typeof showQuestion === 'function') {
+              showQuestion();
+            }
           };
         }
 
@@ -5781,26 +5948,32 @@ The Beatles"
           total = settings.gridSize;
           
           // Hide library, show game
-          setupScreen.classList.add("hidden");
-          gameScreen.classList.remove("hidden");
-          librarySection.classList.add("hidden");
+          if (setupScreen) setupScreen.classList.add("hidden");
+          if (gameScreen) gameScreen.classList.remove("hidden");
+          if (librarySection) librarySection.classList.add("hidden");
           
           // Show Android image if single player
           if (settings.singlePlayer) {
-            androidImg.style.display = "inline-block";
-            nameBEl.textContent = "Android";
-            teamBNameContainer.classList.add("single-player");
+            if (androidImg) androidImg.style.display = "inline-block";
+            if (nameBEl) nameBEl.textContent = "Android";
+            if (teamBNameContainer) teamBNameContainer.classList.add("single-player");
           } else {
-            androidImg.style.display = "none";
-            nameBEl.textContent = names.B;
-            teamBNameContainer.classList.remove("single-player");
+            if (androidImg) androidImg.style.display = "none";
+            if (nameBEl) nameBEl.textContent = names.B;
+            if (teamBNameContainer) teamBNameContainer.classList.remove("single-player");
           }
           
           // Initialize and start game
-          initGame(settings.tornadoCount, settings.doubleCount, settings.loseCount, settings.swapCount, 
-                   settings.freezeCount, settings.shieldCount, settings.hotStreakCount, settings.coinFlipCount);
-          buildGrid(total);
-          showQuestion();
+          if (typeof initGame === 'function') {
+            initGame(settings.tornadoCount, settings.doubleCount, settings.loseCount, settings.swapCount, 
+                     settings.freezeCount, settings.shieldCount, settings.hotStreakCount, settings.coinFlipCount);
+          }
+          if (typeof buildGrid === 'function') {
+            buildGrid(total);
+          }
+          if (typeof showQuestion === 'function') {
+            showQuestion();
+          }
         }
 
         // Coin Flip Modal Functions
@@ -5811,25 +5984,33 @@ The Beatles"
           const buttons = document.getElementById("coinFlipButtons");
           
           if (pointsAtStake === 0) {
-            description.innerHTML = "No points at stake. You can still choose Heads or Tails for fun, or Skip.";
+            if (description) {
+              description.innerHTML = "No points at stake. You can still choose Heads or Tails for fun, or Skip.";
+            }
           } else {
-            description.innerHTML = `Choose Heads or Tails. If you are right, your revealed points (${pointsAtStake}) are doubled. If you are wrong, you lose those revealed points.`;
+            if (description) {
+              description.innerHTML = `Choose Heads or Tails. If you are right, your revealed points (${pointsAtStake}) are doubled. If you are wrong, you lose those revealed points.`;
+            }
           }
           
-          resultDiv.style.display = "none";
-          buttons.style.display = "flex";
+          if (resultDiv) resultDiv.style.display = "none";
+          if (buttons) buttons.style.display = "flex";
           
-          modal.style.display = "flex";
-          modal.classList.remove("hidden");
-          
-          // Store points at stake for later use
-          modal.dataset.pointsAtStake = pointsAtStake;
+          if (modal) {
+            modal.style.display = "flex";
+            modal.classList.remove("hidden");
+            
+            // Store points at stake for later use
+            modal.dataset.pointsAtStake = pointsAtStake;
+          }
         }
 
         function hideCoinFlipModal() {
           const modal = document.getElementById("coinFlipModal");
-          modal.style.display = "none";
-          modal.classList.add("hidden");
+          if (modal) {
+            modal.style.display = "none";
+            modal.classList.add("hidden");
+          }
         }
 
         // Coin Flip Event Handlers
@@ -5847,7 +6028,9 @@ The Beatles"
             const headsBtn = document.getElementById("coinFlipHeads");
             if (headsBtn) {
               headsBtn.onclick = function() {
-                handleCoinFlip("heads");
+                if (typeof handleCoinFlip === 'function') {
+                  handleCoinFlip("heads");
+                }
               };
             }
             
@@ -5855,7 +6038,9 @@ The Beatles"
             const tailsBtn = document.getElementById("coinFlipTails");
             if (tailsBtn) {
               tailsBtn.onclick = function() {
-                handleCoinFlip("tails");
+                if (typeof handleCoinFlip === 'function') {
+                  handleCoinFlip("tails");
+                }
               };
             }
             

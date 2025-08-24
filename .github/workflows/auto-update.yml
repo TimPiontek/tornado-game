@@ -1,0 +1,42 @@
+name: Auto Update Tornado Game
+
+on:
+  workflow_dispatch:
+    inputs:
+      update_type:
+        description: 'Type of update'
+        required: true
+        default: 'bugfix'
+        type: choice
+        options:
+        - bugfix
+        - feature
+        - content
+      description:
+        description: 'Description of changes'
+        required: true
+        default: 'Auto-update from AI assistant'
+        type: string
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Update files
+      run: |
+        echo "Update type: ${{ github.event.inputs.update_type }}"
+        echo "Description: ${{ github.event.inputs.description }}"
+        # This is where the AI can trigger updates
+    
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "${{ github.event.inputs.description }}"
+        git push 

@@ -95,7 +95,91 @@ h3 { margin-bottom:20px; }
 #annA { color: var(--teamA); }
 #turnDisplay { font-size:1.25rem; }
 
-/Auth Modal Styles */
+/* Library section improvements */
+.library-section {
+  max-width: 95vw !important;
+  margin: 2rem auto 0 auto !important;
+  padding: 0 1rem !important;
+  overflow-x: auto;
+}
+
+.library-section h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.library-section .quiz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.library-section .quiz-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.library-section .quiz-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.library-section .quiz-card h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.library-section .quiz-card p {
+  margin: 0 0 1rem 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.library-section .quiz-card button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #6f5c91;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.library-section .quiz-card button:hover {
+  background: #5a4a7a;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .library-section {
+    padding: 0 0.5rem !important;
+  }
+  
+  .library-section .quiz-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .library-section .quiz-card {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .library-section {
+    margin: 1rem auto 0 auto !important;
+    padding: 0 0.25rem !important;
+  }
+}
+
+/* Auth Modal Styles */
 .auth-form {
     display: flex;
     flex-direction: column;
