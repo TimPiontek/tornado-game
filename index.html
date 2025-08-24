@@ -5685,6 +5685,13 @@ The Beatles"
           const specialPopup = document.getElementById("specialPopup");
           if (!specialPopup) return;
           
+          // Clear any existing timeouts or click handlers
+          if (specialPopup._timeout) {
+            clearTimeout(specialPopup._timeout);
+            specialPopup._timeout = null;
+          }
+          specialPopup.onclick = null;
+          
           if (breakdown) {
             // Show detailed breakdown with click to continue
             specialPopup.innerHTML = `
@@ -5693,18 +5700,22 @@ The Beatles"
                 <div style="font-size:1.4rem;font-weight:bold;color:#4caf50;margin-bottom:0.5rem;">+${breakdown.basePoints}</div>
                 <div style="font-size:1rem;color:#666;margin-bottom:0.8rem;font-style:italic;">${breakdown.effect}</div>
                 <div style="font-size:1.6rem;font-weight:bold;color:#6f5c91;border-top:2px solid #ddd;padding-top:0.8rem;margin-top:0.8rem;">= +${breakdown.finalTotal}</div>
-                <div style="margin-top:1rem;font-size:0.9rem;color:#666;font-style:italic;">Click anywhere to continue...</div>
+                <div style="margin-top:1.5rem;padding:0.8em 1.5em;background:#6f5c91;color:white;border-radius:8px;font-weight:600;cursor:pointer;display:inline-block;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+                  Click to Continue
+                </div>
               </div>
             `;
             
             // Add click handler to continue
             specialPopup.onclick = () => {
+              console.log("Points breakdown clicked - hiding popup");
               specialPopup.classList.remove("show");
               setTimeout(() => {
                 if (specialPopup) {
                   specialPopup.classList.add("hidden");
                   specialPopup.classList.remove("points-mode");
                   specialPopup.onclick = null; // Remove click handler
+                  console.log("Points breakdown hidden");
                 }
               }, 400);
             };
@@ -5720,13 +5731,14 @@ The Beatles"
           
           // For simple points, auto-hide after 3.5 seconds
           if (!breakdown) {
-            setTimeout(() => {
+            specialPopup._timeout = setTimeout(() => {
               if (specialPopup) {
                 specialPopup.classList.remove("show");
-                setTimeout(() => {
+                specialPopup._timeout = setTimeout(() => {
                   if (specialPopup) {
                     specialPopup.classList.add("hidden");
                     specialPopup.classList.remove("points-mode");
+                    specialPopup._timeout = null;
                   }
                 }, 400);
               }
