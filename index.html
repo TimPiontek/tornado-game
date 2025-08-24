@@ -1760,6 +1760,25 @@
         transition: all 0.3s ease;
       }
 
+      .team-card h2 {
+        font-size: 1.1rem !important;
+        font-weight: 600;
+        line-height: 1.2;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        text-align: center;
+        color: inherit;
+        margin: 0 0 0.5rem 0;
+      }
+
+      .team-card p {
+        font-size: 1rem !important;
+        font-weight: 500;
+        line-height: 1.1;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+      }
+
       .team-card.active {
         border: 3px solid #6f5c91;
         transform: scale(1.05);
@@ -4813,12 +4832,7 @@ The Beatles"
         function handlePick(btn, i) {
           let r = rewards[i],
             me = turn;
-          if (picks[me] === 0 && r.type !== "points") {
-            r = {
-              type: "points",
-              value: (Math.floor(Math.random() * 10) + 1) * 100,
-            };
-          }
+          // Special effects should work on first pick - don't convert them to points
           picks[me]++;
           let out = "";
           let pointsEarned = 0;
@@ -5007,10 +5021,10 @@ The Beatles"
             if (qIndex >= usedQuestionIndices.length) qIndex = 0;
             updateTurn();
             
-            // Show next question in modal
+            // Show next question in modal - increased delay to allow popups to be read
             setTimeout(() => {
               showQuestion();
-            }, 1000);
+            }, 3000);
             
             // If single player and it's now Android's turn, trigger computer move
             if (singlePlayer && turn === "B") {
