@@ -4857,6 +4857,9 @@ The Beatles"
           let out = "";
           let pointsEarned = 0;
           
+          // Check if team has points for certain special effects
+          const hasPoints = scores[me] > 0;
+          
           // Handle points first
           if (r.type === "points") {
             pointsEarned = r.value;
@@ -4874,6 +4877,17 @@ The Beatles"
           
           // Handle special effects
           if (r.type === "lose") {
+            // Skunk effect - only if team has points to lose
+            if (!hasPoints) {
+              // Convert to points if team has no points to lose
+              pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
+              scores[me] += pointsEarned;
+              out = pointsEarned;
+              btn.style.color = teamColors[me];
+              showPointsPopup(out, me);
+              return;
+            }
+            
             if (teamStatus[me]?.shield) {
               // Shield blocks the effect
               teamStatus[me].shield = false;
@@ -4889,7 +4903,7 @@ The Beatles"
               playSad();
             }
           } else if (r.type === "steal") {
-            // Find team with highest score (excluding current team)
+            // Tornado effect - only if there are points to steal
             let targetTeam = null;
             let highestScore = -1;
             for (let teamId in scores) {
@@ -4899,14 +4913,28 @@ The Beatles"
               }
             }
             
-            if (targetTeam && scores[targetTeam] > 0) {
-              if (teamStatus[targetTeam]?.shield) {
-                // Shield blocks the effect
-                teamStatus[targetTeam].shield = false;
-                out = "🛡️";
-                showSpecialPopup("🛡️", `${names[targetTeam]}'s Shield blocked the Tornado!`);
-                animateShieldBlock(targetTeam);
+            if (!targetTeam || scores[targetTeam] <= 0) {
+              // Convert to points if no one has points to steal
+              pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
+              scores[me] += pointsEarned;
+              out = pointsEarned;
+              btn.style.color = teamColors[me];
+              showPointsPopup(out, me);
+              return;
+            }
+            
+            if (teamStatus[targetTeam]?.shield) {
+              // Shield blocks the effect
+              teamStatus[targetTeam].shield = false;
+              out = "🛡️";
+              showSpecialPopup("🛡️", `${names[targetTeam]}'s Shield blocked the Tornado!`);
+              animateShieldBlock(targetTeam);
+            } else {
+              // If more than 2 teams, let the player choose which team to steal from
+              if (teamCount > 2) {
+                showTeamSelectionModal(me, "steal");
               } else {
+                // Just 2 teams, steal directly
                 scores[me] += scores[targetTeam];
                 scores[targetTeam] = 0;
                 out = "🌪";
@@ -4915,12 +4943,9 @@ The Beatles"
                 showSpecialPopup("🌪️", "Tornado! Steal the other team's points!", true);
                 animateKangarooSwap();
               }
-            } else {
-              out = "🌪";
-              styleSpecial(btn, me);
             }
           } else if (r.type === "swap") {
-            // Find team with highest score (excluding current team)
+            // Kangaroo swap - only if there are points to swap
             let targetTeam = null;
             let highestScore = -1;
             for (let teamId in scores) {
@@ -4930,62 +4955,114 @@ The Beatles"
               }
             }
             
-            if (targetTeam) {
-              let temp = scores[me];
-              scores[me] = scores[targetTeam];
-              scores[targetTeam] = temp;
-              out = "🦘";
-              styleSpecial(btn, me);
-              showSpecialPopup("🦘", "Kangaroo Hop Swap! Teams swap points!");
-              animateKangarooSwap();
+            if (!targetTeam || scores[targetTeam] <= 0) {
+              // Convert to points if no one has points to swap
+              pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
+              scores[me] += pointsEarned;
+              out = pointsEarned;
+              btn.style.color = teamColors[me];
+              showPointsPopup(out, me);
+              return;
             }
+            
+            let temp = scores[me];
+            scores[me] = scores[targetTeam];
+            scores[targetTeam] = temp;
+            out = "🦘";
+            styleSpecial(btn, me);
+            showSpecialPopup("🦘", "Kangaroo Hop Swap! Teams swap points!");
+            animateKangarooSwap();
           } else if (r.type === "double") {
+            // Double effect - only if team has points to double
+            if (!hasPoints) {
+              // Convert to points if team has no points to double
+              pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
+              scores[me] += pointsEarned;
+              out = pointsEarned;
+              btn.style.color = teamColors[me];
+              showPointsPopup(out, me);
+              return;
+            }
+            
             scores[me] *= 2;
             out = "🦁🦁";
             styleSpecial(btn, me);
             showSpecialPopup("🦁🦁", "Double Lion Roar! Double your points!");
-            animateScore(me, "lion-roar");
+            animateScore(me, "double-bounce");
           } else if (r.type === "freeze") {
-            // Find team with highest score (excluding current team)
-            let targetTeam = null;
-            let highestScore = -1;
-            for (let teamId in scores) {
-              if (teamId !== me && scores[teamId] > highestScore) {
-                highestScore = scores[teamId];
-                targetTeam = teamId;
-              }
-            }
+            // Freeze effect - give points AND freeze
+            pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
+            scores[me] += pointsEarned;
+            out = pointsEarned;
+            btn.style.color = teamColors[me];
+            showPointsPopup(out, me);
             
-            if (targetTeam) {
-              teamStatus[targetTeam].frozen++;
-              out = "❄️";
-              styleSpecial(btn, me);
-              showSpecialPopup("❄️", `${names[targetTeam]} is frozen! Skips next turn!`);
-              animateFreeze(targetTeam);
-            }
+            // Then show freeze effect
+            setTimeout(() => {
+              // If more than 2 teams, let the player choose which team to freeze
+              if (teamCount > 2) {
+                showTeamSelectionModal(me, "freeze");
+              } else {
+                // Just 2 teams, freeze the other team directly
+                let targetTeam = teamOrder.find(id => id !== me);
+                if (targetTeam) {
+                  teamStatus[targetTeam] = teamStatus[targetTeam] || {};
+                  teamStatus[targetTeam].frozen = (teamStatus[targetTeam].frozen || 0) + 1;
+                  showSpecialPopup("❄️", `${names[targetTeam]} is frozen! Skips next turn!`);
+                  animateFreeze(targetTeam);
+                }
+              }
+            }, 1000);
+            return;
           } else if (r.type === "shield") {
-            teamStatus[me].shield = true;
-            out = "🛡️";
-            styleSpecial(btn, me);
-            showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!");
-            animateShield(me);
+            // Shield effect - give points AND shield
+            pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
+            scores[me] += pointsEarned;
+            out = pointsEarned;
+            btn.style.color = teamColors[me];
+            showPointsPopup(out, me);
+            
+            // Then show shield effect
+            setTimeout(() => {
+              teamStatus[me] = teamStatus[me] || {};
+              teamStatus[me].shield = true;
+              showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!");
+            }, 1000);
+            return;
           } else if (r.type === "hotStreak") {
-            if (teamStatus[me]?.hotStreak) {
-              // Already active, convert to bonus
-              scores[me] += 100;
-              out = "🔥+100";
-              showSpecialPopup("🔥", "Hot Streak already active! +100 bonus points!");
-            } else {
-              teamStatus[me].hotStreak = true;
-              out = "🔥";
-              styleSpecial(btn, me);
-              showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!");
-            }
+            // Hot Streak effect - give points AND hot streak
+            pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
+            scores[me] += pointsEarned;
+            out = pointsEarned;
+            btn.style.color = teamColors[me];
+            showPointsPopup(out, me);
+            
+            // Then show hot streak effect
+            setTimeout(() => {
+              if (teamStatus[me]?.hotStreak) {
+                scores[me] += 100;
+                showSpecialPopup("🔥", "Hot Streak already active! +100 bonus points!");
+                animateScore(me, "hot-streak-bounce");
+              } else {
+                teamStatus[me] = teamStatus[me] || {};
+                teamStatus[me].hotStreak = true;
+                showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!");
+              }
+            }, 1000);
+            return;
           } else if (r.type === "coinFlip") {
-            out = "🪙";
-            styleSpecial(btn, me);
-            // Show coin flip modal
-            showCoinFlipModal(pointsEarned);
+            // Coin Flip effect - give points AND coin flip
+            pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
+            scores[me] += pointsEarned;
+            out = pointsEarned;
+            btn.style.color = teamColors[me];
+            showPointsPopup(out, me);
+            
+            // Then show coin flip modal
+            setTimeout(() => {
+              showCoinFlipModal(pointsEarned);
+            }, 1000);
+            return;
           }
           
           // Update announcement
@@ -6082,9 +6159,7 @@ The Beatles"
             const headsBtn = document.getElementById("coinFlipHeads");
             if (headsBtn) {
               headsBtn.onclick = function() {
-                if (typeof handleCoinFlip === 'function') {
-                  handleCoinFlip("heads");
-                }
+                handleCoinFlip("heads");
               };
             }
             
@@ -6092,9 +6167,7 @@ The Beatles"
             const tailsBtn = document.getElementById("coinFlipTails");
             if (tailsBtn) {
               tailsBtn.onclick = function() {
-                if (typeof handleCoinFlip === 'function') {
-                  handleCoinFlip("tails");
-                }
+                handleCoinFlip("tails");
               };
             }
             
@@ -6151,6 +6224,68 @@ The Beatles"
               hideCoinFlipModal();
             }, 2000);
           }, 1500);
+        }
+
+        // Team selection modal for Tornado and other effects
+        function showTeamSelectionModal(currentTeam, action) {
+          const modal = document.createElement("div");
+          modal.style.position = "fixed";
+          modal.style.top = "0";
+          modal.style.left = "0";
+          modal.style.width = "100vw";
+          modal.style.height = "100vh";
+          modal.style.background = "rgba(49,114,122,0.9)";
+          modal.style.zIndex = "3000";
+          modal.style.display = "flex";
+          modal.style.alignItems = "center";
+          modal.style.justifyContent = "center";
+          
+          let actionText = "";
+          if (action === "steal") actionText = "🌪️ Choose which team to steal points from:";
+          else if (action === "freeze") actionText = "❄️ Choose which team to freeze:";
+          
+          modal.innerHTML = `
+            <div style="background:#fff;padding:2em;border-radius:16px;max-width:500px;width:95vw;box-shadow:0 4px 32px rgba(0,0,0,0.18);">
+              <h3 style="margin-top:0;color:#6F5C91;">${actionText}</h3>
+              <div id="teamSelectionButtons" style="display:flex;flex-wrap:wrap;gap:1em;justify-content:center;">
+                ${teamOrder.map(teamId => {
+                  if (teamId === currentTeam) return "";
+                  return `<button class="purple-btn" onclick="selectTargetTeam('${teamId}', '${action}')" style="min-width:120px;">${names[teamId] || `Team ${teamId}`}</button>`;
+                }).join("")}
+              </div>
+              <button onclick="this.closest('div[style*=\"position: fixed\"]').remove()" style="margin-top:1em;background:#6c757d;color:white;border:none;padding:0.5em 1em;border-radius:8px;cursor:pointer;">Cancel</button>
+            </div>
+          `;
+          
+          document.body.appendChild(modal);
+        }
+        
+        function selectTargetTeam(targetTeam, action) {
+          const modal = document.querySelector('div[style*="position: fixed"]');
+          if (modal) modal.remove();
+          
+          if (action === "steal") {
+            // Steal points from selected team
+            if (teamStatus[targetTeam]?.shield) {
+              teamStatus[targetTeam].shield = false;
+              showSpecialPopup("🛡️", `${names[targetTeam]}'s Shield blocked the Tornado!`);
+              animateShieldBlock(targetTeam);
+            } else {
+              scores[turn] += scores[targetTeam];
+              scores[targetTeam] = 0;
+              showSpecialPopup("🌪️", `Tornado! Stole ${names[targetTeam]}'s points!`, true);
+              animateKangarooSwap();
+            }
+          } else if (action === "freeze") {
+            // Freeze selected team
+            teamStatus[targetTeam] = teamStatus[targetTeam] || {};
+            teamStatus[targetTeam].frozen = (teamStatus[targetTeam].frozen || 0) + 1;
+            showSpecialPopup("❄️", `${names[targetTeam]} is frozen! Skips next turn!`);
+            animateFreeze(targetTeam);
+          }
+          
+          updateScores();
+          updateTeamDisplay();
         }
 
         // New animation functions for special effects
