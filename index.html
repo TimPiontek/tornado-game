@@ -2664,7 +2664,7 @@ The Beatles"
         <div class="game-controls compact-controls">
           <button id="passBtn">Pass</button>
           <button id="skipBtn">Skip</button>
-          <button id="revealBtn">Reveal Answer</button>
+          <button id="nextQuestionBtn">Next Question</button>
         </div>
       </div>
 
@@ -4421,25 +4421,10 @@ The Beatles"
               showQuestion();
             }
           };
-        if (revealBtn)
-          revealBtn.onclick = () => {
-            const qObj = questions[usedQuestionIndices[qIndex]] || {
-              question: "",
-              answer: null,
-            };
-            const answerEl = document.getElementById("answerEl");
-            if (answerEl) {
-              answerEl.textContent = qObj.answer || "";
-              answerEl.style.color =
-                turn === "A" ? "var(--teamA)" : "var(--teamB)";
-              answerEl.style.textAlign = turn === "A" ? "left" : "right";
-            }
-            console.log(
-              "DEBUG: Revealed answer for question:",
-              qObj.question,
-              "| Answer:",
-              qObj.answer
-            );
+        if (document.getElementById("nextQuestionBtn"))
+          document.getElementById("nextQuestionBtn").onclick = () => {
+            hideNextQuestionButton();
+            showQuestion();
           };
 
         // === NEW QUESTION MODAL BUTTON HANDLERS ===
@@ -4875,7 +4860,7 @@ The Beatles"
           if (r.type === "lose") {
             // Skunk effect - only if team has points to lose
             if (!hasPoints) {
-              // Convert to points if team has no points to lose
+              // Give points instead of negative effect when team has no points
               pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
               scores[me] += pointsEarned;
               out = pointsEarned;
@@ -4911,7 +4896,7 @@ The Beatles"
             }
             
             if (!targetTeam || scores[targetTeam] <= 0) {
-              // Convert to points if no one has points to steal
+              // Give points instead of negative effect when no one has points to steal
               pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
               scores[me] += pointsEarned;
               out = pointsEarned;
@@ -4954,7 +4939,7 @@ The Beatles"
             }
             
             if (!targetTeam || scores[targetTeam] <= 0) {
-              // Convert to points if no one has points to swap
+              // Give points instead of negative effect when no one has points to swap
               pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
               scores[me] += pointsEarned;
               out = pointsEarned;
@@ -4973,7 +4958,7 @@ The Beatles"
           } else if (r.type === "double") {
             // Double effect - only if team has points to double
             if (!hasPoints) {
-              // Convert to points if team has no points to double
+              // Give points instead of negative effect when team has no points to double
               pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
               scores[me] += pointsEarned;
               out = pointsEarned;
@@ -5029,7 +5014,7 @@ The Beatles"
                   teamStatus[me] = teamStatus[me] || {};
                   teamStatus[me].shield = true;
                   teamStatus[me].shieldUsed = false; // Mark as not used yet
-                  showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!");
+                  showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!", false, true);
                 }, 1000);
               });
             } else {
@@ -5038,7 +5023,7 @@ The Beatles"
                 teamStatus[me] = teamStatus[me] || {};
                 teamStatus[me].shield = true;
                 teamStatus[me].shieldUsed = false; // Mark as not used yet
-                showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!");
+                showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!", false, true);
               }, 1000);
             }
             // No return - game continues to next team
@@ -5070,7 +5055,7 @@ The Beatles"
                     teamStatus[me] = teamStatus[me] || {};
                     teamStatus[me].hotStreak = true;
                     teamStatus[me].hotStreakUsed = false; // Mark as not used yet
-                    showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!");
+                    showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!", false, true);
                   }
                 }, 1000);
               });
@@ -5085,7 +5070,7 @@ The Beatles"
                   teamStatus[me] = teamStatus[me] || {};
                   teamStatus[me].hotStreak = true;
                   teamStatus[me].hotStreakUsed = false; // Mark as not used yet
-                  showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!");
+                  showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!", false, true);
                 }
               }, 1000);
             }
@@ -5401,7 +5386,7 @@ The Beatles"
           setTimeout(() => o.stop(), 800);
         }
 
-        function showSpecialPopup(emoji, slogan, tornadoMode = false) {
+        function showSpecialPopup(emoji, slogan, tornadoMode = false, persistent = false) {
           if (!specialPopup) return;
           
           if (tornadoMode) {
@@ -5423,21 +5408,38 @@ The Beatles"
             }, 5000);
             return;
           }
+          
           specialPopup.innerHTML = `
-          <div class="special-popup-3d">
-            <span class="emoji">${emoji}</span>
-            <div class="slogan">${slogan}</div>
+          <div class="special-popup-3d" style="background: rgba(255, 255, 255, 0.98); padding: 2rem; border-radius: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);">
+            <span class="emoji" style="font-size: 3rem; margin-bottom: 1rem;">${emoji}</span>
+            <div class="slogan" style="font-size: 1.5rem; font-weight: 600; color: #333; line-height: 1.3;">${slogan}</div>
+            ${persistent ? '<div style="margin-top: 1.5rem; padding: 0.8em 1.5em; background: #6f5c91; color: white; border-radius: 8px; font-weight: 600; cursor: pointer; display: inline-block; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">Click to Continue</div>' : ''}
           </div>`;
           specialPopup.classList.add("show");
           specialPopup.classList.remove("hidden");
-          setTimeout(() => {
-            if (specialPopup) {
+          
+          // Only auto-hide if not persistent
+          if (!persistent) {
+            setTimeout(() => {
+              if (specialPopup) {
+                specialPopup.classList.remove("show");
+                setTimeout(() => {
+                  if (specialPopup) specialPopup.classList.add("hidden");
+                }, 400);
+              }
+            }, 4000);
+          } else {
+            // For persistent popups, add click handler to dismiss
+            specialPopup.onclick = () => {
               specialPopup.classList.remove("show");
               setTimeout(() => {
-                if (specialPopup) specialPopup.classList.add("hidden");
+                if (specialPopup) {
+                  specialPopup.classList.add("hidden");
+                  specialPopup.onclick = null; // Remove click handler
+                }
               }, 400);
-            }
-          }, 4000);
+            };
+          }
         }
 
         function animateScore(team, animationClass) {
