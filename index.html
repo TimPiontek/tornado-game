@@ -4128,15 +4128,26 @@ The Beatles"
         // Team count change handler
         const teamCountInput = document.getElementById("teamCountInput");
         if (teamCountInput) {
+          console.log("Team count input found, adding event listener");
+          
+          // Debug: Check team containers on page load
+          const teamCContainer = document.getElementById("teamCContainer");
+          const teamDContainer = document.getElementById("teamDContainer");
+          const teamEContainer = document.getElementById("teamEContainer");
+          const teamFContainer = document.getElementById("teamFContainer");
+          
+          console.log("Team containers found:", {
+            teamC: !!teamCContainer,
+            teamD: !!teamDContainer,
+            teamE: !!teamEContainer,
+            teamF: !!teamFContainer
+          });
+          
           teamCountInput.addEventListener("change", function() {
+            console.log("Team count changed to:", this.value);
             const teamCount = parseInt(this.value);
             
             // Hide all team containers first
-            const teamCContainer = document.getElementById("teamCContainer");
-            const teamDContainer = document.getElementById("teamDContainer");
-            const teamEContainer = document.getElementById("teamEContainer");
-            const teamFContainer = document.getElementById("teamFContainer");
-            
             if (teamCContainer) teamCContainer.style.display = "none";
             if (teamDContainer) teamDContainer.style.display = "none";
             if (teamEContainer) teamEContainer.style.display = "none";
@@ -4144,18 +4155,24 @@ The Beatles"
             
             // Show containers based on team count
             if (teamCount >= 3 && teamCContainer) {
+              console.log("Showing team C container");
               teamCContainer.style.display = "block";
             }
             if (teamCount >= 4 && teamDContainer) {
+              console.log("Showing team D container");
               teamDContainer.style.display = "block";
             }
             if (teamCount >= 5 && teamEContainer) {
+              console.log("Showing team E container");
               teamEContainer.style.display = "block";
             }
             if (teamCount >= 6 && teamFContainer) {
+              console.log("Showing team F container");
               teamFContainer.style.display = "block";
             }
           });
+        } else {
+          console.error("Team count input not found!");
         }
         // Remove quizSelect.onchange and all quizSelect references
         // ... existing code ...
@@ -4177,8 +4194,13 @@ The Beatles"
 
             singlePlayer = singlePlayerCheckbox.checked;
             
-            // Initialize team names
+            // Get team count FIRST
+            const teamCountInput = document.getElementById("teamCountInput");
+            teamCount = teamCountInput ? parseInt(teamCountInput.value) : 2;
+            
+            // Initialize team names AFTER getting teamCount
             names = {};
+            console.log("Initializing team names for", teamCount, "teams");
             for (let i = 0; i < teamCount; i++) {
               const teamId = teamOrder[i];
               if (i === 0) {
@@ -4202,13 +4224,11 @@ The Beatles"
               } else {
                 names[teamId] = `Team ${teamId}`;
               }
+              console.log("Team", teamId, "name set to:", names[teamId]);
             }
+            console.log("Final team names object:", names);
             const gridSizeInput = document.getElementById("gridSizeInput");
             total = gridSizeInput ? +gridSizeInput.value : 18;
-
-            // Get team count
-            const teamCountInput = document.getElementById("teamCountInput");
-            teamCount = teamCountInput ? parseInt(teamCountInput.value) : 2;
             
             // Get special item counts from selectors
             let tornadoCount = parseInt(
@@ -5198,6 +5218,8 @@ The Beatles"
         }
 
         function showSpecialPopup(emoji, slogan, tornadoMode = false) {
+          if (!specialPopup) return;
+          
           if (tornadoMode) {
             specialPopup.innerHTML = `
             <div class="special-popup-3d">
@@ -5207,9 +5229,13 @@ The Beatles"
             specialPopup.classList.add("show", "tornado-mode");
             specialPopup.classList.remove("hidden");
             setTimeout(() => {
-              specialPopup.classList.remove("show");
-              setTimeout(() => specialPopup.classList.add("hidden"), 400);
-              specialPopup.classList.remove("tornado-mode");
+              if (specialPopup) {
+                specialPopup.classList.remove("show");
+                setTimeout(() => {
+                  if (specialPopup) specialPopup.classList.add("hidden");
+                }, 400);
+                specialPopup.classList.remove("tornado-mode");
+              }
             }, 5000);
             return;
           }
@@ -5221,32 +5247,40 @@ The Beatles"
           specialPopup.classList.add("show");
           specialPopup.classList.remove("hidden");
           setTimeout(() => {
-            specialPopup.classList.remove("show");
-            setTimeout(() => specialPopup.classList.add("hidden"), 400);
+            if (specialPopup) {
+              specialPopup.classList.remove("show");
+              setTimeout(() => {
+                if (specialPopup) specialPopup.classList.add("hidden");
+              }, 400);
+            }
           }, 4000);
         }
 
         function animateScore(team, animationClass) {
           const el = team === "A" ? scoreAEl : scoreBEl;
-          el.classList.add("score-animate", animationClass);
-          setTimeout(() => {
-            el.classList.remove(animationClass);
-          }, 800);
+          if (el) {
+            el.classList.add("score-animate", animationClass);
+            setTimeout(() => {
+              if (el) el.classList.remove(animationClass);
+            }, 800);
+          }
         }
         function animateKangarooSwap() {
-          scoreAEl.classList.add("score-animate", "kangaroo-jump");
-          scoreBEl.classList.add("score-animate", "kangaroo-jump");
+          if (scoreAEl) scoreAEl.classList.add("score-animate", "kangaroo-jump");
+          if (scoreBEl) scoreBEl.classList.add("score-animate", "kangaroo-jump");
           setTimeout(() => {
-            scoreAEl.classList.remove("kangaroo-jump");
-            scoreBEl.classList.remove("kangaroo-jump");
+            if (scoreAEl) scoreAEl.classList.remove("kangaroo-jump");
+            if (scoreBEl) scoreBEl.classList.remove("kangaroo-jump");
           }, 800);
         }
         function animateSkunk(team) {
           const el = team === "A" ? scoreAEl : scoreBEl;
-          el.classList.add("skunk-cloud");
-          setTimeout(() => {
-            el.classList.remove("skunk-cloud");
-          }, 1100);
+          if (el) {
+            el.classList.add("skunk-cloud");
+            setTimeout(() => {
+              if (el) el.classList.remove("skunk-cloud");
+            }, 1100);
+          }
         }
 
         // Confetti burst function
@@ -5497,17 +5531,23 @@ The Beatles"
 
         function showPointsPopup(points, team) {
           const specialPopup = document.getElementById("specialPopup");
+          if (!specialPopup) return;
+          
           specialPopup.innerHTML = `<div class="points-reveal-animation points-text-glow">${points}</div>`;
           specialPopup.classList.add("show", "points-mode");
           specialPopup.classList.remove("hidden");
           specialPopup.style.color =
             team === "A" ? "var(--teamA)" : "var(--teamB)";
           setTimeout(() => {
-            specialPopup.classList.remove("show");
-            setTimeout(() => {
-              specialPopup.classList.add("hidden");
-              specialPopup.classList.remove("points-mode");
-            }, 400);
+            if (specialPopup) {
+              specialPopup.classList.remove("show");
+              setTimeout(() => {
+                if (specialPopup) {
+                  specialPopup.classList.add("hidden");
+                  specialPopup.classList.remove("points-mode");
+                }
+              }, 400);
+            }
           }, 3500);
         }
 
