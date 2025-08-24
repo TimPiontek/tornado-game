@@ -4878,6 +4878,13 @@ The Beatles"
               scores[me] += pointsEarned;
               out = pointsEarned;
               btn.style.color = teamColors[me];
+              
+              // CRITICAL: Update button and scores before return
+              btn.innerHTML = `<span>${out}</span>`;
+              btn.disabled = true;
+              updateScores();
+              updateTeamDisplay();
+              
               showPointsPopup(out, me);
               return;
             }
@@ -4914,6 +4921,13 @@ The Beatles"
               scores[me] += pointsEarned;
               out = pointsEarned;
               btn.style.color = teamColors[me];
+              
+              // CRITICAL: Update button and scores before return
+              btn.innerHTML = `<span>${out}</span>`;
+              btn.disabled = true;
+              updateScores();
+              updateTeamDisplay();
+              
               showPointsPopup(out, me);
               return;
             }
@@ -4957,6 +4971,13 @@ The Beatles"
               scores[me] += pointsEarned;
               out = pointsEarned;
               btn.style.color = teamColors[me];
+              
+              // CRITICAL: Update button and scores before return
+              btn.innerHTML = `<span>${out}</span>`;
+              btn.disabled = true;
+              updateScores();
+              updateTeamDisplay();
+              
               showPointsPopup(out, me);
               return;
             }
