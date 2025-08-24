@@ -1853,9 +1853,7 @@
         line-height: 1;
       }
 
-      .freeze-icon {
-        color: #87ceeb;
-      }
+
 
       .shield-icon {
         color: #32cd32;
@@ -2457,68 +2455,7 @@ The Beatles"
               </div>
               
               <!-- New Special Items -->
-              <div class="special-item-compact" style="width: 100%">
-                <div
-                  class="special-row"
-                  style="
-                    display: flex;
-                    align-items: center;
-                    gap: 0.7em;
-                    min-width: 320px;
-                  "
-                >
-                  <span
-                    class="emoji-big"
-                    style="
-                      width: 48px;
-                      display: inline-flex;
-                      justify-content: center;
-                    "
-                    >❄️</span
-                  >
-                  <b
-                    style="
-                      min-width: 90px;
-                      max-width: 120px;
-                      font-size: 1.05em;
-                      display: flex;
-                      flex-direction: column;
-                      justify-content: center;
-                      text-align: left;
-                      line-height: 1.1;
-                    "
-                  >
-                    <span>Freeze</span>
-                  </b>
-                  <select
-                    id="freezeCount"
-                    style="
-                      width: 2.5em;
-                      min-width: 2.5em;
-                      max-width: 2.5em;
-                      text-align: center;
-                    "
-                  >
-                    <option>0</option>
-                    <option>1</option>
-                    <option selected>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                  </select>
-                  <span
-                    class="special-desc"
-                    style="
-                      margin-left: 0.5em;
-                      font-size: 0.98em;
-                      display: block;
-                      line-height: 2.1em;
-                      vertical-align: middle;
-                    "
-                    >Skip opponent turn</span
-                  >
-                </div>
-              </div>
+
               
               <div class="special-item-compact" style="width: 100%">
                 <div
@@ -2785,6 +2722,25 @@ The Beatles"
       </div>
 
       <div id="grid" style="flex: 1 1 auto"></div>
+      
+      <!-- Next Question Button -->
+      <div id="nextQuestionContainer" style="display: none; text-align: center; margin: 2rem 0;">
+        <button id="nextQuestionBtn" style="
+          background: #6f5c91;
+          color: white;
+          border: none;
+          padding: 1rem 2rem;
+          font-size: 1.2rem;
+          font-weight: 600;
+          border-radius: 12px;
+          cursor: pointer;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+          transition: all 0.3s ease;
+        ">
+          <span style="margin-right: 0.5em;">➡️</span>
+          Next Question
+        </button>
+      </div>
       <footer
         class="game-footer-btns"
         style="
@@ -4301,7 +4257,7 @@ The Beatles"
               doubleCount = 1;
               loseCount = 1;
               swapCount = 1;
-              freezeCount = 1;
+      
               shieldCount = 1;
               hotStreakCount = 1;
               coinFlipCount = 1;
@@ -4680,9 +4636,7 @@ The Beatles"
             let swapCount = parseInt(
               document.getElementById("swapCount")?.value || "1"
             );
-            let freezeCount = parseInt(
-              document.getElementById("freezeCount")?.value || "1"
-            );
+            
             let shieldCount = parseInt(
               document.getElementById("shieldCount")?.value || "1"
             );
@@ -4695,7 +4649,7 @@ The Beatles"
             qIndex = 0;
             // Fully reset game state and grid
             if (typeof initGame === 'function') {
-              initGame(tornadoCount, doubleCount, loseCount, swapCount, freezeCount, shieldCount, hotStreakCount, coinFlipCount);
+              initGame(tornadoCount, doubleCount, loseCount, swapCount, shieldCount, hotStreakCount, coinFlipCount);
             }
             if (typeof buildGrid === 'function') {
               buildGrid(total);
@@ -4760,7 +4714,7 @@ The Beatles"
           doubleCount = 2,
           loseCount = 2,
           swapCount = 1,
-          freezeCount = 1,
+  
           shieldCount = 1,
           hotStreakCount = 1,
           coinFlipCount = 1
@@ -5232,16 +5186,12 @@ The Beatles"
               Promise.all(pendingPromises).then(() => {
                 // Clear the promises array
                 pendingPromises = [];
-                // Show next question after a short delay
-                setTimeout(() => {
-                  showQuestion();
-                }, 1000);
+                // Show "Next Question" button instead of auto-showing
+                showNextQuestionButton();
               });
             } else {
-              // No pending promises, show next question normally
-              setTimeout(() => {
-                showQuestion();
-              }, 3000);
+              // No pending promises, show "Next Question" button
+              showNextQuestionButton();
             }
             
             // If single player and it's now Android's turn, trigger computer move
@@ -5251,9 +5201,27 @@ The Beatles"
           }
         }
 
+        function showNextQuestionButton() {
+          const nextQuestionContainer = document.getElementById("nextQuestionContainer");
+          if (nextQuestionContainer) {
+            nextQuestionContainer.style.display = "block";
+          }
+        }
+        
+        function hideNextQuestionButton() {
+          const nextQuestionContainer = document.getElementById("nextQuestionContainer");
+          if (nextQuestionContainer) {
+            nextQuestionContainer.style.display = "none";
+          }
+        }
+        
         function showQuestion() {
           console.log(qIndex, "qIndex");
           console.warn(usedQuestionIndices, "usedQuestionIndices");
+          
+          // Hide the Next Question button when showing a question
+          hideNextQuestionButton();
+          
           const qObj = questions[usedQuestionIndices[qIndex]] || {
             question: "",
             answer: null,
@@ -6292,6 +6260,15 @@ The Beatles"
           }
           if (typeof showQuestion === 'function') {
             showQuestion();
+          }
+          
+          // Set up Next Question button event listener
+          const nextQuestionBtn = document.getElementById("nextQuestionBtn");
+          if (nextQuestionBtn) {
+            nextQuestionBtn.onclick = () => {
+              hideNextQuestionButton();
+              showQuestion();
+            };
           }
         }
 
