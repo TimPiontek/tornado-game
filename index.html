@@ -4900,6 +4900,11 @@ The Beatles"
               scores[me] = 0;
               out = "🦨";
               styleSpecial(btn, me);
+              
+              // CRITICAL: Update button content and disable it
+              btn.innerHTML = `<span>${out}</span>`;
+              btn.disabled = true;
+              
               showSpecialPopup("🦨", "Skunked! Lose all your points!");
               animateSkunk(me);
               playSad();
@@ -4949,6 +4954,11 @@ The Beatles"
                 scores[targetTeam] = 0;
                 out = "🌪";
                 styleSpecial(btn, me);
+                
+                // CRITICAL: Update button content and disable it
+                btn.innerHTML = `<span>${out}</span>`;
+                btn.disabled = true;
+                
                 btn.classList.add("tornado-animation");
                 showSpecialPopup("🌪️", "Tornado! Steal the other team's points!", true);
                 animateKangarooSwap();
@@ -4987,6 +4997,11 @@ The Beatles"
             scores[targetTeam] = temp;
             out = "🦘";
             styleSpecial(btn, me);
+            
+            // CRITICAL: Update button content and disable it
+            btn.innerHTML = `<span>${out}</span>`;
+            btn.disabled = true;
+            
             showSpecialPopup("🦘", "Kangaroo Hop Swap! Teams swap points!");
             animateKangarooSwap();
           } else if (r.type === "double") {
@@ -5033,6 +5048,10 @@ The Beatles"
             out = pointsEarned;
             btn.style.color = teamColors[me];
             
+            // CRITICAL: Update button content and disable it
+            btn.innerHTML = `<span>${out}</span>`;
+            btn.disabled = true;
+            
             // Show points first, then shield effect (no math breakdown needed)
             showPointsPopup(out, me);
             
@@ -5050,6 +5069,10 @@ The Beatles"
             scores[me] += pointsEarned;
             out = pointsEarned;
             btn.style.color = teamColors[me];
+            
+            // CRITICAL: Update button content and disable it
+            btn.innerHTML = `<span>${out}</span>`;
+            btn.disabled = true;
             
             // Show points first, then hot streak effect (no math breakdown needed for activation)
             showPointsPopup(out, me);
