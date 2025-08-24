@@ -2719,24 +2719,7 @@ The Beatles"
 
       <div id="grid" style="flex: 1 1 auto"></div>
       
-      <!-- Next Question Button -->
-      <div id="nextQuestionContainer" style="display: none; text-align: center; margin: 2rem 0;">
-        <button id="nextQuestionBtn" style="
-          background: #6f5c91;
-          color: white;
-          border: none;
-          padding: 1rem 2rem;
-          font-size: 1.2rem;
-          font-weight: 600;
-          border-radius: 12px;
-          cursor: pointer;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-          transition: all 0.3s ease;
-        ">
-          <span style="margin-right: 0.5em;">➡️</span>
-          Next Question
-        </button>
-      </div>
+
       <footer
         class="game-footer-btns"
         style="
@@ -5167,12 +5150,10 @@ The Beatles"
               Promise.all(pendingPromises).then(() => {
                 // Clear the promises array
                 pendingPromises = [];
-                // Show "Next Question" button instead of auto-showing
-                showNextQuestionButton();
+                // Next Question button is always visible, no need to show it
               });
             } else {
-              // No pending promises, show "Next Question" button
-              showNextQuestionButton();
+              // No pending promises, Next Question button is always visible
             }
             
             // If single player and it's now Android's turn, trigger computer move
@@ -5183,25 +5164,20 @@ The Beatles"
         }
 
         function showNextQuestionButton() {
-          const nextQuestionContainer = document.getElementById("nextQuestionContainer");
-          if (nextQuestionContainer) {
-            nextQuestionContainer.style.display = "block";
-          }
+          // The Next Question button is now always visible in the game controls
+          // No need to show/hide a separate container
         }
         
         function hideNextQuestionButton() {
-          const nextQuestionContainer = document.getElementById("nextQuestionContainer");
-          if (nextQuestionContainer) {
-            nextQuestionContainer.style.display = "none";
-          }
+          // The Next Question button is now always visible in the game controls
+          // No need to show/hide a separate container
         }
         
         function showQuestion() {
           console.log(qIndex, "qIndex");
           console.warn(usedQuestionIndices, "usedQuestionIndices");
           
-          // Hide the Next Question button when showing a question
-          hideNextQuestionButton();
+          // Next Question button is always visible, no need to hide it
           
           const qObj = questions[usedQuestionIndices[qIndex]] || {
             question: "",
