@@ -4839,7 +4839,7 @@ The Beatles
               
               breakdown = {
                 basePoints: basePoints,
-                effect: "🔥 Hot Streak: Triple points!",
+                effect: `🔥 Hot Streak: ${basePoints} × 3 = ${pointsEarned} points!`,
                 finalTotal: pointsEarned
               };
               
@@ -4865,14 +4865,14 @@ The Beatles
                 pendingPromises.push(breakdownPromise); // Track this promise
                 breakdownPromise.then(() => {
                   // After breakdown is dismissed, show the special effect popup
-                  showSpecialPopup("🔥", "Hot Streak! Triple points!");
+                  showSpecialPopup("🔥", `Hot Streak! +${pointsEarned} points!`);
                   
                   // CRITICAL: Advance turn AFTER breakdown is dismissed
                   advanceTurn();
                 });
               } else {
                 // Fallback if no promise returned
-                showSpecialPopup("🔥", "Hot Streak! Triple points!");
+                showSpecialPopup("🔥", `Hot Streak! +${pointsEarned} points!`);
                 advanceTurn();
               }
               
@@ -4974,6 +4974,9 @@ The Beatles
                 scores[targetTeam] = 0;
                 out = "🌪";
                 styleSpecial(btn, me);
+                // Add white background for better tornado visibility
+                btn.style.background = "#fff";
+                btn.style.color = "#333";
                 
                 // CRITICAL: Update button content and disable it
                 btn.innerHTML = `<span>${out}</span>`;
@@ -5116,7 +5119,7 @@ The Beatles
             
             // Then show shield effect
             setTimeout(() => {
-              showSpecialPopup("🛡️", "Shield activated! Protects from negative effects until used!", false, true);
+              showSpecialPopup("🛡️", `Shield activated! +${out} points! Protects from negative effects until used.`, false, false);
             }, 1000);
             
             // CRITICAL: Return here to prevent the button from being overwritten later
