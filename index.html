@@ -5122,7 +5122,8 @@ The Beatles
               showSpecialPopup("🛡️", `Shield activated! +${out} points! Protects from negative effects until used.`, false, false);
             }, 1000);
             
-            // CRITICAL: Return here to prevent the button from being overwritten later
+            // Advance turn after shield activation
+            advanceTurn();
             return;
                     } else if (r.type === "hotStreak") {
             // Hot Streak effect - give points AND hot streak
