@@ -5127,14 +5127,9 @@ The Beatles"
               }
             }, 1000);
             
-            // If this is the last block, don't return - let the game end naturally
-            if (isLastBlock) {
-              // Continue to game end logic below
-            } else {
-              // IMPORTANT: Return here to prevent turn change until coin flip is completed
-              // The turn will change after the coin flip is processed in handleCoinFlip
-              return;
-            }
+            // CRITICAL: Always return here to prevent the button from being overwritten later
+            // The turn will change after the coin flip is processed in handleCoinFlip
+            return;
           }
           
           // Update announcement
