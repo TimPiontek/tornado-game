@@ -4811,7 +4811,13 @@ The Beatles
           }
         }
 
+        let isResolvingTurn = false;
+
         function handlePick(btn, i) {
+          if (isResolvingTurn) {
+            return;
+          }
+          isResolvingTurn = true;
           let r = rewards[i],
             me = turn;
           
@@ -5433,6 +5439,8 @@ The Beatles
           turnEl.textContent = `${names[turn]}'s turn`;
           turnEl.style.color = teamColors[turn] || "#6f5c91";
           updateTeamDisplay();
+          // Allow next team to act
+          isResolvingTurn = false;
         }
 
         function styleSpecial(btn, team) {
