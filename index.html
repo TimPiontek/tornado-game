@@ -5005,6 +5005,34 @@ The Beatles"
               return;
             }
             
+            // Check if shield protects from negative swap
+            const wouldLosePoints = scores[targetTeam] > scores[me];
+            if (wouldLosePoints && teamStatus[me]?.shield) {
+              // Shield protects from negative swap - give points instead
+              pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
+              scores[me] += pointsEarned;
+              out = pointsEarned;
+              btn.style.color = teamColors[me];
+              
+              // CRITICAL: Update button and scores before return
+              btn.innerHTML = `<span>${out}</span>`;
+              btn.disabled = true;
+              updateScores();
+              updateTeamDisplay();
+              
+              // Use up the shield
+              teamStatus[me].shield = false;
+              teamStatus[me].shieldUsed = true;
+              updateTeamDisplay();
+              
+              showPointsPopup(out, me);
+              showSpecialPopup("🛡️", "Shield protected you from negative swap! +100 bonus points!", false, false);
+              
+              // CRITICAL: Advance turn before returning
+              advanceTurn();
+              return;
+            }
+            
             let temp = scores[me];
             scores[me] = scores[targetTeam];
             scores[targetTeam] = temp;
@@ -5061,17 +5089,28 @@ The Beatles"
             out = pointsEarned;
             btn.style.color = teamColors[me];
             
+            // CRITICAL: Update button content and disable it immediately
+            btn.innerHTML = `<span>${out}</span>`;
+            btn.disabled = true;
+            updateScores();
+            updateTeamDisplay();
+            
             // Show points first, then shield effect (no math breakdown needed)
             showPointsPopup(out, me);
             
+            // Activate shield immediately and update display
+            teamStatus[me] = teamStatus[me] || {};
+            teamStatus[me].shield = true;
+            teamStatus[me].shieldUsed = false; // Mark as not used yet
+            updateTeamDisplay(); // Show shield icon immediately
+            
             // Then show shield effect
             setTimeout(() => {
-              teamStatus[me] = teamStatus[me] || {};
-              teamStatus[me].shield = true;
-              teamStatus[me].shieldUsed = false; // Mark as not used yet
-              showSpecialPopup("🛡️", "Shield activated! Protects from next negative effect!", false, true);
+              showSpecialPopup("🛡️", "Shield activated! Protects from negative effects until used!", false, true);
             }, 1000);
-            // No return - game continues to next team
+            
+            // CRITICAL: Return here to prevent the button from being overwritten later
+            return;
                     } else if (r.type === "hotStreak") {
             // Hot Streak effect - give points AND hot streak
             pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
@@ -5079,23 +5118,32 @@ The Beatles"
             out = pointsEarned;
             btn.style.color = teamColors[me];
             
+            // CRITICAL: Update button content and disable it immediately
+            btn.innerHTML = `<span>${out}</span>`;
+            btn.disabled = true;
+            updateScores();
+            updateTeamDisplay();
+            
             // Show points first, then hot streak effect (no math breakdown needed for activation)
             showPointsPopup(out, me);
             
-            // Then show hot streak effect
-            setTimeout(() => {
-              if (teamStatus[me]?.hotStreak) {
-                scores[me] += 100;
-                showSpecialPopup("🔥", "Hot Streak already active! +100 bonus points!");
-                animateScore(me, "hot-streak-bounce");
-              } else {
-                teamStatus[me] = teamStatus[me] || {};
-                teamStatus[me].hotStreak = true;
-                teamStatus[me].hotStreakUsed = false; // Mark as not used yet
-                showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!", false, false);
-              }
-            }, 1000);
-            // No return - game continues to next team
+            // Activate hot streak immediately and update display
+            if (teamStatus[me]?.hotStreak) {
+              scores[me] += 100;
+              updateScores();
+              updateTeamDisplay();
+              showSpecialPopup("🔥", "Hot Streak already active! +100 bonus points!", false, false);
+              animateScore(me, "hot-streak-bounce");
+            } else {
+              teamStatus[me] = teamStatus[me] || {};
+              teamStatus[me].hotStreak = true;
+              teamStatus[me].hotStreakUsed = false; // Mark as not used yet
+              updateTeamDisplay(); // Show hot streak icon immediately
+              showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!", false, false);
+            }
+            
+            // CRITICAL: Return here to prevent the button from being overwritten later
+            return;
           } else if (r.type === "coinFlip") {
             // Coin Flip effect - give points AND coin flip
             pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
@@ -5292,7 +5340,7 @@ The Beatles"
           // Clear status effects that should disappear after each turn
           for (let teamId in teamStatus) {
             if (teamStatus[teamId]) {
-              // Clear shield after it's used (it's a one-time protection)
+              // Clear shield only after it's used (it persists until needed)
               if (teamStatus[teamId].shieldUsed) {
                 teamStatus[teamId].shield = false;
                 teamStatus[teamId].shieldUsed = false;
@@ -5327,7 +5375,7 @@ The Beatles"
               const shieldIcon = document.createElement("div");
               shieldIcon.className = "status-icon shield-icon";
               shieldIcon.innerHTML = "🛡️";
-              shieldIcon.title = "Protects from next negative effect";
+              shieldIcon.title = "Protects from negative effects until used";
               statusDiv.appendChild(shieldIcon);
             }
             
@@ -6105,7 +6153,7 @@ The Beatles"
                   <tr><td style="padding:0.5em;">🦨</td><td style="padding:0.5em;">Skunk</td><td style="padding:0.5em;">Lose all of your team's points.</td></tr>
                   <tr><td style="padding:0.5em;">🦘</td><td style="padding:0.5em;">Kangaroo Hop Swap</td><td style="padding:0.5em;">Swap your team's total score with the other team.</td></tr>
   
-                  <tr><td style="padding:0.5em;">🛡️</td><td style="padding:0.5em;">Shield</td><td style="padding:0.5em;">Protects from the next negative effect.</td></tr>
+                  <tr><td style="padding:0.5em;">🛡️</td><td style="padding:0.5em;">Shield</td><td style="padding:0.5em;">Protects from negative effects until used.</td></tr>
                   <tr><td style="padding:0.5em;">🔥</td><td style="padding:0.5em;">Hot Streak</td><td style="padding:0.5em;">Next correct answer worth 3x points.</td></tr>
                   <tr><td style="padding:0.5em;">🪙</td><td style="padding:0.5em;">Coin Flip</td><td style="padding:0.5em;">Double or lose revealed points.</td></tr>
                 </tbody>
@@ -6752,6 +6800,7 @@ The Beatles"
                 <div style="display:flex;align-items:center;gap:0.8em;">
                   <span style="font-size:1.5em;">🛡️</span>
                   <span style="font-weight:600;color:#333;">Shield</span>
+                  <span style="font-size:0.9rem;color:#666;display:block;margin-top:0.2em;">Protects from negative effects until used</span>
                 </div>
                 <select id="libraryShieldCount" style="padding:0.5em;border:1px solid #ddd;border-radius:4px;background:#fff;">
                   <option>0</option>
@@ -6767,6 +6816,7 @@ The Beatles"
                 <div style="display:flex;align-items:center;gap:0.8em;">
                   <span style="font-size:1.5em;">🔥</span>
                   <span style="font-weight:600;color:#333;">Hot Streak</span>
+                  <span style="font-size:0.9rem;color:#666;display:block;margin-top:0.2em;">Next correct answer worth 3x points</span>
                 </div>
                 <select id="libraryHotStreakCount" style="padding:0.5em;border:1px solid #ddd;border-radius:4px;background:#fff;">
                   <option>0</option>
