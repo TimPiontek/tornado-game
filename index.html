@@ -2163,10 +2163,10 @@
               class="questions-block compact-questions-block slightly-wider-questions-block align-bottom"
             >
               <label>
-                Q&A:
+                Q&A (Optional):
                 <small
                   >Enter questions (and answers). One per line, or blank line
-                  between Q & A.</small
+                  between Q & A. Leave empty to play grid-only mode!</small
                 >
                 <textarea
                   id="questionsInput"
@@ -2174,7 +2174,9 @@
 Boston
 
 Which band wrote the song 'Hey Jude'?
-The Beatles"
+The Beatles
+
+(Leave empty to play grid-only mode!)"
                 ></textarea>
               </label>
               <div class="inline-radio">
@@ -2195,9 +2197,10 @@ The Beatles"
               <p class="how-title">How to Play:</p>
               <p class="how-body">
                 Play with or without questions!<br />
-                - Choose a premade quiz or paste your own Q&A.<br />
-                - Ask a question; when a team answers correctly, they pick a
+                - Choose a premade quiz, paste your own Q&A, or leave empty for grid-only mode.<br />
+                - With questions: Ask a question; when a team answers correctly, they pick a
                 number to reveal points or a surprise.<br />
+                - Grid-only: Teams take turns picking numbers directly to reveal points or surprises.<br />
                 - First team to the most points wins!
               </p>
             </div>
@@ -4161,11 +4164,13 @@ The Beatles"
               alert("Please log in to start the game.");
               return;
             }
-            // ✅ check if a quiz is selected or questions are provided
+            // ✅ check if a quiz is selected or questions are provided (optional for grid-only play)
             const questionsInputEl = document.getElementById("questionsInput");
-            if ((!questionsInputEl || questionsInputEl.value.trim() === "") && selectedQuizId === null) {
-              alert("Please select a quiz or enter questions.");
-              return;
+            const hasQuestions = (questionsInputEl && questionsInputEl.value.trim() !== "") || selectedQuizId !== null;
+            
+            // Allow starting without questions for grid-only play
+            if (!hasQuestions) {
+              console.log("Starting game without questions - grid-only mode");
             }
 
             singlePlayer = singlePlayerCheckbox.checked;
@@ -4279,8 +4284,9 @@ The Beatles"
                 questions.length,
                 questions
               );
-            } else {
-              const raw = questionsInputEl ? questionsInputEl.value : "";
+            } else if (questionsInputEl && questionsInputEl.value.trim() !== "") {
+              // Parse custom questions from textarea
+              const raw = questionsInputEl.value;
               // split blocks on blank line
               const blocks = raw
                 .split(/\n\s*\n/)
@@ -4302,6 +4308,10 @@ The Beatles"
                     answer: null,
                   }));
               }
+            } else {
+              // No questions provided - grid-only mode
+              questions = [];
+              console.log("No questions provided - starting grid-only game");
             }
             // Prepare usedQuestionIndices for unique rotation
             usedQuestionIndices = [];
