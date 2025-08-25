@@ -5155,8 +5155,8 @@ The Beatles
               showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!", false, false);
             }
             
-            // CRITICAL: Return here to prevent the button from being overwritten later
-            return;
+            // CRITICAL: Don't return here - let the turn advance normally
+            // The hot streak will be applied on the next points pick
           } else if (r.type === "coinFlip") {
             // Coin Flip effect - give points AND coin flip
             pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
