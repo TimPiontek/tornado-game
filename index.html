@@ -504,9 +504,20 @@
         position: relative;
       }
 
+      .how-to-play-section {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+
       .how-to-play {
         margin-top: 0;
         padding-top: 0;
+        background: rgba(255, 255, 255, 0.93);
+        border-radius: 12px;
+        padding: 1.2rem 1.5rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
       }
 
       .how-title {
@@ -1211,7 +1222,43 @@
         gap: 2.5rem;
         max-width: 1200px;
         margin: 0 auto;
-        align-items: flex-end;
+        align-items: flex-start;
+      }
+
+      .special-effects-sidebar {
+        flex: 0 0 320px;
+        min-width: 260px;
+        max-width: 340px;
+        display: flex;
+        flex-direction: column;
+        background: rgba(255, 255, 255, 0.93);
+        border-radius: 12px;
+        padding: 18px 18px 18px 18px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+        margin-top: 0;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+
+      .special-effects-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 1rem 0;
+        text-align: center;
+        border-bottom: 2px solid #e0e0e0;
+        padding-bottom: 0.5rem;
+      }
+
+      .special-effects-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      .special-effects-content .special-item-compact {
+        margin-bottom: 0.5rem;
       }
 
       .how-to-play-sym {
@@ -1227,6 +1274,17 @@
         padding: 18px 18px 18px 18px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
         margin-top: 0;
+      }
+
+      .setup-main-card {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        flex: 1 1 0;
+        min-width: 400px;
+        max-width: 600px;
+        gap: 0.2rem;
+        justify-content: flex-start;
       }
 
       .setup-main-grid {
@@ -1308,11 +1366,18 @@
           max-width: 98vw;
         }
 
+        .special-effects-sidebar,
         .how-to-play-sym,
+        .setup-main-card,
         .setup-main-grid {
           min-width: 0;
           max-width: 98vw;
           width: 100%;
+        }
+
+        .special-effects-sidebar {
+          max-height: none;
+          overflow-y: visible;
         }
 
         .setup-row {
@@ -1525,6 +1590,24 @@
 
       .setup-unified-cell.full-width {
         grid-column: 1 / span 2;
+      }
+
+      /* Style the Q&A section within the unified card */
+      .setup-unified-cell.full-width label small {
+        display: block;
+        color: #666;
+        font-size: 0.9em;
+        margin-bottom: 0.5em;
+        font-style: italic;
+      }
+
+      .setup-unified-cell.full-width textarea {
+        margin-top: 0.5em;
+        margin-bottom: 1em;
+      }
+
+      .setup-unified-cell.full-width .inline-radio {
+        margin-top: 0.5em;
       }
 
       @media (max-width: 700px) {
@@ -2007,10 +2090,12 @@
         "
       >
         <div class="setup-grid-row" style="margin-top: 2.5rem">
-          <div class="setup-main-grid">
+          <!-- Main Setup Card (Center) -->
+          <div class="setup-main-card">
             <form id="setupForm" onsubmit="return false;">
               <div class="setup-unified-card">
                 <div class="setup-unified-grid">
+                  <!-- Team Names Row -->
                   <div class="setup-unified-cell">
                     <label style="display: block; margin-bottom: 0.3em"
                       >Team A Name:
@@ -2087,6 +2172,8 @@
                       />
                     </label>
                   </div>
+                  
+                  <!-- Game Options Row -->
                   <div class="setup-unified-cell">
                     <label
                       style="
@@ -2148,71 +2235,56 @@
                       </div>
                     </label>
                   </div>
-                </div>
-              </div>
-              <!-- Start Game button is now outside the card -->
-            </form>
-            <button
-              id="startGameBtnBottom"
-              class="purple-btn start-large compact-start-btn"
-              style="margin: 1.2em auto 0 auto; display: block"
-            >
-              Start Game
-            </button>
-            <div
-              class="questions-block compact-questions-block slightly-wider-questions-block align-bottom"
-            >
-              <label>
-                Q&A (Optional):
-                <small
-                  >Enter questions (and answers). One per line, or blank line
-                  between Q & A. Leave empty to play grid-only mode!</small
-                >
-                <textarea
-                  id="questionsInput"
-                  placeholder="What city is home to Fenway Park?
+                  
+                  <!-- Q&A Section -->
+                  <div class="setup-unified-cell full-width">
+                    <label>
+                      Q&A (Optional):
+                      <small
+                        >Enter questions (and answers). One per line, or blank line
+                        between Q & A. Leave empty to play grid-only mode!</small
+                      >
+                      <textarea
+                        id="questionsInput"
+                        placeholder="What city is home to Fenway Park?
 Boston
 
 Which band wrote the song 'Hey Jude'?
 The Beatles
 
 (Leave empty to play grid-only mode!)"
-                ></textarea>
-              </label>
-              <div class="inline-radio">
-                <span>Order:</span>
-                <label
-                  ><input type="radio" name="order" value="inorder" checked />
-                  In order</label
-                >
-                <label
-                  ><input type="radio" name="order" value="random" />
-                  Random</label
-                >
+                      ></textarea>
+                    </label>
+                    <div class="inline-radio">
+                      <span>Order:</span>
+                      <label
+                        ><input type="radio" name="order" value="inorder" checked />
+                        In order</label
+                      >
+                      <label
+                        ><input type="radio" name="order" value="random" />
+                        Random</label
+                      >
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+              
+              <!-- Start Game Button -->
+              <button
+                id="startGameBtnBottom"
+                class="purple-btn start-large compact-start-btn"
+                style="margin: 1.2em auto 0 auto; display: block"
+              >
+                Start Game
+              </button>
+            </form>
           </div>
-          <div class="how-to-play-sym">
-            <div class="how-to-play">
-              <p class="how-title">How to Play:</p>
-              <p class="how-body">
-                Play with or without questions!<br />
-                - Choose a premade quiz, paste your own Q&A, or leave empty for grid-only mode.<br />
-                - With questions: Ask a question; when a team answers correctly, they pick a
-                number to reveal points or a surprise.<br />
-                - Grid-only: Teams take turns picking numbers directly to reveal points or surprises.<br />
-                - First team to the most points wins!
-              </p>
-            </div>
-            <div
-              class="special-item-compact-list"
-              style="
-                display: flex;
-                flex-direction: column;
-                gap: 0.2rem;
-                align-items: flex-start;
-              "
-            >
+          
+          <!-- Special Effects Sidebar (Right) -->
+          <div class="special-effects-sidebar">
+            <h3 class="special-effects-title">Special Effects</h3>
+            <div class="special-effects-content">
               <div class="special-item-compact" style="width: 100%">
                 <div
                   class="special-row"
@@ -2458,8 +2530,6 @@ The Beatles
               </div>
               
               <!-- New Special Items -->
-
-              
               <div class="special-item-compact" style="width: 100%">
                 <div
                   class="special-row"
@@ -2646,6 +2716,21 @@ The Beatles
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        
+        <!-- How to Play Section (Below the main layout) -->
+        <div class="how-to-play-section">
+          <div class="how-to-play">
+            <p class="how-title">How to Play:</p>
+            <p class="how-body">
+              Play with or without questions!<br />
+              - Choose a premade quiz, paste your own Q&A, or leave empty for grid-only mode.<br />
+              - With questions: Ask a question; when a team answers correctly, they pick a
+              number to reveal points or a surprise.<br />
+              - Grid-only: Teams take turns picking numbers directly to reveal points or surprises.<br />
+              - First team to the most points wins!
+            </p>
           </div>
         </div>
       </div>
