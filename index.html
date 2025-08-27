@@ -1233,10 +1233,10 @@
         flex-direction: column;
         background: rgba(255, 255, 255, 0.93);
         border-radius: 12px;
-        padding: 18px 18px 18px 18px;
+        padding: 12px 14px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
         margin-top: 0;
-        max-height: 80vh;
+        max-height: 72vh;
         overflow-y: auto;
       }
 
@@ -1285,6 +1285,16 @@
         max-width: 600px;
         gap: 0.2rem;
         justify-content: flex-start;
+      }
+
+      /* Constrain card height to keep above the fold on laptops */
+      .setup-main-card .setup-unified-card {
+        max-height: 72vh;
+        overflow: hidden;
+      }
+
+      .setup-main-card .setup-unified-card .setup-unified-grid {
+        overflow: visible;
       }
 
       .setup-main-grid {
@@ -1566,10 +1576,10 @@
       /* Add styles for the unified card and grid */
       .setup-unified-card {
         background: #fff;
-        border-radius: 16px;
+        border-radius: 12px;
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-        padding: 2.2em 2.5em 1.5em 2.5em;
-        margin-bottom: 1.5em;
+        padding: 1em 1.2em 1em 1.2em;
+        margin-bottom: 1em;
         max-width: 700px;
         margin-left: auto;
         margin-right: auto;
@@ -1579,7 +1589,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: auto auto auto;
-        gap: 1.2em 2.2em;
+        gap: 0.8em 1.2em;
         align-items: flex-start;
       }
 
@@ -1594,10 +1604,10 @@
 
       /* Style the Q&A section within the unified card */
       .setup-unified-cell.full-width label small {
-        display: block;
+        display: inline-block;
         color: #666;
         font-size: 0.9em;
-        margin-bottom: 0.5em;
+        margin-left: 0.5em;
         font-style: italic;
       }
 
@@ -2238,46 +2248,43 @@
                   
                   <!-- Q&A Section -->
                   <div class="setup-unified-cell full-width">
-                    <label>
-                      Q&A (Optional):
-                      <small
-                        >Enter questions (and answers). One per line, or blank line
-                        between Q & A. Leave empty to play grid-only mode!</small
-                      >
-                      <textarea
-                        id="questionsInput"
-                        placeholder="What city is home to Fenway Park?
+                    <label style="display:flex; align-items:center; gap:0.6em; flex-wrap:wrap;">
+                      <span>Q&A (Optional):</span>
+                      <small>Enter questions (and answers). One per line, or blank line between Q & A. Leave empty to play grid-only mode!</small>
+                      <span style="margin-left:auto"></span>
+                      <span>Order:</span>
+                      <label style="display:inline-flex; align-items:center; gap:0.3em; margin:0;">
+                        <input type="radio" name="order" value="inorder" checked /> In order
+                      </label>
+                      <label style="display:inline-flex; align-items:center; gap:0.3em; margin:0;">
+                        <input type="radio" name="order" value="random" /> Random
+                      </label>
+                    </label>
+                    <textarea
+                      id="questionsInput"
+                      style="height: 3.8em; resize: vertical;"
+                      placeholder="What city is home to Fenway Park?
 Boston
 
 Which band wrote the song 'Hey Jude'?
 The Beatles
 
 (Leave empty to play grid-only mode!)"
-                      ></textarea>
-                    </label>
-                    <div class="inline-radio">
-                      <span>Order:</span>
-                      <label
-                        ><input type="radio" name="order" value="inorder" checked />
-                        In order</label
-                      >
-                      <label
-                        ><input type="radio" name="order" value="random" />
-                        Random</label
-                      >
-                    </div>
+                    ></textarea>
                   </div>
                 </div>
               </div>
               
               <!-- Start Game Button -->
-              <button
-                id="startGameBtnBottom"
-                class="purple-btn start-large compact-start-btn"
-                style="margin: 1.2em auto 0 auto; display: block"
-              >
-                Start Game
-              </button>
+              <div style="padding: 0.4em 0 0 0;">
+                <button
+                  id="startGameBtnBottom"
+                  class="purple-btn"
+                  style="width:100%; font-size:1.6rem; padding:0.8rem 0; font-weight:800;"
+                >
+                  Start Game
+                </button>
+              </div>
             </form>
           </div>
           
@@ -2719,20 +2726,7 @@ The Beatles
           </div>
         </div>
         
-        <!-- How to Play Section (Below the main layout) -->
-        <div class="how-to-play-section">
-          <div class="how-to-play">
-            <p class="how-title">How to Play:</p>
-            <p class="how-body">
-              Play with or without questions!<br />
-              - Choose a premade quiz, paste your own Q&A, or leave empty for grid-only mode.<br />
-              - With questions: Ask a question; when a team answers correctly, they pick a
-              number to reveal points or a surprise.<br />
-              - Grid-only: Teams take turns picking numbers directly to reveal points or surprises.<br />
-              - First team to the most points wins!
-            </p>
-          </div>
-        </div>
+
       </div>
     </div>
 
