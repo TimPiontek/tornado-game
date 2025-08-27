@@ -2100,7 +2100,7 @@
           margin-top: 0;
         "
       >
-        <div class="setup-grid-row" style="margin-top: 0.5rem" >
+        <div class="setup-grid-row" style="margin-top: 0.5rem; align-items: stretch;" >
           <!-- Main Setup Card (Center) -->
           <div class="setup-main-card">
             <form id="setupForm" onsubmit="return false;">
@@ -2277,15 +2277,7 @@ The Beatles
               </div>
               
               <!-- Start Game Button -->
-              <div style="padding: 0.4em 0 0 0;">
-                <button
-                  id="startGameBtnBottom"
-                  class="purple-btn"
-                  style="width:calc(100% + 320px + 2rem); max-width:1200px; transform:translateX(calc(-160px - 1rem)); font-size:1.8rem; padding:0.9rem 0; font-weight:800;"
-                >
-                  Start Game
-                </button>
-              </div>
+
             </form>
           </div>
           
@@ -2729,9 +2721,20 @@ The Beatles
         
 
       </div>
-    </div>
-
-    <!-- GAME SCREEN -->
+            </div>
+        
+        <!-- Start Game Button spanning both cards -->
+        <div style="display:flex; justify-content:center; margin: 0.8rem 0 0;">
+          <button
+            id="startGameBtnBottom"
+            class="purple-btn"
+            style="width: calc(100% - 3rem); max-width: 1200px; font-size: 1.8rem; padding: 0.9rem 0; font-weight: 800;"
+          >
+            Start Game
+          </button>
+        </div>
+ 
+        <!-- GAME SCREEN -->
     <div id="gameScreen" class="hidden">
       <!-- Remove the logo image from here -->
       <div id="specialPopup" class="special-popup hidden"></div>
