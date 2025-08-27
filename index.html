@@ -1216,14 +1216,14 @@
       }
 
       .setup-grid-row.home-grid {
-        display: grid;
-        grid-template-columns: 1fr 380px;
-        gap: 18px;
-        align-items: start;
-        align-content: start;
-        width: 1200px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 95%;
+        max-width: 1400px;
         margin: 0 auto;
         padding: 0;
+        gap: 40px;
       }
 
       .home-grid > #startGameBtnBottom {
@@ -1234,9 +1234,8 @@
       }
 
       .special-effects-sidebar {
-        flex: 0 0 380px;
-        min-width: 0;
-        max-width: 380px;
+        width: 400px;
+        flex-shrink: 0;
         display: flex;
         flex-direction: column;
         background: rgba(255, 255, 255, 0.93);
@@ -1244,6 +1243,7 @@
         padding: 10px 12px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
         margin: 0;
+        height: fit-content;
         max-height: 52vh;
         overflow-y: auto;
       }
@@ -1290,7 +1290,7 @@
         align-items: stretch;
         flex: 1 1 0;
         min-width: 0;
-        max-width: none;
+        max-width: 800px;
         gap: 0;
         justify-content: flex-start;
         margin: 0;
@@ -2193,28 +2193,13 @@
                   </div>
                   
                   <!-- Game Options Row -->
-                  <div class="setup-unified-cell">
-                    <label
-                      style="
-                        display: flex;
-                        align-items: center;
-                        gap: 0.5em;
-                        margin-bottom: 0.1em;
-                      "
-                    >
-                      <input
-                        type="checkbox"
-                        id="singlePlayerCheckbox"
-                        style="margin-right: 0.5em"
-                      />
-                      <span style="white-space: nowrap">Single Player</span>
-                    </label>
-                  </div>
+
                   <div class="setup-unified-cell">
                     <label>
                       Number of Teams:
                       <select id="teamCountInput">
-                        <option value="2">2 Teams</option>
+                        <option value="1">1 Team (Single Player)</option>
+                        <option value="2" selected>2 Teams</option>
                         <option value="3">3 Teams</option>
                         <option value="4">4 Teams</option>
                         <option value="5">5 Teams</option>
@@ -2728,17 +2713,18 @@ The Beatles
         </div>
         
 
+            <!-- Start Game Button spanning both cards -->
+            <button
+              id="startGameBtnBottom"
+              class="purple-btn"
+              style="width: 100%; max-width: 1200px; font-size: 1.7rem; padding: 0.8rem 0; font-weight: 800; margin: 8px 0 0;"
+            >
+              Start Game
+            </button>
+          </div>
+        </div>
       </div>
-            </div>
-        
-                  <!-- Start Game Button spanning both cards -->
-          <button
-            id="startGameBtnBottom"
-            class="purple-btn"
-            style="width: 100%; max-width: 1200px; font-size: 1.7rem; padding: 0.8rem 0; font-weight: 800; margin: 8px 0 0;"
-          >
-            Start Game
-          </button>
+    </div>
  
         <!-- GAME SCREEN -->
     <div id="gameScreen" class="hidden">
@@ -3865,6 +3851,13 @@ The Beatles
           librarySection.classList.add("hidden");
           setupScreen.classList.remove("hidden");
           gameScreen.classList.add("hidden"); // Ensure game screen is hidden
+          
+          // Restore the Start Game button visibility when returning to setup
+          const startGameBtn = document.getElementById("startGameBtnBottom");
+          if (startGameBtn) {
+            startGameBtn.style.display = "block";
+            console.log("Start Game button restored via hideLibraryScreen");
+          }
         }
 
         // Navbar link handlers
@@ -4099,17 +4092,7 @@ The Beatles
         let teamStatus = {};
         let pendingPromises = []; // Track pending points breakdown promises
 
-        // Single Player Checkbox logic
-        singlePlayerCheckbox.addEventListener("change", function () {
-          singlePlayer = this.checked;
-          if (singlePlayer) {
-            teamBNameInput.value = "Android";
-            teamBNameInput.disabled = true;
-          } else {
-            teamBNameInput.value = "Team B";
-            teamBNameInput.disabled = false;
-          }
-        });
+
 
         // QUIZ LIBRARY LOGIC
         let quizLibrary = [];
@@ -4215,6 +4198,16 @@ The Beatles
             console.log("Team count changed to:", this.value);
             const teamCount = parseInt(this.value);
             
+            // Handle single player mode
+            singlePlayer = (teamCount === 1);
+            if (singlePlayer) {
+              teamBNameInput.value = "Android";
+              teamBNameInput.disabled = true;
+            } else {
+              teamBNameInput.value = "Team B";
+              teamBNameInput.disabled = false;
+            }
+            
             // Hide all team containers first
             if (teamCContainer) teamCContainer.style.display = "none";
             if (teamDContainer) teamDContainer.style.display = "none";
@@ -4262,39 +4255,53 @@ The Beatles
               console.log("Starting game without questions - grid-only mode");
             }
 
-            singlePlayer = singlePlayerCheckbox.checked;
-            
-            // Get team count FIRST
+            // Get team count and determine single player status
             const teamCountInput = document.getElementById("teamCountInput");
-            teamCount = teamCountInput ? parseInt(teamCountInput.value) : 2;
+            const selectedTeamCount = teamCountInput ? parseInt(teamCountInput.value) : 2;
+            singlePlayer = (selectedTeamCount === 1);
+            
+            // In single player mode, we need 2 teams (A and Android) for display purposes
+            teamCount = singlePlayer ? 2 : selectedTeamCount;
             
             // Initialize team names AFTER getting teamCount
             names = {};
             console.log("Initializing team names for", teamCount, "teams");
-            for (let i = 0; i < teamCount; i++) {
-              const teamId = teamOrder[i];
-              if (i === 0) {
-                const teamAInput = document.getElementById("teamANameInput");
-                names[teamId] = teamAInput ? teamAInput.value.trim() || "Team A" : "Team A";
-              } else if (i === 1) {
-                const teamBInput = document.getElementById("teamBNameInput");
-                names[teamId] = singlePlayer ? "Android" : (teamBInput ? teamBInput.value.trim() || "Team B" : "Team B");
-              } else if (i === 2) {
-                const teamCInput = document.getElementById("teamCNameInput");
-                names[teamId] = teamCInput ? teamCInput.value.trim() || "Team C" : "Team C";
-              } else if (i === 3) {
-                const teamDInput = document.getElementById("teamDNameInput");
-                names[teamId] = teamDInput ? teamDInput.value.trim() || "Team D" : "Team D";
-              } else if (i === 4) {
-                const teamEInput = document.getElementById("teamENameInput");
-                names[teamId] = teamEInput ? teamEInput.value.trim() || "Team E" : "Team E";
-              } else if (i === 5) {
-                const teamFInput = document.getElementById("teamFNameInput");
-                names[teamId] = teamFInput ? teamFInput.value.trim() || "Team F" : "Team F";
-              } else {
-                names[teamId] = `Team ${teamId}`;
+            
+            // In single player mode, we need both Team A and Android
+            if (singlePlayer) {
+              // Team A
+              const teamAInput = document.getElementById("teamANameInput");
+              names.A = teamAInput ? teamAInput.value.trim() || "Team A" : "Team A";
+              // Android
+              names.B = "Android";
+              console.log("Single player mode - Team A:", names.A, "Android:", names.B);
+            } else {
+              // Multiplayer mode - use the normal loop
+              for (let i = 0; i < teamCount; i++) {
+                const teamId = teamOrder[i];
+                if (i === 0) {
+                  const teamAInput = document.getElementById("teamANameInput");
+                  names[teamId] = teamAInput ? teamAInput.value.trim() || "Team A" : "Team A";
+                } else if (i === 1) {
+                  const teamBInput = document.getElementById("teamBNameInput");
+                  names[teamId] = teamBInput ? teamBInput.value.trim() || "Team B" : "Team B";
+                } else if (i === 2) {
+                  const teamCInput = document.getElementById("teamCNameInput");
+                  names[teamId] = teamCInput ? teamCInput.value.trim() || "Team C" : "Team C";
+                } else if (i === 3) {
+                  const teamDInput = document.getElementById("teamDNameInput");
+                  names[teamId] = teamDInput ? teamDInput.value.trim() || "Team D" : "Team D";
+                } else if (i === 4) {
+                  const teamEInput = document.getElementById("teamENameInput");
+                  names[teamId] = teamEInput ? teamEInput.value.trim() || "Team E" : "Team E";
+                } else if (i === 5) {
+                  const teamFInput = document.getElementById("teamFNameInput");
+                  names[teamId] = teamFInput ? teamFInput.value.trim() || "Team F" : "Team F";
+                } else {
+                  names[teamId] = `Team ${teamId}`;
+                }
+                console.log("Team", teamId, "name set to:", names[teamId]);
               }
-              console.log("Team", teamId, "name set to:", names[teamId]);
             }
             console.log("Final team names object:", names);
             const gridSizeInput = document.getElementById("gridSizeInput");
@@ -4429,6 +4436,15 @@ The Beatles
             qIndex = 0;
             if (setupScreen) setupScreen.classList.add("hidden");
             if (gameScreen) gameScreen.classList.remove("hidden");
+            // Hide the Start Game button
+            const startGameBtn = document.getElementById("startGameBtnBottom");
+            console.log("Start Game clicked, looking for Start Game button:", startGameBtn);
+            if (startGameBtn) {
+              startGameBtn.style.display = "none";
+              console.log("Start Game button hidden");
+            } else {
+              console.error("Start Game button not found when trying to hide");
+            }
             // Show Android image if single player
             if (singlePlayer) {
               if (androidImg) androidImg.style.display = "inline-block";
@@ -4726,6 +4742,17 @@ The Beatles
           document.getElementById("homeBtn").onclick = () => {
             if (gameScreen) gameScreen.classList.add("hidden");
             if (setupScreen) setupScreen.classList.remove("hidden");
+            
+            // Restore the Start Game button visibility
+            const startGameBtn = document.getElementById("startGameBtnBottom");
+            console.log("Home button clicked, looking for Start Game button:", startGameBtn);
+            if (startGameBtn) {
+              startGameBtn.style.display = "block";
+              console.log("Start Game button restored to visible");
+            } else {
+              console.error("Start Game button not found when trying to restore");
+            }
+            
             // Reset everything to initial state
             scores = {};
             picks = {};
@@ -5505,7 +5532,14 @@ The Beatles
             
             const teamName = document.createElement("h2");
             teamName.id = `name${teamId}`;
-            teamName.textContent = names[teamId];
+            
+            // Add logo for Android in single player mode
+            if (singlePlayer && teamId === "B") {
+              teamName.innerHTML = `<img src="Daft-Punk-PNG-Photo.png" style="width:20px;height:20px;vertical-align:middle;margin-right:5px;" alt="Android">${names[teamId]}`;
+            } else {
+              teamName.textContent = names[teamId];
+            }
+            
             teamName.style.color = teamColors[teamId];
             teamCard.appendChild(teamName);
             
@@ -6495,9 +6529,13 @@ The Beatles
           scoresDisplay.innerHTML = activeTeams.map(teamId => {
             const teamColor = teamColors[teamId] || "#6f5c91";
             const isCurrentTeam = teamId === turn;
+            const isAndroid = singlePlayer && teamId === "B";
             return `
               <div style="text-align:center;padding:0.5em;border-radius:6px;${isCurrentTeam ? `background:${teamColor};color:white;` : ''}">
-                <div style="font-weight:600;font-size:0.9rem;">${names[teamId] || `Team ${teamId}`}</div>
+                <div style="font-weight:600;font-size:0.9rem;">
+                  ${isAndroid ? '<img src="Daft-Punk-PNG-Photo.png" style="width:20px;height:20px;vertical-align:middle;margin-right:5px;" alt="Android">' : ''}
+                  ${names[teamId] || `Team ${teamId}`}
+                </div>
                 <div style="font-size:1.2rem;font-weight:bold;">${scores[teamId] || 0}</div>
               </div>
             `;
