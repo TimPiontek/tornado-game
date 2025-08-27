@@ -1290,7 +1290,8 @@
       /* Constrain card height to keep above the fold on laptops */
       .setup-main-card .setup-unified-card {
         max-height: 64vh;
-        overflow: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
       .setup-main-card .setup-unified-card .setup-unified-grid {
@@ -2280,7 +2281,7 @@ The Beatles
                 <button
                   id="startGameBtnBottom"
                   class="purple-btn"
-                  style="width:100%; font-size:1.6rem; padding:0.8rem 0; font-weight:800;"
+                  style="width:calc(100% + 320px + 2rem); max-width:1200px; transform:translateX(calc(-160px - 1rem)); font-size:1.8rem; padding:0.9rem 0; font-weight:800;"
                 >
                   Start Game
                 </button>
