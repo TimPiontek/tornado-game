@@ -1214,21 +1214,27 @@
         justify-content: center;
       }
 
-      .setup-grid-row {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: center;
-        gap: 1.6rem;
+      .setup-grid-row.home-grid {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 16px;
+        align-items: start;
+        align-content: start;
         max-width: 1200px;
         margin: 0 auto;
-        align-items: flex-start;
+      }
+
+      .home-grid > #startGameBtnBottom {
+        grid-column: 1 / -1;
+        width: 100%;
+        margin-top: 10px;
+        position: static;
       }
 
       .special-effects-sidebar {
         flex: 0 0 320px;
         min-width: 260px;
-        max-width: 340px;
+        max-width: 360px;
         display: flex;
         flex-direction: column;
         background: rgba(255, 255, 255, 0.93);
@@ -1236,6 +1242,7 @@
         padding: 10px 12px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
         margin-top: 0;
+        margin-bottom: 0;
         max-height: 58vh;
         overflow-y: auto;
       }
@@ -1370,10 +1377,10 @@
         display: none !important;
       }
       @media (max-width: 900px) {
-        .setup-grid-row {
-          flex-direction: column;
-          align-items: center;
-          gap: 0.8rem;
+        .setup-grid-row.home-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 10px;
           max-width: 98vw;
         }
 
@@ -1580,7 +1587,7 @@
         border-radius: 12px;
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
         padding: 1em 1.2em 1em 1.2em;
-        margin-bottom: 1em;
+        margin-bottom: 0;
         max-width: 700px;
         margin-left: auto;
         margin-right: auto;
@@ -2100,7 +2107,7 @@
           margin-top: 0;
         "
       >
-        <div class="setup-grid-row" style="margin-top: 0.5rem; align-items: stretch;" >
+        <div class="setup-grid-row home-grid" style="margin-top: 0.5rem;" >
           <!-- Main Setup Card (Center) -->
           <div class="setup-main-card">
             <form id="setupForm" onsubmit="return false;">
@@ -2723,16 +2730,14 @@ The Beatles
       </div>
             </div>
         
-        <!-- Start Game Button spanning both cards -->
-        <div style="display:flex; justify-content:center; margin: 0.3rem auto 0; width:100%;">
+                  <!-- Start Game Button spanning both cards -->
           <button
             id="startGameBtnBottom"
             class="purple-btn"
-            style="width: 100%; max-width: 1200px; font-size: 1.7rem; padding: 0.8rem 0; font-weight: 800;"
+            style="width: 100%; max-width: 1200px; font-size: 1.7rem; padding: 0.8rem 0; font-weight: 800; margin: 8px 0 0;"
           >
             Start Game
           </button>
-        </div>
  
         <!-- GAME SCREEN -->
     <div id="gameScreen" class="hidden">
