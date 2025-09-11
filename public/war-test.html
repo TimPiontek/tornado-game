@@ -7,6 +7,7 @@
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; padding: 24px; }
     button { padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; margin-right: 8px; }
+    #status { margin-top: 12px; opacity: .8; }
   </style>
 </head>
 <body>
@@ -14,14 +15,20 @@
   <p>1) Click <b>Sign in with Google</b> → 2) Click <b>Ensure User</b></p>
   <button id="signin">Sign in with Google</button>
   <button id="ensure">Ensure User Row</button>
+  <div id="status"></div>
 
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
     const SUPABASE_URL = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
-    const SUPABASE_ANON = "PASTE-ANON-KEY-HERE";  // ← replace this
+    const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
+    const status = (msg) => (document.getElementById("status").textContent = msg || "");
+
+    // Show current session on load (useful after redirect back from Google)
+    const { data: { session } } = await supabase.auth.getSession();
+    status(session ? `Signed in as ${session.user.email}` : "Not signed in");
 
     document.getElementById("signin").onclick = async () => {
       const { error } = await supabase.auth.signInWithOAuth({
