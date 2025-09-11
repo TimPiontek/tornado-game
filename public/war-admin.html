@@ -10,7 +10,7 @@
     html, body { height:100% }
     body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
     header { position:sticky; top:0; z-index:3; background:#0d1628cc; backdrop-filter: blur(6px); border-bottom:1px solid var(--border); }
-    .bar { display:flex; gap:8px; align-items:center; padding:10px 14px; }
+    .bar { display:flex; gap:8px; align-items:center; padding:10px 14px; flex-wrap:wrap }
     .bar h1 { font-size:18px; margin:0 8px 0 0; }
     .pill { padding:8px 12px; border:1px solid var(--border); border-radius:10px; background:var(--panel); color:var(--text); cursor:pointer; }
     .pill[disabled] { opacity:.6; cursor:not-allowed }
@@ -37,6 +37,14 @@
     th, td { padding:6px 4px; border-bottom: 1px solid var(--border); text-align:left; font-size:14px }
     .minor { font-size:12px; color:var(--muted) }
     .ok { color:#86efac } .warn { color:#facc15 } .err { color:#f87171 }
+
+    /* Help modal */
+    .modal { position:fixed; inset:0; background:#0009; display:none; place-items:center; z-index:50; }
+    .modal.show { display:grid; }
+    .card { width:min(900px,92vw); max-height:82vh; overflow:auto; background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:18px; }
+    .card h2 { margin:0 0 8px }
+    .card p, .card li { color:#cbd5e1; line-height:1.5 }
+    .closeX { float:right; font-size:14px; opacity:.8; cursor:pointer; padding:6px 8px; border:1px solid var(--border); border-radius:8px; }
   </style>
 </head>
 <body>
@@ -50,6 +58,7 @@
     <button class="pill" id="btnAttack">Attack</button>
     <button class="pill" id="btnTornado">Cast Tornado</button>
     <button class="pill" id="btnTruces">Truces</button>
+    <button class="pill" id="btnHelp">How to Play</button>
     <div style="flex:1"></div>
     <span id="who" class="muted">Not signed in</span>
     <button class="pill" id="signin">Sign in with Google</button>
@@ -76,149 +85,4 @@
         <input id="awardAmt" type="number" value="1" />
         <select id="awardScope">
           <option value="all">All students</option>
-          <option value="selected">Selected only</option>
-        </select>
-      </div>
-      <input id="awardNote" placeholder="Reason (optional)"/>
-      <button class="pill" id="doAward">Apply</button>
-    </div>
-
-    <div class="section">
-      <div class="title">Start new game</div>
-      <input id="className" placeholder="Class name (e.g., Period 1)"/>
-      <input id="gameName" placeholder="Game name (e.g., Q1 War)"/>
-      <div class="grid2">
-        <input id="boardW" type="number" min="1" placeholder="width (auto)"/>
-        <input id="boardH" type="number" min="1" placeholder="height (auto)"/>
-      </div>
-      <input id="startPts" type="number" min="0" value="5" placeholder="Starting points"/>
-      <textarea id="rosterPaste" placeholder="One student per line&#10;Alice&#10;Bob&#10;Charlie"></textarea>
-      <div class="grid2">
-        <select id="victoryPct">
-          <option value="0.25">25% to win</option>
-          <option value="0.33">33% to win</option>
-          <option value="0.50">50% to win</option>
-          <option value="0.66">66% to win</option>
-          <option value="0.75">75% to win</option>
-        </select>
-        <select id="turnBased">
-          <option value="false">Free play</option>
-          <option value="true">Turn-based</option>
-        </select>
-      </div>
-      <button class="pill" id="createGame">Create game</button>
-      <div class="minor" id="createStatus"></div>
-    </div>
-  </div>
-
-  <!-- CENTER: map -->
-  <div class="panel">
-    <div class="title">Map</div>
-    <div id="board">
-      <div id="grid"></div>
-    </div>
-    <div class="minor" id="tip">Tip: click a roster name, then click a tile.</div>
-  </div>
-
-  <!-- RIGHT: context panel -->
-  <div class="panel">
-    <div class="title">Actions</div>
-    <div id="context">Select a student, then click a tile.</div>
-
-    <div class="section">
-      <div class="title">Truces</div>
-      <div id="truces"></div>
-    </div>
-
-    <div class="section">
-      <div class="title">Recent activity</div>
-      <div id="audit"></div>
-    </div>
-  </div>
-</div>
-
-<script type="module">
-  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-  // === CONFIG ===
-  const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
-  const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
-
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
-
-  // === STATE ===
-  const state = {
-    session: null,
-    games: [],
-    game: null,          // selected game row
-    gameId: null,        // uuid
-    board: { w: 0, h: 0, tiles: [] }, // tiles[y][x]
-    roster: [],          // [{gsId, name, startPoints, tilesOwned, balance}]
-    selectedGsId: null,  // active student (game_students.id)
-    truces: [],          // rows from truces
-    colors: new Map(),   // gsId -> css color
-    costs: { land: 10, castleL1: 30, castleL2: 60, castleL3: 120 } // defaults
-  };
-
-  // === AUTH ===
-  const who = document.getElementById("who");
-  const signinBtn = document.getElementById("signin");
-  async function updateAuth() {
-    const { data: { session } } = await supabase.auth.getSession();
-    state.session = session;
-    who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
-  }
-  signinBtn.onclick = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: window.location.href }
-    });
-    if (error) alert(error.message);
-  };
-  await updateAuth();
-
-  // === UI HELPERS ===
-  const el = (sel) => document.querySelector(sel);
-  const gamesList = el("#gamesList");
-  const rosterEl = el("#roster");
-  const gridEl = el("#grid");
-  const contextEl = el("#context");
-  const trucesEl = el("#truces");
-  const auditEl = el("#audit");
-  const victoryEl = el("#victory");
-
-  function colorFor(gsId, i, total) {
-    if (state.colors.has(gsId)) return state.colors.get(gsId);
-    // pleasant spaced hues
-    const h = Math.round((i / Math.max(total,1)) * 360);
-    const c = `hsl(${h} 65% 48%)`;
-    state.colors.set(gsId, c);
-    return c;
-  }
-
-  function formatMoney(n){ return Math.round(n); }
-
-  // === LOAD GAMES ===
-  async function loadGames(selectNewest=false) {
-    const { data, error } = await supabase
-      .from("games")
-      .select("id,name,created_at,status,board_w,board_h,victory_target_pct")
-      .order("created_at", { ascending: false });
-    if (error) { alert(error.message); return; }
-    state.games = data || [];
-    gamesList.innerHTML = state.games.map(g =>
-      `<option value="${g.id}">${new Date(g.created_at).toLocaleDateString()} – ${g.name}</option>`
-    ).join("");
-    if (selectNewest && state.games.length) {
-      gamesList.value = state.games[0].id;
-      await selectGame(state.games[0].id);
-    }
-  }
-  el("#loadGames").onclick = () => loadGames(true);
-
-  gamesList.onchange = () => selectGame(gamesList.value);
-
-  async function selectGame(gameId) {
-    if (!gameId) return;
-    const game = state.games.find(g => g.id === gameId) || (await supabase.from("games").select("*").eq("id", gameId).single()).data;
-    state.g
+          <opti
