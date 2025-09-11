@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enhanced Battle System - Castles & Weapons</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #1a1a1a; color: #fff; }
+        .function { margin: 20px 0; }
+        textarea { width: 100%; height: 500px; background: #2a2a2a; color: #fff; border: 1px solid #444; padding: 10px; font-family: monospace; }
+        h4 { color: #4ade80; }
+        .instructions { background: #2a2a2a; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .weapon { background: #3a3a3a; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .castle { background: #3a3a3a; padding: 10px; margin: 10px 0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>⚔️ Enhanced Battle System - Castles & Medieval Weapons</h1>
+    
+    <div class="instructions">
+        <h3>New Features:</h3>
+        <ul>
+            <li><strong>Castle Defense:</strong> Castles provide defense equal to their cost in mercenaries</li>
+            <li><strong>Medieval Weapons:</strong> 3 types of consumable weapons with different power multipliers</li>
+            <li><strong>Castle Destruction:</strong> Castles are destroyed when territory is lost</li>
+            <li><strong>Balanced Pricing:</strong> Weapons priced based on their power multiplier</li>
+        </ul>
+    </div>
+
+    <div class="castle">
+        <h4>🏰 Castle System</h4>
+        <ul>
+            <li><strong>Wooden Keep (Level 1):</strong> 50 points → 50 mercenary defense</li>
+            <li><strong>Stone Fortress (Level 2):</strong> 100 points → 100 mercenary defense</li>
+            <li><strong>Iron Citadel (Level 3):</strong> 200 points → 200 mercenary defense</li>
+        </ul>
+    </div>
+
+    <div class="weapon">
+        <h4>⚔️ Medieval Weapons (Single Use)</h4>
+        <ul>
+            <li><strong>Spear (1.3x power):</strong> 30 points - Basic medieval weapon</li>
+            <li><strong>Crossbow (1.6x power):</strong> 60 points - Advanced ranged weapon</li>
+            <li><strong>Catapult (2.0x power):</strong> 100 points - Siege weapon</li>
+        </ul>
+    </div>
+
+    <div class="function">
+        <h4>Updated resolve_battle Function</h4>
+        <textarea readonly>-- Enhanced battle system with castle defense and medieval weapons
+CREATE OR REPLACE FUNCTION resolve_battle(
+    p_game_id UUID,
+    p_tile_id UUID,
+    p_attacker UUID,
+    p_defender UUID,
+    p_att_mercs INTEGER,
+    p_weapon_type TEXT DEFAULT NULL, -- 'spear', 'crossbow', 'catapult', or NULL
+    p_def_mercs INTEGER DEFAULT 0
+)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+    v_tile RECORD;
+    v_attacker_gs RECORD;
+    v_defender_gs RECORD;
+    v_attacker_balance INTEGER;
+    v_defender_balance INTEGER;
+    v_mercs_cost INTEGER;
+    v_weapon_cost INTEGER;
+    v_total_cost INTEGER;
+    v_odds NUMERIC;
+    v_roll NUMERIC;
+    v_result TEXT;
+    v_defender_castle_level INTEGER;
+    v_castle_defense INTEGER;
+    v_weapon_multiplier NUMERIC;
+    v_effective_att_power NUMERIC;
+    v_effective_def_power NUMERIC;
+BEGIN
+    -- Get tile info
+    SELECT * INTO v_tile FROM tiles WHERE id = p_tile_id AND game_id = p_game_id;
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'Tile not found';
+    END IF;
+
+    -- Get attacker and defender info
+    SELECT * INTO v_attacker_gs FROM game_students WHERE id = p_attacker AND game_id = p_game_id;
+    SELECT * INTO v_defender_gs FROM game_students WHERE id = p_defender AND game_id = p_game_id;
+    
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'Game student not found';
+    END IF;
+
+    -- Calculate balances
+    SELECT COALESCE(SUM(CASE WHEN type = 'earn' THEN amount ELSE -amount END), 0) + v_attacker_gs.start_points
+    INTO v_attacker_balance
+    FROM transactions WHERE game_student_id = p_attacker;
+
+    SELECT COALESCE(SUM(CASE WHEN type = 'earn' THEN amount ELSE -amount END), 0) + v_defender_gs.start_points
+    INTO v_defender_balance
+    FROM transactions WHERE game_student_id = p_defender;
+
+    -- Calculate weapon costs and multipliers
+    v_weapon_cost := CASE p_weapon_type
+        WHEN 'spear' THEN 30
+        WHEN 'crossbow' THEN 60
+        WHEN 'catapult' THEN 100
+        ELSE 0
+    END;
+    
+    v_weapon_multiplier := CASE p_weapon_type
+        WHEN 'spear' THEN 1.3
+        WHEN 'crossbow' THEN 1.6
+        WHEN 'catapult' THEN 2.0
+        ELSE 1.0
+    END;
+
+    -- Calculate costs
+    v_mercs_cost := p_att_mercs * 10;
+    v_total_cost := v_mercs_cost + v_weapon_cost;
+
+    -- Check if attacker has enough points
+    IF v_attacker_balance < v_total_cost THEN
+        RAISE EXCEPTION 'Insufficient points for attack';
+    END IF;
+
+    -- Get defender's castle level and calculate castle defense
+    v_defender_castle_level := COALESCE(v_tile.castle_level, 0);
+    v_castle_defense := CASE v_defender_castle_level
+        WHEN 1 THEN 50  -- Wooden Keep: 50 points = 50 mercenary defense
+        WHEN 2 THEN 100 -- Stone Fortress: 100 points = 100 mercenary defense  
+        WHEN 3 THEN 200 -- Iron Citadel: 200 points = 200 mercenary defense
+        ELSE 0
+    END;
+
+    -- Calculate effective attack and defense power
+    v_effective_att_power := p_att_mercs * v_weapon_multiplier;
+    v_effective_def_power := p_def_mercs + v_castle_defense;
+
+    -- Calculate odds based on effective power difference
+    -- Base 50% chance, modified by power difference
+    v_odds := 0.5 + ((v_effective_att_power - v_effective_def_power) * 0.01);
+    v_odds := GREATEST(0.1, LEAST(0.9, v_odds)); -- Clamp between 10% and 90%
+
+    -- Roll for result
+    v_roll := random();
+    v_result := CASE WHEN v_roll < v_odds THEN 'attacker_wins' ELSE 'defender_wins' END;
+
+    -- Spend attacker's points
+    INSERT INTO transactions (game_student_id, type, amount, meta)
+    VALUES (p_attacker, 'spend', v_total_cost, jsonb_build_object(
+        'kind', 'attack',
+        'tile_id', p_tile_id,
+        'mercs', p_att_mercs,
+        'weapon_type', p_weapon_type,
+        'weapon_cost', v_weapon_cost
+    ));
+
+    -- Spend defender's mercs if any
+    IF p_def_mercs > 0 THEN
+        INSERT INTO transactions (game_student_id, type, amount, meta)
+        VALUES (p_defender, 'spend', p_def_mercs * 10, jsonb_build_object(
+            'kind', 'defense',
+            'tile_id', p_tile_id,
+            'mercs', p_def_mercs
+        ));
+    END IF;
+
+    -- Update tile ownership if attacker wins
+    IF v_result = 'attacker_wins' THEN
+        -- Castle is destroyed when territory is lost
+        UPDATE tiles 
+        SET owner_game_student_id = p_attacker, castle_level = 0
+        WHERE id = p_tile_id;
+
+        -- Update tile counts
+        UPDATE game_students SET tiles_owned = tiles_owned + 1 WHERE id = p_attacker;
+        UPDATE game_students SET tiles_owned = tiles_owned - 1 WHERE id = p_defender;
+    END IF;
+
+    -- Log the battle
+    INSERT INTO audit_log (game_id, actor, action, meta)
+    VALUES (p_game_id, 'battle', 'battle_resolved', jsonb_build_object(
+        'tile_id', p_tile_id,
+        'attacker', p_attacker,
+        'defender', p_defender,
+        'att_mercs', p_att_mercs,
+        'weapon_type', p_weapon_type,
+        'weapon_multiplier', v_weapon_multiplier,
+        'def_mercs', p_def_mercs,
+        'castle_level', v_defender_castle_level,
+        'castle_defense', v_castle_defense,
+        'effective_att_power', v_effective_att_power,
+        'effective_def_power', v_effective_def_power,
+        'odds', v_odds,
+        'roll', v_roll,
+        'result', v_result
+    ));
+
+    -- Return battle result
+    RETURN jsonb_build_object(
+        'result', v_result,
+        'odds', v_odds,
+        'roll', v_roll,
+        'effective_att_power', v_effective_att_power,
+        'effective_def_power', v_effective_def_power,
+        'castle_defense', v_castle_defense,
+        'weapon_used', p_weapon_type,
+        'weapon_multiplier', v_weapon_multiplier
+    );
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION resolve_battle(UUID, UUID, UUID, UUID, INTEGER, TEXT, INTEGER) TO anon, authenticated;</textarea>
+    </div>
+
+    <div class="function">
+        <h4>Updated Castle Costs</h4>
+        <textarea readonly>-- Update the frontend costs to match new castle defense values
+-- In war-admin.html, update the costs object:
+
+const costs = { 
+    land: 10, 
+    castleL1: 50,   -- Wooden Keep: 50 points = 50 mercenary defense
+    castleL2: 100,  -- Stone Fortress: 100 points = 100 mercenary defense  
+    castleL3: 200   -- Iron Citadel: 200 points = 200 mercenary defense
+};
+
+-- Weapon costs:
+const weaponCosts = {
+    spear: 30,      -- 1.3x power, 30 points
+    crossbow: 60,   -- 1.6x power, 60 points
+    catapult: 100   -- 2.0x power, 100 points
+};</textarea>
+    </div>
+
+    <div class="instructions">
+        <h3>Deployment Steps:</h3>
+        <ol>
+            <li>Copy the updated <code>resolve_battle</code> function above</li>
+            <li>Go to Supabase → SQL Editor and run it</li>
+            <li>Update the frontend costs in <code>war-admin.html</code></li>
+            <li>Update the battle interface to include weapon selection</li>
+        </ol>
+    </div>
+
+    <div class="instructions">
+        <h3>How It Works:</h3>
+        <ul>
+            <li><strong>Castle Defense:</strong> Each castle level provides defense equal to its cost in mercenaries</li>
+            <li><strong>Weapon Power:</strong> Weapons multiply mercenary attack power but are consumed after use</li>
+            <li><strong>Balanced Combat:</strong> Effective power = (mercenaries × weapon_multiplier) vs (defender_mercenaries + castle_defense)</li>
+            <li><strong>Castle Destruction:</strong> When territory is lost, the castle is destroyed (castle_level = 0)</li>
+        </ul>
+    </div>
+</body>
+</html>
