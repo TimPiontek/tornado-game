@@ -179,17 +179,17 @@
   const state = {
     session: null,
     games: [],
-    game: null,          // selected game row
-    gameId: null,        // uuid
-    board: { w: 0, h: 0, tiles: [] }, // tiles[y][x]
-    roster: [],          // [{gsId, name, startPoints, tilesOwned, balance}]
-    selectedGsId: null,  // active student (game_students.id)
-    truces: [],          // rows from truces
-    colors: new Map(),   // gsId -> css color
-    costs: { land: 10, castleL1: 30, castleL2: 60, castleL3: 120 } // defaults
+    game: null,
+    gameId: null,
+    board: { w: 0, h: 0, tiles: [] },
+    roster: [],
+    selectedGsId: null,
+    truces: [],
+    colors: new Map(),
+    costs: { land: 10, castleL1: 30, castleL2: 60, castleL3: 120 }
   };
 
-  // === AUTH (forced redirect so it works everywhere) ===
+  // === AUTH (force redirect + ensure_user) ===
   const who = document.getElementById("who");
   const signinBtn = document.getElementById("signin");
 
@@ -197,24 +197,23 @@
     const { data: { session } } = await supabase.auth.getSession();
     state.session = session;
     who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
+    if (session) {
+      // Ensure teacher row exists so RLS allows inserts/selects
+      try {
+        const { error } = await supabase.rpc("ensure_user");
+        if (error && !/function ensure_user/.test(error.message)) console.warn("ensure_user error:", error.message);
+      } catch (e) { console.warn("ensure_user exception:", e); }
+    }
   }
 
-  // give us the Google URL, then navigate
   signinBtn.addEventListener("click", async (e) => {
     e.preventDefault();
-    try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: window.location.href,
-          skipBrowserRedirect: true
-        }
-      });
-      if (error) return alert("Sign-in error: " + error.message);
-      if (data?.url) window.location.assign(data.url);
-    } catch (err) {
-      alert("Sign-in click failed: " + (err?.message || err));
-    }
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.href, skipBrowserRedirect: true }
+    });
+    if (error) { alert("Sign-in error: " + error.message); return; }
+    if (data?.url) window.location.assign(data.url);
   });
 
   await updateAuth();
@@ -261,7 +260,6 @@
     }
   }
   el("#loadGames").onclick = () => loadGames(true);
-
   gamesList.onchange = () => selectGame(gamesList.value);
 
   async function selectGame(gameId) {
@@ -315,7 +313,7 @@
         <button class="plus" data-gs="${r.gsId}">+1</button>
       `;
       row.onclick = (e) => {
-        if (e.target.classList.contains("plus")) return; // handled below
+        if (e.target.classList.contains("plus")) return;
         state.selectedGsId = r.gsId;
         renderRoster();
         contextEl.textContent = `Selected: ${r.name}. Click a tile to buy/upgrade/attack.`;
@@ -369,7 +367,6 @@
     if (!state.selectedGsId) { alert("Select a student in the roster first."); return; }
     const me = state.selectedGsId;
     if (!tile.owner_game_student_id) {
-      // BUY LAND
       const cost = state.costs.land;
       if (!confirm(`Buy this empty tile for ${cost} points?`)) return;
       await spend(me, cost, {kind:"buy_land", tile: tile.id});
@@ -379,7 +376,6 @@
       return;
     }
     if (tile.owner_game_student_id === me) {
-      // UPGRADE CASTLE
       const lvl = tile.castle_level || 0;
       if (lvl >= 3) { alert("Castle already at max level."); return; }
       const next = lvl+1;
@@ -391,7 +387,6 @@
       await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
       return;
     }
-    // ATTACK
     const defender = tile.owner_game_student_id;
     const attMercs = Number(prompt(`ATTACK ${nameForGs(defender)}\nHow many mercenaries will ATTACK commit? (cost 10 each)`, "5") ?? "0");
     if (!(attMercs>=0)) return;
@@ -427,7 +422,6 @@
     if (error) throw error;
   }
 
-  // Batch award
   async function awardPoints(targets, amount, reason){
     const rows = targets.map(t => ({ game_student_id: t.gsId, type: "earn", amount, meta: {reason} }));
     const { error } = await supabase.from("transactions").insert(rows);
@@ -445,14 +439,13 @@
     await awardPoints(targets, amt, el("#awardNote").value||"");
   };
 
-  // Top bar helper buttons
   el("#btnAward").onclick = ()=> el("#awardAmt").focus();
   el("#btnBuy").onclick = ()=> contextEl.textContent = "Click an empty tile to buy it for the selected student.";
   el("#btnAttack").onclick = ()=> contextEl.textContent = "Select a student, then click an enemy tile to attack.";
   el("#btnTornado").onclick = async () => {
     if (!state.gameId) return alert("Select a game first.");
     if (!confirm("Cast TORNADO now? All teams will randomly gain or lose 0–2 territories.")) return;
-    const { data, error } = await supabase.rpc("apply_tornado", { p_game_id: state.gameId });
+    const { error } = await supabase.rpc("apply_tornado", { p_game_id: state.gameId });
     if (error) { alert(error.message); return; }
     alert("Tornado complete.");
     await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
@@ -552,8 +545,9 @@
     victoryEl.textContent = wins.length ? `🎉 Victory met: ${wins.join(" | ")}` : `Target: ${(target*100).toFixed(0)}% (coalitions multiply target)`;
   }
 
-  // === CREATE GAME ===
+  // === CREATE GAME (with strong error messages) ===
   el("#createGame").onclick = async () => {
+    const status = el("#createStatus");
     const p = {
       p_class_name: el("#className").value || "Class",
       p_game_name:  el("#gameName").value || "Tornado War",
@@ -562,14 +556,23 @@
       p_board_h: Number(el("#boardH").value) || null,
       p_start_points: Number(el("#startPts").value) || 5
     };
-    el("#createStatus").textContent = "Creating...";
-    const { data, error } = await supabase.rpc("create_game_from_roster", p);
-    if (error) { el("#createStatus").textContent = error.message; return; }
-    const target = Number(el("#victoryPct").value);
-    const turns  = el("#turnBased").value === "true";
-    await supabase.from("games").update({ victory_target_pct: target, turn_based: turns }).eq("id", data.game_id);
-    el("#createStatus").textContent = `Created game ${data.game_id}`;
-    await loadGames(true);
+    try {
+      status.textContent = "Creating…";
+      const { data, error } = await supabase.rpc("create_game_from_roster", p);
+      if (error) throw error;
+      if (!data?.game_id) throw new Error("No game_id returned from RPC.");
+      // set victory & turn mode
+      const target = Number(el("#victoryPct").value);
+      const turns  = el("#turnBased").value === "true";
+      const upd = await supabase.from("games").update({ victory_target_pct: target, turn_based: turns }).eq("id", data.game_id);
+      if (upd.error) throw upd.error;
+      status.textContent = `Created game ${data.game_id}`;
+      await loadGames(true);
+    } catch (e) {
+      console.error("Create game failed:", e);
+      status.textContent = "Error: " + (e?.message || e);
+      alert("Create game failed:\n" + (e?.message || e));
+    }
   };
 
   // initial load
