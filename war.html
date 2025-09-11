@@ -403,7 +403,7 @@
     
     // Price starts at 20 (outer edge) and increases by 10 for each ring toward center
     // Calculate which "ring" this tile is in (0 = outer edge, higher = closer to center)
-    const ringLevel = Math.floor((1 - distanceFromCenter / maxDistance) * 8);
+    const ringLevel = Math.floor((1 - distanceFromCenter / maxDistance) * 6);
     
     // Base price of 20, plus 10 for each ring level
     const price = 20 + (ringLevel * 10);
