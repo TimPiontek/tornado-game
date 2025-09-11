@@ -2097,18 +2097,122 @@
 
     <!-- SETUP SCREEN -->
     <div id="setupScreen" style="position: relative">
-      <!-- Removed the large logo image from here -->
-      <div
-        style="
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: flex-start;
-          min-height: 80vh;
-          margin-top: 0;
-        "
-      >
-        <div class="setup-grid-row home-grid" style="margin-top: 0.2rem;" >
+      <!-- Game Selection Section -->
+      <div id="gameSelectionSection" style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 80vh;
+        margin-top: 0;
+        padding: 2rem;
+      ">
+        <div style="text-align: center; margin-bottom: 3rem;">
+          <img src="tornado-logo.png" alt="Play Tornado Logo" style="width: 150px; height: 150px; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.10); background: #fff; margin-bottom: 1rem;">
+          <h1 style="font-size: 3rem; margin: 0; color: #6f5c91; font-weight: 700;">🌪️ Play Tornado</h1>
+          <p style="font-size: 1.2rem; color: #666; margin: 0.5rem 0 2rem 0;">Choose your game mode</p>
+        </div>
+        
+        <div style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; max-width: 800px;">
+          <!-- Tornado Quiz Card -->
+          <div style="
+            background: #fff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            text-align: center;
+            flex: 1;
+            min-width: 300px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid transparent;
+          " 
+          id="quizCard"
+          onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 40px rgba(0,0,0,0.15)'"
+          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 32px rgba(0,0,0,0.1)'"
+          onclick="selectGame('quiz')">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">📚</div>
+            <h2 style="color: #6f5c91; margin: 0 0 1rem 0; font-size: 1.8rem;">Tornado Quiz</h2>
+            <p style="color: #666; line-height: 1.5; margin: 0 0 1.5rem 0;">
+              Interactive quiz game perfect for classrooms, study groups, and trivia nights. 
+              Create custom quizzes or choose from our library of educational content.
+            </p>
+            <div style="
+              background: #6f5c91;
+              color: white;
+              padding: 0.8rem 1.5rem;
+              border-radius: 8px;
+              font-weight: 600;
+              display: inline-block;
+            ">Start Quiz Game</div>
+          </div>
+
+          <!-- Tornado War Card -->
+          <div style="
+            background: #fff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            text-align: center;
+            flex: 1;
+            min-width: 300px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid transparent;
+          " 
+          id="warCard"
+          onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 40px rgba(0,0,0,0.15)'"
+          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 32px rgba(0,0,0,0.1)'"
+          onclick="selectGame('war')">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">⚔️</div>
+            <h2 style="color: #6f5c91; margin: 0 0 1rem 0; font-size: 1.8rem;">Tornado War</h2>
+            <p style="color: #666; line-height: 1.5; margin: 0 0 1.5rem 0;">
+              Strategic classroom game where students compete for territory. 
+              Teachers control the game, students strategize and collaborate through truces.
+            </p>
+            <div style="
+              background: #6f5c91;
+              color: white;
+              padding: 0.8rem 1.5rem;
+              border-radius: 8px;
+              font-weight: 600;
+              display: inline-block;
+            ">Start War Game</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quiz Setup Section (hidden by default) -->
+      <div id="quizSetupSection" style="display: none;">
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 80vh;
+            margin-top: 0;
+          "
+        >
+          <div class="setup-grid-row home-grid" style="margin-top: 0.2rem;" >
+          <!-- Back Button -->
+          <div style="width: 100%; margin-bottom: 1rem; text-align: left;">
+            <button onclick="backToGameSelection()" style="
+              background: #6f5c91;
+              color: white;
+              border: none;
+              padding: 0.8rem 1.5rem;
+              border-radius: 8px;
+              font-weight: 600;
+              cursor: pointer;
+              font-size: 1rem;
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+            ">
+              ← Back to Game Selection
+            </button>
+          </div>
           <!-- Main Setup Card (Center) -->
           <div class="setup-main-card">
             <form id="setupForm" onsubmit="return false;">
@@ -3032,6 +3136,28 @@ The Beatles
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        // === GAME SELECTION ===
+        window.selectGame = function(gameType) {
+          const gameSelectionSection = document.getElementById('gameSelectionSection');
+          const quizSetupSection = document.getElementById('quizSetupSection');
+          
+          if (gameType === 'quiz') {
+            gameSelectionSection.style.display = 'none';
+            quizSetupSection.style.display = 'block';
+          } else if (gameType === 'war') {
+            // Redirect to Tornado War
+            window.location.href = '/war-admin.html';
+          }
+        };
+
+        window.backToGameSelection = function() {
+          const gameSelectionSection = document.getElementById('gameSelectionSection');
+          const quizSetupSection = document.getElementById('quizSetupSection');
+          
+          gameSelectionSection.style.display = 'flex';
+          quizSetupSection.style.display = 'none';
+        };
+
         // === SUPABASE INIT ===
         const supabaseClient = supabase.createClient(
           "https://dmbbsrcwqpmdxqtzvtqj.supabase.co",

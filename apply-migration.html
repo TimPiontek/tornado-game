@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Apply Tornado War Migration</title>
+    <style>
+        body { font-family: monospace; margin: 20px; background: #1a1a1a; color: #fff; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section { margin: 20px 0; padding: 15px; border: 1px solid #333; border-radius: 5px; }
+        .success { color: #4ade80; }
+        .error { color: #f87171; }
+        .warning { color: #facc15; }
+        button { padding: 10px 20px; margin: 5px; background: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #2563eb; }
+        button:disabled { background: #6b7280; cursor: not-allowed; }
+        textarea { width: 100%; height: 200px; background: #2a2a2a; color: #fff; border: 1px solid #444; padding: 10px; font-family: monospace; }
+        .log { background: #111; padding: 10px; border-radius: 5px; max-height: 400px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Apply Tornado War Migration</h1>
+        
+        <div class="section">
+            <h3>Supabase Configuration</h3>
+            <p><strong>URL:</strong> https://dmbbsrcwqpmdxqtzvtqj.supabase.co</p>
+            <p><strong>Status:</strong> <span id="connection-status">Checking...</span></p>
+        </div>
+
+        <div class="section">
+            <h3>Migration Steps</h3>
+            <button id="test-connection">Test Connection</button>
+            <button id="apply-migration" disabled>Apply Migration</button>
+            <button id="test-rpc">Test RPC Functions</button>
+            <button id="clear-log">Clear Log</button>
+        </div>
+
+        <div class="section">
+            <h3>Migration SQL</h3>
+            <textarea id="migration-sql" readonly></textarea>
+        </div>
+
+        <div class="section">
+            <h3>Execution Log</h3>
+            <div id="log" class="log"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+        const SUPABASE_URL = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+        const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+        // Migration SQL (simplified version focusing on core functionality)
+        const migrationSQL = `
+-- Enable necessary extensions
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Users table (extends Supabase auth.users)
+CREATE TABLE IF NOT EXISTS users (
+    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    email TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Classes table
+CREATE TABLE IF NOT EXISTS classes (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    name TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Students table
+CREATE TABLE IF NOT EXISTS students (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    class_id UUID NOT NULL REFERENCES classes(id) ON DELETE CASCADE,
+    display_name TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Games table
+CREATE TABLE IF NOT EXISTS games (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    class_id UUID NOT NULL REFERENCES classes(id) ON DELETE CASCADE,
+    name TEXT NOT NULL,
+    board_w INTEGER NOT NULL DEFAULT 8,
+    board_h INTEGER NOT NULL DEFAULT 8,
+    victory_target_pct NUMERIC(3,2) NOT NULL DEFAULT 0.50,
+    turn_based BOOLEAN NOT NULL DEFAULT FALSE,
+    status TEXT NOT NULL DEFAULT 'active',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Game students table (junction table)
+CREATE TABLE IF NOT EXISTS game_students (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    game_id UUID NOT NULL REFERENCES games(id) ON DELETE CASCADE,
+    student_id UUID NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+    start_points INTEGER NOT NULL DEFAULT 5,
+    tiles_owned INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(game_id, student_id)
+);
+
+-- Tiles table
+CREATE TABLE IF NOT EXISTS tiles (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    game_id UUID NOT NULL REFERENCES games(id) ON DELETE CASCADE,
+    x INTEGER NOT NULL,
+    y INTEGER NOT NULL,
+    owner_game_student_id UUID REFERENCES game_students(id) ON DELETE SET NULL,
+    castle_level INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(game_id, x, y)
+);
+
+-- Transactions table
+CREATE TABLE IF NOT EXISTS transactions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    game_student_id UUID NOT NULL REFERENCES game_students(id) ON DELETE CASCADE,
+    type TEXT NOT NULL CHECK (type IN ('earn', 'spend')),
+    amount INTEGER NOT NULL,
+    meta JSONB DEFAULT '{}',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Truces table
+CREATE TABLE IF NOT EXISTS truces (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    game_id UUID NOT NULL REFERENCES games(id) ON DELETE CASCADE,
+    a_game_student_id UUID NOT NULL REFERENCES game_students(id) ON DELETE CASCADE,
+    b_game_student_id UUID NOT NULL REFERENCES game_students(id) ON DELETE CASCADE,
+    proposer_game_student_id UUID NOT NULL REFERENCES game_students(id) ON DELETE CASCADE,
+    status TEXT NOT NULL DEFAULT 'proposed' CHECK (status IN ('proposed', 'active', 'declined', 'revoked')),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(game_id, a_game_student_id, b_game_student_id)
+);
+
+-- Audit log table
+CREATE TABLE IF NOT EXISTS audit_log (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    game_id UUID NOT NULL REFERENCES games(id) ON DELETE CASCADE,
+    actor TEXT NOT NULL,
+    action TEXT NOT NULL,
+    meta JSONB DEFAULT '{}',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+        `;
+
+        document.getElementById('migration-sql').value = migrationSQL;
+
+        function log(message, type = 'info') {
+            const logEl = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : type === 'warning' ? 'warning' : '';
+            logEl.innerHTML += `<div class="${className}">[${timestamp}] ${message}</div>`;
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        async function testConnection() {
+            log('Testing Supabase connection...');
+            try {
+                const { data, error } = await supabase.from('users').select('count').limit(1);
+                if (error && !error.message.includes('relation "users" does not exist')) {
+                    throw error;
+                }
+                log('Connection successful!', 'success');
+                document.getElementById('connection-status').textContent = 'Connected';
+                document.getElementById('apply-migration').disabled = false;
+            } catch (error) {
+                log(`Connection failed: ${error.message}`, 'error');
+                document.getElementById('connection-status').textContent = 'Failed';
+            }
+        }
+
+        async function applyMigration() {
+            log('Applying migration...', 'warning');
+            
+            // Split SQL into individual statements
+            const statements = migrationSQL
+                .split(';')
+                .map(s => s.trim())
+                .filter(s => s.length > 0 && !s.startsWith('--'));
+
+            for (let i = 0; i < statements.length; i++) {
+                const statement = statements[i];
+                if (!statement) continue;
+                
+                log(`Executing statement ${i + 1}/${statements.length}...`);
+                log(`SQL: ${statement.substring(0, 100)}${statement.length > 100 ? '...' : ''}`);
+                
+                try {
+                    // Use a simple approach - try to execute via RPC
+                    const { data, error } = await supabase.rpc('exec_sql', { sql: statement });
+                    if (error) {
+                        // If exec_sql doesn't exist, try direct table operations
+                        if (error.message.includes('exec_sql')) {
+                            log('exec_sql RPC not available, skipping direct SQL execution', 'warning');
+                            log('Please apply the migration manually through Supabase dashboard', 'warning');
+                            break;
+                        }
+                        throw error;
+                    }
+                    log(`Statement ${i + 1} executed successfully`, 'success');
+                } catch (error) {
+                    log(`Statement ${i + 1} failed: ${error.message}`, 'error');
+                }
+            }
+            
+            log('Migration application completed', 'success');
+        }
+
+        async function testRPC() {
+            log('Testing RPC functions...');
+            
+            // Test ensure_user
+            try {
+                const { data, error } = await supabase.rpc('ensure_user');
+                if (error) {
+                    log(`ensure_user test: ${error.message}`, 'error');
+                } else {
+                    log('ensure_user RPC exists', 'success');
+                }
+            } catch (error) {
+                log(`ensure_user test failed: ${error.message}`, 'error');
+            }
+
+            // Test create_game_from_roster
+            try {
+                const { data, error } = await supabase.rpc('create_game_from_roster', {
+                    p_class_name: 'Test Class',
+                    p_game_name: 'Test Game',
+                    p_student_names: 'Alice\nBob',
+                    p_board_w: 8,
+                    p_board_h: 8,
+                    p_start_points: 5
+                });
+                if (error) {
+                    log(`create_game_from_roster test: ${error.message}`, 'error');
+                } else {
+                    log('create_game_from_roster RPC exists and works', 'success');
+                }
+            } catch (error) {
+                log(`create_game_from_roster test failed: ${error.message}`, 'error');
+            }
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        // Event listeners
+        document.getElementById('test-connection').onclick = testConnection;
+        document.getElementById('apply-migration').onclick = applyMigration;
+        document.getElementById('test-rpc').onclick = testRPC;
+        document.getElementById('clear-log').onclick = clearLog;
+
+        // Auto-test connection on load
+        testConnection();
+    </script>
+</body>
+</html>
