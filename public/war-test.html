@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tornado War – Test</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; padding: 24px; }
+    button { padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; margin-right: 8px; }
+  </style>
+</head>
+<body>
+  <h1>War Test</h1>
+  <p>1) Click <b>Sign in with Google</b> → 2) Click <b>Ensure User</b></p>
+  <button id="signin">Sign in with Google</button>
+  <button id="ensure">Ensure User Row</button>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const SUPABASE_URL = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+    const SUPABASE_ANON = "PASTE-ANON-KEY-HERE";  // ← replace this
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    document.getElementById("signin").onclick = async () => {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: window.location.href }
+      });
+      if (error) alert("Sign-in error: " + error.message);
+    };
+
+    document.getElementById("ensure").onclick = async () => {
+      const { data, error } = await supabase.rpc("ensure_user");
+      alert(error ? "ensure_user error: " + error.message : "User ok: " + data);
+    };
+  </script>
+</body>
+</html>
