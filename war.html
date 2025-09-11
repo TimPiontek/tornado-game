@@ -401,9 +401,12 @@
     const distanceFromCenter = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
     const maxDistance = Math.sqrt(Math.pow(boardW / 2, 2) + Math.pow(boardH / 2, 2));
     
-    // Price ranges from 20 (outer edge) to 200 (center)
-    // Invert the calculation: closer to center = higher price
-    const price = Math.round(200 - (distanceFromCenter / maxDistance) * 180);
+    // Price starts at 20 (outer edge) and increases by 10 for each ring toward center
+    // Calculate which "ring" this tile is in (0 = outer edge, higher = closer to center)
+    const ringLevel = Math.floor((1 - distanceFromCenter / maxDistance) * 10);
+    
+    // Base price of 20, plus 10 for each ring level
+    const price = 20 + (ringLevel * 10);
     return Math.max(20, Math.min(200, price));
   }
 
