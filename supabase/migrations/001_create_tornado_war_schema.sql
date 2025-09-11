@@ -222,6 +222,14 @@ DECLARE
     v_x INTEGER;
     v_y INTEGER;
     v_tile_id UUID;
+    v_total_tiles INTEGER;
+    v_target_tiles_per_student INTEGER;
+    v_victory_pct NUMERIC;
+    v_max_start_tiles INTEGER;
+    v_assigned_tiles INTEGER;
+    v_random_tile_id UUID;
+    v_game_student_ids UUID[];
+    v_current_student_index INTEGER;
 BEGIN
     -- Get current user
     v_user_id := auth.uid();
@@ -283,6 +291,59 @@ BEGIN
             VALUES (v_game_id, v_x, v_y, NULL, 0)
             RETURNING id INTO v_tile_id;
         END LOOP;
+    END LOOP;
+
+    -- Pre-assign starting territories to students
+    -- Calculate how many tiles each student should start with
+    -- Target: ~1/4 of total board, but capped at victory percentage
+    -- Get total tiles and victory percentage
+    v_total_tiles := v_board_w * v_board_h;
+    SELECT victory_target_pct INTO v_victory_pct FROM games WHERE id = v_game_id;
+    
+    -- Calculate target tiles per student (1/4 of board divided by students)
+    v_target_tiles_per_student := GREATEST(1, CEIL(v_total_tiles * 0.25 / array_length(v_student_names, 1)));
+    
+    -- Cap at victory percentage (convert to absolute number)
+    v_max_start_tiles := CEIL(v_total_tiles * v_victory_pct);
+    v_target_tiles_per_student := LEAST(v_target_tiles_per_student, v_max_start_tiles);
+    
+    -- Get all game_student_ids
+    SELECT ARRAY_AGG(id) INTO v_game_student_ids FROM game_students WHERE game_id = v_game_id;
+    
+    -- Assign tiles to each student
+    FOREACH v_student_name IN ARRAY v_student_names
+    LOOP
+        v_current_student_index := array_position(v_student_names, v_student_name);
+        v_assigned_tiles := 0;
+        
+        -- Assign tiles for this student
+        WHILE v_assigned_tiles < v_target_tiles_per_student
+        LOOP
+            -- Get a random unassigned tile
+            SELECT id INTO v_random_tile_id 
+            FROM tiles 
+            WHERE game_id = v_game_id 
+              AND owner_game_student_id IS NULL 
+            ORDER BY RANDOM() 
+            LIMIT 1;
+            
+            -- If no unassigned tiles left, break
+            IF v_random_tile_id IS NULL THEN
+                EXIT;
+            END IF;
+            
+            -- Assign this tile to the current student
+            UPDATE tiles 
+            SET owner_game_student_id = v_game_student_ids[v_current_student_index]
+            WHERE id = v_random_tile_id;
+            
+            v_assigned_tiles := v_assigned_tiles + 1;
+        END LOOP;
+        
+        -- Update tiles_owned count for this student
+        UPDATE game_students 
+        SET tiles_owned = v_assigned_tiles
+        WHERE id = v_game_student_ids[v_current_student_index];
     END LOOP;
 
     -- Log the creation
