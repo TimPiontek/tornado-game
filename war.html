@@ -83,14 +83,22 @@
     <div class="section">
       <div class="title">Batch award</div>
       <div class="grid2">
-        <input id="awardAmt" type="number" value="1" />
+        <input id="awardAmt" type="number" value="1" placeholder="Amount" />
         <select id="awardScope">
           <option value="all">All students</option>
           <option value="selected">Selected only</option>
         </select>
       </div>
+      <div class="grid2">
+        <button class="pill" id="doAward" style="background: #10b981;">Add Points</button>
+        <button class="pill" id="doDeduct" style="background: #ef4444;">Deduct Points</button>
+      </div>
       <input id="awardNote" placeholder="Reason (optional)"/>
-      <button class="pill" id="doAward">Apply</button>
+      <div style="margin-top: 8px;">
+        <button class="pill" onclick="quickAward(10)" style="background: #3b82f6; font-size: 12px;">+10 All</button>
+        <button class="pill" onclick="quickAward(25)" style="background: #3b82f6; font-size: 12px;">+25 All</button>
+        <button class="pill" onclick="quickAward(50)" style="background: #3b82f6; font-size: 12px;">+50 All</button>
+      </div>
     </div>
 
     <div class="section">
@@ -431,6 +439,13 @@
     const me = state.selectedGsId;
     if (!tile.owner_game_student_id) {
       const cost = calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h);
+      const student = state.roster.find(r => r.gsId === me);
+      if (!student) return alert("Student not found");
+      
+      if (student.balance < cost) {
+        return alert(`Insufficient funds! You have ${student.balance} points but need ${cost} points.`);
+      }
+      
       if (!confirm(`Buy this tile for ${cost} points?`)) return;
       await spend(me, cost, {kind:"buy_land", tile: tile.id, price: cost});
       const { error } = await supabase.from("tiles").update({ owner_game_student_id: me, castle_level: 0 }).eq("id", tile.id);
@@ -445,6 +460,14 @@
       const cost = next===1?state.costs.castleL1:next===2?state.costs.castleL2:state.costs.castleL3;
       const castleName = next===1?'Wooden Keep':next===2?'Stone Fortress':'Iron Citadel';
       const defense = next===1?50:next===2?100:200;
+      
+      const student = state.roster.find(r => r.gsId === me);
+      if (!student) return alert("Student not found");
+      
+      if (student.balance < cost) {
+        return alert(`Insufficient funds! You have ${student.balance} points but need ${cost} points.`);
+      }
+      
       if (!confirm(`Upgrade to ${castleName} (L${next}) for ${cost} points?\nThis provides ${defense} mercenary defense.`)) return;
       await spend(me, cost, {kind:"upgrade_castle", tile: tile.id, to: next});
       const { error } = await supabase.from("tiles").update({ castle_level: next }).eq("id", tile.id);
@@ -466,6 +489,20 @@
                       weaponNum === 2 ? 'crossbow' : 'catapult';
     
     const defMercs = Number(prompt(`How many mercenaries will DEFENDER commit? (you can enter 0)`, "0") ?? "0");
+    
+    // Check if attacker has enough points
+    const attacker = state.roster.find(r => r.gsId === me);
+    const defender_student = state.roster.find(r => r.gsId === defender);
+    if (!attacker || !defender_student) return alert("Student not found");
+    
+    const mercCost = attMercs * 10;
+    const weaponCost = weaponType === 'spear' ? 30 : weaponType === 'crossbow' ? 60 : weaponType === 'catapult' ? 100 : 0;
+    const totalCost = mercCost + weaponCost;
+    
+    if (attacker.balance < totalCost) {
+      return alert(`Insufficient funds! You have ${attacker.balance} points but need ${totalCost} points (${mercCost} for mercenaries + ${weaponCost} for weapon).`);
+    }
+    
     const { data, error } = await supabase.rpc("resolve_battle", {
       p_game_id: state.gameId,
       p_tile_id: tile.id,
@@ -518,6 +555,23 @@
       ? state.roster.filter(r=>r.gsId===state.selectedGsId)
       : state.roster;
     await awardPoints(targets, amt, el("#awardNote").value||"");
+  };
+
+  el("#doDeduct").onclick = async () => {
+    if (!state.gameId) return alert("Select a game first.");
+    const amt = Number(el("#awardAmt").value||"0");
+    const scope = el("#awardScope").value;
+    if (!amt) return;
+    const targets = scope==="selected"
+      ? state.roster.filter(r=>r.gsId===state.selectedGsId)
+      : state.roster;
+    await awardPoints(targets, -amt, el("#awardNote").value||"Deducted points");
+  };
+
+  // Quick award function for common amounts
+  window.quickAward = async (amount) => {
+    if (!state.gameId) return alert("Select a game first.");
+    await awardPoints(state.roster, amount, `Quick award: +${amount} points`);
   };
 
   el("#btnAward").onclick = ()=> el("#awardAmt").focus();
