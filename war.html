@@ -402,7 +402,8 @@
     const maxDistance = Math.sqrt(Math.pow(boardW / 2, 2) + Math.pow(boardH / 2, 2));
     
     // Price ranges from 20 (outer edge) to 200 (center)
-    const price = Math.round(20 + (distanceFromCenter / maxDistance) * 180);
+    // Invert the calculation: closer to center = higher price
+    const price = Math.round(200 - (distanceFromCenter / maxDistance) * 180);
     return Math.max(20, Math.min(200, price));
   }
 
