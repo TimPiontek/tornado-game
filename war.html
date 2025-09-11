@@ -313,14 +313,19 @@
       const spend= (r.transactions||[]).filter(t=>t.type==='spend').reduce((a,b)=>a+(b.amount||0),0);
       const bal = (r.start_points||0) + earn - spend;
       colorFor(r.id, i, total);
-      return {
+      const student = {
         gsId: r.id,
         name: r.students?.display_name ?? "Student",
         tilesOwned: r.tiles_owned || 0,
         startPoints: r.start_points || 0,
         balance: bal
       };
+      console.log("Loaded student:", student);
+      return student;
     }).sort((a,b)=>a.name.localeCompare(b.name));
+    
+    console.log("Final roster:", state.roster);
+    console.log("Colors map:", state.colors);
 
     renderRoster();
   }
@@ -378,14 +383,13 @@
         c.className = "cell";
         c.dataset.x = x; c.dataset.y = y;
         const owner = t.owner_game_student_id;
-        if (owner) c.style.background = state.colors.get(owner) || "#1b2540";
-        
         // Calculate tile price for unclaimed tiles
         const tilePrice = calculateTilePrice(x, y, w, h);
         
         if (owner) {
           const ownerName = nameForGs(owner);
           const ownerColor = state.colors.get(owner) || '#666';
+          console.log("Rendering tile:", {owner, ownerName, ownerColor, colors: state.colors});
           c.title = `Owner: ${ownerName} · Castle L${t.castle_level||0}`;
           const shortName = shortenName(ownerName);
           c.style.backgroundColor = ownerColor;
@@ -403,7 +407,12 @@
   }
 
   function nameForGs(gsId){
-    return state.roster.find(r=>r.gsId===gsId)?.name || "Unknown";
+    const student = state.roster.find(r=>r.gsId===gsId);
+    if (!student) {
+      console.log("Student not found for gsId:", gsId, "Available roster:", state.roster.map(r => ({gsId: r.gsId, name: r.name})));
+      return "Unknown";
+    }
+    return student.name;
   }
 
   // Calculate tile price based on distance from center
