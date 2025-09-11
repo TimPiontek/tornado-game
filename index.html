@@ -2796,6 +2796,7 @@ The Beatles
             <button
               id="startGameBtnBottom"
               class="purple-btn"
+              data-home-hidden="true"
               style="display:none; width: 100%; max-width: 1200px; font-size: 1.7rem; padding: 0.8rem 0; font-weight: 800; margin: 8px 0 0;"
             >
               Start Game
@@ -3939,7 +3940,7 @@ The Beatles
           
           // Restore the Start Game button visibility when returning to setup
           const startGameBtn = document.getElementById("startGameBtnBottom");
-          if (startGameBtn) {
+          if (startGameBtn && !startGameBtn.dataset.homeHidden) {
             startGameBtn.style.display = "block";
             console.log("Start Game button restored via hideLibraryScreen");
           }
@@ -4831,7 +4832,7 @@ The Beatles
             // Restore the Start Game button visibility
             const startGameBtn = document.getElementById("startGameBtnBottom");
             console.log("Home button clicked, looking for Start Game button:", startGameBtn);
-            if (startGameBtn) {
+            if (startGameBtn && !startGameBtn.dataset.homeHidden) {
               startGameBtn.style.display = "block";
               console.log("Start Game button restored to visible");
             } else {
