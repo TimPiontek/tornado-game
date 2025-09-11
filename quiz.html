@@ -3956,11 +3956,10 @@ The Beatles
           e.preventDefault();
           showLibrary("public");
         };
-        // Home link returns to main setup
+        // Home link returns to main page
         document.getElementById("logoTitleHome").onclick = function (e) {
           e.preventDefault();
-          hideLibraryScreen();
-          window.location.hash = "";
+          window.location.href = '/';
         };
         function hideGameAndSetUpScreen() {
           setupScreen.classList.add("hidden");
