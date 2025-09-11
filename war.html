@@ -376,12 +376,16 @@
         const tilePrice = calculateTilePrice(x, y, w, h);
         
         if (owner) {
-          c.title = `Owner: ${nameForGs(owner)} · Castle L${t.castle_level||0}`;
-          const shortName = shortenName(nameForGs(owner));
+          const ownerName = nameForGs(owner);
+          const ownerColor = state.colors.get(owner) || '#666';
+          c.title = `Owner: ${ownerName} · Castle L${t.castle_level||0}`;
+          const shortName = shortenName(ownerName);
+          c.style.backgroundColor = ownerColor;
           c.innerHTML = `<div style="font-size:9px;font-weight:bold;color:#fff;text-shadow:1px 1px 0 #000;line-height:1.1;">${shortName}</div>` + 
                        (t.castle_level ? `<div style="position:absolute;top:2px;right:2px;font-size:8px;">🏰${t.castle_level}</div>` : "");
         } else {
           c.title = `Empty tile - Cost: ${tilePrice} points`;
+          c.style.backgroundColor = '#1e3a8a';
           c.innerHTML = `<div style="font-size:10px;font-weight:bold;color:#ffd700;text-shadow:1px 1px 0 #000;">$${tilePrice}</div>`;
         }
         c.onclick = () => handleTileClick(t);
@@ -401,8 +405,8 @@
     const distanceFromCenter = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
     const maxDistance = Math.sqrt(Math.pow(boardW / 2, 2) + Math.pow(boardH / 2, 2));
     
-    // Price starts at 20 (outer edge) and increases by 10 for each ring toward center
-    // Calculate which "ring" this tile is in (0 = outer edge, higher = closer to center)
+    // Price starts at 20 (first row in from outer edge) and increases by 10 for each ring toward center
+    // Calculate which "ring" this tile is in (0 = first row in, higher = closer to center)
     const ringLevel = Math.floor((1 - distanceFromCenter / maxDistance) * 6);
     
     // Base price of 20, plus 10 for each ring level
