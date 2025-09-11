@@ -2191,7 +2191,8 @@
             align-items: center;
             justify-content: flex-start;
             min-height: 80vh;
-            margin-top: 0;
+            margin-top: 2rem;
+            padding: 0 1rem;
           "
         >
           <div class="setup-grid-row home-grid" style="margin-top: 0.2rem;" >
@@ -2210,7 +2211,7 @@
               align-items: center;
               gap: 0.5rem;
             ">
-              ← Back to Game Selection
+              ← Back to Play Tornado
             </button>
           </div>
           <!-- Main Setup Card (Center) -->
@@ -3140,10 +3141,12 @@ The Beatles
         window.selectGame = function(gameType) {
           const gameSelectionSection = document.getElementById('gameSelectionSection');
           const quizSetupSection = document.getElementById('quizSetupSection');
+          const mainNav = document.getElementById('mainNav');
           
           if (gameType === 'quiz') {
             gameSelectionSection.style.display = 'none';
             quizSetupSection.style.display = 'block';
+            mainNav.style.display = 'flex'; // Show nav for quiz setup
           } else if (gameType === 'war') {
             // Redirect to Tornado War
             window.location.href = '/war-admin.html';
@@ -3153,9 +3156,11 @@ The Beatles
         window.backToGameSelection = function() {
           const gameSelectionSection = document.getElementById('gameSelectionSection');
           const quizSetupSection = document.getElementById('quizSetupSection');
+          const mainNav = document.getElementById('mainNav');
           
           gameSelectionSection.style.display = 'flex';
           quizSetupSection.style.display = 'none';
+          mainNav.style.display = 'none'; // Hide nav for game selection
         };
 
         // === SUPABASE INIT ===
@@ -3163,6 +3168,9 @@ The Beatles
           "https://dmbbsrcwqpmdxqtzvtqj.supabase.co",
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w"
         );
+
+        // Hide navigation initially for game selection
+        document.getElementById('mainNav').style.display = 'none';
 
         // // Debug: Log session on page load
         // supabaseClient.auth.getUser().then(({ data: { user }, error }) => {

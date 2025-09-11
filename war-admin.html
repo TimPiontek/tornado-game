@@ -72,6 +72,7 @@
       <div class="title">Game</div>
       <select id="gamesList"></select>
       <div class="minor" id="victory"></div>
+      <button class="pill" id="deleteGame" style="margin-top: 8px; background: #dc2626; color: white;">Delete Game</button>
     </div>
 
     <div class="section">
@@ -261,6 +262,24 @@
   }
   el("#loadGames").onclick = () => loadGames(true);
   gamesList.onchange = () => selectGame(gamesList.value);
+  
+  // Delete game functionality
+  el("#deleteGame").onclick = async () => {
+    if (!state.gameId) return alert("Select a game to delete first.");
+    const gameName = state.game?.name || "this game";
+    if (!confirm(`Are you sure you want to delete "${gameName}"? This action cannot be undone.`)) return;
+    
+    try {
+      const { error } = await supabase.from("games").delete().eq("id", state.gameId);
+      if (error) throw error;
+      alert("Game deleted successfully.");
+      state.gameId = null;
+      state.game = null;
+      await loadGames(false);
+    } catch (e) {
+      alert("Failed to delete game: " + (e?.message || e));
+    }
+  };
 
   async function selectGame(gameId) {
     if (!gameId) return;
