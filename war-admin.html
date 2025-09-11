@@ -356,4 +356,224 @@
         c.title = owner ? `Owner: ${nameForGs(owner)} · Castle L${t.castle_level||0}` : "Empty";
         c.innerHTML = t.castle_level ? `<span class="castle">🏰${t.castle_level}</span>` : "";
         c.onclick = () => handleTileClick(t);
-        gridEl.a
+        gridEl.appendChild(c);
+      }
+    }
+  }
+
+  function nameForGs(gsId){
+    return state.roster.find(r=>r.gsId===gsId)?.name || "Unknown";
+  }
+
+  async function handleTileClick(tile){
+    if (!state.selectedGsId) { alert("Select a student in the roster first."); return; }
+    const me = state.selectedGsId;
+    if (!tile.owner_game_student_id) {
+      // BUY LAND
+      const cost = state.costs.land;
+      if (!confirm(`Buy this empty tile for ${cost} points?`)) return;
+      await spend(me, cost, {kind:"buy_land", tile: tile.id});
+      const { error } = await supabase.from("tiles").update({ owner_game_student_id: me, castle_level: 0 }).eq("id", tile.id);
+      if (error) { alert(error.message); return; }
+      await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
+      return;
+    }
+    if (tile.owner_game_student_id === me) {
+      // UPGRADE CASTLE
+      const lvl = tile.castle_level || 0;
+      if (lvl >= 3) { alert("Castle already at max level."); return; }
+      const next = lvl+1;
+      const cost = next===1?state.costs.castleL1:next===2?state.costs.castleL2:state.costs.castleL3;
+      if (!confirm(`Upgrade castle to L${next} for ${cost} points?`)) return;
+      await spend(me, cost, {kind:"upgrade_castle", tile: tile.id, to: next});
+      const { error } = await supabase.from("tiles").update({ castle_level: next }).eq("id", tile.id);
+      if (error) { alert(error.message); return; }
+      await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
+      return;
+    }
+    // ATTACK
+    const defender = tile.owner_game_student_id;
+    const attMercs = Number(prompt(`ATTACK ${nameForGs(defender)}\nHow many mercenaries will ATTACK commit? (cost 10 each)`, "5") ?? "0");
+    if (!(attMercs>=0)) return;
+    const weapon = Number(prompt("Weapon level (0-3). 0=none; 1=+20%; 2=+50%; 3=+90% (costs more)", "0") ?? "0");
+    if (weapon<0||weapon>3) return;
+    const defMercs = Number(prompt(`How many mercenaries will DEFENDER commit? (you can enter 0)`, "0") ?? "0");
+    const { data, error } = await supabase.rpc("resolve_battle", {
+      p_game_id: state.gameId,
+      p_tile_id: tile.id,
+      p_attacker: me,
+      p_defender: defender,
+      p_att_mercs: attMercs,
+      p_weapon_level: weapon,
+      p_def_mercs: defMercs
+    });
+    if (error) { alert(error.message); return; }
+    alert(`Odds ${(data.odds*100).toFixed(1)}% · Roll ${data.roll.toFixed(2)} → ${data.result.replace("_"," ")}`);
+    await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
+    checkVictory();
+  }
+
+  // === TRANSACTIONS ===
+  async function earn(gsId, amount, meta){
+    const { error } = await supabase.from("transactions").insert({
+      game_student_id: gsId, type: "earn", amount, meta
+    });
+    if (error) throw error;
+  }
+  async function spend(gsId, amount, meta){
+    const { error } = await supabase.from("transactions").insert({
+      game_student_id: gsId, type: "spend", amount, meta
+    });
+    if (error) throw error;
+  }
+
+  // Batch award
+  async function awardPoints(targets, amount, reason){
+    const rows = targets.map(t => ({ game_student_id: t.gsId, type: "earn", amount, meta: {reason} }));
+    const { error } = await supabase.from("transactions").insert(rows);
+    if (error) { alert(error.message); return; }
+    await Promise.all([loadRoster(), loadAudit()]);
+  }
+  el("#doAward").onclick = async () => {
+    if (!state.gameId) return alert("Select a game first.");
+    const amt = Number(el("#awardAmt").value||"0");
+    const scope = el("#awardScope").value;
+    if (!amt) return;
+    const targets = scope==="selected"
+      ? state.roster.filter(r=>r.gsId===state.selectedGsId)
+      : state.roster;
+    await awardPoints(targets, amt, el("#awardNote").value||"");
+  };
+
+  // Top bar helper buttons
+  el("#btnAward").onclick = ()=> el("#awardAmt").focus();
+  el("#btnBuy").onclick = ()=> contextEl.textContent = "Click an empty tile to buy it for the selected student.";
+  el("#btnAttack").onclick = ()=> contextEl.textContent = "Select a student, then click an enemy tile to attack.";
+  el("#btnTornado").onclick = async () => {
+    if (!state.gameId) return alert("Select a game first.");
+    if (!confirm("Cast TORNADO now? All teams will randomly gain or lose 0–2 territories.")) return;
+    const { data, error } = await supabase.rpc("apply_tornado", { p_game_id: state.gameId });
+    if (error) { alert(error.message); return; }
+    alert("Tornado complete.");
+    await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
+    checkVictory();
+  };
+  el("#btnTruces").onclick = () => renderTruces();
+
+  // === TRUCES ===
+  async function loadTruces(){
+    const { data, error } = await supabase.from("truces").select("*").eq("game_id", state.gameId);
+    if (error) { alert(error.message); return; }
+    state.truces = data || [];
+    renderTruces();
+  }
+  function truceKey(a,b){ return a<b?`${a}|${b}`:`${b}|${a}`; }
+  function truceBetween(a,b){
+    return state.truces.find(t => truceKey(t.a_game_student_id,t.b_game_student_id)===truceKey(a,b));
+  }
+  function renderTruces(){
+    if (!state.selectedGsId){ trucesEl.innerHTML="<div class='minor'>Select a student to manage truces.</div>"; return; }
+    const me = state.selectedGsId;
+    const rows = state.roster
+      .filter(r=>r.gsId!==me)
+      .map(r=>{
+        const t = truceBetween(me, r.gsId);
+        let btn="";
+        if (!t) btn = `<button class="pill" data-act="propose" data-id="${r.gsId}">Propose</button>`;
+        else if (t.status==='proposed' && t.proposer_game_student_id!==me) btn = `<button class="pill" data-act="accept" data-truce="${t.id}">Accept</button>
+                                                                                  <button class="pill" data-act="decline" data-truce="${t.id}">Decline</button>`;
+        else if (t.status==='proposed' && t.proposer_game_student_id===me) btn = `<span class="minor">Proposed…</span>`;
+        else if (t.status==='active') btn = `<span class="ok">Active</span> <button class="pill" data-act="revoke" data-truce="${t.id}">Revoke</button>`;
+        else if (t.status==='declined') btn = `<span class="err">Declined</span>`;
+        else if (t.status==='revoked') btn = `<span class="warn">Revoked</span>`;
+        return `<tr><td>${r.name}</td><td>${btn}</td></tr>`;
+      }).join("");
+    trucesEl.innerHTML = `<table><tbody>${rows}</tbody></table>`;
+    trucesEl.querySelectorAll("button").forEach(b=>{
+      b.onclick = async () => {
+        const act = b.dataset.act;
+        if (act==="propose"){
+          const other = b.dataset.id;
+          const { error } = await supabase.rpc("propose_truce", {
+            p_game_id: state.gameId, p_a: state.selectedGsId, p_b: other, p_proposer: state.selectedGsId
+          });
+          if (error) alert(error.message); else await loadTruces();
+        } else if (act==="accept"){
+          const id = b.dataset.truce;
+          const { error } = await supabase.rpc("respond_truce", { p_truce_id: id, p_accept: true });
+          if (error) alert(error.message); else await loadTruces();
+        } else if (act==="decline"){
+          const id = b.dataset.truce;
+          const { error } = await supabase.rpc("respond_truce", { p_truce_id: id, p_accept: false });
+          if (error) alert(error.message); else await loadTruces();
+        } else if (act==="revoke"){
+          const id = b.dataset.truce;
+          const { error } = await supabase.rpc("revoke_truce", { p_truce_id: id });
+          if (error) alert(error.message); else await loadTruces();
+        }
+      };
+    });
+  }
+
+  // === AUDIT (simple) ===
+  async function loadAudit(){
+    const { data, error } = await supabase
+      .from("audit_log")
+      .select("created_at,action,meta")
+      .eq("game_id", state.gameId)
+      .order("created_at", { ascending:false })
+      .limit(12);
+    if (error) { auditEl.textContent = error.message; return; }
+    auditEl.innerHTML = data.map(a=>`<div class="minor">${new Date(a.created_at).toLocaleTimeString()} — ${a.action}</div>`).join("");
+  }
+
+  // === VICTORY CHECK ===
+  async function checkVictory(){
+    const { data, error } = await supabase.rpc("get_victory_snapshot", { p_game_id: state.gameId });
+    if (error) { victoryEl.textContent = error.message; return; }
+    const total = data.total_tiles || 1;
+    const target = data.target_pct;
+    const tilesBy = new Map(data.students.map(s=>[s.gs, s.tiles]));
+    const adj = new Map();
+    for (const s of tilesBy.keys()) adj.set(s, new Set());
+    for (const e of data.truces) { adj.get(e.a).add(e.b); adj.get(e.b).add(e.a); }
+
+    const seen = new Set(); const wins=[];
+    for (const s of tilesBy.keys()){
+      if (seen.has(s)) continue;
+      const stack=[s]; const comp=[]; seen.add(s);
+      while(stack.length){ const u=stack.pop(); comp.push(u); for(const v of adj.get(u)) if(!seen.has(v)){seen.add(v); stack.push(v);} }
+      const compTiles = comp.reduce((a,b)=>a+(tilesBy.get(b)||0),0);
+      const needed = Math.ceil(target * total * comp.length);
+      if (compTiles >= needed){
+        wins.push(comp.map(id=>nameForGs(id)).join(" + "));
+      }
+    }
+    victoryEl.textContent = wins.length ? `🎉 Victory met: ${wins.join(" | ")}` : `Target: ${(target*100).toFixed(0)}% (coalitions multiply target)`;
+  }
+
+  // === CREATE GAME ===
+  el("#createGame").onclick = async () => {
+    const p = {
+      p_class_name: el("#className").value || "Class",
+      p_game_name:  el("#gameName").value || "Tornado War",
+      p_student_names: el("#rosterPaste").value || "",
+      p_board_w: Number(el("#boardW").value) || null,
+      p_board_h: Number(el("#boardH").value) || null,
+      p_start_points: Number(el("#startPts").value) || 5
+    };
+    el("#createStatus").textContent = "Creating...";
+    const { data, error } = await supabase.rpc("create_game_from_roster", p);
+    if (error) { el("#createStatus").textContent = error.message; return; }
+    const target = Number(el("#victoryPct").value);
+    const turns  = el("#turnBased").value === "true";
+    await supabase.from("games").update({ victory_target_pct: target, turn_based: turns }).eq("id", data.game_id);
+    el("#createStatus").textContent = `Created game ${data.game_id}`;
+    await loadGames(true);
+  };
+
+  // initial load
+  await loadGames(true);
+</script>
+</body>
+</html>
