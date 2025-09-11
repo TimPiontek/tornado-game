@@ -85,4 +85,498 @@
         <input id="awardAmt" type="number" value="1" />
         <select id="awardScope">
           <option value="all">All students</option>
-          <opti
+          <option value="selected">Selected only</option>
+        </select>
+      </div>
+      <input id="awardNote" placeholder="Reason (optional)"/>
+      <button class="pill" id="doAward">Apply</button>
+    </div>
+
+    <div class="section">
+      <div class="title">Start new game</div>
+      <input id="className" placeholder="Class name (e.g., Period 1)"/>
+      <input id="gameName" placeholder="Game name (e.g., Q1 War)"/>
+      <div class="grid2">
+        <input id="boardW" type="number" min="1" placeholder="width (auto)"/>
+        <input id="boardH" type="number" min="1" placeholder="height (auto)"/>
+      </div>
+      <input id="startPts" type="number" min="0" value="5" placeholder="Starting points"/>
+      <textarea id="rosterPaste" placeholder="One student per line&#10;Alice&#10;Bob&#10;Charlie"></textarea>
+      <div class="grid2">
+        <select id="victoryPct">
+          <option value="0.25">25% to win</option>
+          <option value="0.33">33% to win</option>
+          <option value="0.50">50% to win</option>
+          <option value="0.66">66% to win</option>
+          <option value="0.75">75% to win</option>
+        </select>
+        <select id="turnBased">
+          <option value="false">Free play</option>
+          <option value="true">Turn-based</option>
+        </select>
+      </div>
+      <button class="pill" id="createGame">Create game</button>
+      <div class="minor" id="createStatus"></div>
+    </div>
+  </div>
+
+  <!-- CENTER: map -->
+  <div class="panel">
+    <div class="title">Map</div>
+    <div id="board">
+      <div id="grid"></div>
+    </div>
+    <div class="minor" id="tip">Tip: click a roster name, then click a tile.</div>
+  </div>
+
+  <!-- RIGHT: context panel -->
+  <div class="panel">
+    <div class="title">Actions</div>
+    <div id="context">Select a student, then click a tile.</div>
+
+    <div class="section">
+      <div class="title">Truces</div>
+      <div id="truces"></div>
+    </div>
+
+    <div class="section">
+      <div class="title">Recent activity</div>
+      <div id="audit"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Help modal -->
+<div id="helpModal" class="modal" aria-hidden="true">
+  <div class="card">
+    <button class="closeX" id="helpClose">Close</button>
+    <h2>How to Play – Tornado War</h2>
+    <ol>
+      <li><b>Create a game:</b> paste student names (one per line), pick a victory %, and click <i>Create game</i>. Each student starts with 5 points by default.</li>
+      <li><b>Pick a student</b> in the left roster (click their name). Their color highlights on the map.</li>
+      <li><b>Buy Land:</b> click an empty tile to buy it. Cost shows before confirming.</li>
+      <li><b>Upgrade Castle:</b> click a tile you own to upgrade its castle (L1→L3) for defense bonuses.</li>
+      <li><b>Attack:</b> select an attacker, click an enemy tile, choose mercenaries + weapon level, then resolve. Used mercs/weapons are consumed; if attacker wins, the defender’s castle is destroyed.</li>
+      <li><b>Truces:</b> students can hold up to 2 active truces. Truced players can’t attack each other and can assist each other. Coalitions must capture proportionally more tiles to win.</li>
+      <li><b>Award Points:</b> use +1 on a student, inline +/- edits, or Batch Award to many at once.</li>
+      <li><b>Cast Tornado:</b> randomly adds/subtracts 0–2 territories per team.</li>
+      <li><b>Victory:</b> a player (or coalition) wins when they control the target % of tiles (coalitions multiply the target by the number of allied players).</li>
+    </ol>
+    <p class="minor">Everything autosaves. Use the Activity panel to see recent actions. You control all actions from this screen; students don’t log in.</p>
+  </div>
+</div>
+
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+  // === CONFIG ===
+  const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+  const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+  // === STATE ===
+  const state = {
+    session: null,
+    games: [],
+    game: null,
+    gameId: null,
+    board: { w: 0, h: 0, tiles: [] },
+    roster: [],
+    selectedGsId: null,
+    truces: [],
+    colors: new Map(),
+    costs: { land: 10, castleL1: 30, castleL2: 60, castleL3: 120 }
+  };
+
+  // === AUTH (force redirect + ensure_user) ===
+  const who = document.getElementById("who");
+  const signinBtn = document.getElementById("signin");
+
+  async function updateAuth() {
+    const { data: { session } } = await supabase.auth.getSession();
+    state.session = session;
+    who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
+    if (session) {
+      // Ensure teacher row exists so RLS allows inserts/selects
+      try {
+        const { error } = await supabase.rpc("ensure_user");
+        if (error && !/function ensure_user/.test(error.message)) console.warn("ensure_user error:", error.message);
+      } catch (e) { console.warn("ensure_user exception:", e); }
+    }
+  }
+
+  signinBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.href, skipBrowserRedirect: true }
+    });
+    if (error) { alert("Sign-in error: " + error.message); return; }
+    if (data?.url) window.location.assign(data.url);
+  });
+
+  await updateAuth();
+  supabase.auth.onAuthStateChange(() => updateAuth());
+
+  // === UI HELPERS ===
+  const el = (sel) => document.querySelector(sel);
+  const gamesList = el("#gamesList");
+  const rosterEl = el("#roster");
+  const gridEl = el("#grid");
+  const contextEl = el("#context");
+  const trucesEl = el("#truces");
+  const auditEl = el("#audit");
+  const victoryEl = el("#victory");
+
+  const helpModal = el("#helpModal");
+  el("#btnHelp").onclick = () => helpModal.classList.add("show");
+  el("#helpClose").onclick = () => helpModal.classList.remove("show");
+  helpModal.addEventListener("click", (e)=>{ if(e.target===helpModal) helpModal.classList.remove("show"); });
+
+  function colorFor(gsId, i, total) {
+    if (state.colors.has(gsId)) return state.colors.get(gsId);
+    const h = Math.round((i / Math.max(total,1)) * 360);
+    const c = `hsl(${h} 65% 48%)`;
+    state.colors.set(gsId, c);
+    return c;
+  }
+  function formatMoney(n){ return Math.round(n); }
+
+  // === LOAD GAMES ===
+  async function loadGames(selectNewest=false) {
+    const { data, error } = await supabase
+      .from("games")
+      .select("id,name,created_at,status,board_w,board_h,victory_target_pct")
+      .order("created_at", { ascending: false });
+    if (error) { alert(error.message); return; }
+    state.games = data || [];
+    gamesList.innerHTML = `<option value="">Select…</option>` + (state.games.map(g =>
+      `<option value="${g.id}">${new Date(g.created_at).toLocaleDateString()} – ${g.name}</option>`
+    ).join(""));
+    if (selectNewest && state.games.length) {
+      gamesList.value = state.games[0].id;
+      await selectGame(state.games[0].id);
+    }
+  }
+  el("#loadGames").onclick = () => loadGames(true);
+  gamesList.onchange = () => selectGame(gamesList.value);
+
+  async function selectGame(gameId) {
+    if (!gameId) return;
+    const game = state.games.find(g => g.id === gameId) || (await supabase.from("games").select("*").eq("id", gameId).single()).data;
+    state.game = game; state.gameId = gameId;
+    victoryEl.textContent = `Target: ${(game.victory_target_pct*100).toFixed(0)}% of tiles (coalitions multiply target)`;
+    await Promise.all([loadRoster(), loadTiles(), loadTruces(), loadAudit()]);
+    checkVictory();
+  }
+
+  // === ROSTER & BALANCES ===
+  async function loadRoster() {
+    const { data, error } = await supabase
+      .from("game_students")
+      .select("id, student_id, tiles_owned, start_points, students(display_name), transactions(amount,type)")
+      .eq("game_id", state.gameId);
+    if (error) { alert(error.message); return; }
+    const total = data.length || 1;
+
+    state.roster = data.map((r, i) => {
+      const earn = (r.transactions||[]).filter(t=>t.type==='earn').reduce((a,b)=>a+(b.amount||0),0);
+      const spend= (r.transactions||[]).filter(t=>t.type==='spend').reduce((a,b)=>a+(b.amount||0),0);
+      const bal = (r.start_points||0) + earn - spend;
+      colorFor(r.id, i, total);
+      return {
+        gsId: r.id,
+        name: r.students?.display_name ?? "Student",
+        tilesOwned: r.tiles_owned || 0,
+        startPoints: r.start_points || 0,
+        balance: bal
+      };
+    }).sort((a,b)=>a.name.localeCompare(b.name));
+
+    renderRoster();
+  }
+
+  function renderRoster() {
+    rosterEl.innerHTML = "";
+    for (const r of state.roster) {
+      const row = document.createElement("div");
+      row.className = "row" + (state.selectedGsId===r.gsId ? " sel" : "");
+      row.style.borderColor = state.colors.get(r.gsId);
+      row.innerHTML = `
+        <div style="display:flex; gap:6px; align-items:center;">
+          <div style="width:10px;height:10px;border-radius:50%;background:${state.colors.get(r.gsId)}"></div>
+          <div>${r.name}</div>
+        </div>
+        <div class="bal" title="Balance">💰 ${formatMoney(r.balance)}</div>
+        <div class="chip" title="Tiles owned">🧩 ${r.tilesOwned}</div>
+        <button class="plus" data-gs="${r.gsId}">+1</button>
+      `;
+      row.onclick = (e) => {
+        if (e.target.classList.contains("plus")) return;
+        state.selectedGsId = r.gsId;
+        renderRoster();
+        contextEl.textContent = `Selected: ${r.name}. Click a tile to buy/upgrade/attack.`;
+      };
+      row.querySelector(".plus").onclick = async (e) => {
+        e.stopPropagation();
+        await awardPoints([{ gsId: r.gsId }], 1, "Quick +1");
+      };
+      rosterEl.appendChild(row);
+    }
+  }
+
+  // === BOARD ===
+  async function loadTiles() {
+    const { data, error } = await supabase
+      .from("tiles")
+      .select("id,x,y,owner_game_student_id,castle_level")
+      .eq("game_id", state.gameId);
+    if (error) { alert(error.message); return; }
+
+    const w = state.game.board_w, h = state.game.board_h;
+    state.board.w = w; state.board.h = h;
+    const tiles = Array.from({length:h}, ()=>Array.from({length:w}, ()=>null));
+    for (const t of data) tiles[t.y][t.x] = t;
+    state.board.tiles = tiles;
+
+    gridEl.style.gridTemplateColumns = `repeat(${w}, 1fr)`;
+    gridEl.style.gridTemplateRows = `repeat(${h}, 1fr)`;
+    gridEl.innerHTML = "";
+    for (let y=0;y<h;y++){
+      for (let x=0;x<w;x++){
+        const t = tiles[y][x];
+        const c = document.createElement("div");
+        c.className = "cell";
+        c.dataset.x = x; c.dataset.y = y;
+        const owner = t.owner_game_student_id;
+        if (owner) c.style.background = state.colors.get(owner) || "#1b2540";
+        c.title = owner ? `Owner: ${nameForGs(owner)} · Castle L${t.castle_level||0}` : "Empty";
+        c.innerHTML = t.castle_level ? `<span class="castle">🏰${t.castle_level}</span>` : "";
+        c.onclick = () => handleTileClick(t);
+        gridEl.appendChild(c);
+      }
+    }
+  }
+
+  function nameForGs(gsId){
+    return state.roster.find(r=>r.gsId===gsId)?.name || "Unknown";
+  }
+
+  async function handleTileClick(tile){
+    if (!state.selectedGsId) { alert("Select a student in the roster first."); return; }
+    const me = state.selectedGsId;
+    if (!tile.owner_game_student_id) {
+      const cost = state.costs.land;
+      if (!confirm(`Buy this empty tile for ${cost} points?`)) return;
+      await spend(me, cost, {kind:"buy_land", tile: tile.id});
+      const { error } = await supabase.from("tiles").update({ owner_game_student_id: me, castle_level: 0 }).eq("id", tile.id);
+      if (error) { alert(error.message); return; }
+      await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
+      return;
+    }
+    if (tile.owner_game_student_id === me) {
+      const lvl = tile.castle_level || 0;
+      if (lvl >= 3) { alert("Castle already at max level."); return; }
+      const next = lvl+1;
+      const cost = next===1?state.costs.castleL1:next===2?state.costs.castleL2:state.costs.castleL3;
+      if (!confirm(`Upgrade castle to L${next} for ${cost} points?`)) return;
+      await spend(me, cost, {kind:"upgrade_castle", tile: tile.id, to: next});
+      const { error } = await supabase.from("tiles").update({ castle_level: next }).eq("id", tile.id);
+      if (error) { alert(error.message); return; }
+      await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
+      return;
+    }
+    const defender = tile.owner_game_student_id;
+    const attMercs = Number(prompt(`ATTACK ${nameForGs(defender)}\nHow many mercenaries will ATTACK commit? (cost 10 each)`, "5") ?? "0");
+    if (!(attMercs>=0)) return;
+    const weapon = Number(prompt("Weapon level (0-3). 0=none; 1=+20%; 2=+50%; 3=+90% (costs more)", "0") ?? "0");
+    if (weapon<0||weapon>3) return;
+    const defMercs = Number(prompt(`How many mercenaries will DEFENDER commit? (you can enter 0)`, "0") ?? "0");
+    const { data, error } = await supabase.rpc("resolve_battle", {
+      p_game_id: state.gameId,
+      p_tile_id: tile.id,
+      p_attacker: me,
+      p_defender: defender,
+      p_att_mercs: attMercs,
+      p_weapon_level: weapon,
+      p_def_mercs: defMercs
+    });
+    if (error) { alert(error.message); return; }
+    alert(`Odds ${(data.odds*100).toFixed(1)}% · Roll ${data.roll.toFixed(2)} → ${data.result.replace("_"," ")}`);
+    await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
+    checkVictory();
+  }
+
+  // === TRANSACTIONS ===
+  async function earn(gsId, amount, meta){
+    const { error } = await supabase.from("transactions").insert({
+      game_student_id: gsId, type: "earn", amount, meta
+    });
+    if (error) throw error;
+  }
+  async function spend(gsId, amount, meta){
+    const { error } = await supabase.from("transactions").insert({
+      game_student_id: gsId, type: "spend", amount, meta
+    });
+    if (error) throw error;
+  }
+
+  async function awardPoints(targets, amount, reason){
+    const rows = targets.map(t => ({ game_student_id: t.gsId, type: "earn", amount, meta: {reason} }));
+    const { error } = await supabase.from("transactions").insert(rows);
+    if (error) { alert(error.message); return; }
+    await Promise.all([loadRoster(), loadAudit()]);
+  }
+  el("#doAward").onclick = async () => {
+    if (!state.gameId) return alert("Select a game first.");
+    const amt = Number(el("#awardAmt").value||"0");
+    const scope = el("#awardScope").value;
+    if (!amt) return;
+    const targets = scope==="selected"
+      ? state.roster.filter(r=>r.gsId===state.selectedGsId)
+      : state.roster;
+    await awardPoints(targets, amt, el("#awardNote").value||"");
+  };
+
+  el("#btnAward").onclick = ()=> el("#awardAmt").focus();
+  el("#btnBuy").onclick = ()=> contextEl.textContent = "Click an empty tile to buy it for the selected student.";
+  el("#btnAttack").onclick = ()=> contextEl.textContent = "Select a student, then click an enemy tile to attack.";
+  el("#btnTornado").onclick = async () => {
+    if (!state.gameId) return alert("Select a game first.");
+    if (!confirm("Cast TORNADO now? All teams will randomly gain or lose 0–2 territories.")) return;
+    const { error } = await supabase.rpc("apply_tornado", { p_game_id: state.gameId });
+    if (error) { alert(error.message); return; }
+    alert("Tornado complete.");
+    await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
+    checkVictory();
+  };
+  el("#btnTruces").onclick = () => renderTruces();
+
+  // === TRUCES ===
+  async function loadTruces(){
+    const { data, error } = await supabase.from("truces").select("*").eq("game_id", state.gameId);
+    if (error) { alert(error.message); return; }
+    state.truces = data || [];
+    renderTruces();
+  }
+  function truceKey(a,b){ return a<b?`${a}|${b}`:`${b}|${a}`; }
+  function truceBetween(a,b){
+    return state.truces.find(t => truceKey(t.a_game_student_id,t.b_game_student_id)===truceKey(a,b));
+  }
+  function renderTruces(){
+    if (!state.selectedGsId){ trucesEl.innerHTML="<div class='minor'>Select a student to manage truces.</div>"; return; }
+    const me = state.selectedGsId;
+    const rows = state.roster
+      .filter(r=>r.gsId!==me)
+      .map(r=>{
+        const t = truceBetween(me, r.gsId);
+        let btn="";
+        if (!t) btn = `<button class="pill" data-act="propose" data-id="${r.gsId}">Propose</button>`;
+        else if (t.status==='proposed' && t.proposer_game_student_id!==me) btn = `<button class="pill" data-act="accept" data-truce="${t.id}">Accept</button>
+                                                                                  <button class="pill" data-act="decline" data-truce="${t.id}">Decline</button>`;
+        else if (t.status==='proposed' && t.proposer_game_student_id===me) btn = `<span class="minor">Proposed…</span>`;
+        else if (t.status==='active') btn = `<span class="ok">Active</span> <button class="pill" data-act="revoke" data-truce="${t.id}">Revoke</button>`;
+        else if (t.status==='declined') btn = `<span class="err">Declined</span>`;
+        else if (t.status==='revoked') btn = `<span class="warn">Revoked</span>`;
+        return `<tr><td>${r.name}</td><td>${btn}</td></tr>`;
+      }).join("");
+    trucesEl.innerHTML = `<table><tbody>${rows}</tbody></table>`;
+    trucesEl.querySelectorAll("button").forEach(b=>{
+      b.onclick = async () => {
+        const act = b.dataset.act;
+        if (act==="propose"){
+          const other = b.dataset.id;
+          const { error } = await supabase.rpc("propose_truce", {
+            p_game_id: state.gameId, p_a: state.selectedGsId, p_b: other, p_proposer: state.selectedGsId
+          });
+          if (error) alert(error.message); else await loadTruces();
+        } else if (act==="accept"){
+          const id = b.dataset.truce;
+          const { error } = await supabase.rpc("respond_truce", { p_truce_id: id, p_accept: true });
+          if (error) alert(error.message); else await loadTruces();
+        } else if (act==="decline"){
+          const id = b.dataset.truce;
+          const { error } = await supabase.rpc("respond_truce", { p_truce_id: id, p_accept: false });
+          if (error) alert(error.message); else await loadTruces();
+        } else if (act==="revoke"){
+          const id = b.dataset.truce;
+          const { error } = await supabase.rpc("revoke_truce", { p_truce_id: id });
+          if (error) alert(error.message); else await loadTruces();
+        }
+      };
+    });
+  }
+
+  // === AUDIT (simple) ===
+  async function loadAudit(){
+    const { data, error } = await supabase
+      .from("audit_log")
+      .select("created_at,action,meta")
+      .eq("game_id", state.gameId)
+      .order("created_at", { ascending:false })
+      .limit(12);
+    if (error) { auditEl.textContent = error.message; return; }
+    auditEl.innerHTML = data.map(a=>`<div class="minor">${new Date(a.created_at).toLocaleTimeString()} — ${a.action}</div>`).join("");
+  }
+
+  // === VICTORY CHECK ===
+  async function checkVictory(){
+    const { data, error } = await supabase.rpc("get_victory_snapshot", { p_game_id: state.gameId });
+    if (error) { victoryEl.textContent = error.message; return; }
+    const total = data.total_tiles || 1;
+    const target = data.target_pct;
+    const tilesBy = new Map(data.students.map(s=>[s.gs, s.tiles]));
+    const adj = new Map();
+    for (const s of tilesBy.keys()) adj.set(s, new Set());
+    for (const e of data.truces) { adj.get(e.a).add(e.b); adj.get(e.b).add(e.a); }
+
+    const seen = new Set(); const wins=[];
+    for (const s of tilesBy.keys()){
+      if (seen.has(s)) continue;
+      const stack=[s]; const comp=[]; seen.add(s);
+      while(stack.length){ const u=stack.pop(); comp.push(u); for(const v of adj.get(u)) if(!seen.has(v)){seen.add(v); stack.push(v);} }
+      const compTiles = comp.reduce((a,b)=>a+(tilesBy.get(b)||0),0);
+      const needed = Math.ceil(target * total * comp.length);
+      if (compTiles >= needed){
+        wins.push(comp.map(id=>nameForGs(id)).join(" + "));
+      }
+    }
+    victoryEl.textContent = wins.length ? `🎉 Victory met: ${wins.join(" | ")}` : `Target: ${(target*100).toFixed(0)}% (coalitions multiply target)`;
+  }
+
+  // === CREATE GAME (with strong error messages) ===
+  el("#createGame").onclick = async () => {
+    const status = el("#createStatus");
+    const p = {
+      p_class_name: el("#className").value || "Class",
+      p_game_name:  el("#gameName").value || "Tornado War",
+      p_student_names: el("#rosterPaste").value || "",
+      p_board_w: Number(el("#boardW").value) || null,
+      p_board_h: Number(el("#boardH").value) || null,
+      p_start_points: Number(el("#startPts").value) || 5
+    };
+    try {
+      status.textContent = "Creating…";
+      const { data, error } = await supabase.rpc("create_game_from_roster", p);
+      if (error) throw error;
+      if (!data?.game_id) throw new Error("No game_id returned from RPC.");
+      // set victory & turn mode
+      const target = Number(el("#victoryPct").value);
+      const turns  = el("#turnBased").value === "true";
+      const upd = await supabase.from("games").update({ victory_target_pct: target, turn_based: turns }).eq("id", data.game_id);
+      if (upd.error) throw upd.error;
+      status.textContent = `Created game ${data.game_id}`;
+      await loadGames(true);
+    } catch (e) {
+      console.error("Create game failed:", e);
+      status.textContent = "Error: " + (e?.message || e);
+      alert("Create game failed:\n" + (e?.message || e));
+    }
+  };
+
+  // initial load
+  await loadGames(true);
+</script>
+</body>
+</html>
