@@ -1,0 +1,270 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Title & SEO -->
+    <title>Tornado Quiz - Play Tornado</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://playtornado.com/quiz" />
+    <meta property="og:title" content="Tornado Quiz - Interactive Classroom Game" />
+    <meta property="og:description" content="A fun, flexible quiz game perfect for classrooms, study groups, and trivia nights. Customize questions, play with teams, and enjoy interactive rewards!" />
+    <meta property="og:image" content="https://playtornado.com/tornado-logo.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://playtornado.com/quiz" />
+    <meta property="twitter:title" content="Tornado Quiz - Interactive Classroom Game" />
+    <meta property="twitter:description" content="A fun, flexible quiz game perfect for classrooms, study groups, and trivia nights. Customize questions, play with teams, and enjoy interactive rewards!" />
+    <meta property="twitter:image" content="https://playtornado.com/tornado-logo.png" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Tornado Quiz: Interactive Classroom Game",
+        "url": "https://playtornado.com/quiz",
+        "description": "A fun, flexible quiz game perfect for classrooms, study groups, and trivia nights, featuring customizable questions, team play, and interactive rewards.",
+        "applicationCategory": "EducationalGame",
+        "operatingSystem": "Web Browser",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+    <!-- Header -->
+    <header
+      style="
+        background: linear-gradient(135deg, #6f5c91 0%, #8b5a96 100%);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+      "
+    >
+      <div
+        id="logoTitleHome"
+        style="display: flex; align-items: center; gap: 1rem; cursor: pointer"
+        onclick="window.location.href = '/'"
+      >
+        <img
+          src="tornado-logo.png"
+          alt="PlayTornado Logo"
+          style="
+            height: 64px;
+            width: 64px;
+            border-radius: 8px;
+            background: #fff;
+            padding: 2px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+          "
+        />
+        <span
+          style="
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #fff;
+          "
+          >Play Tornado</span
+        >
+      </div>
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 2.2rem;
+          font-size: 1.1rem;
+          font-weight: 600;
+        "
+      >
+        <a
+          href="/"
+          style="
+            color: #fff;
+            text-decoration: none;
+            padding: 0.3em 0.7em;
+            border-radius: 6px;
+            transition: background 0.2s;
+          "
+          >How to Play</a
+        >
+        <a
+          href="#"
+          id="myLibraryLink"
+          style="
+            color: #fff;
+            text-decoration: none;
+            padding: 0.3em 0.7em;
+            border-radius: 6px;
+            transition: background 0.2s;
+          "
+          >My Library</a
+        >
+        <a
+          href="#"
+          id="publicLibraryLink"
+          style="
+            color: #fff;
+            text-decoration: none;
+            padding: 0.3em 0.7em;
+            border-radius: 6px;
+            transition: background 0.2s;
+          "
+          >Play Tornado Library</a
+        >
+        <button
+          id="loginLogoutBtn"
+          style="
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5em 1em;
+            border-radius: 6px;
+            transition: background 0.2s;
+          "
+        >
+          Login
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="min-height: calc(100vh - 80px); background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 2rem 0;">
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          min-height: 80vh;
+          margin-top: 2rem;
+          padding: 0 1rem;
+        "
+      >
+        <div class="setup-grid-row home-grid" style="margin-top: 0.2rem;" >
+        <!-- Main Setup Card (Center) -->
+        <div class="setup-main-card">
+          <form id="setupForm" onsubmit="return false;">
+            <div class="setup-unified-card">
+              <div class="setup-unified-grid">
+                <!-- Team Names Row -->
+                <div class="setup-unified-cell">
+                  <label style="display: block; margin-bottom: 0.3em"
+                    >Team A Name:
+                    <input
+                      id="teamANameInput"
+                      value="Team A"
+                      required
+                      maxlength="16"
+                      style="
+                        display: block;
+                        width: 100%;
+                        margin-bottom: 0.3em;
+                      "
+                    />
+                  </label>
+                </div>
+                <div class="setup-unified-cell">
+                  <label style="display: block; margin-bottom: 0.3em"
+                    >Team B Name:
+                    <input
+                      id="teamBNameInput"
+                      value="Team B"
+                      required
+                      maxlength="16"
+                      style="
+                        display: block;
+                        width: 100%;
+                        margin-bottom: 0.3em;
+                      "
+                    />
+                  </label>
+                </div>
+
+                <!-- Quiz Selection Row -->
+                <div class="setup-unified-cell" style="grid-column: 1 / -1;">
+                  <label style="display: block; margin-bottom: 0.3em"
+                    >Select a Quiz:
+                    <select
+                      id="quizSelect"
+                      required
+                      style="
+                        display: block;
+                        width: 100%;
+                        margin-bottom: 0.3em;
+                      "
+                    >
+                      <option value="">Choose a quiz...</option>
+                    </select>
+                  </label>
+                </div>
+
+                <!-- Game Options Row -->
+                <div class="setup-unified-cell">
+                  <label style="display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.7em;">
+                    <input type="checkbox" id="isPublicInput">
+                    <span>Make this game public</span>
+                  </label>
+                </div>
+                <div class="setup-unified-cell">
+                  <label style="display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.7em;">
+                    <input type="checkbox" id="randomizeInput" checked>
+                    <span>Randomize question order</span>
+                  </label>
+                </div>
+
+                <!-- Start Button -->
+                <div class="setup-unified-cell" style="grid-column: 1 / -1; text-align: center;">
+                  <button
+                    type="submit"
+                    id="startGameBtn"
+                    style="
+                      background: linear-gradient(135deg, #6f5c91 0%, #8b5a96 100%);
+                      color: white;
+                      border: none;
+                      padding: 1rem 2rem;
+                      border-radius: 12px;
+                      font-size: 1.2rem;
+                      font-weight: 600;
+                      cursor: pointer;
+                      transition: transform 0.2s, box-shadow 0.2s;
+                      box-shadow: 0 4px 12px rgba(111, 92, 145, 0.3);
+                    "
+                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(111, 92, 145, 0.4)'"
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(111, 92, 145, 0.3)'"
+                  >
+                    🌪️ Start Tornado Quiz
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Include the quiz game script -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>

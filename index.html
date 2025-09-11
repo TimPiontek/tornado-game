@@ -2133,7 +2133,7 @@
           id="quizCard"
           onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 40px rgba(0,0,0,0.15)'"
           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 32px rgba(0,0,0,0.1)'"
-          onclick="selectGame('quiz')">
+          onclick="window.location.href = '/quiz'">
             <div style="font-size: 4rem; margin-bottom: 1rem;">📚</div>
             <h2 style="color: #6f5c91; margin: 0 0 1rem 0; font-size: 1.8rem;">Tornado Quiz</h2>
             <p style="color: #666; line-height: 1.5; margin: 0 0 1.5rem 0;">
@@ -2166,7 +2166,7 @@
           id="warCard"
           onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 40px rgba(0,0,0,0.15)'"
           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 32px rgba(0,0,0,0.1)'"
-          onclick="selectGame('war')">
+          onclick="window.location.href = '/war'">
             <div style="font-size: 4rem; margin-bottom: 1rem;">⚔️</div>
             <h2 style="color: #6f5c91; margin: 0 0 1rem 0; font-size: 1.8rem;">Tornado War</h2>
             <p style="color: #666; line-height: 1.5; margin: 0 0 1.5rem 0;">
@@ -2186,19 +2186,7 @@
         </div>
       </div>
 
-      <!-- Quiz Setup Section (hidden by default) -->
-      <div id="quizSetupSection" style="display: none;">
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 80vh;
-            margin-top: 2rem;
-            padding: 0 1rem;
-          "
-        >
+      <!-- Quiz Setup Section removed - now handled by /quiz page -->
           <div class="setup-grid-row home-grid" style="margin-top: 0.2rem;" >
           <!-- Main Setup Card (Center) -->
           <div class="setup-main-card">
@@ -3124,30 +3112,7 @@ The Beatles
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         // === GAME SELECTION ===
-        window.selectGame = function(gameType) {
-          const gameSelectionSection = document.getElementById('gameSelectionSection');
-          const quizSetupSection = document.getElementById('quizSetupSection');
-          const mainNav = document.getElementById('mainNav');
-          
-          if (gameType === 'quiz') {
-            gameSelectionSection.style.display = 'none';
-            quizSetupSection.style.display = 'block';
-            mainNav.style.display = 'flex'; // Show nav for quiz setup
-          } else if (gameType === 'war') {
-            // Redirect to Tornado War
-            window.location.href = '/war-admin.html';
-          }
-        };
-
-        window.backToGameSelection = function() {
-          const gameSelectionSection = document.getElementById('gameSelectionSection');
-          const quizSetupSection = document.getElementById('quizSetupSection');
-          const mainNav = document.getElementById('mainNav');
-          
-          gameSelectionSection.style.display = 'flex';
-          quizSetupSection.style.display = 'none';
-          mainNav.style.display = 'none'; // Hide nav for game selection
-        };
+        // Game selection now handled by direct links to /quiz and /war
 
         // === SUPABASE INIT ===
         const supabaseClient = supabase.createClient(
