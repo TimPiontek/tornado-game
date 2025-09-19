@@ -15,12 +15,12 @@
     .pill { padding:8px 12px; border:1px solid var(--border); border-radius:10px; background:var(--panel); color:var(--text); cursor:pointer; }
     .pill[disabled] { opacity:.6; cursor:not-allowed }
     .muted { color:var(--muted) }
-    .wrap { display:grid; grid-template-columns: 290px 1fr 340px; gap:12px; padding:12px; }
+    .wrap { display:grid; grid-template-columns: 290px 1fr; gap:12px; padding:12px; }
     .panel { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:12px; }
     .title { font-size:14px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0 0 8px; }
     #gamesList { width: 280px; }
     #roster { display:flex; flex-direction:column; gap:6px; max-height: calc(100vh - 220px); overflow:auto; }
-    .row { display:grid; grid-template-columns: 1fr auto auto auto; gap:8px; align-items:center; padding:6px 8px; border:1px solid var(--border); border-radius:10px; cursor:pointer; }
+    .row { display:grid; grid-template-columns: 1fr auto auto auto auto auto auto; gap:6px; align-items:center; padding:6px 8px; border:1px solid var(--border); border-radius:10px; cursor:pointer; }
     .row.sel { outline:2px solid var(--accent) }
     .bal { font-variant-numeric: tabular-nums; }
     .chip { padding:4px 8px; border:1px solid var(--border); border-radius:8px; font-size:12px; color:var(--muted) }
@@ -83,20 +83,9 @@
     </div>
 
     <div class="section">
-      <div class="title">Batch award</div>
-      <div class="grid2">
-        <input id="awardAmt" type="number" value="1" placeholder="Amount" />
-        <select id="awardScope">
-          <option value="all">All students</option>
-          <option value="selected">Selected only</option>
-        </select>
-      </div>
-      <div class="grid2">
-        <button class="pill" id="doAward" style="background: #10b981;">Add Points</button>
-        <button class="pill" id="doDeduct" style="background: #ef4444;">Deduct Points</button>
-      </div>
-      <input id="awardNote" placeholder="Reason (optional)"/>
-      <div style="margin-top: 8px;">
+      <div class="title">Quick awards</div>
+      <div style="margin-bottom: 8px;">
+        <button class="pill" onclick="quickAward(1)" style="background: #10b981; font-size: 12px;">+1 All</button>
         <button class="pill" onclick="quickAward(10)" style="background: #3b82f6; font-size: 12px;">+10 All</button>
         <button class="pill" onclick="quickAward(25)" style="background: #3b82f6; font-size: 12px;">+25 All</button>
         <button class="pill" onclick="quickAward(50)" style="background: #3b82f6; font-size: 12px;">+50 All</button>
@@ -131,7 +120,7 @@
     </div>
   </div>
 
-  <!-- CENTER: map -->
+  <!-- RIGHT: map -->
   <div class="panel">
     <div class="title">Map</div>
     <div id="board">
@@ -139,21 +128,21 @@
     </div>
     <div class="minor" id="tip">Tip: click a roster name, then click a tile.</div>
   </div>
+</div>
 
-  <!-- RIGHT: context panel -->
-  <div class="panel">
-    <div class="title">Actions</div>
-    <div id="context">Select a student, then click a tile.</div>
+<!-- Actions panel below the main content -->
+<div class="panel" style="margin: 12px;">
+  <div class="title">Actions & Game Info</div>
+  <div id="context">Select a student, then click a tile.</div>
 
-    <div class="section">
-      <div class="title">Truces</div>
-      <div id="truces"></div>
-    </div>
+  <div class="section">
+    <div class="title">Truces</div>
+    <div id="truces"></div>
+  </div>
 
-    <div class="section">
-      <div class="title">Recent activity</div>
-      <div id="audit"></div>
-    </div>
+  <div class="section">
+    <div class="title">Recent activity</div>
+    <div id="audit"></div>
   </div>
 </div>
 
@@ -498,7 +487,10 @@
         </div>
         <div class="bal" title="Balance">💰 ${formatMoney(r.balance)}</div>
         <div class="chip" title="Tiles owned">🧩 ${r.tilesOwned}</div>
-        <button class="plus" data-gs="${r.gsId}">+1</button>
+        <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="1" style="background:#10b981; color:white;">+1</button>
+        <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="5" style="background:#3b82f6; color:white;">+5</button>
+        <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="10" style="background:#8b5cf6; color:white;">+10</button>
+        <button class="plus" data-gs="${r.gsId}" data-action="subtract" data-amount="1" style="background:#ef4444; color:white;">-1</button>
       `;
       row.onclick = (e) => {
         if (e.target.classList.contains("plus")) return;
@@ -506,10 +498,16 @@
         renderRoster();
         contextEl.textContent = `Selected: ${r.name}. Click a tile to buy/upgrade/attack.`;
       };
-      row.querySelector(".plus").onclick = async (e) => {
-        e.stopPropagation();
-        await awardPoints([{ gsId: r.gsId }], 1, "Quick +1");
-      };
+      row.querySelectorAll(".plus").forEach(button => {
+        button.onclick = async (e) => {
+          e.stopPropagation();
+          const action = button.dataset.action;
+          const amount = parseInt(button.dataset.amount);
+          const finalAmount = action === "subtract" ? -amount : amount;
+          const actionText = action === "subtract" ? `Quick -${amount}` : `Quick +${amount}`;
+          await awardPoints([{ gsId: r.gsId }], finalAmount, actionText);
+        };
+      });
       rosterEl.appendChild(row);
     }
   }
@@ -825,27 +823,6 @@
     }
     await Promise.all([loadRoster(), loadAudit()]);
   }
-  el("#doAward").onclick = async () => {
-    if (!state.gameId) return alert("Select a game first.");
-    const amt = Number(el("#awardAmt").value||"0");
-    const scope = el("#awardScope").value;
-    if (!amt) return;
-    const targets = scope==="selected"
-      ? state.roster.filter(r=>r.gsId===state.selectedGsId)
-      : state.roster;
-    await awardPoints(targets, amt, el("#awardNote").value||"");
-  };
-
-  el("#doDeduct").onclick = async () => {
-    if (!state.gameId) return alert("Select a game first.");
-    const amt = Number(el("#awardAmt").value||"0");
-    const scope = el("#awardScope").value;
-    if (!amt) return;
-    const targets = scope==="selected"
-      ? state.roster.filter(r=>r.gsId===state.selectedGsId)
-      : state.roster;
-    await awardPoints(targets, -amt, el("#awardNote").value||"Deducted points");
-  };
 
   // Quick award function for common amounts
   window.quickAward = async (amount) => {
@@ -853,7 +830,6 @@
     await awardPoints(state.roster, amount, `Quick award: +${amount} points`);
   };
 
-  el("#btnAward").onclick = ()=> el("#awardAmt").focus();
   el("#btnBuy").onclick = ()=> contextEl.textContent = "Click an empty tile to buy it. Prices increase toward the center (20-200 points).";
   el("#btnAttack").onclick = ()=> contextEl.textContent = "Select a student, then click an enemy tile to attack.";
   el("#btnTornado").onclick = async () => {
@@ -900,7 +876,16 @@
     await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
     checkVictory();
   };
-  el("#btnTruces").onclick = () => renderTruces();
+  el("#btnTruces").onclick = () => {
+    // Toggle truces panel visibility
+    const trucesSection = document.querySelector('#truces').closest('.section');
+    const isVisible = trucesSection.style.display !== 'none';
+    trucesSection.style.display = isVisible ? 'none' : 'block';
+    
+    if (!isVisible) {
+      renderTruces();
+    }
+  };
 
   // === TRUCES ===
   async function loadTruces(){
