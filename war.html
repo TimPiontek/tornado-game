@@ -62,6 +62,7 @@
     <div style="flex:1"></div>
     <span id="who" class="muted">Not signed in</span>
     <button class="pill" id="signin">Sign in with Google</button>
+    <button class="pill" id="playOffline" style="background: #10b981; color: white;">Play Offline</button>
   </div>
 </header>
 
@@ -196,18 +197,33 @@
     truces: [],
     colors: new Map(),
     costs: { land: 10, castleL1: 50, castleL2: 100, castleL3: 200 },
-    weaponCosts: { spear: 30, crossbow: 60, catapult: 100 }
+    weaponCosts: { spear: 30, crossbow: 60, catapult: 100 },
+    offlineMode: false,
+    localGames: []
   };
 
   // === AUTH (force redirect + ensure_user) ===
   const who = document.getElementById("who");
   const signinBtn = document.getElementById("signin");
+  const playOfflineBtn = document.getElementById("playOffline");
 
   async function updateAuth() {
     const { data: { session } } = await supabase.auth.getSession();
     state.session = session;
-    who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
-    if (session) {
+    
+    if (state.offlineMode) {
+      who.textContent = "Playing Offline";
+      signinBtn.textContent = "Switch to Online";
+      signinBtn.style.display = "inline-block";
+      playOfflineBtn.style.display = "none";
+    } else {
+      who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
+      signinBtn.textContent = "Sign in with Google";
+      signinBtn.style.display = session ? "none" : "inline-block";
+      playOfflineBtn.style.display = session ? "none" : "inline-block";
+    }
+    
+    if (session && !state.offlineMode) {
       // Ensure teacher row exists so RLS allows inserts/selects
       try {
         const { error } = await supabase.rpc("ensure_user");
@@ -218,16 +234,95 @@
 
   signinBtn.addEventListener("click", async (e) => {
     e.preventDefault();
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: window.location.href, skipBrowserRedirect: true }
-    });
-    if (error) { alert("Sign-in error: " + error.message); return; }
-    if (data?.url) window.location.assign(data.url);
+    if (state.offlineMode) {
+      // Switch back to online mode
+      if (confirm("Switch to online mode? You'll need to sign in to access your saved games. Local games will remain available.")) {
+        state.offlineMode = false;
+        await updateAuth();
+        // Clear any existing game selection
+        state.gameId = null;
+        state.game = null;
+        gamesList.value = "";
+        await loadGames(false);
+        // Remove offline warning
+        const warning = document.getElementById('offlineWarning');
+        if (warning) warning.remove();
+      }
+    } else {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: window.location.href, skipBrowserRedirect: true }
+      });
+      if (error) { alert("Sign-in error: " + error.message); return; }
+      if (data?.url) window.location.assign(data.url);
+    }
+  });
+
+  playOfflineBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    if (confirm("Play offline mode? Your games will be saved locally but won't sync across devices. You can still sign in later to save games permanently.\n\nNote: Some advanced features like truces and tornado effects are simplified in offline mode.")) {
+      state.offlineMode = true;
+      await updateAuth();
+      await loadLocalGames();
+      showOfflineWarning();
+      // Clear any existing game selection
+      state.gameId = null;
+      state.game = null;
+      gamesList.value = "";
+      await loadGames(false);
+    }
   });
 
   await updateAuth();
   supabase.auth.onAuthStateChange(() => updateAuth());
+
+  // === LOCAL STORAGE FUNCTIONS ===
+  function saveLocalGame(gameData) {
+    const games = JSON.parse(localStorage.getItem('tornadoWarGames') || '[]');
+    const existingIndex = games.findIndex(g => g.id === gameData.id);
+    if (existingIndex >= 0) {
+      games[existingIndex] = gameData;
+    } else {
+      games.push(gameData);
+    }
+    localStorage.setItem('tornadoWarGames', JSON.stringify(games));
+  }
+
+  function loadLocalGames() {
+    const games = JSON.parse(localStorage.getItem('tornadoWarGames') || '[]');
+    state.localGames = games;
+    return games;
+  }
+
+  function deleteLocalGame(gameId) {
+    const games = JSON.parse(localStorage.getItem('tornadoWarGames') || '[]');
+    const filtered = games.filter(g => g.id !== gameId);
+    localStorage.setItem('tornadoWarGames', JSON.stringify(filtered));
+    state.localGames = filtered;
+  }
+
+  function showOfflineWarning() {
+    const warning = document.createElement('div');
+    warning.id = 'offlineWarning';
+    warning.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #f59e0b;
+      color: white;
+      padding: 8px;
+      text-align: center;
+      font-weight: bold;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    `;
+    warning.innerHTML = `
+      ⚠️ Playing Offline - Games saved locally only. 
+      <button onclick="this.parentElement.remove()" style="background: white; color: #f59e0b; border: none; padding: 4px 8px; border-radius: 4px; margin-left: 8px; cursor: pointer;">Dismiss</button>
+    `;
+    document.body.insertBefore(warning, document.body.firstChild);
+  }
 
   // === UI HELPERS ===
   const el = (sel) => document.querySelector(sel);
@@ -255,12 +350,26 @@
 
   // === LOAD GAMES ===
   async function loadGames(selectNewest=false) {
-    const { data, error } = await supabase
-      .from("games")
-      .select("id,name,created_at,status,board_w,board_h,victory_target_pct")
-      .order("created_at", { ascending: false });
-    if (error) { alert(error.message); return; }
-    state.games = data || [];
+    if (state.offlineMode) {
+      const localGames = loadLocalGames();
+      state.games = localGames.map(g => ({
+        id: g.id,
+        name: g.name,
+        created_at: g.created_at,
+        status: g.status || 'active',
+        board_w: g.board_w,
+        board_h: g.board_h,
+        victory_target_pct: g.victory_target_pct
+      }));
+    } else {
+      const { data, error } = await supabase
+        .from("games")
+        .select("id,name,created_at,status,board_w,board_h,victory_target_pct")
+        .order("created_at", { ascending: false });
+      if (error) { alert(error.message); return; }
+      state.games = data || [];
+    }
+    
     gamesList.innerHTML = `<option value="">Select…</option>` + (state.games.map(g =>
       `<option value="${g.id}">${new Date(g.created_at).toLocaleDateString()} – ${g.name}</option>`
     ).join(""));
@@ -279,9 +388,14 @@
     if (!confirm(`Are you sure you want to delete "${gameName}"? This action cannot be undone.`)) return;
     
     try {
-      const { error } = await supabase.from("games").delete().eq("id", state.gameId);
-      if (error) throw error;
-      alert("Game deleted successfully.");
+      if (state.offlineMode) {
+        deleteLocalGame(state.gameId);
+        alert("Game deleted successfully.");
+      } else {
+        const { error } = await supabase.from("games").delete().eq("id", state.gameId);
+        if (error) throw error;
+        alert("Game deleted successfully.");
+      }
       state.gameId = null;
       state.game = null;
       await loadGames(false);
@@ -292,7 +406,13 @@
 
   async function selectGame(gameId) {
     if (!gameId) return;
-    const game = state.games.find(g => g.id === gameId) || (await supabase.from("games").select("*").eq("id", gameId).single()).data;
+    let game;
+    if (state.offlineMode) {
+      game = state.localGames.find(g => g.id === gameId);
+      if (!game) return alert("Game not found in local storage");
+    } else {
+      game = state.games.find(g => g.id === gameId) || (await supabase.from("games").select("*").eq("id", gameId).single()).data;
+    }
     state.game = game; state.gameId = gameId;
     victoryEl.textContent = `Target: ${(game.victory_target_pct*100).toFixed(0)}% of tiles (coalitions multiply target)`;
     
@@ -304,26 +424,43 @@
 
   // === ROSTER & BALANCES ===
   async function loadRoster() {
-    const { data, error } = await supabase
-      .from("game_students")
-      .select("id, student_id, tiles_owned, start_points, students(display_name), transactions(amount,type)")
-      .eq("game_id", state.gameId);
-    if (error) { alert(error.message); return; }
-    const total = data.length || 1;
+    if (state.offlineMode) {
+      const game = state.localGames.find(g => g.id === state.gameId);
+      if (!game || !game.roster) return;
+      
+      const total = game.roster.length || 1;
+      state.roster = game.roster.map((r, i) => {
+        colorFor(r.gsId, i, total);
+        return {
+          gsId: r.gsId,
+          name: r.name,
+          tilesOwned: r.tilesOwned || 0,
+          startPoints: r.startPoints || 0,
+          balance: r.balance || r.startPoints || 0
+        };
+      }).sort((a,b)=>a.name.localeCompare(b.name));
+    } else {
+      const { data, error } = await supabase
+        .from("game_students")
+        .select("id, student_id, tiles_owned, start_points, students(display_name), transactions(amount,type)")
+        .eq("game_id", state.gameId);
+      if (error) { alert(error.message); return; }
+      const total = data.length || 1;
 
-    state.roster = data.map((r, i) => {
-      const earn = (r.transactions||[]).filter(t=>t.type==='earn').reduce((a,b)=>a+(b.amount||0),0);
-      const spend= (r.transactions||[]).filter(t=>t.type==='spend').reduce((a,b)=>a+(b.amount||0),0);
-      const bal = (r.start_points||0) + earn - spend;
-      colorFor(r.id, i, total);
-      return {
-        gsId: r.id,
-        name: r.students?.display_name ?? "Student",
-        tilesOwned: r.tiles_owned || 0,
-        startPoints: r.start_points || 0,
-        balance: bal
-      };
-    }).sort((a,b)=>a.name.localeCompare(b.name));
+      state.roster = data.map((r, i) => {
+        const earn = (r.transactions||[]).filter(t=>t.type==='earn').reduce((a,b)=>a+(b.amount||0),0);
+        const spend= (r.transactions||[]).filter(t=>t.type==='spend').reduce((a,b)=>a+(b.amount||0),0);
+        const bal = (r.start_points||0) + earn - spend;
+        colorFor(r.id, i, total);
+        return {
+          gsId: r.id,
+          name: r.students?.display_name ?? "Student",
+          tilesOwned: r.tiles_owned || 0,
+          startPoints: r.start_points || 0,
+          balance: bal
+        };
+      }).sort((a,b)=>a.name.localeCompare(b.name));
+    }
 
     renderRoster();
   }
@@ -359,11 +496,19 @@
 
   // === BOARD ===
   async function loadTiles() {
-    const { data, error } = await supabase
-      .from("tiles")
-      .select("id,x,y,owner_game_student_id,castle_level")
-      .eq("game_id", state.gameId);
-    if (error) { alert(error.message); return; }
+    let data;
+    if (state.offlineMode) {
+      const game = state.localGames.find(g => g.id === state.gameId);
+      if (!game || !game.tiles) return;
+      data = game.tiles;
+    } else {
+      const { data: tilesData, error } = await supabase
+        .from("tiles")
+        .select("id,x,y,owner_game_student_id,castle_level")
+        .eq("game_id", state.gameId);
+      if (error) { alert(error.message); return; }
+      data = tilesData;
+    }
 
     const w = state.game.board_w, h = state.game.board_h;
     state.board.w = w; state.board.h = h;
@@ -452,9 +597,29 @@
       }
       
       if (!confirm(`Buy this tile for ${cost} points?`)) return;
-      await spend(me, cost, {kind:"buy_land", tile: tile.id, price: cost});
-      const { error } = await supabase.from("tiles").update({ owner_game_student_id: me, castle_level: 0 }).eq("id", tile.id);
-      if (error) { alert(error.message); return; }
+      
+      if (state.offlineMode) {
+        // Update local game state
+        const game = state.localGames.find(g => g.id === state.gameId);
+        if (game) {
+          const tileIndex = game.tiles.findIndex(t => t.id === tile.id);
+          if (tileIndex >= 0) {
+            game.tiles[tileIndex].owner_game_student_id = me;
+            game.tiles[tileIndex].castle_level = 0;
+          }
+          // Update student balance
+          const studentIndex = game.roster.findIndex(r => r.gsId === me);
+          if (studentIndex >= 0) {
+            game.roster[studentIndex].balance -= cost;
+            game.roster[studentIndex].tilesOwned += 1;
+          }
+          saveLocalGame(game);
+        }
+      } else {
+        await spend(me, cost, {kind:"buy_land", tile: tile.id, price: cost});
+        const { error } = await supabase.from("tiles").update({ owner_game_student_id: me, castle_level: 0 }).eq("id", tile.id);
+        if (error) { alert(error.message); return; }
+      }
       await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
       return;
     }
@@ -474,9 +639,27 @@
       }
       
       if (!confirm(`Upgrade to ${castleName} (L${next}) for ${cost} points?\nThis provides ${defense} mercenary defense.`)) return;
-      await spend(me, cost, {kind:"upgrade_castle", tile: tile.id, to: next});
-      const { error } = await supabase.from("tiles").update({ castle_level: next }).eq("id", tile.id);
-      if (error) { alert(error.message); return; }
+      
+      if (state.offlineMode) {
+        // Update local game state
+        const game = state.localGames.find(g => g.id === state.gameId);
+        if (game) {
+          const tileIndex = game.tiles.findIndex(t => t.id === tile.id);
+          if (tileIndex >= 0) {
+            game.tiles[tileIndex].castle_level = next;
+          }
+          // Update student balance
+          const studentIndex = game.roster.findIndex(r => r.gsId === me);
+          if (studentIndex >= 0) {
+            game.roster[studentIndex].balance -= cost;
+          }
+          saveLocalGame(game);
+        }
+      } else {
+        await spend(me, cost, {kind:"upgrade_castle", tile: tile.id, to: next});
+        const { error } = await supabase.from("tiles").update({ castle_level: next }).eq("id", tile.id);
+        if (error) { alert(error.message); return; }
+      }
       await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
       return;
     }
@@ -508,24 +691,74 @@
       return alert(`Insufficient funds! You have ${attacker.balance} points but need ${totalCost} points (${mercCost} for mercenaries + ${weaponCost} for weapon).`);
     }
     
-    const { data, error } = await supabase.rpc("resolve_battle", {
-      p_game_id: state.gameId,
-      p_tile_id: tile.id,
-      p_attacker: me,
-      p_defender: defender,
-      p_att_mercs: attMercs,
-      p_weapon_type: weaponType,
-      p_def_mercs: defMercs
-    });
-    if (error) { alert(error.message); return; }
-    
-    // Enhanced battle result display
-    const weaponText = weaponType ? ` with ${weaponType} (${data.weapon_multiplier}x)` : '';
-    const castleText = data.castle_defense > 0 ? ` (Castle: ${data.castle_defense} defense)` : '';
-    alert(`Battle Result:\n` +
-          `Attack: ${attMercs} mercenaries${weaponText} = ${data.effective_att_power.toFixed(1)} power\n` +
-          `Defense: ${defMercs} mercenaries${castleText} = ${data.effective_def_power.toFixed(1)} power\n` +
-          `Odds: ${(data.odds*100).toFixed(1)}% · Roll: ${data.roll.toFixed(2)} → ${data.result.replace("_"," ")}`);
+    if (state.offlineMode) {
+      // Simple battle resolution for offline mode
+      const game = state.localGames.find(g => g.id === state.gameId);
+      if (!game) return;
+      
+      // Calculate battle power
+      const weaponMultiplier = weaponType === 'spear' ? 1.3 : weaponType === 'crossbow' ? 1.6 : weaponType === 'catapult' ? 2.0 : 1.0;
+      const castleDefense = (tile.castle_level || 0) * 50;
+      const attPower = attMercs * 10 * weaponMultiplier;
+      const defPower = defMercs * 10 + castleDefense;
+      
+      // Simple probability calculation
+      const odds = attPower / (attPower + defPower);
+      const roll = Math.random();
+      const attackerWins = roll < odds;
+      
+      const weaponText = weaponType ? ` with ${weaponType} (${weaponMultiplier}x)` : '';
+      const castleText = castleDefense > 0 ? ` (Castle: ${castleDefense} defense)` : '';
+      
+      alert(`Battle Result:\n` +
+            `Attack: ${attMercs} mercenaries${weaponText} = ${attPower.toFixed(1)} power\n` +
+            `Defense: ${defMercs} mercenaries${castleText} = ${defPower.toFixed(1)} power\n` +
+            `Odds: ${(odds*100).toFixed(1)}% · Roll: ${roll.toFixed(2)} → ${attackerWins ? 'Attacker wins' : 'Defender wins'}`);
+      
+      if (attackerWins) {
+        // Attacker takes the tile
+        const tileIndex = game.tiles.findIndex(t => t.id === tile.id);
+        if (tileIndex >= 0) {
+          game.tiles[tileIndex].owner_game_student_id = me;
+          game.tiles[tileIndex].castle_level = 0; // Destroy castle
+        }
+        
+        // Update tile counts
+        const attackerIndex = game.roster.findIndex(r => r.gsId === me);
+        const defenderIndex = game.roster.findIndex(r => r.gsId === defender);
+        if (attackerIndex >= 0) game.roster[attackerIndex].tilesOwned += 1;
+        if (defenderIndex >= 0) game.roster[defenderIndex].tilesOwned = Math.max(0, game.roster[defenderIndex].tilesOwned - 1);
+      }
+      
+      // Add to audit log
+      game.audit_log = game.audit_log || [];
+      game.audit_log.unshift({
+        created_at: new Date().toISOString(),
+        action: `Battle: ${nameForGs(me)} attacked ${nameForGs(defender)} - ${attackerWins ? 'Victory' : 'Defeat'}`,
+        meta: { attacker: me, defender, attMercs, defMercs, weaponType, result: attackerWins ? 'victory' : 'defeat' }
+      });
+      
+      saveLocalGame(game);
+    } else {
+      const { data, error } = await supabase.rpc("resolve_battle", {
+        p_game_id: state.gameId,
+        p_tile_id: tile.id,
+        p_attacker: me,
+        p_defender: defender,
+        p_att_mercs: attMercs,
+        p_weapon_type: weaponType,
+        p_def_mercs: defMercs
+      });
+      if (error) { alert(error.message); return; }
+      
+      // Enhanced battle result display
+      const weaponText = weaponType ? ` with ${weaponType} (${data.weapon_multiplier}x)` : '';
+      const castleText = data.castle_defense > 0 ? ` (Castle: ${data.castle_defense} defense)` : '';
+      alert(`Battle Result:\n` +
+            `Attack: ${attMercs} mercenaries${weaponText} = ${data.effective_att_power.toFixed(1)} power\n` +
+            `Defense: ${defMercs} mercenaries${castleText} = ${data.effective_def_power.toFixed(1)} power\n` +
+            `Odds: ${(data.odds*100).toFixed(1)}% · Roll: ${data.roll.toFixed(2)} → ${data.result.replace("_"," ")}`);
+    }
     
     await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
     checkVictory();
@@ -546,9 +779,30 @@
   }
 
   async function awardPoints(targets, amount, reason){
-    const rows = targets.map(t => ({ game_student_id: t.gsId, type: "earn", amount, meta: {reason} }));
-    const { error } = await supabase.from("transactions").insert(rows);
-    if (error) { alert(error.message); return; }
+    if (state.offlineMode) {
+      // Update local game state
+      const game = state.localGames.find(g => g.id === state.gameId);
+      if (game) {
+        targets.forEach(target => {
+          const studentIndex = game.roster.findIndex(r => r.gsId === target.gsId);
+          if (studentIndex >= 0) {
+            game.roster[studentIndex].balance += amount;
+          }
+        });
+        // Add to audit log
+        game.audit_log = game.audit_log || [];
+        game.audit_log.unshift({
+          created_at: new Date().toISOString(),
+          action: `Awarded ${amount} points: ${reason}`,
+          meta: { targets: targets.length, amount, reason }
+        });
+        saveLocalGame(game);
+      }
+    } else {
+      const rows = targets.map(t => ({ game_student_id: t.gsId, type: "earn", amount, meta: {reason} }));
+      const { error } = await supabase.from("transactions").insert(rows);
+      if (error) { alert(error.message); return; }
+    }
     await Promise.all([loadRoster(), loadAudit()]);
   }
   el("#doAward").onclick = async () => {
@@ -585,9 +839,44 @@
   el("#btnTornado").onclick = async () => {
     if (!state.gameId) return alert("Select a game first.");
     if (!confirm("Cast TORNADO now? All teams will randomly gain or lose 0–2 territories.")) return;
-    const { error } = await supabase.rpc("apply_tornado", { p_game_id: state.gameId });
-    if (error) { alert(error.message); return; }
-    alert("Tornado complete.");
+    
+    if (state.offlineMode) {
+      // Simple tornado effect for offline mode
+      const game = state.localGames.find(g => g.id === state.gameId);
+      if (game) {
+        // Randomly reassign some tiles
+        const unownedTiles = game.tiles.filter(t => !t.owner_game_student_id);
+        const ownedTiles = game.tiles.filter(t => t.owner_game_student_id);
+        
+        // Randomly reassign 1-3 tiles per student
+        game.roster.forEach(student => {
+          const studentTiles = ownedTiles.filter(t => t.owner_game_student_id === student.gsId);
+          const tilesToReassign = Math.min(Math.floor(Math.random() * 3) + 1, studentTiles.length);
+          
+          for (let i = 0; i < tilesToReassign; i++) {
+            const randomTile = studentTiles[Math.floor(Math.random() * studentTiles.length)];
+            randomTile.owner_game_student_id = null;
+            randomTile.castle_level = 0;
+            student.tilesOwned = Math.max(0, student.tilesOwned - 1);
+          }
+        });
+        
+        // Add to audit log
+        game.audit_log = game.audit_log || [];
+        game.audit_log.unshift({
+          created_at: new Date().toISOString(),
+          action: "Tornado cast - territories randomly reassigned",
+          meta: { type: "tornado" }
+        });
+        
+        saveLocalGame(game);
+      }
+      alert("Tornado complete.");
+    } else {
+      const { error } = await supabase.rpc("apply_tornado", { p_game_id: state.gameId });
+      if (error) { alert(error.message); return; }
+      alert("Tornado complete.");
+    }
     await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
     checkVictory();
   };
@@ -595,9 +884,15 @@
 
   // === TRUCES ===
   async function loadTruces(){
-    const { data, error } = await supabase.from("truces").select("*").eq("game_id", state.gameId);
-    if (error) { alert(error.message); return; }
-    state.truces = data || [];
+    if (state.offlineMode) {
+      const game = state.localGames.find(g => g.id === state.gameId);
+      if (!game) return;
+      state.truces = game.truces || [];
+    } else {
+      const { data, error } = await supabase.from("truces").select("*").eq("game_id", state.gameId);
+      if (error) { alert(error.message); return; }
+      state.truces = data || [];
+    }
     renderTruces();
   }
   function truceKey(a,b){ return a<b?`${a}|${b}`:`${b}|${a}`; }
@@ -650,64 +945,164 @@
 
   // === AUDIT (simple) ===
   async function loadAudit(){
-    const { data, error } = await supabase
-      .from("audit_log")
-      .select("created_at,action,meta")
-      .eq("game_id", state.gameId)
-      .order("created_at", { ascending:false })
-      .limit(12);
-    if (error) { auditEl.textContent = error.message; return; }
-    auditEl.innerHTML = data.map(a=>`<div class="minor">${new Date(a.created_at).toLocaleTimeString()} — ${a.action}</div>`).join("");
+    if (state.offlineMode) {
+      const game = state.localGames.find(g => g.id === state.gameId);
+      if (!game || !game.audit_log) {
+        auditEl.innerHTML = "";
+        return;
+      }
+      const recentLogs = game.audit_log.slice(0, 12);
+      auditEl.innerHTML = recentLogs.map(a=>`<div class="minor">${new Date(a.created_at).toLocaleTimeString()} — ${a.action}</div>`).join("");
+    } else {
+      const { data, error } = await supabase
+        .from("audit_log")
+        .select("created_at,action,meta")
+        .eq("game_id", state.gameId)
+        .order("created_at", { ascending:false })
+        .limit(12);
+      if (error) { auditEl.textContent = error.message; return; }
+      auditEl.innerHTML = data.map(a=>`<div class="minor">${new Date(a.created_at).toLocaleTimeString()} — ${a.action}</div>`).join("");
+    }
   }
 
   // === VICTORY CHECK ===
   async function checkVictory(){
-    const { data, error } = await supabase.rpc("get_victory_snapshot", { p_game_id: state.gameId });
-    if (error) { victoryEl.textContent = error.message; return; }
-    const total = data.total_tiles || 1;
-    const target = data.target_pct;
-    const tilesBy = new Map(data.students.map(s=>[s.gs, s.tiles]));
-    const adj = new Map();
-    for (const s of tilesBy.keys()) adj.set(s, new Set());
-    for (const e of data.truces) { adj.get(e.a).add(e.b); adj.get(e.b).add(e.a); }
-
-    const seen = new Set(); const wins=[];
-    for (const s of tilesBy.keys()){
-      if (seen.has(s)) continue;
-      const stack=[s]; const comp=[]; seen.add(s);
-      while(stack.length){ const u=stack.pop(); comp.push(u); for(const v of adj.get(u)) if(!seen.has(v)){seen.add(v); stack.push(v);} }
-      const compTiles = comp.reduce((a,b)=>a+(tilesBy.get(b)||0),0);
-      const needed = Math.ceil(target * total * comp.length);
-      if (compTiles >= needed){
-        wins.push(comp.map(id=>nameForGs(id)).join(" + "));
+    if (state.offlineMode) {
+      const game = state.localGames.find(g => g.id === state.gameId);
+      if (!game) return;
+      
+      const total = game.board_w * game.board_h;
+      const target = game.victory_target_pct;
+      
+      // Count tiles by student
+      const tilesBy = new Map();
+      game.roster.forEach(student => {
+        const tilesOwned = game.tiles.filter(t => t.owner_game_student_id === student.gsId).length;
+        tilesBy.set(student.gsId, tilesOwned);
+      });
+      
+      // Check for victory
+      const wins = [];
+      for (const [studentId, tiles] of tilesBy) {
+        const needed = Math.ceil(target * total);
+        if (tiles >= needed) {
+          const studentName = game.roster.find(r => r.gsId === studentId)?.name || "Unknown";
+          wins.push(studentName);
+        }
       }
+      
+      victoryEl.textContent = wins.length ? `🎉 Victory met: ${wins.join(" | ")}` : `Target: ${(target*100).toFixed(0)}% of tiles`;
+    } else {
+      const { data, error } = await supabase.rpc("get_victory_snapshot", { p_game_id: state.gameId });
+      if (error) { victoryEl.textContent = error.message; return; }
+      const total = data.total_tiles || 1;
+      const target = data.target_pct;
+      const tilesBy = new Map(data.students.map(s=>[s.gs, s.tiles]));
+      const adj = new Map();
+      for (const s of tilesBy.keys()) adj.set(s, new Set());
+      for (const e of data.truces) { adj.get(e.a).add(e.b); adj.get(e.b).add(e.a); }
+
+      const seen = new Set(); const wins=[];
+      for (const s of tilesBy.keys()){
+        if (seen.has(s)) continue;
+        const stack=[s]; const comp=[]; seen.add(s);
+        while(stack.length){ const u=stack.pop(); comp.push(u); for(const v of adj.get(u)) if(!seen.has(v)){seen.add(v); stack.push(v);} }
+        const compTiles = comp.reduce((a,b)=>a+(tilesBy.get(b)||0),0);
+        const needed = Math.ceil(target * total * comp.length);
+        if (compTiles >= needed){
+          wins.push(comp.map(id=>nameForGs(id)).join(" + "));
+        }
+      }
+      victoryEl.textContent = wins.length ? `🎉 Victory met: ${wins.join(" | ")}` : `Target: ${(target*100).toFixed(0)}% (coalitions multiply target)`;
     }
-    victoryEl.textContent = wins.length ? `🎉 Victory met: ${wins.join(" | ")}` : `Target: ${(target*100).toFixed(0)}% (coalitions multiply target)`;
   }
 
   // === CREATE GAME (with strong error messages) ===
   el("#createGame").onclick = async () => {
     const status = el("#createStatus");
-    const p = {
-      p_class_name: el("#className").value || "Class",
-      p_game_name:  el("#gameName").value || "Tornado War",
-      p_student_names: el("#rosterPaste").value || "",
-      p_board_w: Number(el("#boardW").value) || null,
-      p_board_h: Number(el("#boardH").value) || null,
-      p_start_points: Number(el("#startPts").value) || 5
-    };
+    const className = el("#className").value || "Class";
+    const gameName = el("#gameName").value || "Tornado War";
+    const studentNames = el("#rosterPaste").value || "";
+    const boardW = Number(el("#boardW").value) || null;
+    const boardH = Number(el("#boardH").value) || null;
+    const startPoints = Number(el("#startPts").value) || 5;
+    const target = Number(el("#victoryPct").value);
+    const turns = el("#turnBased").value === "true";
+
     try {
       status.textContent = "Creating…";
-      const { data, error } = await supabase.rpc("create_game_from_roster", p);
-      if (error) throw error;
-      if (!data?.game_id) throw new Error("No game_id returned from RPC.");
-      // set victory & turn mode
-      const target = Number(el("#victoryPct").value);
-      const turns  = el("#turnBased").value === "true";
-      const upd = await supabase.from("games").update({ victory_target_pct: target, turn_based: turns }).eq("id", data.game_id);
-      if (upd.error) throw upd.error;
-      status.textContent = `Created game ${data.game_id}`;
-      await loadGames(true);
+      
+      if (state.offlineMode) {
+        // Create local game
+        const studentNamesArray = studentNames.split('\n').map(name => name.trim()).filter(name => name);
+        const gameId = 'local_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        
+        // Calculate board size if not provided
+        const w = boardW || Math.max(8, Math.ceil(Math.sqrt(studentNamesArray.length * 2)));
+        const h = boardH || Math.max(8, Math.ceil(Math.sqrt(studentNamesArray.length * 2)));
+        
+        // Create tiles
+        const tiles = [];
+        for (let y = 0; y < h; y++) {
+          for (let x = 0; x < w; x++) {
+            tiles.push({
+              id: `tile_${x}_${y}`,
+              x: x,
+              y: y,
+              owner_game_student_id: null,
+              castle_level: 0
+            });
+          }
+        }
+        
+        // Create roster
+        const roster = studentNamesArray.map((name, i) => ({
+          gsId: `student_${i}`,
+          name: name,
+          tilesOwned: 0,
+          startPoints: startPoints,
+          balance: startPoints
+        }));
+        
+        const gameData = {
+          id: gameId,
+          name: gameName,
+          created_at: new Date().toISOString(),
+          status: 'active',
+          board_w: w,
+          board_h: h,
+          victory_target_pct: target,
+          turn_based: turns,
+          tiles: tiles,
+          roster: roster,
+          truces: [],
+          audit_log: []
+        };
+        
+        saveLocalGame(gameData);
+        status.textContent = `Created local game ${gameId}`;
+        await loadGames(true);
+      } else {
+        // Create online game
+        const p = {
+          p_class_name: className,
+          p_game_name: gameName,
+          p_student_names: studentNames,
+          p_board_w: boardW,
+          p_board_h: boardH,
+          p_start_points: startPoints
+        };
+        
+        const { data, error } = await supabase.rpc("create_game_from_roster", p);
+        if (error) throw error;
+        if (!data?.game_id) throw new Error("No game_id returned from RPC.");
+        
+        // set victory & turn mode
+        const upd = await supabase.from("games").update({ victory_target_pct: target, turn_based: turns }).eq("id", data.game_id);
+        if (upd.error) throw upd.error;
+        status.textContent = `Created game ${data.game_id}`;
+        await loadGames(true);
+      }
     } catch (e) {
       console.error("Create game failed:", e);
       status.textContent = "Error: " + (e?.message || e);
