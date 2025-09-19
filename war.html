@@ -62,6 +62,7 @@
     <div style="flex:1"></div>
     <span id="who" class="muted">Not signed in</span>
     <button class="pill" id="signin">Sign in with Google</button>
+    <button class="pill" id="signout" style="background: #dc2626; color: white; display: none;">Sign Out</button>
     <button class="pill" id="playOffline" style="background: #10b981; color: white;">Play Offline</button>
   </div>
 </header>
@@ -205,6 +206,7 @@
   // === AUTH (force redirect + ensure_user) ===
   const who = document.getElementById("who");
   const signinBtn = document.getElementById("signin");
+  const signoutBtn = document.getElementById("signout");
   const playOfflineBtn = document.getElementById("playOffline");
 
   async function updateAuth() {
@@ -215,11 +217,13 @@
       who.textContent = "Playing Offline";
       signinBtn.textContent = "Switch to Online";
       signinBtn.style.display = "inline-block";
+      signoutBtn.style.display = "none";
       playOfflineBtn.style.display = "none";
     } else {
       who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
       signinBtn.textContent = "Sign in with Google";
       signinBtn.style.display = session ? "none" : "inline-block";
+      signoutBtn.style.display = session ? "inline-block" : "none";
       playOfflineBtn.style.display = session ? "none" : "inline-block";
     }
     
@@ -255,6 +259,22 @@
       });
       if (error) { alert("Sign-in error: " + error.message); return; }
       if (data?.url) window.location.assign(data.url);
+    }
+  });
+
+  signoutBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    if (confirm("Are you sure you want to sign out? You'll lose access to your saved games until you sign in again.")) {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        alert("Sign out error: " + error.message);
+        return;
+      }
+      // Clear any existing game selection
+      state.gameId = null;
+      state.game = null;
+      gamesList.value = "";
+      await loadGames(false);
     }
   });
 
