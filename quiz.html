@@ -2303,6 +2303,33 @@
                       </select>
                     </label>
                   </div>
+                  <!-- Q&A Section -->
+                  <div class="setup-unified-cell full-width">
+                    <label style="display:flex; align-items:center; gap:0.6em; flex-wrap:wrap;">
+                      <span>Questions & Answers:</span>
+                      <small>Enter questions (and answers). One per line, or blank line between Q & A.</small>
+                      <span style="margin-left:auto"></span>
+                      <div style="display:flex; gap:0.5em; align-items:center;">
+                        <span style="font-size:0.9em;">Order:</span>
+                        <label style="display:inline-flex; align-items:center; gap:0.2em; margin:0; font-size:0.9em;">
+                          <input type="radio" name="order" value="inorder" checked /> In order
+                        </label>
+                        <label style="display:inline-flex; align-items:center; gap:0.2em; margin:0; font-size:0.9em;">
+                          <input type="radio" name="order" value="random" /> Random
+                        </label>
+                      </div>
+                    </label>
+                    <textarea
+                      id="questionsInput"
+                      style="height: 3.8em; resize: vertical;"
+                      placeholder="What city is home to Fenway Park?
+Boston
+
+Which band wrote the song 'Hey Jude'?
+The Beatles"
+                    ></textarea>
+                  </div>
+                  
                   <div class="setup-unified-cell full-width">
                     <label
                       >Choose a Quiz:
@@ -2318,33 +2345,6 @@
                         </div>
                       </div>
                     </label>
-                  </div>
-                  
-                  <!-- Q&A Section -->
-                  <div class="setup-unified-cell full-width">
-                    <label style="display:flex; align-items:center; gap:0.6em; flex-wrap:wrap;">
-                      <span>Q&A (Optional):</span>
-                      <small>Enter questions (and answers). One per line, or blank line between Q & A. Leave empty to play grid-only mode!</small>
-                      <span style="margin-left:auto"></span>
-                      <span>Order:</span>
-                      <label style="display:inline-flex; align-items:center; gap:0.3em; margin:0;">
-                        <input type="radio" name="order" value="inorder" checked /> In order
-                      </label>
-                      <label style="display:inline-flex; align-items:center; gap:0.3em; margin:0;">
-                        <input type="radio" name="order" value="random" /> Random
-                      </label>
-                    </label>
-                    <textarea
-                      id="questionsInput"
-                      style="height: 3.8em; resize: vertical;"
-                      placeholder="What city is home to Fenway Park?
-Boston
-
-Which band wrote the song 'Hey Jude'?
-The Beatles
-
-(Leave empty to play grid-only mode!)"
-                    ></textarea>
                   </div>
                 </div>
               </div>
