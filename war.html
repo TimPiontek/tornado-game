@@ -586,37 +586,47 @@
     console.log('Assigning starting tiles to', state.roster.length, 'students');
     
     const { w, h } = state.board;
-    const outerTiles = [];
+    const tilesByDistance = [];
     
-    // Collect all outer edge tiles
-    for (let y = 0; y < h; y++) {
-      for (let x = 0; x < w; x++) {
-        if (x === 0 || x === w - 1 || y === 0 || y === h - 1) {
-          outerTiles.push(state.board.tiles.find(t => t.x === x && t.y === y));
-        }
-      }
-    }
+    // Calculate distance from center for all tiles and sort by distance (outermost first)
+    const centerX = (w - 1) / 2;
+    const centerY = (h - 1) / 2;
     
-    // Shuffle outer tiles randomly
-    for (let i = outerTiles.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [outerTiles[i], outerTiles[j]] = [outerTiles[j], outerTiles[i]];
-    }
+    state.board.tiles.forEach(tile => {
+      const distance = Math.sqrt(Math.pow(tile.x - centerX, 2) + Math.pow(tile.y - centerY, 2));
+      tilesByDistance.push({ tile, distance });
+    });
     
-    // Assign 2 tiles per student
-    state.roster.forEach((student, index) => {
-      const tilesToAssign = Math.min(2, outerTiles.length - (index * 2));
-      for (let i = 0; i < tilesToAssign; i++) {
-        const tileIndex = index * 2 + i;
-        if (tileIndex < outerTiles.length) {
-          const tile = outerTiles[tileIndex];
-          tile.owner_game_student_id = student.gsId;
-          student.tilesOwned = (student.tilesOwned || 0) + 1;
-        }
+    // Sort by distance (outermost tiles first)
+    tilesByDistance.sort((a, b) => b.distance - a.distance);
+    
+    // Get available tiles (unowned)
+    const availableTiles = tilesByDistance.filter(item => !item.tile.owner_game_student_id);
+    
+    console.log('Available tiles:', availableTiles.length, 'out of', tilesByDistance.length);
+    
+    // Calculate how many tiles each student should get
+    const tilesPerStudent = Math.max(1, Math.floor(availableTiles.length / state.roster.length));
+    const extraTiles = availableTiles.length % state.roster.length;
+    
+    console.log('Tiles per student:', tilesPerStudent, 'Extra tiles:', extraTiles);
+    
+    // Assign tiles to students, distributing evenly
+    let tileIndex = 0;
+    state.roster.forEach((student, studentIndex) => {
+      // Some students get one extra tile if there are leftovers
+      const tilesForThisStudent = tilesPerStudent + (studentIndex < extraTiles ? 1 : 0);
+      
+      for (let i = 0; i < tilesForThisStudent && tileIndex < availableTiles.length; i++) {
+        const tile = availableTiles[tileIndex].tile;
+        tile.owner_game_student_id = student.gsId;
+        student.tilesOwned = (student.tilesOwned || 0) + 1;
+        tileIndex++;
+        console.log(`Assigned tile (${tile.x}, ${tile.y}) to ${student.name}`);
       }
     });
     
-    console.log('Starting tiles assigned');
+    console.log('Starting tiles assigned - each student has at least one tile');
   }
   
   function updateGridDisplay() {
