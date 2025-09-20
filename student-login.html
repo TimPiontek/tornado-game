@@ -221,6 +221,66 @@
             font-size: 0.875rem;
         }
 
+        .join-class-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(139, 92, 246, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            text-align: center;
+        }
+
+        .join-class-section h3 {
+            margin: 0 0 1rem 0;
+            color: var(--primary);
+        }
+
+        .class-features {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.1);
+        }
+
+        .class-features h3 {
+            margin: 0 0 1rem 0;
+            color: var(--accent);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .feature-card h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--text);
+        }
+
+        .feature-card p {
+            margin: 0 0 1rem 0;
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            width: auto;
+            margin: 0;
+        }
+
         .error {
             color: var(--danger);
             background: rgba(239, 68, 68, 0.1);
@@ -471,7 +531,7 @@
             // Auto-login the student
             currentStudent = student;
             localStorage.setItem('currentStudent', JSON.stringify(student));
-            showClassCode();
+            showDashboard();
 
             showSuccess(`Welcome ${username}! Your account has been created successfully.`);
         }
@@ -504,12 +564,7 @@
 
             currentStudent = student;
             localStorage.setItem('currentStudent', JSON.stringify(student));
-            
-            if (student.rosterId) {
-                showDashboard();
-            } else {
-                showClassCode();
-            }
+            showDashboard();
         }
 
         function joinClass() {
@@ -630,6 +685,99 @@
                     <div class="stat-label">Accuracy</div>
                 </div>
             `;
+
+            // Add class joining section if not in a class
+            if (!currentStudent.rosterId) {
+                addJoinClassSection();
+            } else {
+                addClassFeatures();
+            }
+        }
+
+        function addJoinClassSection() {
+            const dashboard = document.getElementById('dashboardSection');
+            
+            // Check if join class section already exists
+            if (document.getElementById('joinClassSection')) return;
+            
+            const joinClassHTML = `
+                <div class="join-class-section" id="joinClassSection">
+                    <h3>🎓 Join Your Class</h3>
+                    <p>Enter the class code your teacher gave you to join your class and start playing!</p>
+                    
+                    <div class="form-group">
+                        <label for="dashboardClassCode">Class Code</label>
+                        <input type="text" id="dashboardClassCode" class="class-code-input" placeholder="Enter class code" maxlength="6">
+                    </div>
+                    
+                    <button class="btn" onclick="joinClassFromDashboard()">Join Class</button>
+                </div>
+            `;
+            
+            dashboard.insertAdjacentHTML('beforeend', joinClassHTML);
+        }
+
+        function addClassFeatures() {
+            const dashboard = document.getElementById('dashboardSection');
+            
+            // Remove join class section if it exists
+            const joinClassSection = document.getElementById('joinClassSection');
+            if (joinClassSection) {
+                joinClassSection.remove();
+            }
+            
+            // Check if class features already exist
+            if (document.getElementById('classFeatures')) return;
+            
+            const classFeaturesHTML = `
+                <div class="class-features" id="classFeatures">
+                    <h3>🏆 Class Features</h3>
+                    
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <h4>📊 Leaderboard</h4>
+                            <p>See your ranking in the class</p>
+                            <button class="btn btn-small" onclick="viewLeaderboard()">View Rankings</button>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <h4>⚔️ Tornado War</h4>
+                            <p>Strategic territory battles</p>
+                            <button class="btn btn-small" onclick="viewTornadoWar()">Play War Game</button>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <h4>📋 Assignments</h4>
+                            <p>Teacher-assigned challenges</p>
+                            <button class="btn btn-small" onclick="viewAssignments()">View Assignments</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            dashboard.insertAdjacentHTML('beforeend', classFeaturesHTML);
+        }
+
+        function joinClassFromDashboard() {
+            const classCode = document.getElementById('dashboardClassCode').value.trim().toUpperCase();
+
+            if (!classCode) {
+                showError('Please enter a class code!');
+                return;
+            }
+
+            // Find roster with matching class code
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            const roster = rosters.find(r => r.classCode === classCode);
+
+            if (!roster) {
+                showError('Invalid class code! Please check with your teacher.');
+                return;
+            }
+
+            currentRoster = roster;
+            populateRosterList();
+            showRoster();
         }
 
         function logoutStudent() {
@@ -670,6 +818,19 @@
                 result += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             return result;
+        }
+
+        // === CLASS FEATURE FUNCTIONS ===
+        function viewLeaderboard() {
+            alert('📊 Leaderboard feature coming soon!\n\nThis will show your ranking in the class based on points earned.');
+        }
+
+        function viewTornadoWar() {
+            alert('⚔️ Tornado War access coming soon!\n\nThis will take you to the war game where you can spend your points on territories and battles.');
+        }
+
+        function viewAssignments() {
+            alert('📋 Assignments feature coming soon!\n\nThis will show teacher-assigned challenges and tasks for your class.');
         }
     </script>
 </body>
