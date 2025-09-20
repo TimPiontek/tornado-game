@@ -4796,24 +4796,8 @@ The Beatles"
 
         if (passBtn)
           passBtn.onclick = () => {
-            // Move to next team or next student
-            if (teamMode) {
-              // In team mode, advance to next student first
-              advanceStudentTurn();
-              
-              // If we've cycled through all students in current team, move to next team
-              if (currentStudentIndex === 0) {
-                let currentIndex = teamOrder.indexOf(turn);
-                currentIndex = (currentIndex + 1) % teamCount;
-                turn = teamOrder[currentIndex];
-                updateCurrentTeamStudents();
-              }
-            } else {
-              // Regular team switching
-              let currentIndex = teamOrder.indexOf(turn);
-              currentIndex = (currentIndex + 1) % teamCount;
-              turn = teamOrder[currentIndex];
-            }
+            // Use the centralized advanceTurn function for consistency
+            advanceTurn();
             
             if (typeof updateTurn === 'function') {
               updateTurn();
@@ -4957,25 +4941,8 @@ The Beatles"
         // Change teams button
         if (document.getElementById("changeTeamsBtn")) {
           document.getElementById("changeTeamsBtn").onclick = () => {
-            // Move to next team or next student
-            do {
-              if (teamMode) {
-                // In team mode, advance to next student first
-                advanceStudentTurn();
-                
-                // If we've cycled through all students in current team, move to next team
-                if (currentStudentIndex === 0) {
-                  let currentIndex = teamOrder.indexOf(turn);
-                  currentIndex = (currentIndex + 1) % teamCount;
-                  turn = teamOrder[currentIndex];
-                  updateCurrentTeamStudents();
-                }
-              } else {
-                let currentIndex = teamOrder.indexOf(turn);
-                currentIndex = (currentIndex + 1) % teamCount;
-                turn = teamOrder[currentIndex];
-              }
-            } while (teamStatus[turn]?.frozen > 0);
+            // Use the centralized advanceTurn function for consistency
+            advanceTurn();
             
             // Reduce freeze count
             if (teamStatus[turn]?.frozen > 0) {
@@ -5769,18 +5736,16 @@ The Beatles"
           // Move to next team or next student
           do {
             if (teamMode) {
-              // In team mode, advance to next student first
-              advanceStudentTurn();
-              
-              console.log('After advanceStudentTurn:', {
-                currentStudentIndex,
-                currentStudent: getCurrentStudent()?.name
-              });
-              
-              // After advancing student, move to next team
+              // In team mode, alternate between teams while keeping same student index
+              // Only advance student when we've gone through all teams
               let currentIndex = teamOrder.indexOf(turn);
               currentIndex = (currentIndex + 1) % teamCount;
               turn = teamOrder[currentIndex];
+              
+              // If we've cycled back to the first team, advance to next student
+              if (currentIndex === 0) {
+                advanceStudentTurn();
+              }
               
               // Update current team students but preserve the student index
               updateCurrentTeamStudents(true);
