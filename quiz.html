@@ -2469,6 +2469,24 @@ The Beatles"
                     ></textarea>
                   </div>
                   
+                  <!-- Point Configuration Section -->
+                  <div class="setup-unified-cell full-width">
+                    <label style="display:flex; align-items:center; gap:0.6em; flex-wrap:wrap;">
+                      <span>Point Configuration:</span>
+                      <small>Configure points for individual answers and team victories.</small>
+                    </label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
+                      <div>
+                        <label style="display:block; margin-bottom:0.3em; font-size:0.9em;">Individual Correct Answer:</label>
+                        <input type="number" id="individualPoints" min="1" max="1000" value="100" style="width:100%;">
+                      </div>
+                      <div>
+                        <label style="display:block; margin-bottom:0.3em; font-size:0.9em;">Team Victory Bonus:</label>
+                        <input type="number" id="teamVictoryPoints" min="0" max="5000" value="500" style="width:100%;">
+                      </div>
+                    </div>
+                  </div>
+                  
                   <div class="setup-unified-cell full-width">
                     <label
                       >Choose a Quiz:
@@ -4729,10 +4747,24 @@ The Beatles"
 
         if (passBtn)
           passBtn.onclick = () => {
-            // Move to next team
-            let currentIndex = teamOrder.indexOf(turn);
-            currentIndex = (currentIndex + 1) % teamCount;
-            turn = teamOrder[currentIndex];
+            // Move to next team or next student
+            if (teamMode) {
+              // In team mode, advance to next student first
+              advanceStudentTurn();
+              
+              // If we've cycled through all students in current team, move to next team
+              if (currentStudentIndex === 0) {
+                let currentIndex = teamOrder.indexOf(turn);
+                currentIndex = (currentIndex + 1) % teamCount;
+                turn = teamOrder[currentIndex];
+                updateCurrentTeamStudents();
+              }
+            } else {
+              // Regular team switching
+              let currentIndex = teamOrder.indexOf(turn);
+              currentIndex = (currentIndex + 1) % teamCount;
+              turn = teamOrder[currentIndex];
+            }
             
             if (typeof updateTurn === 'function') {
               updateTurn();
@@ -4869,11 +4901,24 @@ The Beatles"
         // Change teams button
         if (document.getElementById("changeTeamsBtn")) {
           document.getElementById("changeTeamsBtn").onclick = () => {
-            // Move to next team
+            // Move to next team or next student
             do {
-              let currentIndex = teamOrder.indexOf(turn);
-              currentIndex = (currentIndex + 1) % teamCount;
-              turn = teamOrder[currentIndex];
+              if (teamMode) {
+                // In team mode, advance to next student first
+                advanceStudentTurn();
+                
+                // If we've cycled through all students in current team, move to next team
+                if (currentStudentIndex === 0) {
+                  let currentIndex = teamOrder.indexOf(turn);
+                  currentIndex = (currentIndex + 1) % teamCount;
+                  turn = teamOrder[currentIndex];
+                  updateCurrentTeamStudents();
+                }
+              } else {
+                let currentIndex = teamOrder.indexOf(turn);
+                currentIndex = (currentIndex + 1) % teamCount;
+                turn = teamOrder[currentIndex];
+              }
             } while (teamStatus[turn]?.frozen > 0);
             
             // Reduce freeze count
@@ -5616,6 +5661,11 @@ The Beatles"
                 annEl.textContent = `${names[winner]} wins! 🏆`;
               }
               playWin();
+              
+              // Transfer points to war game if roster is available
+              if (teamMode && rosterData) {
+                transferQuizPointsToWar(winner);
+              }
             }
           } else {
             // Use the centralized advanceTurn function
@@ -5624,11 +5674,24 @@ The Beatles"
         }
 
         function advanceTurn() {
-          // Move to next team
+          // Move to next team or next student
           do {
-            let currentIndex = teamOrder.indexOf(turn);
-            currentIndex = (currentIndex + 1) % teamCount;
-            turn = teamOrder[currentIndex];
+            if (teamMode) {
+              // In team mode, advance to next student first
+              advanceStudentTurn();
+              
+              // If we've cycled through all students in current team, move to next team
+              if (currentStudentIndex === 0) {
+                let currentIndex = teamOrder.indexOf(turn);
+                currentIndex = (currentIndex + 1) % teamCount;
+                turn = teamOrder[currentIndex];
+                updateCurrentTeamStudents();
+              }
+            } else {
+              let currentIndex = teamOrder.indexOf(turn);
+              currentIndex = (currentIndex + 1) % teamCount;
+              turn = teamOrder[currentIndex];
+            }
           } while (teamStatus[turn]?.frozen > 0);
           
           // Clear team status effects that should disappear after turn
@@ -6689,6 +6752,282 @@ The Beatles"
           };
         }
 
+        // === ROSTER INTEGRATION ===
+        let rosterData = null;
+        let teamMode = false;
+        let currentStudentIndex = 0;
+        let currentTeamStudents = [];
+        
+        // === POINT CONFIGURATION ===
+        let individualPoints = 100;
+        let teamVictoryPoints = 500;
+        
+        // === GAME INTEGRATION ===
+        function savePointsToWarGame(studentPoints, teamVictoryBonus) {
+            try {
+                // Get existing war games
+                const warGames = JSON.parse(localStorage.getItem('tornadoWarGames') || '[]');
+                
+                if (warGames.length === 0) {
+                    // Create a new war game automatically
+                    createAutoWarGame(studentPoints, teamVictoryBonus);
+                    return;
+                }
+                
+                // Find most recent war game
+                const mostRecentGame = warGames.reduce((latest, game) => {
+                    return new Date(game.created_at) > new Date(latest.created_at) ? game : latest;
+                });
+                
+                // Add points to students in the war game
+                if (mostRecentGame.roster) {
+                    mostRecentGame.roster.forEach(student => {
+                        if (studentPoints[student.name]) {
+                            student.balance = (student.balance || 0) + studentPoints[student.name];
+                        }
+                    });
+                    
+                    // Add team victory bonuses
+                    if (teamVictoryBonus && mostRecentGame.teams) {
+                        mostRecentGame.teams.forEach(team => {
+                            if (teamVictoryBonus[team.name]) {
+                                team.students.forEach(studentName => {
+                                    const student = mostRecentGame.roster.find(s => s.name === studentName);
+                                    if (student) {
+                                        student.balance = (student.balance || 0) + teamVictoryBonus[team.name];
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    
+                    // Add audit log entry
+                    if (!mostRecentGame.audit_log) mostRecentGame.audit_log = [];
+                    mostRecentGame.audit_log.unshift({
+                        created_at: new Date().toISOString(),
+                        action: 'Quiz points transferred from Tornado Quiz',
+                        meta: { 
+                            type: 'quiz_transfer', 
+                            studentPoints, 
+                            teamVictoryBonus,
+                            totalPointsTransferred: Object.values(studentPoints).reduce((a, b) => a + b, 0) +
+                                                  Object.values(teamVictoryBonus || {}).reduce((a, b) => a + b, 0)
+                        }
+                    });
+                    
+                    // Save updated game
+                    const gameIndex = warGames.findIndex(g => g.id === mostRecentGame.id);
+                    if (gameIndex >= 0) {
+                        warGames[gameIndex] = mostRecentGame;
+                        localStorage.setItem('tornadoWarGames', JSON.stringify(warGames));
+                    }
+                }
+                
+                console.log('Points transferred to war game:', mostRecentGame.name);
+                
+            } catch (error) {
+                console.error('Error saving points to war game:', error);
+            }
+        }
+        
+        function createAutoWarGame(studentPoints, teamVictoryBonus) {
+            if (!rosterData || !rosterData.roster) return;
+            
+            const gameId = 'auto_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            
+            // Create roster with quiz points
+            const roster = rosterData.roster.map(student => ({
+                gsId: `student_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                name: student.name,
+                tilesOwned: 0,
+                startPoints: 5,
+                balance: 5 + (studentPoints[student.name] || 0),
+                teamId: student.teamId,
+                teamName: student.teamName,
+                teamColor: student.teamColor
+            }));
+            
+            // Create tiles for a basic grid
+            const gridSize = Math.ceil(Math.sqrt(roster.length * 2));
+            const tiles = [];
+            for (let y = 0; y < gridSize; y++) {
+                for (let x = 0; x < gridSize; x++) {
+                    tiles.push({
+                        id: `tile_${x}_${y}`,
+                        x: x,
+                        y: y,
+                        owner_game_student_id: null,
+                        castle_level: 0
+                    });
+                }
+            }
+            
+            const gameData = {
+                id: gameId,
+                name: `Auto-created from Quiz (${new Date().toLocaleDateString()})`,
+                created_at: new Date().toISOString(),
+                status: 'active',
+                board_w: gridSize,
+                board_h: gridSize,
+                victory_target_pct: 0.5,
+                turn_based: false,
+                tiles: tiles,
+                roster: roster,
+                teams: rosterData.teams || [],
+                teamMode: rosterData.teamMode || false,
+                truces: [],
+                audit_log: [{
+                    created_at: new Date().toISOString(),
+                    action: 'Game auto-created from Tornado Quiz with transferred points',
+                    meta: { 
+                        type: 'auto_creation', 
+                        source: 'tornado_quiz',
+                        studentPoints,
+                        teamVictoryBonus
+                    }
+                }]
+            };
+            
+            // Save new game
+            const warGames = JSON.parse(localStorage.getItem('tornadoWarGames') || '[]');
+            warGames.push(gameData);
+            localStorage.setItem('tornadoWarGames', JSON.stringify(warGames));
+            
+            console.log('Auto-created war game:', gameData.name);
+        }
+        
+        function transferQuizPointsToWar(winningTeam) {
+            if (!teamMode || !rosterData) return;
+            
+            // Calculate student points based on individual participation
+            const studentPoints = {};
+            
+            // Give individual points to all students who participated
+            rosterData.roster.forEach(student => {
+                // Base points for participation
+                studentPoints[student.name] = individualPoints;
+            });
+            
+            // Calculate team victory bonus
+            const teamVictoryBonus = {};
+            const winningTeamName = names[winningTeam];
+            
+            if (winningTeamName) {
+                teamVictoryBonus[winningTeamName] = teamVictoryPoints;
+            }
+            
+            // Save points to war game
+            savePointsToWarGame(studentPoints, teamVictoryBonus);
+            
+            // Show notification
+            const totalPointsTransferred = Object.values(studentPoints).reduce((a, b) => a + b, 0) +
+                                         Object.values(teamVictoryBonus).reduce((a, b) => a + b, 0);
+            
+            setTimeout(() => {
+                alert(`🎉 Quiz Complete!\n\nPoints transferred to Tornado War:\n• Individual participation: ${individualPoints} points each\n• Team ${winningTeamName} victory bonus: ${teamVictoryPoints} points\n\nTotal points transferred: ${totalPointsTransferred}\n\nCheck the War game to see updated student balances!`);
+            }, 2000);
+        }
+        
+        function loadRosterData() {
+            const saved = localStorage.getItem('tornadoRoster');
+            if (saved) {
+                try {
+                    rosterData = JSON.parse(saved);
+                    console.log('Roster loaded:', rosterData);
+                    return true;
+                } catch (e) {
+                    console.error('Error loading roster:', e);
+                }
+            }
+            return false;
+        }
+        
+        function initializeTeamMode() {
+            if (!rosterData || !rosterData.teams || rosterData.teams.length === 0) {
+                teamMode = false;
+                return false;
+            }
+            
+            teamMode = true;
+            currentStudentIndex = 0;
+            
+            // Set up team names from roster
+            if (rosterData.teams.length >= 2) {
+                names.A = rosterData.teams[0].name;
+                names.B = rosterData.teams[1].name;
+            }
+            
+            // Initialize current team students
+            updateCurrentTeamStudents();
+            
+            console.log('Team mode initialized:', {
+                teamMode,
+                teams: rosterData.teams,
+                currentTeamStudents
+            });
+            
+            return true;
+        }
+        
+        function updateCurrentTeamStudents() {
+            if (!teamMode || !rosterData) return;
+            
+            const currentTeam = currentTurn === "A" ? rosterData.teams[0] : rosterData.teams[1];
+            currentTeamStudents = currentTeam ? currentTeam.students : [];
+            currentStudentIndex = 0;
+        }
+        
+        function getCurrentStudent() {
+            if (!teamMode || currentTeamStudents.length === 0) return null;
+            return currentTeamStudents[currentStudentIndex];
+        }
+        
+        function advanceStudentTurn() {
+            if (!teamMode || currentTeamStudents.length === 0) return;
+            
+            currentStudentIndex = (currentStudentIndex + 1) % currentTeamStudents.length;
+        }
+        
+        function getCurrentStudentDisplay() {
+            if (!teamMode) {
+                return currentTurn === "A" ? (names.A || "Team A") : (names.B || "Team B");
+            }
+            
+            const student = getCurrentStudent();
+            const teamName = currentTurn === "A" ? (names.A || "Team A") : (names.B || "Team B");
+            
+            if (student) {
+                return `${teamName} - ${student.name}'s turn`;
+            }
+            
+            return `${teamName}'s turn`;
+        }
+        
+        // === DYNAMIC GRID SIZING ===
+        function calculateOptimalGridSize() {
+            if (!rosterData || !rosterData.roster || rosterData.roster.length === 0) {
+                return 20; // Default size
+            }
+            
+            const studentCount = rosterData.roster.length;
+            
+            // Calculate grid size: roster count + 1 if necessary to create a perfect square
+            let gridSize = studentCount;
+            const sqrt = Math.sqrt(gridSize);
+            
+            // If not a perfect square, round up to next perfect square
+            if (sqrt !== Math.floor(sqrt)) {
+                const nextSquare = Math.ceil(sqrt);
+                gridSize = nextSquare * nextSquare;
+            }
+            
+            // Ensure minimum size of 9 (3x3) and maximum of 64 (8x8)
+            gridSize = Math.max(9, Math.min(64, gridSize));
+            
+            console.log(`Calculated grid size: ${gridSize} for ${studentCount} students`);
+            return gridSize;
+        }
+
         // === SIDEBAR MANAGEMENT ===
         function updateTeamScores() {
             const teamScoresContainer = document.getElementById('teamScores');
@@ -6724,13 +7063,29 @@ The Beatles"
         function updateTurnDisplay() {
             const turnDisplayEl = document.getElementById('turnDisplay');
             if (turnDisplayEl) {
-                const teamName = currentTurn === "A" ? (names.A || "Team A") : (names.B || "Team B");
-                turnDisplayEl.textContent = `${teamName}'s turn`;
+                turnDisplayEl.textContent = getCurrentStudentDisplay();
             }
         }
 
         // Function to start game with specific settings
         async function startGameWithSettings(quiz, settings) {
+          // Load roster data and initialize team mode
+          loadRosterData();
+          initializeTeamMode();
+          
+          // Load point configuration
+          const individualPointsInput = document.getElementById('individualPoints');
+          const teamVictoryPointsInput = document.getElementById('teamVictoryPoints');
+          
+          if (individualPointsInput) {
+            individualPoints = parseInt(individualPointsInput.value) || 100;
+          }
+          if (teamVictoryPointsInput) {
+            teamVictoryPoints = parseInt(teamVictoryPointsInput.value) || 500;
+          }
+          
+          console.log('Point configuration:', { individualPoints, teamVictoryPoints });
+          
           // Set up game state
           questions = quiz.questions && Array.isArray(quiz.questions)
             ? quiz.questions.map((q) => ({
@@ -6757,7 +7112,9 @@ The Beatles"
           names.A = settings.teamA;
           names.B = settings.singlePlayer ? 'Android' : settings.teamB;
           singlePlayer = settings.singlePlayer;
-          total = settings.gridSize;
+          
+          // Use dynamic grid sizing if roster is available
+          total = rosterData ? calculateOptimalGridSize() : settings.gridSize;
           
           // Hide library, show game
           if (setupScreen) setupScreen.classList.add("hidden");
