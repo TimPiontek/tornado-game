@@ -8091,26 +8091,6 @@ The Beatles"
             });
         }
         
-        function createRandomTeams(numTeams, modal) {
-            const shuffled = [...quizRosterData.roster].sort(() => Math.random() - 0.5);
-            const teams = [];
-            
-            for (let i = 0; i < numTeams; i++) {
-                teams.push({
-                    id: String.fromCharCode(65 + i), // A, B, C, etc.
-                    name: `Team ${String.fromCharCode(65 + i)}`,
-                    students: []
-                });
-            }
-            
-            // Distribute students evenly
-            shuffled.forEach((student, index) => {
-                const teamIndex = index % numTeams;
-                teams[teamIndex].students.push(student);
-            });
-            
-            saveTeamAssignment('random', teams, modal);
-        }
         
         function moveStudentToTeam(studentId, element) {
             const student = quizRosterData.roster.find(s => s.id === studentId);
@@ -8377,13 +8357,7 @@ The Beatles"
             updateRosterStatus('Manual teams saved');
         }
         
-        // Make functions globally accessible
-        window.setTeamMode = setTeamMode;
-        window.createRandomTeams = createRandomTeams;
-        window.moveStudentToTeam = moveStudentToTeam;
-        window.saveTeamMode = saveTeamMode;
-        window.saveRandomTeams = saveRandomTeams;
-        window.saveManualTeams = saveManualTeams;
+        // Functions are now handled by event listeners in the modals
         
         function saveManualTeams(modal) {
             const teamAName = document.getElementById('teamA-name').value || 'Team A';
