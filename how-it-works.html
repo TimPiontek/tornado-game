@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - Play Tornado</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --background: #f9fafb;
+            --card: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .back-btn {
+            background: var(--muted);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background: #4b5563;
+        }
+
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: var(--text);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .workflow-section {
+            margin-bottom: 3rem;
+        }
+
+        .workflow-section h2 {
+            color: var(--text);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .workflow-step {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .workflow-step h3 {
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .workflow-step p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .game-modes-section {
+            margin-bottom: 3rem;
+        }
+
+        .game-modes-section h2 {
+            color: var(--text);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .game-modes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .game-mode-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .game-mode-card h3 {
+            color: var(--text);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .game-mode-card .mode-icon {
+            font-size: 1.5rem;
+        }
+
+        .game-mode-card ul {
+            color: var(--muted);
+            line-height: 1.6;
+            padding-left: 1.5rem;
+        }
+
+        .game-mode-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        .benefits-section {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .benefits-section h2 {
+            color: var(--text);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .benefit-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .benefit-text {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .cta-section {
+            text-align: center;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .cta-section h2 {
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: #7c3aed;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-section p {
+                font-size: 1rem;
+            }
+            
+            .features-grid,
+            .workflow-steps,
+            .game-modes-grid,
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ℹ️ How It Works</h1>
+            <a href="/" class="back-btn">← Back to Home</a>
+        </div>
+
+        <div class="main-content">
+            <div class="hero-section">
+                <h1>🌪️ Welcome to Play Tornado</h1>
+                <p>An integrated educational platform that combines quiz-based learning with strategic gameplay. Teachers create rosters, students earn points through quizzes and assignments, and everyone competes in strategic territory battles.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Centralized Roster Management</h3>
+                    <p>Teachers create and manage student rosters with automatic point tracking, team assignments, and class codes for easy student access.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Interactive Quiz System</h3>
+                    <p>Engaging quiz games with customizable questions, team competitions, and automatic point rewards that transfer to strategic gameplay.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚔️</div>
+                    <h3>Strategic War Game</h3>
+                    <p>Students use earned points to buy territories, form alliances, and compete in tactical battles with historical scenarios and team collaboration.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Assignment System</h3>
+                    <p>Teachers create multiple-choice and short-answer assignments with auto-grading, manual feedback, and automatic point integration.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3>Student Dashboard</h3>
+                    <p>Individual student accounts with progress tracking, class leaderboards, assignment completion, and personalized learning journeys.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Seamless Integration</h3>
+                    <p>All components work together - points earned in quizzes and assignments automatically transfer to the war game for strategic spending.</p>
+                </div>
+            </div>
+
+            <div class="workflow-section">
+                <h2>🚀 How It Works</h2>
+                <div class="workflow-steps">
+                    <div class="workflow-step">
+                        <div class="step-number">1</div>
+                        <h3>Teacher Setup</h3>
+                        <p>Create student rosters, organize teams, and generate class codes for easy student access to your classroom.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">2</div>
+                        <h3>Student Registration</h3>
+                        <p>Students create accounts, join classes using class codes, and select their names from the roster.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">3</div>
+                        <h3>Learning Activities</h3>
+                        <p>Students complete quizzes and assignments, earning points that automatically transfer to their strategic game balance.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">4</div>
+                        <h3>Strategic Gameplay</h3>
+                        <p>Students spend earned points on territories, weapons, and strategic decisions in the Tornado War game.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">5</div>
+                        <h3>Progress Tracking</h3>
+                        <p>Teachers monitor student progress, grade assignments, and manage the classroom ecosystem through comprehensive dashboards.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">6</div>
+                        <h3>Continuous Learning</h3>
+                        <p>The cycle continues as students earn more points through learning activities to fuel their strategic gameplay.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-modes-section">
+                <h2>🎮 Game Modes</h2>
+                <div class="game-modes-grid">
+                    <div class="game-mode-card">
+                        <h3><span class="mode-icon">📚</span>Tornado Quiz</h3>
+                        <ul>
+                            <li>Interactive quiz games with customizable questions</li>
+                            <li>Individual and team competition modes</li>
+                            <li>Automatic point rewards for correct answers</li>
+                            <li>Team victory bonuses for collaborative success</li>
+                            <li>Points automatically transfer to war game</li>
+                        </ul>
+                    </div>
+                    <div class="game-mode-card">
+                        <h3><span class="mode-icon">⚔️</span>Tornado War</h3>
+                        <ul>
+                            <li>Strategic territory acquisition and defense</li>
+                            <li>Historical scenarios and themed battles</li>
+                            <li>Team resource sharing and collaboration</li>
+                            <li>Weapon systems and tactical combat</li>
+                            <li>Real-time point spending and management</li>
+                        </ul>
+                    </div>
+                    <div class="game-mode-card">
+                        <h3><span class="mode-icon">📋</span>Assignments</h3>
+                        <ul>
+                            <li>Multiple-choice questions with auto-grading</li>
+                            <li>Short-answer questions with manual grading</li>
+                            <li>Customizable point values per question</li>
+                            <li>Bulk question import from text format</li>
+                            <li>Assignment to multiple rosters simultaneously</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benefits-section">
+                <h2>✨ Key Benefits</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🎯</div>
+                        <div class="benefit-text">Gamified Learning Experience</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">👥</div>
+                        <div class="benefit-text">Collaborative Team Building</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">📊</div>
+                        <div class="benefit-text">Comprehensive Progress Tracking</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🔄</div>
+                        <div class="benefit-text">Seamless Point Integration</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🎨</div>
+                        <div class="benefit-text">Customizable Content</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">📱</div>
+                        <div class="benefit-text">Responsive Design</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2>Ready to Get Started?</h2>
+                <p>Join thousands of teachers and students already using Play Tornado to create engaging, gamified learning experiences.</p>
+                <div class="cta-buttons">
+                    <a href="/" class="btn">🏠 Go to Homepage</a>
+                    <a href="/roster.html" class="btn btn-secondary">👥 Manage Rosters</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

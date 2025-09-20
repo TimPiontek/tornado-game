@@ -2042,7 +2042,7 @@
         "
       >
         <a
-          href="/"
+          href="/how-it-works.html"
           style="
             color: #fff;
             text-decoration: none;
@@ -2050,7 +2050,7 @@
             border-radius: 6px;
             transition: background 0.2s;
           "
-          >Home</a
+          >ℹ️ How It Works</a
         >
         <a
           href="/roster"
@@ -6426,14 +6426,7 @@ The Beatles
           await renderMyLibrary();
         };
 
-        // 1. Change Home to How to Play in the header
-        // In the nav bar HTML:
-        // <a href="#" id="myLibraryLink" ...>My Library</a>
-        // <a href="#" id="publicLibraryLink" ...>Play Tornado Library</a>
-        // <button id="loginLogoutBtn" ...>Login</button>
-        // Change the Home link:
-        document.querySelector('nav a[href="/"]').textContent = "How to Play";
-        document.querySelector('nav a[href="/"]').id = "howToPlayLink";
+        // Navigation links are now handled directly in HTML
 
         // 2. Add How to Play page/section
         function renderHowToPlayPage() {
@@ -6511,14 +6504,7 @@ The Beatles
           };
         }
 
-        // 3. Hook up How to Play link in header
-        const howToPlayLink = document.getElementById("howToPlayLink");
-        if (howToPlayLink) {
-          howToPlayLink.onclick = function (e) {
-            e.preventDefault();
-            window.location.hash = "#how-to-play";
-          };
-        }
+        // Navigation links are now handled directly in HTML
 
         // 4. On main page, remove instructional text from How to Play box, leaving only the special item selectors
         // Find the element that contains the How to Play instructions and remove its text content, keeping only the selectors
