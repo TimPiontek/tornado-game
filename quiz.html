@@ -6858,6 +6858,16 @@
         let individualPoints = 100;
         let teamVictoryPoints = 500;
         
+        // === STUDENT LOGIN CHECK ===
+        function checkStudentLogin() {
+            const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+            if (currentStudent) {
+                console.log(`Student logged in: ${currentStudent.username}`);
+                return currentStudent;
+            }
+            return null;
+        }
+        
         // === GAME INTEGRATION ===
         function savePointsToWarGame(studentPoints, teamVictoryBonus) {
             try {
@@ -6923,6 +6933,52 @@
             }
         }
         
+        // === STUDENT PROGRESS TRACKING ===
+        function updateStudentProgressFromQuiz() {
+            try {
+                const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+                const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+                
+                if (!currentStudent) return;
+                
+                const studentIndex = students.findIndex(s => s.id === currentStudent.id);
+                if (studentIndex === -1) return;
+                
+                const student = students[studentIndex];
+                
+                // Calculate stats from this quiz session
+                let totalPointsEarned = 0;
+                let questionsAnswered = 0;
+                let correctAnswers = 0;
+                
+                // Count questions answered and points earned
+                Object.values(studentPoints).forEach(points => {
+                    if (points > 0) {
+                        totalPointsEarned += points;
+                        questionsAnswered++;
+                        correctAnswers++; // Assuming points > 0 means correct answer
+                    }
+                });
+                
+                // Update student stats
+                student.totalPoints += totalPointsEarned;
+                student.quizGamesPlayed += 1;
+                student.questionsAnswered += questionsAnswered;
+                student.correctAnswers += correctAnswers;
+                student.lastLogin = new Date().toISOString();
+                
+                students[studentIndex] = student;
+                localStorage.setItem('tornadoStudents', JSON.stringify(students));
+                
+                // Update current student in localStorage
+                localStorage.setItem('currentStudent', JSON.stringify(student));
+                
+                console.log(`Updated student progress: +${totalPointsEarned} points, ${questionsAnswered} questions answered`);
+            } catch (error) {
+                console.error('Error updating student progress:', error);
+            }
+        }
+        
         function createAutoRoster(studentPoints, teamVictoryBonus) {
             if (!rosterData || !rosterData.roster) return;
             
@@ -6983,6 +7039,9 @@
             // Save points to war game
             savePointsToWarGame(pointsToTransfer, teamVictoryBonus);
             
+            // Update student progress
+            updateStudentProgressFromQuiz();
+            
             // Show notification
             const totalPointsTransferred = Object.values(pointsToTransfer).reduce((a, b) => a + b, 0) +
                                          Object.values(teamVictoryBonus).reduce((a, b) => a + b, 0);
@@ -7005,6 +7064,9 @@
             
             // Save points to war game (no team victory bonus in individual mode)
             savePointsToWarGame(pointsToTransfer, {});
+            
+            // Update student progress
+            updateStudentProgressFromQuiz();
             
             // Show notification
             const totalPointsTransferred = Object.values(pointsToTransfer).reduce((a, b) => a + b, 0);

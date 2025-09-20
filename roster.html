@@ -344,6 +344,53 @@
             background: rgba(139, 92, 246, 0.1);
         }
         
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .student-stats {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.1);
+        }
+        
+        .student-stats h3 {
+            margin: 0 0 1rem 0;
+            color: var(--accent);
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        .stat-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .stat-label {
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+        
         .form-group {
             margin-bottom: 1.5rem;
             text-align: left;
@@ -549,6 +596,13 @@
             <button class="btn" onclick="login()">Login with Google</button>
         </div>
         
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn btn-secondary" onclick="showStudentSignup()">🎓 Student Login</button>
+            <button class="btn btn-secondary" onclick="exportRosters()">📤 Export All</button>
+            <button class="btn btn-secondary" onclick="importRosters()">📥 Import Rosters</button>
+        </div>
+
         <!-- Existing Rosters Grid -->
         <div id="rostersGrid" class="rosters-grid">
             <!-- Rosters will be populated here -->
@@ -615,6 +669,91 @@
             </div>
             
             <button class="btn" onclick="createNewRoster()">Create Roster</button>
+        </div>
+
+        <!-- Student Login Section -->
+        <div class="create-new-section" id="studentLoginSection" style="display: none;">
+            <h2>🎓 Student Login</h2>
+            <p>Students can create accounts to track their individual progress and earn points!</p>
+            
+            <div class="form-group">
+                <label for="studentUsername">Username</label>
+                <input type="text" id="studentUsername" placeholder="Enter username" maxlength="20">
+            </div>
+            
+            <div class="form-group">
+                <label for="studentPassword">Password</label>
+                <input type="password" id="studentPassword" placeholder="Enter password" maxlength="20">
+            </div>
+            
+            <div class="form-group">
+                <label for="studentEmail">Email (optional)</label>
+                <input type="email" id="studentEmail" placeholder="Enter email">
+            </div>
+            
+            <div class="form-group">
+                <label for="studentGrade">Grade Level (optional)</label>
+                <select id="studentGrade">
+                    <option value="">Select Grade</option>
+                    <option value="K">Kindergarten</option>
+                    <option value="1">1st Grade</option>
+                    <option value="2">2nd Grade</option>
+                    <option value="3">3rd Grade</option>
+                    <option value="4">4th Grade</option>
+                    <option value="5">5th Grade</option>
+                    <option value="6">6th Grade</option>
+                    <option value="7">7th Grade</option>
+                    <option value="8">8th Grade</option>
+                    <option value="9">9th Grade</option>
+                    <option value="10">10th Grade</option>
+                    <option value="11">11th Grade</option>
+                    <option value="12">12th Grade</option>
+                </select>
+            </div>
+            
+            <div class="form-actions">
+                <button class="btn" onclick="createStudentAccount()">Create Student Account</button>
+                <button class="btn btn-secondary" onclick="showStudentLogin()">Already have account? Login</button>
+            </div>
+        </div>
+
+        <!-- Student Login Form -->
+        <div class="create-new-section" id="studentLoginForm" style="display: none;">
+            <h2>🎓 Student Login</h2>
+            
+            <div class="form-group">
+                <label for="loginUsername">Username</label>
+                <input type="text" id="loginUsername" placeholder="Enter username">
+            </div>
+            
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter password">
+            </div>
+            
+            <div class="form-actions">
+                <button class="btn" onclick="loginStudent()">Login</button>
+                <button class="btn btn-secondary" onclick="showStudentSignup()">Need an account? Sign up</button>
+            </div>
+        </div>
+
+        <!-- Student Dashboard -->
+        <div class="create-new-section" id="studentDashboard" style="display: none;">
+            <h2>🎓 Student Dashboard</h2>
+            <div id="studentInfo">
+                <!-- Student info will be populated here -->
+            </div>
+            
+            <div class="student-stats">
+                <h3>📊 Your Progress</h3>
+                <div id="studentStats">
+                    <!-- Stats will be populated here -->
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button class="btn btn-secondary" onclick="logoutStudent()">Logout</button>
+            </div>
         </div>
     </div>
     
@@ -1354,6 +1493,188 @@
         }
         
         
+        // === STUDENT LOGIN SYSTEM ===
+        let currentStudent = null;
+        
+        function showStudentSignup() {
+            hideAllSections();
+            document.getElementById('studentLoginSection').style.display = 'block';
+        }
+        
+        function showStudentLogin() {
+            hideAllSections();
+            document.getElementById('studentLoginForm').style.display = 'block';
+        }
+        
+        function hideAllSections() {
+            document.getElementById('studentLoginSection').style.display = 'none';
+            document.getElementById('studentLoginForm').style.display = 'none';
+            document.getElementById('studentDashboard').style.display = 'none';
+        }
+        
+        function createStudentAccount() {
+            const username = document.getElementById('studentUsername').value.trim();
+            const password = document.getElementById('studentPassword').value.trim();
+            const email = document.getElementById('studentEmail').value.trim();
+            const grade = document.getElementById('studentGrade').value;
+            
+            if (!username || !password) {
+                alert('Username and password are required!');
+                return;
+            }
+            
+            if (username.length < 3) {
+                alert('Username must be at least 3 characters long!');
+                return;
+            }
+            
+            if (password.length < 4) {
+                alert('Password must be at least 4 characters long!');
+                return;
+            }
+            
+            // Check if username already exists
+            const existingStudents = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            if (existingStudents.find(s => s.username.toLowerCase() === username.toLowerCase())) {
+                alert('Username already exists! Please choose a different username.');
+                return;
+            }
+            
+            // Create student account
+            const student = {
+                id: generateId(),
+                username: username,
+                password: password, // In a real app, this would be hashed
+                email: email,
+                grade: grade,
+                createdAt: new Date().toISOString(),
+                totalPoints: 0,
+                quizGamesPlayed: 0,
+                warGamesPlayed: 0,
+                questionsAnswered: 0,
+                correctAnswers: 0,
+                lastLogin: new Date().toISOString()
+            };
+            
+            existingStudents.push(student);
+            localStorage.setItem('tornadoStudents', JSON.stringify(existingStudents));
+            
+            // Auto-login the student
+            currentStudent = student;
+            showStudentDashboard();
+            
+            alert(`Welcome ${username}! Your account has been created successfully.`);
+        }
+        
+        function loginStudent() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            
+            if (!username || !password) {
+                alert('Please enter both username and password!');
+                return;
+            }
+            
+            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            const student = students.find(s => 
+                s.username.toLowerCase() === username.toLowerCase() && 
+                s.password === password
+            );
+            
+            if (!student) {
+                alert('Invalid username or password!');
+                return;
+            }
+            
+            // Update last login
+            student.lastLogin = new Date().toISOString();
+            const studentIndex = students.findIndex(s => s.id === student.id);
+            students[studentIndex] = student;
+            localStorage.setItem('tornadoStudents', JSON.stringify(students));
+            
+            currentStudent = student;
+            showStudentDashboard();
+        }
+        
+        function showStudentDashboard() {
+            hideAllSections();
+            document.getElementById('studentDashboard').style.display = 'block';
+            
+            // Update student info
+            const studentInfo = document.getElementById('studentInfo');
+            studentInfo.innerHTML = `
+                <div class="student-profile">
+                    <h3>👤 ${currentStudent.username}</h3>
+                    <p><strong>Grade:</strong> ${currentStudent.grade || 'Not specified'}</p>
+                    <p><strong>Member since:</strong> ${new Date(currentStudent.createdAt).toLocaleDateString()}</p>
+                    <p><strong>Last login:</strong> ${new Date(currentStudent.lastLogin).toLocaleDateString()}</p>
+                </div>
+            `;
+            
+            // Update stats
+            const studentStats = document.getElementById('studentStats');
+            const accuracy = currentStudent.questionsAnswered > 0 
+                ? Math.round((currentStudent.correctAnswers / currentStudent.questionsAnswered) * 100)
+                : 0;
+                
+            studentStats.innerHTML = `
+                <div class="stat-item">
+                    <span class="stat-label">Total Points Earned</span>
+                    <span class="stat-value">${currentStudent.totalPoints}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Quiz Games Played</span>
+                    <span class="stat-value">${currentStudent.quizGamesPlayed}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">War Games Played</span>
+                    <span class="stat-value">${currentStudent.warGamesPlayed}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Questions Answered</span>
+                    <span class="stat-value">${currentStudent.questionsAnswered}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Correct Answers</span>
+                    <span class="stat-value">${currentStudent.correctAnswers}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Accuracy Rate</span>
+                    <span class="stat-value">${accuracy}%</span>
+                </div>
+            `;
+        }
+        
+        function logoutStudent() {
+            currentStudent = null;
+            hideAllSections();
+            alert('You have been logged out successfully.');
+        }
+        
+        // Function to update student stats (called from quiz and war games)
+        function updateStudentStats(studentId, stats) {
+            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            const studentIndex = students.findIndex(s => s.id === studentId);
+            
+            if (studentIndex >= 0) {
+                const student = students[studentIndex];
+                student.totalPoints += stats.pointsEarned || 0;
+                student.quizGamesPlayed += stats.quizGamesPlayed || 0;
+                student.warGamesPlayed += stats.warGamesPlayed || 0;
+                student.questionsAnswered += stats.questionsAnswered || 0;
+                student.correctAnswers += stats.correctAnswers || 0;
+                student.lastLogin = new Date().toISOString();
+                
+                students[studentIndex] = student;
+                localStorage.setItem('tornadoStudents', JSON.stringify(students));
+                
+                // Update current student if logged in
+                if (currentStudent && currentStudent.id === studentId) {
+                    currentStudent = student;
+                }
+            }
+        }
+
         // === ROSTER SORTING ===
         function sortRoster(rosterId, sortType) {
             const allRosters = getAllRosters();
