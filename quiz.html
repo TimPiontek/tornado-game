@@ -165,7 +165,7 @@
         margin-bottom: 20px;
         /* Let JavaScript buildGrid function control the columns */
         width: 100%;
-        max-height: 70vh;
+        max-height: 50vh;
         justify-items: stretch;
         align-items: stretch;
       }
@@ -2988,7 +2988,7 @@
             </div>
           </div>
           
-          <div id="grid" style="flex: 1 1 auto; display: grid; min-height: 400px; background: #f8f9fa; border-radius: 8px; padding: 1rem;"></div>
+          <div id="grid" style="flex: 1 1 auto; display: grid; min-height: 300px; background: #f8f9fa; border-radius: 8px; padding: 1rem;"></div>
         </div>
       </div>
 
@@ -7011,6 +7011,15 @@
             });
           }
           
+          // Transfer points to roster immediately
+          if (winner && rosterData) {
+            if (teamMode) {
+              transferQuizPointsToWar(winner);
+            } else {
+              transferIndividualQuizPointsToWar();
+            }
+          }
+          
           // Sort scores for display
           allScores.sort((a, b) => b.score - a.score);
           
@@ -7055,19 +7064,10 @@
             const saveBtn = document.getElementById('saveAndReturnBtn');
             if (saveBtn) {
               saveBtn.onclick = () => {
-                // Transfer points to war game
-                if (rosterData) {
-                  if (teamMode) {
-                    transferQuizPointsToWar(winner);
-                  } else {
-                    transferIndividualQuizPointsToWar();
-                  }
-                }
-                
-                // Return to home screen
+                // Points already transferred above, just return to home screen
                 setTimeout(() => {
                   window.location.href = '/';
-                }, 2000);
+                }, 1000);
               };
             }
           }, 100);
@@ -7081,6 +7081,14 @@
         window.endGameAndAwardPoints = function() {
             if (!rosterData) {
                 alert('No roster data available to award points.');
+                return;
+            }
+            
+            // Check if game already ended automatically
+            const done = document.querySelectorAll("#grid button:disabled").length;
+            const total = document.querySelectorAll("#grid button").length;
+            if (done === total) {
+                alert('Game has already ended automatically! Points have been saved to the roster.');
                 return;
             }
             
