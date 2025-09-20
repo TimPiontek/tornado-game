@@ -5743,12 +5743,16 @@ The Beatles"
               let currentIndex = teamOrder.indexOf(turn);
               currentIndex = (currentIndex + 1) % teamCount;
               turn = teamOrder[currentIndex];
-              updateCurrentTeamStudents();
+              
+              // Update current team students but preserve the student index
+              updateCurrentTeamStudents(true);
               
               console.log('Moved to next team:', {
                 newTurn: turn,
                 newTeamName: names[turn],
-                newTeamStudents: currentTeamStudents?.length
+                newTeamStudents: currentTeamStudents?.length,
+                preservedStudentIndex: currentStudentIndex,
+                currentStudent: getCurrentStudent()?.name
               });
             } else {
               let currentIndex = teamOrder.indexOf(turn);
@@ -8814,14 +8818,23 @@ The Beatles"
             return true;
         }
         
-        function updateCurrentTeamStudents() {
+        function updateCurrentTeamStudents(preserveIndex = false) {
             if (!teamMode || !rosterData) return;
             
             // Find the team index based on the turn letter (A=0, B=1, C=2, etc.)
             const teamIndex = turn.charCodeAt(0) - 65; // A=0, B=1, C=2, etc.
             const currentTeam = rosterData.teams[teamIndex];
             currentTeamStudents = currentTeam ? currentTeam.students : [];
-            currentStudentIndex = 0;
+            
+            // Only reset index if not preserving it
+            if (!preserveIndex) {
+                currentStudentIndex = 0;
+            } else {
+                // If preserving index, make sure it's within bounds
+                if (currentStudentIndex >= currentTeamStudents.length) {
+                    currentStudentIndex = currentStudentIndex % currentTeamStudents.length;
+                }
+            }
         }
         
         function getCurrentStudent() {
