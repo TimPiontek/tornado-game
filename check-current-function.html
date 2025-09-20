@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check Current Function</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #1a1a1a; color: #fff; }
+        .instructions { background: #2a2a2a; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        code { background: #333; padding: 10px; border-radius: 4px; display: block; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Check Current Function</h1>
+    
+    <div class="instructions">
+        <h3>Step 1: Check if the function exists</h3>
+        <p>Go to Supabase → SQL Editor and run this query:</p>
+        <code>SELECT routine_name, routine_definition 
+FROM information_schema.routines 
+WHERE routine_name = 'create_game_from_roster';</code>
+    </div>
+
+    <div class="instructions">
+        <h3>Step 2: If the function exists, check if it has starting territories logic</h3>
+        <p>Look for this text in the function definition:</p>
+        <code>-- Pre-assign starting territories to students</code>
+        <p>If you DON'T see that text, the function needs to be updated.</p>
+    </div>
+
+    <div class="instructions">
+        <h3>Step 3: Deploy the updated function</h3>
+        <p>If the function doesn't have starting territories logic, copy the function from <code>deploy-starting-territories.html</code> and run it in Supabase SQL Editor.</p>
+    </div>
+
+    <div class="instructions">
+        <h3>Alternative: Quick Test</h3>
+        <p>Try creating a new game and see if students get starting territories. If not, the function definitely needs updating.</p>
+    </div>
+</body>
+</html>

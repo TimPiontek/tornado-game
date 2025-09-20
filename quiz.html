@@ -1251,7 +1251,7 @@
       /* Unified Game Layout */
       .game-layout {
         display: grid;
-        grid-template-columns: 400px 1fr;
+        grid-template-columns: 290px 1fr;
         gap: 1rem;
         padding: 1rem;
         min-height: calc(100vh - 2rem);
@@ -3009,9 +3009,7 @@ The Beatles"
         
         <!-- Main Game Area -->
         <div class="game-main">
-          <div id="teamGrid" class="team-grid">
-            <!-- Teams will be dynamically generated here -->
-          </div>
+          <div id="grid" style="flex: 1 1 auto"></div>
         </div>
       </div>
 
@@ -6972,7 +6970,7 @@ The Beatles"
         function updateCurrentTeamStudents() {
             if (!teamMode || !rosterData) return;
             
-            const currentTeam = currentTurn === "A" ? rosterData.teams[0] : rosterData.teams[1];
+            const currentTeam = turn === "A" ? rosterData.teams[0] : rosterData.teams[1];
             currentTeamStudents = currentTeam ? currentTeam.students : [];
             currentStudentIndex = 0;
         }
@@ -6990,11 +6988,11 @@ The Beatles"
         
         function getCurrentStudentDisplay() {
             if (!teamMode) {
-                return currentTurn === "A" ? (names.A || "Team A") : (names.B || "Team B");
+                return turn === "A" ? (names.A || "Team A") : (names.B || "Team B");
             }
             
             const student = getCurrentStudent();
-            const teamName = currentTurn === "A" ? (names.A || "Team A") : (names.B || "Team B");
+            const teamName = turn === "A" ? (names.A || "Team A") : (names.B || "Team B");
             
             if (student) {
                 return `${teamName} - ${student.name}'s turn`;
@@ -7033,7 +7031,7 @@ The Beatles"
             const teamScoresContainer = document.getElementById('teamScores');
             if (!teamScoresContainer) return;
             
-            const currentTeam = currentTurn === "A" ? "A" : "B";
+            const currentTeam = turn === "A" ? "A" : "B";
             
             teamScoresContainer.innerHTML = `
                 <div class="team-score-item ${currentTeam === "A" ? "active" : ""}">

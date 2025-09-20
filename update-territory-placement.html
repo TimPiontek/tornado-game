@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Territory Placement</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #1a1a1a; color: #fff; }
+        .instructions { background: #2a2a2a; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        textarea { width: 100%; height: 400px; background: #2a2a2a; color: #fff; border: 1px solid #444; padding: 10px; font-family: monospace; font-size: 12px; }
+        h4 { color: #4ade80; }
+        .step { background: #333; padding: 10px; margin: 10px 0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🎯 Update Territory Placement</h1>
+    
+    <div class="instructions">
+        <h3>This will fix starting territories to be on the outer edge!</h3>
+        <p>Copy this updated function and run it in Supabase SQL Editor:</p>
+    </div>
+
+    <div class="step">
+        <h4>Updated create_game_from_roster Function</h4>
+        <textarea readonly>CREATE OR REPLACE FUNCTION create_game_from_roster(
+    p_class_name TEXT,
+    p_game_name TEXT,
+    p_student_names TEXT,
+    p_board_w INTEGER DEFAULT NULL,
+    p_board_h INTEGER DEFAULT NULL,
+    p_start_points INTEGER DEFAULT 5
+)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+    v_user_id UUID;
+    v_class_id UUID;
+    v_game_id UUID;
+    v_student_names TEXT[];
+    v_student_name TEXT;
+    v_student_id UUID;
+    v_game_student_id UUID;
+    v_board_w INTEGER;
+    v_board_h INTEGER;
+    v_x INTEGER;
+    v_y INTEGER;
+    v_tile_id UUID;
+    v_total_tiles INTEGER;
+    v_target_tiles_per_student INTEGER;
+    v_victory_pct NUMERIC;
+    v_max_start_tiles INTEGER;
+    v_assigned_tiles INTEGER;
+    v_random_tile_id UUID;
+    v_game_student_ids UUID[];
+    v_current_student_index INTEGER;
+    v_outer_tiles UUID[];
+BEGIN
+    -- Get current user
+    v_user_id := auth.uid();
+    IF v_user_id IS NULL THEN
+        RAISE EXCEPTION 'User not authenticated';
+    END IF;
+
+    -- Ensure user exists
+    UPDATE users
+    SET id = auth.uid()
+    WHERE email = auth.jwt() ->> 'email';
+    
+    IF NOT FOUND THEN
+        INSERT INTO users (id, email)
+        VALUES (auth.uid(), auth.jwt() ->> 'email');
+    END IF;
+
+    -- Create or get class
+    SELECT id INTO v_class_id FROM classes WHERE user_id = v_user_id AND name = p_class_name;
+    IF v_class_id IS NULL THEN
+        INSERT INTO classes (user_id, name)
+        VALUES (v_user_id, p_class_name)
+        RETURNING id INTO v_class_id;
+    END IF;
+
+    -- Parse student names (split by newlines, trim, filter empty)
+    v_student_names := ARRAY(
+        SELECT TRIM(name) 
+        FROM unnest(string_to_array(p_student_names, E'\n')) AS name 
+        WHERE TRIM(name) != ''
+    );
+
+    -- Calculate board size if not provided
+    v_board_w := COALESCE(p_board_w, GREATEST(8, CEIL(SQRT(array_length(v_student_names, 1) * 2))));
+    v_board_h := COALESCE(p_board_h, GREATEST(8, CEIL(SQRT(array_length(v_student_names, 1) * 2))));
+
+    -- Create game
+    INSERT INTO games (class_id, name, board_w, board_h)
+    VALUES (v_class_id, p_game_name, v_board_w, v_board_h)
+    RETURNING id INTO v_game_id;
+
+    -- Create students and game_students
+    FOREACH v_student_name IN ARRAY v_student_names
+    LOOP
+        -- Create student
+        INSERT INTO students (class_id, display_name)
+        VALUES (v_class_id, v_student_name)
+        RETURNING id INTO v_student_id;
+
+        -- Create game_student
+        INSERT INTO game_students (game_id, student_id, start_points, tiles_owned)
+        VALUES (v_game_id, v_student_id, p_start_points, 0)
+        RETURNING id INTO v_game_student_id;
+    END LOOP;
+
+    -- Create tiles grid
+    FOR v_y IN 0..(v_board_h - 1)
+    LOOP
+        FOR v_x IN 0..(v_board_w - 1)
+        LOOP
+            INSERT INTO tiles (game_id, x, y, owner_game_student_id, castle_level)
+            VALUES (v_game_id, v_x, v_y, NULL, 0)
+            RETURNING id INTO v_tile_id;
+        END LOOP;
+    END LOOP;
+
+    -- Pre-assign starting territories to students (ONLY on outer edge)
+    v_total_tiles := v_board_w * v_board_h;
+    SELECT victory_target_pct INTO v_victory_pct FROM games WHERE id = v_game_id;
+    
+    -- Calculate how many tiles each student should start with
+    v_target_tiles_per_student := GREATEST(1, CEIL(v_total_tiles * 0.25 / array_length(v_student_names, 1)));
+    v_max_start_tiles := CEIL(v_total_tiles * v_victory_pct);
+    v_target_tiles_per_student := LEAST(v_target_tiles_per_student, v_max_start_tiles);
+    
+    -- Get all outer edge tiles (first and last rows, first and last columns)
+    SELECT ARRAY_AGG(id) INTO v_outer_tiles 
+    FROM tiles 
+    WHERE game_id = v_game_id 
+      AND (x = 0 OR x = v_board_w - 1 OR y = 0 OR y = v_board_h - 1);
+    
+    -- Get all game_student_ids
+    SELECT ARRAY_AGG(id) INTO v_game_student_ids FROM game_students WHERE game_id = v_game_id;
+    
+    -- Assign outer edge tiles to each student
+    FOREACH v_student_name IN ARRAY v_student_names
+    LOOP
+        v_current_student_index := array_position(v_student_names, v_student_name);
+        v_assigned_tiles := 0;
+        
+        -- Assign tiles for this student (only from outer edge)
+        WHILE v_assigned_tiles < v_target_tiles_per_student AND array_length(v_outer_tiles, 1) > 0
+        LOOP
+            -- Get a random unassigned outer tile
+            SELECT id INTO v_random_tile_id 
+            FROM tiles 
+            WHERE game_id = v_game_id 
+              AND id = ANY(v_outer_tiles)
+              AND owner_game_student_id IS NULL 
+            ORDER BY RANDOM() 
+            LIMIT 1;
+            
+            -- If no unassigned outer tiles left, break
+            IF v_random_tile_id IS NULL THEN
+                EXIT;
+            END IF;
+            
+            -- Assign this tile to the current student
+            UPDATE tiles 
+            SET owner_game_student_id = v_game_student_ids[v_current_student_index]
+            WHERE id = v_random_tile_id;
+            
+            -- Remove this tile from outer tiles array
+            v_outer_tiles := array_remove(v_outer_tiles, v_random_tile_id);
+            
+            v_assigned_tiles := v_assigned_tiles + 1;
+        END LOOP;
+        
+        -- Update tiles_owned count for this student
+        UPDATE game_students 
+        SET tiles_owned = v_assigned_tiles
+        WHERE id = v_game_student_ids[v_current_student_index];
+    END LOOP;
+
+    -- Log the creation
+    INSERT INTO audit_log (game_id, actor, action, meta)
+    VALUES (v_game_id, 'system', 'game_created', jsonb_build_object(
+        'class_name', p_class_name,
+        'game_name', p_game_name,
+        'student_count', array_length(v_student_names, 1),
+        'board_size', jsonb_build_object('w', v_board_w, 'h', v_board_h),
+        'start_points', p_start_points,
+        'starting_tiles_per_student', v_target_tiles_per_student
+    ));
+
+    -- Return game info
+    RETURN jsonb_build_object(
+        'game_id', v_game_id,
+        'class_id', v_class_id,
+        'board_w', v_board_w,
+        'board_h', v_board_h,
+        'student_count', array_length(v_student_names, 1),
+        'starting_tiles_per_student', v_target_tiles_per_student
+    );
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION create_game_from_roster(TEXT, TEXT, TEXT, INTEGER, INTEGER, INTEGER) TO anon, authenticated;</textarea>
+    </div>
+
+    <div class="instructions">
+        <h3>What This Will Fix:</h3>
+        <ul>
+            <li>✅ Starting territories will be placed ONLY on the outer edge</li>
+            <li>✅ Student names will show correctly (not "Unknown")</li>
+            <li>✅ Student colors will be applied to their tiles</li>
+            <li>✅ Pricing will start at $20 from the first row in from outer edge</li>
+        </ul>
+    </div>
+</body>
+</html>
