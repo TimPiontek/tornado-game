@@ -7058,7 +7058,7 @@ The Beatles"
                 try {
                     quizRosterData = JSON.parse(saved);
                     updateRosterStatus(`Loaded ${quizRosterData.roster.length} students`);
-                    showTeamSelection();
+                    showTeamCreationScreen(quizRosterData);
                 } catch (e) {
                     updateRosterStatus('Error loading roster');
                     console.error('Error loading roster:', e);
@@ -7075,19 +7075,391 @@ The Beatles"
             }
         }
         
-        function showTeamSelection() {
-            const teamSelectionEl = document.getElementById('rosterTeamSelection');
-            const previewEl = document.getElementById('rosterPreview');
+        function showTeamCreationScreen(rosterData) {
+            // Create modal overlay
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+            `;
             
-            if (teamSelectionEl) {
-                teamSelectionEl.style.display = 'block';
-            }
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    border-radius: 16px;
+                    padding: 2rem;
+                    max-width: 800px;
+                    width: 90vw;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+                ">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h2 style="margin: 0; color: #6f5c91; font-size: 1.8rem;">Create Teams</h2>
+                        <button onclick="this.closest('div[style*=\"position: fixed\"]').remove()" style="
+                            background: #6c757d;
+                            color: white;
+                            border: none;
+                            padding: 0.5rem 1rem;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-size: 1rem;
+                        ">✕ Close</button>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <p style="margin: 0 0 1rem 0; color: #666; font-size: 1rem;">
+                            You have <strong>${rosterData.roster.length} students</strong> in your roster. 
+                            Choose how to organize them for the quiz:
+                        </p>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                        <button id="individualModeBtn" style="
+                            background: #28a745;
+                            color: white;
+                            border: none;
+                            border-radius: 8px;
+                            padding: 1rem 1.5rem;
+                            cursor: pointer;
+                            font-size: 1rem;
+                            font-weight: 600;
+                            flex: 1;
+                            min-width: 200px;
+                        ">
+                            👤 Individual Mode<br>
+                            <small style="font-weight: normal; opacity: 0.9;">No teams, students play individually</small>
+                        </button>
+                        
+                        <button id="randomTeamsBtn" style="
+                            background: #007bff;
+                            color: white;
+                            border: none;
+                            border-radius: 8px;
+                            padding: 1rem 1.5rem;
+                            cursor: pointer;
+                            font-size: 1rem;
+                            font-weight: 600;
+                            flex: 1;
+                            min-width: 200px;
+                        ">
+                            🎲 Random Teams<br>
+                            <small style="font-weight: normal; opacity: 0.9;">Automatically assign students to teams</small>
+                        </button>
+                        
+                        <button id="manualTeamsBtn" style="
+                            background: #6f5c91;
+                            color: white;
+                            border: none;
+                            border-radius: 8px;
+                            padding: 1rem 1.5rem;
+                            cursor: pointer;
+                            font-size: 1rem;
+                            font-weight: 600;
+                            flex: 1;
+                            min-width: 200px;
+                        ">
+                            🎯 Manual Teams<br>
+                            <small style="font-weight: normal; opacity: 0.9;">Drag and drop students into teams</small>
+                        </button>
+                    </div>
+                    
+                    <div id="teamCreationContent" style="min-height: 200px;">
+                        <!-- Content will be populated based on selection -->
+                    </div>
+                </div>
+            `;
             
-            if (previewEl && quizRosterData) {
-                const studentNames = quizRosterData.roster.map(s => s.name).join(', ');
-                previewEl.textContent = `Students: ${studentNames}`;
-            }
+            document.body.appendChild(modal);
+            
+            // Add event listeners
+            document.getElementById('individualModeBtn').addEventListener('click', () => {
+                createIndividualMode(rosterData, modal);
+            });
+            
+            document.getElementById('randomTeamsBtn').addEventListener('click', () => {
+                showRandomTeamOptions(rosterData, modal);
+            });
+            
+            document.getElementById('manualTeamsBtn').addEventListener('click', () => {
+                showManualTeamInterface(rosterData, modal);
+            });
         }
+        
+        function createIndividualMode(rosterData, modal) {
+            const content = document.getElementById('teamCreationContent');
+            content.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <h3 style="color: #28a745; margin-bottom: 1rem;">👤 Individual Mode</h3>
+                    <p style="color: #666; margin-bottom: 2rem;">
+                        Students will play individually without teams. Each student will have their own turn.
+                    </p>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <strong>Students (${rosterData.roster.length}):</strong><br>
+                        ${rosterData.roster.map(s => s.name).join(', ')}
+                    </div>
+                    <button onclick="saveTeamAssignment('individual', null, this.closest('div[style*=\"position: fixed\"]'))" style="
+                        background: #28a745;
+                        color: white;
+                        border: none;
+                        padding: 1rem 2rem;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-size: 1.1rem;
+                        font-weight: 600;
+                    ">✅ Save Individual Mode</button>
+                </div>
+            `;
+        }
+        
+        function showRandomTeamOptions(rosterData, modal) {
+            const content = document.getElementById('teamCreationContent');
+            content.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <h3 style="color: #007bff; margin-bottom: 1rem;">🎲 Random Teams</h3>
+                    <p style="color: #666; margin-bottom: 2rem;">
+                        Choose how many teams to create. Students will be randomly assigned.
+                    </p>
+                    <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
+                        ${[2, 3, 4, 5, 6].map(num => `
+                            <button onclick="createRandomTeams(${num}, this.closest('div[style*=\"position: fixed\"]'))" style="
+                                background: #007bff;
+                                color: white;
+                                border: none;
+                                padding: 1rem 1.5rem;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-size: 1rem;
+                                font-weight: 600;
+                                min-width: 80px;
+                            ">${num} Teams</button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function showManualTeamInterface(rosterData, modal) {
+            const content = document.getElementById('teamCreationContent');
+            content.innerHTML = `
+                <div style="padding: 2rem;">
+                    <h3 style="color: #6f5c91; margin-bottom: 1rem; text-align: center;">🎯 Manual Team Assignment</h3>
+                    <p style="color: #666; margin-bottom: 2rem; text-align: center;">
+                        Drag students from the list below into team boxes, or click to move them.
+                    </p>
+                    
+                    <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                        <div style="flex: 1;">
+                            <h4 style="margin-bottom: 1rem; color: #6f5c91;">Team A</h4>
+                            <div id="teamA-dropzone" style="
+                                min-height: 200px;
+                                border: 2px dashed #6f5c91;
+                                border-radius: 8px;
+                                padding: 1rem;
+                                background: rgba(111, 92, 145, 0.05);
+                            ">
+                                <input type="text" id="teamA-name" placeholder="Team A Name" style="
+                                    width: 100%;
+                                    padding: 0.5rem;
+                                    border: 1px solid #ddd;
+                                    border-radius: 4px;
+                                    margin-bottom: 1rem;
+                                " value="Team A">
+                            </div>
+                        </div>
+                        
+                        <div style="flex: 1;">
+                            <h4 style="margin-bottom: 1rem; color: #6f5c91;">Team B</h4>
+                            <div id="teamB-dropzone" style="
+                                min-height: 200px;
+                                border: 2px dashed #6f5c91;
+                                border-radius: 8px;
+                                padding: 1rem;
+                                background: rgba(111, 92, 145, 0.05);
+                            ">
+                                <input type="text" id="teamB-name" placeholder="Team B Name" style="
+                                    width: 100%;
+                                    padding: 0.5rem;
+                                    border: 1px solid #ddd;
+                                    border-radius: 4px;
+                                    margin-bottom: 1rem;
+                                " value="Team B">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="margin-bottom: 1rem; color: #666;">Unassigned Students</h4>
+                        <div id="unassigned-students" style="
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 0.5rem;
+                            padding: 1rem;
+                            border: 1px solid #ddd;
+                            border-radius: 8px;
+                            background: #f8f9fa;
+                        ">
+                            ${rosterData.roster.map(student => `
+                                <div class="student-chip" data-student-id="${student.id}" style="
+                                    background: #6f5c91;
+                                    color: white;
+                                    padding: 0.5rem 1rem;
+                                    border-radius: 20px;
+                                    cursor: pointer;
+                                    font-size: 0.9rem;
+                                    transition: all 0.2s ease;
+                                " onclick="moveStudentToTeam('${student.id}', this)">
+                                    ${student.name}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <button onclick="saveManualTeams(this.closest('div[style*=\"position: fixed\"]'))" style="
+                            background: #6f5c91;
+                            color: white;
+                            border: none;
+                            padding: 1rem 2rem;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-size: 1.1rem;
+                            font-weight: 600;
+                        ">✅ Save Team Assignment</button>
+                    </div>
+                </div>
+            `;
+            
+            // Initialize drag and drop
+            initializeManualTeamDragDrop();
+        }
+        
+        function createRandomTeams(numTeams, modal) {
+            const shuffled = [...quizRosterData.roster].sort(() => Math.random() - 0.5);
+            const teams = [];
+            
+            for (let i = 0; i < numTeams; i++) {
+                teams.push({
+                    id: String.fromCharCode(65 + i), // A, B, C, etc.
+                    name: `Team ${String.fromCharCode(65 + i)}`,
+                    students: []
+                });
+            }
+            
+            // Distribute students evenly
+            shuffled.forEach((student, index) => {
+                const teamIndex = index % numTeams;
+                teams[teamIndex].students.push(student);
+            });
+            
+            saveTeamAssignment('random', teams, modal);
+        }
+        
+        function moveStudentToTeam(studentId, element) {
+            const student = quizRosterData.roster.find(s => s.id === studentId);
+            if (!student) return;
+            
+            // Remove from current location
+            element.remove();
+            
+            // Determine which team to add to based on which dropzone is closest
+            const teamADropzone = document.getElementById('teamA-dropzone');
+            const teamBDropzone = document.getElementById('teamB-dropzone');
+            
+            // For now, just cycle through teams - user can drag manually
+            const currentTeamA = teamADropzone.querySelectorAll('.student-chip').length;
+            const currentTeamB = teamBDropzone.querySelectorAll('.student-chip').length;
+            
+            const targetDropzone = currentTeamA <= currentTeamB ? teamADropzone : teamBDropzone;
+            
+            // Create new chip
+            const newChip = document.createElement('div');
+            newChip.className = 'student-chip';
+            newChip.setAttribute('data-student-id', studentId);
+            newChip.style.cssText = `
+                background: #6f5c91;
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 20px;
+                cursor: pointer;
+                font-size: 0.9rem;
+                transition: all 0.2s ease;
+                margin: 0.25rem;
+                display: inline-block;
+            `;
+            newChip.textContent = student.name;
+            newChip.onclick = () => moveStudentToTeam(studentId, newChip);
+            
+            targetDropzone.appendChild(newChip);
+        }
+        
+        function saveTeamAssignment(mode, teams, modal) {
+            const teamAssignment = {
+                mode: mode,
+                teams: teams,
+                rosterData: quizRosterData
+            };
+            
+            // Store in global variable for use in quiz setup
+            window.quizTeamAssignment = teamAssignment;
+            
+            // Update the quiz setup form
+            applyTeamAssignment();
+            
+            // Close modal
+            modal.remove();
+            
+            // Update status
+            updateRosterStatus(`Teams created (${mode})`);
+        }
+        
+        // Make functions globally accessible
+        window.createIndividualMode = createIndividualMode;
+        window.showRandomTeamOptions = showRandomTeamOptions;
+        window.showManualTeamInterface = showManualTeamInterface;
+        window.createRandomTeams = createRandomTeams;
+        window.moveStudentToTeam = moveStudentToTeam;
+        window.saveTeamAssignment = saveTeamAssignment;
+        
+        function saveManualTeams(modal) {
+            const teamAName = document.getElementById('teamA-name').value || 'Team A';
+            const teamBName = document.getElementById('teamB-name').value || 'Team B';
+            
+            const teamAStudents = Array.from(document.querySelectorAll('#teamA-dropzone .student-chip')).map(el => {
+                const studentId = el.getAttribute('data-student-id');
+                return quizRosterData.roster.find(s => s.id === studentId);
+            }).filter(Boolean);
+            
+            const teamBStudents = Array.from(document.querySelectorAll('#teamB-dropzone .student-chip')).map(el => {
+                const studentId = el.getAttribute('data-student-id');
+                return quizRosterData.roster.find(s => s.id === studentId);
+            }).filter(Boolean);
+            
+            const teams = [
+                {
+                    id: 'A',
+                    name: teamAName,
+                    students: teamAStudents
+                },
+                {
+                    id: 'B', 
+                    name: teamBName,
+                    students: teamBStudents
+                }
+            ];
+            
+            saveTeamAssignment('manual', teams, modal);
+        }
+        
+        window.saveManualTeams = saveManualTeams;
         
         function assignRandomTeams() {
             if (!quizRosterData || !quizRosterData.roster) return;
