@@ -4801,15 +4801,18 @@ The Beatles"
               if (nameBEl) nameBEl.textContent = names.B;
               if (teamBNameContainer) teamBNameContainer.classList.remove("single-player");
             }
-            if (typeof initGame === 'function') {
-              initGame(tornadoCount, doubleCount, loseCount, swapCount, shieldCount, hotStreakCount, coinFlipCount);
-            }
-            if (typeof buildGrid === 'function') {
-              buildGrid(total);
-            }
-            if (typeof showQuestion === 'function') {
-              showQuestion();
-            }
+            // Use startGameWithSettings to properly load roster data
+            const quiz = selectedQuizId ? quizLibrary.find(q => q.id === selectedQuizId) : { questions: [] };
+            const settings = {
+              teamA: names.A || "Team A",
+              teamB: names.B || "Team B", 
+              singlePlayer: singlePlayer,
+              gridSize: total,
+              tornadoCount, doubleCount, loseCount, swapCount,
+              shieldCount, hotStreakCount, coinFlipCount
+            };
+            
+            startGameWithSettings(quiz, settings);
           };
         }
 
