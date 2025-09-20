@@ -4067,7 +4067,11 @@ The Beatles
             await showLibrary("public");
           }
           // Update homepage for new auth state
-          updateHomepageForUser();
+          try {
+            updateHomepageForUser();
+          } catch (error) {
+            console.error('Error updating homepage after auth state change:', error);
+          }
         });
 
         // === AUTH MODAL LOGIC ===
@@ -4181,37 +4185,48 @@ The Beatles
 
         // === DYNAMIC HOMEPAGE BASED ON LOGIN STATUS ===
         async function updateHomepageForUser() {
-          // Try both getUser() and getSession() to ensure we get the current auth state
-          const {
-            data: { user },
-          } = await supabaseClient.auth.getUser();
-          
-          const {
-            data: { session },
-          } = await supabaseClient.auth.getSession();
-          
-          // Debug logging
-          console.log('Auth check - Supabase user:', user);
-          console.log('Auth check - Supabase session:', session);
-          console.log('Auth check - currentStudent:', localStorage.getItem('currentStudent'));
-          
-          // Check if user is a student (has currentStudent in localStorage)
-          const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
-          const isStudent = currentStudent !== null;
-          
-          // Check if user is a teacher (logged in via Supabase)
-          const isTeacher = user !== null || session !== null;
-          
-          console.log('Auth check - isTeacher:', isTeacher, 'isStudent:', isStudent);
-          
-          // Update navigation
-          updateNavigation(isTeacher, isStudent);
-          
-          // Update content visibility
-          updateContentVisibility(isTeacher, isStudent);
-          
-          // Update login button
-          updateLoginBtn(user || session?.user);
+          try {
+            // Try to get the current session first
+            const {
+              data: { session },
+              error: sessionError
+            } = await supabaseClient.auth.getSession();
+            
+            // Debug logging
+            console.log('Auth check - Session error:', sessionError);
+            console.log('Auth check - Supabase session:', session);
+            console.log('Auth check - currentStudent:', localStorage.getItem('currentStudent'));
+            
+            // Check if user is a student (has currentStudent in localStorage)
+            const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+            const isStudent = currentStudent !== null;
+            
+            // Check if user is a teacher (logged in via Supabase)
+            const isTeacher = session !== null && session.user !== null;
+            
+            console.log('Auth check - isTeacher:', isTeacher, 'isStudent:', isStudent);
+            
+            // Update navigation
+            updateNavigation(isTeacher, isStudent);
+            
+            // Update content visibility
+            updateContentVisibility(isTeacher, isStudent);
+            
+            // Update login button
+            updateLoginBtn(session?.user);
+            
+          } catch (error) {
+            console.error('Error checking auth status:', error);
+            
+            // Fallback: check localStorage for any auth tokens
+            const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+            const isStudent = currentStudent !== null;
+            
+            // Default to guest mode if there's an error
+            updateNavigation(false, isStudent);
+            updateContentVisibility(false, isStudent);
+            updateLoginBtn(null);
+          }
         }
 
         function updateNavigation(isTeacher, isStudent) {
@@ -4303,7 +4318,10 @@ The Beatles
         }
         
         // Initialize homepage based on current user state
-        updateHomepageForUser();
+        // Add a small delay to allow Supabase to restore the session
+        setTimeout(() => {
+          updateHomepageForUser();
+        }, 100);
         
         // Listen for student login state changes
         window.addEventListener('storage', function(e) {
