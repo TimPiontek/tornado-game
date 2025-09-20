@@ -473,10 +473,64 @@
         </div>
     </div>
     
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal-overlay" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Login / Sign Up</h2>
+                <button class="modal-close" onclick="hideAuthModal()">&times;</button>
+            </div>
+            <div class="modal-content">
+                <div id="authError" style="color: var(--danger); margin-bottom: 1rem; text-align: center;"></div>
+                
+                <!-- Tab buttons -->
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                    <button id="tabLogin" type="button" style="flex: 1; padding: 0.75rem; border: 2px solid var(--border); border-radius: 8px 0 0 8px; background: var(--accent); color: white; font-weight: 600;">
+                        Login
+                    </button>
+                    <button id="tabSignup" type="button" style="flex: 1; padding: 0.75rem; border: 2px solid var(--border); border-radius: 0 8px 8px 0; background: white; color: var(--accent); font-weight: 600;">
+                        Sign Up
+                    </button>
+                </div>
+                
+                <!-- Login Form -->
+                <form id="loginForm" style="display: block;">
+                    <div class="form-group">
+                        <input id="loginEmail" type="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input id="loginPassword" type="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%; margin-bottom: 0.5rem;">Login</button>
+                    <button type="button" id="googleLoginBtn" class="btn btn-secondary" style="width: 100%;">Login with Google</button>
+                </form>
+                
+                <!-- Signup Form -->
+                <form id="signupForm" style="display: none;">
+                    <div class="form-group">
+                        <input id="signupEmail" type="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input id="signupPassword" type="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%; margin-bottom: 0.5rem;">Sign Up</button>
+                    <button type="button" id="googleSignupBtn" class="btn btn-secondary" style="width: 100%;">Sign Up with Google</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
+        // === SUPABASE CLIENT ===
+        const supabaseClient = supabase.createClient(
+            'https://dmbbsrcwqpmdxqtzvtqj.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w'
+        );
+        
         // === STATE MANAGEMENT ===
         let newRosterStudents = [];
-        let isLoggedIn = false; // This would be set based on actual auth status
+        let isLoggedIn = false;
         let editingRosterId = null;
         let editingRosterStudents = [];
         
@@ -488,20 +542,33 @@
         });
         
         function checkAuthStatus() {
-            // This would check actual authentication status
-            // For now, we'll assume logged in for demo purposes
-            isLoggedIn = true;
-            
-            if (!isLoggedIn) {
-                document.getElementById('loginSection').style.display = 'block';
-                document.getElementById('rostersGrid').style.display = 'none';
-                document.querySelector('.create-new-section').style.display = 'none';
-            }
+            // Check actual authentication status
+            supabaseClient.auth.getUser().then(({ data: { user } }) => {
+                isLoggedIn = !!user;
+                
+                if (!isLoggedIn) {
+                    document.getElementById('loginSection').style.display = 'block';
+                    document.getElementById('rostersGrid').style.display = 'none';
+                    document.querySelector('.create-new-section').style.display = 'none';
+                } else {
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('rostersGrid').style.display = 'grid';
+                    document.querySelector('.create-new-section').style.display = 'block';
+                }
+            });
         }
         
         function login() {
-            // This would handle actual Google login
-            alert('Login functionality would be implemented here');
+            // Show the auth modal
+            showAuthModal();
+        }
+        
+        function showAuthModal() {
+            document.getElementById('authModal').style.display = 'flex';
+        }
+        
+        function hideAuthModal() {
+            document.getElementById('authModal').style.display = 'none';
         }
         
         function loadExistingRosters() {
@@ -873,6 +940,120 @@
             const saved = localStorage.getItem('tornadoRosters');
             return saved ? JSON.parse(saved) : [];
         }
+        
+        // === AUTHENTICATION EVENT LISTENERS ===
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            const tabLogin = document.getElementById('tabLogin');
+            const tabSignup = document.getElementById('tabSignup');
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            
+            if (tabLogin && tabSignup) {
+                tabLogin.onclick = function() {
+                    tabLogin.style.background = 'var(--accent)';
+                    tabLogin.style.color = 'white';
+                    tabSignup.style.background = 'white';
+                    tabSignup.style.color = 'var(--accent)';
+                    loginForm.style.display = 'block';
+                    signupForm.style.display = 'none';
+                    document.getElementById('authError').textContent = '';
+                };
+                
+                tabSignup.onclick = function() {
+                    tabSignup.style.background = 'var(--accent)';
+                    tabSignup.style.color = 'white';
+                    tabLogin.style.background = 'white';
+                    tabLogin.style.color = 'var(--accent)';
+                    loginForm.style.display = 'none';
+                    signupForm.style.display = 'block';
+                    document.getElementById('authError').textContent = '';
+                };
+            }
+            
+            // Login form
+            if (loginForm) {
+                loginForm.onsubmit = async function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('loginEmail').value.trim();
+                    const password = document.getElementById('loginPassword').value;
+                    
+                    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                    
+                    if (error) {
+                        document.getElementById('authError').textContent = error.message;
+                        return;
+                    }
+                    
+                    hideAuthModal();
+                    checkAuthStatus();
+                };
+            }
+            
+            // Signup form
+            if (signupForm) {
+                signupForm.onsubmit = async function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('signupEmail').value.trim();
+                    const password = document.getElementById('signupPassword').value;
+                    
+                    const { error } = await supabaseClient.auth.signUp({ email, password });
+                    
+                    if (error) {
+                        document.getElementById('authError').textContent = error.message;
+                        return;
+                    }
+                    
+                    document.getElementById('authError').textContent = 'Check your email to confirm your account!';
+                };
+            }
+            
+            // Google login
+            if (document.getElementById('googleLoginBtn')) {
+                document.getElementById('googleLoginBtn').onclick = async function() {
+                    const { error } = await supabaseClient.auth.signInWithOAuth({
+                        provider: 'google',
+                        options: { redirectTo: window.location.origin }
+                    });
+                    if (error) {
+                        document.getElementById('authError').textContent = error.message;
+                    }
+                };
+            }
+            
+            // Google signup
+            if (document.getElementById('googleSignupBtn')) {
+                document.getElementById('googleSignupBtn').onclick = async function() {
+                    const { error } = await supabaseClient.auth.signInWithOAuth({
+                        provider: 'google',
+                        options: { redirectTo: window.location.origin }
+                    });
+                    if (error) {
+                        document.getElementById('authError').textContent = error.message;
+                    }
+                };
+            }
+            
+            // Close modal when clicking outside
+            const authModal = document.getElementById('authModal');
+            if (authModal) {
+                authModal.onclick = function(e) {
+                    if (e.target === authModal) {
+                        hideAuthModal();
+                    }
+                };
+            }
+            
+            // Listen for auth state changes
+            supabaseClient.auth.onAuthStateChange((event, session) => {
+                if (event === 'SIGNED_IN') {
+                    hideAuthModal();
+                    checkAuthStatus();
+                } else if (event === 'SIGNED_OUT') {
+                    checkAuthStatus();
+                }
+            });
+        });
     </script>
 </body>
 </html>

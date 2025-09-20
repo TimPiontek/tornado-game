@@ -3109,6 +3109,23 @@ The Beatles
             >
               Sign Up
             </button>
+            <button
+              type="button"
+              id="googleSignupBtn"
+              style="
+                width: 100%;
+                background: #fff;
+                color: #6f5c91;
+                font-weight: 700;
+                border: 1px solid #6f5c91;
+                border-radius: 6px;
+                padding: 0.7em;
+                font-size: 1.1em;
+                cursor: pointer;
+              "
+            >
+              Sign Up with Google
+            </button>
           </form>
         </div>
       </div>
@@ -4108,6 +4125,20 @@ The Beatles
         // === GOOGLE LOGIN ===
         if (document.getElementById("googleLoginBtn")) {
           document.getElementById("googleLoginBtn").onclick =
+            async function () {
+              const { error } = await supabaseClient.auth.signInWithOAuth({
+                provider: "google",
+                options: { redirectTo: window.location.origin },
+              });
+              if (error)
+                document.getElementById("authError").textContent =
+                  error.message;
+            };
+        }
+        
+        // === GOOGLE SIGNUP ===
+        if (document.getElementById("googleSignupBtn")) {
+          document.getElementById("googleSignupBtn").onclick =
             async function () {
               const { error } = await supabaseClient.auth.signInWithOAuth({
                 provider: "google",
