@@ -5315,15 +5315,13 @@ The Beatles"
         });
 
         function handlePick(btn, i) {
-          // Cache bust: Fixed syntax error
           if (isResolvingTurn) {
             return;
           }
           isResolvingTurn = true;
           
-          try {
-            let r = rewards[i],
-              me = turn;
+          let r = rewards[i],
+            me = turn;
           
           console.log(`Team ${me} picked position ${i}:`, r);
           
@@ -5995,19 +5993,6 @@ The Beatles"
           const grid = document.getElementById("grid");
           if (grid) {
             grid.className = `active-team-${turn}`;
-          }
-          
-          } catch (error) {
-            console.error('Error in handlePick:', error);
-            // CRITICAL: Always reset the flag on error to prevent button freezing
-            isResolvingTurn = false;
-            
-            // Show error message to user
-            alert('An error occurred during the game. Please try again.');
-            
-            // Re-enable the button that caused the error
-            btn.disabled = false;
-            btn.style.pointerEvents = 'auto';
           }
         }
 
