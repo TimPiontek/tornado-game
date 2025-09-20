@@ -7030,18 +7030,141 @@ The Beatles"
         }
         
         function loadQuizRoster() {
-            // Clean approach: open a dedicated modal for roster team assignment
-            const saved = localStorage.getItem('tornadoRoster');
-            if (saved) {
-                try {
-                    quizRosterData = JSON.parse(saved);
-                    showRosterTeamAssignmentModal();
-                } catch (e) {
-                    updateRosterStatus('Error loading roster');
-                    console.error('Error loading roster:', e);
+            // Show roster selection modal with multiple roster options
+            showQuizRosterSelectionModal();
+        }
+        
+        function showQuizRosterSelectionModal() {
+            // Get all saved rosters
+            const allRosters = getAllQuizRosters();
+            
+            if (allRosters.length === 0) {
+                updateRosterStatus('No rosters found. Create one in Manage Roster first.');
+                return;
+            }
+            
+            // Create modal
+            const modal = document.createElement('div');
+            modal.id = 'quizRosterSelectionModal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0,0,0,0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+                font-family: 'Lexend Deca', sans-serif;
+            `;
+            
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 16px;
+                    max-width: 700px;
+                    width: 90vw;
+                    max-height: 85vh;
+                    overflow-y: auto;
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                ">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <h2 style="margin: 0; color: #6f5c91; font-size: 1.8rem;">Select Roster for Quiz</h2>
+                        <button id="closeQuizRosterModal" style="
+                            background: #dc3545;
+                            color: white;
+                            border: none;
+                            padding: 0.5rem 1rem;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-size: 0.9rem;
+                        ">✕ Close</button>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <h3 style="margin: 0 0 1rem 0; color: #333;">Choose a roster to use for the quiz:</h3>
+                        <div id="quizRosterList" style="max-height: 400px; overflow-y: auto;">
+                            ${allRosters.map(roster => `
+                                <div class="quiz-roster-item" data-roster-id="${roster.id}" style="
+                                    background: #f8f9fa;
+                                    border: 1px solid #ddd;
+                                    border-radius: 8px;
+                                    padding: 1rem;
+                                    margin-bottom: 0.75rem;
+                                    cursor: pointer;
+                                    transition: all 0.2s ease;
+                                " onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <h4 style="margin: 0 0 0.25rem 0; color: #6f5c91;">${roster.name}</h4>
+                                            <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                                                ${roster.roster.length} students • 
+                                                ${roster.teamMode === 'individual' ? 'Individual Mode' : 
+                                                  roster.teams ? `${roster.teams.length} Teams` : 'No Teams'}
+                                            </p>
+                                            <p style="margin: 0; color: #999; font-size: 0.8rem;">
+                                                Last modified: ${new Date(roster.lastModified).toLocaleString()}
+                                            </p>
+                                        </div>
+                                        <button class="select-roster-btn" data-roster-id="${roster.id}" style="
+                                            background: #6f5c91;
+                                            color: white;
+                                            border: none;
+                                            padding: 0.5rem 1rem;
+                                            border-radius: 6px;
+                                            cursor: pointer;
+                                            font-size: 0.9rem;
+                                        ">Select</button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add event listeners
+            document.getElementById('closeQuizRosterModal').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+            
+            document.querySelectorAll('.select-roster-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const rosterId = btn.getAttribute('data-roster-id');
+                    document.body.removeChild(modal);
+                    selectQuizRoster(rosterId);
+                });
+            });
+            
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
                 }
+            });
+        }
+        
+        function getAllQuizRosters() {
+            const saved = localStorage.getItem('tornadoRosters');
+            return saved ? JSON.parse(saved) : [];
+        }
+        
+        function selectQuizRoster(rosterId) {
+            const allRosters = getAllQuizRosters();
+            const selectedRoster = allRosters.find(r => r.id === rosterId);
+            
+            if (selectedRoster) {
+                quizRosterData = selectedRoster;
+                updateRosterStatus(`Loaded: ${selectedRoster.name} (${selectedRoster.roster.length} students)`);
+                showRosterTeamAssignmentModal();
             } else {
-                updateRosterStatus('No roster found. Create one in Manage Roster first.');
+                updateRosterStatus('Error: Roster not found');
             }
         }
         

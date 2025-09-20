@@ -349,6 +349,18 @@
         
         <div class="main-content">
             <div class="panel">
+                <h2>Roster Management</h2>
+                <div class="form-group">
+                    <label for="rosterName">Roster Name</label>
+                    <input type="text" id="rosterName" placeholder="Enter roster name (e.g., Period 1, Class A)" maxlength="50">
+                </div>
+                <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                    <button class="btn btn-primary" onclick="saveRoster()">💾 Save Roster</button>
+                    <button class="btn btn-secondary" onclick="loadRoster()">📂 Load Roster</button>
+                </div>
+            </div>
+            
+            <div class="panel">
                 <h2>Add Students</h2>
                 <div class="form-group">
                     <label for="studentName">Student Name</label>
@@ -779,40 +791,227 @@
         
         // === DATA PERSISTENCE ===
         function saveRoster() {
+            // Get roster name from input or use default
+            const rosterNameInput = document.getElementById('rosterName');
+            const rosterName = rosterNameInput ? rosterNameInput.value.trim() : 'Default Roster';
+            
             const rosterData = {
+                id: generateRosterId(),
+                name: rosterName,
                 roster: roster,
                 teams: teams,
                 teamMode: teamMode,
                 lastModified: new Date().toISOString()
             };
             
-            localStorage.setItem('tornadoRoster', JSON.stringify(rosterData));
-            alert('Roster saved successfully!');
+            // Get existing rosters
+            const existingRosters = getAllRosters();
+            
+            // Check if roster name already exists
+            const existingIndex = existingRosters.findIndex(r => r.name === rosterName);
+            if (existingIndex >= 0) {
+                if (confirm(`A roster named "${rosterName}" already exists. Do you want to overwrite it?`)) {
+                    existingRosters[existingIndex] = rosterData;
+                } else {
+                    return; // User cancelled
+                }
+            } else {
+                existingRosters.push(rosterData);
+            }
+            
+            // Save all rosters
+            localStorage.setItem('tornadoRosters', JSON.stringify(existingRosters));
+            
+            // Update the roster list
+            renderRosterList();
+            
+            alert(`Roster "${rosterName}" saved successfully!`);
         }
         
-        function loadRoster() {
-            const saved = localStorage.getItem('tornadoRoster');
-            if (saved) {
-                try {
-                    const data = JSON.parse(saved);
-                    roster = data.roster || [];
-                    teams = data.teams || [];
-                    teamMode = data.teamMode || 'individual';
+        function generateRosterId() {
+            return 'roster_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+        
+        function getAllRosters() {
+            const saved = localStorage.getItem('tornadoRosters');
+            return saved ? JSON.parse(saved) : [];
+        }
+        
+        function loadRoster(rosterId = null) {
+            if (rosterId) {
+                // Load specific roster
+                const allRosters = getAllRosters();
+                const selectedRoster = allRosters.find(r => r.id === rosterId);
+                
+                if (selectedRoster) {
+                    roster = selectedRoster.roster || [];
+                    teams = selectedRoster.teams || [];
+                    teamMode = selectedRoster.teamMode || 'individual';
+                    
+                    // Update roster name input
+                    const rosterNameInput = document.getElementById('rosterName');
+                    if (rosterNameInput) {
+                        rosterNameInput.value = selectedRoster.name;
+                    }
                     
                     renderStudentList();
                     updateStats();
                     
-                    if (data.lastModified) {
-                        document.getElementById('lastUpdated').textContent = new Date(data.lastModified).toLocaleString();
+                    if (selectedRoster.lastModified) {
+                        document.getElementById('lastUpdated').textContent = new Date(selectedRoster.lastModified).toLocaleString();
                     }
-                } catch (e) {
-                    console.error('Error loading roster:', e);
+                    
+                    alert(`Loaded roster: ${selectedRoster.name}`);
                 }
+            } else {
+                // Show roster selection modal
+                showRosterSelectionModal();
+            }
+        }
+        
+        function showRosterSelectionModal() {
+            const allRosters = getAllRosters();
+            
+            if (allRosters.length === 0) {
+                alert('No saved rosters found. Create a new roster first.');
+                return;
+            }
+            
+            // Create modal
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0,0,0,0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+                font-family: 'Lexend Deca', sans-serif;
+            `;
+            
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 16px;
+                    max-width: 600px;
+                    width: 90vw;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                ">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <h2 style="margin: 0; color: #6f5c91; font-size: 1.8rem;">Load Roster</h2>
+                        <button id="closeLoadModal" style="
+                            background: #dc3545;
+                            color: white;
+                            border: none;
+                            padding: 0.5rem 1rem;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-size: 0.9rem;
+                        ">✕ Close</button>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <h3 style="margin: 0 0 1rem 0; color: #333;">Select a roster to load:</h3>
+                        <div id="rosterList" style="max-height: 400px; overflow-y: auto;">
+                            ${allRosters.map(roster => `
+                                <div class="roster-item" data-roster-id="${roster.id}" style="
+                                    background: #f8f9fa;
+                                    border: 1px solid #ddd;
+                                    border-radius: 8px;
+                                    padding: 1rem;
+                                    margin-bottom: 0.75rem;
+                                    cursor: pointer;
+                                    transition: all 0.2s ease;
+                                " onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <h4 style="margin: 0 0 0.25rem 0; color: #6f5c91;">${roster.name}</h4>
+                                            <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                                                ${roster.roster.length} students • 
+                                                ${roster.teamMode === 'individual' ? 'Individual Mode' : 
+                                                  roster.teams ? `${roster.teams.length} Teams` : 'No Teams'}
+                                            </p>
+                                            <p style="margin: 0; color: #999; font-size: 0.8rem;">
+                                                Last modified: ${new Date(roster.lastModified).toLocaleString()}
+                                            </p>
+                                        </div>
+                                        <button class="load-roster-btn" data-roster-id="${roster.id}" style="
+                                            background: #6f5c91;
+                                            color: white;
+                                            border: none;
+                                            padding: 0.5rem 1rem;
+                                            border-radius: 6px;
+                                            cursor: pointer;
+                                            font-size: 0.9rem;
+                                        ">Load</button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add event listeners
+            document.getElementById('closeLoadModal').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+            
+            document.querySelectorAll('.load-roster-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const rosterId = btn.getAttribute('data-roster-id');
+                    document.body.removeChild(modal);
+                    loadRoster(rosterId);
+                });
+            });
+            
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+        
+        function deleteRoster(rosterId) {
+            const allRosters = getAllRosters();
+            const rosterToDelete = allRosters.find(r => r.id === rosterId);
+            
+            if (rosterToDelete && confirm(`Are you sure you want to delete the roster "${rosterToDelete.name}"? This action cannot be undone.`)) {
+                const updatedRosters = allRosters.filter(r => r.id !== rosterId);
+                localStorage.setItem('tornadoRosters', JSON.stringify(updatedRosters));
+                
+                // If we're currently viewing the deleted roster, clear the current view
+                const currentRosterName = document.getElementById('rosterName').value;
+                if (currentRosterName === rosterToDelete.name) {
+                    roster = [];
+                    teams = [];
+                    teamMode = 'individual';
+                    document.getElementById('rosterName').value = '';
+                    renderStudentList();
+                    updateStats();
+                }
+                
+                alert(`Roster "${rosterToDelete.name}" deleted successfully.`);
             }
         }
         
         function exportRoster() {
+            const rosterNameInput = document.getElementById('rosterName');
+            const rosterName = rosterNameInput ? rosterNameInput.value.trim() : 'Default Roster';
+            
             const data = {
+                name: rosterName,
                 roster: roster,
                 teams: teams,
                 teamMode: teamMode,
@@ -823,7 +1022,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `tornado-roster-${new Date().toISOString().split('T')[0]}.json`;
+            a.download = `tornado-roster-${rosterName.replace(/[^a-zA-Z0-9]/g, '-')}-${new Date().toISOString().split('T')[0]}.json`;
             a.click();
             URL.revokeObjectURL(url);
         }
