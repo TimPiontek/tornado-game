@@ -4097,12 +4097,21 @@ The Beatles
             const email = document.getElementById("loginEmail").value.trim();
             const password = document.getElementById("loginPassword").value;
 
-            const { data, error } =
-              await supabaseClient.auth.signInWithPassword({ email, password });
+            console.log("Email login attempted:", email);
+            try {
+              const { data, error } =
+                await supabaseClient.auth.signInWithPassword({ email, password });
 
-            if (error) {
-              document.getElementById("authError").textContent = error.message;
-              return;
+              if (error) {
+                console.error("Login error:", error);
+                document.getElementById("authError").textContent = error.message;
+                return;
+              } else {
+                console.log("Login successful:", data);
+              }
+            } catch (err) {
+              console.error("Login exception:", err);
+              document.getElementById("authError").textContent = err.message;
             }
           };
         // === SIGNUP FORM ===
@@ -4111,28 +4120,47 @@ The Beatles
             e.preventDefault();
             const email = document.getElementById("signupEmail").value.trim();
             const password = document.getElementById("signupPassword").value;
-            let { error } = await supabaseClient.auth.signUp({
-              email,
-              password,
-            });
-            if (error) {
-              document.getElementById("authError").textContent = error.message;
-              return;
+            
+            console.log("Signup attempted:", email);
+            try {
+              let { error } = await supabaseClient.auth.signUp({
+                email,
+                password,
+              });
+              if (error) {
+                console.error("Signup error:", error);
+                document.getElementById("authError").textContent = error.message;
+                return;
+              } else {
+                console.log("Signup successful");
+                document.getElementById("authError").textContent =
+                  "Check your email to confirm your account!";
+              }
+            } catch (err) {
+              console.error("Signup exception:", err);
+              document.getElementById("authError").textContent = err.message;
             }
-            document.getElementById("authError").textContent =
-              "Check your email to confirm your account!";
           };
         // === GOOGLE LOGIN ===
         if (document.getElementById("googleLoginBtn")) {
           document.getElementById("googleLoginBtn").onclick =
             async function () {
-              const { error } = await supabaseClient.auth.signInWithOAuth({
-                provider: "google",
-                options: { redirectTo: window.location.origin },
-              });
-              if (error)
-                document.getElementById("authError").textContent =
-                  error.message;
+              console.log("Google login clicked");
+              try {
+                const { error } = await supabaseClient.auth.signInWithOAuth({
+                  provider: "google",
+                  options: { redirectTo: window.location.origin },
+                });
+                if (error) {
+                  console.error("Google login error:", error);
+                  document.getElementById("authError").textContent = error.message;
+                } else {
+                  console.log("Google login initiated successfully");
+                }
+              } catch (err) {
+                console.error("Google login exception:", err);
+                document.getElementById("authError").textContent = err.message;
+              }
             };
         }
         
@@ -4140,13 +4168,22 @@ The Beatles
         if (document.getElementById("googleSignupBtn")) {
           document.getElementById("googleSignupBtn").onclick =
             async function () {
-              const { error } = await supabaseClient.auth.signInWithOAuth({
-                provider: "google",
-                options: { redirectTo: window.location.origin },
-              });
-              if (error)
-                document.getElementById("authError").textContent =
-                  error.message;
+              console.log("Google signup clicked");
+              try {
+                const { error } = await supabaseClient.auth.signInWithOAuth({
+                  provider: "google",
+                  options: { redirectTo: window.location.origin },
+                });
+                if (error) {
+                  console.error("Google signup error:", error);
+                  document.getElementById("authError").textContent = error.message;
+                } else {
+                  console.log("Google signup initiated successfully");
+                }
+              } catch (err) {
+                console.error("Google signup exception:", err);
+                document.getElementById("authError").textContent = err.message;
+              }
             };
         }
 
