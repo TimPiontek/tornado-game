@@ -605,19 +605,20 @@
     
     console.log('Available tiles:', availableTiles.length, 'out of', tilesByDistance.length);
     
-    // Calculate how many tiles each student should get
-    const tilesPerStudent = Math.max(1, Math.floor(availableTiles.length / state.roster.length));
-    const extraTiles = availableTiles.length % state.roster.length;
+    // Each student gets exactly 2 tiles
+    const tilesPerStudent = 2;
+    const totalTilesNeeded = state.roster.length * tilesPerStudent;
     
-    console.log('Tiles per student:', tilesPerStudent, 'Extra tiles:', extraTiles);
+    console.log('Tiles per student:', tilesPerStudent, 'Total tiles needed:', totalTilesNeeded);
     
-    // Assign tiles to students, distributing evenly
+    if (availableTiles.length < totalTilesNeeded) {
+      console.warn(`Not enough tiles! Need ${totalTilesNeeded} but only have ${availableTiles.length} available`);
+    }
+    
+    // Assign exactly 2 tiles per student
     let tileIndex = 0;
     state.roster.forEach((student, studentIndex) => {
-      // Some students get one extra tile if there are leftovers
-      const tilesForThisStudent = tilesPerStudent + (studentIndex < extraTiles ? 1 : 0);
-      
-      for (let i = 0; i < tilesForThisStudent && tileIndex < availableTiles.length; i++) {
+      for (let i = 0; i < tilesPerStudent && tileIndex < availableTiles.length; i++) {
         const tile = availableTiles[tileIndex].tile;
         tile.owner_game_student_id = student.gsId;
         student.tilesOwned = (student.tilesOwned || 0) + 1;
@@ -855,6 +856,11 @@
       // Enemy tile - attack
       const defender = state.roster.find(r => r.gsId === tile.owner_game_student_id);
       if (defender) {
+        // Check if defender has only 1 tile left (protection rule)
+        if (defender.tilesOwned <= 1) {
+          alert(`Cannot attack ${defender.name}! They only have 1 tile left and are protected from elimination.`);
+          return;
+        }
         showFightScreen(selectedStudent.gsId, defender.gsId, tile);
       }
     }
