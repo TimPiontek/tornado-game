@@ -4193,9 +4193,8 @@ The Beatles
         // === DYNAMIC HOMEPAGE BASED ON LOGIN STATUS ===
         async function updateHomepageForUser() {
           try {
-            // Check for stored auth tokens first
-            const authToken = localStorage.getItem('sb-dmbbsrcwqpmdxqtzvtqj-auth-token');
-            console.log('Auth check - Stored token:', authToken ? 'Found' : 'Not found');
+            // Wait a moment for Supabase to restore the session
+            await new Promise(resolve => setTimeout(resolve, 200));
             
             // Try to get the current session
             const {
@@ -4203,24 +4202,17 @@ The Beatles
               error: sessionError
             } = await supabaseClient.auth.getSession();
             
-            // If no session but we have a token, try to refresh
-            if (!session && authToken) {
-              console.log('No session but token found, trying to refresh...');
-              const {
-                data: { session: refreshedSession },
-                error: refreshError
-              } = await supabaseClient.auth.refreshSession();
-              console.log('Refresh result:', refreshedSession, refreshError);
-            }
-            
-            // Get the final session (either original or refreshed)
+            // Also try getUser() as a backup
             const {
-              data: { session: finalSession },
-            } = await supabaseClient.auth.getSession();
+              data: { user },
+              error: userError
+            } = await supabaseClient.auth.getUser();
             
             // Debug logging
             console.log('Auth check - Session error:', sessionError);
-            console.log('Auth check - Supabase session:', finalSession);
+            console.log('Auth check - User error:', userError);
+            console.log('Auth check - Supabase session:', session);
+            console.log('Auth check - Supabase user:', user);
             console.log('Auth check - currentStudent:', localStorage.getItem('currentStudent'));
             
             // Check if user is a student (has currentStudent in localStorage)
@@ -4228,9 +4220,12 @@ The Beatles
             const isStudent = currentStudent !== null;
             
             // Check if user is a teacher (logged in via Supabase)
-            const isTeacher = finalSession !== null && finalSession.user !== null;
+            // Use either session.user or user directly
+            const teacherUser = session?.user || user;
+            const isTeacher = teacherUser !== null;
             
             console.log('Auth check - isTeacher:', isTeacher, 'isStudent:', isStudent);
+            console.log('Auth check - teacherUser:', teacherUser);
             
             // Update navigation
             updateNavigation(isTeacher, isStudent);
@@ -4239,7 +4234,7 @@ The Beatles
             updateContentVisibility(isTeacher, isStudent);
             
             // Update login button
-            updateLoginBtn(finalSession?.user);
+            updateLoginBtn(teacherUser);
             
           } catch (error) {
             console.error('Error checking auth status:', error);
@@ -4368,6 +4363,37 @@ The Beatles
           for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
             console.log(`- ${key}:`, localStorage.getItem(key));
+          }
+        };
+        
+        // Function to manually clear all Supabase auth data
+        window.clearSupabaseAuth = async function() {
+          console.log('Clearing all Supabase auth data...');
+          try {
+            // Sign out from Supabase
+            await supabaseClient.auth.signOut();
+            
+            // Clear all Supabase-related localStorage keys
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+              const key = localStorage.key(i);
+              if (key && key.startsWith('sb-')) {
+                keysToRemove.push(key);
+              }
+            }
+            
+            keysToRemove.forEach(key => {
+              localStorage.removeItem(key);
+              console.log('Removed:', key);
+            });
+            
+            // Clear student data too
+            localStorage.removeItem('currentStudent');
+            
+            console.log('All auth data cleared');
+            updateHomepageForUser();
+          } catch (error) {
+            console.error('Error clearing auth data:', error);
           }
         };
         
