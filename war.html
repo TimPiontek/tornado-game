@@ -550,7 +550,7 @@
       state.board.tiles = state.currentRoster.gameState.tiles;
       state.truces = state.currentRoster.gameState.truces || [];
     } else {
-      console.log('Creating fresh tiles');
+      console.log('Creating fresh tiles with starting positions');
       // Create fresh tiles
       const tiles = [];
       for (let y = 0; y < h; y++) {
@@ -566,12 +566,54 @@
       }
       state.board = { w, h, tiles };
       state.truces = [];
+      
+      // Assign starting tiles to students (2 tiles each on outer edges)
+      assignStartingTiles();
     }
     
     console.log('Board created:', { board: state.board, tilesCount: state.board.tiles.length });
     
     // Update grid display
     updateGridDisplay();
+  }
+  
+  function assignStartingTiles() {
+    if (!state.roster || state.roster.length === 0) return;
+    
+    console.log('Assigning starting tiles to', state.roster.length, 'students');
+    
+    const { w, h } = state.board;
+    const outerTiles = [];
+    
+    // Collect all outer edge tiles
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        if (x === 0 || x === w - 1 || y === 0 || y === h - 1) {
+          outerTiles.push(state.board.tiles.find(t => t.x === x && t.y === y));
+        }
+      }
+    }
+    
+    // Shuffle outer tiles randomly
+    for (let i = outerTiles.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [outerTiles[i], outerTiles[j]] = [outerTiles[j], outerTiles[i]];
+    }
+    
+    // Assign 2 tiles per student
+    state.roster.forEach((student, index) => {
+      const tilesToAssign = Math.min(2, outerTiles.length - (index * 2));
+      for (let i = 0; i < tilesToAssign; i++) {
+        const tileIndex = index * 2 + i;
+        if (tileIndex < outerTiles.length) {
+          const tile = outerTiles[tileIndex];
+          tile.owner_game_student_id = student.gsId;
+          student.tilesOwned = (student.tilesOwned || 0) + 1;
+        }
+      }
+    });
+    
+    console.log('Starting tiles assigned');
   }
   
   function updateGridDisplay() {
@@ -589,12 +631,13 @@
     
     gridEl.innerHTML = state.board.tiles.map(tile => {
       const owner = state.roster.find(r => r.gsId === tile.owner_game_student_id);
-      const ownerName = owner ? owner.name : '';
+      const ownerName = owner ? shortenName(owner.name) : '';
       const castleLevel = tile.castle_level || 0;
       const castleText = castleLevel > 0 ? `🏰${castleLevel}` : '';
       
-      // Show cost for empty tiles
-      const costText = !owner ? `💰${state.costs.land}` : '';
+      // Calculate tile cost based on distance from center
+      const tileCost = !owner ? calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h) : 0;
+      const costText = !owner ? `💰${tileCost}` : '';
       
       return `<div class="cell" data-tile-id="${tile.id}" data-x="${tile.x}" data-y="${tile.y}" 
                 style="background: ${owner ? state.colors.get(owner.gsId) : '#1a1a2e'}; 
@@ -610,7 +653,7 @@
                        font-size: 12px;
                        text-align: center;"
                 onclick="handleTileClick('${tile.id}')"
-                title="${owner ? `Owned by ${ownerName}` : `Click to buy for ${state.costs.land} points`}">
+                title="${owner ? `Owned by ${ownerName}` : `Click to buy for ${tileCost} points`}">
                 <div style="font-weight: 600;">${ownerName || ''}</div>
                 <div style="font-size: 10px;">${castleText || costText}</div>
               </div>`;
@@ -722,13 +765,13 @@
 
     if (!tile.owner_game_student_id) {
       // Empty tile - buy it
-      const cost = state.costs.land;
+      const cost = calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h);
       if (selectedStudent.balance >= cost) {
         tile.owner_game_student_id = selectedStudent.gsId;
         selectedStudent.balance -= cost;
         selectedStudent.tilesOwned += 1;
         updateGridDisplay();
-    renderRoster();
+        renderRoster();
         alert(`${selectedStudent.name} bought the tile for ${cost} points!`);
       } else {
         alert(`Insufficient funds! Need ${cost} points.`);
