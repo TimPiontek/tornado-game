@@ -186,6 +186,23 @@
   </div>
 </div>
 
+<!-- Roster Selection Modal -->
+<div id="rosterSelectionModal" class="modal" aria-hidden="true">
+  <div class="card" style="width: min(600px, 90vw);">
+    <button class="closeX" id="rosterSelectionClose">Close</button>
+    <h2>Select Roster</h2>
+    
+    <div id="rosterSelectionContent" style="margin: 20px 0;">
+      <!-- Existing rosters will be populated here -->
+    </div>
+    
+    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; gap: 10px;">
+      <button id="createNewRosterBtn" class="pill" style="background: #6f5c91; color: white; flex: 1;">Create New Roster</button>
+      <button id="manageRostersBtn" class="pill" style="background: #31727a; color: white; flex: 1;">Manage Rosters</button>
+    </div>
+  </div>
+</div>
+
 <!-- Fight Screen Modal -->
 <div id="fightModal" class="modal" aria-hidden="true">
   <div class="card" style="width: min(1200px, 95vw); max-height: 90vh;">
@@ -545,6 +562,21 @@
   el("#helpClose").onclick = () => helpModal.classList.remove("show");
   helpModal.addEventListener("click", (e)=>{ if(e.target===helpModal) helpModal.classList.remove("show"); });
 
+  // Roster selection modal
+  const rosterSelectionModal = el("#rosterSelectionModal");
+  el("#rosterSelectionClose").onclick = () => rosterSelectionModal.classList.remove("show");
+  rosterSelectionModal.addEventListener("click", (e)=>{ if(e.target===rosterSelectionModal) rosterSelectionModal.classList.remove("show"); });
+  
+  el("#createNewRosterBtn").onclick = () => {
+    rosterSelectionModal.classList.remove("show");
+    window.location.href = '/roster';
+  };
+  
+  el("#manageRostersBtn").onclick = () => {
+    rosterSelectionModal.classList.remove("show");
+    window.location.href = '/roster';
+  };
+
   function colorFor(gsId, i, total) {
     if (state.colors.has(gsId)) return state.colors.get(gsId);
     const h = Math.round((i / Math.max(total,1)) * 360);
@@ -586,9 +618,109 @@
   }
   // Load roster button functionality
   el("#loadRosterBtn").onclick = () => {
-    // Navigate to roster management page
-    window.location.href = '/roster';
+    showRosterSelectionModal();
   };
+
+  // === ROSTER SELECTION MODAL ===
+  function showRosterSelectionModal() {
+    const content = el("#rosterSelectionContent");
+    const savedRosters = getAllSavedRosters();
+    
+    if (savedRosters.length === 0) {
+      content.innerHTML = `
+        <div style="text-align: center; padding: 40px; color: var(--muted);">
+          <p>No saved rosters found.</p>
+          <p>Create a new roster to get started!</p>
+        </div>
+      `;
+    } else {
+      content.innerHTML = savedRosters.map((roster, index) => `
+        <div class="roster-item" style="padding: 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; cursor: pointer; background: var(--panel);" onclick="selectRoster(${index})">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h3 style="margin: 0 0 4px 0; color: var(--text);">${roster.name}</h3>
+              <p style="margin: 0; color: var(--muted); font-size: 14px;">
+                ${roster.roster ? roster.roster.length : 0} students
+                ${roster.teams && roster.teams.length > 0 ? ` • ${roster.teams.length} teams` : ''}
+              </p>
+            </div>
+            <div style="color: var(--muted); font-size: 12px;">
+              ${new Date(roster.lastModified).toLocaleDateString()}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    rosterSelectionModal.classList.add("show");
+  }
+
+  function getAllSavedRosters() {
+    try {
+      const saved = localStorage.getItem('tornadoRosters');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      console.error('Error loading saved rosters:', e);
+      return [];
+    }
+  }
+
+  function selectRoster(index) {
+    const savedRosters = getAllSavedRosters();
+    if (index >= 0 && index < savedRosters.length) {
+      const selectedRoster = savedRosters[index];
+      
+      // Store the selected roster for the current game
+      if (state.gameId) {
+        // Convert roster format to match war game expectations
+        const warRoster = selectedRoster.roster.map((student, i) => ({
+          gsId: student.id || `student_${i}`,
+          name: student.name,
+          tilesOwned: 0,
+          startPoints: 5, // Default starting points
+          balance: 5,
+          teamId: null,
+          teamName: null,
+          teamColor: null
+        }));
+        
+        // If teams exist, assign team information
+        if (selectedRoster.teams && selectedRoster.teams.length > 0) {
+          warRoster.forEach(student => {
+            const team = selectedRoster.teams.find(t => 
+              t.students && t.students.includes(student.name)
+            );
+            if (team) {
+              student.teamId = team.id;
+              student.teamName = team.name;
+              student.teamColor = team.color;
+            }
+          });
+        }
+        
+        // Save roster to current game
+        if (state.offlineMode) {
+          const game = state.localGames.find(g => g.id === state.gameId);
+          if (game) {
+            game.roster = warRoster;
+            game.teams = selectedRoster.teams || [];
+            game.teamMode = selectedRoster.teamMode || false;
+            saveLocalGame(game);
+          }
+        }
+        
+        // Update the roster display
+        state.roster = warRoster;
+        renderRoster();
+        
+        alert(`Roster "${selectedRoster.name}" loaded successfully!`);
+      } else {
+        alert('Please select a game first before loading a roster.');
+      }
+    }
+    
+    rosterSelectionModal.classList.remove("show");
+  }
   
   gamesList.onchange = () => selectGame(gamesList.value);
   
