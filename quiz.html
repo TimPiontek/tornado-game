@@ -8752,6 +8752,9 @@ The Beatles"
         }
         
         function loadRosterData() {
+            console.log('=== LOAD ROSTER DATA ===');
+            console.log('window.quizTeamAssignment:', window.quizTeamAssignment);
+            
             // First try to load from quizTeamAssignment (set during roster selection)
             if (window.quizTeamAssignment && window.quizTeamAssignment.rosterData) {
                 rosterData = window.quizTeamAssignment.rosterData;
@@ -8776,7 +8779,9 @@ The Beatles"
         }
         
         function initializeTeamMode() {
-            console.log('Initializing team mode with rosterData:', rosterData);
+            console.log('=== INITIALIZE TEAM MODE ===');
+            console.log('rosterData:', rosterData);
+            console.log('window.quizTeamAssignment:', window.quizTeamAssignment);
             
             if (!rosterData || !rosterData.teams || rosterData.teams.length === 0) {
                 teamMode = false;
@@ -8883,7 +8888,21 @@ The Beatles"
         // === SIDEBAR MANAGEMENT ===
         function updateTeamScores() {
             const teamScoresContainer = document.getElementById('teamScores');
-            if (!teamScoresContainer) return;
+            if (!teamScoresContainer) {
+                console.log('updateTeamScores: teamScoresContainer not found');
+                return;
+            }
+            
+            console.log('updateTeamScores called with:', {
+                rosterData: rosterData ? {
+                    teams: rosterData.teams?.length,
+                    students: rosterData.roster?.length,
+                    teamMode: rosterData.teamMode
+                } : null,
+                teamMode,
+                turn,
+                scores
+            });
             
             const currentTeam = turn; // turn is already the team letter (A, B, C, D, etc.)
             
