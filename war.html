@@ -1257,48 +1257,47 @@
        currentBattle.defenderCastle === 2 ? 100 : 
        currentBattle.defenderCastle === 3 ? 200 : 0);
     
-    if (state.offlineMode) {
-      const game = state.localGames.find(g => g.id === state.gameId);
-      if (game) {
-        // Deduct costs
-        const attackerIndex = game.roster.findIndex(r => r.gsId === currentBattle.attacker.gsId);
-        const defenderIndex = game.roster.findIndex(r => r.gsId === currentBattle.defender.gsId);
-        
-        if (attackerIndex >= 0) game.roster[attackerIndex].balance -= attackerCost;
-        if (defenderIndex >= 0) game.roster[defenderIndex].balance -= defenderCost;
-        
-        if (attackerWins) {
-          // Attacker takes the tile
-          const tileIndex = game.tiles.findIndex(t => t.id === currentBattle.tile.id);
-          if (tileIndex >= 0) {
-            game.tiles[tileIndex].owner_game_student_id = currentBattle.attacker.gsId;
-            game.tiles[tileIndex].castle_level = 0; // Destroy castle
-          }
-          
-          // Update tile counts
-          if (attackerIndex >= 0) game.roster[attackerIndex].tilesOwned += 1;
-          if (defenderIndex >= 0) game.roster[defenderIndex].tilesOwned = Math.max(0, game.roster[defenderIndex].tilesOwned - 1);
-        }
-        
-        // Add to audit log
-        game.audit_log = game.audit_log || [];
-        game.audit_log.unshift({
-          created_at: new Date().toISOString(),
-          action: `Battle: ${currentBattle.attacker.name} attacked ${currentBattle.defender.name} - ${attackerWins ? 'Victory' : 'Defeat'}`,
-          meta: { 
-            attacker: currentBattle.attacker.gsId, 
-            defender: currentBattle.defender.gsId, 
-            attackerMercs: currentBattle.attackerMercs, 
-            defenderMercs: currentBattle.defenderMercs, 
-            attackerWeapon: currentBattle.attackerWeapon,
-            defenderCastle: currentBattle.defenderCastle,
-            result: attackerWins ? 'victory' : 'defeat',
-            attackerCost,
-            defenderCost
-          }
-        });
-        
-        saveLocalGame(game);
+    // Apply battle results to current roster system
+    // Deduct costs from both students
+    currentBattle.attacker.balance -= attackerCost;
+    currentBattle.defender.balance -= defenderCost;
+    
+    if (attackerWins) {
+      // Attacker takes the tile
+      currentBattle.tile.owner_game_student_id = currentBattle.attacker.gsId;
+      currentBattle.tile.castle_level = 0; // Destroy castle
+      
+      // Update tile counts
+      currentBattle.attacker.tilesOwned += 1;
+      currentBattle.defender.tilesOwned = Math.max(0, currentBattle.defender.tilesOwned - 1);
+    }
+    
+    // Save the updated roster
+    if (state.currentRoster) {
+      // Update the roster data
+      const attackerIndex = state.currentRoster.roster.findIndex(r => r.name === currentBattle.attacker.name);
+      const defenderIndex = state.currentRoster.roster.findIndex(r => r.name === currentBattle.defender.name);
+      
+      if (attackerIndex >= 0) {
+        state.currentRoster.roster[attackerIndex].points = currentBattle.attacker.balance;
+      }
+      if (defenderIndex >= 0) {
+        state.currentRoster.roster[defenderIndex].points = currentBattle.defender.balance;
+      }
+      
+      // Save game state to roster
+      state.currentRoster.gameState = {
+        board: state.board,
+        tiles: state.board.tiles,
+        truces: state.truces || []
+      };
+      
+      // Save to localStorage
+      const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+      const rosterIndex = rosters.findIndex(r => r.id === state.currentRoster.id);
+      if (rosterIndex >= 0) {
+        rosters[rosterIndex] = state.currentRoster;
+        localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
       }
     }
     
@@ -1314,8 +1313,11 @@
           `🏆 ${attackerWins ? currentBattle.attacker.name : currentBattle.defender.name} WINS! 🏆\n\n` +
           `Costs: ${currentBattle.attacker.name} paid ${attackerCost} points, ${currentBattle.defender.name} paid ${defenderCost} points`);
     
-    await Promise.all([loadTiles(), loadRoster(), loadAudit()]);
-    checkVictory();
+    // Update the display
+    updateGridDisplay();
+    renderRoster();
+    updateVictoryTarget();
+    
     currentBattle = null;
   }
 
