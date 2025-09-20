@@ -4305,22 +4305,40 @@ The Beatles
         }
 
         function updateContentVisibility(isTeacher, isStudent) {
+          console.log('Updating content visibility - isTeacher:', isTeacher, 'isStudent:', isStudent);
+          
           // Hide/show Create Assignment card based on teacher status
           const createAssignmentCard = document.querySelector('.game-card:nth-child(3)');
+          console.log('Create Assignment card found:', createAssignmentCard);
+          
           if (createAssignmentCard) {
-            createAssignmentCard.style.display = isTeacher ? 'block' : 'none';
+            if (isTeacher) {
+              console.log('Showing Create Assignment card');
+              createAssignmentCard.style.display = 'block';
+            } else {
+              console.log('Hiding Create Assignment card');
+              createAssignmentCard.style.display = 'none';
+            }
+          } else {
+            console.log('Create Assignment card not found!');
           }
           
           // Adjust grid layout for remaining cards
           const gameCardsContainer = document.querySelector('.game-cards');
+          console.log('Game cards container found:', gameCardsContainer);
+          
           if (gameCardsContainer) {
             if (isTeacher) {
               // Show all 3 cards
+              console.log('Setting grid to 3 columns');
               gameCardsContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
             } else {
               // Show only 2 cards (War and Quiz)
+              console.log('Setting grid to 2 columns');
               gameCardsContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
             }
+          } else {
+            console.log('Game cards container not found!');
           }
         }
 
