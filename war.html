@@ -233,7 +233,7 @@
             <button class="pill" id="attackerCrossbow" style="background: #3b82f6;">Crossbow (60 pts)</button>
             <button class="pill" id="attackerCatapult" style="background: #dc2626;">Catapult (100 pts)</button>
           </div>
-          <div class="minor">Selected: <span id="attackerWeapon">None</span></div>
+          <div class="minor">Selected: <span id="attackerWeapon">None</span> <button class="pill" id="removeAttackerWeapon" style="background: #ef4444; color: white; font-size: 12px; padding: 4px 8px; margin-left: 8px;">Remove</button></div>
         </div>
       </div>
 
@@ -250,8 +250,17 @@
             <button class="pill" id="defenderMercMinus">-</button>
             <span id="defenderMercCount">0</span>
             <button class="pill" id="defenderMercPlus">+</button>
-            <span class="minor">(10 points each)</span>
+            <span class="minor">(10 points each, +10 power)</span>
           </div>
+        </div>
+        <div class="section">
+          <div class="title">Weapons</div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="pill" id="defenderSpear" style="background: #8b5cf6;">Spear (30 pts)</button>
+            <button class="pill" id="defenderCrossbow" style="background: #3b82f6;">Crossbow (60 pts)</button>
+            <button class="pill" id="defenderCatapult" style="background: #dc2626;">Catapult (100 pts)</button>
+          </div>
+          <div class="minor">Selected: <span id="defenderWeapon">None</span> <button class="pill" id="removeDefenderWeapon" style="background: #ef4444; color: white; font-size: 12px; padding: 4px 8px; margin-left: 8px;">Remove</button></div>
         </div>
         <div class="section">
           <div class="title">Castle Defense</div>
@@ -260,7 +269,7 @@
             <button class="pill" id="defenderCastle2" style="background: #3b82f6;">Stone Fortress (100 pts)</button>
             <button class="pill" id="defenderCastle3" style="background: #8b5cf6;">Iron Citadel (200 pts)</button>
           </div>
-          <div class="minor">Selected: <span id="defenderCastle">None</span></div>
+          <div class="minor">Selected: <span id="defenderCastle">None</span> <button class="pill" id="removeDefenderCastle" style="background: #ef4444; color: white; font-size: 12px; padding: 4px 8px; margin-left: 8px;">Remove</button></div>
         </div>
       </div>
     </div>
@@ -268,9 +277,29 @@
     <div style="text-align: center; margin: 20px 0;">
       <div class="section">
         <div class="title">Battle Summary</div>
-        <div>Attacker Power: <span id="attackerPower">0</span></div>
-        <div>Defender Power: <span id="defenderPower">0</span></div>
-        <div>Total Cost: <span id="totalCost">0</span> points</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 10px 0;">
+          <div>
+            <div>Attacker Power: <span id="attackerPower">0</span></div>
+            <div>Attacker Cost: <span id="attackerCost">0</span> points</div>
+          </div>
+          <div>
+            <div>Defender Power: <span id="defenderPower">0</span></div>
+            <div>Defender Cost: <span id="defenderCost">0</span> points</div>
+          </div>
+        </div>
+        <div style="font-size: 18px; font-weight: bold; margin: 15px 0; padding: 10px; border-radius: 8px; background: var(--panel);">
+          <span id="victoryOdds">Victory Odds: 50%</span>
+        </div>
+        <div class="minor" style="margin-top: 10px;">
+          <strong>How items affect power:</strong><br>
+          • Mercenaries: +10 power each<br>
+          • Spear: +30% power multiplier<br>
+          • Crossbow: +60% power multiplier<br>
+          • Catapult: +100% power multiplier<br>
+          • Wooden Keep: +50 power<br>
+          • Stone Fortress: +100 power<br>
+          • Iron Citadel: +200 power
+        </div>
       </div>
       <button class="pill" id="simulateWar" style="background: #dc2626; color: white; font-size: 18px; padding: 15px 30px;">⚔️ SIMULATE WAR</button>
     </div>
@@ -1566,6 +1595,7 @@
       attackerMercs: 0,
       attackerWeapon: null,
       defenderMercs: 0,
+      defenderWeapon: null,
       defenderCastle: null
     };
     
@@ -1579,6 +1609,7 @@
     document.getElementById('attackerMercCount').textContent = '0';
     document.getElementById('defenderMercCount').textContent = '0';
     document.getElementById('attackerWeapon').textContent = 'None';
+    document.getElementById('defenderWeapon').textContent = 'None';
     document.getElementById('defenderCastle').textContent = 'None';
     updateBattleSummary();
     
@@ -1589,26 +1620,61 @@
   function updateBattleSummary() {
     if (!currentBattle) return;
     
-    const attackerPower = currentBattle.attackerMercs * 10 * (currentBattle.attackerWeapon ? 
+    // Calculate attacker power with weapon multiplier
+    const attackerBasePower = currentBattle.attackerMercs * 10;
+    const attackerWeaponMultiplier = currentBattle.attackerWeapon ? 
       (currentBattle.attackerWeapon === 'spear' ? 1.3 : 
-       currentBattle.attackerWeapon === 'crossbow' ? 1.6 : 2.0) : 1);
-    const defenderPower = currentBattle.defenderMercs * 10 + 
-      (currentBattle.defenderCastle ? 
-        (currentBattle.defenderCastle === 1 ? 50 : 
-         currentBattle.defenderCastle === 2 ? 100 : 200) : 0);
+       currentBattle.attackerWeapon === 'crossbow' ? 1.6 : 2.0) : 1;
+    const attackerPower = attackerBasePower * attackerWeaponMultiplier;
     
+    // Calculate defender power with weapon multiplier and castle
+    const defenderBasePower = currentBattle.defenderMercs * 10;
+    const defenderWeaponMultiplier = currentBattle.defenderWeapon ? 
+      (currentBattle.defenderWeapon === 'spear' ? 1.3 : 
+       currentBattle.defenderWeapon === 'crossbow' ? 1.6 : 2.0) : 1;
+    const defenderMercPower = defenderBasePower * defenderWeaponMultiplier;
+    const defenderCastlePower = currentBattle.defenderCastle ? 
+      (currentBattle.defenderCastle === 1 ? 50 : 
+       currentBattle.defenderCastle === 2 ? 100 : 200) : 0;
+    const defenderPower = defenderMercPower + defenderCastlePower;
+    
+    // Calculate costs
     const attackerCost = currentBattle.attackerMercs * 10 + 
       (currentBattle.attackerWeapon === 'spear' ? 30 : 
        currentBattle.attackerWeapon === 'crossbow' ? 60 : 
        currentBattle.attackerWeapon === 'catapult' ? 100 : 0);
     const defenderCost = currentBattle.defenderMercs * 10 + 
+      (currentBattle.defenderWeapon === 'spear' ? 30 : 
+       currentBattle.defenderWeapon === 'crossbow' ? 60 : 
+       currentBattle.defenderWeapon === 'catapult' ? 100 : 0) +
       (currentBattle.defenderCastle === 1 ? 50 : 
        currentBattle.defenderCastle === 2 ? 100 : 
        currentBattle.defenderCastle === 3 ? 200 : 0);
     
+    // Calculate victory odds
+    const totalPower = attackerPower + defenderPower;
+    const attackerOdds = totalPower > 0 ? (attackerPower / totalPower) * 100 : 50;
+    
+    // Update display
     document.getElementById('attackerPower').textContent = attackerPower.toFixed(1);
     document.getElementById('defenderPower').textContent = defenderPower.toFixed(1);
-    document.getElementById('totalCost').textContent = attackerCost + defenderCost;
+    document.getElementById('attackerCost').textContent = attackerCost;
+    document.getElementById('defenderCost').textContent = defenderCost;
+    document.getElementById('victoryOdds').textContent = `Victory Odds: ${attackerOdds.toFixed(1)}%`;
+    
+    // Update balances in real-time
+    document.getElementById('attackerBalance').textContent = currentBattle.attacker.balance - attackerCost;
+    document.getElementById('defenderBalance').textContent = currentBattle.defender.balance - defenderCost;
+    
+    // Color code the odds
+    const oddsElement = document.getElementById('victoryOdds');
+    if (attackerOdds > 60) {
+      oddsElement.style.color = '#10b981'; // Green for attacker advantage
+    } else if (attackerOdds < 40) {
+      oddsElement.style.color = '#ef4444'; // Red for defender advantage
+    } else {
+      oddsElement.style.color = '#facc15'; // Yellow for balanced
+    }
   }
   
   // Fight screen event listeners
@@ -1670,6 +1736,44 @@
     updateBattleSummary();
   };
   
+  // Defender weapons
+  document.getElementById('defenderSpear').onclick = () => {
+    currentBattle.defenderWeapon = 'spear';
+    document.getElementById('defenderWeapon').textContent = 'Spear';
+    updateBattleSummary();
+  };
+  
+  document.getElementById('defenderCrossbow').onclick = () => {
+    currentBattle.defenderWeapon = 'crossbow';
+    document.getElementById('defenderWeapon').textContent = 'Crossbow';
+    updateBattleSummary();
+  };
+  
+  document.getElementById('defenderCatapult').onclick = () => {
+    currentBattle.defenderWeapon = 'catapult';
+    document.getElementById('defenderWeapon').textContent = 'Catapult';
+    updateBattleSummary();
+  };
+  
+  // Remove weapon buttons
+  document.getElementById('removeAttackerWeapon').onclick = () => {
+    currentBattle.attackerWeapon = null;
+    document.getElementById('attackerWeapon').textContent = 'None';
+    updateBattleSummary();
+  };
+  
+  document.getElementById('removeDefenderWeapon').onclick = () => {
+    currentBattle.defenderWeapon = null;
+    document.getElementById('defenderWeapon').textContent = 'None';
+    updateBattleSummary();
+  };
+  
+  document.getElementById('removeDefenderCastle').onclick = () => {
+    currentBattle.defenderCastle = null;
+    document.getElementById('defenderCastle').textContent = 'None';
+    updateBattleSummary();
+  };
+  
   // Defender castles
   document.getElementById('defenderCastle1').onclick = () => {
     currentBattle.defenderCastle = 1;
@@ -1698,6 +1802,9 @@
        currentBattle.attackerWeapon === 'crossbow' ? 60 : 
        currentBattle.attackerWeapon === 'catapult' ? 100 : 0);
     const defenderCost = currentBattle.defenderMercs * 10 + 
+      (currentBattle.defenderWeapon === 'spear' ? 30 : 
+       currentBattle.defenderWeapon === 'crossbow' ? 60 : 
+       currentBattle.defenderWeapon === 'catapult' ? 100 : 0) +
       (currentBattle.defenderCastle === 1 ? 50 : 
        currentBattle.defenderCastle === 2 ? 100 : 
        currentBattle.defenderCastle === 3 ? 200 : 0);
@@ -1764,10 +1871,13 @@
     const attackerPower = currentBattle.attackerMercs * 10 * (currentBattle.attackerWeapon ? 
       (currentBattle.attackerWeapon === 'spear' ? 1.3 : 
        currentBattle.attackerWeapon === 'crossbow' ? 1.6 : 2.0) : 1);
-    const defenderPower = currentBattle.defenderMercs * 10 + 
-      (currentBattle.defenderCastle ? 
-        (currentBattle.defenderCastle === 1 ? 50 : 
-         currentBattle.defenderCastle === 2 ? 100 : 200) : 0);
+    const defenderMercPower = currentBattle.defenderMercs * 10 * (currentBattle.defenderWeapon ? 
+      (currentBattle.defenderWeapon === 'spear' ? 1.3 : 
+       currentBattle.defenderWeapon === 'crossbow' ? 1.6 : 2.0) : 1);
+    const defenderCastlePower = currentBattle.defenderCastle ? 
+      (currentBattle.defenderCastle === 1 ? 50 : 
+       currentBattle.defenderCastle === 2 ? 100 : 200) : 0;
+    const defenderPower = defenderMercPower + defenderCastlePower;
     
     const odds = attackerPower / (attackerPower + defenderPower);
     const roll = Math.random();
@@ -1779,6 +1889,9 @@
        currentBattle.attackerWeapon === 'crossbow' ? 60 : 
        currentBattle.attackerWeapon === 'catapult' ? 100 : 0);
     const defenderCost = currentBattle.defenderMercs * 10 + 
+      (currentBattle.defenderWeapon === 'spear' ? 30 : 
+       currentBattle.defenderWeapon === 'crossbow' ? 60 : 
+       currentBattle.defenderWeapon === 'catapult' ? 100 : 0) +
       (currentBattle.defenderCastle === 1 ? 50 : 
        currentBattle.defenderCastle === 2 ? 100 : 
        currentBattle.defenderCastle === 3 ? 200 : 0);
@@ -1829,12 +1942,13 @@
     }
     
     // Show result
-    const weaponText = currentBattle.attackerWeapon ? ` with ${currentBattle.attackerWeapon}` : '';
+    const attackerWeaponText = currentBattle.attackerWeapon ? ` with ${currentBattle.attackerWeapon}` : '';
+    const defenderWeaponText = currentBattle.defenderWeapon ? ` with ${currentBattle.defenderWeapon}` : '';
     const castleText = currentBattle.defenderCastle ? ` (Castle L${currentBattle.defenderCastle})` : '';
     
     alert(`⚔️ BATTLE RESULT ⚔️\n\n` +
-          `${currentBattle.attacker.name}${weaponText}: ${attackerPower.toFixed(1)} power\n` +
-          `${currentBattle.defender.name}${castleText}: ${defenderPower.toFixed(1)} power\n\n` +
+          `${currentBattle.attacker.name}${attackerWeaponText}: ${attackerPower.toFixed(1)} power\n` +
+          `${currentBattle.defender.name}${defenderWeaponText}${castleText}: ${defenderPower.toFixed(1)} power\n\n` +
           `Odds: ${(odds*100).toFixed(1)}% · Roll: ${roll.toFixed(2)}\n\n` +
           `🏆 ${attackerWins ? currentBattle.attacker.name : currentBattle.defender.name} WINS! 🏆\n\n` +
           `Costs: ${currentBattle.attacker.name} paid ${attackerCost} points, ${currentBattle.defender.name} paid ${defenderCost} points`);
