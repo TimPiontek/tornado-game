@@ -1251,7 +1251,7 @@
       /* Unified Game Layout */
       .game-layout {
         display: grid;
-        grid-template-columns: 290px 1fr;
+        grid-template-columns: 200px 1fr;
         gap: 1rem;
         padding: 1rem;
         min-height: calc(100vh - 2rem);
@@ -3066,9 +3066,6 @@ The Beatles"
         </div>
       </div>
 
-      <div id="grid" style="flex: 1 1 auto"></div>
-      
-
       <footer
         class="game-footer-btns"
         style="
@@ -4347,6 +4344,7 @@ The Beatles"
           scores = {},
           picks = {},
           turn = "A",
+          turnCount = 0,
           names = {},
           total = 20,
           questions = [],
@@ -5672,6 +5670,9 @@ The Beatles"
         }
 
         function advanceTurn() {
+          // Increment turn count
+          turnCount++;
+          
           // Move to next team or next student
           do {
             if (teamMode) {
