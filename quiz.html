@@ -7039,7 +7039,7 @@ The Beatles"
             const allRosters = getAllQuizRosters();
             
             if (allRosters.length === 0) {
-                updateRosterStatus('No rosters found. Create one in Manage Roster first.');
+                showNoRostersModal();
                 return;
             }
             
@@ -7153,6 +7153,89 @@ The Beatles"
         function getAllQuizRosters() {
             const saved = localStorage.getItem('tornadoRosters');
             return saved ? JSON.parse(saved) : [];
+        }
+        
+        function showNoRostersModal() {
+            // Create a helpful modal when no rosters exist
+            const modal = document.createElement('div');
+            modal.id = 'noRostersModal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0,0,0,0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+                font-family: 'Lexend Deca', sans-serif;
+            `;
+            
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 16px;
+                    max-width: 500px;
+                    width: 90vw;
+                    text-align: center;
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                ">
+                    <div style="margin-bottom: 2rem;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">📚</div>
+                        <h2 style="margin: 0 0 1rem 0; color: #6f5c91; font-size: 1.8rem;">No Rosters Found</h2>
+                        <p style="margin: 0; color: #666; line-height: 1.5;">
+                            You need to create a roster of students before you can start a quiz game.
+                        </p>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button id="goToRosterManagement" style="
+                            background: #6f5c91;
+                            color: white;
+                            border: none;
+                            padding: 1rem 2rem;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-weight: 600;
+                            font-size: 1rem;
+                        ">📝 Manage Rosters</button>
+                        
+                        <button id="closeNoRostersModal" style="
+                            background: #6c757d;
+                            color: white;
+                            border: none;
+                            padding: 1rem 2rem;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-weight: 600;
+                            font-size: 1rem;
+                        ">✕ Close</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add event listeners
+            document.getElementById('closeNoRostersModal').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+            
+            document.getElementById('goToRosterManagement').addEventListener('click', () => {
+                document.body.removeChild(modal);
+                // Navigate to roster management page
+                window.location.href = '/roster';
+            });
+            
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
         }
         
         function selectQuizRoster(rosterId) {
