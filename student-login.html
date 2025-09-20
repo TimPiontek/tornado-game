@@ -328,7 +328,7 @@
             
             <div class="form-group">
                 <label for="classCode">Class Code</label>
-                <input type="text" id="classCode" class="class-code-input" placeholder="Enter class code" maxlength="8">
+                <input type="text" id="classCode" class="class-code-input" placeholder="Enter class code" maxlength="6">
             </div>
             
             <button class="btn" onclick="joinClass()">Join Class</button>
@@ -666,7 +666,7 @@
         function generateClassCode() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let result = '';
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 6; i++) {
                 result += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             return result;
