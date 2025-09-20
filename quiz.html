@@ -7053,7 +7053,192 @@ The Beatles"
         }
         
         function loadQuizRoster() {
-            showRosterSelectionScreen();
+            // Simple approach: just load the roster and show team options inline
+            const saved = localStorage.getItem('tornadoRoster');
+            if (saved) {
+                try {
+                    quizRosterData = JSON.parse(saved);
+                    updateRosterStatus(`Loaded ${quizRosterData.roster.length} students`);
+                    showInlineTeamOptions();
+                } catch (e) {
+                    updateRosterStatus('Error loading roster');
+                    console.error('Error loading roster:', e);
+                }
+            } else {
+                updateRosterStatus('No roster found. Create one in Manage Roster first.');
+            }
+        }
+        
+        function showInlineTeamOptions() {
+            const teamSelectionEl = document.getElementById('rosterTeamSelection');
+            if (!teamSelectionEl) return;
+            
+            teamSelectionEl.style.display = 'block';
+            teamSelectionEl.innerHTML = `
+                <div style="margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                    <h4 style="margin: 0 0 1rem 0; color: #6f5c91;">Team Assignment for ${quizRosterData.roster.length} Students</h4>
+                    
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                        <button onclick="setTeamMode('individual')" style="
+                            background: #28a745;
+                            color: white;
+                            border: none;
+                            padding: 0.75rem 1rem;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-size: 0.9em;
+                        ">Individual Mode</button>
+                        
+                        <button onclick="setTeamMode('random')" style="
+                            background: #007bff;
+                            color: white;
+                            border: none;
+                            padding: 0.75rem 1rem;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-size: 0.9em;
+                        ">Random Teams</button>
+                        
+                        <button onclick="setTeamMode('manual')" style="
+                            background: #6f5c91;
+                            color: white;
+                            border: none;
+                            padding: 0.75rem 1rem;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-size: 0.9em;
+                        ">Manual Teams</button>
+                    </div>
+                    
+                    <div id="teamAssignmentArea">
+                        <!-- Team assignment will be populated here -->
+                    </div>
+                </div>
+            `;
+        }
+        
+        function setTeamMode(mode) {
+            const area = document.getElementById('teamAssignmentArea');
+            if (!area) return;
+            
+            if (mode === 'individual') {
+                area.innerHTML = `
+                    <div style="text-align: center; padding: 1rem;">
+                        <p style="color: #666; margin-bottom: 1rem;">Students will play individually without teams.</p>
+                        <div style="background: white; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                            <strong>Students:</strong><br>
+                            ${quizRosterData.roster.map(s => s.name).join(', ')}
+                        </div>
+                        <button onclick="saveTeamMode('individual')" style="
+                            background: #28a745;
+                            color: white;
+                            border: none;
+                            padding: 0.75rem 1.5rem;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-weight: 600;
+                        ">✅ Save Individual Mode</button>
+                    </div>
+                `;
+            } else if (mode === 'random') {
+                area.innerHTML = `
+                    <div style="text-align: center; padding: 1rem;">
+                        <p style="color: #666; margin-bottom: 1rem;">Choose number of teams:</p>
+                        <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap;">
+                            ${[2, 3, 4, 5, 6].map(num => `
+                                <button onclick="createRandomTeams(${num})" style="
+                                    background: #007bff;
+                                    color: white;
+                                    border: none;
+                                    padding: 0.5rem 1rem;
+                                    border-radius: 6px;
+                                    cursor: pointer;
+                                    font-size: 0.9em;
+                                ">${num} Teams</button>
+                            `).join('')}
+                        </div>
+                        <div id="randomTeamsPreview"></div>
+                    </div>
+                `;
+            } else if (mode === 'manual') {
+                area.innerHTML = `
+                    <div style="padding: 1rem;">
+                        <p style="color: #666; margin-bottom: 1rem; text-align: center;">Click students to assign to teams:</p>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="flex: 1;">
+                                <h5 style="margin: 0 0 0.5rem 0; color: #6f5c91;">Team A</h5>
+                                <input type="text" id="teamA-name" placeholder="Team A Name" style="
+                                    width: 100%;
+                                    padding: 0.5rem;
+                                    border: 1px solid #ddd;
+                                    border-radius: 4px;
+                                    margin-bottom: 0.5rem;
+                                " value="Team A">
+                                <div id="teamA-students" style="
+                                    min-height: 100px;
+                                    border: 2px dashed #6f5c91;
+                                    border-radius: 6px;
+                                    padding: 0.5rem;
+                                    background: rgba(111, 92, 145, 0.05);
+                                "></div>
+                            </div>
+                            <div style="flex: 1;">
+                                <h5 style="margin: 0 0 0.5rem 0; color: #6f5c91;">Team B</h5>
+                                <input type="text" id="teamB-name" placeholder="Team B Name" style="
+                                    width: 100%;
+                                    padding: 0.5rem;
+                                    border: 1px solid #ddd;
+                                    border-radius: 4px;
+                                    margin-bottom: 0.5rem;
+                                " value="Team B">
+                                <div id="teamB-students" style="
+                                    min-height: 100px;
+                                    border: 2px dashed #6f5c91;
+                                    border-radius: 6px;
+                                    padding: 0.5rem;
+                                    background: rgba(111, 92, 145, 0.05);
+                                "></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <h5 style="margin: 0 0 0.5rem 0; color: #666;">Unassigned Students</h5>
+                            <div id="unassigned-students" style="
+                                display: flex;
+                                flex-wrap: wrap;
+                                gap: 0.5rem;
+                                padding: 0.5rem;
+                                border: 1px solid #ddd;
+                                border-radius: 6px;
+                                background: #f8f9fa;
+                                min-height: 60px;
+                            ">
+                                ${quizRosterData.roster.map(student => `
+                                    <div class="student-chip" data-student-id="${student.id}" onclick="moveStudentToTeam('${student.id}')" style="
+                                        background: #6f5c91;
+                                        color: white;
+                                        padding: 0.5rem 1rem;
+                                        border-radius: 20px;
+                                        cursor: pointer;
+                                        font-size: 0.9rem;
+                                        transition: all 0.2s ease;
+                                    ">${student.name}</div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <button onclick="saveManualTeams()" style="
+                                background: #6f5c91;
+                                color: white;
+                                border: none;
+                                padding: 0.75rem 1.5rem;
+                                border-radius: 6px;
+                                cursor: pointer;
+                                font-weight: 600;
+                            ">✅ Save Manual Teams</button>
+                        </div>
+                    </div>
+                `;
+            }
         }
         
         function showRosterSelectionScreen() {
@@ -7777,13 +7962,179 @@ The Beatles"
             updateRosterStatus(`Teams created (${mode})`);
         }
         
+        // Simple helper functions for inline team creation
+        function createRandomTeams(numTeams) {
+            const preview = document.getElementById('randomTeamsPreview');
+            if (!preview) return;
+            
+            // Shuffle students
+            const shuffled = [...quizRosterData.roster].sort(() => Math.random() - 0.5);
+            const teams = [];
+            
+            // Create teams
+            for (let i = 0; i < numTeams; i++) {
+                teams.push({
+                    id: String.fromCharCode(65 + i),
+                    name: `Team ${String.fromCharCode(65 + i)}`,
+                    students: []
+                });
+            }
+            
+            // Distribute students evenly
+            shuffled.forEach((student, index) => {
+                const teamIndex = index % numTeams;
+                teams[teamIndex].students.push(student);
+            });
+            
+            // Display teams
+            preview.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                    ${teams.map(team => `
+                        <div style="border: 2px solid #007bff; border-radius: 6px; padding: 0.75rem; background: rgba(0, 123, 255, 0.05);">
+                            <h6 style="margin: 0 0 0.5rem 0; color: #007bff; text-align: center;">${team.name}</h6>
+                            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                ${team.students.map(student => `
+                                    <div style="background: #007bff; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; text-align: center;">${student.name}</div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button onclick="saveRandomTeams(${numTeams})" style="
+                    background: #28a745;
+                    color: white;
+                    border: none;
+                    padding: 0.75rem 1.5rem;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-weight: 600;
+                ">✅ Save Random Teams</button>
+            `;
+        }
+        
+        function moveStudentToTeam(studentId) {
+            const student = quizRosterData.roster.find(s => s.id === studentId);
+            if (!student) return;
+            
+            // Remove from current location
+            const currentChip = document.querySelector(`[data-student-id="${studentId}"]`);
+            if (currentChip) currentChip.remove();
+            
+            // Determine which team to add to
+            const teamAStudents = document.getElementById('teamA-students');
+            const teamBStudents = document.getElementById('teamB-students');
+            
+            const currentTeamA = teamAStudents.querySelectorAll('.student-chip').length;
+            const currentTeamB = teamBStudents.querySelectorAll('.student-chip').length;
+            
+            const targetTeam = currentTeamA <= currentTeamB ? teamAStudents : teamBStudents;
+            
+            // Create new chip
+            const newChip = document.createElement('div');
+            newChip.className = 'student-chip';
+            newChip.setAttribute('data-student-id', studentId);
+            newChip.style.cssText = `
+                background: #6f5c91;
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 20px;
+                cursor: pointer;
+                font-size: 0.9rem;
+                transition: all 0.2s ease;
+                margin: 0.25rem;
+                display: inline-block;
+            `;
+            newChip.textContent = student.name;
+            newChip.onclick = () => moveStudentToTeam(studentId);
+            
+            targetTeam.appendChild(newChip);
+        }
+        
+        function saveTeamMode(mode) {
+            if (mode === 'individual') {
+                const teamAssignment = {
+                    mode: 'individual',
+                    teams: null,
+                    rosterData: quizRosterData
+                };
+                window.quizTeamAssignment = teamAssignment;
+                applyTeamAssignment();
+                updateRosterStatus('Individual mode saved');
+            }
+        }
+        
+        function saveRandomTeams(numTeams) {
+            // Recreate the teams (same logic as createRandomTeams)
+            const shuffled = [...quizRosterData.roster].sort(() => Math.random() - 0.5);
+            const teams = [];
+            
+            for (let i = 0; i < numTeams; i++) {
+                teams.push({
+                    id: String.fromCharCode(65 + i),
+                    name: `Team ${String.fromCharCode(65 + i)}`,
+                    students: []
+                });
+            }
+            
+            shuffled.forEach((student, index) => {
+                const teamIndex = index % numTeams;
+                teams[teamIndex].students.push(student);
+            });
+            
+            const teamAssignment = {
+                mode: 'random',
+                teams: teams,
+                rosterData: quizRosterData
+            };
+            window.quizTeamAssignment = teamAssignment;
+            applyTeamAssignment();
+            updateRosterStatus(`Random teams saved (${numTeams} teams)`);
+        }
+        
+        function saveManualTeams() {
+            const teamAName = document.getElementById('teamA-name').value || 'Team A';
+            const teamBName = document.getElementById('teamB-name').value || 'Team B';
+            
+            const teamAStudents = Array.from(document.querySelectorAll('#teamA-students .student-chip')).map(el => {
+                const studentId = el.getAttribute('data-student-id');
+                return quizRosterData.roster.find(s => s.id === studentId);
+            }).filter(Boolean);
+            
+            const teamBStudents = Array.from(document.querySelectorAll('#teamB-students .student-chip')).map(el => {
+                const studentId = el.getAttribute('data-student-id');
+                return quizRosterData.roster.find(s => s.id === studentId);
+            }).filter(Boolean);
+            
+            const teams = [
+                {
+                    id: 'A',
+                    name: teamAName,
+                    students: teamAStudents
+                },
+                {
+                    id: 'B',
+                    name: teamBName,
+                    students: teamBStudents
+                }
+            ];
+            
+            const teamAssignment = {
+                mode: 'manual',
+                teams: teams,
+                rosterData: quizRosterData
+            };
+            window.quizTeamAssignment = teamAssignment;
+            applyTeamAssignment();
+            updateRosterStatus('Manual teams saved');
+        }
+        
         // Make functions globally accessible
-        window.createIndividualMode = createIndividualMode;
-        window.showRandomTeamOptions = showRandomTeamOptions;
-        window.showManualTeamInterface = showManualTeamInterface;
+        window.setTeamMode = setTeamMode;
         window.createRandomTeams = createRandomTeams;
         window.moveStudentToTeam = moveStudentToTeam;
-        window.saveTeamAssignment = saveTeamAssignment;
+        window.saveTeamMode = saveTeamMode;
+        window.saveRandomTeams = saveRandomTeams;
+        window.saveManualTeams = saveManualTeams;
         
         function saveManualTeams(modal) {
             const teamAName = document.getElementById('teamA-name').value || 'Team A';
