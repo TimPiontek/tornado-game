@@ -3304,7 +3304,7 @@
         initializeQuizRosterIntegration();
 
         // === SUPABASE INIT ===
-        const supabaseClient = supabase.createClient(
+        const supabaseClient = window.supabase.createClient(
           "https://dmbbsrcwqpmdxqtzvtqj.supabase.co",
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w"
         );
@@ -4289,10 +4289,9 @@
         if (document.getElementById("googleLoginBtn")) {
           document.getElementById("googleLoginBtn").onclick =
             async function () {
-              const { error } = await supabaseClient.auth.signInWithOAuth({
-                provider: "google",
-                options: { redirectTo: window.location.origin },
-              });
+                const { error } = await supabaseClient.auth.signInWithOAuth({
+                  provider: "google"
+                });
               if (error)
                 document.getElementById("authError").textContent =
                   error.message;
@@ -4303,10 +4302,9 @@
         if (document.getElementById("googleSignupBtn")) {
           document.getElementById("googleSignupBtn").onclick =
             async function () {
-              const { error } = await supabaseClient.auth.signInWithOAuth({
-                provider: "google",
-                options: { redirectTo: window.location.origin },
-              });
+                const { error } = await supabaseClient.auth.signInWithOAuth({
+                  provider: "google"
+                });
               if (error)
                 document.getElementById("authError").textContent =
                   error.message;
