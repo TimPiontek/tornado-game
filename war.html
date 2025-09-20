@@ -258,9 +258,12 @@
           • Spear: +50% power multiplier<br>
           • Crossbow: +100% power multiplier<br>
           • Catapult: +200% power multiplier<br>
-          • Wooden Keep: +75 power<br>
-          • Stone Fortress: +150 power<br>
-          • Iron Citadel: +300 power<br>
+          • Pre-built Castle L1: +150 power (2x bonus)<br>
+          • Pre-built Castle L2: +300 power (2x bonus)<br>
+          • Pre-built Castle L3: +600 power (2x bonus)<br>
+          • Battle Castle L1: +75 power<br>
+          • Battle Castle L2: +150 power<br>
+          • Battle Castle L3: +300 power<br>
           <strong>Combo Bonuses:</strong><br>
           • 2+ items: +10% total power<br>
           • 3+ items: +25% total power<br>
@@ -840,21 +843,56 @@
         alert(`Insufficient funds! Need ${cost} points.`);
       }
     } else if (tile.owner_game_student_id === selectedStudent.gsId) {
-      // Own tile - upgrade castle
-      const upgradeCost = tile.castle_level === 0 ? state.costs.castleL1 : 
-                         tile.castle_level === 1 ? state.costs.castleL2 : 
-                         tile.castle_level === 2 ? state.costs.castleL3 : 0;
-      
-      if (upgradeCost > 0 && selectedStudent.balance >= upgradeCost) {
-        tile.castle_level += 1;
-        selectedStudent.balance -= upgradeCost;
-        updateGridDisplay();
-        renderRoster();
-        alert(`${selectedStudent.name} upgraded castle to level ${tile.castle_level} for ${upgradeCost} points!`);
-      } else if (upgradeCost === 0) {
-        alert("Castle is already at maximum level.");
+      // Own tile - show castle options
+      if (tile.castle_level > 0) {
+        // Has castle - show upgrade/sell options
+        const upgradeCost = tile.castle_level === 1 ? state.costs.castleL2 : 
+                           tile.castle_level === 2 ? state.costs.castleL3 : 0;
+        const sellValue = tile.castle_level === 1 ? state.costs.castleL1 : 
+                         tile.castle_level === 2 ? state.costs.castleL2 : 
+                         tile.castle_level === 3 ? state.costs.castleL3 : 0;
+        
+        const options = [];
+        if (upgradeCost > 0) {
+          options.push(`Upgrade to level ${tile.castle_level + 1} (${upgradeCost} points)`);
+        } else {
+          options.push("Castle is at maximum level");
+        }
+        options.push(`Sell castle (get back ${sellValue} points)`);
+        
+        const choice = prompt(`Castle Level ${tile.castle_level} Options:\n\n${options.map((opt, i) => `${i + 1}. ${opt}`).join('\n')}\n\nEnter choice (1-${options.length}):`);
+        
+        if (choice === '1' && upgradeCost > 0) {
+          // Upgrade
+          if (selectedStudent.balance >= upgradeCost) {
+            tile.castle_level += 1;
+            selectedStudent.balance -= upgradeCost;
+            updateGridDisplay();
+            renderRoster();
+            alert(`${selectedStudent.name} upgraded castle to level ${tile.castle_level} for ${upgradeCost} points!`);
+          } else {
+            alert(`Insufficient funds! Need ${upgradeCost} points.`);
+          }
+        } else if (choice === '2' || (choice === '1' && upgradeCost === 0)) {
+          // Sell castle
+          tile.castle_level = 0;
+          selectedStudent.balance += sellValue;
+          updateGridDisplay();
+          renderRoster();
+          alert(`${selectedStudent.name} sold castle and got back ${sellValue} points!`);
+        }
       } else {
-        alert(`Insufficient funds! Need ${upgradeCost} points.`);
+        // No castle - build one
+        const buildCost = state.costs.castleL1;
+        if (selectedStudent.balance >= buildCost) {
+          tile.castle_level = 1;
+          selectedStudent.balance -= buildCost;
+          updateGridDisplay();
+          renderRoster();
+          alert(`${selectedStudent.name} built a castle for ${buildCost} points!`);
+        } else {
+          alert(`Insufficient funds! Need ${buildCost} points.`);
+        }
       }
     } else {
       // Enemy tile - attack
@@ -1024,7 +1062,8 @@
       attackerWeapon: null,
       defenderMercs: 0,
       defenderWeapon: null,
-      defenderCastle: null
+      defenderCastle: tile.castle_level || null, // Pre-built castle from tile
+      defenderBattleCastle: null // Battle-screen castle
     };
     
     // Update modal content
@@ -1038,7 +1077,14 @@
     document.getElementById('defenderMercCount').textContent = '0';
     document.getElementById('attackerWeapon').textContent = 'None';
     document.getElementById('defenderWeapon').textContent = 'None';
-    document.getElementById('defenderCastle').textContent = 'None';
+    
+    // Show pre-built castle if it exists
+    if (tile.castle_level > 0) {
+      const castleNames = ['', 'Wooden Keep', 'Stone Fortress', 'Iron Citadel'];
+      document.getElementById('defenderCastle').textContent = `${castleNames[tile.castle_level]} (Pre-built)`;
+    } else {
+      document.getElementById('defenderCastle').textContent = 'None';
+    }
     updateBattleSummary();
     
     // Show modal
@@ -1068,15 +1114,20 @@
       (currentBattle.defenderWeapon === 'spear' ? 1.5 : 
        currentBattle.defenderWeapon === 'crossbow' ? 2.0 : 3.0) : 1; // Increased multipliers
     const defenderMercPower = defenderBasePower * defenderWeaponMultiplier;
+    // Calculate defender castle power - distinguish pre-built vs battle castles
     const defenderCastlePower = currentBattle.defenderCastle ? 
-      (currentBattle.defenderCastle === 1 ? 75 : 
-       currentBattle.defenderCastle === 2 ? 150 : 300) : 0; // Increased castle power
-    const defenderBaseTotal = defenderMercPower + defenderCastlePower;
+      (currentBattle.defenderCastle === 1 ? 150 : 
+       currentBattle.defenderCastle === 2 ? 300 : 600) : 0; // Pre-built castles get 2x power
+    const defenderBattleCastlePower = currentBattle.defenderBattleCastle ? 
+      (currentBattle.defenderBattleCastle === 1 ? 75 : 
+       currentBattle.defenderBattleCastle === 2 ? 150 : 300) : 0; // Battle castles get base power
+    const defenderBaseTotal = defenderMercPower + defenderCastlePower + defenderBattleCastlePower;
     
     // Calculate combo bonus for defender
     const defenderItemCount = currentBattle.defenderMercs + 
       (currentBattle.defenderWeapon ? 1 : 0) + 
-      (currentBattle.defenderCastle ? 1 : 0);
+      (currentBattle.defenderCastle ? 1 : 0) +
+      (currentBattle.defenderBattleCastle ? 1 : 0);
     const defenderComboBonus = defenderItemCount >= 4 ? 1.5 : 
                               defenderItemCount >= 3 ? 1.25 : 
                               defenderItemCount >= 2 ? 1.1 : 1;
@@ -1091,9 +1142,9 @@
       (currentBattle.defenderWeapon === 'spear' ? 30 : 
        currentBattle.defenderWeapon === 'crossbow' ? 60 : 
        currentBattle.defenderWeapon === 'catapult' ? 100 : 0) +
-      (currentBattle.defenderCastle === 1 ? 50 : 
-       currentBattle.defenderCastle === 2 ? 100 : 
-       currentBattle.defenderCastle === 3 ? 200 : 0);
+      (currentBattle.defenderBattleCastle === 1 ? 50 : 
+       currentBattle.defenderBattleCastle === 2 ? 100 : 
+       currentBattle.defenderBattleCastle === 3 ? 200 : 0);
     
     // Calculate victory odds
     const totalPower = attackerPower + defenderPower;
@@ -1213,27 +1264,27 @@
   };
   
   document.getElementById('removeDefenderCastle').onclick = () => {
-    currentBattle.defenderCastle = null;
+    currentBattle.defenderBattleCastle = null;
     document.getElementById('defenderCastle').textContent = 'None';
     updateBattleSummary();
   };
   
-  // Defender castles
+  // Defender castles (battle-screen castles)
   document.getElementById('defenderCastle1').onclick = () => {
-    currentBattle.defenderCastle = 1;
-    document.getElementById('defenderCastle').textContent = 'Wooden Keep';
+    currentBattle.defenderBattleCastle = 1;
+    document.getElementById('defenderCastle').textContent = 'Wooden Keep (Battle)';
     updateBattleSummary();
   };
   
   document.getElementById('defenderCastle2').onclick = () => {
-    currentBattle.defenderCastle = 2;
-    document.getElementById('defenderCastle').textContent = 'Stone Fortress';
+    currentBattle.defenderBattleCastle = 2;
+    document.getElementById('defenderCastle').textContent = 'Stone Fortress (Battle)';
     updateBattleSummary();
   };
   
   document.getElementById('defenderCastle3').onclick = () => {
-    currentBattle.defenderCastle = 3;
-    document.getElementById('defenderCastle').textContent = 'Iron Citadel';
+    currentBattle.defenderBattleCastle = 3;
+    document.getElementById('defenderCastle').textContent = 'Iron Citadel (Battle)';
     updateBattleSummary();
   };
   
@@ -1332,15 +1383,20 @@
       (currentBattle.defenderWeapon === 'spear' ? 1.5 : 
        currentBattle.defenderWeapon === 'crossbow' ? 2.0 : 3.0) : 1;
     const defenderMercPower = defenderBasePower * defenderWeaponMultiplier;
+    // Calculate defender castle power - distinguish pre-built vs battle castles
     const defenderCastlePower = currentBattle.defenderCastle ? 
-      (currentBattle.defenderCastle === 1 ? 75 : 
-       currentBattle.defenderCastle === 2 ? 150 : 300) : 0;
-    const defenderBaseTotal = defenderMercPower + defenderCastlePower;
+      (currentBattle.defenderCastle === 1 ? 150 : 
+       currentBattle.defenderCastle === 2 ? 300 : 600) : 0; // Pre-built castles get 2x power
+    const defenderBattleCastlePower = currentBattle.defenderBattleCastle ? 
+      (currentBattle.defenderBattleCastle === 1 ? 75 : 
+       currentBattle.defenderBattleCastle === 2 ? 150 : 300) : 0; // Battle castles get base power
+    const defenderBaseTotal = defenderMercPower + defenderCastlePower + defenderBattleCastlePower;
     
     // Calculate combo bonus for defender
     const defenderItemCount = currentBattle.defenderMercs + 
       (currentBattle.defenderWeapon ? 1 : 0) + 
-      (currentBattle.defenderCastle ? 1 : 0);
+      (currentBattle.defenderCastle ? 1 : 0) +
+      (currentBattle.defenderBattleCastle ? 1 : 0);
     const defenderComboBonus = defenderItemCount >= 4 ? 1.5 : 
                               defenderItemCount >= 3 ? 1.25 : 
                               defenderItemCount >= 2 ? 1.1 : 1;
@@ -1359,9 +1415,9 @@
       (currentBattle.defenderWeapon === 'spear' ? 30 : 
        currentBattle.defenderWeapon === 'crossbow' ? 60 : 
        currentBattle.defenderWeapon === 'catapult' ? 100 : 0) +
-      (currentBattle.defenderCastle === 1 ? 50 : 
-       currentBattle.defenderCastle === 2 ? 100 : 
-       currentBattle.defenderCastle === 3 ? 200 : 0);
+      (currentBattle.defenderBattleCastle === 1 ? 50 : 
+       currentBattle.defenderBattleCastle === 2 ? 100 : 
+       currentBattle.defenderBattleCastle === 3 ? 200 : 0);
     
     // Apply battle results to current roster system
     // Deduct costs from both students
