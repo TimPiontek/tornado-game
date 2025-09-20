@@ -110,21 +110,21 @@
     </div>
     <div class="minor" id="tip">Tip: click a roster name, then click a tile.</div>
   </div>
-</div>
+  </div>
 
 <!-- Actions panel below the main content -->
 <div class="panel" style="margin: 12px;">
   <div class="title">Actions & Game Info</div>
-  <div id="context">Select a student, then click a tile.</div>
+    <div id="context">Select a student, then click a tile.</div>
 
-  <div class="section">
-    <div class="title">Truces</div>
-    <div id="truces"></div>
-  </div>
+    <div class="section">
+      <div class="title">Truces</div>
+      <div id="truces"></div>
+    </div>
 
-  <div class="section">
-    <div class="title">Recent activity</div>
-    <div id="audit"></div>
+    <div class="section">
+      <div class="title">Recent activity</div>
+      <div id="audit"></div>
   </div>
 </div>
 
@@ -313,7 +313,7 @@
       signoutBtn.style.display = "none";
       playOfflineBtn.style.display = "none";
     } else {
-      who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
+    who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
       signinBtn.textContent = "Sign in with Google";
       signinBtn.style.display = session ? "none" : "inline-block";
       signoutBtn.style.display = session ? "inline-block" : "none";
@@ -346,12 +346,12 @@
         if (warning) warning.remove();
       }
     } else {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: { redirectTo: window.location.href, skipBrowserRedirect: true }
-      });
-      if (error) { alert("Sign-in error: " + error.message); return; }
-      if (data?.url) window.location.assign(data.url);
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.href, skipBrowserRedirect: true }
+    });
+    if (error) { alert("Sign-in error: " + error.message); return; }
+    if (data?.url) window.location.assign(data.url);
     }
   });
 
@@ -593,6 +593,9 @@
       const castleLevel = tile.castle_level || 0;
       const castleText = castleLevel > 0 ? `🏰${castleLevel}` : '';
       
+      // Show cost for empty tiles
+      const costText = !owner ? `💰${state.costs.land}` : '';
+      
       return `<div class="cell" data-tile-id="${tile.id}" data-x="${tile.x}" data-y="${tile.y}" 
                 style="background: ${owner ? state.colors.get(owner.gsId) : '#1a1a2e'}; 
                        color: ${owner ? '#fff' : '#666'}; 
@@ -602,10 +605,14 @@
                        flex-direction: column;
                        align-items: center;
                        justify-content: center;
-                       min-height: 40px;"
-                onclick="handleTileClick('${tile.id}')">
-                <div>${ownerName}</div>
-                <div style="font-size: 10px;">${castleText}</div>
+                       min-height: 50px;
+                       padding: 4px;
+                       font-size: 12px;
+                       text-align: center;"
+                onclick="handleTileClick('${tile.id}')"
+                title="${owner ? `Owned by ${ownerName}` : `Click to buy for ${state.costs.land} points`}">
+                <div style="font-weight: 600;">${ownerName || ''}</div>
+                <div style="font-size: 10px;">${castleText || costText}</div>
               </div>`;
     }).join('');
     
@@ -692,28 +699,39 @@
   }
 
   function handleTileClick(tileId) {
+    console.log('handleTileClick called with tileId:', tileId, 'selectedGsId:', state.selectedGsId);
+    
     if (!state.selectedGsId) {
-      contextEl.textContent = "Please select a student first.";
+      alert("Please select a student first by clicking on their name in the roster.");
       return;
     }
 
     const tile = state.board.tiles.find(t => t.id === tileId);
-    if (!tile) return;
+    if (!tile) {
+      console.log('Tile not found:', tileId);
+      return;
+    }
 
     const selectedStudent = state.roster.find(r => r.gsId === state.selectedGsId);
-    if (!selectedStudent) return;
+    if (!selectedStudent) {
+      console.log('Selected student not found:', state.selectedGsId);
+      return;
+    }
+
+    console.log('Handling tile click:', { tile, selectedStudent });
 
     if (!tile.owner_game_student_id) {
       // Empty tile - buy it
-      if (selectedStudent.balance >= state.costs.land) {
+      const cost = state.costs.land;
+      if (selectedStudent.balance >= cost) {
         tile.owner_game_student_id = selectedStudent.gsId;
-        selectedStudent.balance -= state.costs.land;
+        selectedStudent.balance -= cost;
         selectedStudent.tilesOwned += 1;
         updateGridDisplay();
-        renderRoster();
-        contextEl.textContent = `${selectedStudent.name} bought the tile for ${state.costs.land} points.`;
+    renderRoster();
+        alert(`${selectedStudent.name} bought the tile for ${cost} points!`);
       } else {
-        contextEl.textContent = `Insufficient funds! Need ${state.costs.land} points.`;
+        alert(`Insufficient funds! Need ${cost} points.`);
       }
     } else if (tile.owner_game_student_id === selectedStudent.gsId) {
       // Own tile - upgrade castle
@@ -726,11 +744,11 @@
         selectedStudent.balance -= upgradeCost;
         updateGridDisplay();
         renderRoster();
-        contextEl.textContent = `${selectedStudent.name} upgraded castle to level ${tile.castle_level} for ${upgradeCost} points.`;
+        alert(`${selectedStudent.name} upgraded castle to level ${tile.castle_level} for ${upgradeCost} points!`);
       } else if (upgradeCost === 0) {
-        contextEl.textContent = "Castle is already at maximum level.";
+        alert("Castle is already at maximum level.");
       } else {
-        contextEl.textContent = `Insufficient funds! Need ${upgradeCost} points.`;
+        alert(`Insufficient funds! Need ${upgradeCost} points.`);
       }
     } else {
       // Enemy tile - attack
@@ -755,9 +773,9 @@
           <div style="width:10px;height:10px;border-radius:50%;background:${teamColor}; cursor:pointer;" 
                onclick="changeTeamColor('${r.gsId}')" title="Click to change team color"></div>
           <div>
-            <div>${r.name}</div>
+          <div>${r.name}</div>
             ${teamInfo}
-          </div>
+        </div>
         </div>
         <div class="bal" title="Balance" style="display: flex; align-items: center; gap: 4px;">
           <span>💰</span>
@@ -780,7 +798,7 @@
       };
       row.querySelectorAll(".plus").forEach(button => {
         button.onclick = async (e) => {
-          e.stopPropagation();
+        e.stopPropagation();
           const action = button.dataset.action;
           const amount = parseInt(button.dataset.amount);
           const finalAmount = action === "subtract" ? -amount : amount;
