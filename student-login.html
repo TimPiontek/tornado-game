@@ -623,6 +623,8 @@
             // Auto-login the student
             currentStudent = student;
             localStorage.setItem('currentStudent', JSON.stringify(student));
+            // Dispatch event to notify homepage of student login
+            window.dispatchEvent(new CustomEvent('studentLoginChange'));
             showDashboard();
 
             showSuccess(`Welcome ${username}! Your account has been created successfully.`);
@@ -656,6 +658,8 @@
 
             currentStudent = student;
             localStorage.setItem('currentStudent', JSON.stringify(student));
+            // Dispatch event to notify homepage of student login
+            window.dispatchEvent(new CustomEvent('studentLoginChange'));
             showDashboard();
         }
 
@@ -884,6 +888,8 @@
             currentStudent = null;
             currentRoster = null;
             localStorage.removeItem('currentStudent');
+            // Dispatch event to notify homepage of student logout
+            window.dispatchEvent(new CustomEvent('studentLoginChange'));
             showLogin();
         }
 
