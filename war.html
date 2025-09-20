@@ -573,6 +573,9 @@
     
     console.log('Board created:', { board: state.board, tilesCount: state.board.tiles.length });
     
+    // Sync tile counts with actual board state
+    syncTileCounts();
+    
     // Update grid display
     updateGridDisplay();
   }
@@ -672,6 +675,32 @@
     victoryEl.textContent = `Target: ${(targetPercentage * 100).toFixed(0)}% of tiles (${Math.ceil(totalTiles * targetPercentage)} tiles)`;
   }
   
+  function syncTileCounts() {
+    if (!state.roster || !state.board || !state.board.tiles) return;
+    
+    console.log('Syncing tile counts with actual board state');
+    
+    // Reset all tile counts to 0
+    state.roster.forEach(student => {
+      student.tilesOwned = 0;
+    });
+    
+    // Count actual tiles owned by each student
+    state.board.tiles.forEach(tile => {
+      if (tile.owner_game_student_id) {
+        const student = state.roster.find(s => s.gsId === tile.owner_game_student_id);
+        if (student) {
+          student.tilesOwned = (student.tilesOwned || 0) + 1;
+        }
+      }
+    });
+    
+    console.log('Tile counts synced:', state.roster.map(s => `${s.name}: ${s.tilesOwned} tiles`));
+    
+    // Update the roster display
+    renderRoster();
+  }
+  
   // Load roster button functionality
   el("#loadRosterBtn").onclick = () => {
     window.location.href = '/roster';
@@ -687,6 +716,9 @@
       alert('No roster selected to save.');
       return;
     }
+    
+    // Sync tile counts before saving
+    syncTileCounts();
     
     // Update the roster data with current scores and game state
     const updatedRoster = {
@@ -772,7 +804,7 @@
         selectedStudent.balance -= cost;
         selectedStudent.tilesOwned += 1;
         updateGridDisplay();
-    renderRoster();
+        syncTileCounts();
         alert(`${selectedStudent.name} bought the tile for ${cost} points!`);
       } else {
         alert(`Insufficient funds! Need ${cost} points.`);
@@ -1315,7 +1347,7 @@
     
     // Update the display
     updateGridDisplay();
-    renderRoster();
+    syncTileCounts();
     updateVictoryTarget();
     
     currentBattle = null;
