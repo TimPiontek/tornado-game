@@ -5764,33 +5764,8 @@ The Beatles"
           
           const done = document.querySelectorAll("#grid button:disabled").length;
           if (done === total) {
-            // Game over - find winner
-            let winner = null;
-            let highestScore = -1;
-            for (let teamId in scores) {
-              if (scores[teamId] > highestScore) {
-                highestScore = scores[teamId];
-                winner = teamId;
-              }
-            }
-            
-            if (winner) {
-              const annEl = document.getElementById(`ann${winner}`);
-              if (annEl) {
-                annEl.textContent = `${names[winner]} wins! 🏆`;
-              }
-              playWin();
-              
-              // Transfer points to war game if roster is available
-              if (rosterData) {
-                if (teamMode) {
-                  transferQuizPointsToWar(winner);
-                } else {
-                  // Individual mode - transfer individual student points
-                  transferIndividualQuizPointsToWar();
-                }
-              }
-            }
+            // Game over - show end game screen
+            showEndGameResults();
           } else {
             // Use the centralized advanceTurn function
             advanceTurn();
@@ -7074,6 +7049,102 @@ The Beatles"
             setTimeout(() => {
                 alert(`🎉 Quiz Complete!\n\nPoints transferred to Tornado War:\n• Individual quiz points: ${totalPointsTransferred} total\n\nCheck the War game to see updated student balances!`);
             }, 2000);
+        }
+        
+        function showEndGameResults() {
+          // Find winner
+          let winner = null;
+          let highestScore = -1;
+          let allScores = [];
+          
+          if (teamMode && rosterData && rosterData.teams) {
+            // Team mode - find winning team
+            rosterData.teams.forEach((team, index) => {
+              const teamLetter = String.fromCharCode(65 + index);
+              const teamScore = scores[teamLetter] || 0;
+              allScores.push({ name: names[teamLetter] || `Team ${teamLetter}`, score: teamScore, id: teamLetter });
+              if (teamScore > highestScore) {
+                highestScore = teamScore;
+                winner = teamLetter;
+              }
+            });
+          } else {
+            // Individual mode - find winning student
+            rosterData.roster.forEach(student => {
+              const studentScore = studentPoints[student.name] || 0;
+              allScores.push({ name: student.name, score: studentScore, id: student.name });
+              if (studentScore > highestScore) {
+                highestScore = studentScore;
+                winner = student.name;
+              }
+            });
+          }
+          
+          // Sort scores for display
+          allScores.sort((a, b) => b.score - a.score);
+          
+          // Create results display
+          let resultsHTML = `
+            <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; margin: 20px 0;">
+              <h2 style="margin: 0 0 20px 0; font-size: 2.5rem;">🏆 GAME COMPLETE! 🏆</h2>
+              <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                <h3 style="margin: 0 0 15px 0; color: #ffd700;">Final Results</h3>
+          `;
+          
+          allScores.forEach((entry, index) => {
+            const isWinner = index === 0;
+            const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅';
+            resultsHTML += `
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; margin: 5px 0; background: ${isWinner ? 'rgba(255,215,0,0.2)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px;">
+                <span style="font-size: 1.5rem;">${medal}</span>
+                <span style="font-weight: ${isWinner ? 'bold' : 'normal'}; font-size: ${isWinner ? '1.2rem' : '1rem'};">${entry.name}</span>
+                <span style="font-weight: bold; color: ${isWinner ? '#ffd700' : 'white'};">${entry.score} points</span>
+              </div>
+            `;
+          });
+          
+          resultsHTML += `
+              </div>
+              <div style="margin: 20px 0;">
+                <button id="saveAndReturnBtn" style="background: #10b981; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin: 10px;">
+                  💾 Save Points & Return Home
+                </button>
+              </div>
+            </div>
+          `;
+          
+          // Replace the main content with results
+          const mainContent = document.querySelector('.wrap') || document.querySelector('#main-content');
+          if (mainContent) {
+            mainContent.innerHTML = resultsHTML;
+          }
+          
+          // Add click handler for save button
+          setTimeout(() => {
+            const saveBtn = document.getElementById('saveAndReturnBtn');
+            if (saveBtn) {
+              saveBtn.onclick = () => {
+                // Transfer points to war game
+                if (rosterData) {
+                  if (teamMode) {
+                    transferQuizPointsToWar(winner);
+                  } else {
+                    transferIndividualQuizPointsToWar();
+                  }
+                }
+                
+                // Return to home screen
+                setTimeout(() => {
+                  window.location.href = '/';
+                }, 2000);
+              };
+            }
+          }, 100);
+          
+          // Play win sound
+          if (typeof playWin === 'function') {
+            playWin();
+          }
         }
         
         window.endGameAndAwardPoints = function() {
