@@ -4192,19 +4192,6 @@ The Beatles
         }
         updateLoginBtn();
         
-        function createAssignment() {
-          // Check if user is logged in
-          supabaseClient.auth.getUser().then(({ data: { user } }) => {
-            if (!user) {
-              alert('Please log in as a teacher to create assignments');
-              return;
-            }
-            
-            // Redirect to assignment creation page
-            window.location.href = 'teacher-assignments.html';
-          });
-        }
-        
         supabaseClient.auth.onAuthStateChange(async (event, session) => {
           const btn = document.getElementById("loginLogoutBtn");
           if (event === "SIGNED_IN") {
@@ -7212,6 +7199,22 @@ The Beatles
       </div>
     </div>
     <!-- === END COIN FLIP MODAL === -->
+
+    <!-- Global function for assignment creation -->
+    <script>
+      function createAssignment() {
+        // Check if user is logged in
+        supabaseClient.auth.getUser().then(({ data: { user } }) => {
+          if (!user) {
+            alert('Please log in as a teacher to create assignments');
+            return;
+          }
+          
+          // Redirect to assignment creation page
+          window.location.href = 'teacher-assignments.html';
+        });
+      }
+    </script>
 
   </body>
 </html>
