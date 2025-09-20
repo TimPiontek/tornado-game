@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Assignment - Tornado Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --background: #f9fafb;
+            --card: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .back-btn {
+            background: var(--muted);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background: #4b5563;
+        }
+
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .assignment-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(139, 92, 246, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(139, 92, 246, 0.1);
+        }
+
+        .assignment-section h3 {
+            margin: 0 0 1rem 0;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .roster-selection {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.1);
+        }
+
+        .roster-selection h3 {
+            margin: 0 0 1rem 0;
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+
+        .roster-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .roster-item {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .roster-item:hover {
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .roster-item.selected {
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .roster-item input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        .roster-name {
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .roster-meta {
+            font-size: 0.875rem;
+            color: var(--muted);
+        }
+
+        .format-help {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 6px;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .format-help strong {
+            color: var(--info);
+        }
+
+        .format-help ul {
+            margin: 0.5rem 0 0 0;
+            padding-left: 1.5rem;
+        }
+
+        .format-help li {
+            margin-bottom: 0.25rem;
+            color: var(--text);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: #7c3aed;
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            background: var(--muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .status-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .status-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .status-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--muted);
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .roster-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Create Assignment</h1>
+            <a href="/" class="back-btn">← Back to Home</a>
+        </div>
+
+        <div class="main-content">
+            <div id="statusMessage" class="status-message status-info">
+                Create assignments with multiple choice and short answer questions. Assign to one or more of your rosters.
+            </div>
+            
+            <form id="assignmentForm">
+                <div class="form-group">
+                    <label for="assignmentTitle">Assignment Title</label>
+                    <input type="text" id="assignmentTitle" placeholder="Enter assignment title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="assignmentDescription">Description (Optional)</label>
+                    <textarea id="assignmentDescription" rows="3" placeholder="Enter assignment description"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="assignmentType">Assignment Type</label>
+                    <select id="assignmentType" onchange="toggleAssignmentType()">
+                        <option value="multiple_choice">Multiple Choice Questions</option>
+                        <option value="short_answer">Short Answer Questions</option>
+                        <option value="mixed">Mixed (Multiple Choice + Short Answer)</option>
+                    </select>
+                </div>
+                
+                <!-- Multiple Choice Section -->
+                <div id="multipleChoiceSection" class="assignment-section">
+                    <h3>📝 Multiple Choice Questions</h3>
+                    <div class="form-group">
+                        <label for="mcPointsPerQuestion">Points per Question (default: 1)</label>
+                        <input type="number" id="mcPointsPerQuestion" value="1" min="1" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="mcQuestionsText">Questions (Copy & Paste Format)</label>
+                        <textarea id="mcQuestionsText" rows="10" placeholder="Enter questions in this format:
+
+What is the capital of France?
+A) London
+B) Paris
+C) Berlin
+D) Madrid
+Answer: B
+
+What is 2+2?
+A) 3
+B) 4
+C) 5
+D) 6
+Answer: B"></textarea>
+                    </div>
+                    <div class="format-help">
+                        <strong>Format Instructions:</strong>
+                        <ul>
+                            <li>Each question on a new line</li>
+                            <li>Choices labeled A), B), C), D)</li>
+                            <li>Answer line: "Answer: [letter]"</li>
+                            <li>Leave blank line between questions</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Short Answer Section -->
+                <div id="shortAnswerSection" class="assignment-section" style="display: none;">
+                    <h3>✍️ Short Answer Questions</h3>
+                    <div class="form-group">
+                        <label for="saMaxPoints">Maximum Points per Question</label>
+                        <input type="number" id="saMaxPoints" value="5" min="1" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="saQuestionsText">Questions</label>
+                        <textarea id="saQuestionsText" rows="8" placeholder="Enter questions, one per line:
+
+Explain the causes of World War I.
+Describe the water cycle.
+What is photosynthesis?"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Roster Selection -->
+                <div class="roster-selection">
+                    <h3>👥 Assign to Rosters</h3>
+                    <p>Select which rosters should receive this assignment:</p>
+                    <div id="rosterList" class="roster-list">
+                        <!-- Rosters will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Cancel</button>
+                    <button type="button" class="btn" onclick="createAssignment()">Create Assignment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // === INITIALIZATION ===
+        function init() {
+            loadRosters();
+            toggleAssignmentType();
+        }
+
+        function loadRosters() {
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            const rosterList = document.getElementById('rosterList');
+            
+            if (rosters.length === 0) {
+                rosterList.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <div class="icon">👥</div>
+                        <p>No rosters found</p>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">Create a roster first to assign assignments</p>
+                        <a href="roster.html" class="btn btn-secondary">Manage Rosters</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            rosterList.innerHTML = rosters.map(roster => `
+                <div class="roster-item" onclick="toggleRosterSelection('${roster.id}')">
+                    <input type="checkbox" id="roster_${roster.id}" value="${roster.id}" style="display: none;">
+                    <div class="roster-name">${roster.name}</div>
+                    <div class="roster-meta">
+                        ${roster.roster.length} students • 
+                        ${roster.teamMode === 'individual' ? 'Individual Mode' : 
+                          roster.teams ? `${roster.teams.length} Teams` : 'No Teams'}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleRosterSelection(rosterId) {
+            const checkbox = document.getElementById(`roster_${rosterId}`);
+            const rosterItem = checkbox.parentElement;
+            
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                rosterItem.classList.add('selected');
+            } else {
+                rosterItem.classList.remove('selected');
+            }
+        }
+
+        function toggleAssignmentType() {
+            const assignmentType = document.getElementById('assignmentType').value;
+            const mcSection = document.getElementById('multipleChoiceSection');
+            const saSection = document.getElementById('shortAnswerSection');
+            
+            if (assignmentType === 'multiple_choice') {
+                mcSection.style.display = 'block';
+                saSection.style.display = 'none';
+            } else if (assignmentType === 'short_answer') {
+                mcSection.style.display = 'none';
+                saSection.style.display = 'block';
+            } else if (assignmentType === 'mixed') {
+                mcSection.style.display = 'block';
+                saSection.style.display = 'block';
+            }
+        }
+
+        function createAssignment() {
+            const title = document.getElementById('assignmentTitle').value.trim();
+            const description = document.getElementById('assignmentDescription').value.trim();
+            const assignmentType = document.getElementById('assignmentType').value;
+            
+            if (!title) {
+                showStatus('Please enter an assignment title', 'error');
+                return;
+            }
+            
+            // Get selected rosters
+            const selectedRosters = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+                .map(cb => cb.value);
+            
+            if (selectedRosters.length === 0) {
+                showStatus('Please select at least one roster', 'error');
+                return;
+            }
+            
+            // Parse questions based on type
+            let questions = [];
+            
+            if (assignmentType === 'multiple_choice' || assignmentType === 'mixed') {
+                const mcQuestions = parseMultipleChoiceQuestions();
+                if (mcQuestions.length === 0) {
+                    showStatus('Please enter at least one multiple choice question', 'error');
+                    return;
+                }
+                questions = questions.concat(mcQuestions);
+            }
+            
+            if (assignmentType === 'short_answer' || assignmentType === 'mixed') {
+                const saQuestions = parseShortAnswerQuestions();
+                if (saQuestions.length === 0) {
+                    showStatus('Please enter at least one short answer question', 'error');
+                    return;
+                }
+                questions = questions.concat(saQuestions);
+            }
+            
+            // Create assignment for each selected roster
+            const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+            let createdCount = 0;
+            
+            selectedRosters.forEach(rosterId => {
+                const assignment = {
+                    id: generateAssignmentId(),
+                    title: title,
+                    description: description,
+                    type: assignmentType,
+                    rosterId: rosterId,
+                    createdAt: new Date().toISOString(),
+                    questions: questions,
+                    submissions: {}
+                };
+                
+                assignments.push(assignment);
+                createdCount++;
+            });
+            
+            // Save assignments
+            localStorage.setItem('tornadoAssignments', JSON.stringify(assignments));
+            
+            // Show success message
+            showStatus(`Assignment "${title}" created successfully for ${createdCount} roster${createdCount !== 1 ? 's' : ''}! Students can now access it from their dashboard.`, 'success');
+            
+            // Reset form
+            document.getElementById('assignmentForm').reset();
+            document.getElementById('assignmentType').value = 'multiple_choice';
+            toggleAssignmentType();
+            
+            // Clear roster selections
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+                cb.parentElement.classList.remove('selected');
+            });
+        }
+
+        function parseMultipleChoiceQuestions() {
+            const text = document.getElementById('mcQuestionsText').value.trim();
+            const pointsPerQuestion = parseInt(document.getElementById('mcPointsPerQuestion').value) || 1;
+            
+            if (!text) return [];
+            
+            const questions = [];
+            const blocks = text.split('\n\n').filter(block => block.trim());
+            
+            blocks.forEach((block, index) => {
+                const lines = block.trim().split('\n');
+                if (lines.length < 4) return; // Need question + 4 choices + answer
+                
+                const question = lines[0].trim();
+                const choices = [];
+                let answer = '';
+                
+                for (let i = 1; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (line.startsWith('Answer:')) {
+                        answer = line.replace('Answer:', '').trim().toUpperCase();
+                        break;
+                    } else if (line.match(/^[A-D]\)/)) {
+                        choices.push(line);
+                    }
+                }
+                
+                if (question && choices.length >= 2 && answer) {
+                    questions.push({
+                        id: `mc_${index}`,
+                        type: 'multiple_choice',
+                        question: question,
+                        choices: choices,
+                        correctAnswer: answer,
+                        points: pointsPerQuestion
+                    });
+                }
+            });
+            
+            return questions;
+        }
+
+        function parseShortAnswerQuestions() {
+            const text = document.getElementById('saQuestionsText').value.trim();
+            const maxPoints = parseInt(document.getElementById('saMaxPoints').value) || 5;
+            
+            if (!text) return [];
+            
+            const questions = [];
+            const lines = text.split('\n').filter(line => line.trim());
+            
+            lines.forEach((line, index) => {
+                const question = line.trim();
+                if (question) {
+                    questions.push({
+                        id: `sa_${index}`,
+                        type: 'short_answer',
+                        question: question,
+                        maxPoints: maxPoints
+                    });
+                }
+            });
+            
+            return questions;
+        }
+
+        function generateAssignmentId() {
+            return 'assignment_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function showStatus(message, type = 'info') {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status-message status-${type}`;
+        }
+
+        // === INITIALIZE ===
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

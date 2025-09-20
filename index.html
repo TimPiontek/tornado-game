@@ -2176,6 +2176,39 @@
               display: inline-block;
             ">Start Quiz Game</div>
           </div>
+
+          <!-- Create Assignment Card -->
+          <div style="
+            background: #fff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            text-align: center;
+            flex: 1;
+            min-width: 300px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid transparent;
+          " 
+          id="assignmentCard"
+          onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 40px rgba(0,0,0,0.15)'"
+          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 32px rgba(0,0,0,0.1)'"
+          onclick="createAssignment()">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">📋</div>
+            <h2 style="color: #6f5c91; margin: 0 0 1rem 0; font-size: 1.8rem;">Create Assignment</h2>
+            <p style="color: #666; line-height: 1.5; margin: 0 0 1.5rem 0;">
+              Create assignments with multiple choice and short answer questions. 
+              Assign to multiple classes and auto-grade student submissions.
+            </p>
+            <div style="
+              background: #6f5c91;
+              color: white;
+              padding: 0.8rem 1.5rem;
+              border-radius: 8px;
+              font-weight: 600;
+              display: inline-block;
+            ">Create Assignment</div>
+          </div>
           </div>
         </div>
       </div>
@@ -4158,6 +4191,20 @@ The Beatles
           }
         }
         updateLoginBtn();
+        
+        function createAssignment() {
+          // Check if user is logged in
+          supabaseClient.auth.getUser().then(({ data: { user } }) => {
+            if (!user) {
+              alert('Please log in as a teacher to create assignments');
+              return;
+            }
+            
+            // Redirect to assignment creation page
+            window.location.href = 'teacher-assignments.html';
+          });
+        }
+        
         supabaseClient.auth.onAuthStateChange(async (event, session) => {
           const btn = document.getElementById("loginLogoutBtn");
           if (event === "SIGNED_IN") {
