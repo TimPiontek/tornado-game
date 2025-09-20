@@ -84,6 +84,7 @@
 
     <div class="section">
       <div class="title">Roster</div>
+      <button id="loadRosterBtn" class="pill" style="background: #6f5c91; margin-bottom: 8px;">Load Roster</button>
       <div id="roster"></div>
     </div>
 
@@ -583,7 +584,12 @@
       await selectGame(state.games[0].id);
     }
   }
-  el("#loadGames").onclick = () => loadGames(true);
+  // Load roster button functionality
+  el("#loadRosterBtn").onclick = () => {
+    // Navigate to roster management page
+    window.location.href = '/roster';
+  };
+  
   gamesList.onchange = () => selectGame(gamesList.value);
   
   // Delete game functionality
