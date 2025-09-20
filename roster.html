@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Roster - Play Tornado</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="manifest" href="manifest.json" />
+    
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --panel: #ffffff;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --muted: #64748b;
+            --accent: #6f5c91;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Lexend Deca', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .header h1 {
+            color: var(--accent);
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .back-btn {
+            background: var(--accent);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+        
+        .back-btn:hover {
+            background: #5a4a7a;
+            transform: translateY(-1px);
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .panel h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(111, 92, 145, 0.1);
+        }
+        
+        .btn {
+            background: var(--accent);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background: #5a4a7a;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: var(--muted);
+        }
+        
+        .btn-secondary:hover {
+            background: #475569;
+        }
+        
+        .btn-success {
+            background: var(--success);
+        }
+        
+        .btn-success:hover {
+            background: #059669;
+        }
+        
+        .btn-danger {
+            background: var(--error);
+        }
+        
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .student-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--panel);
+        }
+        
+        .student-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            transition: background-color 0.2s;
+        }
+        
+        .student-item:last-child {
+            border-bottom: none;
+        }
+        
+        .student-item:hover {
+            background: #f8fafc;
+        }
+        
+        .student-name {
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        .student-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--muted);
+        }
+        
+        .empty-state .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--muted);
+            font-weight: 500;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .team-assignment {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border);
+        }
+        
+        .team-assignment h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        
+        .team-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .team-option {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .team-option:hover {
+            border-color: var(--accent);
+            background: rgba(111, 92, 145, 0.05);
+        }
+        
+        .team-option.selected {
+            border-color: var(--accent);
+            background: rgba(111, 92, 145, 0.1);
+        }
+        
+        .team-option .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-option h4 {
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+        
+        .team-option p {
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .team-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👥 Manage Roster</h1>
+            <a href="/" class="back-btn">
+                ← Back to Home
+            </a>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalStudents">0</div>
+                <div class="stat-label">Total Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalTeams">0</div>
+                <div class="stat-label">Teams Created</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="lastUpdated">Never</div>
+                <div class="stat-label">Last Updated</div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="panel">
+                <h2>Add Students</h2>
+                <div class="form-group">
+                    <label for="studentName">Student Name</label>
+                    <input type="text" id="studentName" placeholder="Enter student name" maxlength="50">
+                </div>
+                <button class="btn btn-success" onclick="addStudent()">Add Student</button>
+                
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label for="bulkStudents">Bulk Add Students</label>
+                    <textarea id="bulkStudents" rows="6" placeholder="Enter student names, one per line:&#10;Alice&#10;Bob&#10;Charlie"></textarea>
+                </div>
+                <button class="btn btn-secondary" onclick="bulkAddStudents()">Add All Students</button>
+            </div>
+            
+            <div class="panel">
+                <h2>Student Roster</h2>
+                <div class="student-list" id="studentList">
+                    <div class="empty-state">
+                        <div class="icon">👥</div>
+                        <p>No students added yet</p>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">Add students to get started</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="team-assignment">
+            <h3>Team Assignment</h3>
+            <div class="team-options">
+                <div class="team-option" onclick="selectTeamMode('individual')">
+                    <div class="icon">👤</div>
+                    <h4>Individual Mode</h4>
+                    <p>Students play as individuals</p>
+                </div>
+                <div class="team-option" onclick="selectTeamMode('random')">
+                    <div class="icon">🎲</div>
+                    <h4>Random Teams</h4>
+                    <p>Automatically assign random teams</p>
+                </div>
+                <div class="team-option" onclick="selectTeamMode('manual')">
+                    <div class="icon">✋</div>
+                    <h4>Manual Teams</h4>
+                    <p>Drag and drop to create teams</p>
+                </div>
+            </div>
+            
+            <div id="teamAssignmentPanel" style="display: none;">
+                <!-- Team assignment interface will be added here -->
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button class="btn btn-secondary" onclick="clearRoster()">Clear All</button>
+            <button class="btn btn-secondary" onclick="exportRoster()">Export Roster</button>
+            <button class="btn btn-secondary" onclick="importRoster()">Import Roster</button>
+            <button class="btn" onclick="saveRoster()">Save Roster</button>
+        </div>
+    </div>
+    
+    <script>
+        // === STATE MANAGEMENT ===
+        let roster = [];
+        let teamMode = 'individual';
+        let teams = [];
+        
+        // === INITIALIZATION ===
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRoster();
+            updateStats();
+        });
+        
+        // === ROSTER MANAGEMENT ===
+        function addStudent() {
+            const nameInput = document.getElementById('studentName');
+            const name = nameInput.value.trim();
+            
+            if (!name) {
+                alert('Please enter a student name');
+                return;
+            }
+            
+            if (roster.some(student => student.name.toLowerCase() === name.toLowerCase())) {
+                alert('Student already exists in roster');
+                return;
+            }
+            
+            const student = {
+                id: generateId(),
+                name: name,
+                addedAt: new Date().toISOString()
+            };
+            
+            roster.push(student);
+            nameInput.value = '';
+            renderStudentList();
+            updateStats();
+            updateLastModified();
+        }
+        
+        function bulkAddStudents() {
+            const textarea = document.getElementById('bulkStudents');
+            const names = textarea.value.split('\n')
+                .map(name => name.trim())
+                .filter(name => name.length > 0);
+            
+            if (names.length === 0) {
+                alert('Please enter at least one student name');
+                return;
+            }
+            
+            let added = 0;
+            let skipped = 0;
+            
+            names.forEach(name => {
+                if (!roster.some(student => student.name.toLowerCase() === name.toLowerCase())) {
+                    const student = {
+                        id: generateId(),
+                        name: name,
+                        addedAt: new Date().toISOString()
+                    };
+                    roster.push(student);
+                    added++;
+                } else {
+                    skipped++;
+                }
+            });
+            
+            textarea.value = '';
+            renderStudentList();
+            updateStats();
+            updateLastModified();
+            
+            alert(`Added ${added} students${skipped > 0 ? `, skipped ${skipped} duplicates` : ''}`);
+        }
+        
+        function removeStudent(studentId) {
+            if (confirm('Are you sure you want to remove this student?')) {
+                roster = roster.filter(student => student.id !== studentId);
+                renderStudentList();
+                updateStats();
+                updateLastModified();
+            }
+        }
+        
+        function editStudent(studentId) {
+            const student = roster.find(s => s.id === studentId);
+            if (!student) return;
+            
+            const newName = prompt('Edit student name:', student.name);
+            if (newName && newName.trim() !== student.name) {
+                const trimmedName = newName.trim();
+                if (roster.some(s => s.id !== studentId && s.name.toLowerCase() === trimmedName.toLowerCase())) {
+                    alert('Student name already exists');
+                    return;
+                }
+                student.name = trimmedName;
+                renderStudentList();
+                updateLastModified();
+            }
+        }
+        
+        function clearRoster() {
+            if (confirm('Are you sure you want to clear all students? This cannot be undone.')) {
+                roster = [];
+                teams = [];
+                teamMode = 'individual';
+                renderStudentList();
+                updateStats();
+                updateLastModified();
+            }
+        }
+        
+        // === RENDERING ===
+        function renderStudentList() {
+            const container = document.getElementById('studentList');
+            
+            if (roster.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">👥</div>
+                        <p>No students added yet</p>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">Add students to get started</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = roster.map(student => `
+                <div class="student-item">
+                    <span class="student-name">${student.name}</span>
+                    <div class="student-actions">
+                        <button class="btn btn-small btn-secondary" onclick="editStudent('${student.id}')">Edit</button>
+                        <button class="btn btn-small btn-danger" onclick="removeStudent('${student.id}')">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function updateStats() {
+            document.getElementById('totalStudents').textContent = roster.length;
+            document.getElementById('totalTeams').textContent = teams.length;
+        }
+        
+        function updateLastModified() {
+            const now = new Date();
+            document.getElementById('lastUpdated').textContent = now.toLocaleString();
+        }
+        
+        // === TEAM MANAGEMENT ===
+        function selectTeamMode(mode) {
+            teamMode = mode;
+            
+            // Update visual selection
+            document.querySelectorAll('.team-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.target.closest('.team-option').classList.add('selected');
+            
+            // Show team assignment panel
+            const panel = document.getElementById('teamAssignmentPanel');
+            panel.style.display = 'block';
+            
+            if (mode === 'random') {
+                showRandomTeamAssignment();
+            } else if (mode === 'manual') {
+                showManualTeamAssignment();
+            } else {
+                panel.style.display = 'none';
+            }
+        }
+        
+        function showRandomTeamAssignment() {
+            const panel = document.getElementById('teamAssignmentPanel');
+            panel.innerHTML = `
+                <div class="form-group">
+                    <label for="numTeams">Number of Teams</label>
+                    <input type="number" id="numTeams" min="2" max="10" value="2">
+                </div>
+                <button class="btn" onclick="createRandomTeams()">Create Random Teams</button>
+            `;
+        }
+        
+        function showManualTeamAssignment() {
+            const panel = document.getElementById('teamAssignmentPanel');
+            panel.innerHTML = `
+                <div class="form-group">
+                    <label for="numTeamsManual">Number of Teams</label>
+                    <input type="number" id="numTeamsManual" min="2" max="10" value="2">
+                </div>
+                <button class="btn" onclick="createManualTeams()">Create Team Structure</button>
+                <div id="manualTeamInterface" style="margin-top: 1rem;"></div>
+            `;
+        }
+        
+        function createRandomTeams() {
+            const numTeams = parseInt(document.getElementById('numTeams').value);
+            if (numTeams < 2 || numTeams > roster.length) {
+                alert('Number of teams must be between 2 and the number of students');
+                return;
+            }
+            
+            // Shuffle roster and assign to teams
+            const shuffled = [...roster].sort(() => Math.random() - 0.5);
+            teams = [];
+            
+            for (let i = 0; i < numTeams; i++) {
+                teams.push({
+                    id: `team_${i}`,
+                    name: `Team ${i + 1}`,
+                    students: []
+                });
+            }
+            
+            // Distribute students evenly
+            shuffled.forEach((student, index) => {
+                const teamIndex = index % numTeams;
+                teams[teamIndex].students.push(student);
+            });
+            
+            updateStats();
+            alert(`Created ${numTeams} random teams!`);
+        }
+        
+        function createManualTeams() {
+            const numTeams = parseInt(document.getElementById('numTeamsManual').value);
+            if (numTeams < 2) {
+                alert('Number of teams must be at least 2');
+                return;
+            }
+            
+            // Create empty teams
+            teams = [];
+            for (let i = 0; i < numTeams; i++) {
+                teams.push({
+                    id: `team_${i}`,
+                    name: `Team ${i + 1}`,
+                    students: []
+                });
+            }
+            
+            // Show drag-and-drop interface
+            showDragDropInterface();
+            updateStats();
+        }
+        
+        function showDragDropInterface() {
+            const container = document.getElementById('manualTeamInterface');
+            container.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                    ${teams.map(team => `
+                        <div class="panel" style="min-height: 200px;">
+                            <h4>${team.name}</h4>
+                            <div class="team-drop-zone" data-team-id="${team.id}" style="min-height: 150px; border: 2px dashed var(--border); border-radius: 8px; padding: 1rem; text-align: center;">
+                                <div class="team-students">
+                                    ${team.students.map(student => `
+                                        <div class="student-chip" data-student-id="${student.id}" style="background: var(--accent); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; margin: 0.25rem; display: inline-block; cursor: move;">
+                                            ${student.name}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <p style="color: var(--muted); margin-top: 1rem;">Drop students here</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div style="margin-top: 1rem;">
+                    <h4>Unassigned Students</h4>
+                    <div class="unassigned-students" style="display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1rem; border: 1px solid var(--border); border-radius: 8px;">
+                        ${roster.filter(student => !teams.some(team => team.students.some(s => s.id === student.id))).map(student => `
+                            <div class="student-chip" data-student-id="${student.id}" style="background: var(--muted); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: move;">
+                                ${student.name}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // Add drag and drop functionality
+            initializeDragAndDrop();
+        }
+        
+        function initializeDragAndDrop() {
+            // This would implement drag and drop functionality
+            // For now, we'll add click-to-move functionality
+            document.querySelectorAll('.student-chip').forEach(chip => {
+                chip.addEventListener('click', function() {
+                    const studentId = this.dataset.studentId;
+                    const student = roster.find(s => s.id === studentId);
+                    if (!student) return;
+                    
+                    // Find which team this student is currently in
+                    let currentTeam = null;
+                    let currentTeamIndex = -1;
+                    
+                    teams.forEach((team, index) => {
+                        if (team.students.some(s => s.id === studentId)) {
+                            currentTeam = team;
+                            currentTeamIndex = index;
+                        }
+                    });
+                    
+                    // Move to next team
+                    if (currentTeam) {
+                        currentTeam.students = currentTeam.students.filter(s => s.id !== studentId);
+                    }
+                    
+                    const nextTeamIndex = (currentTeamIndex + 1) % teams.length;
+                    teams[nextTeamIndex].students.push(student);
+                    
+                    showDragDropInterface();
+                });
+            });
+        }
+        
+        // === DATA PERSISTENCE ===
+        function saveRoster() {
+            const rosterData = {
+                roster: roster,
+                teams: teams,
+                teamMode: teamMode,
+                lastModified: new Date().toISOString()
+            };
+            
+            localStorage.setItem('tornadoRoster', JSON.stringify(rosterData));
+            alert('Roster saved successfully!');
+        }
+        
+        function loadRoster() {
+            const saved = localStorage.getItem('tornadoRoster');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    roster = data.roster || [];
+                    teams = data.teams || [];
+                    teamMode = data.teamMode || 'individual';
+                    
+                    renderStudentList();
+                    updateStats();
+                    
+                    if (data.lastModified) {
+                        document.getElementById('lastUpdated').textContent = new Date(data.lastModified).toLocaleString();
+                    }
+                } catch (e) {
+                    console.error('Error loading roster:', e);
+                }
+            }
+        }
+        
+        function exportRoster() {
+            const data = {
+                roster: roster,
+                teams: teams,
+                teamMode: teamMode,
+                exportedAt: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `tornado-roster-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function importRoster() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        roster = data.roster || [];
+                        teams = data.teams || [];
+                        teamMode = data.teamMode || 'individual';
+                        
+                        renderStudentList();
+                        updateStats();
+                        updateLastModified();
+                        
+                        alert('Roster imported successfully!');
+                    } catch (error) {
+                        alert('Error importing roster: Invalid file format');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+        
+        // === UTILITY FUNCTIONS ===
+        function generateId() {
+            return 'student_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+    </script>
+</body>
+</html>
