@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Tornado War - Tornado Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --background: #f9fafb;
+            --card: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .student-badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .points-display {
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            background: var(--muted);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background: #4b5563;
+        }
+
+        .game-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 1rem;
+            height: calc(100vh - 120px);
+        }
+
+        .game-board {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: auto;
+        }
+
+        .student-sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .sidebar-section h3 {
+            margin: 0 0 1rem 0;
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .student-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .student-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            background: var(--background);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .student-name {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .student-points {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn:hover {
+            background: #7c3aed;
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            background: var(--muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
+        .btn-small {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .status-message {
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .status-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .status-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .grid-item {
+            aspect-ratio: 1;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            position: relative;
+        }
+
+        .grid-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .grid-item.owned {
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .grid-item.available {
+            border-color: var(--secondary);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .grid-item.other-owned {
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .tile-name {
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .tile-cost {
+            font-size: 0.625rem;
+            color: var(--muted);
+        }
+
+        .owner-badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: var(--primary);
+            color: white;
+            font-size: 0.5rem;
+            padding: 0.125rem 0.25rem;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .battle-section {
+            background: rgba(245, 158, 11, 0.05);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .battle-section h4 {
+            margin: 0 0 1rem 0;
+            color: var(--warning);
+        }
+
+        .battle-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .weapon-select {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: var(--text);
+        }
+
+        .close {
+            color: var(--muted);
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: var(--text);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .game-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .student-sidebar {
+                order: -1;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .student-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚔️ Student Tornado War</h1>
+            <div class="student-info">
+                <div class="student-badge" id="studentBadge">Student Mode</div>
+                <div class="points-display" id="studentPoints">0 Points</div>
+                <a href="student-login.html" class="back-btn">← Back to Dashboard</a>
+            </div>
+        </div>
+
+        <div class="game-container">
+            <div class="game-board">
+                <div id="statusMessage" class="status-message status-info">
+                    Welcome to Tornado War! Click on available territories to claim them with your points.
+                </div>
+                
+                <div class="grid-container" id="gameGrid">
+                    <!-- Game grid will be populated by JavaScript -->
+                </div>
+
+                <div class="battle-section" id="battleSection" style="display: none;">
+                    <h4>⚔️ Battle Controls</h4>
+                    <div class="battle-controls">
+                        <select class="weapon-select" id="weaponSelect">
+                            <option value="">Select Weapon</option>
+                            <option value="sword">Sword (5 points, +2 power)</option>
+                            <option value="shield">Shield (3 points, +1 defense)</option>
+                            <option value="bow">Bow (4 points, +1 power)</option>
+                            <option value="armor">Armor (6 points, +2 defense)</option>
+                        </select>
+                        <button class="btn btn-small" onclick="addWeapon()">Add Weapon</button>
+                        <button class="btn btn-small btn-danger" onclick="clearWeapons()">Clear All</button>
+                    </div>
+                    <div id="weaponDisplay"></div>
+                    <div class="action-buttons">
+                        <button class="btn btn-warning" onclick="initiateBattle()">⚔️ Attack Territory</button>
+                        <button class="btn btn-secondary" onclick="defendTerritory()">🛡️ Defend Territory</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="student-sidebar">
+                <div class="sidebar-section">
+                    <h3>👥 Class Roster</h3>
+                    <div class="student-list" id="studentList">
+                        <!-- Student list will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>🎯 Your Actions</h3>
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="refreshGame()">🔄 Refresh Game</button>
+                        <button class="btn" onclick="viewLeaderboard()">📊 View Leaderboard</button>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>ℹ️ Student Mode</h3>
+                    <div class="alert alert-info">
+                        <strong>What you can do:</strong>
+                        <ul style="margin: 0.5rem 0; padding-left: 1rem;">
+                            <li>Buy available territories</li>
+                            <li>Attack other players' territories</li>
+                            <li>Defend your own territories</li>
+                            <li>Spend your earned points</li>
+                        </ul>
+                        <strong>What you cannot do:</strong>
+                        <ul style="margin: 0.5rem 0; padding-left: 1rem;">
+                            <li>Give yourself points</li>
+                            <li>Modify other students' data</li>
+                            <li>Access teacher controls</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Battle Modal -->
+    <div id="battleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚔️ Battle Results</h2>
+                <span class="close" onclick="closeBattleModal()">&times;</span>
+            </div>
+            <div id="battleResults"></div>
+            <div class="modal-actions">
+                <button class="btn" onclick="closeBattleModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // === GAME STATE ===
+        let currentStudent = null;
+        let currentRoster = null;
+        let gameState = {
+            tiles: [],
+            studentBalances: {},
+            selectedTile: null,
+            battleMode: false,
+            currentBattle: {
+                attacker: null,
+                defender: null,
+                attackerWeapons: [],
+                defenderWeapons: []
+            }
+        };
+
+        // === INITIALIZATION ===
+        function init() {
+            // Check if student is logged in
+            const studentData = localStorage.getItem('currentStudent');
+            if (!studentData) {
+                alert('Please log in as a student first!');
+                window.location.href = 'student-login.html';
+                return;
+            }
+
+            currentStudent = JSON.parse(studentData);
+            
+            // Load roster data
+            loadRosterData();
+            
+            // Initialize game
+            initializeGame();
+            
+            // Update UI
+            updateStudentInfo();
+            updateStudentList();
+            renderGameGrid();
+        }
+
+        function loadRosterData() {
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            currentRoster = rosters.find(r => r.id === currentStudent.rosterId);
+            
+            if (!currentRoster) {
+                alert('Class roster not found! Please contact your teacher.');
+                window.location.href = 'student-login.html';
+                return;
+            }
+
+            // Initialize student balances from roster
+            gameState.studentBalances = {};
+            currentRoster.roster.forEach(student => {
+                gameState.studentBalances[student.name] = student.points || 0;
+            });
+        }
+
+        function initializeGame() {
+            // Initialize tiles if not already done
+            if (!currentRoster.tiles || currentRoster.tiles.length === 0) {
+                currentRoster.tiles = generateInitialTiles();
+            }
+            
+            gameState.tiles = currentRoster.tiles;
+            
+            // Initialize board if not already done
+            if (!currentRoster.board) {
+                currentRoster.board = generateInitialBoard();
+            }
+        }
+
+        function generateInitialTiles() {
+            const tileNames = [
+                'Forest', 'Mountain', 'River', 'Desert', 'Plains', 'Coast',
+                'Valley', 'Hill', 'Lake', 'Canyon', 'Meadow', 'Cliff',
+                'Swamp', 'Tundra', 'Volcano', 'Island', 'Peninsula', 'Bay',
+                'Fjord', 'Glacier', 'Oasis', 'Cave', 'Bridge', 'Tower'
+            ];
+            
+            return tileNames.map((name, index) => ({
+                id: index,
+                name: name,
+                cost: Math.floor(Math.random() * 10) + 5, // 5-14 points
+                owner: null,
+                defense: 0,
+                isCastle: Math.random() < 0.2 // 20% chance to be a castle
+            }));
+        }
+
+        function generateInitialBoard() {
+            return Array(24).fill(null).map((_, index) => ({
+                tileId: index,
+                owner: null,
+                defense: 0
+            }));
+        }
+
+        // === UI UPDATES ===
+        function updateStudentInfo() {
+            document.getElementById('studentBadge').textContent = `${currentStudent.username} (Student)`;
+            document.getElementById('studentPoints').textContent = `${getStudentPoints()} Points`;
+        }
+
+        function updateStudentList() {
+            const studentList = document.getElementById('studentList');
+            studentList.innerHTML = '';
+            
+            currentRoster.roster.forEach(student => {
+                const studentItem = document.createElement('div');
+                studentItem.className = 'student-item';
+                studentItem.innerHTML = `
+                    <span class="student-name">${student.name}</span>
+                    <span class="student-points">${student.points || 0}</span>
+                `;
+                studentList.appendChild(studentItem);
+            });
+        }
+
+        function renderGameGrid() {
+            const grid = document.getElementById('gameGrid');
+            grid.innerHTML = '';
+            
+            gameState.tiles.forEach((tile, index) => {
+                const tileElement = document.createElement('div');
+                tileElement.className = 'grid-item';
+                tileElement.onclick = () => selectTile(index);
+                
+                // Determine tile state
+                if (tile.owner === currentStudent.username) {
+                    tileElement.classList.add('owned');
+                } else if (tile.owner === null) {
+                    tileElement.classList.add('available');
+                } else {
+                    tileElement.classList.add('other-owned');
+                }
+                
+                tileElement.innerHTML = `
+                    <div class="tile-name">${tile.name}</div>
+                    <div class="tile-cost">${tile.cost} pts</div>
+                    ${tile.owner ? `<div class="owner-badge">${tile.owner}</div>` : ''}
+                `;
+                
+                grid.appendChild(tileElement);
+            });
+        }
+
+        function selectTile(tileIndex) {
+            const tile = gameState.tiles[tileIndex];
+            
+            if (tile.owner === currentStudent.username) {
+                // Owned tile - show battle options
+                gameState.selectedTile = tileIndex;
+                showBattleSection();
+                updateStatusMessage(`Selected your territory: ${tile.name}. Choose to attack or defend!`, 'info');
+            } else if (tile.owner === null) {
+                // Available tile - try to buy
+                buyTerritory(tileIndex);
+            } else {
+                // Other player's tile - show attack option
+                gameState.selectedTile = tileIndex;
+                showBattleSection();
+                updateStatusMessage(`Selected ${tile.owner}'s territory: ${tile.name}. You can attack this territory!`, 'warning');
+            }
+        }
+
+        function showBattleSection() {
+            document.getElementById('battleSection').style.display = 'block';
+        }
+
+        function hideBattleSection() {
+            document.getElementById('battleSection').style.display = 'none';
+            gameState.selectedTile = null;
+        }
+
+        // === TERRITORY ACTIONS ===
+        function buyTerritory(tileIndex) {
+            const tile = gameState.tiles[tileIndex];
+            const studentPoints = getStudentPoints();
+            
+            if (studentPoints < tile.cost) {
+                updateStatusMessage(`Insufficient points! You need ${tile.cost} points but only have ${studentPoints}.`, 'error');
+                return;
+            }
+            
+            // Buy the territory
+            tile.owner = currentStudent.username;
+            tile.defense = 1;
+            
+            // Deduct points
+            deductStudentPoints(tile.cost);
+            
+            // Update roster
+            updateRosterData();
+            
+            // Update UI
+            updateStudentInfo();
+            updateStudentList();
+            renderGameGrid();
+            
+            updateStatusMessage(`Successfully claimed ${tile.name} for ${tile.cost} points!`, 'success');
+        }
+
+        function initiateBattle() {
+            if (gameState.selectedTile === null) {
+                updateStatusMessage('Please select a territory first!', 'error');
+                return;
+            }
+            
+            const tile = gameState.tiles[gameState.selectedTile];
+            
+            if (tile.owner === currentStudent.username) {
+                updateStatusMessage('You cannot attack your own territory!', 'error');
+                return;
+            }
+            
+            if (tile.owner === null) {
+                updateStatusMessage('This territory is unclaimed! Use the buy option instead.', 'error');
+                return;
+            }
+            
+            // Calculate battle
+            const battleResult = calculateBattle(tile, 'attack');
+            
+            if (battleResult.success) {
+                // Successfully attacked
+                tile.owner = currentStudent.username;
+                tile.defense = 1;
+                
+                // Deduct attack cost
+                deductStudentPoints(battleResult.cost);
+                
+                // Update roster
+                updateRosterData();
+                
+                // Update UI
+                updateStudentInfo();
+                updateStudentList();
+                renderGameGrid();
+                
+                updateStatusMessage(`Successfully attacked and claimed ${tile.name}!`, 'success');
+            } else {
+                updateStatusMessage(`Attack failed: ${battleResult.reason}`, 'error');
+            }
+            
+            hideBattleSection();
+        }
+
+        function defendTerritory() {
+            if (gameState.selectedTile === null) {
+                updateStatusMessage('Please select a territory first!', 'error');
+                return;
+            }
+            
+            const tile = gameState.tiles[gameState.selectedTile];
+            
+            if (tile.owner !== currentStudent.username) {
+                updateStatusMessage('You can only defend your own territories!', 'error');
+                return;
+            }
+            
+            // Add defense
+            const defenseCost = 2;
+            const studentPoints = getStudentPoints();
+            
+            if (studentPoints < defenseCost) {
+                updateStatusMessage(`Insufficient points! Defense costs ${defenseCost} points.`, 'error');
+                return;
+            }
+            
+            tile.defense += 1;
+            deductStudentPoints(defenseCost);
+            
+            // Update roster
+            updateRosterData();
+            
+            // Update UI
+            updateStudentInfo();
+            updateStudentList();
+            renderGameGrid();
+            
+            updateStatusMessage(`Added defense to ${tile.name}! Defense level: ${tile.defense}`, 'success');
+            hideBattleSection();
+        }
+
+        // === BATTLE SYSTEM ===
+        function calculateBattle(tile, action) {
+            const studentPoints = getStudentPoints();
+            const baseCost = action === 'attack' ? 3 : 2;
+            const weaponCost = gameState.currentBattle.attackerWeapons.reduce((total, weapon) => total + getWeaponCost(weapon), 0);
+            const totalCost = baseCost + weaponCost;
+            
+            if (studentPoints < totalCost) {
+                return {
+                    success: false,
+                    reason: `Insufficient points! Need ${totalCost} points.`
+                };
+            }
+            
+            // Simple battle calculation
+            const attackPower = 1 + gameState.currentBattle.attackerWeapons.reduce((total, weapon) => total + getWeaponPower(weapon), 0);
+            const defensePower = tile.defense || 1;
+            
+            const success = Math.random() < (attackPower / (attackPower + defensePower));
+            
+            return {
+                success: success,
+                cost: totalCost,
+                attackPower: attackPower,
+                defensePower: defensePower
+            };
+        }
+
+        // === WEAPON SYSTEM ===
+        function addWeapon() {
+            const weaponSelect = document.getElementById('weaponSelect');
+            const weapon = weaponSelect.value;
+            
+            if (!weapon) {
+                updateStatusMessage('Please select a weapon first!', 'error');
+                return;
+            }
+            
+            gameState.currentBattle.attackerWeapons.push(weapon);
+            updateWeaponDisplay();
+            weaponSelect.value = '';
+        }
+
+        function clearWeapons() {
+            gameState.currentBattle.attackerWeapons = [];
+            updateWeaponDisplay();
+        }
+
+        function updateWeaponDisplay() {
+            const display = document.getElementById('weaponDisplay');
+            const weapons = gameState.currentBattle.attackerWeapons;
+            
+            if (weapons.length === 0) {
+                display.innerHTML = '<p style="color: var(--muted); font-size: 0.875rem;">No weapons selected</p>';
+                return;
+            }
+            
+            let html = '<div style="margin-bottom: 0.5rem;"><strong>Selected Weapons:</strong></div>';
+            weapons.forEach((weapon, index) => {
+                html += `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.25rem; background: var(--background); border-radius: 4px; margin-bottom: 0.25rem;">
+                        <span>${getWeaponName(weapon)} (+${getWeaponPower(weapon)} power, ${getWeaponCost(weapon)} pts)</span>
+                        <button class="btn btn-small btn-danger" onclick="removeWeapon(${index})" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Remove</button>
+                    </div>
+                `;
+            });
+            
+            display.innerHTML = html;
+        }
+
+        function removeWeapon(index) {
+            gameState.currentBattle.attackerWeapons.splice(index, 1);
+            updateWeaponDisplay();
+        }
+
+        function getWeaponName(weapon) {
+            const names = {
+                sword: 'Sword',
+                shield: 'Shield',
+                bow: 'Bow',
+                armor: 'Armor'
+            };
+            return names[weapon] || weapon;
+        }
+
+        function getWeaponPower(weapon) {
+            const powers = {
+                sword: 2,
+                shield: 1,
+                bow: 1,
+                armor: 2
+            };
+            return powers[weapon] || 0;
+        }
+
+        function getWeaponCost(weapon) {
+            const costs = {
+                sword: 5,
+                shield: 3,
+                bow: 4,
+                armor: 6
+            };
+            return costs[weapon] || 0;
+        }
+
+        // === POINT MANAGEMENT ===
+        function getStudentPoints() {
+            return gameState.studentBalances[currentStudent.username] || 0;
+        }
+
+        function deductStudentPoints(amount) {
+            if (!gameState.studentBalances[currentStudent.username]) {
+                gameState.studentBalances[currentStudent.username] = 0;
+            }
+            gameState.studentBalances[currentStudent.username] -= amount;
+        }
+
+        function updateRosterData() {
+            // Update the roster with current game state
+            currentRoster.tiles = gameState.tiles;
+            currentRoster.board = currentRoster.board || generateInitialBoard();
+            
+            // Update student points in roster
+            currentRoster.roster.forEach(student => {
+                student.points = gameState.studentBalances[student.name] || 0;
+            });
+            
+            // Save to localStorage
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            const rosterIndex = rosters.findIndex(r => r.id === currentRoster.id);
+            if (rosterIndex !== -1) {
+                rosters[rosterIndex] = currentRoster;
+                localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+            }
+        }
+
+        // === UTILITY FUNCTIONS ===
+        function updateStatusMessage(message, type = 'info') {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status-message status-${type}`;
+        }
+
+        function refreshGame() {
+            loadRosterData();
+            initializeGame();
+            updateStudentInfo();
+            updateStudentList();
+            renderGameGrid();
+            hideBattleSection();
+            updateStatusMessage('Game refreshed!', 'success');
+        }
+
+        function viewLeaderboard() {
+            alert('📊 Leaderboard feature coming soon!\n\nThis will show your ranking in the class based on points earned.');
+        }
+
+        function closeBattleModal() {
+            document.getElementById('battleModal').style.display = 'none';
+        }
+
+        // === INITIALIZE GAME ===
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
