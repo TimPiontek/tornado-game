@@ -772,6 +772,21 @@
       renderRoster(); // Refresh display
     }
   }
+  
+  function awardPoints(students, amount, actionText) {
+    if (!students || students.length === 0) return;
+    
+    students.forEach(studentData => {
+      const student = state.roster.find(s => s.gsId === studentData.gsId);
+      if (student) {
+        student.balance += amount;
+        console.log(`${actionText}: ${student.name} now has ${student.balance} points`);
+      }
+    });
+    
+    // Update the display
+    renderRoster();
+  }
 
   // Make handleTileClick globally accessible
   window.handleTileClick = function(tileId) {
