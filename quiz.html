@@ -7088,7 +7088,7 @@ The Beatles"
                 ">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                         <h2 style="margin: 0; color: #6f5c91; font-size: 1.8rem;">Select or Create Roster</h2>
-                        <button onclick="this.closest('div[style*=\"position: fixed\"]').remove()" style="
+                        <button class="modal-close-btn" style="
                             background: #6c757d;
                             color: white;
                             border: none;
@@ -7122,7 +7122,7 @@ The Beatles"
                                 border-radius: 8px;
                                 font-size: 1rem;
                             ">
-                            <button onclick="createNewRoster(this.closest('div[style*=\"position: fixed\"]'))" style="
+                            <button class="create-roster-btn" style="
                                 background: #28a745;
                                 color: white;
                                 border: none;
@@ -7154,7 +7154,7 @@ The Beatles"
                                             <br>
                                             <small style="color: #666;">${roster.roster.length} students • ${new Date(roster.lastModified).toLocaleDateString()}</small>
                                         </div>
-                                        <button onclick="selectExistingRoster(${index}, this.closest('div[style*=\"position: fixed\"]'))" style="
+                                        <button class="select-roster-btn" data-roster-index="${index}" style="
                                             background: #6f5c91;
                                             color: white;
                                             border: none;
@@ -7176,6 +7176,23 @@ The Beatles"
             `;
             
             document.body.appendChild(modal);
+            
+            // Add event listeners
+            modal.querySelector('.modal-close-btn').addEventListener('click', () => {
+                modal.remove();
+            });
+            
+            modal.querySelector('.create-roster-btn').addEventListener('click', () => {
+                createNewRoster(modal);
+            });
+            
+            // Add event listeners for select roster buttons
+            modal.querySelectorAll('.select-roster-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const index = parseInt(btn.getAttribute('data-roster-index'));
+                    selectExistingRoster(index, modal);
+                });
+            });
         }
         
         function getExistingRosters() {
@@ -7311,7 +7328,7 @@ The Beatles"
                 ">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                         <h2 style="margin: 0; color: #6f5c91; font-size: 1.8rem;">Create Teams</h2>
-                        <button onclick="this.closest('div[style*=\"position: fixed\"]').remove()" style="
+                        <button class="modal-close-btn" style="
                             background: #6c757d;
                             color: white;
                             border: none;
@@ -7388,6 +7405,10 @@ The Beatles"
             document.body.appendChild(modal);
             
             // Add event listeners
+            modal.querySelector('.modal-close-btn').addEventListener('click', () => {
+                modal.remove();
+            });
+            
             document.getElementById('individualModeBtn').addEventListener('click', () => {
                 createIndividualMode(rosterData, modal);
             });
@@ -7413,7 +7434,7 @@ The Beatles"
                         <strong>Students (${rosterData.roster.length}):</strong><br>
                         ${rosterData.roster.map(s => s.name).join(', ')}
                     </div>
-                    <button onclick="saveTeamAssignment('individual', null, this.closest('div[style*=\"position: fixed\"]'))" style="
+                    <button class="save-individual-btn" style="
                         background: #28a745;
                         color: white;
                         border: none;
@@ -7425,6 +7446,11 @@ The Beatles"
                     ">✅ Save Individual Mode</button>
                 </div>
             `;
+            
+            // Add event listener for save button
+            content.querySelector('.save-individual-btn').addEventListener('click', () => {
+                saveTeamAssignment('individual', null, modal);
+            });
         }
         
         function showRandomTeamOptions(rosterData, modal) {
@@ -7437,7 +7463,7 @@ The Beatles"
                     </p>
                     <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
                         ${[2, 3, 4, 5, 6].map(num => `
-                            <button onclick="createRandomTeams(${num}, this.closest('div[style*=\"position: fixed\"]'))" style="
+                            <button class="create-random-teams-btn" data-num-teams="${num}" style="
                                 background: #007bff;
                                 color: white;
                                 border: none;
@@ -7452,6 +7478,14 @@ The Beatles"
                     </div>
                 </div>
             `;
+            
+            // Add event listeners for random team buttons
+            content.querySelectorAll('.create-random-teams-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const numTeams = parseInt(btn.getAttribute('data-num-teams'));
+                    createRandomTeams(numTeams, modal);
+                });
+            });
         }
         
         function showManualTeamInterface(rosterData, modal) {
@@ -7531,7 +7565,7 @@ The Beatles"
                     </div>
                     
                     <div style="text-align: center;">
-                        <button onclick="saveManualTeams(this.closest('div[style*=\"position: fixed\"]'))" style="
+                        <button class="save-manual-teams-btn" style="
                             background: #6f5c91;
                             color: white;
                             border: none;
@@ -7547,6 +7581,11 @@ The Beatles"
             
             // Initialize drag and drop
             initializeManualTeamDragDrop();
+            
+            // Add event listener for save button
+            content.querySelector('.save-manual-teams-btn').addEventListener('click', () => {
+                saveManualTeams(modal);
+            });
         }
         
         function createRandomTeams(numTeams, modal) {
