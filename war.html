@@ -254,13 +254,17 @@
         </div>
         <div class="minor" style="margin-top: 10px;">
           <strong>How items affect power:</strong><br>
-          • Mercenaries: +10 power each<br>
-          • Spear: +30% power multiplier<br>
-          • Crossbow: +60% power multiplier<br>
-          • Catapult: +100% power multiplier<br>
-          • Wooden Keep: +50 power<br>
-          • Stone Fortress: +100 power<br>
-          • Iron Citadel: +200 power
+          • Mercenaries: +15 power each<br>
+          • Spear: +50% power multiplier<br>
+          • Crossbow: +100% power multiplier<br>
+          • Catapult: +200% power multiplier<br>
+          • Wooden Keep: +75 power<br>
+          • Stone Fortress: +150 power<br>
+          • Iron Citadel: +300 power<br>
+          <strong>Combo Bonuses:</strong><br>
+          • 2+ items: +10% total power<br>
+          • 3+ items: +25% total power<br>
+          • 4+ items: +50% total power
         </div>
       </div>
       <button class="pill" id="simulateWar" style="background: #dc2626; color: white; font-size: 18px; padding: 15px 30px;">⚔️ SIMULATE WAR</button>
@@ -1044,23 +1048,39 @@
   function updateBattleSummary() {
     if (!currentBattle) return;
     
-    // Calculate attacker power with weapon multiplier
-    const attackerBasePower = currentBattle.attackerMercs * 10;
+    // Calculate attacker power with new system
+    const attackerBasePower = currentBattle.attackerMercs * 15; // Increased from 10
     const attackerWeaponMultiplier = currentBattle.attackerWeapon ? 
-      (currentBattle.attackerWeapon === 'spear' ? 1.3 : 
-       currentBattle.attackerWeapon === 'crossbow' ? 1.6 : 2.0) : 1;
-    const attackerPower = attackerBasePower * attackerWeaponMultiplier;
+      (currentBattle.attackerWeapon === 'spear' ? 1.5 : 
+       currentBattle.attackerWeapon === 'crossbow' ? 2.0 : 3.0) : 1; // Increased multipliers
+    const attackerMercPower = attackerBasePower * attackerWeaponMultiplier;
     
-    // Calculate defender power with weapon multiplier and castle
-    const defenderBasePower = currentBattle.defenderMercs * 10;
+    // Calculate combo bonus for attacker
+    const attackerItemCount = currentBattle.attackerMercs + (currentBattle.attackerWeapon ? 1 : 0);
+    const attackerComboBonus = attackerItemCount >= 4 ? 1.5 : 
+                              attackerItemCount >= 3 ? 1.25 : 
+                              attackerItemCount >= 2 ? 1.1 : 1;
+    const attackerPower = attackerMercPower * attackerComboBonus;
+    
+    // Calculate defender power with new system
+    const defenderBasePower = currentBattle.defenderMercs * 15; // Increased from 10
     const defenderWeaponMultiplier = currentBattle.defenderWeapon ? 
-      (currentBattle.defenderWeapon === 'spear' ? 1.3 : 
-       currentBattle.defenderWeapon === 'crossbow' ? 1.6 : 2.0) : 1;
+      (currentBattle.defenderWeapon === 'spear' ? 1.5 : 
+       currentBattle.defenderWeapon === 'crossbow' ? 2.0 : 3.0) : 1; // Increased multipliers
     const defenderMercPower = defenderBasePower * defenderWeaponMultiplier;
     const defenderCastlePower = currentBattle.defenderCastle ? 
-      (currentBattle.defenderCastle === 1 ? 50 : 
-       currentBattle.defenderCastle === 2 ? 100 : 200) : 0;
-    const defenderPower = defenderMercPower + defenderCastlePower;
+      (currentBattle.defenderCastle === 1 ? 75 : 
+       currentBattle.defenderCastle === 2 ? 150 : 300) : 0; // Increased castle power
+    const defenderBaseTotal = defenderMercPower + defenderCastlePower;
+    
+    // Calculate combo bonus for defender
+    const defenderItemCount = currentBattle.defenderMercs + 
+      (currentBattle.defenderWeapon ? 1 : 0) + 
+      (currentBattle.defenderCastle ? 1 : 0);
+    const defenderComboBonus = defenderItemCount >= 4 ? 1.5 : 
+                              defenderItemCount >= 3 ? 1.25 : 
+                              defenderItemCount >= 2 ? 1.1 : 1;
+    const defenderPower = defenderBaseTotal * defenderComboBonus;
     
     // Calculate costs
     const attackerCost = currentBattle.attackerMercs * 10 + 
@@ -1292,16 +1312,39 @@
   async function simulateBattle() {
     if (!currentBattle) return;
     
-    const attackerPower = currentBattle.attackerMercs * 10 * (currentBattle.attackerWeapon ? 
-      (currentBattle.attackerWeapon === 'spear' ? 1.3 : 
-       currentBattle.attackerWeapon === 'crossbow' ? 1.6 : 2.0) : 1);
-    const defenderMercPower = currentBattle.defenderMercs * 10 * (currentBattle.defenderWeapon ? 
-      (currentBattle.defenderWeapon === 'spear' ? 1.3 : 
-       currentBattle.defenderWeapon === 'crossbow' ? 1.6 : 2.0) : 1);
+    // Calculate attacker power with new system
+    const attackerBasePower = currentBattle.attackerMercs * 15;
+    const attackerWeaponMultiplier = currentBattle.attackerWeapon ? 
+      (currentBattle.attackerWeapon === 'spear' ? 1.5 : 
+       currentBattle.attackerWeapon === 'crossbow' ? 2.0 : 3.0) : 1;
+    const attackerMercPower = attackerBasePower * attackerWeaponMultiplier;
+    
+    // Calculate combo bonus for attacker
+    const attackerItemCount = currentBattle.attackerMercs + (currentBattle.attackerWeapon ? 1 : 0);
+    const attackerComboBonus = attackerItemCount >= 4 ? 1.5 : 
+                              attackerItemCount >= 3 ? 1.25 : 
+                              attackerItemCount >= 2 ? 1.1 : 1;
+    const attackerPower = attackerMercPower * attackerComboBonus;
+    
+    // Calculate defender power with new system
+    const defenderBasePower = currentBattle.defenderMercs * 15;
+    const defenderWeaponMultiplier = currentBattle.defenderWeapon ? 
+      (currentBattle.defenderWeapon === 'spear' ? 1.5 : 
+       currentBattle.defenderWeapon === 'crossbow' ? 2.0 : 3.0) : 1;
+    const defenderMercPower = defenderBasePower * defenderWeaponMultiplier;
     const defenderCastlePower = currentBattle.defenderCastle ? 
-      (currentBattle.defenderCastle === 1 ? 50 : 
-       currentBattle.defenderCastle === 2 ? 100 : 200) : 0;
-    const defenderPower = defenderMercPower + defenderCastlePower;
+      (currentBattle.defenderCastle === 1 ? 75 : 
+       currentBattle.defenderCastle === 2 ? 150 : 300) : 0;
+    const defenderBaseTotal = defenderMercPower + defenderCastlePower;
+    
+    // Calculate combo bonus for defender
+    const defenderItemCount = currentBattle.defenderMercs + 
+      (currentBattle.defenderWeapon ? 1 : 0) + 
+      (currentBattle.defenderCastle ? 1 : 0);
+    const defenderComboBonus = defenderItemCount >= 4 ? 1.5 : 
+                              defenderItemCount >= 3 ? 1.25 : 
+                              defenderItemCount >= 2 ? 1.1 : 1;
+    const defenderPower = defenderBaseTotal * defenderComboBonus;
     
     const odds = attackerPower / (attackerPower + defenderPower);
     const roll = Math.random();
