@@ -670,56 +670,201 @@
     if (index >= 0 && index < savedRosters.length) {
       const selectedRoster = savedRosters[index];
       
-      // Store the selected roster for the current game
-      if (state.gameId) {
-        // Convert roster format to match war game expectations
-        const warRoster = selectedRoster.roster.map((student, i) => ({
-          gsId: student.id || `student_${i}`,
-          name: student.name,
-          tilesOwned: 0,
-          startPoints: 5, // Default starting points
-          balance: 5,
-          teamId: null,
-          teamName: null,
-          teamColor: null
-        }));
+      // Store the selected roster globally for use in game creation
+      window.selectedRosterForGame = selectedRoster;
+      
+      // Show options for what to do with the roster
+      showRosterOptionsModal(selectedRoster);
+    }
+  }
+
+  function showRosterOptionsModal(roster) {
+    // Close the roster selection modal
+    rosterSelectionModal.classList.remove("show");
+    
+    // Create options modal
+    const optionsModal = document.createElement('div');
+    optionsModal.className = 'modal show';
+    optionsModal.style.position = 'fixed';
+    optionsModal.style.inset = '0';
+    optionsModal.style.background = '#0009';
+    optionsModal.style.display = 'grid';
+    optionsModal.style.placeItems = 'center';
+    optionsModal.style.zIndex = '50';
+    
+    optionsModal.innerHTML = `
+      <div class="card" style="width: min(500px, 90vw);">
+        <button class="closeX" onclick="this.closest('.modal').remove()">Close</button>
+        <h2>What would you like to do?</h2>
+        <p style="margin: 10px 0; color: var(--muted);">You've selected: <strong>${roster.name}</strong> (${roster.roster ? roster.roster.length : 0} students)</p>
         
-        // If teams exist, assign team information
-        if (selectedRoster.teams && selectedRoster.teams.length > 0) {
-          warRoster.forEach(student => {
-            const team = selectedRoster.teams.find(t => 
-              t.students && t.students.includes(student.name)
-            );
-            if (team) {
-              student.teamId = team.id;
-              student.teamName = team.name;
-              student.teamColor = team.color;
-            }
-          });
+        <div style="margin: 20px 0; display: flex; flex-direction: column; gap: 12px;">
+          <button class="pill" onclick="startNewGameWithRoster()" style="background: #6f5c91; color: white; padding: 12px; font-size: 16px;">
+            🆕 Start New Game
+          </button>
+          <button class="pill" onclick="loadRosterIntoCurrentGame()" style="background: #31727a; color: white; padding: 12px; font-size: 16px;">
+            📋 Load into Current Game
+          </button>
+        </div>
+        
+        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
+          <p style="font-size: 14px; color: var(--muted); margin: 0;">
+            <strong>Start New Game:</strong> Creates a fresh game with this roster<br>
+            <strong>Load into Current Game:</strong> Adds this roster to your existing game
+          </p>
+        </div>
+      </div>
+    `;
+    
+    // Add click outside to close
+    optionsModal.addEventListener('click', (e) => {
+      if (e.target === optionsModal) {
+        optionsModal.remove();
+      }
+    });
+    
+    document.body.appendChild(optionsModal);
+  }
+
+  function startNewGameWithRoster() {
+    // Close the options modal
+    document.querySelector('.modal.show').remove();
+    
+    // Convert roster format to match war game expectations
+    const selectedRoster = window.selectedRosterForGame;
+    const warRoster = selectedRoster.roster.map((student, i) => ({
+      gsId: student.id || `student_${i}`,
+      name: student.name,
+      tilesOwned: 0,
+      startPoints: 5, // Default starting points
+      balance: 5,
+      teamId: null,
+      teamName: null,
+      teamColor: null
+    }));
+    
+    // If teams exist, assign team information
+    if (selectedRoster.teams && selectedRoster.teams.length > 0) {
+      warRoster.forEach(student => {
+        const team = selectedRoster.teams.find(t => 
+          t.students && t.students.includes(student.name)
+        );
+        if (team) {
+          student.teamId = team.id;
+          student.teamName = team.name;
+          student.teamColor = team.color;
         }
-        
-        // Save roster to current game
-        if (state.offlineMode) {
-          const game = state.localGames.find(g => g.id === state.gameId);
-          if (game) {
-            game.roster = warRoster;
-            game.teams = selectedRoster.teams || [];
-            game.teamMode = selectedRoster.teamMode || false;
-            saveLocalGame(game);
-          }
-        }
-        
-        // Update the roster display
-        state.roster = warRoster;
-        renderRoster();
-        
-        alert(`Roster "${selectedRoster.name}" loaded successfully!`);
-      } else {
-        alert('Please select a game first before loading a roster.');
+      });
+    }
+    
+    // Create a new game with this roster
+    const gameId = `game_${Date.now()}`;
+    const gameName = `${selectedRoster.name} - ${new Date().toLocaleDateString()}`;
+    
+    // Calculate board size
+    const studentCount = warRoster.length;
+    const w = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
+    const h = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
+    
+    // Create tiles
+    const tiles = [];
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        tiles.push({
+          id: `tile_${x}_${y}`,
+          x: x,
+          y: y,
+          owner_game_student_id: null,
+          castle_level: 0
+        });
       }
     }
     
-    rosterSelectionModal.classList.remove("show");
+    const gameData = {
+      id: gameId,
+      name: gameName,
+      created_at: new Date().toISOString(),
+      status: 'active',
+      board_w: w,
+      board_h: h,
+      victory_target_pct: 0.25, // Default 25%
+      turn_based: false,
+      tiles: tiles,
+      roster: warRoster,
+      teams: selectedRoster.teams || [],
+      teamMode: selectedRoster.teamMode || false,
+      truces: [],
+      audit_log: []
+    };
+    
+    // Save the new game
+    saveLocalGame(gameData);
+    
+    // Load the new game
+    loadGames(true);
+    
+    alert(`New game "${gameName}" created with roster "${selectedRoster.name}"!`);
+    
+    // Clear the selected roster
+    window.selectedRosterForGame = null;
+  }
+
+  function loadRosterIntoCurrentGame() {
+    // Close the options modal
+    document.querySelector('.modal.show').remove();
+    
+    const selectedRoster = window.selectedRosterForGame;
+    
+    if (!state.gameId) {
+      alert('Please select a game first before loading a roster.');
+      return;
+    }
+    
+    // Convert roster format to match war game expectations
+    const warRoster = selectedRoster.roster.map((student, i) => ({
+      gsId: student.id || `student_${i}`,
+      name: student.name,
+      tilesOwned: 0,
+      startPoints: 5, // Default starting points
+      balance: 5,
+      teamId: null,
+      teamName: null,
+      teamColor: null
+    }));
+    
+    // If teams exist, assign team information
+    if (selectedRoster.teams && selectedRoster.teams.length > 0) {
+      warRoster.forEach(student => {
+        const team = selectedRoster.teams.find(t => 
+          t.students && t.students.includes(student.name)
+        );
+        if (team) {
+          student.teamId = team.id;
+          student.teamName = team.name;
+          student.teamColor = team.color;
+        }
+      });
+    }
+    
+    // Save roster to current game
+    if (state.offlineMode) {
+      const game = state.localGames.find(g => g.id === state.gameId);
+      if (game) {
+        game.roster = warRoster;
+        game.teams = selectedRoster.teams || [];
+        game.teamMode = selectedRoster.teamMode || false;
+        saveLocalGame(game);
+      }
+    }
+    
+    // Update the roster display
+    state.roster = warRoster;
+    renderRoster();
+    
+    alert(`Roster "${selectedRoster.name}" loaded into current game!`);
+    
+    // Clear the selected roster
+    window.selectedRosterForGame = null;
   }
   
   gamesList.onchange = () => selectGame(gamesList.value);
