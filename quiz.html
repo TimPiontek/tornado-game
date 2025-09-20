@@ -8373,6 +8373,8 @@ The Beatles"
         function applyQuizTeamAssignment(teamAssignment) {
             if (!teamAssignment) return;
             
+            console.log('Applying quiz team assignment:', teamAssignment);
+            
             // Update the roster data with team assignments
             if (rosterData && rosterData.roster) {
                 if (teamAssignment.mode === 'individual') {
@@ -8382,12 +8384,12 @@ The Beatles"
                     teamMode = false;
                     
                     console.log('Applied individual mode:', rosterData);
-                } else if (teamAssignment.teams) {
-                    // Team mode
+                } else if (teamAssignment.teams && teamAssignment.teams.length > 0) {
+                    // Team mode - update roster data with team assignments
                     rosterData.roster.forEach(student => {
                         // Find which team this student belongs to
                         const team = teamAssignment.teams.find(t => 
-                            t.students.some(s => s.id === student.id)
+                            t.students && t.students.some(s => s.id === student.id)
                         );
                         
                         if (team) {
@@ -8402,8 +8404,14 @@ The Beatles"
                     rosterData.teamMode = true;
                     teamMode = true;
                     
-                    console.log('Applied quiz team assignment:', rosterData);
+                    console.log('Applied quiz team assignment:', {
+                        rosterData,
+                        teams: rosterData.teams,
+                        teamMode: rosterData.teamMode
+                    });
                 }
+            } else {
+                console.log('No roster data available for team assignment');
             }
         }
         
@@ -8452,8 +8460,11 @@ The Beatles"
         }
         
         function initializeTeamMode() {
+            console.log('Initializing team mode with rosterData:', rosterData);
+            
             if (!rosterData || !rosterData.teams || rosterData.teams.length === 0) {
                 teamMode = false;
+                console.log('No teams found, using individual mode');
                 return false;
             }
             
@@ -8464,6 +8475,7 @@ The Beatles"
             if (rosterData.teams.length >= 2) {
                 names.A = rosterData.teams[0].name;
                 names.B = rosterData.teams[1].name;
+                console.log('Set team names:', { teamA: names.A, teamB: names.B });
             }
             
             // Initialize current team students
@@ -8472,7 +8484,8 @@ The Beatles"
             console.log('Team mode initialized:', {
                 teamMode,
                 teams: rosterData.teams,
-                currentTeamStudents
+                currentTeamStudents,
+                names: { A: names.A, B: names.B }
             });
             
             return true;
@@ -8634,14 +8647,16 @@ The Beatles"
 
         // Function to start game with specific settings
         async function startGameWithSettings(quiz, settings) {
-          // Load roster data and initialize team mode
+          // Load roster data first
           loadRosterData();
-          initializeTeamMode();
           
-          // Apply quiz team assignment if available
-          if (window.quizTeamAssignment && window.quizTeamAssignment.teams) {
+          // Apply quiz team assignment if available BEFORE initializing team mode
+          if (window.quizTeamAssignment) {
             applyQuizTeamAssignment(window.quizTeamAssignment);
           }
+          
+          // Now initialize team mode with the updated roster data
+          initializeTeamMode();
           
           // Initialize individual student points
           initializeStudentPoints();
@@ -8682,12 +8697,28 @@ The Beatles"
           }
           
           qIndex = 0;
-          names.A = settings.teamA;
-          names.B = settings.singlePlayer ? 'Android' : settings.teamB;
+          
+          // Use roster team names if available, otherwise use settings
+          if (teamMode && rosterData && rosterData.teams && rosterData.teams.length >= 2) {
+            names.A = rosterData.teams[0].name;
+            names.B = rosterData.teams[1].name;
+            console.log('Using roster team names:', { A: names.A, B: names.B });
+          } else {
+            names.A = settings.teamA;
+            names.B = settings.singlePlayer ? 'Android' : settings.teamB;
+            console.log('Using settings team names:', { A: names.A, B: names.B });
+          }
+          
           singlePlayer = settings.singlePlayer;
           
           // Use dynamic grid sizing if roster is available
-          total = rosterData ? calculateOptimalGridSize() : settings.gridSize;
+          if (rosterData && rosterData.roster && rosterData.roster.length > 0) {
+            total = calculateOptimalGridSize();
+            console.log('Using dynamic grid size:', total, 'for', rosterData.roster.length, 'students');
+          } else {
+            total = settings.gridSize;
+            console.log('Using default grid size:', total);
+          }
           
           // Hide library, show game
           if (setupScreen) setupScreen.classList.add("hidden");
