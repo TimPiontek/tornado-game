@@ -6033,8 +6033,12 @@ The Beatles"
         }
 
         function updateTurn() {
-          turnEl.textContent = `${names[turn]}'s turn`;
-          turnEl.style.color = teamColors[turn] || "#6f5c91";
+          // Update turn display safely
+          if (turnEl) {
+            turnEl.textContent = `${names[turn]}'s turn`;
+            turnEl.style.color = teamColors[turn] || "#6f5c91";
+          }
+          
           updateTeamDisplay();
           
           // Update sidebar
