@@ -5315,6 +5315,7 @@ The Beatles"
         });
 
         function handlePick(btn, i) {
+          // Cache bust: Fixed syntax error
           if (isResolvingTurn) {
             return;
           }
