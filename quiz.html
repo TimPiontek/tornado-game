@@ -161,28 +161,28 @@
 
       #grid {
         display: grid;
-        gap: 8px;
-        margin-bottom: 60px;
+        gap: 6px;
+        margin-bottom: 20px;
         /* Let JavaScript buildGrid function control the columns */
         width: 100%;
-        height: 100%;
+        max-height: 70vh;
         justify-items: stretch;
         align-items: stretch;
       }
 
       #grid button {
-        font-size: clamp(1.2rem, 2.5vw, 2rem) !important;
+        font-size: clamp(1rem, 2vw, 1.5rem) !important;
         line-height: 1;
-        min-width: 50px;
-        min-height: 50px;
+        min-width: 40px;
+        min-height: 40px;
         aspect-ratio: 1;
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
-        padding: 4px;
-        border: 2px solid #ddd;
-        border-radius: 8px;
+        padding: 2px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
         background: white;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -1159,10 +1159,10 @@
         }
 
         #grid button {
-          font-size: clamp(1rem, 2vw, 1.5rem) !important;
-          padding: 4px;
-          min-width: 45px;
-          min-height: 45px;
+          font-size: clamp(0.8rem, 1.5vw, 1.2rem) !important;
+          padding: 2px;
+          min-width: 35px;
+          min-height: 35px;
         }
 
         .scorebar-row {
@@ -1400,30 +1400,6 @@
         transform: translateY(-1px);
       }
       
-      .game-stats {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-      }
-      
-      .stat-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.5rem 0;
-        border-bottom: 1px solid #e2e8f0;
-      }
-      
-      .stat-label {
-        color: #64748b;
-        font-weight: 500;
-      }
-      
-      .stat-value {
-        color: #6f5c91;
-        font-weight: 700;
-        font-size: 1.1rem;
-      }
       
       .game-main {
         background: #fff;
@@ -3062,19 +3038,6 @@ The Beatles"
             </div>
           </div>
           
-          <div class="sidebar-section">
-            <h3>Game Stats</h3>
-            <div id="gameStats" class="game-stats">
-              <div class="stat-item">
-                <span class="stat-label">Questions Used:</span>
-                <span id="questionsUsed" class="stat-value">0</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-label">Total Turns:</span>
-                <span id="totalTurns" class="stat-value">0</span>
-              </div>
-            </div>
-          </div>
         </div>
         
         <!-- Main Game Area -->
@@ -5974,7 +5937,6 @@ The Beatles"
           
           // Update sidebar
           updateTeamScores();
-          updateGameStats();
           updateTurnDisplay();
           
           // Allow next team to act
@@ -6983,13 +6945,12 @@ The Beatles"
         function transferQuizPointsToWar(winningTeam) {
             if (!teamMode || !rosterData) return;
             
-            // Calculate student points based on individual participation
-            const studentPoints = {};
+            // Use the actual individual points students earned during the quiz
+            const pointsToTransfer = {};
             
-            // Give individual points to all students who participated
+            // Transfer actual points earned by each student during the quiz
             rosterData.roster.forEach(student => {
-                // Base points for participation
-                studentPoints[student.name] = individualPoints;
+                pointsToTransfer[student.name] = studentPoints[student.name] || 0;
             });
             
             // Calculate team victory bonus
@@ -7001,14 +6962,14 @@ The Beatles"
             }
             
             // Save points to war game
-            savePointsToWarGame(studentPoints, teamVictoryBonus);
+            savePointsToWarGame(pointsToTransfer, teamVictoryBonus);
             
             // Show notification
-            const totalPointsTransferred = Object.values(studentPoints).reduce((a, b) => a + b, 0) +
+            const totalPointsTransferred = Object.values(pointsToTransfer).reduce((a, b) => a + b, 0) +
                                          Object.values(teamVictoryBonus).reduce((a, b) => a + b, 0);
             
             setTimeout(() => {
-                alert(`🎉 Quiz Complete!\n\nPoints transferred to Tornado War:\n• Individual participation: ${individualPoints} points each\n• Team ${winningTeamName} victory bonus: ${teamVictoryPoints} points\n\nTotal points transferred: ${totalPointsTransferred}\n\nCheck the War game to see updated student balances!`);
+                alert(`🎉 Quiz Complete!\n\nPoints transferred to Tornado War:\n• Individual quiz points: ${Object.values(pointsToTransfer).reduce((a, b) => a + b, 0)} total\n• Team ${winningTeamName} victory bonus: ${teamVictoryPoints} points\n\nTotal points transferred: ${totalPointsTransferred}\n\nCheck the War game to see updated student balances!`);
             }, 2000);
         }
         
@@ -8971,18 +8932,6 @@ The Beatles"
             }
         }
         
-        function updateGameStats() {
-            const questionsUsedEl = document.getElementById('questionsUsed');
-            const totalTurnsEl = document.getElementById('totalTurns');
-            
-            if (questionsUsedEl) {
-                questionsUsedEl.textContent = usedQuestionIndices ? usedQuestionIndices.length : 0;
-            }
-            
-            if (totalTurnsEl) {
-                totalTurnsEl.textContent = turnCount || 0;
-            }
-        }
         
         function updateTurnDisplay() {
             const turnDisplayEl = document.getElementById('turnDisplay');
@@ -9116,7 +9065,6 @@ The Beatles"
           
           // Update sidebar displays
           updateTeamScores();
-          updateGameStats();
           updateTurnDisplay();
           
           console.log('Game started with:', {
