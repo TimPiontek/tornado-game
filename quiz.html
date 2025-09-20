@@ -8803,10 +8803,9 @@ The Beatles"
             console.log(`Awarded ${points} points to ${studentName}. Total: ${studentPoints[studentName]}`);
         }
         
-        function loadRosterData(forceLoad = false) {
+        function loadRosterData() {
             console.log('=== LOAD ROSTER DATA ===');
             console.log('window.quizTeamAssignment:', window.quizTeamAssignment);
-            console.log('forceLoad:', forceLoad);
             
             // First try to load from quizTeamAssignment (set during roster selection)
             if (window.quizTeamAssignment && window.quizTeamAssignment.rosterData) {
@@ -8815,23 +8814,9 @@ The Beatles"
                 return true;
             }
             
-            // Only load from localStorage if explicitly requested (forceLoad = true)
-            if (forceLoad) {
-                const saved = localStorage.getItem('tornadoRoster');
-                if (saved) {
-                    try {
-                        rosterData = JSON.parse(saved);
-                        console.log('Roster loaded from tornadoRoster:', rosterData);
-                        return true;
-                    } catch (e) {
-                        console.error('Error loading roster:', e);
-                    }
-                }
-            }
-            
-            // Reset roster data if no explicit roster was selected
+            // If no explicit roster assignment, start fresh
             rosterData = null;
-            console.log('No roster data found - starting fresh game');
+            console.log('No roster assignment found - starting fresh game');
             return false;
         }
         
@@ -9097,8 +9082,7 @@ The Beatles"
 
         // Function to reset game state for new games
         function resetGameState() {
-          // Clear any previous roster assignments
-          window.quizTeamAssignment = null;
+          // Only clear roster data, not the assignment (that gets cleared when starting fresh)
           rosterData = null;
           teamMode = false;
           currentStudentIndex = 0;
