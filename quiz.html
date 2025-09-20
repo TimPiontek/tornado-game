@@ -1236,17 +1236,17 @@
       }
 
       .special-effects-sidebar {
-        width: 400px;
+        width: 450px;
         flex-shrink: 0;
         display: flex;
         flex-direction: column;
         background: rgba(255, 255, 255, 0.93);
         border-radius: 12px;
-        padding: 10px 12px;
+        padding: 15px 18px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
-        margin: 0;
+        margin-left: 20px;
         height: fit-content;
-        max-height: 52vh;
+        min-height: 600px;
         overflow-y: auto;
       }
       
@@ -2358,140 +2358,114 @@
             <form id="setupForm" onsubmit="return false;">
               <div class="setup-unified-card">
                 <div class="setup-unified-grid">
-                  <!-- Team Names Row -->
-                  <div class="setup-unified-cell">
-                    <label style="display: block; margin-bottom: 0.3em"
-                      >Team A Name:
-                      <input
-                        id="teamANameInput"
-                        value="Team A"
-                        required
-                        maxlength="16"
-                        style="
-                          display: block;
-                          width: 100%;
-                          margin-bottom: 0.3em;
-                        "
-                      />
-                    </label>
-                  </div>
-                  <div class="setup-unified-cell">
-                    <label style="display: block; margin-bottom: 0.3em"
-                      >Team B Name:
-                      <input
-                        id="teamBNameInput"
-                        value="Team B"
-                        required
-                        maxlength="16"
-                        style="display: block; width: 100%"
-                      />
-                    </label>
-                  </div>
-                  <div class="setup-unified-cell" id="teamCContainer" style="display: none;">
-                    <label style="display: block; margin-bottom: 0.3em"
-                      >Team C Name:
-                      <input
-                        id="teamCNameInput"
-                        value="Team C"
-                        required
-                        maxlength="16"
-                        style="display: block; width: 100%"
-                      />
-                    </label>
-                  </div>
-                  <div class="setup-unified-cell" id="teamDContainer" style="display: none;">
-                    <label style="display: block; margin-bottom: 0.3em"
-                      >Team D Name:
-                      <input
-                        id="teamDNameInput"
-                        value="Team D"
-                        required
-                        maxlength="16"
-                        style="display: block; width: 100%"
-                      />
-                    </label>
-                  </div>
-                  <div class="setup-unified-cell" id="teamEContainer" style="display: none;">
-                    <label style="display: block; margin-bottom: 0.3em"
-                      >Team E Name:
-                      <input
-                        id="teamENameInput"
-                        value="Team E"
-                        required
-                        maxlength="16"
-                        style="display: block; width: 100%"
-                      />
-                    </label>
-                  </div>
-                  <div class="setup-unified-cell" id="teamFContainer" style="display: none;">
-                    <label style="display: block; margin-bottom: 0.3em"
-                      >Team F Name:
-                      <input
-                        id="teamFNameInput"
-                        value="Team F"
-                        required
-                        maxlength="16"
-                        style="display: block; width: 100%"
-                      />
-                    </label>
-                  </div>
-                  
-                  <!-- Game Options Row -->
-
-                  <div class="setup-unified-cell">
-                    <label>
-                      Number of Teams:
-                      <select id="teamCountInput">
-                        <option value="1">1 Team (Single Player)</option>
-                        <option value="2" selected>2 Teams</option>
-                        <option value="3">3 Teams</option>
-                        <option value="4">4 Teams</option>
-                        <option value="5">5 Teams</option>
-                        <option value="6">6 Teams</option>
-                      </select>
-                    </label>
-                  </div>
-                  <div class="setup-unified-cell">
-                    <label
-                      >Grid Size:
-                      <select id="gridSizeInput">
-                        <option>8</option>
-                        <option>10</option>
-                        <option>16</option>
-                        <option selected>18</option>
-                        <option>20</option>
-                        <option>24</option>
-                        <option>30</option>
-                        <option>32</option>
-                        <option>40</option>
-                      </select>
-                    </label>
-                  </div>
-                  <!-- Q&A Section -->
+                  <!-- 1. Load Roster Section (First) -->
                   <div class="setup-unified-cell full-width">
                     <label style="display:flex; align-items:center; gap:0.6em; flex-wrap:wrap;">
-                      <span>Questions & Answers:</span>
-                      <small>Enter questions (and answers). One per line, or blank line between Q & A.</small>
-                      <span style="margin-left:auto"></span>
-                      <div style="display:flex; gap:0.5em; align-items:center;">
-                        <span style="font-size:0.9em;">Order:</span>
-                        <label style="display:inline-flex; align-items:center; gap:0.2em; margin:0; font-size:0.9em;">
-                          <input type="radio" name="order" value="inorder" checked /> In order
-                        </label>
-                        <label style="display:inline-flex; align-items:center; gap:0.2em; margin:0; font-size:0.9em;">
-                          <input type="radio" name="order" value="random" /> Random
-                        </label>
-                      </div>
+                      <span>Load Roster:</span>
+                      <small>Load students from your saved roster for team-based gameplay.</small>
                     </label>
+                    <div style="display: flex; gap: 1rem; margin-top: 0.5rem; align-items: center;">
+                      <button type="button" id="loadRosterBtn" style="
+                        background: #6f5c91;
+                        color: white;
+                        border: none;
+                        border-radius: 8px;
+                        padding: 0.5rem 1rem;
+                        font-weight: 600;
+                        cursor: pointer;
+                      ">Load Roster</button>
+                      <span id="rosterStatus" style="color: #666; font-size: 0.9em;">No roster loaded</span>
+                    </div>
+                    <div id="rosterPreview" style="font-size: 0.9em; color: #666; margin-top: 0.5rem;"></div>
+                  </div>
+                  <!-- 2. Questions & Answers Section (Expanded) -->
+                  <div class="setup-unified-cell full-width">
+                    <label style="display: block; margin-bottom: 0.5em; font-weight: 600;">
+                      Questions & Answers:
+                    </label>
+                    <small style="display: block; margin-bottom: 0.5em; color: #666;">
+                      Enter questions (and answers). One per line, or blank line between Q & A.
+                    </small>
                     <textarea
                       id="questionsInput"
-                      style="height: 3.8em; resize: vertical;"
-                      placeholder="What city is home to Fenway Park?
-Boston
-
-Which band wrote the song 'Hey Jude'?
-The Beatles"
+                      placeholder="What city is home to Fenway Park?&#10;Boston&#10;&#10;What is the capital of France?&#10;Paris"
+                      style="
+                        width: 100%;
+                        height: 120px;
+                        padding: 0.75rem;
+                        border: 2px solid #e2e8f0;
+                        border-radius: 8px;
+                        font-family: inherit;
+                        font-size: 0.9rem;
+                        resize: vertical;
+                        min-height: 120px;
+                      "
                     ></textarea>
+                  </div>
+
+                  <!-- 3. Question Order Section -->
+                  <div class="setup-unified-cell">
+                    <label style="display: block; margin-bottom: 0.5em; font-weight: 600;">
+                      Question Order:
+                    </label>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                      <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="radio" name="order" value="inorder" checked>
+                        <span>In order</span>
+                      </label>
+                      <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="radio" name="order" value="random">
+                        <span>Random</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- 4. Select Quiz Section -->
+                  <div class="setup-unified-cell">
+                    <label style="display: block; margin-bottom: 0.5em; font-weight: 600;">
+                      Choose a Quiz:
+                    </label>
+                    <div class="custom-quiz-dropdown-container" style="width: 100%">
+                      <div id="customQuizDropdown" class="custom-quiz-dropdown">
+                        --
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 5. Game Options Row -->
+                  <div class="setup-unified-cell">
+                    <label style="display: block; margin-bottom: 0.5em; font-weight: 600;">
+                      Number of Teams:
+                    </label>
+                    <select id="teamCountInput" style="width: 100%; padding: 0.5rem; border: 2px solid #e2e8f0; border-radius: 6px;">
+                      <option value="1">1 Team (Single Player)</option>
+                      <option value="2" selected>2 Teams</option>
+                      <option value="3">3 Teams</option>
+                      <option value="4">4 Teams</option>
+                      <option value="5">5 Teams</option>
+                      <option value="6">6 Teams</option>
+                    </select>
+                  </div>
+
+                  <!-- 6. Grid Size Section (Auto-adjusting) -->
+                  <div class="setup-unified-cell">
+                    <label style="display: block; margin-bottom: 0.5em; font-weight: 600;">
+                      Grid Size:
+                    </label>
+                    <select id="gridSizeInput" style="width: 100%; padding: 0.5rem; border: 2px solid #e2e8f0; border-radius: 6px;">
+                      <option>8</option>
+                      <option>10</option>
+                      <option>16</option>
+                      <option selected>18</option>
+                      <option>20</option>
+                      <option>24</option>
+                      <option>30</option>
+                      <option>32</option>
+                      <option>40</option>
+                    </select>
+                    <small id="gridSizeInfo" style="color: #666; font-size: 0.8em; margin-top: 0.25rem; display: block;">
+                      Auto-adjusts based on roster size
+                    </small>
                   </div>
                   
                   <!-- Point Configuration Section -->
@@ -2510,44 +2484,6 @@ The Beatles"
                         <input type="number" id="teamVictoryPoints" min="0" max="5000" value="500" style="width:100%;">
                       </div>
                     </div>
-                  </div>
-                  
-                  <!-- Roster Integration Section -->
-                  <div class="setup-unified-cell full-width">
-                    <label style="display:flex; align-items:center; gap:0.6em; flex-wrap:wrap;">
-                      <span>Use Roster:</span>
-                      <small>Load students from your saved roster for team-based gameplay.</small>
-                    </label>
-                    <div style="display: flex; gap: 1rem; margin-top: 0.5rem; align-items: center;">
-                      <button type="button" id="loadRosterBtn" style="
-                        background: #6f5c91;
-                        color: white;
-                        border: none;
-                        border-radius: 8px;
-                        padding: 0.5rem 1rem;
-                        font-weight: 600;
-                        cursor: pointer;
-                      ">Load Roster</button>
-                      <span id="rosterStatus" style="color: #666; font-size: 0.9em;">No roster loaded</span>
-                    </div>
-                    <div id="rosterPreview" style="font-size: 0.9em; color: #666; margin-top: 0.5rem;"></div>
-                  </div>
-                  
-                  <div class="setup-unified-cell full-width">
-                    <label
-                      >Choose a Quiz:
-                      <div
-                        class="custom-quiz-dropdown-container"
-                        style="width: 100%"
-                      >
-                        <div
-                          id="customQuizDropdown"
-                          class="custom-quiz-dropdown"
-                        >
-                          --
-                        </div>
-                      </div>
-                    </label>
                   </div>
                 </div>
               </div>
@@ -7433,9 +7369,37 @@ The Beatles"
             if (selectedRoster) {
                 quizRosterData = selectedRoster;
                 updateRosterStatus(`Loaded: ${selectedRoster.name} (${selectedRoster.roster.length} students)`);
+                
+                // Auto-adjust grid size based on roster size
+                updateGridSizeForRoster(selectedRoster.roster.length);
+                
                 showRosterTeamAssignmentModal();
             } else {
                 updateRosterStatus('Error: Roster not found');
+            }
+        }
+        
+        function updateGridSizeForRoster(studentCount) {
+            // Calculate optimal grid size: student count + 1 for odd numbers, or student count for even
+            let optimalSize = studentCount;
+            if (studentCount % 2 === 1) {
+                optimalSize = studentCount + 1;
+            }
+            
+            // Ensure minimum size of 8 and maximum of 40
+            optimalSize = Math.max(8, Math.min(40, optimalSize));
+            
+            // Update the grid size select
+            const gridSizeInput = document.getElementById('gridSizeInput');
+            if (gridSizeInput) {
+                // Set the value
+                gridSizeInput.value = optimalSize;
+                
+                // Update the info text
+                const gridSizeInfo = document.getElementById('gridSizeInfo');
+                if (gridSizeInfo) {
+                    gridSizeInfo.textContent = `Auto-adjusted to ${optimalSize} tiles for ${studentCount} students`;
+                }
             }
         }
         
