@@ -488,7 +488,7 @@
       // Check if student already has war game data
       const existingStudent = state.roster.find(s => s.name === student.name);
       
-      return {
+      const studentData = {
         gsId: student.id || `student_${i}`,
         name: student.name,
         tilesOwned: existingStudent?.tilesOwned || 0,
@@ -498,6 +498,11 @@
         teamName: existingStudent?.teamName || null,
         teamColor: existingStudent?.teamColor || null
       };
+      
+      // Assign color to student
+      colorFor(studentData.gsId, i, roster.roster.length);
+      
+      return studentData;
     });
     
     // Apply team information if available
@@ -520,7 +525,6 @@
     
     // Update UI
     renderRoster();
-    loadTiles();
     updateVictoryTarget();
   }
   
@@ -531,8 +535,14 @@
     const w = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
     const h = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
     
-    // Create tiles if they don't exist
-    if (!state.board.tiles || state.board.tiles.length === 0) {
+    // Check if roster has saved game state
+    if (state.currentRoster.gameState && state.currentRoster.gameState.tiles) {
+      // Load saved game state
+      state.board = state.currentRoster.gameState.board;
+      state.board.tiles = state.currentRoster.gameState.tiles;
+      state.truces = state.currentRoster.gameState.truces || [];
+    } else {
+      // Create fresh tiles
       const tiles = [];
       for (let y = 0; y < h; y++) {
         for (let x = 0; x < w; x++) {
@@ -546,6 +556,7 @@
         }
       }
       state.board = { w, h, tiles };
+      state.truces = [];
     }
     
     // Update grid display
