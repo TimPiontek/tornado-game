@@ -4186,15 +4186,34 @@ The Beatles
         // === DYNAMIC HOMEPAGE BASED ON LOGIN STATUS ===
         async function updateHomepageForUser() {
           try {
-            // Try to get the current session first
+            // Check for stored auth tokens first
+            const authToken = localStorage.getItem('sb-dmbbsrcwqpmdxqtzvtqj-auth-token');
+            console.log('Auth check - Stored token:', authToken ? 'Found' : 'Not found');
+            
+            // Try to get the current session
             const {
               data: { session },
               error: sessionError
             } = await supabaseClient.auth.getSession();
             
+            // If no session but we have a token, try to refresh
+            if (!session && authToken) {
+              console.log('No session but token found, trying to refresh...');
+              const {
+                data: { session: refreshedSession },
+                error: refreshError
+              } = await supabaseClient.auth.refreshSession();
+              console.log('Refresh result:', refreshedSession, refreshError);
+            }
+            
+            // Get the final session (either original or refreshed)
+            const {
+              data: { session: finalSession },
+            } = await supabaseClient.auth.getSession();
+            
             // Debug logging
             console.log('Auth check - Session error:', sessionError);
-            console.log('Auth check - Supabase session:', session);
+            console.log('Auth check - Supabase session:', finalSession);
             console.log('Auth check - currentStudent:', localStorage.getItem('currentStudent'));
             
             // Check if user is a student (has currentStudent in localStorage)
@@ -4202,7 +4221,7 @@ The Beatles
             const isStudent = currentStudent !== null;
             
             // Check if user is a teacher (logged in via Supabase)
-            const isTeacher = session !== null && session.user !== null;
+            const isTeacher = finalSession !== null && finalSession.user !== null;
             
             console.log('Auth check - isTeacher:', isTeacher, 'isStudent:', isStudent);
             
@@ -4213,7 +4232,7 @@ The Beatles
             updateContentVisibility(isTeacher, isStudent);
             
             // Update login button
-            updateLoginBtn(session?.user);
+            updateLoginBtn(finalSession?.user);
             
           } catch (error) {
             console.error('Error checking auth status:', error);
@@ -4322,6 +4341,19 @@ The Beatles
         setTimeout(() => {
           updateHomepageForUser();
         }, 100);
+        
+        // Temporary manual logout function for testing
+        window.manualLogout = async function() {
+          console.log('Manual logout triggered');
+          try {
+            await supabaseClient.auth.signOut();
+            localStorage.removeItem('currentStudent');
+            console.log('Logout successful');
+            updateHomepageForUser();
+          } catch (error) {
+            console.error('Logout error:', error);
+          }
+        };
         
         // Listen for student login state changes
         window.addEventListener('storage', function(e) {
