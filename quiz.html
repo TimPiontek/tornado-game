@@ -5143,6 +5143,8 @@ The Beatles"
           hotStreakCount,
           coinFlipCount
         ) {
+          console.log('initGame called with total:', total, 'teamCount:', teamCount);
+          
           // Initialize scores and picks for all teams
           scores = {};
           picks = {};
@@ -5169,7 +5171,9 @@ The Beatles"
           updateScores();
           turn = "A";
           updateTurn();
-                      buildRewards(total, tornadoCount, doubleCount, loseCount, swapCount, shieldCount, hotStreakCount, coinFlipCount);
+          
+          console.log('About to call buildRewards and buildGrid with total:', total);
+          buildRewards(total, tornadoCount, doubleCount, loseCount, swapCount, shieldCount, hotStreakCount, coinFlipCount);
           buildGrid(total);
           showQuestion();
         }
@@ -9236,14 +9240,19 @@ The Beatles"
           }
           
           // Initialize and start game
+          console.log('Starting game with total:', total, 'settings:', settings);
+          
           if (typeof initGame === 'function') {
+            console.log('Calling initGame');
             initGame(settings.tornadoCount, settings.doubleCount, settings.loseCount, settings.swapCount, 
                      settings.shieldCount, settings.hotStreakCount, settings.coinFlipCount);
           }
           if (typeof buildGrid === 'function') {
+            console.log('Calling buildGrid with total:', total);
             buildGrid(total);
           }
           if (typeof showQuestion === 'function') {
+            console.log('Calling showQuestion');
             showQuestion();
           }
           
