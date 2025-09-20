@@ -3177,6 +3177,9 @@ The Beatles
 
         // Show navigation for game selection
         document.getElementById('mainNav').style.display = 'flex';
+        
+        // Initialize homepage navigation immediately
+        updateHomepageForUser();
 
         // // Debug: Log session on page load
         // supabaseClient.auth.getUser().then(({ data: { user }, error }) => {
