@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login - Tornado Game</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #6f5c91;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --background: #f9fafb;
+            --panel: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            background: var(--panel);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        h1 {
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--muted);
+            color: white;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            width: auto;
+            margin: 0.25rem;
+        }
+
+        .section {
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .class-code-input {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .roster-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .roster-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .roster-item:hover {
+            background: var(--background);
+        }
+
+        .roster-item:last-child {
+            border-bottom: none;
+        }
+
+        .roster-item.selected {
+            background: var(--primary);
+            color: white;
+        }
+
+        .add-name-section {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--background);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .student-dashboard {
+            text-align: left;
+        }
+
+        .student-profile {
+            background: var(--background);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .student-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--panel);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+
+        .error {
+            color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .success {
+            color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .back-link {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to Home</a>
+    
+    <div class="container">
+        <div class="logo">🎓</div>
+        <h1>Student Login</h1>
+        <p class="subtitle">Join your class and track your progress!</p>
+
+        <!-- Login Form -->
+        <div id="loginSection" class="section active">
+            <div class="form-group">
+                <label for="loginUsername">Username</label>
+                <input type="text" id="loginUsername" placeholder="Enter your username">
+            </div>
+            
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password">
+            </div>
+            
+            <button class="btn" onclick="loginStudent()">Login</button>
+            <button class="btn btn-secondary" onclick="showSignup()">Need an account? Sign up</button>
+        </div>
+
+        <!-- Signup Form -->
+        <div id="signupSection" class="section">
+            <div class="form-group">
+                <label for="signupUsername">Username</label>
+                <input type="text" id="signupUsername" placeholder="Choose a username" maxlength="20">
+            </div>
+            
+            <div class="form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" placeholder="Choose a password" maxlength="20">
+            </div>
+            
+            <div class="form-group">
+                <label for="signupEmail">Email (optional)</label>
+                <input type="email" id="signupEmail" placeholder="Enter your email">
+            </div>
+            
+            <div class="form-group">
+                <label for="signupGrade">Grade Level (optional)</label>
+                <select id="signupGrade">
+                    <option value="">Select Grade</option>
+                    <option value="K">Kindergarten</option>
+                    <option value="1">1st Grade</option>
+                    <option value="2">2nd Grade</option>
+                    <option value="3">3rd Grade</option>
+                    <option value="4">4th Grade</option>
+                    <option value="5">5th Grade</option>
+                    <option value="6">6th Grade</option>
+                    <option value="7">7th Grade</option>
+                    <option value="8">8th Grade</option>
+                    <option value="9">9th Grade</option>
+                    <option value="10">10th Grade</option>
+                    <option value="11">11th Grade</option>
+                    <option value="12">12th Grade</option>
+                </select>
+            </div>
+            
+            <button class="btn" onclick="createStudentAccount()">Create Account</button>
+            <button class="btn btn-secondary" onclick="showLogin()">Already have account? Login</button>
+        </div>
+
+        <!-- Class Code Entry -->
+        <div id="classCodeSection" class="section">
+            <h2>Join Your Class</h2>
+            <p>Enter the class code your teacher gave you:</p>
+            
+            <div class="form-group">
+                <label for="classCode">Class Code</label>
+                <input type="text" id="classCode" class="class-code-input" placeholder="Enter class code" maxlength="8">
+            </div>
+            
+            <button class="btn" onclick="joinClass()">Join Class</button>
+            <button class="btn btn-secondary" onclick="showLogin()">Back to Login</button>
+        </div>
+
+        <!-- Roster Selection -->
+        <div id="rosterSection" class="section">
+            <h2>Select Your Name</h2>
+            <p>Click on your name in the list below, or add it if you don't see it:</p>
+            
+            <div class="roster-list" id="rosterList">
+                <!-- Roster items will be populated here -->
+            </div>
+            
+            <div class="add-name-section">
+                <h3>Don't see your name?</h3>
+                <div class="form-group">
+                    <label for="newStudentName">Add Your Name</label>
+                    <input type="text" id="newStudentName" placeholder="Enter your name">
+                </div>
+                <button class="btn btn-small" onclick="addStudentName()">Add Name</button>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="showClassCode()">Back to Class Code</button>
+        </div>
+
+        <!-- Student Dashboard -->
+        <div id="dashboardSection" class="section">
+            <div class="student-dashboard">
+                <div class="student-profile" id="studentProfile">
+                    <!-- Student profile will be populated here -->
+                </div>
+                
+                <div class="student-stats" id="studentStats">
+                    <!-- Stats will be populated here -->
+                </div>
+                
+                <div style="text-align: center;">
+                    <button class="btn btn-secondary" onclick="logoutStudent()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStudent = null;
+        let currentRoster = null;
+
+        // Check if student is already logged in
+        window.addEventListener('load', () => {
+            const savedStudent = localStorage.getItem('currentStudent');
+            if (savedStudent) {
+                currentStudent = JSON.parse(savedStudent);
+                showDashboard();
+            }
+        });
+
+        function showLogin() {
+            hideAllSections();
+            document.getElementById('loginSection').classList.add('active');
+        }
+
+        function showSignup() {
+            hideAllSections();
+            document.getElementById('signupSection').classList.add('active');
+        }
+
+        function showClassCode() {
+            hideAllSections();
+            document.getElementById('classCodeSection').classList.add('active');
+        }
+
+        function showRoster() {
+            hideAllSections();
+            document.getElementById('rosterSection').classList.add('active');
+        }
+
+        function showDashboard() {
+            hideAllSections();
+            document.getElementById('dashboardSection').classList.add('active');
+            updateDashboard();
+        }
+
+        function hideAllSections() {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+        }
+
+        function createStudentAccount() {
+            const username = document.getElementById('signupUsername').value.trim();
+            const password = document.getElementById('signupPassword').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const grade = document.getElementById('signupGrade').value;
+
+            if (!username || !password) {
+                showError('Username and password are required!');
+                return;
+            }
+
+            if (username.length < 3) {
+                showError('Username must be at least 3 characters long!');
+                return;
+            }
+
+            if (password.length < 4) {
+                showError('Password must be at least 4 characters long!');
+                return;
+            }
+
+            // Check if username already exists
+            const existingStudents = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            if (existingStudents.find(s => s.username.toLowerCase() === username.toLowerCase())) {
+                showError('Username already exists! Please choose a different username.');
+                return;
+            }
+
+            // Create student account
+            const student = {
+                id: generateId(),
+                username: username,
+                password: password,
+                email: email,
+                grade: grade,
+                createdAt: new Date().toISOString(),
+                totalPoints: 0,
+                quizGamesPlayed: 0,
+                warGamesPlayed: 0,
+                questionsAnswered: 0,
+                correctAnswers: 0,
+                lastLogin: new Date().toISOString(),
+                rosterId: null,
+                rosterName: null
+            };
+
+            existingStudents.push(student);
+            localStorage.setItem('tornadoStudents', JSON.stringify(existingStudents));
+
+            // Auto-login the student
+            currentStudent = student;
+            localStorage.setItem('currentStudent', JSON.stringify(student));
+            showClassCode();
+
+            showSuccess(`Welcome ${username}! Your account has been created successfully.`);
+        }
+
+        function loginStudent() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            if (!username || !password) {
+                showError('Please enter both username and password!');
+                return;
+            }
+
+            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            const student = students.find(s => 
+                s.username.toLowerCase() === username.toLowerCase() && 
+                s.password === password
+            );
+
+            if (!student) {
+                showError('Invalid username or password!');
+                return;
+            }
+
+            // Update last login
+            student.lastLogin = new Date().toISOString();
+            const studentIndex = students.findIndex(s => s.id === student.id);
+            students[studentIndex] = student;
+            localStorage.setItem('tornadoStudents', JSON.stringify(students));
+
+            currentStudent = student;
+            localStorage.setItem('currentStudent', JSON.stringify(student));
+            
+            if (student.rosterId) {
+                showDashboard();
+            } else {
+                showClassCode();
+            }
+        }
+
+        function joinClass() {
+            const classCode = document.getElementById('classCode').value.trim().toUpperCase();
+
+            if (!classCode) {
+                showError('Please enter a class code!');
+                return;
+            }
+
+            // Find roster with matching class code
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            const roster = rosters.find(r => r.classCode === classCode);
+
+            if (!roster) {
+                showError('Invalid class code! Please check with your teacher.');
+                return;
+            }
+
+            currentRoster = roster;
+            populateRosterList();
+            showRoster();
+        }
+
+        function populateRosterList() {
+            const rosterList = document.getElementById('rosterList');
+            rosterList.innerHTML = '';
+
+            currentRoster.roster.forEach((student, index) => {
+                const rosterItem = document.createElement('div');
+                rosterItem.className = 'roster-item';
+                rosterItem.textContent = student.name;
+                rosterItem.onclick = () => selectStudentName(student.name, index);
+                rosterList.appendChild(rosterItem);
+            });
+        }
+
+        function selectStudentName(studentName, index) {
+            // Update student with roster info
+            currentStudent.rosterId = currentRoster.id;
+            currentStudent.rosterName = studentName;
+            currentStudent.rosterIndex = index;
+
+            // Update in localStorage
+            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            const studentIndex = students.findIndex(s => s.id === currentStudent.id);
+            students[studentIndex] = currentStudent;
+            localStorage.setItem('tornadoStudents', JSON.stringify(students));
+            localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+
+            showSuccess(`Welcome to ${currentRoster.name}! You've joined as ${studentName}.`);
+            showDashboard();
+        }
+
+        function addStudentName() {
+            const newName = document.getElementById('newStudentName').value.trim();
+
+            if (!newName) {
+                showError('Please enter a name!');
+                return;
+            }
+
+            // Add to roster
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            const rosterIndex = rosters.findIndex(r => r.id === currentRoster.id);
+            
+            if (rosterIndex >= 0) {
+                const newStudent = {
+                    id: generateId(),
+                    name: newName,
+                    points: 0
+                };
+                
+                rosters[rosterIndex].roster.push(newStudent);
+                rosters[rosterIndex].lastModified = new Date().toISOString();
+                localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+
+                // Update current roster
+                currentRoster = rosters[rosterIndex];
+                
+                // Select the newly added student
+                selectStudentName(newName, currentRoster.roster.length - 1);
+            }
+        }
+
+        function updateDashboard() {
+            // Update student profile
+            const studentProfile = document.getElementById('studentProfile');
+            studentProfile.innerHTML = `
+                <h3>👤 ${currentStudent.username}</h3>
+                <p><strong>Grade:</strong> ${currentStudent.grade || 'Not specified'}</p>
+                <p><strong>Class:</strong> ${currentStudent.rosterName ? currentRoster.name : 'Not joined'}</p>
+                <p><strong>Member since:</strong> ${new Date(currentStudent.createdAt).toLocaleDateString()}</p>
+                <p><strong>Last login:</strong> ${new Date(currentStudent.lastLogin).toLocaleDateString()}</p>
+            `;
+
+            // Update stats
+            const studentStats = document.getElementById('studentStats');
+            const accuracy = currentStudent.questionsAnswered > 0 
+                ? Math.round((currentStudent.correctAnswers / currentStudent.questionsAnswered) * 100)
+                : 0;
+
+            studentStats.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${currentStudent.totalPoints}</div>
+                    <div class="stat-label">Total Points</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${currentStudent.quizGamesPlayed}</div>
+                    <div class="stat-label">Quiz Games</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${currentStudent.warGamesPlayed}</div>
+                    <div class="stat-label">War Games</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${accuracy}%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+            `;
+        }
+
+        function logoutStudent() {
+            currentStudent = null;
+            currentRoster = null;
+            localStorage.removeItem('currentStudent');
+            showLogin();
+        }
+
+        function showError(message) {
+            // Remove existing messages
+            document.querySelectorAll('.error, .success').forEach(el => el.remove());
+            
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error';
+            errorDiv.textContent = message;
+            document.querySelector('.container').insertBefore(errorDiv, document.querySelector('.section.active'));
+        }
+
+        function showSuccess(message) {
+            // Remove existing messages
+            document.querySelectorAll('.error, .success').forEach(el => el.remove());
+            
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success';
+            successDiv.textContent = message;
+            document.querySelector('.container').insertBefore(successDiv, document.querySelector('.section.active'));
+        }
+
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        function generateClassCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < 8; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+    </script>
+</body>
+</html>
