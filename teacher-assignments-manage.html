@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Assignments - Tornado Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --background: #f9fafb;
+            --card: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .back-btn {
+            background: var(--muted);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background: #4b5563;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 1rem;
+        }
+
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .content-area {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .sidebar-section h3 {
+            margin: 0 0 1rem 0;
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .roster-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .roster-item {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .roster-item:hover {
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .roster-item.selected {
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .roster-name {
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .roster-meta {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .assignment-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+        }
+
+        .assignment-card:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .assignment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .assignment-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .assignment-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .assignment-description {
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .assignment-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .submissions-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .submissions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .submissions-title {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .submission-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            background: var(--background);
+        }
+
+        .student-name {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .submission-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+        }
+
+        .status-submitted {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .status-graded {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .submission-score {
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.875rem;
+        }
+
+        .btn:hover {
+            background: #7c3aed;
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            background: var(--muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
+        .btn-small {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--muted);
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: var(--text);
+        }
+
+        .close {
+            color: var(--muted);
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: var(--text);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .grade-input {
+            width: 80px;
+            text-align: center;
+        }
+
+        .question-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--background);
+        }
+
+        .question-text {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .question-answer {
+            margin-bottom: 0.5rem;
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+
+        .grade-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                order: -1;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Manage Assignments</h1>
+            <a href="/" class="back-btn">← Back to Home</a>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <h3>👥 Select Roster</h3>
+                    <div id="rosterList" class="roster-list">
+                        <!-- Rosters will be populated here -->
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>ℹ️ Instructions</h3>
+                    <div style="font-size: 0.875rem; color: var(--muted); line-height: 1.4;">
+                        <p><strong>View Assignments:</strong> Select a roster to see all assignments for that class.</p>
+                        <p><strong>Grade Submissions:</strong> Click "Grade" to assign points to student answers.</p>
+                        <p><strong>Edit/Delete:</strong> Modify or remove assignments as needed.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <div id="assignmentsContent">
+                    <div class="empty-state">
+                        <div class="icon">📋</div>
+                        <h2>Select a Roster</h2>
+                        <p>Choose a roster from the sidebar to view and manage assignments.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grade Assignment Modal -->
+    <div id="gradeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📝 Grade Assignment</h2>
+                <span class="close" onclick="closeGradeModal()">&times;</span>
+            </div>
+            <div id="gradeContent">
+                <!-- Grade content will be populated here -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeGradeModal()">Cancel</button>
+                <button class="btn" onclick="saveGrades()">Save Grades</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Assignment Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>✏️ Edit Assignment</h2>
+                <span class="close" onclick="closeEditModal()">&times;</span>
+            </div>
+            <div id="editContent">
+                <!-- Edit content will be populated here -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+                <button class="btn" onclick="saveAssignment()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // === GAME STATE ===
+        let currentRoster = null;
+        let currentAssignment = null;
+        let currentSubmission = null;
+
+        // === INITIALIZATION ===
+        function init() {
+            // Check if user is logged in (teacher only)
+            checkTeacherAuth();
+            loadRosters();
+        }
+
+        function checkTeacherAuth() {
+            // Simple check - in a real app, you'd verify with Supabase
+            // For now, we'll just check if there are rosters (indicating teacher access)
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            if (rosters.length === 0) {
+                alert('Teacher access required. Please log in as a teacher.');
+                window.location.href = '/';
+                return;
+            }
+        }
+
+        function loadRosters() {
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            const rosterList = document.getElementById('rosterList');
+            
+            if (rosters.length === 0) {
+                rosterList.innerHTML = `
+                    <div class="empty-state" style="padding: 1rem;">
+                        <div class="icon">👥</div>
+                        <p>No rosters found</p>
+                        <p style="font-size: 0.75rem;">Create a roster first</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            rosterList.innerHTML = rosters.map(roster => `
+                <div class="roster-item" onclick="selectRoster('${roster.id}')">
+                    <div class="roster-name">${roster.name}</div>
+                    <div class="roster-meta">
+                        ${roster.roster.length} students • 
+                        ${roster.teamMode === 'individual' ? 'Individual' : 
+                          roster.teams ? `${roster.teams.length} Teams` : 'No Teams'}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectRoster(rosterId) {
+            // Update UI
+            document.querySelectorAll('.roster-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            event.target.closest('.roster-item').classList.add('selected');
+            
+            // Load roster data
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            currentRoster = rosters.find(r => r.id === rosterId);
+            
+            // Load assignments for this roster
+            loadAssignments();
+        }
+
+        function loadAssignments() {
+            const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+            const rosterAssignments = assignments.filter(a => a.rosterId === currentRoster.id);
+            
+            const content = document.getElementById('assignmentsContent');
+            
+            if (rosterAssignments.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📋</div>
+                        <h2>No Assignments</h2>
+                        <p>No assignments have been created for ${currentRoster.name} yet.</p>
+                        <a href="teacher-assignments.html" class="btn">Create Assignment</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            content.innerHTML = rosterAssignments.map(assignment => {
+                const submissions = Object.keys(assignment.submissions || {});
+                const gradedCount = submissions.filter(student => 
+                    assignment.submissions[student].gradedAt
+                ).length;
+                
+                return `
+                    <div class="assignment-card">
+                        <div class="assignment-header">
+                            <h3 class="assignment-title">${assignment.title}</h3>
+                            <div class="assignment-actions">
+                                <button class="btn btn-small btn-warning" onclick="editAssignment('${assignment.id}')">Edit</button>
+                                <button class="btn btn-small btn-danger" onclick="deleteAssignment('${assignment.id}')">Delete</button>
+                            </div>
+                        </div>
+                        
+                        ${assignment.description ? `<div class="assignment-description">${assignment.description}</div>` : ''}
+                        
+                        <div class="assignment-meta">
+                            <span>${assignment.questions.length} questions</span>
+                            <span>${assignment.type}</span>
+                            <span>Created: ${new Date(assignment.createdAt).toLocaleDateString()}</span>
+                        </div>
+                        
+                        <div class="submissions-section">
+                            <div class="submissions-header">
+                                <span class="submissions-title">Student Submissions (${submissions.length}/${currentRoster.roster.length})</span>
+                                <span style="font-size: 0.875rem; color: var(--muted);">
+                                    Graded: ${gradedCount}/${submissions.length}
+                                </span>
+                            </div>
+                            
+                            ${submissions.length === 0 ? `
+                                <div style="text-align: center; padding: 1rem; color: var(--muted);">
+                                    No submissions yet
+                                </div>
+                            ` : submissions.map(studentName => {
+                                const submission = assignment.submissions[studentName];
+                                const status = getSubmissionStatus(submission);
+                                const score = getSubmissionScore(assignment, submission);
+                                
+                                return `
+                                    <div class="submission-item">
+                                        <span class="student-name">${studentName}</span>
+                                        <span class="submission-status status-${status}">${status}</span>
+                                        ${score ? `<span class="submission-score">${score.points}/${score.total}</span>` : ''}
+                                        <button class="btn btn-small" onclick="gradeSubmission('${assignment.id}', '${studentName}')">
+                                            ${status === 'graded' ? 'Regrade' : 'Grade'}
+                                        </button>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getSubmissionStatus(submission) {
+            if (!submission) return 'pending';
+            if (submission.submittedAt && !submission.gradedAt) return 'submitted';
+            if (submission.gradedAt) return 'graded';
+            return 'pending';
+        }
+
+        function getSubmissionScore(assignment, submission) {
+            if (!submission || !submission.submittedAt) return null;
+            
+            let totalPoints = 0;
+            let earnedPoints = 0;
+            
+            assignment.questions.forEach(question => {
+                if (question.type === 'multiple_choice') {
+                    totalPoints += question.points;
+                    if (submission.answers[question.id] === question.correctAnswer) {
+                        earnedPoints += question.points;
+                    }
+                } else if (question.type === 'short_answer') {
+                    totalPoints += question.maxPoints;
+                    earnedPoints += submission.grades[question.id] || 0;
+                }
+            });
+            
+            return { points: earnedPoints, total: totalPoints };
+        }
+
+        // === GRADE MANAGEMENT ===
+        function gradeSubmission(assignmentId, studentName) {
+            const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+            const assignment = assignments.find(a => a.id === assignmentId);
+            const submission = assignment.submissions[studentName];
+            
+            if (!submission) {
+                alert('No submission found for this student');
+                return;
+            }
+            
+            currentAssignment = assignment;
+            currentSubmission = submission;
+            
+            // Populate grade modal
+            const gradeContent = document.getElementById('gradeContent');
+            gradeContent.innerHTML = `
+                <h3>Grading: ${studentName}</h3>
+                <p><strong>Assignment:</strong> ${assignment.title}</p>
+                <p><strong>Submitted:</strong> ${new Date(submission.submittedAt).toLocaleString()}</p>
+                
+                <div style="margin-top: 1.5rem;">
+                    ${assignment.questions.map((question, index) => {
+                        if (question.type === 'multiple_choice') {
+                            const isCorrect = submission.answers[question.id] === question.correctAnswer;
+                            return `
+                                <div class="question-item">
+                                    <div class="question-text">Question ${index + 1}: ${question.question}</div>
+                                    <div class="question-answer">
+                                        Student Answer: ${submission.answers[question.id] || 'Not answered'}
+                                        ${isCorrect ? ' ✅' : ' ❌'}
+                                    </div>
+                                    <div class="grade-controls">
+                                        <label>Points:</label>
+                                        <input type="number" class="grade-input" 
+                                               value="${isCorrect ? question.points : 0}" 
+                                               min="0" max="${question.points}"
+                                               data-question-id="${question.id}">
+                                        <span>/ ${question.points}</span>
+                                    </div>
+                                </div>
+                            `;
+                        } else if (question.type === 'short_answer') {
+                            const currentGrade = submission.grades[question.id] || 0;
+                            return `
+                                <div class="question-item">
+                                    <div class="question-text">Question ${index + 1}: ${question.question}</div>
+                                    <div class="question-answer">
+                                        <strong>Student Answer:</strong><br>
+                                        ${submission.shortAnswers[question.id] || 'No answer provided'}
+                                    </div>
+                                    <div class="grade-controls">
+                                        <label>Points:</label>
+                                        <input type="number" class="grade-input" 
+                                               value="${currentGrade}" 
+                                               min="0" max="${question.maxPoints}"
+                                               data-question-id="${question.id}">
+                                        <span>/ ${question.maxPoints}</span>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    }).join('')}
+                </div>
+            `;
+            
+            document.getElementById('gradeModal').style.display = 'block';
+        }
+
+        function saveGrades() {
+            if (!currentAssignment || !currentSubmission) return;
+            
+            // Collect grades
+            const gradeInputs = document.querySelectorAll('.grade-input');
+            gradeInputs.forEach(input => {
+                const questionId = input.dataset.questionId;
+                const points = parseInt(input.value) || 0;
+                currentSubmission.grades[questionId] = points;
+            });
+            
+            // Mark as graded
+            currentSubmission.gradedAt = new Date().toISOString();
+            
+            // Save to storage
+            const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+            const assignmentIndex = assignments.findIndex(a => a.id === currentAssignment.id);
+            assignments[assignmentIndex].submissions[currentSubmission.studentName] = currentSubmission;
+            localStorage.setItem('tornadoAssignments', JSON.stringify(assignments));
+            
+            // Update student points
+            updateStudentPoints();
+            
+            // Close modal and refresh
+            closeGradeModal();
+            loadAssignments();
+            
+            alert('Grades saved successfully!');
+        }
+
+        function updateStudentPoints() {
+            // Calculate total points earned
+            let totalPoints = 0;
+            currentAssignment.questions.forEach(question => {
+                if (question.type === 'multiple_choice') {
+                    if (currentSubmission.answers[question.id] === question.correctAnswer) {
+                        totalPoints += question.points;
+                    }
+                } else if (question.type === 'short_answer') {
+                    totalPoints += currentSubmission.grades[question.id] || 0;
+                }
+            });
+            
+            // Update roster points
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            const rosterIndex = rosters.findIndex(r => r.id === currentRoster.id);
+            const studentIndex = rosters[rosterIndex].roster.findIndex(s => s.name === currentSubmission.studentName);
+            
+            if (studentIndex !== -1) {
+                rosters[rosterIndex].roster[studentIndex].points = (rosters[rosterIndex].roster[studentIndex].points || 0) + totalPoints;
+                localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+            }
+        }
+
+        // === ASSIGNMENT MANAGEMENT ===
+        function editAssignment(assignmentId) {
+            // TODO: Implement assignment editing
+            alert('Assignment editing coming soon!');
+        }
+
+        function deleteAssignment(assignmentId) {
+            if (!confirm('Are you sure you want to delete this assignment? This action cannot be undone.')) {
+                return;
+            }
+            
+            const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+            const filteredAssignments = assignments.filter(a => a.id !== assignmentId);
+            localStorage.setItem('tornadoAssignments', JSON.stringify(filteredAssignments));
+            
+            loadAssignments();
+            alert('Assignment deleted successfully!');
+        }
+
+        // === MODAL MANAGEMENT ===
+        function closeGradeModal() {
+            document.getElementById('gradeModal').style.display = 'none';
+            currentAssignment = null;
+            currentSubmission = null;
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        // === INITIALIZE ===
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
