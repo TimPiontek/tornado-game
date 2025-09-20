@@ -4227,14 +4227,16 @@ The Beatles
             console.log('Auth check - isTeacher:', isTeacher, 'isStudent:', isStudent);
             console.log('Auth check - teacherUser:', teacherUser);
             
-            // Update navigation
-            updateNavigation(isTeacher, isStudent);
+            // Force guest mode for testing - remove this after testing
+            console.log('FORCING GUEST MODE FOR TESTING');
+            updateNavigation(false, false);
+            updateContentVisibility(false, false);
+            updateLoginBtn(null);
             
-            // Update content visibility
-            updateContentVisibility(isTeacher, isStudent);
-            
-            // Update login button
-            updateLoginBtn(teacherUser);
+            // Uncomment this after testing:
+            // updateNavigation(isTeacher, isStudent);
+            // updateContentVisibility(isTeacher, isStudent);
+            // updateLoginBtn(teacherUser);
             
           } catch (error) {
             console.error('Error checking auth status:', error);
