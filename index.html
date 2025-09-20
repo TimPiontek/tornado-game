@@ -4288,16 +4288,23 @@ The Beatles
           // Re-attach login button event listener
           const loginBtn = document.getElementById("loginLogoutBtn");
           if (loginBtn) {
-            loginBtn.onclick = function () {
+            console.log('Attaching login button event listener to:', loginBtn.textContent);
+            loginBtn.onclick = function (e) {
+              console.log('Login button clicked!', e);
+              console.log('Button text:', loginBtn.textContent);
               if (loginBtn.textContent === "👨‍🏫 Teacher Login" || loginBtn.textContent === "Login") {
+                console.log('Showing auth modal...');
                 showAuthModal();
               } else {
+                console.log('Logging out...');
                 // Logout - clear both Supabase and student sessions
                 supabaseClient.auth.signOut();
                 localStorage.removeItem('currentStudent');
                 updateHomepageForUser();
               }
             };
+          } else {
+            console.log('Login button not found!');
           }
         }
 
@@ -4433,6 +4440,25 @@ The Beatles
             if (key && key.includes('supabase')) {
               console.log(`- ${key}:`, localStorage.getItem(key));
             }
+          }
+        };
+        
+        // Function to test login button
+        window.testLoginButton = function() {
+          console.log('Testing login button...');
+          const loginBtn = document.getElementById("loginLogoutBtn");
+          console.log('Login button found:', loginBtn);
+          console.log('Login button text:', loginBtn ? loginBtn.textContent : 'Not found');
+          console.log('Login button onclick:', loginBtn ? loginBtn.onclick : 'No onclick');
+          
+          const modal = document.getElementById("authModal");
+          console.log('Auth modal found:', modal);
+          console.log('Auth modal display:', modal ? modal.style.display : 'Not found');
+          
+          // Try to trigger the modal manually
+          if (modal) {
+            console.log('Manually showing auth modal...');
+            showAuthModal();
           }
         };
         
