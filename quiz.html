@@ -5363,6 +5363,9 @@
             updateScores();
             updateTeamDisplay();
             
+            // Auto-save points after every turn
+            autoSaveQuizPoints();
+            
             // Show points breakdown with math (if breakdown exists)
             if (breakdown) {
               // Wait for points breakdown to be dismissed before continuing
@@ -6880,7 +6883,7 @@
                     });
                 }
                 
-                // Add points to students in the roster
+                // Add points to students in the roster using centralized system
                 if (targetRoster && targetRoster.roster) {
                     targetRoster.roster.forEach(student => {
                         if (studentPoints[student.name]) {
@@ -7009,6 +7012,47 @@
             setTimeout(() => {
                 alert(`🎉 Quiz Complete!\n\nPoints transferred to Tornado War:\n• Individual quiz points: ${totalPointsTransferred} total\n\nCheck the War game to see updated student balances!`);
             }, 2000);
+        }
+        
+        // === AUTO-SAVE SYSTEM ===
+        function autoSaveQuizPoints() {
+            if (!rosterData) return;
+            
+            try {
+                // Get current roster data
+                const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                let targetRoster = rosters.find(r => r.id === rosterData.id);
+                
+                if (!targetRoster) {
+                    // Use most recent roster if current one not found
+                    targetRoster = rosters.reduce((latest, roster) => {
+                        return new Date(roster.lastModified || roster.created_at) > new Date(latest.lastModified || latest.created_at) ? roster : latest;
+                    });
+                }
+                
+                if (targetRoster && targetRoster.roster) {
+                    // Update individual student points
+                    targetRoster.roster.forEach(student => {
+                        if (studentPoints[student.name] !== undefined) {
+                            student.points = studentPoints[student.name];
+                        }
+                    });
+                    
+                    // Update last modified
+                    targetRoster.lastModified = new Date().toISOString();
+                    
+                    // Save back to localStorage
+                    const rosterIndex = rosters.findIndex(r => r.id === targetRoster.id);
+                    if (rosterIndex >= 0) {
+                        rosters[rosterIndex] = targetRoster;
+                        localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+                    }
+                    
+                    console.log('Auto-saved quiz points to roster');
+                }
+            } catch (error) {
+                console.error('Error auto-saving quiz points:', error);
+            }
         }
         
         function showEndGameResults() {
