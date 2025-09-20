@@ -3176,7 +3176,14 @@ The Beatles
         // === SUPABASE INIT ===
         const supabaseClient = window.supabase.createClient(
           "https://dmbbsrcwqpmdxqtzvtqj.supabase.co",
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w"
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w",
+          {
+            auth: {
+              persistSession: true,
+              autoRefreshToken: true,
+              detectSessionInUrl: true
+            }
+          }
         );
 
         // Show navigation for game selection
@@ -4352,6 +4359,15 @@ The Beatles
             updateHomepageForUser();
           } catch (error) {
             console.error('Logout error:', error);
+          }
+        };
+        
+        // Debug function to check all localStorage keys
+        window.checkLocalStorage = function() {
+          console.log('All localStorage keys:');
+          for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            console.log(`- ${key}:`, localStorage.getItem(key));
           }
         };
         
