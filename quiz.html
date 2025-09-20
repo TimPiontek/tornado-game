@@ -8752,16 +8752,26 @@ The Beatles"
         }
         
         function loadRosterData() {
+            // First try to load from quizTeamAssignment (set during roster selection)
+            if (window.quizTeamAssignment && window.quizTeamAssignment.rosterData) {
+                rosterData = window.quizTeamAssignment.rosterData;
+                console.log('Roster loaded from quizTeamAssignment:', rosterData);
+                return true;
+            }
+            
+            // Fallback: try to load from old single roster system
             const saved = localStorage.getItem('tornadoRoster');
             if (saved) {
                 try {
                     rosterData = JSON.parse(saved);
-                    console.log('Roster loaded:', rosterData);
+                    console.log('Roster loaded from tornadoRoster:', rosterData);
                     return true;
                 } catch (e) {
                     console.error('Error loading roster:', e);
                 }
             }
+            
+            console.log('No roster data found');
             return false;
         }
         
@@ -9084,6 +9094,22 @@ The Beatles"
               showQuestion();
             };
           }
+          
+          // Update sidebar displays
+          updateTeamScores();
+          updateGameStats();
+          updateTurnDisplay();
+          
+          console.log('Game started with:', {
+            teamMode,
+            teamCount,
+            rosterData: rosterData ? {
+              teams: rosterData.teams?.length,
+              students: rosterData.roster?.length
+            } : null,
+            names,
+            scores
+          });
         }
 
         // Coin Flip Modal Functions
