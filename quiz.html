@@ -1245,8 +1245,8 @@
         padding: 15px 18px 15px 18px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
         margin-left: 20px;
-        height: fit-content;
-        overflow-y: visible;
+        height: 600px;
+        overflow-y: auto;
       }
       
       /* Unified Game Layout */
@@ -1464,7 +1464,7 @@
 
       /* Match the height of the special effects sidebar */
       .setup-main-card .setup-unified-card {
-        height: fit-content;
+        height: 600px;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
       }
@@ -2472,11 +2472,7 @@
                   
                   <!-- Point Configuration Section -->
                   <div class="setup-unified-cell full-width">
-                    <label style="display:flex; align-items:center; gap:0.6em; flex-wrap:wrap;">
-                      <span>Point Configuration:</span>
-                      <small>Configure points for individual answers and team victories.</small>
-                    </label>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                       <div>
                         <label style="display:block; margin-bottom:0.3em; font-size:0.9em;">Individual Correct Answer:</label>
                         <input type="number" id="individualPoints" min="1" max="1000" value="100" style="width:100%;">
