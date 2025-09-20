@@ -7053,20 +7053,227 @@ The Beatles"
         }
         
         function loadQuizRoster() {
-            const saved = localStorage.getItem('tornadoRoster');
-            if (saved) {
+            showRosterSelectionScreen();
+        }
+        
+        function showRosterSelectionScreen() {
+            // Create modal overlay
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+            `;
+            
+            // Get existing rosters
+            const existingRosters = getExistingRosters();
+            
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    border-radius: 16px;
+                    padding: 2rem;
+                    max-width: 600px;
+                    width: 90vw;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+                ">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h2 style="margin: 0; color: #6f5c91; font-size: 1.8rem;">Select or Create Roster</h2>
+                        <button onclick="this.closest('div[style*=\"position: fixed\"]').remove()" style="
+                            background: #6c757d;
+                            color: white;
+                            border: none;
+                            padding: 0.5rem 1rem;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-size: 1rem;
+                        ">✕ Close</button>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: #6f5c91; margin-bottom: 1rem;">📝 Create New Roster</h3>
+                        <p style="color: #666; margin-bottom: 1rem;">
+                            Enter student names (one per line or separated by commas):
+                        </p>
+                        <textarea id="newRosterNames" placeholder="Enter student names here...&#10;Example:&#10;John Smith&#10;Jane Doe&#10;Mike Johnson" style="
+                            width: 100%;
+                            height: 120px;
+                            padding: 1rem;
+                            border: 1px solid #ddd;
+                            border-radius: 8px;
+                            font-size: 1rem;
+                            resize: vertical;
+                            margin-bottom: 1rem;
+                        "></textarea>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <input type="text" id="newRosterName" placeholder="Roster name (optional)" style="
+                                flex: 1;
+                                padding: 0.75rem;
+                                border: 1px solid #ddd;
+                                border-radius: 8px;
+                                font-size: 1rem;
+                            ">
+                            <button onclick="createNewRoster(this.closest('div[style*=\"position: fixed\"]'))" style="
+                                background: #28a745;
+                                color: white;
+                                border: none;
+                                padding: 0.75rem 1.5rem;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-size: 1rem;
+                                font-weight: 600;
+                            ">💾 Save New Roster</button>
+                        </div>
+                    </div>
+                    
+                    ${existingRosters.length > 0 ? `
+                        <div>
+                            <h3 style="color: #6f5c91; margin-bottom: 1rem;">📚 Existing Rosters</h3>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                ${existingRosters.map((roster, index) => `
+                                    <div style="
+                                        display: flex;
+                                        justify-content: space-between;
+                                        align-items: center;
+                                        padding: 1rem;
+                                        border: 1px solid #e0e0e0;
+                                        border-radius: 8px;
+                                        background: #f8f9fa;
+                                    ">
+                                        <div>
+                                            <strong>${roster.name || 'Untitled Roster'}</strong>
+                                            <br>
+                                            <small style="color: #666;">${roster.roster.length} students • ${new Date(roster.lastModified).toLocaleDateString()}</small>
+                                        </div>
+                                        <button onclick="selectExistingRoster(${index}, this.closest('div[style*=\"position: fixed\"]'))" style="
+                                            background: #6f5c91;
+                                            color: white;
+                                            border: none;
+                                            padding: 0.5rem 1rem;
+                                            border-radius: 6px;
+                                            cursor: pointer;
+                                            font-size: 0.9rem;
+                                        ">Select</button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : `
+                        <div style="text-align: center; padding: 2rem; color: #666;">
+                            <p>No existing rosters found. Create your first roster above!</p>
+                        </div>
+                    `}
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        function getExistingRosters() {
+            const rosters = [];
+            
+            // Check for main roster
+            const mainRoster = localStorage.getItem('tornadoRoster');
+            if (mainRoster) {
                 try {
-                    quizRosterData = JSON.parse(saved);
-                    updateRosterStatus(`Loaded ${quizRosterData.roster.length} students`);
-                    showTeamCreationScreen(quizRosterData);
+                    const roster = JSON.parse(mainRoster);
+                    rosters.push(roster);
                 } catch (e) {
-                    updateRosterStatus('Error loading roster');
-                    console.error('Error loading roster:', e);
+                    console.error('Error parsing main roster:', e);
                 }
-            } else {
-                updateRosterStatus('No roster found. Create one in Manage Roster first.');
+            }
+            
+            // Check for additional rosters
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('tornadoRoster_')) {
+                    try {
+                        const roster = JSON.parse(localStorage.getItem(key));
+                        rosters.push(roster);
+                    } catch (e) {
+                        console.error('Error parsing roster:', key, e);
+                    }
+                }
+            }
+            
+            return rosters;
+        }
+        
+        function createNewRoster(modal) {
+            const namesText = document.getElementById('newRosterNames').value.trim();
+            const rosterName = document.getElementById('newRosterName').value.trim();
+            
+            if (!namesText) {
+                alert('Please enter at least one student name.');
+                return;
+            }
+            
+            // Parse names (support both line breaks and commas)
+            const names = namesText.split(/[\n,]+/)
+                .map(name => name.trim())
+                .filter(name => name.length > 0);
+            
+            if (names.length === 0) {
+                alert('Please enter valid student names.');
+                return;
+            }
+            
+            // Create roster object
+            const roster = {
+                name: rosterName || `Roster ${new Date().toLocaleDateString()}`,
+                roster: names.map((name, index) => ({
+                    id: `student_${Date.now()}_${index}`,
+                    name: name
+                })),
+                lastModified: new Date().toISOString(),
+                teams: [],
+                teamMode: false
+            };
+            
+            // Save roster
+            const rosterKey = rosterName ? `tornadoRoster_${rosterName.replace(/[^a-zA-Z0-9]/g, '_')}` : 'tornadoRoster';
+            localStorage.setItem(rosterKey, JSON.stringify(roster));
+            
+            // Set as current roster
+            quizRosterData = roster;
+            
+            // Close modal and proceed to team creation
+            modal.remove();
+            showTeamCreationScreen(roster);
+            
+            // Update status
+            updateRosterStatus(`Created roster: ${roster.name} (${roster.roster.length} students)`);
+        }
+        
+        function selectExistingRoster(index, modal) {
+            const existingRosters = getExistingRosters();
+            if (index >= 0 && index < existingRosters.length) {
+                const selectedRoster = existingRosters[index];
+                
+                // Set as current roster
+                quizRosterData = selectedRoster;
+                
+                // Close modal and proceed to team creation
+                modal.remove();
+                showTeamCreationScreen(selectedRoster);
+                
+                // Update status
+                updateRosterStatus(`Selected roster: ${selectedRoster.name} (${selectedRoster.roster.length} students)`);
             }
         }
+        
+        // Make functions globally accessible
+        window.createNewRoster = createNewRoster;
+        window.selectExistingRoster = selectExistingRoster;
         
         function updateRosterStatus(message) {
             const statusEl = document.getElementById('rosterStatus');
