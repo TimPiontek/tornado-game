@@ -4059,7 +4059,7 @@ The Beatles
 
         // Re-render My Library on auth state change
         supabaseClient.auth.onAuthStateChange(async (event, session) => {
-          console.log(session.user, "session user");
+          console.log('Auth state change:', event, session?.user);
           const hash = window.location.hash;
           if (hash.includes("my-library")) {
             await showLibrary("my");
@@ -4181,16 +4181,28 @@ The Beatles
 
         // === DYNAMIC HOMEPAGE BASED ON LOGIN STATUS ===
         async function updateHomepageForUser() {
+          // Try both getUser() and getSession() to ensure we get the current auth state
           const {
             data: { user },
           } = await supabaseClient.auth.getUser();
+          
+          const {
+            data: { session },
+          } = await supabaseClient.auth.getSession();
+          
+          // Debug logging
+          console.log('Auth check - Supabase user:', user);
+          console.log('Auth check - Supabase session:', session);
+          console.log('Auth check - currentStudent:', localStorage.getItem('currentStudent'));
           
           // Check if user is a student (has currentStudent in localStorage)
           const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
           const isStudent = currentStudent !== null;
           
           // Check if user is a teacher (logged in via Supabase)
-          const isTeacher = user !== null;
+          const isTeacher = user !== null || session !== null;
+          
+          console.log('Auth check - isTeacher:', isTeacher, 'isStudent:', isStudent);
           
           // Update navigation
           updateNavigation(isTeacher, isStudent);
@@ -4199,7 +4211,7 @@ The Beatles
           updateContentVisibility(isTeacher, isStudent);
           
           // Update login button
-          updateLoginBtn(user);
+          updateLoginBtn(user || session?.user);
         }
 
         function updateNavigation(isTeacher, isStudent) {
