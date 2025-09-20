@@ -198,6 +198,43 @@
             text-align: right;
         }
         
+        .quick-rewards {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(16, 185, 129, 0.1);
+        }
+        
+        .reward-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+        
+        .roster-sorting {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+        
+        .roster-sorting .btn {
+            margin-left: 0.5rem;
+        }
+        
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+        }
+        
         .roster-students {
             max-height: 200px;
             overflow-y: auto;
@@ -654,6 +691,21 @@
                         Last modified: ${new Date(roster.lastModified).toLocaleDateString()}
                     </div>
                     <div class="roster-points">
+                        <div class="quick-rewards">
+                            <strong>Quick Rewards:</strong>
+                            <div class="reward-buttons">
+                                <button class="btn btn-small btn-success" onclick="quickRewardAll('${roster.id}', 1)">+1 All</button>
+                                <button class="btn btn-small btn-success" onclick="quickRewardAll('${roster.id}', 10)">+10 All</button>
+                                <button class="btn btn-small btn-warning" onclick="quickRewardAll('${roster.id}', -1)">-1 All</button>
+                                <button class="btn btn-small btn-warning" onclick="quickRewardAll('${roster.id}', -10)">-10 All</button>
+                            </div>
+                        </div>
+                        <div class="roster-sorting">
+                            <strong>Sort:</strong>
+                            <button class="btn btn-small btn-secondary" onclick="sortRoster('${roster.id}', 'first')">First Name</button>
+                            <button class="btn btn-small btn-secondary" onclick="sortRoster('${roster.id}', 'last')">Last Name</button>
+                            <button class="btn btn-small btn-secondary" onclick="shuffleRoster('${roster.id}')">Shuffle</button>
+                        </div>
                         <strong>Points:</strong>
                         ${roster.roster.map(student => `
                             <span class="point-item">
@@ -1006,6 +1058,87 @@
             return saved ? JSON.parse(saved) : [];
         }
         
+        // === QUICK REWARDS ===
+        function quickRewardAll(rosterId, pointsChange) {
+            const allRosters = getAllRosters();
+            const rosterIndex = allRosters.findIndex(r => r.id === rosterId);
+            if (rosterIndex === -1) return;
+            
+            const roster = allRosters[rosterIndex];
+            roster.roster.forEach(student => {
+                const currentPoints = student.points || 0;
+                student.points = Math.max(0, currentPoints + pointsChange); // Prevent negative points
+            });
+            
+            roster.lastModified = new Date().toISOString();
+            localStorage.setItem('tornadoRosters', JSON.stringify(allRosters));
+            
+            // Refresh the display
+            loadExistingRosters();
+            
+            const action = pointsChange > 0 ? 'awarded' : 'deducted';
+            const amount = Math.abs(pointsChange);
+            console.log(`${action} ${amount} points to all students in ${roster.name}`);
+        }
+        
+        // === ROSTER SORTING ===
+        function sortRoster(rosterId, sortType) {
+            const allRosters = getAllRosters();
+            const rosterIndex = allRosters.findIndex(r => r.id === rosterId);
+            if (rosterIndex === -1) return;
+            
+            const roster = allRosters[rosterIndex];
+            
+            roster.roster.sort((a, b) => {
+                const nameA = a.name.toLowerCase();
+                const nameB = b.name.toLowerCase();
+                
+                if (sortType === 'first') {
+                    // Sort by first name
+                    const firstNameA = nameA.split(' ')[0];
+                    const firstNameB = nameB.split(' ')[0];
+                    return firstNameA.localeCompare(firstNameB);
+                } else if (sortType === 'last') {
+                    // Sort by last name
+                    const lastNameA = nameA.split(' ').pop() || '';
+                    const lastNameB = nameB.split(' ').pop() || '';
+                    return lastNameA.localeCompare(lastNameB);
+                }
+                
+                return nameA.localeCompare(nameB);
+            });
+            
+            roster.lastModified = new Date().toISOString();
+            localStorage.setItem('tornadoRosters', JSON.stringify(allRosters));
+            
+            // Refresh the display
+            loadExistingRosters();
+            
+            console.log(`Sorted ${roster.name} by ${sortType} name`);
+        }
+        
+        function shuffleRoster(rosterId) {
+            const allRosters = getAllRosters();
+            const rosterIndex = allRosters.findIndex(r => r.id === rosterId);
+            if (rosterIndex === -1) return;
+            
+            const roster = allRosters[rosterIndex];
+            
+            // Fisher-Yates shuffle algorithm
+            for (let i = roster.roster.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [roster.roster[i], roster.roster[j]] = [roster.roster[j], roster.roster[i]];
+            }
+            
+            roster.lastModified = new Date().toISOString();
+            localStorage.setItem('tornadoRosters', JSON.stringify(allRosters));
+            
+            // Refresh the display
+            loadExistingRosters();
+            
+            console.log(`Shuffled ${roster.name}`);
+        }
+
         // === POINT MANAGEMENT ===
         function editStudentPoints(rosterId, studentId, studentName) {
             editingPointsRosterId = rosterId;
