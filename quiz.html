@@ -154,8 +154,9 @@
 
       /* GAME */
       #gameScreen {
-        max-width: 900px;
-        margin: auto;
+        max-width: none;
+        margin: 0;
+        width: 100%;
       }
 
       #grid {
@@ -1251,10 +1252,11 @@
       /* Unified Game Layout */
       .game-layout {
         display: grid;
-        grid-template-columns: 200px 1fr;
+        grid-template-columns: 300px 1fr;
         gap: 1rem;
         padding: 1rem 1rem 1rem 0;
         min-height: calc(100vh - 2rem);
+        margin-left: 0;
       }
       
       .game-sidebar {
