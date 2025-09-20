@@ -296,6 +296,7 @@
   async function updateAuth() {
     const { data: { session } } = await supabase.auth.getSession();
     state.session = session;
+    console.log('War game auth update:', session ? 'Logged in as ' + session.user.email : 'Not logged in');
     
     if (state.offlineMode) {
       who.textContent = "Playing Offline";
