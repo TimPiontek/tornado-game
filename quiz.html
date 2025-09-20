@@ -163,8 +163,7 @@
         display: grid;
         gap: 8px;
         margin-bottom: 60px;
-        /* Default to 6 columns, will be overridden by buildGrid function */
-        grid-template-columns: repeat(6, 1fr);
+        /* Let JavaScript buildGrid function control the columns */
         width: 100%;
         height: 100%;
         justify-items: stretch;
@@ -8869,26 +8868,21 @@ The Beatles"
         // === DYNAMIC GRID SIZING ===
         function calculateOptimalGridSize() {
             if (!rosterData || !rosterData.roster || rosterData.roster.length === 0) {
-                return 20; // Default size
+                return 20; // Default size for 5x4 grid
             }
             
             const studentCount = rosterData.roster.length;
             
-            // Calculate grid size: roster count + 1 if necessary to create a perfect square
-            let gridSize = studentCount;
-            const sqrt = Math.sqrt(gridSize);
-            
-            // If not a perfect square, round up to next perfect square
-            if (sqrt !== Math.floor(sqrt)) {
-                const nextSquare = Math.ceil(sqrt);
-                gridSize = nextSquare * nextSquare;
+            // For small rosters, use specific grid sizes that work well
+            if (studentCount <= 20) {
+                return 20; // 5x4 grid
+            } else if (studentCount <= 24) {
+                return 24; // 6x4 grid
+            } else if (studentCount <= 30) {
+                return 30; // 6x5 grid
+            } else {
+                return 36; // 6x6 grid
             }
-            
-            // Ensure minimum size of 9 (3x3) and maximum of 64 (8x8)
-            gridSize = Math.max(9, Math.min(64, gridSize));
-            
-            console.log(`Calculated grid size: ${gridSize} for ${studentCount} students`);
-            return gridSize;
         }
 
         // === SIDEBAR MANAGEMENT ===
