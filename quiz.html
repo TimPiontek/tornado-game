@@ -3398,7 +3398,7 @@ The Beatles"
         const passBtn = document.getElementById("passBtn");
         const skipBtn = document.getElementById("skipBtn");
         const revealBtn = document.getElementById("revealBtn");
-        const gridEl = document.getElementById("grid");
+        let gridEl = document.getElementById("grid");
         const annA = document.getElementById("annA");
         const annB = document.getElementById("annB");
         const nameAEl = document.getElementById("nameA");
@@ -5229,9 +5229,33 @@ The Beatles"
         function buildGrid(n) {
           console.log('buildGrid called with n:', n, 'gridEl:', gridEl);
           
+          // Try to find gridEl if not already found
           if (!gridEl) {
-            console.error('gridEl not found!');
-            return;
+            gridEl = document.getElementById("grid");
+            console.log('Re-finding gridEl:', gridEl);
+          }
+          
+          if (!gridEl) {
+            console.error('gridEl not found! Creating fallback...');
+            // Create a fallback grid element
+            const gameMain = document.querySelector('.game-main');
+            if (gameMain) {
+              const fallbackGrid = document.createElement('div');
+              fallbackGrid.id = 'grid';
+              fallbackGrid.style.cssText = 'flex: 1 1 auto; display: grid; min-height: 400px; background: #f8f9fa; border-radius: 8px; padding: 1rem;';
+              gameMain.appendChild(fallbackGrid);
+              gridEl = fallbackGrid;
+              console.log('Created fallback grid element');
+            } else {
+              console.error('Cannot create fallback grid - game-main not found');
+              return;
+            }
+          }
+          
+          // Ensure n is valid
+          if (!n || n <= 0) {
+            n = 20; // Default fallback
+            console.log('Invalid n, using default:', n);
           }
           
           gridEl.innerHTML = "";
@@ -5297,6 +5321,10 @@ The Beatles"
           }
           
           console.log(`Grid built with ${n} buttons`);
+          
+          // Force grid to be visible
+          gridEl.style.display = 'grid';
+          gridEl.style.visibility = 'visible';
         }
 
         let isResolvingTurn = false;
@@ -9219,8 +9247,16 @@ The Beatles"
             total = calculateOptimalGridSize();
             console.log('Using dynamic grid size:', total, 'for', rosterData.roster.length, 'students');
           } else {
-            total = settings.gridSize;
-            console.log('Using default grid size:', total);
+            // Fallback to grid size input or default
+            const gridSizeInput = document.getElementById("gridSizeInput");
+            total = gridSizeInput ? parseInt(gridSizeInput.value) || 20 : (settings.gridSize || 20);
+            console.log('Using grid size:', total, 'from input:', gridSizeInput?.value, 'or settings:', settings.gridSize);
+          }
+          
+          // Ensure total is always a valid number
+          if (!total || total <= 0) {
+            total = 20; // Default fallback
+            console.log('Total was invalid, using default:', total);
           }
           
           // Hide library, show game
@@ -9250,6 +9286,29 @@ The Beatles"
           if (typeof buildGrid === 'function') {
             console.log('Calling buildGrid with total:', total);
             buildGrid(total);
+          } else {
+            console.error('buildGrid function not found!');
+          }
+          
+          // Ensure grid is visible
+          if (gridEl) {
+            gridEl.style.display = 'grid';
+            gridEl.style.visibility = 'visible';
+            console.log('Grid element made visible');
+          } else {
+            console.error('Grid element not found! Creating emergency grid...');
+            // Emergency fallback - create grid directly
+            const gameMain = document.querySelector('.game-main');
+            if (gameMain) {
+              const emergencyGrid = document.createElement('div');
+              emergencyGrid.id = 'grid';
+              emergencyGrid.style.cssText = 'flex: 1 1 auto; display: grid; min-height: 400px; background: #f8f9fa; border-radius: 8px; padding: 1rem;';
+              gameMain.appendChild(emergencyGrid);
+              gridEl = emergencyGrid;
+              // Build a simple grid
+              buildGrid(20);
+              console.log('Emergency grid created and built');
+            }
           }
           if (typeof showQuestion === 'function') {
             console.log('Calling showQuestion');
