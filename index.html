@@ -4157,7 +4157,7 @@ The Beatles
             btn.title = "";
           }
         }
-        // updateLoginBtn();
+        updateLoginBtn();
         supabaseClient.auth.onAuthStateChange(async (event, session) => {
           const btn = document.getElementById("loginLogoutBtn");
           if (event === "SIGNED_IN") {
