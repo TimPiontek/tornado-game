@@ -306,6 +306,44 @@
             margin-top: 1rem;
         }
         
+        .student-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            cursor: move;
+            transition: all 0.2s ease;
+        }
+        
+        .student-item:hover {
+            background: #f8fafc;
+            border-color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .student-item[draggable="true"]:active {
+            opacity: 0.7;
+            transform: rotate(2deg);
+        }
+        
+        .team-students {
+            min-height: 40px;
+            padding: 0.5rem;
+            border: 2px dashed transparent;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .team-students.drag-over {
+            border-color: var(--accent);
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
         .form-group {
             margin-bottom: 1.5rem;
             text-align: left;
@@ -570,8 +608,8 @@
                     </div>
                     
                     <div class="team-actions">
-                        <button class="btn btn-secondary" onclick="autoAssignTeams()">Auto-Assign Teams</button>
                         <button class="btn btn-secondary" onclick="shuffleTeams()">Shuffle Teams</button>
+                        <button class="btn btn-secondary" onclick="clearAllTeams()">Clear All Teams</button>
                     </div>
                 </div>
             </div>
@@ -877,7 +915,7 @@
             }
             
             container.innerHTML = newRosterStudents.map(student => `
-                <div class="student-item">
+                <div class="student-item" draggable="true" ondragstart="drag(event, '${student.id}')" data-student-id="${student.id}">
                     <span class="student-name">${student.name}</span>
                     <div class="student-actions">
                         <button class="btn btn-small btn-danger" onclick="removeStudentFromNew('${student.id}')">Remove</button>
@@ -1165,7 +1203,7 @@
                 teamDiv.innerHTML = `
                     <div class="team-color-indicator" style="background: ${teamColors[i]}"></div>
                     <input type="text" class="team-name-input" placeholder="Team ${i + 1} Name" value="Team ${i + 1}">
-                    <div class="team-students" id="team${i}Students">No students assigned</div>
+                    <div class="team-students" id="team${i}Students" ondrop="drop(event, ${i})" ondragover="allowDrop(event)" ondragleave="removeDragOver(event)">No students assigned</div>
                 `;
                 teamAssignments.appendChild(teamDiv);
             }
@@ -1198,25 +1236,8 @@
             });
         }
         
-        function autoAssignTeams() {
-            const students = [...newRosterStudents];
-            const teamCount = parseInt(document.getElementById('teamCount').value);
-            
-            // Shuffle students array
-            for (let i = students.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [students[i], students[j]] = [students[j], students[i]];
-            }
-            
-            // Update the newRosterStudents array with shuffled order
-            newRosterStudents = students;
-            updateStudentList();
-            updateTeamAssignments();
-        }
-        
         function shuffleTeams() {
             const students = [...newRosterStudents];
-            const teamCount = parseInt(document.getElementById('teamCount').value);
             
             // Shuffle students array
             for (let i = students.length - 1; i > 0; i--) {
@@ -1226,10 +1247,88 @@
             
             // Update the newRosterStudents array with shuffled order
             newRosterStudents = students;
-            updateStudentList();
+            renderNewStudentList();
             updateTeamAssignments();
         }
         
+        // === DRAG AND DROP FUNCTIONS ===
+        let draggedStudentId = null;
+        
+        function drag(event, studentId) {
+            draggedStudentId = studentId;
+            event.dataTransfer.effectAllowed = 'move';
+        }
+        
+        function allowDrop(event) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'move';
+            event.target.classList.add('drag-over');
+        }
+        
+        function removeDragOver(event) {
+            event.target.classList.remove('drag-over');
+        }
+        
+        function drop(event, teamIndex) {
+            event.preventDefault();
+            event.target.classList.remove('drag-over');
+            
+            if (!draggedStudentId) return;
+            
+            // Find the student
+            const student = newRosterStudents.find(s => s.id === draggedStudentId);
+            if (!student) return;
+            
+            // Remove student from current team assignment
+            removeStudentFromTeam(student.name);
+            
+            // Add student to new team
+            addStudentToTeam(student.name, teamIndex);
+            
+            draggedStudentId = null;
+        }
+        
+        function removeStudentFromTeam(studentName) {
+            const teamCount = parseInt(document.getElementById('teamCount').value);
+            
+            for (let i = 0; i < teamCount; i++) {
+                const teamStudentsDiv = document.getElementById(`team${i}Students`);
+                if (teamStudentsDiv && teamStudentsDiv.textContent.includes(studentName)) {
+                    const currentStudents = teamStudentsDiv.textContent.split(', ');
+                    const updatedStudents = currentStudents.filter(name => name.trim() !== studentName);
+                    
+                    if (updatedStudents.length === 0) {
+                        teamStudentsDiv.textContent = 'No students assigned';
+                    } else {
+                        teamStudentsDiv.textContent = updatedStudents.join(', ');
+                    }
+                }
+            }
+        }
+        
+        function addStudentToTeam(studentName, teamIndex) {
+            const teamStudentsDiv = document.getElementById(`team${teamIndex}Students`);
+            if (!teamStudentsDiv) return;
+            
+            const currentText = teamStudentsDiv.textContent;
+            if (currentText === 'No students assigned') {
+                teamStudentsDiv.textContent = studentName;
+            } else {
+                teamStudentsDiv.textContent = `${currentText}, ${studentName}`;
+            }
+        }
+        
+        function clearAllTeams() {
+            const teamCount = parseInt(document.getElementById('teamCount').value);
+            
+            for (let i = 0; i < teamCount; i++) {
+                const teamStudentsDiv = document.getElementById(`team${i}Students`);
+                if (teamStudentsDiv) {
+                    teamStudentsDiv.textContent = 'No students assigned';
+                }
+            }
+        }
+
         function getTeamAssignments() {
             const teamCount = parseInt(document.getElementById('teamCount').value);
             const teams = [];
@@ -1240,7 +1339,7 @@
                 
                 const teamName = teamNameInput ? teamNameInput.value || `Team ${i + 1}` : `Team ${i + 1}`;
                 const studentNames = teamStudentsDiv && teamStudentsDiv.textContent !== 'No students assigned' 
-                    ? teamStudentsDiv.textContent.split(', ') 
+                    ? teamStudentsDiv.textContent.split(', ').map(name => name.trim()).filter(name => name)
                     : [];
                 
                 teams.push({
