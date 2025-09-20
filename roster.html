@@ -263,45 +263,41 @@
             font-size: 1.25rem;
         }
         
-        .team-options {
+        .team-options-compact {
             display: flex;
             gap: 1rem;
             margin-bottom: 1rem;
         }
         
-        .team-option {
-            flex: 1;
-            padding: 1rem;
+        .team-btn {
+            background: white;
             border: 2px solid var(--border);
             border-radius: 8px;
-            text-align: center;
+            padding: 0.75rem 1rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
         
-        .team-option:hover {
+        .team-btn:hover {
             border-color: var(--accent);
             background: rgba(111, 92, 145, 0.05);
         }
         
-        .team-option.selected {
+        .team-btn.selected {
             border-color: var(--accent);
             background: rgba(111, 92, 145, 0.1);
+            color: var(--accent);
         }
         
-        .team-option .icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .team-option h4 {
-            margin-bottom: 0.5rem;
-            color: var(--text);
-        }
-        
-        .team-option p {
-            color: var(--muted);
-            font-size: 0.875rem;
+        .team-btn .icon {
+            font-size: 1.2rem;
         }
         
         @media (max-width: 768px) {
@@ -332,20 +328,6 @@
             </a>
         </div>
         
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-number" id="totalStudents">0</div>
-                <div class="stat-label">Total Students</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="totalTeams">0</div>
-                <div class="stat-label">Teams Created</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="lastUpdated">Never</div>
-                <div class="stat-label">Last Updated</div>
-            </div>
-        </div>
         
         <div class="main-content">
             <div class="panel">
@@ -389,22 +371,16 @@
         
         <div class="team-assignment">
             <h3>Team Assignment</h3>
-            <div class="team-options">
-                <div class="team-option" onclick="selectTeamMode('individual')">
-                    <div class="icon">👤</div>
-                    <h4>Individual Mode</h4>
-                    <p>Students play as individuals</p>
-                </div>
-                <div class="team-option" onclick="selectTeamMode('random')">
-                    <div class="icon">🎲</div>
-                    <h4>Random Teams</h4>
-                    <p>Automatically assign random teams</p>
-                </div>
-                <div class="team-option" onclick="selectTeamMode('manual')">
-                    <div class="icon">✋</div>
-                    <h4>Manual Teams</h4>
-                    <p>Drag and drop to create teams</p>
-                </div>
+            <div class="team-options-compact">
+                <button class="team-btn" onclick="selectTeamMode('individual')" data-mode="individual">
+                    <span class="icon">👤</span> Individual Mode
+                </button>
+                <button class="team-btn" onclick="selectTeamMode('random')" data-mode="random">
+                    <span class="icon">🎲</span> Random Teams
+                </button>
+                <button class="team-btn" onclick="selectTeamMode('manual')" data-mode="manual">
+                    <span class="icon">✋</span> Manual Teams
+                </button>
             </div>
             
             <div id="teamAssignmentPanel" style="display: none;">
@@ -428,9 +404,39 @@
         
         // === INITIALIZATION ===
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize the page without automatically loading a roster
-            updateStats();
+            // Load existing rosters automatically
+            loadExistingRosters();
         });
+        
+        function loadExistingRosters() {
+            const existingRosters = getAllRosters();
+            if (existingRosters.length > 0) {
+                // Show the most recent roster automatically
+                const mostRecent = existingRosters.reduce((latest, roster) => {
+                    return new Date(roster.lastModified || roster.created_at) > new Date(latest.lastModified || latest.created_at) ? roster : latest;
+                });
+                
+                // Load the most recent roster
+                roster = mostRecent.roster || [];
+                teams = mostRecent.teams || [];
+                teamMode = mostRecent.teamMode || 'individual';
+                
+                // Update roster name input
+                const rosterNameInput = document.getElementById('rosterName');
+                if (rosterNameInput) {
+                    rosterNameInput.value = mostRecent.name;
+                }
+                
+                // Update team mode selection
+                document.querySelector(`[data-mode="${teamMode}"]`).classList.add('selected');
+                
+                // Render the loaded roster
+                renderStudentList();
+                
+                // Show a subtle notification
+                console.log(`Loaded existing roster: ${mostRecent.name} (${roster.length} students)`);
+            }
+        }
         
         // === ROSTER MANAGEMENT ===
         function addStudent() {
@@ -456,8 +462,6 @@
             roster.push(student);
             nameInput.value = '';
             renderStudentList();
-            updateStats();
-            updateLastModified();
         }
         
         function bulkAddStudents() {
@@ -490,18 +494,14 @@
             
             textarea.value = '';
             renderStudentList();
-            updateStats();
-            updateLastModified();
             
             alert(`Added ${added} students${skipped > 0 ? `, skipped ${skipped} duplicates` : ''}`);
         }
         
         function removeStudent(studentId) {
             if (confirm('Are you sure you want to remove this student?')) {
-                roster = roster.filter(student => student.id !== studentId);
-                renderStudentList();
-                updateStats();
-                updateLastModified();
+            roster = roster.filter(student => student.id !== studentId);
+            renderStudentList();
             }
         }
         
@@ -559,25 +559,16 @@
             `).join('');
         }
         
-        function updateStats() {
-            document.getElementById('totalStudents').textContent = roster.length;
-            document.getElementById('totalTeams').textContent = teams.length;
-        }
-        
-        function updateLastModified() {
-            const now = new Date();
-            document.getElementById('lastUpdated').textContent = now.toLocaleString();
-        }
         
         // === TEAM MANAGEMENT ===
         function selectTeamMode(mode) {
             teamMode = mode;
             
             // Update visual selection
-            document.querySelectorAll('.team-option').forEach(option => {
-                option.classList.remove('selected');
+            document.querySelectorAll('.team-btn').forEach(btn => {
+                btn.classList.remove('selected');
             });
-            event.target.closest('.team-option').classList.add('selected');
+            document.querySelector(`[data-mode="${mode}"]`).classList.add('selected');
             
             // Show team assignment panel
             const panel = document.getElementById('teamAssignmentPanel');
@@ -640,7 +631,6 @@
                 teams[teamIndex].students.push(student);
             });
             
-            updateStats();
             alert(`Created ${numTeams} random teams!`);
         }
         
@@ -663,7 +653,6 @@
             
             // Show drag-and-drop interface
             showDragDropInterface();
-            updateStats();
         }
         
         function showDragDropInterface() {
@@ -1071,7 +1060,6 @@
                 }
                 team.name = trimmedName;
                 showDragDropInterface();
-                updateLastModified();
             }
         }
         
