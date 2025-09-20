@@ -1381,12 +1381,16 @@
        currentBattle.defenderCastle === 2 ? 100 : 
        currentBattle.defenderCastle === 3 ? 200 : 0);
     
-    if (currentBattle.attacker.balance < attackerCost) {
+    // Check if students have enough points for the battle
+    const attackerBalanceAfterCost = currentBattle.attacker.balance - attackerCost;
+    const defenderBalanceAfterCost = currentBattle.defender.balance - defenderCost;
+    
+    if (attackerBalanceAfterCost < 0) {
       alert(`Insufficient funds! ${currentBattle.attacker.name} needs ${attackerCost} points but has ${currentBattle.attacker.balance}.`);
       return;
     }
     
-    if (currentBattle.defender.balance < defenderCost) {
+    if (defenderBalanceAfterCost < 0) {
       alert(`Insufficient funds! ${currentBattle.defender.name} needs ${defenderCost} points but has ${currentBattle.defender.balance}.`);
       return;
     }
