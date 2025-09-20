@@ -4042,7 +4042,7 @@ The Beatles
           document.getElementById("loginBtn");
         if (loginBtn) {
           loginBtn.onclick = function () {
-            if (loginBtn.textContent === "Login") {
+            if (loginBtn.textContent === "👨‍🏫 Teacher Login" || loginBtn.textContent === "Login") {
               showAuthModal();
             } else {
               supabaseClient.auth.signOut();
@@ -4154,7 +4154,7 @@ The Beatles
             btn.style.color = "#e57373";
             btn.title = user.email || "";
           } else {
-            btn.textContent = "Login";
+            btn.textContent = "👨‍🏫 Teacher Login";
             btn.style.background = "#fff";
             btn.style.color = "#6F5C91";
             btn.title = "";
@@ -4173,7 +4173,7 @@ The Beatles
               btn.title = user.email || "";
             }
           } else if (event === "SIGNED_OUT") {
-            btn.textContent = "Login";
+            btn.textContent = "👨‍🏫 Teacher Login";
             btn.style.background = "#fff";
             btn.style.color = "#6F5C91";
             btn.title = "";
