@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Assignments - Tornado Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --background: #f9fafb;
+            --card: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .student-badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .back-btn {
+            background: var(--muted);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background: #4b5563;
+        }
+
+        .assignments-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 1rem;
+        }
+
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .assignment-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .assignment-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .assignment-description {
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .assignment-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--muted);
+        }
+
+        .question-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .question-card:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .question-number {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .question-points {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .choice {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .choice:hover {
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .choice.selected {
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .choice.correct {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .choice.incorrect {
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .choice input[type="radio"] {
+            margin-right: 0.75rem;
+        }
+
+        .choice-label {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .short-answer-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+            box-sizing: border-box;
+        }
+
+        .short-answer-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .short-answer-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .feedback-graded {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .feedback-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: #7c3aed;
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            background: var(--muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .sidebar-section h3 {
+            margin: 0 0 1rem 0;
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.875rem;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        .score-display {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(139, 92, 246, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(139, 92, 246, 0.1);
+        }
+
+        .score-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .score-label {
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+
+        .status-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .status-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .status-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--muted);
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .assignments-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                order: -1;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .student-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Student Assignments</h1>
+            <div class="student-info">
+                <div class="student-badge" id="studentBadge">Student Mode</div>
+                <a href="student-login.html" class="back-btn">← Back to Dashboard</a>
+            </div>
+        </div>
+
+        <div class="assignments-container">
+            <div class="main-content">
+                <div id="assignmentsContent">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <h3>📊 Progress</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">0% Complete</div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>🎯 Score</h3>
+                    <div class="score-display" id="scoreDisplay">
+                        <div class="score-value">--</div>
+                        <div class="score-label">Points Earned</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>ℹ️ Instructions</h3>
+                    <div class="status-message status-info">
+                        <strong>Multiple Choice:</strong> Select the best answer for each question.<br><br>
+                        <strong>Short Answer:</strong> Provide detailed responses. Your teacher will grade these manually.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // === GAME STATE ===
+        let currentStudent = null;
+        let currentAssignment = null;
+        let currentSubmission = null;
+        let isReviewMode = false;
+
+        // === INITIALIZATION ===
+        function init() {
+            // Check if student is logged in
+            const studentData = localStorage.getItem('currentStudent');
+            if (!studentData) {
+                alert('Please log in as a student first!');
+                window.location.href = 'student-login.html';
+                return;
+            }
+
+            currentStudent = JSON.parse(studentData);
+            
+            // Load assignment
+            loadAssignment();
+            
+            // Update UI
+            updateStudentInfo();
+        }
+
+        function loadAssignment() {
+            const assignmentId = localStorage.getItem('currentAssignmentId');
+            if (!assignmentId) {
+                showAssignmentsList();
+                return;
+            }
+
+            const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+            currentAssignment = assignments.find(a => a.id === assignmentId);
+            
+            if (!currentAssignment) {
+                alert('Assignment not found!');
+                showAssignmentsList();
+                return;
+            }
+
+            // Load submission if exists
+            currentSubmission = currentAssignment.submissions[currentStudent.username] || null;
+            isReviewMode = currentSubmission && currentSubmission.submittedAt;
+
+            renderAssignment();
+        }
+
+        function showAssignmentsList() {
+            const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+            const studentAssignments = assignments.filter(assignment => 
+                assignment.rosterId === currentStudent.rosterId
+            );
+
+            if (studentAssignments.length === 0) {
+                document.getElementById('assignmentsContent').innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📋</div>
+                        <h2>No Assignments</h2>
+                        <p>Your teacher hasn't created any assignments yet.</p>
+                        <a href="student-login.html" class="btn">Back to Dashboard</a>
+                    </div>
+                `;
+                return;
+            }
+
+            document.getElementById('assignmentsContent').innerHTML = `
+                <div class="assignment-header">
+                    <h2>📋 Your Assignments</h2>
+                    <p>Select an assignment to get started</p>
+                </div>
+                ${studentAssignments.map(assignment => {
+                    const submission = assignment.submissions[currentStudent.username] || null;
+                    const status = getAssignmentStatus(assignment, submission);
+                    const score = submission ? getAssignmentScore(assignment, submission) : null;
+
+                    return `
+                        <div class="question-card">
+                            <div class="question-header">
+                                <h3>${assignment.title}</h3>
+                                <span class="question-points status-${status}">${status}</span>
+                            </div>
+                            ${assignment.description ? `<p class="assignment-description">${assignment.description}</p>` : ''}
+                            <div class="assignment-meta">
+                                <span>${assignment.questions.length} questions • ${assignment.type}</span>
+                                ${score !== null ? `<span>Score: ${score.points}/${score.total} points</span>` : ''}
+                            </div>
+                            <div class="action-buttons">
+                                ${status === 'pending' ? 
+                                    `<button class="btn" onclick="startAssignment('${assignment.id}')">Start Assignment</button>` :
+                                    `<button class="btn btn-secondary" onclick="startAssignment('${assignment.id}')">View Results</button>`
+                                }
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+            `;
+        }
+
+        function startAssignment(assignmentId) {
+            localStorage.setItem('currentAssignmentId', assignmentId);
+            loadAssignment();
+        }
+
+        // === ASSIGNMENT RENDERING ===
+        function renderAssignment() {
+            const content = document.getElementById('assignmentsContent');
+            
+            content.innerHTML = `
+                <div class="assignment-header">
+                    <h1 class="assignment-title">${currentAssignment.title}</h1>
+                    ${currentAssignment.description ? `<p class="assignment-description">${currentAssignment.description}</p>` : ''}
+                    <div class="assignment-meta">
+                        <span>${currentAssignment.questions.length} questions</span>
+                        <span>${currentAssignment.type}</span>
+                        ${isReviewMode ? '<span>Review Mode</span>' : ''}
+                    </div>
+                </div>
+                
+                ${currentAssignment.questions.map((question, index) => renderQuestion(question, index)).join('')}
+                
+                ${!isReviewMode ? `
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="saveProgress()">Save Progress</button>
+                        <button class="btn" onclick="submitAssignment()">Submit Assignment</button>
+                    </div>
+                ` : `
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="showAssignmentsList()">Back to Assignments</button>
+                    </div>
+                `}
+            `;
+            
+            updateProgress();
+            updateScore();
+        }
+
+        function renderQuestion(question, index) {
+            const submission = currentSubmission || { answers: {}, shortAnswers: {}, grades: {} };
+            
+            if (question.type === 'multiple_choice') {
+                return `
+                    <div class="question-card">
+                        <div class="question-header">
+                            <span class="question-number">Question ${index + 1}</span>
+                            <span class="question-points">${question.points} point${question.points !== 1 ? 's' : ''}</span>
+                        </div>
+                        <div class="question-text">${question.question}</div>
+                        <div class="choices">
+                            ${question.choices.map((choice, choiceIndex) => {
+                                const letter = String.fromCharCode(65 + choiceIndex);
+                                const isSelected = submission.answers[question.id] === letter;
+                                const isCorrect = letter === question.correctAnswer;
+                                const isIncorrect = isSelected && !isCorrect;
+                                
+                                let className = 'choice';
+                                if (isReviewMode) {
+                                    if (isCorrect) className += ' correct';
+                                    if (isIncorrect) className += ' incorrect';
+                                } else if (isSelected) {
+                                    className += ' selected';
+                                }
+                                
+                                return `
+                                    <label class="${className}">
+                                        <input type="radio" name="q${question.id}" value="${letter}" 
+                                               ${isSelected ? 'checked' : ''} 
+                                               ${isReviewMode ? 'disabled' : ''}
+                                               onchange="selectAnswer('${question.id}', '${letter}')">
+                                        <span class="choice-label">${choice}</span>
+                                    </label>
+                                `;
+                            }).join('')}
+                        </div>
+                        ${isReviewMode && submission.answers[question.id] ? `
+                            <div class="short-answer-feedback ${submission.answers[question.id] === question.correctAnswer ? 'feedback-graded' : 'feedback-pending'}">
+                                ${submission.answers[question.id] === question.correctAnswer ? 
+                                    `✅ Correct! You earned ${question.points} point${question.points !== 1 ? 's' : ''}.` :
+                                    `❌ Incorrect. The correct answer was ${question.correctAnswer}.`
+                                }
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            } else if (question.type === 'short_answer') {
+                const isGraded = submission.grades[question.id] !== undefined;
+                const grade = submission.grades[question.id] || 0;
+                
+                return `
+                    <div class="question-card">
+                        <div class="question-header">
+                            <span class="question-number">Question ${index + 1}</span>
+                            <span class="question-points">${question.maxPoints} point${question.maxPoints !== 1 ? 's' : ''}</span>
+                        </div>
+                        <div class="question-text">${question.question}</div>
+                        <textarea class="short-answer-input" 
+                                  placeholder="Enter your answer here..."
+                                  ${isReviewMode ? 'readonly' : ''}
+                                  onchange="saveShortAnswer('${question.id}', this.value)"
+                                  ${submission.shortAnswers[question.id] ? `value="${submission.shortAnswers[question.id]}"` : ''}>${submission.shortAnswers[question.id] || ''}</textarea>
+                        ${isReviewMode ? `
+                            <div class="short-answer-feedback ${isGraded ? 'feedback-graded' : 'feedback-pending'}">
+                                ${isGraded ? 
+                                    `✅ Graded: ${grade}/${question.maxPoints} points` :
+                                    `⏳ Pending teacher review`
+                                }
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+        }
+
+        // === ANSWER HANDLING ===
+        function selectAnswer(questionId, answer) {
+            if (isReviewMode) return;
+            
+            if (!currentSubmission) {
+                currentSubmission = {
+                    answers: {},
+                    shortAnswers: {},
+                    grades: {},
+                    submittedAt: null,
+                    gradedAt: null
+                };
+            }
+            
+            currentSubmission.answers[questionId] = answer;
+            updateProgress();
+        }
+
+        function saveShortAnswer(questionId, answer) {
+            if (isReviewMode) return;
+            
+            if (!currentSubmission) {
+                currentSubmission = {
+                    answers: {},
+                    shortAnswers: {},
+                    grades: {},
+                    submittedAt: null,
+                    gradedAt: null
+                };
+            }
+            
+            currentSubmission.shortAnswers[questionId] = answer;
+            updateProgress();
+        }
+
+        function saveProgress() {
+            if (!currentSubmission) {
+                alert('No progress to save!');
+                return;
+            }
+            
+            // Save to assignment
+            const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+            const assignmentIndex = assignments.findIndex(a => a.id === currentAssignment.id);
+            assignments[assignmentIndex].submissions[currentStudent.username] = currentSubmission;
+            localStorage.setItem('tornadoAssignments', JSON.stringify(assignments));
+            
+            alert('Progress saved successfully!');
+        }
+
+        function submitAssignment() {
+            if (!currentSubmission) {
+                alert('No answers to submit!');
+                return;
+            }
+            
+            // Check if all questions are answered
+            const unansweredQuestions = currentAssignment.questions.filter(question => {
+                if (question.type === 'multiple_choice') {
+                    return !currentSubmission.answers[question.id];
+                } else if (question.type === 'short_answer') {
+                    return !currentSubmission.shortAnswers[question.id] || currentSubmission.shortAnswers[question.id].trim() === '';
+                }
+                return false;
+            });
+            
+            if (unansweredQuestions.length > 0) {
+                if (!confirm(`You have ${unansweredQuestions.length} unanswered questions. Submit anyway?`)) {
+                    return;
+                }
+            }
+            
+            // Submit assignment
+            currentSubmission.submittedAt = new Date().toISOString();
+            
+            const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+            const assignmentIndex = assignments.findIndex(a => a.id === currentAssignment.id);
+            assignments[assignmentIndex].submissions[currentStudent.username] = currentSubmission;
+            localStorage.setItem('tornadoAssignments', JSON.stringify(assignments));
+            
+            // Auto-grade multiple choice questions
+            autoGradeMultipleChoice();
+            
+            alert('Assignment submitted successfully! Your teacher will review short answer questions.');
+            
+            // Refresh the page to show results
+            loadAssignment();
+        }
+
+        function autoGradeMultipleChoice() {
+            let totalPoints = 0;
+            let earnedPoints = 0;
+            
+            currentAssignment.questions.forEach(question => {
+                if (question.type === 'multiple_choice') {
+                    totalPoints += question.points;
+                    if (currentSubmission.answers[question.id] === question.correctAnswer) {
+                        earnedPoints += question.points;
+                    }
+                }
+            });
+            
+            // Award points to student
+            if (earnedPoints > 0) {
+                awardPointsToStudent(earnedPoints);
+            }
+        }
+
+        function awardPointsToStudent(points) {
+            // Update student points in roster
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            const rosterIndex = rosters.findIndex(r => r.id === currentStudent.rosterId);
+            
+            if (rosterIndex !== -1) {
+                const studentIndex = rosters[rosterIndex].roster.findIndex(s => s.name === currentStudent.username);
+                if (studentIndex !== -1) {
+                    rosters[rosterIndex].roster[studentIndex].points = (rosters[rosterIndex].roster[studentIndex].points || 0) + points;
+                    localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+                }
+            }
+            
+            // Update student record
+            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            const studentIndex = students.findIndex(s => s.id === currentStudent.id);
+            if (studentIndex !== -1) {
+                students[studentIndex].totalPoints += points;
+                students[studentIndex].assignmentPoints = (students[studentIndex].assignmentPoints || 0) + points;
+                localStorage.setItem('tornadoStudents', JSON.stringify(students));
+                localStorage.setItem('currentStudent', JSON.stringify(students[studentIndex]));
+                currentStudent = students[studentIndex];
+            }
+        }
+
+        // === UI UPDATES ===
+        function updateStudentInfo() {
+            document.getElementById('studentBadge').textContent = `${currentStudent.username} (Student)`;
+        }
+
+        function updateProgress() {
+            if (!currentAssignment) return;
+            
+            const totalQuestions = currentAssignment.questions.length;
+            let answeredQuestions = 0;
+            
+            if (currentSubmission) {
+                currentAssignment.questions.forEach(question => {
+                    if (question.type === 'multiple_choice') {
+                        if (currentSubmission.answers[question.id]) answeredQuestions++;
+                    } else if (question.type === 'short_answer') {
+                        if (currentSubmission.shortAnswers[question.id] && currentSubmission.shortAnswers[question.id].trim()) {
+                            answeredQuestions++;
+                        }
+                    }
+                });
+            }
+            
+            const percentage = Math.round((answeredQuestions / totalQuestions) * 100);
+            document.getElementById('progressFill').style.width = `${percentage}%`;
+            document.getElementById('progressText').textContent = `${percentage}% Complete`;
+        }
+
+        function updateScore() {
+            if (!currentAssignment || !currentSubmission) {
+                document.getElementById('scoreDisplay').innerHTML = `
+                    <div class="score-value">--</div>
+                    <div class="score-label">Points Earned</div>
+                `;
+                return;
+            }
+            
+            let totalPoints = 0;
+            let earnedPoints = 0;
+            
+            currentAssignment.questions.forEach(question => {
+                if (question.type === 'multiple_choice') {
+                    totalPoints += question.points;
+                    if (currentSubmission.answers[question.id] === question.correctAnswer) {
+                        earnedPoints += question.points;
+                    }
+                } else if (question.type === 'short_answer') {
+                    totalPoints += question.maxPoints;
+                    earnedPoints += currentSubmission.grades[question.id] || 0;
+                }
+            });
+            
+            document.getElementById('scoreDisplay').innerHTML = `
+                <div class="score-value">${earnedPoints}/${totalPoints}</div>
+                <div class="score-label">Points Earned</div>
+            `;
+        }
+
+        // === UTILITY FUNCTIONS ===
+        function getAssignmentStatus(assignment, submission) {
+            if (!submission) return 'pending';
+            if (submission.submittedAt && !submission.gradedAt) return 'completed';
+            if (submission.gradedAt) return 'graded';
+            return 'pending';
+        }
+
+        function getAssignmentScore(assignment, submission) {
+            if (!submission || !submission.submittedAt) return null;
+            
+            let totalPoints = 0;
+            let earnedPoints = 0;
+            
+            assignment.questions.forEach(question => {
+                if (question.type === 'multiple_choice') {
+                    totalPoints += question.points;
+                    if (submission.answers[question.id] === question.correctAnswer) {
+                        earnedPoints += question.points;
+                    }
+                } else if (question.type === 'short_answer') {
+                    totalPoints += question.maxPoints;
+                    earnedPoints += submission.grades[question.id] || 0;
+                }
+            });
+            
+            return { points: earnedPoints, total: totalPoints };
+        }
+
+        // === INITIALIZE GAME ===
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

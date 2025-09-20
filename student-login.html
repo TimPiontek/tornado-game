@@ -281,6 +281,98 @@
             margin: 0;
         }
 
+        .assignments-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(245, 158, 11, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(245, 158, 11, 0.1);
+        }
+
+        .assignments-section h3 {
+            margin: 0 0 1rem 0;
+            color: var(--warning);
+        }
+
+        .assignment-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+        }
+
+        .assignment-card:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .assignment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .assignment-title {
+            font-weight: bold;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .assignment-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+        }
+
+        .status-completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-graded {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--primary);
+        }
+
+        .assignment-description {
+            color: var(--muted);
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .assignment-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .assignment-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .empty-assignments {
+            text-align: center;
+            padding: 2rem;
+            color: var(--muted);
+        }
+
+        .empty-assignments .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
         .error {
             color: var(--danger);
             background: rgba(239, 68, 68, 0.1);
@@ -753,9 +845,17 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="assignments-section" id="assignmentsSection">
+                    <h3>📋 Your Assignments</h3>
+                    <div id="assignmentsList">
+                        <!-- Assignments will be populated here -->
+                    </div>
+                </div>
             `;
             
             dashboard.insertAdjacentHTML('beforeend', classFeaturesHTML);
+            loadStudentAssignments();
         }
 
         function joinClassFromDashboard() {
@@ -831,7 +931,95 @@
         }
 
         function viewAssignments() {
-            alert('📋 Assignments feature coming soon!\n\nThis will show teacher-assigned challenges and tasks for your class.');
+            // Redirect to assignments page
+            window.location.href = 'student-assignments.html';
+        }
+
+        function loadStudentAssignments() {
+            const assignmentsList = document.getElementById('assignmentsList');
+            if (!assignmentsList) return;
+
+            const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+            const studentAssignments = assignments.filter(assignment => 
+                assignment.rosterId === currentStudent.rosterId
+            );
+
+            if (studentAssignments.length === 0) {
+                assignmentsList.innerHTML = `
+                    <div class="empty-assignments">
+                        <div class="icon">📋</div>
+                        <p>No assignments yet</p>
+                        <p style="font-size: 0.875rem;">Your teacher will create assignments for your class</p>
+                    </div>
+                `;
+                return;
+            }
+
+            assignmentsList.innerHTML = studentAssignments.map(assignment => {
+                const submission = assignment.submissions[currentStudent.username] || null;
+                const status = getAssignmentStatus(assignment, submission);
+                const score = submission ? getAssignmentScore(assignment, submission) : null;
+
+                return `
+                    <div class="assignment-card">
+                        <div class="assignment-header">
+                            <h4 class="assignment-title">${assignment.title}</h4>
+                            <span class="assignment-status status-${status}">${status}</span>
+                        </div>
+                        ${assignment.description ? `<div class="assignment-description">${assignment.description}</div>` : ''}
+                        <div class="assignment-meta">
+                            <span>${assignment.questions.length} questions • ${assignment.type}</span>
+                            ${score !== null ? `<span>Score: ${score.points}/${score.total} points</span>` : ''}
+                        </div>
+                        <div class="assignment-actions">
+                            ${status === 'pending' ? 
+                                `<button class="btn btn-small" onclick="startAssignment('${assignment.id}')">Start Assignment</button>` :
+                                `<button class="btn btn-small btn-secondary" onclick="viewAssignmentResults('${assignment.id}')">View Results</button>`
+                            }
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getAssignmentStatus(assignment, submission) {
+            if (!submission) return 'pending';
+            if (submission.submittedAt && !submission.gradedAt) return 'completed';
+            if (submission.gradedAt) return 'graded';
+            return 'pending';
+        }
+
+        function getAssignmentScore(assignment, submission) {
+            if (!submission || !submission.gradedAt) return null;
+            
+            let totalPoints = 0;
+            let earnedPoints = 0;
+            
+            assignment.questions.forEach(question => {
+                if (question.type === 'multiple_choice') {
+                    totalPoints += question.points;
+                    if (submission.answers[question.id] === question.correctAnswer) {
+                        earnedPoints += question.points;
+                    }
+                } else if (question.type === 'short_answer') {
+                    totalPoints += question.maxPoints;
+                    earnedPoints += submission.grades[question.id] || 0;
+                }
+            });
+            
+            return { points: earnedPoints, total: totalPoints };
+        }
+
+        function startAssignment(assignmentId) {
+            // Store current assignment ID and redirect to assignment page
+            localStorage.setItem('currentAssignmentId', assignmentId);
+            window.location.href = 'student-assignments.html';
+        }
+
+        function viewAssignmentResults(assignmentId) {
+            // Store current assignment ID and redirect to assignment page
+            localStorage.setItem('currentAssignmentId', assignmentId);
+            window.location.href = 'student-assignments.html';
         }
     </script>
 </body>
