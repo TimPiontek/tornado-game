@@ -4351,6 +4351,29 @@ The Beatles
           updateHomepageForUser();
         }, 100);
         
+        // Also try to attach login button listener immediately
+        setTimeout(() => {
+          const loginBtn = document.getElementById("loginLogoutBtn");
+          if (loginBtn) {
+            console.log('Found login button on page load:', loginBtn.textContent);
+            loginBtn.onclick = function (e) {
+              console.log('Login button clicked from page load listener!', e);
+              console.log('Button text:', loginBtn.textContent);
+              if (loginBtn.textContent === "👨‍🏫 Teacher Login" || loginBtn.textContent === "Login") {
+                console.log('Showing auth modal from page load...');
+                showAuthModal();
+              } else {
+                console.log('Logging out from page load...');
+                supabaseClient.auth.signOut();
+                localStorage.removeItem('currentStudent');
+                updateHomepageForUser();
+              }
+            };
+          } else {
+            console.log('Login button not found on page load!');
+          }
+        }, 500);
+        
         // Temporary manual logout function for testing
         window.manualLogout = async function() {
           console.log('Manual logout triggered');
@@ -4460,6 +4483,12 @@ The Beatles
             console.log('Manually showing auth modal...');
             showAuthModal();
           }
+        };
+        
+        // Simple function to show auth modal
+        window.showLoginModal = function() {
+          console.log('Manually showing login modal...');
+          showAuthModal();
         };
         
         // Listen for student login state changes
