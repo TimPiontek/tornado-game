@@ -529,19 +529,28 @@
   }
   
   function initializeGameBoard() {
-    if (!state.currentRoster) return;
+    console.log('initializeGameBoard called', { currentRoster: state.currentRoster, roster: state.roster });
+    
+    if (!state.currentRoster) {
+      console.log('No current roster, returning');
+      return;
+    }
     
     const studentCount = state.roster.length;
     const w = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
     const h = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
     
+    console.log('Calculated board size:', { studentCount, w, h });
+    
     // Check if roster has saved game state
     if (state.currentRoster.gameState && state.currentRoster.gameState.tiles) {
+      console.log('Loading saved game state');
       // Load saved game state
       state.board = state.currentRoster.gameState.board;
       state.board.tiles = state.currentRoster.gameState.tiles;
       state.truces = state.currentRoster.gameState.truces || [];
     } else {
+      console.log('Creating fresh tiles');
       // Create fresh tiles
       const tiles = [];
       for (let y = 0; y < h; y++) {
@@ -559,12 +568,21 @@
       state.truces = [];
     }
     
+    console.log('Board created:', { board: state.board, tilesCount: state.board.tiles.length });
+    
     // Update grid display
     updateGridDisplay();
   }
   
   function updateGridDisplay() {
-    if (!gridEl || !state.board.tiles) return;
+    console.log('updateGridDisplay called', { gridEl, tiles: state.board.tiles, board: state.board });
+    
+    if (!gridEl || !state.board.tiles) {
+      console.log('updateGridDisplay: gridEl or tiles not found', { gridEl, tiles: state.board.tiles });
+      return;
+    }
+    
+    console.log('updateGridDisplay: updating grid with', state.board.tiles.length, 'tiles');
     
     gridEl.style.gridTemplateColumns = `repeat(${state.board.w}, 1fr)`;
     gridEl.style.gridTemplateRows = `repeat(${state.board.h}, 1fr)`;
@@ -578,12 +596,20 @@
       return `<div class="cell" data-tile-id="${tile.id}" data-x="${tile.x}" data-y="${tile.y}" 
                 style="background: ${owner ? state.colors.get(owner.gsId) : '#1a1a2e'}; 
                        color: ${owner ? '#fff' : '#666'}; 
-                       cursor: pointer;"
+                       cursor: pointer;
+                       border: 1px solid #333;
+                       display: flex;
+                       flex-direction: column;
+                       align-items: center;
+                       justify-content: center;
+                       min-height: 40px;"
                 onclick="handleTileClick('${tile.id}')">
                 <div>${ownerName}</div>
                 <div style="font-size: 10px;">${castleText}</div>
               </div>`;
     }).join('');
+    
+    console.log('Grid updated with', state.board.tiles.length, 'tiles');
   }
   
   function updateVictoryTarget() {
