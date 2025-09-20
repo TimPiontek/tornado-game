@@ -8777,11 +8777,23 @@ The Beatles"
             teamMode = true;
             currentStudentIndex = 0;
             
-            // Set up team names from roster
+            // Set up team names from roster and update team count
             if (rosterData.teams.length >= 2) {
-                names.A = rosterData.teams[0].name;
-                names.B = rosterData.teams[1].name;
-                console.log('Set team names:', { teamA: names.A, teamB: names.B });
+                // Update team count to match roster
+                teamCount = rosterData.teams.length;
+                console.log('Updated team count to:', teamCount);
+                
+                // Set team names for all teams
+                rosterData.teams.forEach((team, index) => {
+                    const teamLetter = String.fromCharCode(65 + index); // A, B, C, D, etc.
+                    names[teamLetter] = team.name;
+                });
+                
+                console.log('Set team names:', names);
+                
+                // Store all teams for reference
+                window.allTeams = rosterData.teams;
+                console.log('All teams stored:', window.allTeams);
             }
             
             // Initialize current team students
@@ -8800,7 +8812,9 @@ The Beatles"
         function updateCurrentTeamStudents() {
             if (!teamMode || !rosterData) return;
             
-            const currentTeam = turn === "A" ? rosterData.teams[0] : rosterData.teams[1];
+            // Find the team index based on the turn letter (A=0, B=1, C=2, etc.)
+            const teamIndex = turn.charCodeAt(0) - 65; // A=0, B=1, C=2, etc.
+            const currentTeam = rosterData.teams[teamIndex];
             currentTeamStudents = currentTeam ? currentTeam.students : [];
             currentStudentIndex = 0;
         }
@@ -8818,11 +8832,11 @@ The Beatles"
         
         function getCurrentStudentDisplay() {
             if (!teamMode) {
-                return turn === "A" ? (names.A || "Team A") : (names.B || "Team B");
+                return names[turn] || `Team ${turn}`;
             }
             
             const student = getCurrentStudent();
-            const teamName = turn === "A" ? (names.A || "Team A") : (names.B || "Team B");
+            const teamName = names[turn] || `Team ${turn}`;
             
             if (student) {
                 return `${teamName} - ${student.name}'s turn`;
@@ -8861,43 +8875,40 @@ The Beatles"
             const teamScoresContainer = document.getElementById('teamScores');
             if (!teamScoresContainer) return;
             
-            const currentTeam = turn === "A" ? "A" : "B";
+            const currentTeam = turn; // turn is already the team letter (A, B, C, D, etc.)
             
-            // If we have roster data and team mode, show individual students
+            // If we have roster data and team mode, show all teams and their students
             if (rosterData && teamMode && rosterData.teams && rosterData.teams.length >= 2) {
-                const teamA = rosterData.teams[0];
-                const teamB = rosterData.teams[1];
+                const teamScoreMap = {
+                    'A': scores.A || 0,
+                    'B': scores.B || 0,
+                    'C': scores.C || 0,
+                    'D': scores.D || 0,
+                    'E': scores.E || 0,
+                    'F': scores.F || 0
+                };
                 
-                teamScoresContainer.innerHTML = `
-                    <div class="team-score-item ${currentTeam === "A" ? "active" : ""}">
-                        <div class="team-header">
-                            <span class="team-name">${teamA.name || "Team A"}</span>
-                            <span class="team-score">${scores.A || 0}</span>
+                teamScoresContainer.innerHTML = rosterData.teams.map((team, index) => {
+                    const teamLetter = String.fromCharCode(65 + index); // A, B, C, D, etc.
+                    const isActive = currentTeam === teamLetter;
+                    
+                    return `
+                        <div class="team-score-item ${isActive ? "active" : ""}">
+                            <div class="team-header">
+                                <span class="team-name">${team.name || `Team ${teamLetter}`}</span>
+                                <span class="team-score">${teamScoreMap[teamLetter] || 0}</span>
+                            </div>
+                            <div class="student-list">
+                                ${team.students.map(student => `
+                                    <div class="student-item ${getCurrentStudent() && getCurrentStudent().id === student.id ? 'current-student' : ''}">
+                                        <span class="student-name">${student.name}</span>
+                                        <span class="student-points">${studentPoints[student.name] || 0}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
                         </div>
-                        <div class="student-list">
-                            ${teamA.students.map(student => `
-                                <div class="student-item ${getCurrentStudent() && getCurrentStudent().id === student.id ? 'current-student' : ''}">
-                                    <span class="student-name">${student.name}</span>
-                                    <span class="student-points">${studentPoints[student.name] || 0}</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                    <div class="team-score-item ${currentTeam === "B" ? "active" : ""}">
-                        <div class="team-header">
-                            <span class="team-name">${teamB.name || "Team B"}</span>
-                            <span class="team-score">${scores.B || 0}</span>
-                        </div>
-                        <div class="student-list">
-                            ${teamB.students.map(student => `
-                                <div class="student-item ${getCurrentStudent() && getCurrentStudent().id === student.id ? 'current-student' : ''}">
-                                    <span class="student-name">${student.name}</span>
-                                    <span class="student-points">${studentPoints[student.name] || 0}</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
+                    `;
+                }).join('');
             } else if (rosterData && rosterData.roster && rosterData.roster.length > 0) {
                 // Individual mode - show all students
                 teamScoresContainer.innerHTML = `
@@ -9006,14 +9017,25 @@ The Beatles"
           
           // Use roster team names if available, otherwise use settings
           if (teamMode && rosterData && rosterData.teams && rosterData.teams.length >= 2) {
-            names.A = rosterData.teams[0].name;
-            names.B = rosterData.teams[1].name;
-            console.log('Using roster team names:', { A: names.A, B: names.B });
+            // Set names for all teams
+            rosterData.teams.forEach((team, index) => {
+              const teamLetter = String.fromCharCode(65 + index); // A, B, C, D, etc.
+              names[teamLetter] = team.name;
+            });
+            console.log('Using roster team names:', names);
           } else {
             names.A = settings.teamA;
             names.B = settings.singlePlayer ? 'Android' : settings.teamB;
             console.log('Using settings team names:', { A: names.A, B: names.B });
           }
+          
+          // Initialize scores for all teams
+          scores = {};
+          for (let i = 0; i < teamCount; i++) {
+            const teamLetter = String.fromCharCode(65 + i); // A, B, C, D, etc.
+            scores[teamLetter] = 0;
+          }
+          console.log('Initialized scores for', teamCount, 'teams:', scores);
           
           singlePlayer = settings.singlePlayer;
           
