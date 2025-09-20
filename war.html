@@ -108,7 +108,7 @@
         <button class="pill" onclick="sortWarRoster('last')" style="background: #6f5c91; font-size: 12px;">Last Name</button>
         <button class="pill" onclick="shuffleWarRoster()" style="background: #6f5c91; font-size: 12px;">Shuffle</button>
       </div>
-    </div>
+      </div>
 
   </div>
 
@@ -365,7 +365,7 @@
       signoutBtn.style.display = "none";
       playOfflineBtn.style.display = "none";
     } else {
-      who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
+    who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
       signinBtn.textContent = "Sign in with Google";
       signinBtn.style.display = session ? "none" : "inline-block";
       signoutBtn.style.display = session ? "inline-block" : "none";
@@ -1097,6 +1097,53 @@
     console.log("Shuffled roster");
   };
   
+  // === TEAM RESOURCE MANAGEMENT ===
+  function getTeamResources(teamId) {
+    if (!state.teamMode || !teamId) return null;
+    
+    const teamMembers = state.roster.filter(student => student.teamId === teamId);
+    const totalBalance = teamMembers.reduce((sum, student) => sum + student.balance, 0);
+    const averageBalance = teamMembers.length > 0 ? totalBalance / teamMembers.length : 0;
+    
+    return {
+      members: teamMembers,
+      totalBalance: totalBalance,
+      averageBalance: averageBalance,
+      memberCount: teamMembers.length
+    };
+  }
+  
+  function canTeamAffordCost(teamId, cost) {
+    if (!state.teamMode || !teamId) return false;
+    
+    const teamResources = getTeamResources(teamId);
+    if (!teamResources) return false;
+    
+    // Team can afford if they have enough total resources
+    return teamResources.totalBalance >= cost;
+  }
+  
+  function deductTeamCost(teamId, cost, reason = '') {
+    if (!state.teamMode || !teamId) return false;
+    
+    const teamResources = getTeamResources(teamId);
+    if (!teamResources || teamResources.totalBalance < cost) return false;
+    
+    // Distribute cost evenly among team members
+    const costPerMember = Math.ceil(cost / teamResources.memberCount);
+    let remainingCost = cost;
+    
+    teamResources.members.forEach((member, index) => {
+      const memberCost = Math.min(costPerMember, remainingCost);
+      member.balance = Math.max(0, member.balance - memberCost);
+      remainingCost -= memberCost;
+      
+      console.log(`${member.name} (${teamResources.members[0].teamName}) paid ${memberCost} points for ${reason}`);
+    });
+    
+    return true;
+  }
+
   // === AUTO-SAVE SYSTEM ===
   function autoSaveWarPoints() {
     if (!state.currentRoster || !state.currentRosterId) return;
@@ -1475,18 +1522,44 @@
        currentBattle.defenderCastle === 2 ? 100 : 
        currentBattle.defenderCastle === 3 ? 200 : 0);
     
-    // Check if students have enough points for the battle
-    const attackerBalanceAfterCost = currentBattle.attacker.balance - attackerCost;
-    const defenderBalanceAfterCost = currentBattle.defender.balance - defenderCost;
+    // Check if students/teams have enough points for the battle
+    let attackerCanAfford = false;
+    let defenderCanAfford = false;
     
-    if (attackerBalanceAfterCost < 0) {
-      alert(`Insufficient funds! ${currentBattle.attacker.name} needs ${attackerCost} points but has ${currentBattle.attacker.balance}.`);
-      return;
+    if (state.teamMode && currentBattle.attacker.teamId) {
+      // Team mode - check team resources
+      attackerCanAfford = canTeamAffordCost(currentBattle.attacker.teamId, attackerCost);
+      if (!attackerCanAfford) {
+        const teamResources = getTeamResources(currentBattle.attacker.teamId);
+        alert(`Insufficient team funds! ${currentBattle.attacker.teamName} needs ${attackerCost} points but has ${teamResources.totalBalance}.`);
+        return;
+      }
+    } else {
+      // Individual mode - check individual resources
+      const attackerBalanceAfterCost = currentBattle.attacker.balance - attackerCost;
+      attackerCanAfford = attackerBalanceAfterCost >= 0;
+      if (!attackerCanAfford) {
+        alert(`Insufficient funds! ${currentBattle.attacker.name} needs ${attackerCost} points but has ${currentBattle.attacker.balance}.`);
+        return;
+      }
     }
     
-    if (defenderBalanceAfterCost < 0) {
-      alert(`Insufficient funds! ${currentBattle.defender.name} needs ${defenderCost} points but has ${currentBattle.defender.balance}.`);
-      return;
+    if (state.teamMode && currentBattle.defender.teamId) {
+      // Team mode - check team resources
+      defenderCanAfford = canTeamAffordCost(currentBattle.defender.teamId, defenderCost);
+      if (!defenderCanAfford) {
+        const teamResources = getTeamResources(currentBattle.defender.teamId);
+        alert(`Insufficient team funds! ${currentBattle.defender.teamName} needs ${defenderCost} points but has ${teamResources.totalBalance}.`);
+        return;
+      }
+    } else {
+      // Individual mode - check individual resources
+      const defenderBalanceAfterCost = currentBattle.defender.balance - defenderCost;
+      defenderCanAfford = defenderBalanceAfterCost >= 0;
+      if (!defenderCanAfford) {
+        alert(`Insufficient funds! ${currentBattle.defender.name} needs ${defenderCost} points but has ${currentBattle.defender.balance}.`);
+        return;
+      }
     }
     
     // Close modal
@@ -1615,9 +1688,22 @@
        currentBattle.defenderBattleCastle === 3 ? 200 : 0);
     
     // Apply battle results to current roster system
-    // Deduct costs from both students
-    currentBattle.attacker.balance -= attackerCost;
-    currentBattle.defender.balance -= defenderCost;
+    // Deduct costs from students or teams
+    if (state.teamMode && currentBattle.attacker.teamId) {
+      // Team mode - deduct from team resources
+      deductTeamCost(currentBattle.attacker.teamId, attackerCost, 'attack');
+    } else {
+      // Individual mode - deduct from individual balance
+      currentBattle.attacker.balance -= attackerCost;
+    }
+    
+    if (state.teamMode && currentBattle.defender.teamId) {
+      // Team mode - deduct from team resources
+      deductTeamCost(currentBattle.defender.teamId, defenderCost, 'defense');
+    } else {
+      // Individual mode - deduct from individual balance
+      currentBattle.defender.balance -= defenderCost;
+    }
     
     // Auto-save points after battle
     autoSaveWarPoints();
