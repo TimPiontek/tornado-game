@@ -5739,19 +5739,17 @@ The Beatles"
                 currentStudent: getCurrentStudent()?.name
               });
               
-              // If we've cycled through all students in current team, move to next team
-              if (currentStudentIndex === 0) {
-                let currentIndex = teamOrder.indexOf(turn);
-                currentIndex = (currentIndex + 1) % teamCount;
-                turn = teamOrder[currentIndex];
-                updateCurrentTeamStudents();
-                
-                console.log('Moved to next team:', {
-                  newTurn: turn,
-                  newTeamName: names[turn],
-                  newTeamStudents: currentTeamStudents?.length
-                });
-              }
+              // After advancing student, move to next team
+              let currentIndex = teamOrder.indexOf(turn);
+              currentIndex = (currentIndex + 1) % teamCount;
+              turn = teamOrder[currentIndex];
+              updateCurrentTeamStudents();
+              
+              console.log('Moved to next team:', {
+                newTurn: turn,
+                newTeamName: names[turn],
+                newTeamStudents: currentTeamStudents?.length
+              });
             } else {
               let currentIndex = teamOrder.indexOf(turn);
               currentIndex = (currentIndex + 1) % teamCount;
