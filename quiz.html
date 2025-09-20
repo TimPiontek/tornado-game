@@ -2489,6 +2489,50 @@ The Beatles"
                     </div>
                   </div>
                   
+                  <!-- Roster Integration Section -->
+                  <div class="setup-unified-cell full-width">
+                    <label style="display:flex; align-items:center; gap:0.6em; flex-wrap:wrap;">
+                      <span>Use Roster:</span>
+                      <small>Load students from your saved roster for team-based gameplay.</small>
+                    </label>
+                    <div style="display: flex; gap: 1rem; margin-top: 0.5rem; align-items: center;">
+                      <button type="button" id="loadRosterBtn" style="
+                        background: #6f5c91;
+                        color: white;
+                        border: none;
+                        border-radius: 8px;
+                        padding: 0.5rem 1rem;
+                        font-weight: 600;
+                        cursor: pointer;
+                      ">Load Roster</button>
+                      <span id="rosterStatus" style="color: #666; font-size: 0.9em;">No roster loaded</span>
+                    </div>
+                    <div id="rosterTeamSelection" style="display: none; margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                      <label style="display:block; margin-bottom:0.5em; font-weight:600;">Team Assignment:</label>
+                      <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <button type="button" id="randomTeamsBtn" style="
+                          background: #28a745;
+                          color: white;
+                          border: none;
+                          border-radius: 6px;
+                          padding: 0.4rem 0.8rem;
+                          font-size: 0.9em;
+                          cursor: pointer;
+                        ">Random Teams</button>
+                        <button type="button" id="manualTeamsBtn" style="
+                          background: #007bff;
+                          color: white;
+                          border: none;
+                          border-radius: 6px;
+                          padding: 0.4rem 0.8rem;
+                          font-size: 0.9em;
+                          cursor: pointer;
+                        ">Manual Teams</button>
+                      </div>
+                      <div id="rosterPreview" style="font-size: 0.9em; color: #666;"></div>
+                    </div>
+                  </div>
+                  
                   <div class="setup-unified-cell full-width">
                     <label
                       >Choose a Quiz:
@@ -3304,6 +3348,9 @@ The Beatles"
       document.addEventListener("DOMContentLoaded", function () {
         // === QUIZ PAGE ===
         // This is the dedicated quiz page - no game selection needed
+        
+        // Initialize quiz roster integration
+        initializeQuizRosterIntegration();
 
         // === SUPABASE INIT ===
         const supabaseClient = supabase.createClient(
@@ -6927,6 +6974,252 @@ The Beatles"
             setTimeout(() => {
                 alert(`🎉 Quiz Complete!\n\nPoints transferred to Tornado War:\n• Individual participation: ${individualPoints} points each\n• Team ${winningTeamName} victory bonus: ${teamVictoryPoints} points\n\nTotal points transferred: ${totalPointsTransferred}\n\nCheck the War game to see updated student balances!`);
             }, 2000);
+        }
+        
+        // === QUIZ SETUP ROSTER INTEGRATION ===
+        let quizRosterData = null;
+        let quizTeamAssignment = null;
+        
+        function initializeQuizRosterIntegration() {
+            const loadRosterBtn = document.getElementById('loadRosterBtn');
+            const randomTeamsBtn = document.getElementById('randomTeamsBtn');
+            const manualTeamsBtn = document.getElementById('manualTeamsBtn');
+            
+            if (loadRosterBtn) {
+                loadRosterBtn.addEventListener('click', loadQuizRoster);
+            }
+            
+            if (randomTeamsBtn) {
+                randomTeamsBtn.addEventListener('click', () => assignRandomTeams());
+            }
+            
+            if (manualTeamsBtn) {
+                manualTeamsBtn.addEventListener('click', () => showManualTeamAssignment());
+            }
+        }
+        
+        function loadQuizRoster() {
+            const saved = localStorage.getItem('tornadoRoster');
+            if (saved) {
+                try {
+                    quizRosterData = JSON.parse(saved);
+                    updateRosterStatus(`Loaded ${quizRosterData.roster.length} students`);
+                    showTeamSelection();
+                } catch (e) {
+                    updateRosterStatus('Error loading roster');
+                    console.error('Error loading roster:', e);
+                }
+            } else {
+                updateRosterStatus('No roster found. Create one in Manage Roster first.');
+            }
+        }
+        
+        function updateRosterStatus(message) {
+            const statusEl = document.getElementById('rosterStatus');
+            if (statusEl) {
+                statusEl.textContent = message;
+            }
+        }
+        
+        function showTeamSelection() {
+            const teamSelectionEl = document.getElementById('rosterTeamSelection');
+            const previewEl = document.getElementById('rosterPreview');
+            
+            if (teamSelectionEl) {
+                teamSelectionEl.style.display = 'block';
+            }
+            
+            if (previewEl && quizRosterData) {
+                const studentNames = quizRosterData.roster.map(s => s.name).join(', ');
+                previewEl.textContent = `Students: ${studentNames}`;
+            }
+        }
+        
+        function assignRandomTeams() {
+            if (!quizRosterData || !quizRosterData.roster) return;
+            
+            const numTeams = prompt('How many teams? (2-6)', '2');
+            if (!numTeams || numTeams < 2 || numTeams > 6) return;
+            
+            const students = [...quizRosterData.roster];
+            const teams = [];
+            
+            // Create teams
+            for (let i = 0; i < numTeams; i++) {
+                teams.push({
+                    id: String.fromCharCode(65 + i), // A, B, C, etc.
+                    name: `Team ${String.fromCharCode(65 + i)}`,
+                    students: []
+                });
+            }
+            
+            // Randomly assign students
+            for (let i = 0; i < students.length; i++) {
+                const teamIndex = i % numTeams;
+                teams[teamIndex].students.push(students[i]);
+            }
+            
+            quizTeamAssignment = { teams, mode: 'random' };
+            applyTeamAssignment();
+        }
+        
+        function showManualTeamAssignment() {
+            if (!quizRosterData || !quizRosterData.roster) return;
+            
+            // Create a modal for manual team assignment
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0,0,0,0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; padding: 2rem; border-radius: 16px; max-width: 800px; width: 90vw; max-height: 80vh; overflow-y: auto;">
+                    <h3 style="margin-top: 0;">Manual Team Assignment</h3>
+                    <div id="manualTeamContainer" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 1rem 0;">
+                        <div>
+                            <h4>Unassigned Students</h4>
+                            <div id="unassignedStudents" style="min-height: 200px; border: 2px dashed #ccc; padding: 1rem; border-radius: 8px;">
+                                ${quizRosterData.roster.map(s => `
+                                    <div class="student-chip" data-student-id="${s.id}" style="
+                                        background: #f8f9fa;
+                                        padding: 0.5rem;
+                                        margin: 0.25rem;
+                                        border-radius: 6px;
+                                        cursor: pointer;
+                                        display: inline-block;
+                                    ">${s.name}</div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Teams</h4>
+                            <div id="teamContainers">
+                                <div class="team-container" data-team="A" style="margin-bottom: 1rem;">
+                                    <div style="font-weight: bold; margin-bottom: 0.5rem;">Team A</div>
+                                    <div class="team-drop-zone" style="min-height: 100px; border: 2px dashed #007bff; padding: 1rem; border-radius: 8px; background: #f0f8ff;"></div>
+                                </div>
+                                <div class="team-container" data-team="B" style="margin-bottom: 1rem;">
+                                    <div style="font-weight: bold; margin-bottom: 0.5rem;">Team B</div>
+                                    <div class="team-drop-zone" style="min-height: 100px; border: 2px dashed #28a745; padding: 1rem; border-radius: 8px; background: #f0fff0;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1rem;">
+                        <button id="cancelManualTeams" style="padding: 0.5rem 1rem; border: 1px solid #ccc; background: white; border-radius: 6px; cursor: pointer;">Cancel</button>
+                        <button id="saveManualTeams" style="padding: 0.5rem 1rem; background: #6f5c91; color: white; border: none; border-radius: 6px; cursor: pointer;">Save Teams</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add event listeners
+            document.getElementById('cancelManualTeams').onclick = () => {
+                document.body.removeChild(modal);
+            };
+            
+            document.getElementById('saveManualTeams').onclick = () => {
+                saveManualTeams();
+                document.body.removeChild(modal);
+            };
+            
+            // Add drag and drop functionality
+            initializeManualTeamDragDrop();
+        }
+        
+        function initializeManualTeamDragDrop() {
+            const studentChips = document.querySelectorAll('.student-chip');
+            const teamDropZones = document.querySelectorAll('.team-drop-zone');
+            
+            studentChips.forEach(chip => {
+                chip.draggable = true;
+                chip.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', chip.dataset.studentId);
+                });
+            });
+            
+            teamDropZones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    zone.style.backgroundColor = '#e0e0e0';
+                });
+                
+                zone.addEventListener('dragleave', (e) => {
+                    zone.style.backgroundColor = '';
+                });
+                
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    const studentId = e.dataTransfer.getData('text/plain');
+                    const studentChip = document.querySelector(`[data-student-id="${studentId}"]`);
+                    
+                    if (studentChip) {
+                        zone.appendChild(studentChip);
+                        zone.style.backgroundColor = '';
+                    }
+                });
+            });
+        }
+        
+        function saveManualTeams() {
+            const teams = [];
+            const teamContainers = document.querySelectorAll('.team-container');
+            
+            teamContainers.forEach(container => {
+                const teamId = container.dataset.team;
+                const students = Array.from(container.querySelectorAll('.student-chip')).map(chip => {
+                    const studentId = chip.dataset.studentId;
+                    return quizRosterData.roster.find(s => s.id === studentId);
+                }).filter(Boolean);
+                
+                if (students.length > 0) {
+                    teams.push({
+                        id: teamId,
+                        name: `Team ${teamId}`,
+                        students: students
+                    });
+                }
+            });
+            
+            quizTeamAssignment = { teams, mode: 'manual' };
+            applyTeamAssignment();
+        }
+        
+        function applyTeamAssignment() {
+            if (!quizTeamAssignment || !quizTeamAssignment.teams) return;
+            
+            // Update team name inputs
+            const teamAInput = document.getElementById('teamANameInput');
+            const teamBInput = document.getElementById('teamBNameInput');
+            
+            if (teamAInput && quizTeamAssignment.teams[0]) {
+                teamAInput.value = quizTeamAssignment.teams[0].name;
+            }
+            
+            if (teamBInput && quizTeamAssignment.teams[1]) {
+                teamBInput.value = quizTeamAssignment.teams[1].name;
+            }
+            
+            // Update roster preview
+            const previewEl = document.getElementById('rosterPreview');
+            if (previewEl) {
+                const teamInfo = quizTeamAssignment.teams.map(team => 
+                    `${team.name}: ${team.students.map(s => s.name).join(', ')}`
+                ).join(' | ');
+                previewEl.textContent = `Assignment: ${teamInfo}`;
+            }
+            
+            updateRosterStatus(`Teams assigned (${quizTeamAssignment.mode})`);
         }
         
         function loadRosterData() {
