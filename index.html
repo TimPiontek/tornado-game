@@ -2008,7 +2008,7 @@
       <div
         id="logoTitleHome"
         style="display: flex; align-items: center; gap: 1rem; cursor: pointer"
-        onclick="backToGameSelection()"
+        onclick="window.location.href = '/'"
       >
         <img
           src="tornado-logo.png"
@@ -3957,15 +3957,22 @@ The Beatles
           }
         }
 
-        // Navbar link handlers
-        myLibraryLink.onclick = function (e) {
-          e.preventDefault();
-          showLibrary("my");
-        };
-        publicLibraryLink.onclick = function (e) {
-          e.preventDefault();
-          showLibrary("public");
-        };
+        // Navbar link handlers (only if elements exist)
+        const myLibraryLink = document.getElementById('myLibraryLink');
+        const publicLibraryLink = document.getElementById('publicLibraryLink');
+        
+        if (myLibraryLink) {
+          myLibraryLink.onclick = function (e) {
+            e.preventDefault();
+            showLibrary("my");
+          };
+        }
+        if (publicLibraryLink) {
+          publicLibraryLink.onclick = function (e) {
+            e.preventDefault();
+            showLibrary("public");
+          };
+        }
         // Home link returns to main setup
         document.getElementById("logoTitleHome").onclick = function (e) {
           e.preventDefault();
