@@ -2553,30 +2553,7 @@ The Beatles"
                       ">Load Roster</button>
                       <span id="rosterStatus" style="color: #666; font-size: 0.9em;">No roster loaded</span>
                     </div>
-                    <div id="rosterTeamSelection" style="display: none; margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
-                      <label style="display:block; margin-bottom:0.5em; font-weight:600;">Team Assignment:</label>
-                      <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
-                        <button type="button" id="randomTeamsBtn" style="
-                          background: #28a745;
-                          color: white;
-                          border: none;
-                          border-radius: 6px;
-                          padding: 0.4rem 0.8rem;
-                          font-size: 0.9em;
-                          cursor: pointer;
-                        ">Random Teams</button>
-                        <button type="button" id="manualTeamsBtn" style="
-                          background: #007bff;
-                          color: white;
-                          border: none;
-                          border-radius: 6px;
-                          padding: 0.4rem 0.8rem;
-                          font-size: 0.9em;
-                          cursor: pointer;
-                        ">Manual Teams</button>
-                      </div>
-                      <div id="rosterPreview" style="font-size: 0.9em; color: #666;"></div>
-                    </div>
+                    <div id="rosterPreview" style="font-size: 0.9em; color: #666; margin-top: 0.5rem;"></div>
                   </div>
                   
                   <div class="setup-unified-cell full-width">
@@ -7053,13 +7030,12 @@ The Beatles"
         }
         
         function loadQuizRoster() {
-            // Simple approach: just load the roster and show team options inline
+            // Clean approach: open a dedicated modal for roster team assignment
             const saved = localStorage.getItem('tornadoRoster');
             if (saved) {
                 try {
                     quizRosterData = JSON.parse(saved);
-                    updateRosterStatus(`Loaded ${quizRosterData.roster.length} students`);
-                    showInlineTeamOptions();
+                    showRosterTeamAssignmentModal();
                 } catch (e) {
                     updateRosterStatus('Error loading roster');
                     console.error('Error loading roster:', e);
@@ -7069,176 +7045,318 @@ The Beatles"
             }
         }
         
-        function showInlineTeamOptions() {
-            const teamSelectionEl = document.getElementById('rosterTeamSelection');
-            if (!teamSelectionEl) return;
-            
-            teamSelectionEl.style.display = 'block';
-            teamSelectionEl.innerHTML = `
-                <div style="margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
-                    <h4 style="margin: 0 0 1rem 0; color: #6f5c91;">Team Assignment for ${quizRosterData.roster.length} Students</h4>
-                    
-                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
-                        <button onclick="setTeamMode('individual')" style="
-                            background: #28a745;
-                            color: white;
-                            border: none;
-                            padding: 0.75rem 1rem;
-                            border-radius: 6px;
-                            cursor: pointer;
-                            font-size: 0.9em;
-                        ">Individual Mode</button>
-                        
-                        <button onclick="setTeamMode('random')" style="
-                            background: #007bff;
-                            color: white;
-                            border: none;
-                            padding: 0.75rem 1rem;
-                            border-radius: 6px;
-                            cursor: pointer;
-                            font-size: 0.9em;
-                        ">Random Teams</button>
-                        
-                        <button onclick="setTeamMode('manual')" style="
-                            background: #6f5c91;
-                            color: white;
-                            border: none;
-                            padding: 0.75rem 1rem;
-                            border-radius: 6px;
-                            cursor: pointer;
-                            font-size: 0.9em;
-                        ">Manual Teams</button>
-                    </div>
-                    
-                    <div id="teamAssignmentArea">
-                        <!-- Team assignment will be populated here -->
-                    </div>
-                </div>
+        function showRosterTeamAssignmentModal() {
+            // Create a clean, dedicated modal for roster team assignment
+            const modal = document.createElement('div');
+            modal.id = 'rosterTeamModal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0,0,0,0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+                font-family: 'Lexend Deca', sans-serif;
             `;
-        }
-        
-        function setTeamMode(mode) {
-            const area = document.getElementById('teamAssignmentArea');
-            if (!area) return;
             
-            if (mode === 'individual') {
-                area.innerHTML = `
-                    <div style="text-align: center; padding: 1rem;">
-                        <p style="color: #666; margin-bottom: 1rem;">Students will play individually without teams.</p>
-                        <div style="background: white; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
-                            <strong>Students:</strong><br>
-                            ${quizRosterData.roster.map(s => s.name).join(', ')}
-                        </div>
-                        <button onclick="saveTeamMode('individual')" style="
-                            background: #28a745;
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 16px;
+                    max-width: 800px;
+                    width: 90vw;
+                    max-height: 85vh;
+                    overflow-y: auto;
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                ">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <h2 style="margin: 0; color: #6f5c91; font-size: 1.8rem;">Team Assignment</h2>
+                        <button id="closeRosterModal" style="
+                            background: #dc3545;
                             color: white;
                             border: none;
-                            padding: 0.75rem 1.5rem;
+                            padding: 0.5rem 1rem;
                             border-radius: 6px;
                             cursor: pointer;
-                            font-weight: 600;
-                        ">✅ Save Individual Mode</button>
+                            font-size: 0.9rem;
+                        ">✕ Close</button>
                     </div>
-                `;
-            } else if (mode === 'random') {
-                area.innerHTML = `
-                    <div style="text-align: center; padding: 1rem;">
-                        <p style="color: #666; margin-bottom: 1rem;">Choose number of teams:</p>
-                        <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap;">
-                            ${[2, 3, 4, 5, 6].map(num => `
-                                <button onclick="createRandomTeams(${num})" style="
-                                    background: #007bff;
-                                    color: white;
-                                    border: none;
-                                    padding: 0.5rem 1rem;
-                                    border-radius: 6px;
-                                    cursor: pointer;
-                                    font-size: 0.9em;
-                                ">${num} Teams</button>
-                            `).join('')}
-                        </div>
-                        <div id="randomTeamsPreview"></div>
+                    
+                    <div style="margin-bottom: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                        <h3 style="margin: 0 0 0.5rem 0; color: #333;">${quizRosterData.roster.length} Students Loaded</h3>
+                        <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                            ${quizRosterData.roster.map(s => s.name).join(', ')}
+                        </p>
                     </div>
-                `;
-            } else if (mode === 'manual') {
-                area.innerHTML = `
-                    <div style="padding: 1rem;">
-                        <p style="color: #666; margin-bottom: 1rem; text-align: center;">Click students to assign to teams:</p>
-                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
-                            <div style="flex: 1;">
-                                <h5 style="margin: 0 0 0.5rem 0; color: #6f5c91;">Team A</h5>
-                                <input type="text" id="teamA-name" placeholder="Team A Name" style="
-                                    width: 100%;
-                                    padding: 0.5rem;
-                                    border: 1px solid #ddd;
-                                    border-radius: 4px;
-                                    margin-bottom: 0.5rem;
-                                " value="Team A">
-                                <div id="teamA-students" style="
-                                    min-height: 100px;
-                                    border: 2px dashed #6f5c91;
-                                    border-radius: 6px;
-                                    padding: 0.5rem;
-                                    background: rgba(111, 92, 145, 0.05);
-                                "></div>
-                            </div>
-                            <div style="flex: 1;">
-                                <h5 style="margin: 0 0 0.5rem 0; color: #6f5c91;">Team B</h5>
-                                <input type="text" id="teamB-name" placeholder="Team B Name" style="
-                                    width: 100%;
-                                    padding: 0.5rem;
-                                    border: 1px solid #ddd;
-                                    border-radius: 4px;
-                                    margin-bottom: 0.5rem;
-                                " value="Team B">
-                                <div id="teamB-students" style="
-                                    min-height: 100px;
-                                    border: 2px dashed #6f5c91;
-                                    border-radius: 6px;
-                                    padding: 0.5rem;
-                                    background: rgba(111, 92, 145, 0.05);
-                                "></div>
-                            </div>
-                        </div>
-                        <div style="margin-bottom: 1rem;">
-                            <h5 style="margin: 0 0 0.5rem 0; color: #666;">Unassigned Students</h5>
-                            <div id="unassigned-students" style="
-                                display: flex;
-                                flex-wrap: wrap;
-                                gap: 0.5rem;
-                                padding: 0.5rem;
-                                border: 1px solid #ddd;
-                                border-radius: 6px;
-                                background: #f8f9fa;
-                                min-height: 60px;
-                            ">
-                                ${quizRosterData.roster.map(student => `
-                                    <div class="student-chip" data-student-id="${student.id}" onclick="moveStudentToTeam('${student.id}')" style="
-                                        background: #6f5c91;
-                                        color: white;
-                                        padding: 0.5rem 1rem;
-                                        border-radius: 20px;
-                                        cursor: pointer;
-                                        font-size: 0.9rem;
-                                        transition: all 0.2s ease;
-                                    ">${student.name}</div>
-                                `).join('')}
-                            </div>
-                        </div>
-                        <div style="text-align: center;">
-                            <button onclick="saveManualTeams()" style="
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="margin: 0 0 1rem 0; color: #333;">Choose Team Mode:</h3>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button id="individualModeBtn" style="
+                                background: #28a745;
+                                color: white;
+                                border: none;
+                                padding: 1rem 1.5rem;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-size: 1rem;
+                                font-weight: 600;
+                                flex: 1;
+                                min-width: 150px;
+                            ">Individual Mode</button>
+
+                            <button id="randomTeamsBtn" style="
+                                background: #007bff;
+                                color: white;
+                                border: none;
+                                padding: 1rem 1.5rem;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-size: 1rem;
+                                font-weight: 600;
+                                flex: 1;
+                                min-width: 150px;
+                            ">Random Teams</button>
+
+                            <button id="manualTeamsBtn" style="
                                 background: #6f5c91;
                                 color: white;
                                 border: none;
-                                padding: 0.75rem 1.5rem;
-                                border-radius: 6px;
+                                padding: 1rem 1.5rem;
+                                border-radius: 8px;
                                 cursor: pointer;
+                                font-size: 1rem;
                                 font-weight: 600;
-                            ">✅ Save Manual Teams</button>
+                                flex: 1;
+                                min-width: 150px;
+                            ">Manual Teams</button>
                         </div>
                     </div>
-                `;
-            }
+                    
+                    <div id="teamAssignmentContent" style="min-height: 200px;">
+                        <!-- Team assignment content will be populated here -->
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add event listeners
+            document.getElementById('closeRosterModal').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+            
+            document.getElementById('individualModeBtn').addEventListener('click', () => {
+                showIndividualModeContent();
+            });
+            
+            document.getElementById('randomTeamsBtn').addEventListener('click', () => {
+                showRandomTeamsContent();
+            });
+            
+            document.getElementById('manualTeamsBtn').addEventListener('click', () => {
+                showManualTeamsContent();
+            });
+            
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+        
+        function showIndividualModeContent() {
+            const content = document.getElementById('teamAssignmentContent');
+            content.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="background: #e8f5e8; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+                        <h3 style="margin: 0 0 1rem 0; color: #28a745;">Individual Mode</h3>
+                        <p style="margin: 0; color: #666;">Students will play individually without teams.</p>
+                    </div>
+                    
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border: 1px solid #ddd;">
+                        <h4 style="margin: 0 0 1rem 0; color: #333;">Students:</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;">
+                            ${quizRosterData.roster.map(s => `
+                                <span style="
+                                    background: #f8f9fa;
+                                    padding: 0.5rem 1rem;
+                                    border-radius: 20px;
+                                    border: 1px solid #ddd;
+                                    font-size: 0.9rem;
+                                ">${s.name}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <button id="saveIndividualBtn" style="
+                        background: #28a745;
+                        color: white;
+                        border: none;
+                        padding: 1rem 2rem;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-weight: 600;
+                        font-size: 1.1rem;
+                    ">✅ Save Individual Mode</button>
+                </div>
+            `;
+            
+            document.getElementById('saveIndividualBtn').addEventListener('click', () => {
+                saveTeamMode('individual');
+                document.body.removeChild(document.getElementById('rosterTeamModal'));
+            });
+        }
+        
+        function showRandomTeamsContent() {
+            const content = document.getElementById('teamAssignmentContent');
+            content.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+                        <h3 style="margin: 0 0 1rem 0; color: #007bff;">Random Teams</h3>
+                        <p style="margin: 0; color: #666;">Students will be randomly assigned to teams.</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="margin: 0 0 1rem 0; color: #333;">Choose number of teams:</h4>
+                        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                            ${[2, 3, 4, 5, 6].map(num => `
+                                <button class="team-count-btn" data-count="${num}" style="
+                                    background: #007bff;
+                                    color: white;
+                                    border: none;
+                                    padding: 1rem 1.5rem;
+                                    border-radius: 8px;
+                                    cursor: pointer;
+                                    font-size: 1rem;
+                                    font-weight: 600;
+                                    min-width: 100px;
+                                ">${num} Teams</button>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div id="randomTeamsPreview" style="min-height: 100px;"></div>
+                </div>
+            `;
+            
+            // Add event listeners for team count buttons
+            document.querySelectorAll('.team-count-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const numTeams = parseInt(btn.getAttribute('data-count'));
+                    createRandomTeamsPreview(numTeams);
+                });
+            });
+        }
+        
+        function showManualTeamsContent() {
+            const content = document.getElementById('teamAssignmentContent');
+            content.innerHTML = `
+                <div style="padding: 2rem;">
+                    <div style="background: #f3e5f5; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; text-align: center;">
+                        <h3 style="margin: 0 0 1rem 0; color: #6f5c91;">Manual Teams</h3>
+                        <p style="margin: 0; color: #666;">Click students to assign them to teams.</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 2px solid #6f5c91;">
+                            <h4 style="margin: 0 0 1rem 0; color: #6f5c91;">Team A</h4>
+                            <input type="text" id="teamA-name" placeholder="Team A Name" style="
+                                width: 100%;
+                                padding: 0.75rem;
+                                border: 1px solid #ddd;
+                                border-radius: 6px;
+                                margin-bottom: 1rem;
+                                font-size: 1rem;
+                            " value="Team A">
+                            <div id="teamA-students" style="
+                                min-height: 120px;
+                                border: 2px dashed #6f5c91;
+                                border-radius: 8px;
+                                padding: 1rem;
+                                background: rgba(111, 92, 145, 0.05);
+                            "></div>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 2px solid #6f5c91;">
+                            <h4 style="margin: 0 0 1rem 0; color: #6f5c91;">Team B</h4>
+                            <input type="text" id="teamB-name" placeholder="Team B Name" style="
+                                width: 100%;
+                                padding: 0.75rem;
+                                border: 1px solid #ddd;
+                                border-radius: 6px;
+                                margin-bottom: 1rem;
+                                font-size: 1rem;
+                            " value="Team B">
+                            <div id="teamB-students" style="
+                                min-height: 120px;
+                                border: 2px dashed #6f5c91;
+                                border-radius: 8px;
+                                padding: 1rem;
+                                background: rgba(111, 92, 145, 0.05);
+                            "></div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <h4 style="margin: 0 0 1rem 0; color: #666;">Unassigned Students</h4>
+                        <div id="unassigned-students" style="
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 0.75rem;
+                            padding: 1rem;
+                            border: 1px solid #ddd;
+                            border-radius: 8px;
+                            background: white;
+                            min-height: 80px;
+                        ">
+                            ${quizRosterData.roster.map(student => `
+                                <div class="student-chip" data-student-id="${student.id}" style="
+                                    background: #6f5c91;
+                                    color: white;
+                                    padding: 0.75rem 1.25rem;
+                                    border-radius: 25px;
+                                    cursor: pointer;
+                                    font-size: 0.95rem;
+                                    transition: all 0.2s ease;
+                                    user-select: none;
+                                ">${student.name}</div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <button id="saveManualBtn" style="
+                            background: #6f5c91;
+                            color: white;
+                            border: none;
+                            padding: 1rem 2rem;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-weight: 600;
+                            font-size: 1.1rem;
+                        ">✅ Save Manual Teams</button>
+                    </div>
+                </div>
+            `;
+            
+            // Add event listeners for student chips
+            document.querySelectorAll('.student-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    moveStudentToTeam(chip.getAttribute('data-student-id'));
+                });
+            });
+            
+            document.getElementById('saveManualBtn').addEventListener('click', () => {
+                saveManualTeams();
+                document.body.removeChild(document.getElementById('rosterTeamModal'));
+            });
         }
         
         function showRosterSelectionScreen() {
@@ -7963,7 +8081,7 @@ The Beatles"
         }
         
         // Simple helper functions for inline team creation
-        function createRandomTeams(numTeams) {
+        function createRandomTeamsPreview(numTeams) {
             const preview = document.getElementById('randomTeamsPreview');
             if (!preview) return;
             
@@ -7988,28 +8106,36 @@ The Beatles"
             
             // Display teams
             preview.innerHTML = `
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
-                    ${teams.map(team => `
-                        <div style="border: 2px solid #007bff; border-radius: 6px; padding: 0.75rem; background: rgba(0, 123, 255, 0.05);">
-                            <h6 style="margin: 0 0 0.5rem 0; color: #007bff; text-align: center;">${team.name}</h6>
-                            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
-                                ${team.students.map(student => `
-                                    <div style="background: #007bff; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; text-align: center;">${student.name}</div>
-                                `).join('')}
+                <div style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border: 1px solid #ddd;">
+                    <h4 style="margin: 0 0 1rem 0; color: #007bff;">Team Preview:</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        ${teams.map(team => `
+                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px; border: 1px solid #ddd;">
+                                <h5 style="margin: 0 0 0.5rem 0; color: #007bff;">${team.name}</h5>
+                                <div style="font-size: 0.9rem; color: #666;">
+                                    ${team.students.map(s => s.name).join(', ')}
+                                </div>
                             </div>
-                        </div>
-                    `).join('')}
+                        `).join('')}
+                    </div>
                 </div>
-                <button onclick="saveRandomTeams(${numTeams})" style="
-                    background: #28a745;
+                <button id="saveRandomBtn" style="
+                    background: #007bff;
                     color: white;
                     border: none;
-                    padding: 0.75rem 1.5rem;
-                    border-radius: 6px;
+                    padding: 1rem 2rem;
+                    border-radius: 8px;
                     cursor: pointer;
                     font-weight: 600;
+                    font-size: 1.1rem;
                 ">✅ Save Random Teams</button>
             `;
+            
+            // Add event listener for save button
+            document.getElementById('saveRandomBtn').addEventListener('click', () => {
+                saveRandomTeams(numTeams);
+                document.body.removeChild(document.getElementById('rosterTeamModal'));
+            });
         }
         
         function moveStudentToTeam(studentId) {
