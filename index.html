@@ -4397,6 +4397,45 @@ The Beatles
           }
         };
         
+        // Function to test manual login
+        window.testLogin = async function() {
+          console.log('Testing manual login...');
+          try {
+            // Try to sign in with a test account
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+              email: 'piontek.timothy@gmail.com',
+              password: 'your_password_here' // You'll need to enter your actual password
+            });
+            
+            if (error) {
+              console.error('Login error:', error);
+              return;
+            }
+            
+            console.log('Login successful:', data);
+            updateHomepageForUser();
+          } catch (error) {
+            console.error('Login test error:', error);
+          }
+        };
+        
+        // Function to check Supabase client status
+        window.checkSupabaseStatus = function() {
+          console.log('Supabase client status:');
+          console.log('- URL:', supabaseClient.supabaseUrl);
+          console.log('- Key:', supabaseClient.supabaseKey ? 'Present' : 'Missing');
+          console.log('- Auth config:', supabaseClient.auth);
+          
+          // Check localStorage for any Supabase keys
+          console.log('Supabase localStorage keys:');
+          for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.includes('supabase')) {
+              console.log(`- ${key}:`, localStorage.getItem(key));
+            }
+          }
+        };
+        
         // Listen for student login state changes
         window.addEventListener('storage', function(e) {
           if (e.key === 'currentStudent') {
