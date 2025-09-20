@@ -5720,11 +5720,24 @@ The Beatles"
           // Increment turn count
           turnCount++;
           
+          console.log('=== ADVANCE TURN ===');
+          console.log('Before advance:', {
+            turn,
+            currentStudentIndex,
+            teamMode,
+            currentTeamStudents: currentTeamStudents?.length
+          });
+          
           // Move to next team or next student
           do {
             if (teamMode) {
               // In team mode, advance to next student first
               advanceStudentTurn();
+              
+              console.log('After advanceStudentTurn:', {
+                currentStudentIndex,
+                currentStudent: getCurrentStudent()?.name
+              });
               
               // If we've cycled through all students in current team, move to next team
               if (currentStudentIndex === 0) {
@@ -5732,6 +5745,12 @@ The Beatles"
                 currentIndex = (currentIndex + 1) % teamCount;
                 turn = teamOrder[currentIndex];
                 updateCurrentTeamStudents();
+                
+                console.log('Moved to next team:', {
+                  newTurn: turn,
+                  newTeamName: names[turn],
+                  newTeamStudents: currentTeamStudents?.length
+                });
               }
             } else {
               let currentIndex = teamOrder.indexOf(turn);
@@ -5739,6 +5758,13 @@ The Beatles"
               turn = teamOrder[currentIndex];
             }
           } while (teamStatus[turn]?.frozen > 0);
+          
+          console.log('After advance:', {
+            turn,
+            currentStudentIndex,
+            currentStudent: getCurrentStudent()?.name,
+            display: getCurrentStudentDisplay()
+          });
           
           // Clear team status effects that should disappear after turn
           clearTeamStatusEffects();
