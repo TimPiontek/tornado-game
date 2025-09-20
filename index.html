@@ -4247,11 +4247,13 @@ The Beatles
           
           if (isTeacher) {
             // Teacher navigation
+            console.log('🔍 DEBUG - Adding teacher navigation');
             navLinks.innerHTML += `
               <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
               <a href="/teacher-assignments-manage.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Assignments</a>
               <button id="loginLogoutBtn" class="login-btn">Logout</button>
             `;
+            console.log('🔍 DEBUG - Teacher navigation added. Current navLinks.innerHTML:', navLinks.innerHTML);
           } else if (isStudent) {
             // Student navigation
             navLinks.innerHTML += `
