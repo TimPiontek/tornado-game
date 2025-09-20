@@ -835,8 +835,9 @@
       }
     });
     
-    // Update the display
+    // Update the display and auto-save
     renderRoster();
+    autoSaveWarPoints();
   }
 
   // Make handleTileClick globally accessible
@@ -871,6 +872,7 @@
         selectedStudent.tilesOwned += 1;
         updateGridDisplay();
         syncTileCounts();
+        autoSaveWarPoints();
         alert(`${selectedStudent.name} bought the tile for ${cost} points!`);
       } else {
         alert(`Insufficient funds! Need ${cost} points.`);
@@ -1038,7 +1040,48 @@
       student.balance += amount;
     });
     renderRoster();
+    autoSaveWarPoints();
   };
+  
+  // === AUTO-SAVE SYSTEM ===
+  function autoSaveWarPoints() {
+    if (!state.currentRoster || !state.currentRosterId) return;
+    
+    try {
+      // Update the roster data with current scores and game state
+      const updatedRoster = {
+        ...state.currentRoster,
+        roster: state.roster.map(student => ({
+          id: student.gsId,
+          name: student.name,
+          points: student.balance, // Save current balance as points
+          tilesOwned: student.tilesOwned,
+          teamId: student.teamId,
+          teamName: student.teamName,
+          teamColor: student.teamColor
+        })),
+        gameState: {
+          board: state.board,
+          tiles: state.board.tiles,
+          truces: state.truces || []
+        },
+        lastModified: new Date().toISOString()
+      };
+      
+      // Update in the rosters array
+      const rosterIndex = state.rosters.findIndex(r => r.id === state.currentRosterId);
+      if (rosterIndex >= 0) {
+        state.rosters[rosterIndex] = updatedRoster;
+        
+        // Save to localStorage
+        localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+        
+        console.log('Auto-saved war points to roster');
+      }
+    } catch (error) {
+      console.error('Error auto-saving war points:', error);
+    }
+  }
 
   el("#btnTornado").onclick = async () => {
     if (!state.roster || state.roster.length === 0) return alert("No roster loaded.");
@@ -1063,6 +1106,7 @@
       
       updateGridDisplay();
       renderRoster();
+      autoSaveWarPoints();
     }
     
     alert("Tornado purchased and cast!");
@@ -1456,6 +1500,9 @@
     // Deduct costs from both students
     currentBattle.attacker.balance -= attackerCost;
     currentBattle.defender.balance -= defenderCost;
+    
+    // Auto-save points after battle
+    autoSaveWarPoints();
     
     if (attackerWins) {
       // Attacker takes the tile
