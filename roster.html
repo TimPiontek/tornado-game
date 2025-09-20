@@ -248,6 +248,64 @@
             margin-bottom: 1rem;
         }
         
+        .team-management-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(139, 92, 246, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(139, 92, 246, 0.1);
+        }
+        
+        .team-management-section h3 {
+            margin: 0 0 1rem 0;
+            color: var(--accent);
+        }
+        
+        .help-text {
+            font-size: 0.875rem;
+            color: var(--muted);
+            margin-top: 0.5rem;
+            margin-bottom: 0;
+        }
+        
+        .team-assignment {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        .team-color-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+        }
+        
+        .team-name-input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+        
+        .team-students {
+            flex: 2;
+            font-size: 0.875rem;
+            color: var(--muted);
+        }
+        
+        .team-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
         .form-group {
             margin-bottom: 1.5rem;
             text-align: left;
@@ -484,6 +542,39 @@
                     <p>No students added yet</p>
                 </div>
             </div>
+
+            <!-- Team Management Section -->
+            <div class="team-management-section">
+                <h3>🏆 Team Management</h3>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="enableTeams"> Enable Team Mode
+                    </label>
+                    <p class="help-text">When enabled, students will be organized into teams for collaborative gameplay</p>
+                </div>
+                
+                <div id="teamSetup" style="display: none;">
+                    <div class="form-group">
+                        <label for="teamCount">Number of Teams</label>
+                        <select id="teamCount" onchange="updateTeamSetup()">
+                            <option value="2">2 Teams</option>
+                            <option value="3">3 Teams</option>
+                            <option value="4">4 Teams</option>
+                            <option value="5">5 Teams</option>
+                            <option value="6">6 Teams</option>
+                        </select>
+                    </div>
+                    
+                    <div id="teamAssignments">
+                        <!-- Team assignments will be populated here -->
+                    </div>
+                    
+                    <div class="team-actions">
+                        <button class="btn btn-secondary" onclick="autoAssignTeams()">Auto-Assign Teams</button>
+                        <button class="btn btn-secondary" onclick="shuffleTeams()">Shuffle Teams</button>
+                    </div>
+                </div>
+            </div>
             
             <button class="btn" onclick="createNewRoster()">Create Roster</button>
         </div>
@@ -609,6 +700,15 @@
             // Check if user is logged in (this would be replaced with actual auth check)
             checkAuthStatus();
             loadExistingRosters();
+            
+            // Setup team management event listeners
+            document.getElementById('enableTeams').addEventListener('change', function() {
+                const teamSetup = document.getElementById('teamSetup');
+                teamSetup.style.display = this.checked ? 'block' : 'none';
+                if (this.checked) {
+                    updateTeamSetup();
+                }
+            });
         });
         
         function checkAuthStatus() {
@@ -720,6 +820,11 @@
             newRosterStudents.push(student);
             nameInput.value = '';
             renderNewStudentList();
+            
+            // Update team assignments if teams are enabled
+            if (document.getElementById('enableTeams').checked) {
+                updateTeamAssignments();
+            }
         }
         
         function bulkAddStudentsToNew() {
@@ -749,6 +854,11 @@
             
             textarea.value = '';
             renderNewStudentList();
+            
+            // Update team assignments if teams are enabled
+            if (document.getElementById('enableTeams').checked) {
+                updateTeamAssignments();
+            }
             
             alert(`Added ${added} students${skipped > 0 ? `, skipped ${skipped} duplicates` : ''}`);
         }
@@ -797,12 +907,21 @@
                 return;
             }
             
+            const enableTeams = document.getElementById('enableTeams').checked;
+            let teams = null;
+            let teamMode = 'individual';
+            
+            if (enableTeams) {
+                teams = getTeamAssignments();
+                teamMode = 'team';
+            }
+            
             const rosterData = {
                 id: generateRosterId(),
                 name: rosterName,
                 roster: newRosterStudents,
-                teams: [],
-                teamMode: 'individual',
+                teams: teams,
+                teamMode: teamMode,
                 lastModified: new Date().toISOString()
             };
             
@@ -826,6 +945,8 @@
             
             // Reset form
             rosterNameInput.value = '';
+            document.getElementById('enableTeams').checked = false;
+            document.getElementById('teamSetup').style.display = 'none';
             newRosterStudents = [];
             renderNewStudentList();
             
@@ -1024,6 +1145,113 @@
         function getAllRosters() {
             const saved = localStorage.getItem('tornadoRosters');
             return saved ? JSON.parse(saved) : [];
+        }
+        
+        // === TEAM MANAGEMENT ===
+        const teamColors = [
+            '#ef4444', '#f59e0b', '#10b981', '#3b82f6', 
+            '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16'
+        ];
+        
+        function updateTeamSetup() {
+            const teamCount = parseInt(document.getElementById('teamCount').value);
+            const teamAssignments = document.getElementById('teamAssignments');
+            
+            teamAssignments.innerHTML = '';
+            
+            for (let i = 0; i < teamCount; i++) {
+                const teamDiv = document.createElement('div');
+                teamDiv.className = 'team-assignment';
+                teamDiv.innerHTML = `
+                    <div class="team-color-indicator" style="background: ${teamColors[i]}"></div>
+                    <input type="text" class="team-name-input" placeholder="Team ${i + 1} Name" value="Team ${i + 1}">
+                    <div class="team-students" id="team${i}Students">No students assigned</div>
+                `;
+                teamAssignments.appendChild(teamDiv);
+            }
+            
+            updateTeamAssignments();
+        }
+        
+        function updateTeamAssignments() {
+            const teamCount = parseInt(document.getElementById('teamCount').value);
+            const students = newRosterStudents;
+            
+            // Clear all team assignments
+            for (let i = 0; i < teamCount; i++) {
+                const teamStudentsDiv = document.getElementById(`team${i}Students`);
+                if (teamStudentsDiv) {
+                    teamStudentsDiv.textContent = 'No students assigned';
+                }
+            }
+            
+            // Distribute students evenly across teams
+            students.forEach((student, index) => {
+                const teamIndex = index % teamCount;
+                const teamStudentsDiv = document.getElementById(`team${teamIndex}Students`);
+                if (teamStudentsDiv) {
+                    const currentText = teamStudentsDiv.textContent;
+                    teamStudentsDiv.textContent = currentText === 'No students assigned' 
+                        ? student.name 
+                        : `${currentText}, ${student.name}`;
+                }
+            });
+        }
+        
+        function autoAssignTeams() {
+            const students = [...newRosterStudents];
+            const teamCount = parseInt(document.getElementById('teamCount').value);
+            
+            // Shuffle students array
+            for (let i = students.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [students[i], students[j]] = [students[j], students[i]];
+            }
+            
+            // Update the newRosterStudents array with shuffled order
+            newRosterStudents = students;
+            updateStudentList();
+            updateTeamAssignments();
+        }
+        
+        function shuffleTeams() {
+            const students = [...newRosterStudents];
+            const teamCount = parseInt(document.getElementById('teamCount').value);
+            
+            // Shuffle students array
+            for (let i = students.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [students[i], students[j]] = [students[j], students[i]];
+            }
+            
+            // Update the newRosterStudents array with shuffled order
+            newRosterStudents = students;
+            updateStudentList();
+            updateTeamAssignments();
+        }
+        
+        function getTeamAssignments() {
+            const teamCount = parseInt(document.getElementById('teamCount').value);
+            const teams = [];
+            
+            for (let i = 0; i < teamCount; i++) {
+                const teamNameInput = document.querySelector(`#teamAssignments .team-assignment:nth-child(${i + 1}) .team-name-input`);
+                const teamStudentsDiv = document.getElementById(`team${i}Students`);
+                
+                const teamName = teamNameInput ? teamNameInput.value || `Team ${i + 1}` : `Team ${i + 1}`;
+                const studentNames = teamStudentsDiv && teamStudentsDiv.textContent !== 'No students assigned' 
+                    ? teamStudentsDiv.textContent.split(', ') 
+                    : [];
+                
+                teams.push({
+                    id: `team_${i}`,
+                    name: teamName,
+                    color: teamColors[i],
+                    students: studentNames
+                });
+            }
+            
+            return teams;
         }
         
         
