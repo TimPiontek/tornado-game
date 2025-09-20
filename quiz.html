@@ -3042,6 +3042,19 @@ The Beatles"
         
         <!-- Main Game Area -->
         <div class="game-main">
+          <!-- Game Status Bar -->
+          <div id="gameStatusBar" style="background: white; border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <!-- Turn Indicator -->
+            <div id="mainTurnDisplay" style="font-size: 1.2rem; font-weight: 600; color: #6f5c91; flex: 1; min-width: 200px;">
+              <span id="currentTurnText">Team A's turn</span>
+            </div>
+            
+            <!-- Team Scores -->
+            <div id="mainTeamScores" style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
+              <!-- Team scores will be populated here -->
+            </div>
+          </div>
+          
           <div id="grid" style="flex: 1 1 auto"></div>
         </div>
       </div>
@@ -8900,6 +8913,9 @@ The Beatles"
                 return;
             }
             
+            // Also update the main game status bar
+            updateMainTeamScores();
+            
             console.log('updateTeamScores called with:', {
                 rosterData: rosterData ? {
                     teams: rosterData.teams?.length,
@@ -8983,6 +8999,55 @@ The Beatles"
             const turnDisplayEl = document.getElementById('turnDisplay');
             if (turnDisplayEl) {
                 turnDisplayEl.textContent = getCurrentStudentDisplay();
+            }
+            
+            // Also update the main game status bar
+            const mainTurnDisplay = document.getElementById('currentTurnText');
+            if (mainTurnDisplay) {
+                mainTurnDisplay.textContent = getCurrentStudentDisplay();
+            }
+        }
+        
+        function updateMainTeamScores() {
+            const mainTeamScoresEl = document.getElementById('mainTeamScores');
+            if (!mainTeamScoresEl) return;
+            
+            if (rosterData && teamMode && rosterData.teams && rosterData.teams.length >= 2) {
+                // Team mode - show all teams
+                mainTeamScoresEl.innerHTML = rosterData.teams.map((team, index) => {
+                    const teamLetter = String.fromCharCode(65 + index);
+                    const teamScore = scores[teamLetter] || 0;
+                    const isActive = turn === teamLetter;
+                    
+                    return `
+                        <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 8px; background: ${isActive ? '#f0f8ff' : '#f8f9fa'}; border: 2px solid ${isActive ? '#6f5c91' : '#e9ecef'};">
+                            <div style="width: 12px; height: 12px; border-radius: 50%; background: ${team.color || '#6f5c91'};"></div>
+                            <span style="font-weight: 600; color: #333;">${team.name || `Team ${teamLetter}`}</span>
+                            <span style="font-weight: 700; color: #6f5c91; font-size: 1.1rem;">${teamScore}</span>
+                        </div>
+                    `;
+                }).join('');
+            } else if (rosterData && rosterData.roster && rosterData.roster.length > 0) {
+                // Individual mode - show total points
+                const totalPoints = Object.values(studentPoints).reduce((sum, points) => sum + points, 0);
+                mainTeamScoresEl.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 8px; background: #f8f9fa; border: 2px solid #e9ecef;">
+                        <span style="font-weight: 600; color: #333;">Total Points</span>
+                        <span style="font-weight: 700; color: #6f5c91; font-size: 1.1rem;">${totalPoints}</span>
+                    </div>
+                `;
+            } else {
+                // Fallback - show Team A and B
+                mainTeamScoresEl.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 8px; background: ${turn === 'A' ? '#f0f8ff' : '#f8f9fa'}; border: 2px solid ${turn === 'A' ? '#6f5c91' : '#e9ecef'};">
+                        <span style="font-weight: 600; color: #333;">${names.A || 'Team A'}</span>
+                        <span style="font-weight: 700; color: #6f5c91; font-size: 1.1rem;">${scores.A || 0}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 8px; background: ${turn === 'B' ? '#f0f8ff' : '#f8f9fa'}; border: 2px solid ${turn === 'B' ? '#6f5c91' : '#e9ecef'};">
+                        <span style="font-weight: 600; color: #333;">${names.B || 'Team B'}</span>
+                        <span style="font-weight: 700; color: #6f5c91; font-size: 1.1rem;">${scores.B || 0}</span>
+                    </div>
+                `;
             }
         }
 
