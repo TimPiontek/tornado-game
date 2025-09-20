@@ -3034,6 +3034,7 @@ The Beatles"
                 <button id="passBtn" class="btn btn-secondary">Pass</button>
                 <button id="skipBtn" class="btn btn-secondary">Skip</button>
                 <button id="nextQuestionBtn" class="btn btn-primary">Next Question</button>
+                <button id="resetButtonsBtn" class="btn btn-secondary" onclick="resetAllButtonStates()" title="Reset all buttons if they get stuck">Reset Buttons</button>
               </div>
             </div>
           </div>
@@ -5289,14 +5290,39 @@ The Beatles"
         }
 
         let isResolvingTurn = false;
+        
+        // Safety function to reset all button states
+        function resetAllButtonStates() {
+          const allButtons = document.querySelectorAll('#grid button');
+          allButtons.forEach(btn => {
+            btn.disabled = false;
+            btn.style.pointerEvents = 'auto';
+            btn.style.opacity = '1';
+          });
+          isResolvingTurn = false;
+          console.log('All button states reset');
+        }
+        
+        // Add keyboard shortcut to reset buttons (press 'R')
+        document.addEventListener('keydown', function(event) {
+          if (event.key === 'r' || event.key === 'R') {
+            if (event.ctrlKey || event.metaKey) {
+              event.preventDefault();
+              resetAllButtonStates();
+              alert('All buttons have been reset!');
+            }
+          }
+        });
 
         function handlePick(btn, i) {
           if (isResolvingTurn) {
             return;
           }
           isResolvingTurn = true;
-          let r = rewards[i],
-            me = turn;
+          
+          try {
+            let r = rewards[i],
+              me = turn;
           
           console.log(`Team ${me} picked position ${i}:`, r);
           
@@ -5988,6 +6014,19 @@ The Beatles"
           
           // Allow next team to act
           isResolvingTurn = false;
+          
+          } catch (error) {
+            console.error('Error in handlePick:', error);
+            // CRITICAL: Always reset the flag on error to prevent button freezing
+            isResolvingTurn = false;
+            
+            // Show error message to user
+            alert('An error occurred during the game. Please try again.');
+            
+            // Re-enable the button that caused the error
+            btn.disabled = false;
+            btn.style.pointerEvents = 'auto';
+          }
         }
 
         function styleSpecial(btn, team) {
