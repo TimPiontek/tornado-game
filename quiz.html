@@ -1247,6 +1247,145 @@
         max-height: 52vh;
         overflow-y: auto;
       }
+      
+      /* Unified Game Layout */
+      .game-layout {
+        display: grid;
+        grid-template-columns: 400px 1fr;
+        gap: 1rem;
+        padding: 1rem;
+        min-height: calc(100vh - 2rem);
+      }
+      
+      .game-sidebar {
+        background: #fff;
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        max-height: calc(100vh - 2rem);
+        overflow-y: auto;
+      }
+      
+      .sidebar-section h3 {
+        color: #6f5c91;
+        margin: 0 0 1rem 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 0.5rem;
+      }
+      
+      .team-scores {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      
+      .team-score-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        background: #f8fafc;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+      }
+      
+      .team-score-item.active {
+        background: rgba(111, 92, 145, 0.1);
+        border-color: #6f5c91;
+      }
+      
+      .team-name {
+        font-weight: 600;
+        color: #1e293b;
+      }
+      
+      .team-score {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #6f5c91;
+      }
+      
+      .game-controls {
+        text-align: center;
+      }
+      
+      .control-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+      
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 1rem;
+      }
+      
+      .btn-primary {
+        background: #6f5c91;
+        color: white;
+      }
+      
+      .btn-primary:hover {
+        background: #5a4a7a;
+        transform: translateY(-1px);
+      }
+      
+      .btn-secondary {
+        background: #64748b;
+        color: white;
+      }
+      
+      .btn-secondary:hover {
+        background: #475569;
+        transform: translateY(-1px);
+      }
+      
+      .game-stats {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      
+      .stat-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      
+      .stat-label {
+        color: #64748b;
+        font-weight: 500;
+      }
+      
+      .stat-value {
+        color: #6f5c91;
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+      
+      .game-main {
+        background: #fff;
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
 
       .special-effects-title {
         font-size: 1.05rem;
@@ -2811,15 +2950,50 @@ The Beatles"
     <div id="gameScreen" class="hidden">
       <!-- Remove the logo image from here -->
       <div id="specialPopup" class="special-popup hidden"></div>
-      <div id="teamGrid" class="team-grid">
-        <!-- Teams will be dynamically generated here -->
-      </div>
-      <div class="center-controls" style="margin: 1rem auto;">
-        <div id="turnDisplay">Team A's turn</div>
-        <div class="game-controls compact-controls">
-          <button id="passBtn">Pass</button>
-          <button id="skipBtn">Skip</button>
-          <button id="nextQuestionBtn">Next Question</button>
+      
+      <!-- Unified Layout with Sidebar -->
+      <div class="game-layout">
+        <!-- Left Sidebar -->
+        <div class="game-sidebar">
+          <div class="sidebar-section">
+            <h3>Teams & Scores</h3>
+            <div id="teamScores" class="team-scores">
+              <!-- Team scores will be dynamically generated here -->
+            </div>
+          </div>
+          
+          <div class="sidebar-section">
+            <h3>Game Controls</h3>
+            <div class="game-controls">
+              <div id="turnDisplay">Team A's turn</div>
+              <div class="control-buttons">
+                <button id="passBtn" class="btn btn-secondary">Pass</button>
+                <button id="skipBtn" class="btn btn-secondary">Skip</button>
+                <button id="nextQuestionBtn" class="btn btn-primary">Next Question</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="sidebar-section">
+            <h3>Game Stats</h3>
+            <div id="gameStats" class="game-stats">
+              <div class="stat-item">
+                <span class="stat-label">Questions Used:</span>
+                <span id="questionsUsed" class="stat-value">0</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Total Turns:</span>
+                <span id="totalTurns" class="stat-value">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Main Game Area -->
+        <div class="game-main">
+          <div id="teamGrid" class="team-grid">
+            <!-- Teams will be dynamically generated here -->
+          </div>
         </div>
       </div>
 
@@ -5557,6 +5731,9 @@ The Beatles"
               scoreEl.textContent = scores[teamId];
             }
           }
+          
+          // Update sidebar scores
+          updateTeamScores();
         }
         function clearTeamStatusEffects() {
           // Clear status effects that should disappear after each turn
@@ -5648,6 +5825,12 @@ The Beatles"
           turnEl.textContent = `${names[turn]}'s turn`;
           turnEl.style.color = teamColors[turn] || "#6f5c91";
           updateTeamDisplay();
+          
+          // Update sidebar
+          updateTeamScores();
+          updateGameStats();
+          updateTurnDisplay();
+          
           // Allow next team to act
           isResolvingTurn = false;
         }
@@ -6504,6 +6687,46 @@ The Beatles"
               shieldCount, hotStreakCount, coinFlipCount
             });
           };
+        }
+
+        // === SIDEBAR MANAGEMENT ===
+        function updateTeamScores() {
+            const teamScoresContainer = document.getElementById('teamScores');
+            if (!teamScoresContainer) return;
+            
+            const currentTeam = currentTurn === "A" ? "A" : "B";
+            
+            teamScoresContainer.innerHTML = `
+                <div class="team-score-item ${currentTeam === "A" ? "active" : ""}">
+                    <span class="team-name">${names.A || "Team A"}</span>
+                    <span class="team-score">${scores.A || 0}</span>
+                </div>
+                <div class="team-score-item ${currentTeam === "B" ? "active" : ""}">
+                    <span class="team-name">${names.B || "Team B"}</span>
+                    <span class="team-score">${scores.B || 0}</span>
+                </div>
+            `;
+        }
+        
+        function updateGameStats() {
+            const questionsUsedEl = document.getElementById('questionsUsed');
+            const totalTurnsEl = document.getElementById('totalTurns');
+            
+            if (questionsUsedEl) {
+                questionsUsedEl.textContent = usedQuestionIndices ? usedQuestionIndices.length : 0;
+            }
+            
+            if (totalTurnsEl) {
+                totalTurnsEl.textContent = turnCount || 0;
+            }
+        }
+        
+        function updateTurnDisplay() {
+            const turnDisplayEl = document.getElementById('turnDisplay');
+            if (turnDisplayEl) {
+                const teamName = currentTurn === "A" ? (names.A || "Team A") : (names.B || "Team B");
+                turnDisplayEl.textContent = `${teamName}'s turn`;
+            }
         }
 
         // Function to start game with specific settings
