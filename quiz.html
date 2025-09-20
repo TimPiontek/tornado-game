@@ -1312,6 +1312,52 @@
         color: #6f5c91;
       }
       
+      .team-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.3rem;
+        border-bottom: 1px solid #e0e0e0;
+      }
+      
+      .student-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+      
+      .student-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.3rem 0.5rem;
+        background: #f8f9fa;
+        border-radius: 4px;
+        font-size: 0.85em;
+        transition: all 0.2s ease;
+      }
+      
+      .student-item.current-student {
+        background: #6f5c91;
+        color: white;
+        font-weight: bold;
+      }
+      
+      .student-name {
+        flex: 1;
+        text-align: left;
+      }
+      
+      .student-points {
+        font-weight: bold;
+        color: #28a745;
+      }
+      
+      .student-item.current-student .student-points {
+        color: #fff;
+      }
+      
       .game-controls {
         text-align: center;
       }
@@ -4861,6 +4907,13 @@ The Beatles"
               answer: null,
             };
             
+            // Award points to current student if in team mode
+            if (teamMode && getCurrentStudent()) {
+              const currentStudent = getCurrentStudent();
+              awardStudentPoints(currentStudent.name, individualPoints);
+              updateTeamScores(); // Update the display
+            }
+            
             // Show answer with animation
             const modalAnswer = document.getElementById("modalAnswer");
             if (modalAnswer) {
@@ -6805,6 +6858,7 @@ The Beatles"
         let teamMode = false;
         let currentStudentIndex = 0;
         let currentTeamStudents = [];
+        let studentPoints = {}; // Track individual student points
         
         // === POINT CONFIGURATION ===
         let individualPoints = 100;
@@ -7251,6 +7305,36 @@ The Beatles"
             }
         }
         
+        function initializeStudentPoints() {
+            if (!rosterData || !rosterData.roster) return;
+            
+            // Initialize all students with 0 points
+            rosterData.roster.forEach(student => {
+                studentPoints[student.name] = 0;
+                student.points = 0;
+            });
+            
+            console.log('Initialized student points:', studentPoints);
+        }
+        
+        function awardStudentPoints(studentName, points) {
+            if (!studentPoints.hasOwnProperty(studentName)) {
+                studentPoints[studentName] = 0;
+            }
+            
+            studentPoints[studentName] += points;
+            
+            // Update the student object in roster data
+            if (rosterData && rosterData.roster) {
+                const student = rosterData.roster.find(s => s.name === studentName);
+                if (student) {
+                    student.points = studentPoints[studentName];
+                }
+            }
+            
+            console.log(`Awarded ${points} points to ${studentName}. Total: ${studentPoints[studentName]}`);
+        }
+        
         function loadRosterData() {
             const saved = localStorage.getItem('tornadoRoster');
             if (saved) {
@@ -7358,16 +7442,54 @@ The Beatles"
             
             const currentTeam = turn === "A" ? "A" : "B";
             
-            teamScoresContainer.innerHTML = `
-                <div class="team-score-item ${currentTeam === "A" ? "active" : ""}">
-                    <span class="team-name">${names.A || "Team A"}</span>
-                    <span class="team-score">${scores.A || 0}</span>
-                </div>
-                <div class="team-score-item ${currentTeam === "B" ? "active" : ""}">
-                    <span class="team-name">${names.B || "Team B"}</span>
-                    <span class="team-score">${scores.B || 0}</span>
-                </div>
-            `;
+            // If we have roster data and team mode, show individual students
+            if (rosterData && teamMode && rosterData.teams && rosterData.teams.length >= 2) {
+                const teamA = rosterData.teams[0];
+                const teamB = rosterData.teams[1];
+                
+                teamScoresContainer.innerHTML = `
+                    <div class="team-score-item ${currentTeam === "A" ? "active" : ""}">
+                        <div class="team-header">
+                            <span class="team-name">${teamA.name || "Team A"}</span>
+                            <span class="team-score">${scores.A || 0}</span>
+                        </div>
+                        <div class="student-list">
+                            ${teamA.students.map(student => `
+                                <div class="student-item ${getCurrentStudent() && getCurrentStudent().id === student.id ? 'current-student' : ''}">
+                                    <span class="student-name">${student.name}</span>
+                                    <span class="student-points">${student.points || 0}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="team-score-item ${currentTeam === "B" ? "active" : ""}">
+                        <div class="team-header">
+                            <span class="team-name">${teamB.name || "Team B"}</span>
+                            <span class="team-score">${scores.B || 0}</span>
+                        </div>
+                        <div class="student-list">
+                            ${teamB.students.map(student => `
+                                <div class="student-item ${getCurrentStudent() && getCurrentStudent().id === student.id ? 'current-student' : ''}">
+                                    <span class="student-name">${student.name}</span>
+                                    <span class="student-points">${student.points || 0}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Fallback to team-only display
+                teamScoresContainer.innerHTML = `
+                    <div class="team-score-item ${currentTeam === "A" ? "active" : ""}">
+                        <span class="team-name">${names.A || "Team A"}</span>
+                        <span class="team-score">${scores.A || 0}</span>
+                    </div>
+                    <div class="team-score-item ${currentTeam === "B" ? "active" : ""}">
+                        <span class="team-name">${names.B || "Team B"}</span>
+                        <span class="team-score">${scores.B || 0}</span>
+                    </div>
+                `;
+            }
         }
         
         function updateGameStats() {
@@ -7400,6 +7522,9 @@ The Beatles"
           if (window.quizTeamAssignment && window.quizTeamAssignment.teams) {
             applyQuizTeamAssignment(window.quizTeamAssignment);
           }
+          
+          // Initialize individual student points
+          initializeStudentPoints();
           
           // Load point configuration
           const individualPointsInput = document.getElementById('individualPoints');
