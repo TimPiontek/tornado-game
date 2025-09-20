@@ -4208,13 +4208,6 @@ The Beatles
               error: userError
             } = await supabaseClient.auth.getUser();
             
-            // Debug logging
-            console.log('Auth check - Session error:', sessionError);
-            console.log('Auth check - User error:', userError);
-            console.log('Auth check - Supabase session:', session);
-            console.log('Auth check - Supabase user:', user);
-            console.log('Auth check - currentStudent:', localStorage.getItem('currentStudent'));
-            
             // Check if user is a student (has currentStudent in localStorage)
             const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
             const isStudent = currentStudent !== null;
@@ -4223,9 +4216,6 @@ The Beatles
             // Use either session.user or user directly
             const teacherUser = session?.user || user;
             const isTeacher = teacherUser !== null;
-            
-            console.log('Auth check - isTeacher:', isTeacher, 'isStudent:', isStudent);
-            console.log('Auth check - teacherUser:', teacherUser);
             
             // Update navigation and content based on actual auth status
             updateNavigation(isTeacher, isStudent);
@@ -4284,61 +4274,40 @@ The Beatles
           // Re-attach login button event listener
           const loginBtn = document.getElementById("loginLogoutBtn");
           if (loginBtn) {
-            console.log('Attaching login button event listener to:', loginBtn.textContent);
             loginBtn.onclick = function (e) {
-              console.log('Login button clicked!', e);
-              console.log('Button text:', loginBtn.textContent);
               if (loginBtn.textContent === "👨‍🏫 Teacher Login" || loginBtn.textContent === "Login") {
-                console.log('Showing auth modal...');
                 showAuthModal();
               } else {
-                console.log('Logging out...');
                 // Logout - clear both Supabase and student sessions
                 supabaseClient.auth.signOut();
                 localStorage.removeItem('currentStudent');
                 updateHomepageForUser();
               }
             };
-          } else {
-            console.log('Login button not found!');
           }
         }
 
         function updateContentVisibility(isTeacher, isStudent) {
-          console.log('Updating content visibility - isTeacher:', isTeacher, 'isStudent:', isStudent);
-          
           // Hide/show Create Assignment card based on teacher status
-          const createAssignmentCard = document.querySelector('.game-card:nth-child(3)');
-          console.log('Create Assignment card found:', createAssignmentCard);
+          const createAssignmentCard = document.querySelector('.game-card:nth-child(3)') || 
+                                     document.querySelector('[data-card="assignment"]') ||
+                                     document.querySelector('.game-card:last-child');
           
           if (createAssignmentCard) {
-            if (isTeacher) {
-              console.log('Showing Create Assignment card');
-              createAssignmentCard.style.display = 'block';
-            } else {
-              console.log('Hiding Create Assignment card');
-              createAssignmentCard.style.display = 'none';
-            }
-          } else {
-            console.log('Create Assignment card not found!');
+            createAssignmentCard.style.display = isTeacher ? 'block' : 'none';
           }
           
           // Adjust grid layout for remaining cards
-          const gameCardsContainer = document.querySelector('.game-cards');
-          console.log('Game cards container found:', gameCardsContainer);
+          const gameCardsContainer = document.querySelector('.game-cards') || 
+                                   document.querySelector('.game-grid') ||
+                                   document.querySelector('[class*="grid"]');
           
           if (gameCardsContainer) {
             if (isTeacher) {
-              // Show all 3 cards
-              console.log('Setting grid to 3 columns');
               gameCardsContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
             } else {
-              // Show only 2 cards (War and Quiz)
-              console.log('Setting grid to 2 columns');
               gameCardsContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
             }
-          } else {
-            console.log('Game cards container not found!');
           }
         }
 
@@ -4369,22 +4338,15 @@ The Beatles
         setTimeout(() => {
           const loginBtn = document.getElementById("loginLogoutBtn");
           if (loginBtn) {
-            console.log('Found login button on page load:', loginBtn.textContent);
             loginBtn.onclick = function (e) {
-              console.log('Login button clicked from page load listener!', e);
-              console.log('Button text:', loginBtn.textContent);
               if (loginBtn.textContent === "👨‍🏫 Teacher Login" || loginBtn.textContent === "Login") {
-                console.log('Showing auth modal from page load...');
                 showAuthModal();
               } else {
-                console.log('Logging out from page load...');
                 supabaseClient.auth.signOut();
                 localStorage.removeItem('currentStudent');
                 updateHomepageForUser();
               }
             };
-          } else {
-            console.log('Login button not found on page load!');
           }
         }, 500);
         
