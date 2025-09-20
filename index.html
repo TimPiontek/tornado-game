@@ -3179,6 +3179,7 @@ The Beatles
         document.getElementById('mainNav').style.display = 'flex';
         
         // Initialize homepage navigation immediately
+        console.log('🚨 CRITICAL: Calling updateHomepageForUser() on page load');
         updateHomepageForUser();
 
         // // Debug: Log session on page load
@@ -4209,6 +4210,11 @@ The Beatles
             const teacherUser = session?.user || user;
             const isTeacher = teacherUser !== null;
             
+            console.log('🚨 CRITICAL: updateHomepageForUser - session:', session);
+            console.log('🚨 CRITICAL: updateHomepageForUser - user:', user);
+            console.log('🚨 CRITICAL: updateHomepageForUser - teacherUser:', teacherUser);
+            console.log('🚨 CRITICAL: updateHomepageForUser - isTeacher:', isTeacher);
+            console.log('🚨 CRITICAL: updateHomepageForUser - isStudent:', isStudent);
             
             // Update navigation and content based on actual auth status
             updateNavigation(isTeacher, isStudent);
@@ -4244,11 +4250,13 @@ The Beatles
           
           if (isTeacher) {
             // Teacher navigation
+            console.log('🚨 CRITICAL: Adding teacher navigation with Assignments link');
             navLinks.innerHTML += `
               <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
               <a href="/teacher-assignments-manage.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Assignments</a>
               <button id="loginLogoutBtn" class="login-btn">Logout</button>
             `;
+            console.log('🚨 CRITICAL: Teacher navigation added. Final HTML:', navLinks.innerHTML);
           } else if (isStudent) {
             // Student navigation
             navLinks.innerHTML += `
