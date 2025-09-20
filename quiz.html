@@ -3060,7 +3060,7 @@ The Beatles"
             </div>
           </div>
           
-          <div id="grid" style="flex: 1 1 auto"></div>
+          <div id="grid" style="flex: 1 1 auto; display: grid; min-height: 400px; background: #f8f9fa; border-radius: 8px; padding: 1rem;"></div>
         </div>
       </div>
 
@@ -5223,6 +5223,13 @@ The Beatles"
         }
 
         function buildGrid(n) {
+          console.log('buildGrid called with n:', n, 'gridEl:', gridEl);
+          
+          if (!gridEl) {
+            console.error('gridEl not found!');
+            return;
+          }
+          
           gridEl.innerHTML = "";
           let cols;
           if (n === 8) {
@@ -5262,12 +5269,30 @@ The Beatles"
           }
           gridEl.style.gridTemplateColumns = `repeat(${cols},1fr)`;
           console.log(`Building grid: ${n} items, ${cols} columns, template: repeat(${cols},1fr)`);
+          
           for (let i = 0; i < n; i++) {
             const btn = document.createElement("button");
             btn.textContent = i + 1;
+            btn.style.cssText = `
+              background: #6f5c91;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              padding: 1rem;
+              font-size: 1.2rem;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.2s ease;
+              min-height: 60px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            `;
             btn.onclick = () => handlePick(btn, i);
             gridEl.appendChild(btn);
           }
+          
+          console.log(`Grid built with ${n} buttons`);
         }
 
         let isResolvingTurn = false;
