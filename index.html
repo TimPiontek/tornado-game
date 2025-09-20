@@ -4278,9 +4278,7 @@ The Beatles
 
         function updateContentVisibility(isTeacher, isStudent) {
           // Hide/show Create Assignment card based on teacher status
-          const createAssignmentCard = document.querySelector('.game-card:nth-child(3)') || 
-                                     document.querySelector('[data-card="assignment"]') ||
-                                     document.querySelector('.game-card:last-child');
+          const createAssignmentCard = document.getElementById('assignmentCard');
           
           if (createAssignmentCard) {
             createAssignmentCard.style.display = isTeacher ? 'block' : 'none';
