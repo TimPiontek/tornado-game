@@ -5967,6 +5967,12 @@ The Beatles"
           updateTeamScores();
           updateTurnDisplay();
           
+          // Force update the turn display in the main game area
+          const mainTurnDisplay = document.querySelector('.turn-display, #turnDisplay, .current-turn');
+          if (mainTurnDisplay) {
+            mainTurnDisplay.textContent = getCurrentStudentDisplay();
+          }
+          
           // Allow next team to act
           isResolvingTurn = false;
         }
@@ -8849,28 +8855,17 @@ The Beatles"
         }
         
         function getCurrentStudentDisplay() {
-            console.log('getCurrentStudentDisplay called:', {
-                teamMode,
-                turn,
-                currentStudentIndex,
-                currentTeamStudents: currentTeamStudents?.length,
-                currentStudent: getCurrentStudent()
-            });
-            
             if (!teamMode) {
                 return names[turn] || `Team ${turn}`;
             }
             
-            const student = getCurrentStudent();
-            const teamName = names[turn] || `Team ${turn}`;
+            // Get the current student directly from roster data
+            const teamIndex = turn.charCodeAt(0) - 65; // A=0, B=1, C=2, etc.
+            const currentTeam = rosterData?.teams?.[teamIndex];
+            const student = currentTeam?.students?.[currentStudentIndex];
+            const teamName = currentTeam?.name || names[turn] || `Team ${turn}`;
             
-            console.log('Student display data:', {
-                student,
-                teamName,
-                studentName: student?.name
-            });
-            
-            if (student) {
+            if (student && student.name) {
                 return `${teamName} - ${student.name}'s turn`;
             }
             
@@ -9117,6 +9112,12 @@ The Beatles"
           // Update sidebar displays
           updateTeamScores();
           updateTurnDisplay();
+          
+          // Force update the turn display in the main game area
+          const mainTurnDisplay = document.querySelector('.turn-display, #turnDisplay, .current-turn');
+          if (mainTurnDisplay) {
+            mainTurnDisplay.textContent = getCurrentStudentDisplay();
+          }
           
           console.log('Game started with:', {
             teamMode,
