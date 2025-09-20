@@ -4206,6 +4206,12 @@ The Beatles
             const teacherUser = session?.user || user;
             const isTeacher = teacherUser !== null;
             
+            console.log('🔍 DEBUG - Auth check - Supabase session:', session);
+            console.log('🔍 DEBUG - Auth check - Supabase user:', user);
+            console.log('🔍 DEBUG - Auth check - teacherUser:', teacherUser);
+            console.log('🔍 DEBUG - Auth check - isTeacher:', isTeacher);
+            console.log('🔍 DEBUG - Auth check - isStudent:', isStudent);
+            
             // Update navigation and content based on actual auth status
             updateNavigation(isTeacher, isStudent);
             updateContentVisibility(isTeacher, isStudent);
@@ -4228,6 +4234,8 @@ The Beatles
         function updateNavigation(isTeacher, isStudent) {
           const navLinks = document.querySelector('.nav-links');
           if (!navLinks) return;
+          
+          console.log('🔍 DEBUG - updateNavigation called with isTeacher:', isTeacher, 'isStudent:', isStudent);
           
           // Clear existing navigation
           navLinks.innerHTML = '';
