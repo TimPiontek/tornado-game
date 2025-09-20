@@ -8849,12 +8849,26 @@ The Beatles"
         }
         
         function getCurrentStudentDisplay() {
+            console.log('getCurrentStudentDisplay called:', {
+                teamMode,
+                turn,
+                currentStudentIndex,
+                currentTeamStudents: currentTeamStudents?.length,
+                currentStudent: getCurrentStudent()
+            });
+            
             if (!teamMode) {
                 return names[turn] || `Team ${turn}`;
             }
             
             const student = getCurrentStudent();
             const teamName = names[turn] || `Team ${turn}`;
+            
+            console.log('Student display data:', {
+                student,
+                teamName,
+                studentName: student?.name
+            });
             
             if (student) {
                 return `${teamName} - ${student.name}'s turn`;
