@@ -330,7 +330,7 @@
     colors: new Map(),
     costs: { land: 10, castleL1: 50, castleL2: 100, castleL3: 200 },
     weaponCosts: { spear: 30, crossbow: 60, catapult: 100 },
-    offlineMode: true, // Always use offline mode for roster-centric system
+    offlineMode: false, // Start in online mode, can switch to offline
     teams: [],
     teamMode: false
   };
@@ -353,7 +353,7 @@
       signoutBtn.style.display = "none";
       playOfflineBtn.style.display = "none";
     } else {
-    who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
+      who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
       signinBtn.textContent = "Sign in with Google";
       signinBtn.style.display = session ? "none" : "inline-block";
       signoutBtn.style.display = session ? "inline-block" : "none";
