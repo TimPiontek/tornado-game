@@ -4206,11 +4206,6 @@ The Beatles
             const teacherUser = session?.user || user;
             const isTeacher = teacherUser !== null;
             
-            console.log('🔍 DEBUG - Auth check - Supabase session:', session);
-            console.log('🔍 DEBUG - Auth check - Supabase user:', user);
-            console.log('🔍 DEBUG - Auth check - teacherUser:', teacherUser);
-            console.log('🔍 DEBUG - Auth check - isTeacher:', isTeacher);
-            console.log('🔍 DEBUG - Auth check - isStudent:', isStudent);
             
             // Update navigation and content based on actual auth status
             updateNavigation(isTeacher, isStudent);
@@ -4235,7 +4230,6 @@ The Beatles
           const navLinks = document.querySelector('.nav-links');
           if (!navLinks) return;
           
-          console.log('🔍 DEBUG - updateNavigation called with isTeacher:', isTeacher, 'isStudent:', isStudent);
           
           // Clear existing navigation
           navLinks.innerHTML = '';
@@ -4247,13 +4241,11 @@ The Beatles
           
           if (isTeacher) {
             // Teacher navigation
-            console.log('🔍 DEBUG - Adding teacher navigation');
             navLinks.innerHTML += `
               <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
               <a href="/teacher-assignments-manage.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Assignments</a>
               <button id="loginLogoutBtn" class="login-btn">Logout</button>
             `;
-            console.log('🔍 DEBUG - Teacher navigation added. Current navLinks.innerHTML:', navLinks.innerHTML);
           } else if (isStudent) {
             // Student navigation
             navLinks.innerHTML += `
@@ -4501,23 +4493,11 @@ The Beatles
               btn.style.color = "#e57373";
               btn.title = user.email || "";
             }
-            // Update homepage navigation for teacher login
-            try {
-              updateHomepageForUser();
-            } catch (error) {
-              console.error('Error updating homepage after teacher login:', error);
-            }
           } else if (event === "SIGNED_OUT") {
             btn.textContent = "👨‍🏫 Teacher Login";
             btn.style.background = "#fff";
             btn.style.color = "#6F5C91";
             btn.title = "";
-            // Update homepage navigation for teacher logout
-            try {
-              updateHomepageForUser();
-            } catch (error) {
-              console.error('Error updating homepage after teacher logout:', error);
-            }
           }
         });
 
