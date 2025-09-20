@@ -95,8 +95,17 @@
       <div style="margin-bottom: 8px;">
         <button class="pill" onclick="quickAward(1)" style="background: #10b981; font-size: 12px;">+1 All</button>
         <button class="pill" onclick="quickAward(10)" style="background: #3b82f6; font-size: 12px;">+10 All</button>
-        <button class="pill" onclick="quickAward(25)" style="background: #3b82f6; font-size: 12px;">+25 All</button>
-        <button class="pill" onclick="quickAward(50)" style="background: #3b82f6; font-size: 12px;">+50 All</button>
+        <button class="pill" onclick="quickAward(-1)" style="background: #f59e0b; font-size: 12px;">-1 All</button>
+        <button class="pill" onclick="quickAward(-10)" style="background: #ef4444; font-size: 12px;">-10 All</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="title">Sort roster</div>
+      <div style="margin-bottom: 8px;">
+        <button class="pill" onclick="sortWarRoster('first')" style="background: #6f5c91; font-size: 12px;">First Name</button>
+        <button class="pill" onclick="sortWarRoster('last')" style="background: #6f5c91; font-size: 12px;">Last Name</button>
+        <button class="pill" onclick="shuffleWarRoster()" style="background: #6f5c91; font-size: 12px;">Shuffle</button>
       </div>
     </div>
 
@@ -1039,10 +1048,52 @@
   window.quickAward = async (amount) => {
     if (!state.roster || state.roster.length === 0) return alert("No roster loaded.");
     state.roster.forEach(student => {
-      student.balance += amount;
+      student.balance = Math.max(0, student.balance + amount); // Prevent negative points
     });
     renderRoster();
     autoSaveWarPoints();
+  };
+
+  // === ROSTER SORTING ===
+  window.sortWarRoster = (sortType) => {
+    if (!state.roster || state.roster.length === 0) return alert("No roster loaded.");
+    
+    state.roster.sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+      
+      if (sortType === 'first') {
+        // Sort by first name
+        const firstNameA = nameA.split(' ')[0];
+        const firstNameB = nameB.split(' ')[0];
+        return firstNameA.localeCompare(firstNameB);
+      } else if (sortType === 'last') {
+        // Sort by last name
+        const lastNameA = nameA.split(' ').pop() || '';
+        const lastNameB = nameB.split(' ').pop() || '';
+        return lastNameA.localeCompare(lastNameB);
+      }
+      
+      return nameA.localeCompare(nameB);
+    });
+    
+    renderRoster();
+    autoSaveWarPoints();
+    console.log(`Sorted roster by ${sortType} name`);
+  };
+
+  window.shuffleWarRoster = () => {
+    if (!state.roster || state.roster.length === 0) return alert("No roster loaded.");
+    
+    // Fisher-Yates shuffle algorithm
+    for (let i = state.roster.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [state.roster[i], state.roster[j]] = [state.roster[j], state.roster[i]];
+    }
+    
+    renderRoster();
+    autoSaveWarPoints();
+    console.log("Shuffled roster");
   };
   
   // === AUTO-SAVE SYSTEM ===
