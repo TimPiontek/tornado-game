@@ -2962,15 +2962,6 @@
             </div>
           </div>
           
-          <div class="sidebar-section">
-            <h3>Game Actions</h3>
-            <div class="game-controls">
-              <div class="control-buttons">
-                <button id="resetButtonsBtn" class="btn btn-secondary" onclick="resetAllButtonStates()" title="Reset all buttons if they get stuck">Reset Buttons</button>
-                <button id="endGameBtn" class="btn btn-danger" onclick="endGameAndAwardPoints()" title="End game and award points to roster">End Game</button>
-              </div>
-            </div>
-          </div>
           
         </div>
         
@@ -2988,6 +2979,7 @@
               <button id="passBtn" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Pass</button>
               <button id="skipBtn" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Skip</button>
               <button id="nextQuestionBtn" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Next Question</button>
+              <button id="resetButtonsBtn" class="btn btn-secondary" onclick="resetAllButtonStates()" title="Reset all buttons if they get stuck" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Reset Buttons</button>
             </div>
             
             <!-- Team Scores -->
@@ -3069,6 +3061,9 @@
         <div style="display: flex; gap: 1.2rem; align-items: center">
           <button id="resetBtn">
             <span class="emoji">🔄</span> Reset Game
+          </button>
+          <button id="endGameBtn" onclick="endGameAndAwardPoints()" title="End game and award points to roster">
+            <span class="emoji">🏁</span> End Game
           </button>
           <button id="homeBtn"><span class="emoji">🏠</span> Home</button>
         </div>
