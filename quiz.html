@@ -7220,6 +7220,35 @@ The Beatles"
             }
             
             updateRosterStatus(`Teams assigned (${quizTeamAssignment.mode})`);
+            
+            // Store the team assignment for use during game start
+            window.quizTeamAssignment = quizTeamAssignment;
+        }
+        
+        function applyQuizTeamAssignment(teamAssignment) {
+            if (!teamAssignment || !teamAssignment.teams) return;
+            
+            // Update the roster data with team assignments
+            if (rosterData && rosterData.roster) {
+                rosterData.roster.forEach(student => {
+                    // Find which team this student belongs to
+                    const team = teamAssignment.teams.find(t => 
+                        t.students.some(s => s.id === student.id)
+                    );
+                    
+                    if (team) {
+                        student.teamId = team.id;
+                        student.teamName = team.name;
+                        student.teamColor = team.color || '#6f5c91';
+                    }
+                });
+                
+                // Update rosterData teams
+                rosterData.teams = teamAssignment.teams;
+                rosterData.teamMode = true;
+                
+                console.log('Applied quiz team assignment:', rosterData);
+            }
         }
         
         function loadRosterData() {
@@ -7366,6 +7395,11 @@ The Beatles"
           // Load roster data and initialize team mode
           loadRosterData();
           initializeTeamMode();
+          
+          // Apply quiz team assignment if available
+          if (window.quizTeamAssignment && window.quizTeamAssignment.teams) {
+            applyQuizTeamAssignment(window.quizTeamAssignment);
+          }
           
           // Load point configuration
           const individualPointsInput = document.getElementById('individualPoints');
@@ -7722,7 +7756,8 @@ The Beatles"
           document.body.appendChild(modal);
         }
         
-        function selectTargetTeam(targetTeam, action) {
+        // Make selectTargetTeam globally accessible
+        window.selectTargetTeam = function(targetTeam, action) {
           const modal = document.querySelector('div[style*="position: fixed"]');
           if (modal) modal.remove();
           
@@ -7743,7 +7778,7 @@ The Beatles"
           
           updateScores();
           updateTeamDisplay();
-        }
+        };
 
         // New animation functions for special effects
 
