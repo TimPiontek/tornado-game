@@ -8803,9 +8803,10 @@ The Beatles"
             console.log(`Awarded ${points} points to ${studentName}. Total: ${studentPoints[studentName]}`);
         }
         
-        function loadRosterData() {
+        function loadRosterData(forceLoad = false) {
             console.log('=== LOAD ROSTER DATA ===');
             console.log('window.quizTeamAssignment:', window.quizTeamAssignment);
+            console.log('forceLoad:', forceLoad);
             
             // First try to load from quizTeamAssignment (set during roster selection)
             if (window.quizTeamAssignment && window.quizTeamAssignment.rosterData) {
@@ -8814,19 +8815,23 @@ The Beatles"
                 return true;
             }
             
-            // Fallback: try to load from old single roster system
-            const saved = localStorage.getItem('tornadoRoster');
-            if (saved) {
-                try {
-                    rosterData = JSON.parse(saved);
-                    console.log('Roster loaded from tornadoRoster:', rosterData);
-                    return true;
-                } catch (e) {
-                    console.error('Error loading roster:', e);
+            // Only load from localStorage if explicitly requested (forceLoad = true)
+            if (forceLoad) {
+                const saved = localStorage.getItem('tornadoRoster');
+                if (saved) {
+                    try {
+                        rosterData = JSON.parse(saved);
+                        console.log('Roster loaded from tornadoRoster:', rosterData);
+                        return true;
+                    } catch (e) {
+                        console.error('Error loading roster:', e);
+                    }
                 }
             }
             
-            console.log('No roster data found');
+            // Reset roster data if no explicit roster was selected
+            rosterData = null;
+            console.log('No roster data found - starting fresh game');
             return false;
         }
         
@@ -9090,9 +9095,25 @@ The Beatles"
             }
         }
 
+        // Function to reset game state for new games
+        function resetGameState() {
+          // Clear any previous roster assignments
+          window.quizTeamAssignment = null;
+          rosterData = null;
+          teamMode = false;
+          currentStudentIndex = 0;
+          currentTeamStudents = [];
+          studentPoints = {};
+          
+          console.log('Game state reset for new game');
+        }
+        
         // Function to start game with specific settings
         async function startGameWithSettings(quiz, settings) {
-          // Load roster data first
+          // Reset game state first
+          resetGameState();
+          
+          // Load roster data only if explicitly selected
           loadRosterData();
           
           // Apply quiz team assignment if available BEFORE initializing team mode
