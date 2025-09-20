@@ -76,15 +76,17 @@
   <!-- LEFT: roster and create -->
   <div class="panel">
     <div class="section">
-      <div class="title">Game</div>
-      <select id="gamesList"></select>
+      <div class="title">Roster</div>
+      <select id="rosterList"></select>
       <div class="minor" id="victory"></div>
-      <button class="pill" id="deleteGame" style="margin-top: 8px; background: #dc2626; color: white;">Delete Game</button>
+      <div style="margin-top: 8px; display: flex; gap: 8px;">
+        <button class="pill" id="loadRosterBtn" style="background: #6f5c91; color: white; flex: 1;">Manage Rosters</button>
+        <button class="pill" id="saveRosterBtn" style="background: #10b981; color: white; flex: 1;">Save Roster</button>
+      </div>
     </div>
 
     <div class="section">
-      <div class="title">Roster</div>
-      <button id="loadRosterBtn" class="pill" style="background: #6f5c91; margin-bottom: 8px;">Load Roster</button>
+      <div class="title">Students</div>
       <div id="roster"></div>
     </div>
 
@@ -318,9 +320,9 @@
   // === STATE ===
   const state = {
     session: null,
-    games: [],
-    game: null,
-    gameId: null,
+    rosters: [],
+    currentRoster: null,
+    currentRosterId: null,
     board: { w: 0, h: 0, tiles: [] },
     roster: [],
     selectedGsId: null,
@@ -328,8 +330,7 @@
     colors: new Map(),
     costs: { land: 10, castleL1: 50, castleL2: 100, castleL3: 200 },
     weaponCosts: { spear: 30, crossbow: 60, catapult: 100 },
-    offlineMode: false,
-    localGames: [],
+    offlineMode: true, // Always use offline mode for roster-centric system
     teams: [],
     teamMode: false
   };
@@ -578,7 +579,7 @@
 
   // === UI HELPERS ===
   const el = (sel) => document.querySelector(sel);
-  const gamesList = el("#gamesList");
+  const rosterList = el("#rosterList");
   const rosterEl = el("#roster");
   const gridEl = el("#grid");
   const contextEl = el("#context");
@@ -615,40 +616,187 @@
   }
   function formatMoney(n){ return Math.round(n); }
 
-  // === LOAD GAMES ===
-  async function loadGames(selectNewest=false) {
-    if (state.offlineMode) {
-      const localGames = loadLocalGames();
-      state.games = localGames.map(g => ({
-        id: g.id,
-        name: g.name,
-        created_at: g.created_at,
-        status: g.status || 'active',
-        board_w: g.board_w,
-        board_h: g.board_h,
-        victory_target_pct: g.victory_target_pct
-      }));
-    } else {
-      const { data, error } = await supabase
-        .from("games")
-        .select("id,name,created_at,status,board_w,board_h,victory_target_pct")
-        .order("created_at", { ascending: false });
-      if (error) { alert(error.message); return; }
-      state.games = data || [];
+  // === LOAD ROSTERS ===
+  function loadRosters(selectNewest=false) {
+    try {
+      const saved = localStorage.getItem('tornadoRosters');
+      state.rosters = saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      console.error('Error loading rosters:', e);
+      state.rosters = [];
     }
     
-    gamesList.innerHTML = `<option value="">Select…</option>` + (state.games.map(g =>
-      `<option value="${g.id}">${new Date(g.created_at).toLocaleDateString()} – ${g.name}</option>`
+    rosterList.innerHTML = `<option value="">Select Roster…</option>` + (state.rosters.map(r =>
+      `<option value="${r.id}">${r.name} (${r.roster ? r.roster.length : 0} students)</option>`
     ).join(""));
-    if (selectNewest && state.games.length) {
-      gamesList.value = state.games[0].id;
-      await selectGame(state.games[0].id);
+    
+    if (selectNewest && state.rosters.length) {
+      rosterList.value = state.rosters[0].id;
+      selectRoster(state.rosters[0].id);
     }
   }
+  // === ROSTER SELECTION ===
+  function selectRoster(rosterId) {
+    if (!rosterId) return;
+    
+    const roster = state.rosters.find(r => r.id === rosterId);
+    if (!roster) return;
+    
+    state.currentRoster = roster;
+    state.currentRosterId = rosterId;
+    
+    // Convert roster to war game format, preserving existing scores
+    state.roster = roster.roster.map((student, i) => {
+      // Check if student already has war game data
+      const existingStudent = state.roster.find(s => s.name === student.name);
+      
+      return {
+        gsId: student.id || `student_${i}`,
+        name: student.name,
+        tilesOwned: existingStudent?.tilesOwned || 0,
+        startPoints: existingStudent?.startPoints || 5,
+        balance: existingStudent?.balance || student.points || 5, // Use saved points or default
+        teamId: existingStudent?.teamId || null,
+        teamName: existingStudent?.teamName || null,
+        teamColor: existingStudent?.teamColor || null
+      };
+    });
+    
+    // Apply team information if available
+    if (roster.teams && roster.teams.length > 0) {
+      state.roster.forEach(student => {
+        const team = roster.teams.find(t => 
+          t.students && t.students.includes(student.name)
+        );
+        if (team) {
+          student.teamId = team.id;
+          student.teamName = team.name;
+          student.teamColor = team.color;
+        }
+      });
+      state.teamMode = roster.teamMode || false;
+    }
+    
+    // Create or load game board
+    initializeGameBoard();
+    
+    // Update UI
+    renderRoster();
+    loadTiles();
+    updateVictoryTarget();
+  }
+  
+  function initializeGameBoard() {
+    if (!state.currentRoster) return;
+    
+    const studentCount = state.roster.length;
+    const w = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
+    const h = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
+    
+    // Create tiles if they don't exist
+    if (!state.board.tiles || state.board.tiles.length === 0) {
+      const tiles = [];
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+          tiles.push({
+            id: `tile_${x}_${y}`,
+            x: x,
+            y: y,
+            owner_game_student_id: null,
+            castle_level: 0
+          });
+        }
+      }
+      state.board = { w, h, tiles };
+    }
+    
+    // Update grid display
+    updateGridDisplay();
+  }
+  
+  function updateGridDisplay() {
+    if (!gridEl || !state.board.tiles) return;
+    
+    gridEl.style.gridTemplateColumns = `repeat(${state.board.w}, 1fr)`;
+    gridEl.style.gridTemplateRows = `repeat(${state.board.h}, 1fr)`;
+    
+    gridEl.innerHTML = state.board.tiles.map(tile => {
+      const owner = state.roster.find(r => r.gsId === tile.owner_game_student_id);
+      const ownerName = owner ? owner.name : '';
+      const castleLevel = tile.castle_level || 0;
+      const castleText = castleLevel > 0 ? `🏰${castleLevel}` : '';
+      
+      return `<div class="cell" data-tile-id="${tile.id}" data-x="${tile.x}" data-y="${tile.y}" 
+                style="background: ${owner ? state.colors.get(owner.gsId) : '#1a1a2e'}; 
+                       color: ${owner ? '#fff' : '#666'}; 
+                       cursor: pointer;"
+                onclick="handleTileClick('${tile.id}')">
+                <div>${ownerName}</div>
+                <div style="font-size: 10px;">${castleText}</div>
+              </div>`;
+    }).join('');
+  }
+  
+  function updateVictoryTarget() {
+    if (!state.currentRoster) return;
+    
+    const totalTiles = state.board.w * state.board.h;
+    const targetPercentage = state.teamMode ? 
+      Math.max(0.25, 1 / state.roster.filter(r => r.teamId).length) : 0.25;
+    
+    victoryEl.textContent = `Target: ${(targetPercentage * 100).toFixed(0)}% of tiles (${Math.ceil(totalTiles * targetPercentage)} tiles)`;
+  }
+  
   // Load roster button functionality
   el("#loadRosterBtn").onclick = () => {
-    showRosterSelectionModal();
+    window.location.href = '/roster';
   };
+  
+  // Save roster button functionality
+  el("#saveRosterBtn").onclick = () => {
+    saveCurrentRoster();
+  };
+  
+  function saveCurrentRoster() {
+    if (!state.currentRoster || !state.currentRosterId) {
+      alert('No roster selected to save.');
+      return;
+    }
+    
+    // Update the roster data with current scores and game state
+    const updatedRoster = {
+      ...state.currentRoster,
+      roster: state.roster.map(student => ({
+        id: student.gsId,
+        name: student.name,
+        points: student.balance, // Save current balance as points
+        tilesOwned: student.tilesOwned,
+        teamId: student.teamId,
+        teamName: student.teamName,
+        teamColor: student.teamColor
+      })),
+      gameState: {
+        board: state.board,
+        tiles: state.board.tiles,
+        truces: state.truces || []
+      },
+      lastModified: new Date().toISOString()
+    };
+    
+    // Update in the rosters array
+    const rosterIndex = state.rosters.findIndex(r => r.id === state.currentRosterId);
+    if (rosterIndex >= 0) {
+      state.rosters[rosterIndex] = updatedRoster;
+      
+      // Save to localStorage
+      localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+      
+      alert(`Roster "${state.currentRoster.name}" saved successfully!`);
+    }
+  }
+  
+  // Roster list change event
+  rosterList.onchange = () => selectRoster(rosterList.value);
 
   // === ROSTER SELECTION MODAL ===
   function showRosterSelectionModal() {
@@ -985,6 +1133,65 @@
     renderRoster();
   }
 
+  function updateStudentPoints(gsId, newValue) {
+    const student = state.roster.find(r => r.gsId === gsId);
+    if (student) {
+      const newPoints = parseInt(newValue) || 0;
+      student.balance = newPoints;
+      renderRoster(); // Refresh display
+    }
+  }
+
+  function handleTileClick(tileId) {
+    if (!state.selectedGsId) {
+      contextEl.textContent = "Please select a student first.";
+      return;
+    }
+
+    const tile = state.board.tiles.find(t => t.id === tileId);
+    if (!tile) return;
+
+    const selectedStudent = state.roster.find(r => r.gsId === state.selectedGsId);
+    if (!selectedStudent) return;
+
+    if (!tile.owner_game_student_id) {
+      // Empty tile - buy it
+      if (selectedStudent.balance >= state.costs.land) {
+        tile.owner_game_student_id = selectedStudent.gsId;
+        selectedStudent.balance -= state.costs.land;
+        selectedStudent.tilesOwned += 1;
+        updateGridDisplay();
+        renderRoster();
+        contextEl.textContent = `${selectedStudent.name} bought the tile for ${state.costs.land} points.`;
+      } else {
+        contextEl.textContent = `Insufficient funds! Need ${state.costs.land} points.`;
+      }
+    } else if (tile.owner_game_student_id === selectedStudent.gsId) {
+      // Own tile - upgrade castle
+      const upgradeCost = tile.castle_level === 0 ? state.costs.castleL1 : 
+                         tile.castle_level === 1 ? state.costs.castleL2 : 
+                         tile.castle_level === 2 ? state.costs.castleL3 : 0;
+      
+      if (upgradeCost > 0 && selectedStudent.balance >= upgradeCost) {
+        tile.castle_level += 1;
+        selectedStudent.balance -= upgradeCost;
+        updateGridDisplay();
+        renderRoster();
+        contextEl.textContent = `${selectedStudent.name} upgraded castle to level ${tile.castle_level} for ${upgradeCost} points.`;
+      } else if (upgradeCost === 0) {
+        contextEl.textContent = "Castle is already at maximum level.";
+      } else {
+        contextEl.textContent = `Insufficient funds! Need ${upgradeCost} points.`;
+      }
+    } else {
+      // Enemy tile - attack
+      const defender = state.roster.find(r => r.gsId === tile.owner_game_student_id);
+      if (defender) {
+        showFightScreen(selectedStudent.gsId, defender.gsId, tile);
+      }
+    }
+  }
+
   function renderRoster() {
     rosterEl.innerHTML = "";
     for (const r of state.roster) {
@@ -1003,7 +1210,13 @@
             ${teamInfo}
           </div>
         </div>
-        <div class="bal" title="Balance">💰 ${formatMoney(r.balance)}</div>
+        <div class="bal" title="Balance" style="display: flex; align-items: center; gap: 4px;">
+          <span>💰</span>
+          <input type="number" value="${formatMoney(r.balance)}" 
+                 style="width: 60px; padding: 2px 4px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 12px;"
+                 onchange="updateStudentPoints('${r.gsId}', this.value)"
+                 title="Click to edit points">
+        </div>
         <div class="chip" title="Tiles owned">🧩 ${r.tilesOwned}</div>
         <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="1" style="background:#10b981; color:white;">+1</button>
         <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="5" style="background:#3b82f6; color:white;">+5</button>
@@ -2027,7 +2240,7 @@
   updateTeamRosterSections(0); // Start with individual mode
 
   // initial load
-  await loadGames(true);
+  loadRosters(true);
 </script>
 </body>
 </html>
