@@ -4249,7 +4249,7 @@ The Beatles
           `;
           
           if (isTeacher) {
-            // Teacher navigation
+            // Teacher navigation (teacher takes priority over student)
             console.log('🚨 CRITICAL: Adding teacher navigation with Assignments link');
             navLinks.innerHTML += `
               <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
@@ -4257,7 +4257,7 @@ The Beatles
               <button id="loginLogoutBtn" class="login-btn">Logout</button>
             `;
             console.log('🚨 CRITICAL: Teacher navigation added. Final HTML:', navLinks.innerHTML);
-          } else if (isStudent) {
+          } else if (isStudent && !isTeacher) {
             // Student navigation
             navLinks.innerHTML += `
               <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
