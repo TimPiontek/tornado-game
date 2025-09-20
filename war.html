@@ -741,7 +741,8 @@
     }
   }
 
-  function handleTileClick(tileId) {
+  // Make handleTileClick globally accessible
+  window.handleTileClick = function(tileId) {
     console.log('handleTileClick called with tileId:', tileId, 'selectedGsId:', state.selectedGsId);
     
     if (!state.selectedGsId) {
@@ -771,7 +772,7 @@
         selectedStudent.balance -= cost;
         selectedStudent.tilesOwned += 1;
         updateGridDisplay();
-        renderRoster();
+    renderRoster();
         alert(`${selectedStudent.name} bought the tile for ${cost} points!`);
       } else {
         alert(`Insufficient funds! Need ${cost} points.`);
@@ -800,7 +801,7 @@
         showFightScreen(selectedStudent.gsId, defender.gsId, tile);
       }
     }
-  }
+  };
 
   function renderRoster() {
     rosterEl.innerHTML = "";
