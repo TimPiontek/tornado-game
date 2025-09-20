@@ -5711,8 +5711,13 @@ The Beatles"
               playWin();
               
               // Transfer points to war game if roster is available
-              if (teamMode && rosterData) {
-                transferQuizPointsToWar(winner);
+              if (rosterData) {
+                if (teamMode) {
+                  transferQuizPointsToWar(winner);
+                } else {
+                  // Individual mode - transfer individual student points
+                  transferIndividualQuizPointsToWar();
+                }
               }
             }
           } else {
@@ -6848,135 +6853,104 @@ The Beatles"
         // === GAME INTEGRATION ===
         function savePointsToWarGame(studentPoints, teamVictoryBonus) {
             try {
-                // Get existing war games
-                const warGames = JSON.parse(localStorage.getItem('tornadoWarGames') || '[]');
+                // Get existing rosters
+                const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
                 
-                if (warGames.length === 0) {
-                    // Create a new war game automatically
-                    createAutoWarGame(studentPoints, teamVictoryBonus);
+                if (rosters.length === 0) {
+                    // Create a new roster automatically
+                    createAutoRoster(studentPoints, teamVictoryBonus);
                     return;
                 }
                 
-                // Find most recent war game
-                const mostRecentGame = warGames.reduce((latest, game) => {
-                    return new Date(game.created_at) > new Date(latest.created_at) ? game : latest;
-                });
+                // Find the roster that matches our current roster data
+                let targetRoster = null;
+                if (rosterData && rosterData.id) {
+                    targetRoster = rosters.find(r => r.id === rosterData.id);
+                }
                 
-                // Add points to students in the war game
-                if (mostRecentGame.roster) {
-                    mostRecentGame.roster.forEach(student => {
+                // If no matching roster found, use the most recent one
+                if (!targetRoster) {
+                    targetRoster = rosters.reduce((latest, roster) => {
+                        return new Date(roster.lastModified || roster.created_at) > new Date(latest.lastModified || latest.created_at) ? roster : latest;
+                    });
+                }
+                
+                // Add points to students in the roster
+                if (targetRoster && targetRoster.roster) {
+                    targetRoster.roster.forEach(student => {
                         if (studentPoints[student.name]) {
-                            student.balance = (student.balance || 0) + studentPoints[student.name];
+                            student.points = (student.points || 0) + studentPoints[student.name];
                         }
                     });
                     
                     // Add team victory bonuses
-                    if (teamVictoryBonus && mostRecentGame.teams) {
-                        mostRecentGame.teams.forEach(team => {
+                    if (teamVictoryBonus && targetRoster.teams) {
+                        targetRoster.teams.forEach(team => {
                             if (teamVictoryBonus[team.name]) {
                                 team.students.forEach(studentName => {
-                                    const student = mostRecentGame.roster.find(s => s.name === studentName);
+                                    const student = targetRoster.roster.find(s => s.name === studentName);
                                     if (student) {
-                                        student.balance = (student.balance || 0) + teamVictoryBonus[team.name];
+                                        student.points = (student.points || 0) + teamVictoryBonus[team.name];
                                     }
                                 });
                             }
                         });
                     }
                     
-                    // Add audit log entry
-                    if (!mostRecentGame.audit_log) mostRecentGame.audit_log = [];
-                    mostRecentGame.audit_log.unshift({
-                        created_at: new Date().toISOString(),
-                        action: 'Quiz points transferred from Tornado Quiz',
-                        meta: { 
-                            type: 'quiz_transfer', 
-                            studentPoints, 
-                            teamVictoryBonus,
-                            totalPointsTransferred: Object.values(studentPoints).reduce((a, b) => a + b, 0) +
-                                                  Object.values(teamVictoryBonus || {}).reduce((a, b) => a + b, 0)
-                        }
-                    });
+                    // Update last modified timestamp
+                    targetRoster.lastModified = new Date().toISOString();
                     
-                    // Save updated game
-                    const gameIndex = warGames.findIndex(g => g.id === mostRecentGame.id);
-                    if (gameIndex >= 0) {
-                        warGames[gameIndex] = mostRecentGame;
-                        localStorage.setItem('tornadoWarGames', JSON.stringify(warGames));
+                    // Save updated roster
+                    const rosterIndex = rosters.findIndex(r => r.id === targetRoster.id);
+                    if (rosterIndex >= 0) {
+                        rosters[rosterIndex] = targetRoster;
+                        localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
                     }
                 }
                 
-                console.log('Points transferred to war game:', mostRecentGame.name);
+                console.log('Points transferred to roster:', targetRoster.name);
                 
             } catch (error) {
-                console.error('Error saving points to war game:', error);
+                console.error('Error saving points to roster:', error);
             }
         }
         
-        function createAutoWarGame(studentPoints, teamVictoryBonus) {
+        function createAutoRoster(studentPoints, teamVictoryBonus) {
             if (!rosterData || !rosterData.roster) return;
             
-            const gameId = 'auto_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            const rosterId = 'auto_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
             
             // Create roster with quiz points
             const roster = rosterData.roster.map(student => ({
-                gsId: `student_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                id: `student_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
                 name: student.name,
-                tilesOwned: 0,
-                startPoints: 5,
-                balance: 5 + (studentPoints[student.name] || 0),
+                points: 5 + (studentPoints[student.name] || 0),
                 teamId: student.teamId,
                 teamName: student.teamName,
                 teamColor: student.teamColor
             }));
             
-            // Create tiles for a basic grid
-            const gridSize = Math.ceil(Math.sqrt(roster.length * 2));
-            const tiles = [];
-            for (let y = 0; y < gridSize; y++) {
-                for (let x = 0; x < gridSize; x++) {
-                    tiles.push({
-                        id: `tile_${x}_${y}`,
-                        x: x,
-                        y: y,
-                        owner_game_student_id: null,
-                        castle_level: 0
-                    });
-                }
-            }
-            
-            const gameData = {
-                id: gameId,
-                name: `Auto-created from Quiz (${new Date().toLocaleDateString()})`,
+            const newRosterData = {
+                id: rosterId,
+                name: `Auto-Generated Roster - ${new Date().toLocaleDateString()}`,
                 created_at: new Date().toISOString(),
-                status: 'active',
-                board_w: gridSize,
-                board_h: gridSize,
-                victory_target_pct: 0.5,
-                turn_based: false,
-                tiles: tiles,
+                lastModified: new Date().toISOString(),
                 roster: roster,
                 teams: rosterData.teams || [],
                 teamMode: rosterData.teamMode || false,
-                truces: [],
-                audit_log: [{
-                    created_at: new Date().toISOString(),
-                    action: 'Game auto-created from Tornado Quiz with transferred points',
-                    meta: { 
-                        type: 'auto_creation', 
-                        source: 'tornado_quiz',
-                        studentPoints,
-                        teamVictoryBonus
-                    }
-                }]
+                gameState: {
+                    board: { w: 0, h: 0, tiles: [] },
+                    tiles: [],
+                    truces: []
+                }
             };
             
-            // Save new game
-            const warGames = JSON.parse(localStorage.getItem('tornadoWarGames') || '[]');
-            warGames.push(gameData);
-            localStorage.setItem('tornadoWarGames', JSON.stringify(warGames));
+            // Save new roster
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            rosters.push(newRosterData);
+            localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
             
-            console.log('Auto-created war game:', gameData.name);
+            console.log('Auto-created roster:', newRosterData.name);
         }
         
         function transferQuizPointsToWar(winningTeam) {
@@ -7007,6 +6981,28 @@ The Beatles"
             
             setTimeout(() => {
                 alert(`🎉 Quiz Complete!\n\nPoints transferred to Tornado War:\n• Individual quiz points: ${Object.values(pointsToTransfer).reduce((a, b) => a + b, 0)} total\n• Team ${winningTeamName} victory bonus: ${teamVictoryPoints} points\n\nTotal points transferred: ${totalPointsTransferred}\n\nCheck the War game to see updated student balances!`);
+            }, 2000);
+        }
+        
+        function transferIndividualQuizPointsToWar() {
+            if (!rosterData) return;
+            
+            // Use the actual individual points students earned during the quiz
+            const pointsToTransfer = {};
+            
+            // Transfer actual points earned by each student during the quiz
+            rosterData.roster.forEach(student => {
+                pointsToTransfer[student.name] = studentPoints[student.name] || 0;
+            });
+            
+            // Save points to war game (no team victory bonus in individual mode)
+            savePointsToWarGame(pointsToTransfer, {});
+            
+            // Show notification
+            const totalPointsTransferred = Object.values(pointsToTransfer).reduce((a, b) => a + b, 0);
+            
+            setTimeout(() => {
+                alert(`🎉 Quiz Complete!\n\nPoints transferred to Tornado War:\n• Individual quiz points: ${totalPointsTransferred} total\n\nCheck the War game to see updated student balances!`);
             }, 2000);
         }
         
@@ -8849,6 +8845,15 @@ The Beatles"
         
         function getCurrentStudentDisplay() {
             if (!teamMode) {
+                // Individual mode - show individual student names
+                if (rosterData && rosterData.roster && rosterData.roster.length > 0) {
+                    // Find current student by turn index
+                    const studentIndex = turn.charCodeAt(0) - 65; // A=0, B=1, C=2, etc.
+                    const student = rosterData.roster[studentIndex];
+                    if (student && student.name) {
+                        return `${student.name}'s turn`;
+                    }
+                }
                 return names[turn] || `Team ${turn}`;
             }
             
