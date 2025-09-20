@@ -7456,11 +7456,12 @@ The Beatles"
         function showRandomTeamOptions(rosterData, modal) {
             const content = document.getElementById('teamCreationContent');
             content.innerHTML = `
-                <div style="text-align: center; padding: 2rem;">
-                    <h3 style="color: #007bff; margin-bottom: 1rem;">🎲 Random Teams</h3>
-                    <p style="color: #666; margin-bottom: 2rem;">
+                <div style="padding: 2rem;">
+                    <h3 style="color: #007bff; margin-bottom: 1rem; text-align: center;">🎲 Random Teams</h3>
+                    <p style="color: #666; margin-bottom: 2rem; text-align: center;">
                         Choose how many teams to create. Students will be randomly assigned.
                     </p>
+                    
                     <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
                         ${[2, 3, 4, 5, 6].map(num => `
                             <button class="create-random-teams-btn" data-num-teams="${num}" style="
@@ -7476,6 +7477,10 @@ The Beatles"
                             ">${num} Teams</button>
                         `).join('')}
                     </div>
+                    
+                    <div id="randomTeamsPreview" style="display: none;">
+                        <!-- Team preview will be populated here -->
+                    </div>
                 </div>
             `;
             
@@ -7483,8 +7488,80 @@ The Beatles"
             content.querySelectorAll('.create-random-teams-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const numTeams = parseInt(btn.getAttribute('data-num-teams'));
-                    createRandomTeams(numTeams, modal);
+                    showRandomTeamsPreview(rosterData, numTeams, modal);
                 });
+            });
+        }
+        
+        function showRandomTeamsPreview(rosterData, numTeams, modal) {
+            const preview = document.getElementById('randomTeamsPreview');
+            
+            // Shuffle students
+            const shuffled = [...rosterData.roster].sort(() => Math.random() - 0.5);
+            const teams = [];
+            
+            // Create teams
+            for (let i = 0; i < numTeams; i++) {
+                teams.push({
+                    id: String.fromCharCode(65 + i), // A, B, C, etc.
+                    name: `Team ${String.fromCharCode(65 + i)}`,
+                    students: []
+                });
+            }
+            
+            // Distribute students evenly
+            shuffled.forEach((student, index) => {
+                const teamIndex = index % numTeams;
+                teams[teamIndex].students.push(student);
+            });
+            
+            // Display teams
+            preview.innerHTML = `
+                <h4 style="color: #007bff; margin-bottom: 1rem; text-align: center;">Team Assignment Preview</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    ${teams.map(team => `
+                        <div style="
+                            border: 2px solid #007bff;
+                            border-radius: 8px;
+                            padding: 1rem;
+                            background: rgba(0, 123, 255, 0.05);
+                        ">
+                            <h5 style="margin: 0 0 1rem 0; color: #007bff; text-align: center;">${team.name}</h5>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                ${team.students.map(student => `
+                                    <div style="
+                                        background: #007bff;
+                                        color: white;
+                                        padding: 0.5rem;
+                                        border-radius: 4px;
+                                        font-size: 0.9rem;
+                                        text-align: center;
+                                    ">${student.name}</div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div style="text-align: center;">
+                    <button class="save-random-teams-btn" data-teams='${JSON.stringify(teams)}' style="
+                        background: #28a745;
+                        color: white;
+                        border: none;
+                        padding: 1rem 2rem;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-size: 1.1rem;
+                        font-weight: 600;
+                    ">✅ Save Random Teams</button>
+                </div>
+            `;
+            
+            preview.style.display = 'block';
+            
+            // Add event listener for save button
+            preview.querySelector('.save-random-teams-btn').addEventListener('click', () => {
+                const teamsData = JSON.parse(preview.querySelector('.save-random-teams-btn').getAttribute('data-teams'));
+                saveTeamAssignment('random', teamsData, modal);
             });
         }
         
@@ -7625,6 +7702,39 @@ The Beatles"
             const currentTeamB = teamBDropzone.querySelectorAll('.student-chip').length;
             
             const targetDropzone = currentTeamA <= currentTeamB ? teamADropzone : teamBDropzone;
+            
+            // Create new chip
+            const newChip = document.createElement('div');
+            newChip.className = 'student-chip';
+            newChip.setAttribute('data-student-id', studentId);
+            newChip.style.cssText = `
+                background: #6f5c91;
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 20px;
+                cursor: pointer;
+                font-size: 0.9rem;
+                transition: all 0.2s ease;
+                margin: 0.25rem;
+                display: inline-block;
+            `;
+            newChip.textContent = student.name;
+            newChip.onclick = () => moveStudentToTeam(studentId, newChip);
+            
+            targetDropzone.appendChild(newChip);
+        }
+        
+        function moveStudentToSpecificTeam(studentId, teamId) {
+            const student = quizRosterData.roster.find(s => s.id === studentId);
+            if (!student) return;
+            
+            // Remove from current location
+            const currentChip = document.querySelector(`[data-student-id="${studentId}"]`);
+            if (currentChip) currentChip.remove();
+            
+            // Add to specific team
+            const targetDropzone = document.getElementById(`${teamId}-dropzone`);
+            if (!targetDropzone) return;
             
             // Create new chip
             const newChip = document.createElement('div');
@@ -7868,27 +7978,39 @@ The Beatles"
         }
         
         function applyTeamAssignment() {
-            if (!quizTeamAssignment || !quizTeamAssignment.teams) return;
+            if (!quizTeamAssignment) return;
             
             // Update team name inputs
             const teamAInput = document.getElementById('teamANameInput');
             const teamBInput = document.getElementById('teamBNameInput');
             
-            if (teamAInput && quizTeamAssignment.teams[0]) {
-                teamAInput.value = quizTeamAssignment.teams[0].name;
-            }
-            
-            if (teamBInput && quizTeamAssignment.teams[1]) {
-                teamBInput.value = quizTeamAssignment.teams[1].name;
+            if (quizTeamAssignment.mode === 'individual') {
+                // Individual mode - set default team names
+                if (teamAInput) teamAInput.value = 'Individual Students';
+                if (teamBInput) teamBInput.value = 'Individual Students';
+            } else if (quizTeamAssignment.teams && quizTeamAssignment.teams.length >= 2) {
+                // Team mode
+                if (teamAInput && quizTeamAssignment.teams[0]) {
+                    teamAInput.value = quizTeamAssignment.teams[0].name;
+                }
+                
+                if (teamBInput && quizTeamAssignment.teams[1]) {
+                    teamBInput.value = quizTeamAssignment.teams[1].name;
+                }
             }
             
             // Update roster preview
             const previewEl = document.getElementById('rosterPreview');
             if (previewEl) {
-                const teamInfo = quizTeamAssignment.teams.map(team => 
-                    `${team.name}: ${team.students.map(s => s.name).join(', ')}`
-                ).join(' | ');
-                previewEl.textContent = `Assignment: ${teamInfo}`;
+                if (quizTeamAssignment.mode === 'individual') {
+                    const studentNames = quizTeamAssignment.rosterData.roster.map(s => s.name).join(', ');
+                    previewEl.textContent = `Individual Mode: ${studentNames}`;
+                } else if (quizTeamAssignment.teams) {
+                    const teamInfo = quizTeamAssignment.teams.map(team => 
+                        `${team.name}: ${team.students.map(s => s.name).join(', ')}`
+                    ).join(' | ');
+                    previewEl.textContent = `Assignment: ${teamInfo}`;
+                }
             }
             
             updateRosterStatus(`Teams assigned (${quizTeamAssignment.mode})`);
@@ -7898,28 +8020,39 @@ The Beatles"
         }
         
         function applyQuizTeamAssignment(teamAssignment) {
-            if (!teamAssignment || !teamAssignment.teams) return;
+            if (!teamAssignment) return;
             
             // Update the roster data with team assignments
             if (rosterData && rosterData.roster) {
-                rosterData.roster.forEach(student => {
-                    // Find which team this student belongs to
-                    const team = teamAssignment.teams.find(t => 
-                        t.students.some(s => s.id === student.id)
-                    );
+                if (teamAssignment.mode === 'individual') {
+                    // Individual mode - no teams
+                    rosterData.teams = [];
+                    rosterData.teamMode = false;
+                    teamMode = false;
                     
-                    if (team) {
-                        student.teamId = team.id;
-                        student.teamName = team.name;
-                        student.teamColor = team.color || '#6f5c91';
-                    }
-                });
-                
-                // Update rosterData teams
-                rosterData.teams = teamAssignment.teams;
-                rosterData.teamMode = true;
-                
-                console.log('Applied quiz team assignment:', rosterData);
+                    console.log('Applied individual mode:', rosterData);
+                } else if (teamAssignment.teams) {
+                    // Team mode
+                    rosterData.roster.forEach(student => {
+                        // Find which team this student belongs to
+                        const team = teamAssignment.teams.find(t => 
+                            t.students.some(s => s.id === student.id)
+                        );
+                        
+                        if (team) {
+                            student.teamId = team.id;
+                            student.teamName = team.name;
+                            student.teamColor = team.color || '#6f5c91';
+                        }
+                    });
+                    
+                    // Update rosterData teams
+                    rosterData.teams = teamAssignment.teams;
+                    rosterData.teamMode = true;
+                    teamMode = true;
+                    
+                    console.log('Applied quiz team assignment:', rosterData);
+                }
             }
         }
         
@@ -8075,7 +8208,7 @@ The Beatles"
                             ${teamA.students.map(student => `
                                 <div class="student-item ${getCurrentStudent() && getCurrentStudent().id === student.id ? 'current-student' : ''}">
                                     <span class="student-name">${student.name}</span>
-                                    <span class="student-points">${student.points || 0}</span>
+                                    <span class="student-points">${studentPoints[student.name] || 0}</span>
                                 </div>
                             `).join('')}
                         </div>
@@ -8089,7 +8222,25 @@ The Beatles"
                             ${teamB.students.map(student => `
                                 <div class="student-item ${getCurrentStudent() && getCurrentStudent().id === student.id ? 'current-student' : ''}">
                                     <span class="student-name">${student.name}</span>
-                                    <span class="student-points">${student.points || 0}</span>
+                                    <span class="student-points">${studentPoints[student.name] || 0}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (rosterData && rosterData.roster && rosterData.roster.length > 0) {
+                // Individual mode - show all students
+                teamScoresContainer.innerHTML = `
+                    <div class="team-score-item">
+                        <div class="team-header">
+                            <span class="team-name">Individual Students</span>
+                            <span class="team-score">${Object.values(studentPoints).reduce((sum, points) => sum + points, 0)}</span>
+                        </div>
+                        <div class="student-list">
+                            ${rosterData.roster.map(student => `
+                                <div class="student-item ${getCurrentStudent() && getCurrentStudent().id === student.id ? 'current-student' : ''}">
+                                    <span class="student-name">${student.name}</span>
+                                    <span class="student-points">${studentPoints[student.name] || 0}</span>
                                 </div>
                             `).join('')}
                         </div>
