@@ -5842,7 +5842,7 @@ The Beatles"
           
           // Set team name
           if (modalTeamName) {
-            modalTeamName.textContent = `${names[turn] || `Team ${turn}`}'s turn`;
+            modalTeamName.textContent = getCurrentStudentDisplay();
             modalTeamName.style.color = teamColors[turn] || "#6f5c91";
           }
           
