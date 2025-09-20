@@ -3027,14 +3027,11 @@ The Beatles"
           </div>
           
           <div class="sidebar-section">
-            <h3>Game Controls</h3>
+            <h3>Game Actions</h3>
             <div class="game-controls">
-              <div id="turnDisplay">Team A's turn</div>
               <div class="control-buttons">
-                <button id="passBtn" class="btn btn-secondary">Pass</button>
-                <button id="skipBtn" class="btn btn-secondary">Skip</button>
-                <button id="nextQuestionBtn" class="btn btn-primary">Next Question</button>
                 <button id="resetButtonsBtn" class="btn btn-secondary" onclick="resetAllButtonStates()" title="Reset all buttons if they get stuck">Reset Buttons</button>
+                <button id="endGameBtn" class="btn btn-danger" onclick="endGameAndAwardPoints()" title="End game and award points to roster">End Game</button>
               </div>
             </div>
           </div>
@@ -3048,6 +3045,13 @@ The Beatles"
             <!-- Turn Indicator -->
             <div id="mainTurnDisplay" style="font-size: 1.2rem; font-weight: 600; color: #6f5c91; flex: 1; min-width: 200px;">
               <span id="currentTurnText">Team A's turn</span>
+            </div>
+            
+            <!-- Game Controls -->
+            <div id="mainGameControls" style="display: flex; gap: 0.5rem; align-items: center;">
+              <button id="passBtn" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Pass</button>
+              <button id="skipBtn" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Skip</button>
+              <button id="nextQuestionBtn" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Next Question</button>
             </div>
             
             <!-- Team Scores -->
@@ -3066,8 +3070,6 @@ The Beatles"
           <!-- Close button (for emergencies) -->
           <button id="closeQuestionModal" style="position:absolute;top:15px;right:20px;background:none;border:none;font-size:2em;cursor:pointer;color:#6F5C91;opacity:0.7;">&times;</button>
           
-          <!-- Team Name Display -->
-          <div id="modalTeamName" style="font-size:1rem;color:#666;margin-bottom:1em;font-style:italic;text-align:center;"></div>
           
           <!-- Question Display -->
           <div id="modalQuestion" style="font-size:2.5rem;font-weight:700;color:#6F5C91;margin-bottom:2em;line-height:1.3;min-height:120px;display:flex;align-items:center;justify-content:center;"></div>
@@ -4849,11 +4851,23 @@ The Beatles"
               answer: null,
             };
             
-            // Award points to current student if in team mode
-            if (teamMode && getCurrentStudent()) {
-              const currentStudent = getCurrentStudent();
-              awardStudentPoints(currentStudent.name, individualPoints);
-              updateTeamScores(); // Update the display
+            // Award points to current student
+            if (rosterData && rosterData.roster) {
+              let currentStudent = null;
+              
+              if (teamMode && getCurrentStudent()) {
+                // Team mode - get current student from team
+                currentStudent = getCurrentStudent();
+              } else if (!teamMode) {
+                // Individual mode - get student by turn index
+                const studentIndex = turn.charCodeAt(0) - 65; // A=0, B=1, C=2, etc.
+                currentStudent = rosterData.roster[studentIndex];
+              }
+              
+              if (currentStudent) {
+                awardStudentPoints(currentStudent.name, individualPoints);
+                updateTeamScores(); // Update the display
+              }
             }
             
             // Show answer with animation
@@ -5840,11 +5854,6 @@ The Beatles"
           modalAnswer.textContent = "";
           modalAnswer.style.display = "none";
           
-          // Set team name
-          if (modalTeamName) {
-            modalTeamName.textContent = getCurrentStudentDisplay();
-            modalTeamName.style.color = teamColors[turn] || "#6f5c91";
-          }
           
           // Show modal
           questionModal.style.display = "flex";
@@ -7004,6 +7013,54 @@ The Beatles"
             setTimeout(() => {
                 alert(`🎉 Quiz Complete!\n\nPoints transferred to Tornado War:\n• Individual quiz points: ${totalPointsTransferred} total\n\nCheck the War game to see updated student balances!`);
             }, 2000);
+        }
+        
+        function endGameAndAwardPoints() {
+            if (!rosterData) {
+                alert('No roster data available to award points.');
+                return;
+            }
+            
+            // Find winner based on current scores
+            let winner = null;
+            let highestScore = -1;
+            
+            if (teamMode && rosterData.teams) {
+                // Team mode - find winning team
+                rosterData.teams.forEach((team, index) => {
+                    const teamLetter = String.fromCharCode(65 + index);
+                    const teamScore = scores[teamLetter] || 0;
+                    if (teamScore > highestScore) {
+                        highestScore = teamScore;
+                        winner = teamLetter;
+                    }
+                });
+            } else {
+                // Individual mode - find winning student
+                rosterData.roster.forEach(student => {
+                    const studentScore = studentPoints[student.name] || 0;
+                    if (studentScore > highestScore) {
+                        highestScore = studentScore;
+                        winner = student.name;
+                    }
+                });
+            }
+            
+            if (winner) {
+                // Transfer points to roster
+                if (teamMode) {
+                    transferQuizPointsToWar(winner);
+                } else {
+                    transferIndividualQuizPointsToWar();
+                }
+                
+                // Show winner announcement
+                const winnerName = teamMode ? (names[winner] || `Team ${winner}`) : winner;
+                alert(`🏆 Game Ended!\n\nWinner: ${winnerName}\nScore: ${highestScore} points\n\nPoints have been saved to the roster and will carry over to Tornado War!`);
+            } else {
+                alert('No winner determined. Points have been saved to the roster.');
+                transferIndividualQuizPointsToWar();
+            }
         }
         
         // === QUIZ SETUP ROSTER INTEGRATION ===
