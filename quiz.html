@@ -5995,6 +5995,19 @@ The Beatles"
           if (grid) {
             grid.className = `active-team-${turn}`;
           }
+          
+          } catch (error) {
+            console.error('Error in handlePick:', error);
+            // CRITICAL: Always reset the flag on error to prevent button freezing
+            isResolvingTurn = false;
+            
+            // Show error message to user
+            alert('An error occurred during the game. Please try again.');
+            
+            // Re-enable the button that caused the error
+            btn.disabled = false;
+            btn.style.pointerEvents = 'auto';
+          }
         }
 
         function updateTurn() {
@@ -6014,19 +6027,6 @@ The Beatles"
           
           // Allow next team to act
           isResolvingTurn = false;
-          
-          } catch (error) {
-            console.error('Error in handlePick:', error);
-            // CRITICAL: Always reset the flag on error to prevent button freezing
-            isResolvingTurn = false;
-            
-            // Show error message to user
-            alert('An error occurred during the game. Please try again.');
-            
-            // Re-enable the button that caused the error
-            btn.disabled = false;
-            btn.style.pointerEvents = 'auto';
-          }
         }
 
         function styleSpecial(btn, team) {
