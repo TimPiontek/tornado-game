@@ -1236,18 +1236,17 @@
       }
 
       .special-effects-sidebar {
-        width: 450px;
+        width: 500px;
         flex-shrink: 0;
         display: flex;
         flex-direction: column;
         background: rgba(255, 255, 255, 0.93);
         border-radius: 12px;
-        padding: 15px 18px;
+        padding: 15px 18px 15px 18px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
         margin-left: 20px;
         height: fit-content;
-        min-height: 600px;
-        overflow-y: auto;
+        overflow-y: visible;
       }
       
       /* Unified Game Layout */
@@ -1423,7 +1422,6 @@
       }
 
       .special-effects-content {
-        flex: 1;
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
@@ -1431,6 +1429,10 @@
 
       .special-effects-content .special-item-compact {
         margin-bottom: 0.5rem;
+      }
+      
+      .special-effects-content .special-item-compact:last-child {
+        margin-bottom: 0;
       }
 
       .how-to-play-sym {
@@ -1460,9 +1462,9 @@
         margin: 0;
       }
 
-      /* Constrain card height to keep above the fold on laptops */
+      /* Match the height of the special effects sidebar */
       .setup-main-card .setup-unified-card {
-        max-height: 52vh;
+        height: fit-content;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
       }
