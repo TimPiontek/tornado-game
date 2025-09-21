@@ -990,7 +990,7 @@ const SCENARIOS = {
           { name: 'Confederate Army Camps', cost: 16, description: 'Military training and deployment centers' },
           { name: 'Fort Sumter', cost: 13, description: 'First battle site and symbolic stronghold' },
           { name: 'Confederate Navy', cost: 11, description: 'River fleet and blockade runners' },
-          { name: 'Plantation Strongholds', cost: 9, description: 'Economic base and slave labor' }
+          { name: 'Plantation Strongholds', cost: 9, description: 'Economic base and agricultural production' }
         ],
         characters: [
           {
@@ -8543,7 +8543,7 @@ const SCENARIOS = {
           { name: 'Giedi Prime', cost: 85, description: 'Harkonnen homeworld' },
           { name: 'Harkonnen Keep', cost: 90, description: 'Fortress on Arrakis' },
           { name: 'Spice Refineries', cost: 80, description: 'Spice processing facilities' },
-          { name: 'Slave Pits', cost: 70, description: 'Forced labor camps' },
+          { name: 'Mining Operations', cost: 70, description: 'Resource extraction facilities' },
           { name: 'Ornithopter Base', cost: 75, description: 'Aerial assault base' }
         ],
         characters: [
@@ -8718,55 +8718,55 @@ const SCENARIOS = {
             description: 'Harkonnen mentat and analyst.'
           },
           {
-            name: 'Harkonnen Assassin',
-            role: 'Killer',
+            name: 'Harkonnen Agent',
+            role: 'Special Operative',
             startingCoins: 75,
-            startingWeapons: ['poison'],
+            startingWeapons: ['stealth device'],
             startingMercenaries: 1,
             startingCastles: 0,
-            personality: 'deadly',
+            personality: 'stealthy',
             quotes: [
-              "We will kill our enemies.",
+              "We will neutralize our enemies.",
               "The Atreides will not see us coming.",
               "We will eliminate our enemies.",
-              "Death is our weapon.",
+              "Stealth is our weapon.",
               "The Harkonnens will win."
             ],
-            description: 'Harkonnen assassin and killer.'
+            description: 'Harkonnen special operative and agent.'
           },
           {
-            name: 'Harkonnen Torturer',
-            role: 'Interrogator',
+            name: 'Harkonnen Interrogator',
+            role: 'Intelligence Officer',
             startingCoins: 70,
-            startingWeapons: ['pain'],
+            startingWeapons: ['truth serum'],
             startingMercenaries: 1,
             startingCastles: 0,
-            personality: 'cruel',
+            personality: 'calculating',
             quotes: [
-              "We will torture our enemies.",
+              "We will extract information from our enemies.",
               "The Atreides will not see us coming.",
               "We will eliminate our enemies.",
-              "Pain is our weapon.",
+              "Knowledge is our weapon.",
               "The Harkonnens will win."
             ],
-            description: 'Harkonnen torturer and interrogator.'
+            description: 'Harkonnen intelligence officer and interrogator.'
           },
           {
-            name: 'Harkonnen Slave Master',
-            role: 'Overseer',
+            name: 'Harkonnen Overseer',
+            role: 'Facility Manager',
             startingCoins: 75,
-            startingWeapons: ['whip'],
+            startingWeapons: ['stun baton'],
             startingMercenaries: 1,
             startingCastles: 0,
-            personality: 'brutal',
+            personality: 'strict',
             quotes: [
-              "We will control the slaves.",
+              "We will maintain order.",
               "The Atreides will not see us coming.",
               "We will eliminate our enemies.",
               "Fear is our weapon.",
               "The Harkonnens will win."
             ],
-            description: 'Harkonnen slave master and overseer.'
+            description: 'Harkonnen facility manager and overseer.'
           },
           {
             name: 'Harkonnen Ornithopter Pilot',
@@ -8806,7 +8806,7 @@ const SCENARIOS = {
         generalRoles: [
           { name: 'Harkonnen Soldier', startingCoins: 50, startingWeapons: ['lasgun'], startingMercenaries: 1, startingCastles: 0, personality: 'ruthless', quotes: ['For House Harkonnen!', 'We crush our enemies!', 'The spice is ours!'] },
           { name: 'Sardaukar', startingCoins: 60, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'elite', quotes: ['We are the Emperor\'s elite!', 'We will not fail!', 'Victory is ours!'] },
-          { name: 'Slave Worker', startingCoins: 30, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 0, personality: 'oppressed', quotes: ['We work for the Baron!', 'We must survive!', 'The spice must flow!'] }
+          { name: 'Mining Worker', startingCoins: 30, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking', quotes: ['We work for the Baron!', 'We must survive!', 'The spice must flow!'] }
         ]
       }
     },
