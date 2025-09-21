@@ -872,6 +872,27 @@
             characterName = aiRole.roleName || 'AI Character';
           }
         }
+        
+        // Fallback: assign random character if none found
+        if (!characterName) {
+          const allCharacters = [];
+          Object.values(scenario.factions).forEach(faction => {
+            if (faction.characters) {
+              faction.characters.forEach(char => allCharacters.push(char.name));
+            }
+          });
+          
+          if (allCharacters.length > 0) {
+            const randomCharacter = allCharacters[Math.floor(Math.random() * allCharacters.length)];
+            characterName = randomCharacter;
+            
+            // Add to manualRoleAssignments for future reference
+            if (!scenario.manualRoleAssignments) {
+              scenario.manualRoleAssignments = {};
+            }
+            scenario.manualRoleAssignments[owner.gsId] = characterName;
+          }
+        }
       }
       
       const displayName = territoryName || ownerName || '';
@@ -1547,7 +1568,28 @@
         }
         
         if (!characterName) {
-          console.log('No character found for student:', loggedInStudent.name);
+          console.log('No character found for student:', loggedInStudent.name, '- assigning random character');
+          // Assign a random character from the scenario
+          const allCharacters = [];
+          Object.values(scenario.factions).forEach(faction => {
+            if (faction.characters) {
+              faction.characters.forEach(char => allCharacters.push(char.name));
+            }
+          });
+          
+          if (allCharacters.length > 0) {
+            const randomCharacter = allCharacters[Math.floor(Math.random() * allCharacters.length)];
+            characterName = randomCharacter;
+            characterInfo = `<div style="font-size:11px; color:#8b5cf6; font-weight:600;">${characterName}</div>`;
+            
+            // Add to manualRoleAssignments for future reference
+            if (!scenario.manualRoleAssignments) {
+              scenario.manualRoleAssignments = {};
+            }
+            scenario.manualRoleAssignments[loggedInStudent.gsId] = characterName;
+            
+            console.log('Assigned random character:', characterName, 'to', loggedInStudent.name);
+          }
         }
       } else {
         console.log('No scenario active for character lookup');
