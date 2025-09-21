@@ -593,10 +593,14 @@
     }
     
     // Create or load game board
+    console.log('About to call initializeGameBoard');
     initializeGameBoard();
+    console.log('initializeGameBoard completed');
     
     // Update UI
+    console.log('About to call renderRoster');
     renderRoster();
+    console.log('renderRoster completed');
     updateVictoryTarget();
   }
   
