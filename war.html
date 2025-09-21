@@ -694,8 +694,18 @@
     state.roster.forEach((student, index) => {
       if (index < allCharacters.length) {
         const character = allCharacters[index];
+        student.characterName = character.name;
+        student.characterRole = character.role;
+        student.characterFaction = character.factionName;
+        
+        // Apply character starting resources
+        student.balance = character.startingCoins || student.balance || 10;
+        student.weapons = character.startingWeapons || [];
+        student.mercenaries = character.startingMercenaries || 0;
+        student.startingCastles = character.startingCastles || 0;
+        
         roleAssignments[student.gsId] = character.name;
-        console.log('Assigned', character.name, 'to', student.name);
+        console.log(`Assigned ${character.name} to ${student.name} with ${character.startingCoins} coins, ${character.startingWeapons?.length || 0} weapons, ${character.startingMercenaries || 0} mercenaries, ${character.startingCastles || 0} castles`);
       } else {
         // If we run out of characters, create a meaningful role based on faction
         const factionIndex = index % Object.keys(scenarioData.factions).length;
@@ -801,6 +811,9 @@
     // Assign starting tiles to students (2 tiles each on outer edges)
     assignStartingTiles();
     
+    // Place starting castles for characters who have them
+    placeStartingCastles();
+    
     console.log('Board created:', { board: state.board, tilesCount: state.board.tiles.length });
     
     // Sync tile counts with actual board state
@@ -854,10 +867,13 @@
 
     // Assign starting tiles to students
     assignStartingTiles();
+    
+    // Place starting castles for characters who have them
+    placeStartingCastles();
 
     // Clear saved game state from roster
     if (state.currentRoster.gameState) {
-      delete state.currentRoster.gameState;
+delete state.currentRoster.gameState;
     }
 
     // Update UI
@@ -978,6 +994,30 @@
     if (state.scenario) {
       assignCharactersToAppropriateTerritories();
     }
+  }
+  
+  function placeStartingCastles() {
+    if (!state.board || !state.board.tiles) return;
+    
+    console.log('Placing starting castles...');
+    
+    state.roster.forEach(student => {
+      if (student.startingCastles > 0) {
+        // Find student's first territory (lowest coordinates)
+        const studentTiles = state.board.tiles.filter(tile => tile.owner_game_student_id === student.gsId);
+        if (studentTiles.length > 0) {
+          // Sort by coordinates to get the "first" tile
+          studentTiles.sort((a, b) => {
+            if (a.y !== b.y) return a.y - b.y;
+            return a.x - b.x;
+          });
+          
+          const firstTile = studentTiles[0];
+          firstTile.castle_level = student.startingCastles;
+          console.log(`Placed ${student.startingCastles} castle(s) on ${student.name}'s first territory (${firstTile.x}, ${firstTile.y})`);
+        }
+      }
+    });
   }
 
   function assignCharactersToAppropriateTerritories() {

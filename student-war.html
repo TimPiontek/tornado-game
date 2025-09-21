@@ -1986,16 +1986,50 @@
         student.characterName = character.name;
         student.characterRole = character.role;
         student.characterFaction = character.factionName;
-        console.log(`Assigned ${character.name} to ${student.name}`);
+        
+        // Apply character starting resources
+        student.balance = character.startingCoins || student.balance || 10;
+        student.weapons = character.startingWeapons || [];
+        student.mercenaries = character.startingMercenaries || 0;
+        student.startingCastles = character.startingCastles || 0;
+        
+        console.log(`Assigned ${character.name} to ${student.name} with ${character.startingCoins} coins, ${character.startingWeapons?.length || 0} weapons, ${character.startingMercenaries || 0} mercenaries, ${character.startingCastles || 0} castles`);
         characterIndex++;
       }
     });
+    
+    // Place starting castles on students' first territories
+    placeStartingCastles();
     
     // Save the updated roster
     if (state.currentRoster) {
       state.currentRoster.roster = state.roster;
       localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
     }
+  }
+  
+  function placeStartingCastles() {
+    if (!state.board || !state.board.tiles) return;
+    
+    console.log('Placing starting castles...');
+    
+    state.roster.forEach(student => {
+      if (student.startingCastles > 0) {
+        // Find student's first territory (lowest coordinates)
+        const studentTiles = state.board.tiles.filter(tile => tile.owner_game_student_id === student.gsId);
+        if (studentTiles.length > 0) {
+          // Sort by coordinates to get the "first" tile
+          studentTiles.sort((a, b) => {
+            if (a.y !== b.y) return a.y - b.y;
+            return a.x - b.x;
+          });
+          
+          const firstTile = studentTiles[0];
+          firstTile.castle_level = student.startingCastles;
+          console.log(`Placed ${student.startingCastles} castle(s) on ${student.name}'s first territory (${firstTile.x}, ${firstTile.y})`);
+        }
+      }
+    });
   }
 
 
