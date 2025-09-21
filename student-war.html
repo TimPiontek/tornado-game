@@ -695,35 +695,57 @@
   function getTerritoryForTile(tile, scenario) {
     if (!scenario || !scenario.factions) return null;
     
-    // Get all territories from all factions
-    const allTerritories = [];
-    Object.values(scenario.factions).forEach(faction => {
-      faction.territories.forEach(territory => {
-        allTerritories.push({
-          ...territory,
-          factionName: faction.name,
-          factionColor: faction.color
-        });
-      });
+    // Create a logical map layout based on factions and territories
+    const mapWidth = state.board.w;
+    const mapHeight = state.board.h;
+    const centerX = Math.floor(mapWidth / 2);
+    const centerY = Math.floor(mapHeight / 2);
+    
+    // Get faction territories organized by faction
+    const factionTerritories = {};
+    Object.entries(scenario.factions).forEach(([factionId, faction]) => {
+      factionTerritories[factionId] = faction.territories || [];
     });
     
     // Add neutral territories
-    if (scenario.neutralTerritories) {
-      scenario.neutralTerritories.forEach(territory => {
-        allTerritories.push({
-          ...territory,
-          factionName: 'Neutral',
-          factionColor: '#64748b'
-        });
-      });
+    const neutralTerritories = scenario.neutralTerritories || [];
+    
+    // Determine tile position relative to center
+    const relativeX = tile.x - centerX;
+    const relativeY = tile.y - centerY;
+    
+    // Determine which faction this tile belongs to based on position
+    let factionId = null;
+    let territoryIndex = 0;
+    
+    if (Math.abs(relativeX) <= 1 && Math.abs(relativeY) <= 1) {
+      // Center area - neutral territories
+      const centerIndex = (tile.y * mapWidth + tile.x) % neutralTerritories.length;
+      return neutralTerritories[centerIndex] || null;
+    } else if (relativeX < -1) {
+      // Left side - first faction
+      factionId = Object.keys(factionTerritories)[0];
+      territoryIndex = Math.floor((tile.y * mapWidth + tile.x) / 2) % (factionTerritories[factionId]?.length || 1);
+    } else if (relativeX > 1) {
+      // Right side - second faction
+      factionId = Object.keys(factionTerritories)[1];
+      territoryIndex = Math.floor((tile.y * mapWidth + tile.x) / 2) % (factionTerritories[factionId]?.length || 1);
+    } else {
+      // Middle area - neutral or mixed
+      const middleIndex = (tile.y * mapWidth + tile.x) % neutralTerritories.length;
+      return neutralTerritories[middleIndex] || null;
     }
     
-    // Map tiles to territories based on position
-    // For now, we'll use a simple mapping based on tile position
-    const tileIndex = tile.y * state.board.w + tile.x;
-    const territoryIndex = tileIndex % allTerritories.length;
+    // Return territory from the determined faction
+    if (factionId && factionTerritories[factionId] && factionTerritories[factionId][territoryIndex]) {
+      return {
+        ...factionTerritories[factionId][territoryIndex],
+        factionName: scenario.factions[factionId].name,
+        factionColor: scenario.factions[factionId].color
+      };
+    }
     
-    return allTerritories[territoryIndex] || null;
+    return null;
   }
 
   function updateGridDisplay() {
@@ -1447,8 +1469,7 @@
         <div style="display:flex; gap:6px; align-items:center;">
           <div style="width:12px;height:12px;border-radius:50%;background:${state.colors.get(loggedInStudent.gsId)}; border: 2px solid #3b82f6;"></div>
           <div>
-            <div style="font-weight: bold; color: #3b82f6;">${loggedInStudent.name} (You)</div>
-            ${characterInfo}
+            <div style="font-weight: bold; color: #3b82f6;">${loggedInStudent.name}${characterName ? ` (${characterName})` : ''} (You)</div>
             <div style="font-size:10px; color:var(--muted);">Student Mode</div>
           </div>
         </div>
