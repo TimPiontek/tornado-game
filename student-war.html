@@ -1636,9 +1636,9 @@
             <div style="font-weight: bold; color: #8b5cf6; margin-bottom: 4px;">${characterName}</div>
             ${characterData ? `
               <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">${characterData.role || 'Character'}</div>
-              <div style="font-size: 11px; color: var(--text); line-height: 1.4;">${characterData.history || 'A character in this scenario.'}</div>
+              <div style="font-size: 11px; color: var(--text); line-height: 1.4;">${characterData.description || characterData.history || 'A character in this scenario.'}</div>
               <div style="margin-top: 8px; font-size: 10px; color: var(--muted);">
-                Starting Resources: 💰${characterData.startingResources?.coins || 100} • ⚔️${characterData.startingResources?.weapons?.join(', ') || 'Sword'} • 🏰${characterData.startingResources?.castles || 1}
+                Starting Resources: 💰${characterData.startingCoins || characterData.startingResources?.coins || 100} • ⚔️${(characterData.startingWeapons || characterData.startingResources?.weapons || ['Sword']).join(', ')} • 🏰${characterData.startingCastles || characterData.startingResources?.castles || 1}
               </div>
             ` : '<div style="font-size: 11px; color: var(--muted);">Character information not available.</div>'}
           </div>
