@@ -676,38 +676,48 @@
     
     state.roster.forEach(student => {
       if (student.characterName && student.characterFaction) {
-        // Assign team based on character faction
-        if (student.characterFaction === 'Harry Potter & Friends') {
-          student.teamId = 'good_guys';
-          student.teamName = 'Dumbledore\'s Army';
-          student.teamColor = '#dc143c'; // Gryffindor red for good guys
-        } else if (student.characterFaction === 'Death Eaters & Voldemort') {
-          student.teamId = 'bad_guys';
-          student.teamName = 'Voldemort\'s Army';
-          student.teamColor = '#2e8b57'; // Slytherin green for bad guys
-        } else if (state.scenario && state.scenario.scenarioName.includes('Harry Potter')) {
-          // Handle Harry Potter general roles
-          if (student.characterName === 'Hogwarts Student' || student.characterName === 'Order Member' || student.characterName === 'Muggle-born') {
-            student.teamId = 'good_guys';
-            student.teamName = 'Dumbledore\'s Army';
-            student.teamColor = '#dc143c'; // Gryffindor red for good guys
-          } else if (student.characterName === 'Death Eater' || student.characterName === 'Snatcher' || student.characterName === 'Inferi') {
-            student.teamId = 'bad_guys';
-            student.teamName = 'Voldemort\'s Army';
-            student.teamColor = '#2e8b57'; // Slytherin green for bad guys
+        // Get faction data from scenario
+        const scenario = SCENARIOS[state.scenario.scenarioId];
+        if (!scenario || !scenario.factions) return;
+        
+        // Find the faction that matches the student's character faction
+        const faction = Object.values(scenario.factions).find(f => f.name === student.characterFaction);
+        if (faction) {
+          // Use faction key as team ID and faction color as team color
+          const factionKey = Object.keys(scenario.factions).find(key => scenario.factions[key] === faction);
+          student.teamId = factionKey;
+          student.teamName = faction.name;
+          student.teamColor = faction.color;
+          
+          console.log(`Assigned ${student.name} to faction ${faction.name} (${faction.color})`);
+        } else {
+          // Fallback for general roles - assign based on scenario type
+          if (state.scenario.scenarioName.includes('Harry Potter')) {
+            if (student.characterName === 'Hogwarts Student' || student.characterName === 'Order Member' || student.characterName === 'Muggle-born') {
+              student.teamId = 'good_guys';
+              student.teamName = 'Dumbledore\'s Army';
+              student.teamColor = '#dc143c'; // Gryffindor red for good guys
+            } else if (student.characterName === 'Death Eater' || student.characterName === 'Snatcher' || student.characterName === 'Inferi') {
+              student.teamId = 'bad_guys';
+              student.teamName = 'Voldemort\'s Army';
+              student.teamColor = '#2e8b57'; // Slytherin green for bad guys
+            }
+          } else if (state.scenario.scenarioName.includes('Star Wars')) {
+            if (student.characterName === 'Rebel Soldier' || student.characterName === 'Rebel Pilot') {
+              student.teamId = 'rebels';
+              student.teamName = 'Rebel Alliance';
+              student.teamColor = '#4169e1'; // Blue for rebels
+            } else if (student.characterName === 'Stormtrooper' || student.characterName === 'Imperial Officer') {
+              student.teamId = 'empire';
+              student.teamName = 'Galactic Empire';
+              student.teamColor = '#8b0000'; // Dark red for empire
+            } else if (student.characterName === 'Smuggler' || student.characterName === 'Bounty Hunter') {
+              student.teamId = 'neutral';
+              student.teamName = 'Neutral/Independent';
+              student.teamColor = '#808080'; // Gray for neutral
+            }
           }
-        } else if (student.characterFaction === 'Rebel Alliance') {
-          student.teamId = 'rebels';
-          student.teamName = 'Rebel Alliance';
-          student.teamColor = '#4169e1'; // Blue for rebels
-        } else if (student.characterFaction === 'Galactic Empire') {
-          student.teamId = 'empire';
-          student.teamName = 'Galactic Empire';
-          student.teamColor = '#8b0000'; // Dark red for empire
-        } else if (student.characterFaction === 'Neutral/Independent') {
-          student.teamId = 'neutral';
-          student.teamName = 'Neutral/Independent';
-          student.teamColor = '#808080'; // Gray for neutral
+          // Add more scenario-specific general role handling as needed
         }
         
         // Update the color system to use team color
@@ -715,7 +725,7 @@
           state.colors.set(student.gsId, student.teamColor);
         }
         
-        console.log(`Assigned ${student.name} to team ${student.teamName} (${student.teamColor})`);
+        console.log(`Final assignment: ${student.name} -> Team: ${student.teamName} (${student.teamColor})`);
       }
     });
   }
@@ -822,38 +832,41 @@
       student.mercenaries = character.startingMercenaries || 0;
       student.startingCastles = character.startingCastles || 0;
       
-      // Assign team based on character faction
-      if (character.factionName === 'Harry Potter & Friends') {
-        student.teamId = 'good_guys';
-        student.teamName = 'Dumbledore\'s Army';
-        student.teamColor = '#dc143c'; // Gryffindor red for good guys
-      } else if (character.factionName === 'Death Eaters & Voldemort') {
-        student.teamId = 'bad_guys';
-        student.teamName = 'Voldemort\'s Army';
-        student.teamColor = '#2e8b57'; // Slytherin green for bad guys
-      } else if (scenarioData.scenarioName.includes('Harry Potter')) {
-        // Handle Harry Potter general roles
-        if (character.name === 'Hogwarts Student' || character.name === 'Order Member' || character.name === 'Muggle-born') {
-          student.teamId = 'good_guys';
-          student.teamName = 'Dumbledore\'s Army';
-          student.teamColor = '#dc143c'; // Gryffindor red for good guys
-        } else if (character.name === 'Death Eater' || character.name === 'Snatcher' || character.name === 'Inferi') {
-          student.teamId = 'bad_guys';
-          student.teamName = 'Voldemort\'s Army';
-          student.teamColor = '#2e8b57'; // Slytherin green for bad guys
+      // Assign team based on character faction - use dynamic assignment
+      const faction = Object.values(scenarioData.factions).find(f => f.name === character.factionName);
+      if (faction) {
+        // Use faction key as team ID and faction color as team color
+        const factionKey = Object.keys(scenarioData.factions).find(key => scenarioData.factions[key] === faction);
+        student.teamId = factionKey;
+        student.teamName = faction.name;
+        student.teamColor = faction.color;
+      } else {
+        // Fallback for general roles - assign based on scenario type
+        if (scenarioData.scenarioName.includes('Harry Potter')) {
+          if (character.name === 'Hogwarts Student' || character.name === 'Order Member' || character.name === 'Muggle-born') {
+            student.teamId = 'good_guys';
+            student.teamName = 'Dumbledore\'s Army';
+            student.teamColor = '#dc143c'; // Gryffindor red for good guys
+          } else if (character.name === 'Death Eater' || character.name === 'Snatcher' || character.name === 'Inferi') {
+            student.teamId = 'bad_guys';
+            student.teamName = 'Voldemort\'s Army';
+            student.teamColor = '#2e8b57'; // Slytherin green for bad guys
+          }
+        } else if (scenarioData.scenarioName.includes('Star Wars')) {
+          if (character.name === 'Rebel Soldier' || character.name === 'Rebel Pilot') {
+            student.teamId = 'rebels';
+            student.teamName = 'Rebel Alliance';
+            student.teamColor = '#4169e1'; // Blue for rebels
+          } else if (character.name === 'Stormtrooper' || character.name === 'Imperial Officer') {
+            student.teamId = 'empire';
+            student.teamName = 'Galactic Empire';
+            student.teamColor = '#8b0000'; // Dark red for empire
+          } else if (character.name === 'Smuggler' || character.name === 'Bounty Hunter') {
+            student.teamId = 'neutral';
+            student.teamName = 'Neutral/Independent';
+            student.teamColor = '#808080'; // Gray for neutral
+          }
         }
-      } else if (character.factionName === 'Rebel Alliance') {
-        student.teamId = 'rebels';
-        student.teamName = 'Rebel Alliance';
-        student.teamColor = '#4169e1'; // Blue for rebels
-      } else if (character.factionName === 'Galactic Empire') {
-        student.teamId = 'empire';
-        student.teamName = 'Galactic Empire';
-        student.teamColor = '#8b0000'; // Dark red for empire
-      } else if (character.factionName === 'Neutral/Independent') {
-        student.teamId = 'neutral';
-        student.teamName = 'Neutral/Independent';
-        student.teamColor = '#808080'; // Gray for neutral
       }
       
       roleAssignments[student.gsId] = character.name;
@@ -1123,17 +1136,31 @@
     Object.entries(teamGroups).forEach(([teamId, students]) => {
       console.log(`Assigning positions for team ${teamId} with ${students.length} students`);
       
-      // Choose positions based on team
+      // Choose positions based on team - use dynamic assignment
       let teamPositions = [];
-      if (teamId === 'good_guys' || teamId === 'rebels') {
-        teamPositions = team1Positions; // Left side
-      } else if (teamId === 'bad_guys' || teamId === 'empire') {
-        teamPositions = team2Positions; // Right side
-      } else if (teamId === 'neutral') {
-        teamPositions = team3Positions; // Center
+      const teamIds = Object.keys(teamGroups);
+      
+      if (isThreeTeam) {
+        // 3-team scenario: assign teams to left, center, right
+        if (teamIds.indexOf(teamId) === 0) {
+          teamPositions = team1Positions; // First team gets left
+        } else if (teamIds.indexOf(teamId) === 1) {
+          teamPositions = team3Positions; // Second team gets center
+        } else if (teamIds.indexOf(teamId) === 2) {
+          teamPositions = team2Positions; // Third team gets right
+        } else {
+          teamPositions = [...team1Positions, ...team2Positions, ...team3Positions];
+        }
       } else {
-        // Individual players get mixed positions
-        teamPositions = [...team1Positions, ...team2Positions, ...team3Positions];
+        // 2-team scenario: assign teams to left and right
+        if (teamIds.indexOf(teamId) === 0) {
+          teamPositions = team1Positions; // First team gets left
+        } else if (teamIds.indexOf(teamId) === 1) {
+          teamPositions = team2Positions; // Second team gets right
+        } else {
+          // Individual players get mixed positions
+          teamPositions = [...team1Positions, ...team2Positions];
+        }
       }
       
       let positionIndex = 0;
