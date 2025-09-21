@@ -1326,12 +1326,7 @@
   }
 
   // Tornado button removed - tornado functionality moved to Student Market
-  el("#btnTruces").onclick = () => {
-    // Toggle truces panel visibility
-    const trucesSection = document.querySelector('#truces').closest('.section');
-    const isVisible = trucesSection.style.display !== 'none';
-    trucesSection.style.display = isVisible ? 'none' : 'block';
-  };
+  // Truces button handled above - calls showTruceModal() for student truce management
 
   // === AUDIT (simple) ===
 
