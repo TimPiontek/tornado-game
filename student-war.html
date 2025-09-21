@@ -517,6 +517,7 @@
                     <div class="action-buttons">
                         <button class="btn btn-warning" onclick="initiateBattle()">⚔️ Attack Territory</button>
                         <button class="btn btn-secondary" onclick="defendTerritory()">🛡️ Defend Territory</button>
+                        <button class="btn btn-accent" onclick="buildCastle()">🏰 Build Castle</button>
                     </div>
                 </div>
             </div>
@@ -855,6 +856,44 @@
             renderGameGrid();
             
             updateStatusMessage(`Added defense to ${tile.name}! Defense level: ${tile.defense}`, 'success');
+            hideBattleSection();
+        }
+
+        function buildCastle() {
+            if (gameState.selectedTile === null) {
+                updateStatusMessage('Please select a territory first!', 'error');
+                return;
+            }
+            
+            const tile = gameState.tiles[gameState.selectedTile];
+            
+            if (tile.owner !== currentStudent.username) {
+                updateStatusMessage('You can only build castles on your own territories!', 'error');
+                return;
+            }
+            
+            // Build castle (stronger defense)
+            const castleCost = 10;
+            const studentPoints = getStudentPoints();
+            
+            if (studentPoints < castleCost) {
+                updateStatusMessage(`Insufficient points! Castle costs ${castleCost} points.`, 'error');
+                return;
+            }
+            
+            tile.defense += 3; // Castle provides +3 defense
+            tile.isCastle = true;
+            deductStudentPoints(castleCost);
+            
+            // Update roster
+            updateRosterData();
+            
+            // Update UI
+            updateStudentInfo();
+            updateStudentList();
+            renderGameGrid();
+            
+            updateStatusMessage(`Built castle on ${tile.name}! Defense level: ${tile.defense}`, 'success');
             hideBattleSection();
         }
 
