@@ -63,6 +63,7 @@
     <h1 style="cursor: pointer;" onclick="window.location.href = '/'">TORNADO WAR</h1>
     <button class="pill" id="btnTruces">Truces</button>
     <button class="pill" id="btnHelp">How to Play</button>
+        <button class="pill" id="btnReset" style="background: #dc2626; color: white;">🔄 New Game</button>
     <div style="flex:1"></div>
     <span id="who" class="muted">Not signed in</span>
     <button class="pill" id="signin">Sign in with Google</button>
@@ -647,6 +648,67 @@
     updateGridDisplay();
   }
   
+  function resetGameToDefaults() {
+    if (!state.currentRoster || !state.roster) {
+      alert('No roster loaded to reset.');
+      return;
+    }
+
+    console.log('Resetting game to defaults for roster:', state.currentRoster.name);
+
+    // Reset all students to default state
+    state.roster.forEach(student => {
+      student.tilesOwned = 0;
+      student.balance = 5; // Default starting balance
+      student.weapons = [];
+      student.mercenaries = 0;
+      student.wizard = false;
+      student.tornados = 0;
+    });
+
+    // Clear all truces
+    state.truces = [];
+    state.truceInvitations = [];
+
+    // Reset board to fresh state
+    const studentCount = state.roster.length;
+    const w = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
+    const h = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
+
+    // Create fresh tiles
+    const tiles = [];
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        tiles.push({
+          id: `tile_${x}_${y}`,
+          x: x,
+          y: y,
+          owner_game_student_id: null,
+          castle_level: 0
+        });
+      }
+    }
+    state.board = { w, h, tiles };
+
+    // Assign starting tiles to students
+    assignStartingTiles();
+
+    // Clear saved game state from roster
+    if (state.currentRoster.gameState) {
+      delete state.currentRoster.gameState;
+    }
+
+    // Update UI
+    updateGridDisplay();
+    renderRoster();
+    updateVictoryTarget();
+
+    // Save the reset state
+    autoSaveWarPoints();
+
+    alert('Game reset successfully! All students start fresh with 5 coins and new starting territories.');
+  }
+
   function assignStartingTiles() {
     if (!state.roster || state.roster.length === 0) return;
     
@@ -1318,6 +1380,19 @@
     const trucesSection = document.querySelector('#truces').closest('.section');
     const isVisible = trucesSection.style.display !== 'none';
     trucesSection.style.display = isVisible ? 'none' : 'block';
+  };
+
+  el("#btnReset").onclick = () => {
+    if (!state.currentRoster) {
+      alert('No roster selected. Please select a roster first.');
+      return;
+    }
+
+    if (!confirm('Are you sure you want to start a new game? This will reset ALL game progress including:\n\n• All territory ownership\n• All castle levels\n• All student balances\n• All truces\n• All game state\n\nThis action cannot be undone!')) {
+      return;
+    }
+
+    resetGameToDefaults();
   };
 
   // === AUDIT (simple) ===
