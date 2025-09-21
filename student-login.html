@@ -429,7 +429,11 @@
             </div>
             
             <button class="btn" onclick="loginStudent()">Login</button>
-            <button class="btn btn-secondary" onclick="showSignup()">Need an account? Sign up</button>
+            <div style="text-align: center; margin-top: 1rem;">
+                <button class="btn btn-secondary" onclick="showSignup()">Need an account? Sign up</button>
+                <br>
+                <button class="btn btn-link" onclick="showForgotPassword()" style="color: #6f5c91; text-decoration: underline; background: none; border: none; font-size: 0.9rem; margin-top: 0.5rem;">Forgot Password?</button>
+            </div>
         </div>
 
         <!-- Signup Form -->
@@ -471,6 +475,27 @@
             
             <button class="btn" onclick="createStudentAccount()">Create Account</button>
             <button class="btn btn-secondary" onclick="showLogin()">Already have account? Login</button>
+        </div>
+
+        <!-- Forgot Password Form -->
+        <div id="forgotPasswordSection" class="section">
+            <div class="form-group">
+                <label for="forgotUsername">Username</label>
+                <input type="text" id="forgotUsername" placeholder="Enter your username">
+            </div>
+            
+            <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" placeholder="Enter new password">
+            </div>
+            
+            <div class="form-group">
+                <label for="confirmPassword">Confirm New Password</label>
+                <input type="password" id="confirmPassword" placeholder="Confirm new password">
+            </div>
+            
+            <button class="btn" onclick="resetPassword()">Reset Password</button>
+            <button class="btn btn-secondary" onclick="showLogin()">Back to Login</button>
         </div>
 
         <!-- Class Code Entry -->
@@ -549,6 +574,11 @@
             document.getElementById('signupSection').classList.add('active');
         }
 
+        function showForgotPassword() {
+            hideAllSections();
+            document.getElementById('forgotPasswordSection').classList.add('active');
+        }
+
         function showClassCode() {
             hideAllSections();
             document.getElementById('classCodeSection').classList.add('active');
@@ -569,6 +599,43 @@
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
             });
+        }
+
+        function resetPassword() {
+            const username = document.getElementById('forgotUsername').value.trim();
+            const newPassword = document.getElementById('newPassword').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+            if (!username || !newPassword || !confirmPassword) {
+                showError('Please fill in all fields.');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showError('Passwords do not match.');
+                return;
+            }
+
+            if (newPassword.length < 4) {
+                showError('Password must be at least 4 characters long.');
+                return;
+            }
+
+            // Find the student in localStorage
+            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            const studentIndex = students.findIndex(s => s.username === username);
+
+            if (studentIndex === -1) {
+                showError('Username not found.');
+                return;
+            }
+
+            // Update the password
+            students[studentIndex].password = newPassword;
+            localStorage.setItem('tornadoStudents', JSON.stringify(students));
+
+            showSuccess('Password reset successfully! You can now login with your new password.');
+            showLogin();
         }
 
         function createStudentAccount() {
@@ -752,7 +819,7 @@
             studentProfile.innerHTML = `
                 <h3>👤 ${currentStudent.username}</h3>
                 <p><strong>Grade:</strong> ${currentStudent.grade || 'Not specified'}</p>
-                <p><strong>Class:</strong> ${currentStudent.rosterName ? currentRoster.name : 'Not joined'}</p>
+                <p><strong>Class:</strong> ${currentStudent.rosterName && currentRoster ? currentRoster.name : 'Not joined'}</p>
                 <p><strong>Member since:</strong> ${new Date(currentStudent.createdAt).toLocaleDateString()}</p>
                 <p><strong>Last login:</strong> ${new Date(currentStudent.lastLogin).toLocaleDateString()}</p>
             `;
