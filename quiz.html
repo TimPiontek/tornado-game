@@ -7436,12 +7436,12 @@
                                         <div>
                                             <h4 style="margin: 0 0 0.25rem 0; color: #6f5c91;">${roster.name}</h4>
                                             <p style="margin: 0; color: #666; font-size: 0.9rem;">
-                                                ${roster.roster.length} students • 
+                                                ${roster.roster ? roster.roster.length : 0} students • 
                                                 ${roster.teamMode === 'individual' ? 'Individual Mode' : 
                                                   roster.teams ? `${roster.teams.length} Teams` : 'No Teams'}
                                             </p>
                                             <p style="margin: 0; color: #999; font-size: 0.8rem;">
-                                                Last modified: ${new Date(roster.lastModified).toLocaleString()}
+                                                Last modified: ${roster.lastModified ? new Date(roster.lastModified).toLocaleString() : 'Unknown'}
                                             </p>
                                         </div>
                                         <button class="select-roster-btn" data-roster-id="${roster.id}" style="
@@ -8040,7 +8040,7 @@
                                         <div>
                                             <strong>${roster.name || 'Untitled Roster'}</strong>
                                             <br>
-                                            <small style="color: #666;">${roster.roster.length} students • ${new Date(roster.lastModified).toLocaleDateString()}</small>
+                                            <small style="color: #666;">${roster.roster ? roster.roster.length : 0} students • ${roster.lastModified ? new Date(roster.lastModified).toLocaleDateString() : 'Unknown'}</small>
                                         </div>
                                         <button class="select-roster-btn" data-roster-index="${index}" style="
                                             background: #6f5c91;
@@ -8156,7 +8156,7 @@
             showTeamCreationScreen(roster);
             
             // Update status
-            updateRosterStatus(`Created roster: ${roster.name} (${roster.roster.length} students)`);
+            updateRosterStatus(`Created roster: ${roster.name} (${roster.roster ? roster.roster.length : 0} students)`);
         }
         
         function selectExistingRoster(index, modal) {
