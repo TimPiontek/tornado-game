@@ -3178,16 +3178,55 @@ The Beatles
         // Show navigation for game selection
         document.getElementById('mainNav').style.display = 'flex';
         
-        // Initialize homepage navigation immediately
-        let updateHomepageTimeout;
-        function debouncedUpdateHomepage() {
-          clearTimeout(updateHomepageTimeout);
-          updateHomepageTimeout = setTimeout(() => {
-            updateHomepageForUser();
-          }, 100);
+        // Simple, direct navigation update
+        async function updateNavigationDirect() {
+          try {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            const navLinks = document.querySelector('.nav-links');
+            if (!navLinks) return;
+            
+            // Clear navigation
+            navLinks.innerHTML = '';
+            
+            // Always add "How It Works"
+            navLinks.innerHTML += `
+              <a href="/how-it-works.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">ℹ️ How It Works</a>
+            `;
+            
+            if (session && session.user) {
+              // Teacher is logged in - show teacher navigation
+              navLinks.innerHTML += `
+                <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
+                <a href="/teacher-assignments-manage.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Assignments</a>
+                <button id="loginLogoutBtn" class="login-btn">Logout</button>
+              `;
+            } else {
+              // Not logged in - show guest navigation
+              navLinks.innerHTML += `
+                <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
+                <a href="/student-login.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🎓 Student Login</a>
+                <button id="loginLogoutBtn" class="login-btn">👨‍🏫 Teacher Login</button>
+              `;
+            }
+            
+            // Re-attach login button event listener
+            const loginBtn = document.getElementById("loginLogoutBtn");
+            if (loginBtn) {
+              loginBtn.onclick = function() {
+                if (this.textContent === "Logout" || this.textContent.includes("Logout")) {
+                  supabaseClient.auth.signOut();
+                } else {
+                  showAuthModal();
+                }
+              };
+            }
+          } catch (error) {
+            console.error('Error updating navigation:', error);
+          }
         }
         
-        updateHomepageForUser();
+        // Initialize navigation
+        updateNavigationDirect();
 
         // // Debug: Log session on page load
         // supabaseClient.auth.getUser().then(({ data: { user }, error }) => {
@@ -4073,11 +4112,11 @@ The Beatles
           } else if (hash.includes("public-library")) {
             await showLibrary("public");
           }
-          // Update homepage for new auth state (debounced)
+          // Update navigation for new auth state
           try {
-            debouncedUpdateHomepage();
+            updateNavigationDirect();
           } catch (error) {
-            console.error('Error updating homepage after auth state change:', error);
+            console.error('Error updating navigation after auth state change:', error);
           }
         });
 
