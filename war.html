@@ -2848,24 +2848,8 @@
         </p>
         
         <div style="margin-bottom: 1.5rem;">
-          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Scenario Type:</label>
-          <select id="scenarioTypeSelect" onchange="updateScenarioOptions()" style="
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-          ">
-            <option value="">Select scenario type...</option>
-            <option value="historical">🏛️ Historical Wars</option>
-            <option value="literary">📚 Literary Stories</option>
-          </select>
-        </div>
-        
-        <div id="scenarioOptions" style="display: none;">
           <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Choose Scenario:</label>
-          <select id="scenarioSelect" style="
+          <select id="scenarioSelect" onchange="updateScenarioDetails()" style="
             width: 100%;
             padding: 0.75rem;
             border: 2px solid #e2e8f0;
@@ -2874,8 +2858,36 @@
             margin-bottom: 1rem;
           ">
             <option value="">Select a scenario...</option>
+            <optgroup label="🏛️ Historical Wars">
+              <option value="americanRevolution">American Revolutionary War</option>
+              <option value="civilWar">American Civil War</option>
+              <option value="warOf1812">War of 1812</option>
+              <option value="mexicanAmerican">Mexican-American War</option>
+              <option value="spanishAmerican">Spanish-American War</option>
+              <option value="crusades">The Crusades</option>
+              <option value="hundredYearsWar">Hundred Years' War</option>
+              <option value="russianCivilWar">Russian Civil War</option>
+              <option value="spanishCivilWar">Spanish Civil War</option>
+            </optgroup>
+            <optgroup label="📚 Literary Stories">
+              <option value="juliusCaesar">Julius Caesar</option>
+              <option value="animalFarm">Animal Farm</option>
+              <option value="nineteenEightyFour">1984</option>
+              <option value="theIliad">The Iliad</option>
+              <option value="harryPotter">Harry Potter</option>
+              <option value="avengers">Avengers</option>
+              <option value="starWars">Star Wars</option>
+              <option value="dcVsMarvel">DC vs Marvel</option>
+              <option value="frozen">Frozen</option>
+              <option value="dune">Dune</option>
+              <option value="minions">Minions</option>
+              <option value="toyStory">Toy Story</option>
+              <option value="moana">Moana</option>
+            </optgroup>
           </select>
-          
+        </div>
+        
+        <div id="scenarioOptions">
           <div id="scenarioDetails" style="display: none;">
             <div id="scenarioInfo" style="
               background: #f8fafc;
@@ -2953,89 +2965,33 @@
     }
   }
   
-  function updateScenarioOptions() {
-    const scenarioType = document.getElementById('scenarioTypeSelect').value;
-    const scenarioOptions = document.getElementById('scenarioOptions');
-    const scenarioSelect = document.getElementById('scenarioSelect');
+  function updateScenarioDetails() {
+    const scenarioId = document.getElementById('scenarioSelect').value;
     const scenarioDetails = document.getElementById('scenarioDetails');
     const startBtn = document.getElementById('startScenarioGameBtn');
     
-    if (!scenarioType) {
-      scenarioOptions.style.display = 'none';
-      return;
-    }
-    
-    scenarioOptions.style.display = 'block';
-    scenarioDetails.style.display = 'none';
-    startBtn.disabled = true;
-    
-    // Populate scenarios based on type
-    scenarioSelect.innerHTML = '<option value="">Select a scenario...</option>';
-    
-    if (scenarioType === 'historical') {
-      const historicalScenarios = [
-        { id: 'americanRevolution', name: 'American Revolutionary War' },
-        { id: 'civilWar', name: 'American Civil War' },
-        { id: 'warOf1812', name: 'War of 1812' },
-        { id: 'mexicanAmerican', name: 'Mexican-American War' },
-        { id: 'spanishAmerican', name: 'Spanish-American War' },
-        { id: 'crusades', name: 'The Crusades' },
-        { id: 'hundredYearsWar', name: 'Hundred Years\' War' },
-        { id: 'russianCivilWar', name: 'Russian Civil War' },
-        { id: 'spanishCivilWar', name: 'Spanish Civil War' }
-      ];
+    if (scenarioId && typeof SCENARIOS !== 'undefined' && SCENARIOS[scenarioId]) {
+      const scenario = SCENARIOS[scenarioId];
       
-      historicalScenarios.forEach(scenario => {
-        scenarioSelect.innerHTML += `<option value="${scenario.id}">${scenario.name}</option>`;
-      });
-    } else if (scenarioType === 'literary') {
-      const literaryScenarios = [
-        { id: 'juliusCaesar', name: 'Julius Caesar' },
-        { id: 'animalFarm', name: 'Animal Farm' },
-        { id: 'nineteenEightyFour', name: '1984' },
-        { id: 'theIliad', name: 'The Iliad' },
-        { id: 'harryPotter', name: 'Harry Potter' },
-        { id: 'avengers', name: 'Avengers' },
-        { id: 'starWars', name: 'Star Wars' },
-        { id: 'dcVsMarvel', name: 'DC vs Marvel' },
-        { id: 'frozen', name: 'Frozen' },
-        { id: 'dune', name: 'Dune' },
-        { id: 'minions', name: 'Minions' },
-        { id: 'toyStory', name: 'Toy Story' },
-        { id: 'moana', name: 'Moana' }
-      ];
+      // Update scenario info
+      document.getElementById('scenarioTitle').textContent = scenario.name;
+      document.getElementById('scenarioDescription').textContent = scenario.description;
       
-      literaryScenarios.forEach(scenario => {
-        scenarioSelect.innerHTML += `<option value="${scenario.id}">${scenario.name}</option>`;
+      // Update factions preview
+      const factionsPreview = document.getElementById('factionsPreview');
+      factionsPreview.innerHTML = '<strong>Factions:</strong><br>';
+      Object.values(scenario.factions).forEach(faction => {
+        factionsPreview.innerHTML += `<div style="margin: 5px 0; padding: 5px; background: ${faction.color}20; border-radius: 5px;">
+          <span style="color: ${faction.color}; font-weight: bold;">${faction.name}</span>
+        </div>`;
       });
+      
+      scenarioDetails.style.display = 'block';
+      startBtn.disabled = false;
+    } else {
+      scenarioDetails.style.display = 'none';
+      startBtn.disabled = true;
     }
-    
-    // Add change handler for scenario selection
-    scenarioSelect.onchange = function() {
-      const scenarioId = this.value;
-      if (scenarioId && typeof SCENARIOS !== 'undefined' && SCENARIOS[scenarioId]) {
-        const scenario = SCENARIOS[scenarioId];
-        
-        // Update scenario info
-        document.getElementById('scenarioTitle').textContent = scenario.name;
-        document.getElementById('scenarioDescription').textContent = scenario.description;
-        
-        // Update factions preview
-        const factionsPreview = document.getElementById('factionsPreview');
-        factionsPreview.innerHTML = '<strong>Factions:</strong><br>';
-        Object.values(scenario.factions).forEach(faction => {
-          factionsPreview.innerHTML += `<div style="margin: 5px 0; padding: 5px; background: ${faction.color}20; border-radius: 5px;">
-            <span style="color: ${faction.color}; font-weight: bold;">${faction.name}</span>
-          </div>`;
-        });
-        
-        scenarioDetails.style.display = 'block';
-        startBtn.disabled = false;
-      } else {
-        scenarioDetails.style.display = 'none';
-        startBtn.disabled = true;
-      }
-    };
   }
   
   function startScenarioGame() {
