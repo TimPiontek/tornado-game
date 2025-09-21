@@ -379,17 +379,21 @@
     console.log('War game auth update:', session ? 'Logged in as ' + session.user.email : 'Not logged in');
     
     if (state.offlineMode) {
-      who.textContent = "Playing Offline";
-      signinBtn.textContent = "Switch to Online";
-      signinBtn.style.display = "inline-block";
-      signoutBtn.style.display = "none";
-      playOfflineBtn.style.display = "none";
+      if (who) who.textContent = "Playing Offline";
+      if (signinBtn) {
+        signinBtn.textContent = "Switch to Online";
+        signinBtn.style.display = "inline-block";
+      }
+      if (signoutBtn) signoutBtn.style.display = "none";
+      if (playOfflineBtn) playOfflineBtn.style.display = "none";
     } else {
-    who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
-      signinBtn.textContent = "Sign in with Google";
-      signinBtn.style.display = session ? "none" : "inline-block";
-      signoutBtn.style.display = session ? "inline-block" : "none";
-      playOfflineBtn.style.display = session ? "none" : "inline-block";
+      if (who) who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
+      if (signinBtn) {
+        signinBtn.textContent = "Sign in with Google";
+        signinBtn.style.display = session ? "none" : "inline-block";
+      }
+      if (signoutBtn) signoutBtn.style.display = session ? "inline-block" : "none";
+      if (playOfflineBtn) playOfflineBtn.style.display = session ? "none" : "inline-block";
     }
     
     if (session && !state.offlineMode) {
@@ -401,7 +405,7 @@
     }
   }
 
-  signinBtn.addEventListener("click", async (e) => {
+  if (signinBtn) signinBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     if (state.offlineMode) {
       // Switch back to online mode
@@ -427,7 +431,7 @@
     }
   });
 
-  signoutBtn.addEventListener("click", async (e) => {
+  if (signoutBtn) signoutBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     if (confirm("Are you sure you want to sign out? You'll lose access to your saved games until you sign in again.")) {
       const { error } = await supabase.auth.signOut();
@@ -443,7 +447,7 @@
     }
   });
 
-  playOfflineBtn.addEventListener("click", async (e) => {
+  if (playOfflineBtn) playOfflineBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     if (confirm("Play offline mode? Your games will be saved locally but won't sync across devices. You can still sign in later to save games permanently.\n\nNote: Some advanced features like truces and tornado effects are simplified in offline mode.")) {
       state.offlineMode = true;
@@ -1989,7 +1993,10 @@
 
   // Auto-load student's roster
   function loadStudentRoster() {
+    console.log('Loading student roster...');
     const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    console.log('Current student:', currentStudent);
+    
     if (!currentStudent || !currentStudent.rosterId) {
       alert('Please log in as a student first!');
       window.location.href = 'student-login.html';
@@ -1997,7 +2004,9 @@
     }
 
     const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+    console.log('Available rosters:', rosters);
     const studentRoster = rosters.find(r => r.id === currentStudent.rosterId);
+    console.log('Found student roster:', studentRoster);
     
     if (!studentRoster) {
       alert('Your class roster not found!');
@@ -2006,6 +2015,7 @@
     }
 
     // Load the roster
+    console.log('Calling selectRoster with ID:', studentRoster.id);
     selectRoster(studentRoster.id);
     
     // Show success message
