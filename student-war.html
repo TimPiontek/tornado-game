@@ -680,12 +680,32 @@
     // Assign exactly 2 tiles per student
     let tileIndex = 0;
     state.roster.forEach((student, studentIndex) => {
+      const assignedTiles = [];
+      
       for (let i = 0; i < tilesPerStudent && tileIndex < availableTiles.length; i++) {
         const tile = availableTiles[tileIndex].tile;
         tile.owner_game_student_id = student.gsId;
         student.tilesOwned = (student.tilesOwned || 0) + 1;
+        assignedTiles.push(tile);
         tileIndex++;
         console.log(`Assigned tile (${tile.x}, ${tile.y}) to ${student.name}`);
+      }
+      
+      // Fallback: if still don't have 2 tiles, assign any available tiles
+      if (assignedTiles.length < tilesPerStudent) {
+        const remainingTiles = state.board.tiles.filter(tile => !tile.owner_game_student_id);
+        while (assignedTiles.length < tilesPerStudent && remainingTiles.length > 0) {
+          const tile = remainingTiles.shift(); // Take first available tile
+          tile.owner_game_student_id = student.gsId;
+          student.tilesOwned = (student.tilesOwned || 0) + 1;
+          assignedTiles.push(tile);
+          console.log(`Fallback: Assigned tile (${tile.x}, ${tile.y}) to ${student.name}`);
+        }
+      }
+      
+      // Ensure we have exactly 2 tiles per student
+      if (assignedTiles.length !== tilesPerStudent) {
+        console.warn(`Student ${student.name} has ${assignedTiles.length} tiles instead of ${tilesPerStudent}`);
       }
     });
     
@@ -856,13 +876,13 @@
                        text-align: center;
                        transition: all 0.2s ease;"
                 onclick="handleTileClick('${tile.id}')"
-                title="${owner ? `Owned by ${ownerName}${characterName ? ` (${characterName})` : ''}` : `Click to buy ${territoryName || 'territory'} for ${displayCost} points`}${isAttackable && !isOwnedByStudent && !owner ? ' (Claimable!)' : ''}">
+                title="${owner ? `Owned by ${ownerName}${state.scenario && characterName ? ` (${characterName})` : ''}` : `Click to buy ${state.scenario ? (territoryName || 'territory') : 'tile'} for ${displayCost} points`}${isAttackable && !isOwnedByStudent && !owner ? ' (Claimable!)' : ''}">
                 ${owner ? `
-                  <div style="font-weight: bold; font-size: 10px; line-height: 1.0; color: #ffd700;">${characterName || 'Character'}</div>
+                  ${state.scenario ? `<div style="font-weight: bold; font-size: 10px; line-height: 1.0; color: #ffd700;">${characterName || 'Character'}</div>` : ''}
                   <div style="font-size: 8px; line-height: 1.0; margin-top: 1px;">${ownerName}</div>
-                  <div style="font-size: 7px; color: #ccc; line-height: 1.0; margin-top: 1px;">${displayName}</div>
+                  ${state.scenario ? `<div style="font-size: 7px; color: #ccc; line-height: 1.0; margin-top: 1px;">${displayName}</div>` : ''}
                 ` : `
-                  <div style="font-weight: 600; font-size: 10px; line-height: 1.0;">${displayName}</div>
+                  ${state.scenario ? `<div style="font-weight: 600; font-size: 10px; line-height: 1.0;">${displayName}</div>` : ''}
                   <div style="font-size: 8px; line-height: 1.0; margin-top: 2px;">${costText}</div>
                 `}
                 <div style="font-size: 8px; margin-top: 1px;">${castleText || ''}</div>
