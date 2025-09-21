@@ -617,6 +617,7 @@
                 </div>
                 
                 <div style="text-align: center;">
+                    <button class="btn btn-secondary" onclick="refreshDashboard()" style="margin-right: 1rem;">🔄 Refresh Points</button>
                     <button class="btn btn-secondary" onclick="logoutStudent()">Logout</button>
                 </div>
             </div>
@@ -632,7 +633,28 @@
             const savedStudent = localStorage.getItem('currentStudent');
             if (savedStudent) {
                 currentStudent = JSON.parse(savedStudent);
+                
+                // Load roster if student is part of one
+                if (currentStudent.rosterId) {
+                    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                    currentRoster = rosters.find(r => r.id === currentStudent.rosterId);
+                }
+                
                 showDashboard();
+            }
+        });
+
+        // Listen for roster updates to refresh dashboard
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'tornadoRosters' && currentStudent && currentStudent.rosterId) {
+                // Reload roster data
+                const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                currentRoster = rosters.find(r => r.id === currentStudent.rosterId);
+                
+                // Refresh dashboard if we're currently viewing it
+                if (document.getElementById('dashboardSection').style.display !== 'none') {
+                    updateDashboard();
+                }
             }
         });
 
@@ -957,15 +979,27 @@
                 </div>
             `;
 
-            // Update stats
+            // Update stats - get current points from roster if student is in a class
             const studentStats = document.getElementById('studentStats');
             const accuracy = currentStudent.questionsAnswered > 0 
                 ? Math.round((currentStudent.correctAnswers / currentStudent.questionsAnswered) * 100)
                 : 0;
 
+            // Get current points from roster if student is in a class
+            let currentPoints = currentStudent.totalPoints || 0;
+            if (currentRoster && currentStudent.rosterId) {
+                const rosterStudent = currentRoster.students.find(s => s.name === currentStudent.username);
+                if (rosterStudent) {
+                    currentPoints = rosterStudent.points || 0;
+                    // Update student's stored points to match roster
+                    currentStudent.totalPoints = currentPoints;
+                    localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+                }
+            }
+
             studentStats.innerHTML = `
                 <div class="stat-card">
-                    <div class="stat-value">${currentStudent.totalPoints}</div>
+                    <div class="stat-value">${currentPoints}</div>
                     <div class="stat-label">Total Points</div>
                 </div>
                 <div class="stat-card">
@@ -1097,6 +1131,21 @@
             // Dispatch event to notify homepage of student logout
             window.dispatchEvent(new CustomEvent('studentLoginChange'));
             showLogin();
+        }
+
+        function refreshDashboard() {
+            if (currentStudent && currentStudent.rosterId) {
+                // Reload roster data
+                const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                currentRoster = rosters.find(r => r.id === currentStudent.rosterId);
+                
+                // Update dashboard
+                updateDashboard();
+                
+                showSuccess('Points refreshed from roster!');
+            } else {
+                showError('You are not currently in a class.');
+            }
         }
 
         function showError(message) {
