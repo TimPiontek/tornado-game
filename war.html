@@ -486,6 +486,7 @@
   const rosterList = el("#rosterList");
   const rosterEl = el("#roster");
   const gridEl = el("#grid");
+  console.log('Grid element found:', gridEl);
   const contextEl = el("#context");
   const trucesEl = el("#truces");
   const auditEl = el("#audit");
@@ -1311,34 +1312,7 @@
     }
   }
 
-  el("#btnTornado").onclick = async () => {
-    if (!state.roster || state.roster.length === 0) return alert("No roster loaded.");
-    if (!confirm("Buy TORNADO for 50 points? This will randomly affect territories across the map.")) return;
-    
-    // Simple tornado effect - randomly reassign some tiles
-    if (state.board.tiles) {
-      const ownedTiles = state.board.tiles.filter(t => t.owner_game_student_id);
-      
-      // Randomly reassign 1-3 tiles per student
-      state.roster.forEach(student => {
-        const studentTiles = ownedTiles.filter(t => t.owner_game_student_id === student.gsId);
-        const tilesToReassign = Math.min(Math.floor(Math.random() * 3) + 1, studentTiles.length);
-        
-        for (let i = 0; i < tilesToReassign; i++) {
-          const randomTile = studentTiles[Math.floor(Math.random() * studentTiles.length)];
-          randomTile.owner_game_student_id = null;
-          randomTile.castle_level = 0;
-          student.tilesOwned = Math.max(0, student.tilesOwned - 1);
-        }
-      });
-      
-      updateGridDisplay();
-      renderRoster();
-      autoSaveWarPoints();
-    }
-    
-    alert("Tornado purchased and cast!");
-  };
+  // Tornado button removed - tornado functionality moved to Student Market
   el("#btnTruces").onclick = () => {
     // Toggle truces panel visibility
     const trucesSection = document.querySelector('#truces').closest('.section');
