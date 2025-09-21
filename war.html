@@ -834,6 +834,40 @@
     console.log('Starting tiles assigned - each student has at least one tile');
   }
   
+  function getTerritoryForTile(tile, scenario) {
+    if (!scenario || !scenario.factions) return null;
+    
+    // Get all territories from all factions
+    const allTerritories = [];
+    Object.values(scenario.factions).forEach(faction => {
+      faction.territories.forEach(territory => {
+        allTerritories.push({
+          ...territory,
+          factionName: faction.name,
+          factionColor: faction.color
+        });
+      });
+    });
+    
+    // Add neutral territories
+    if (scenario.neutralTerritories) {
+      scenario.neutralTerritories.forEach(territory => {
+        allTerritories.push({
+          ...territory,
+          factionName: 'Neutral',
+          factionColor: '#64748b'
+        });
+      });
+    }
+    
+    // Map tiles to territories based on position
+    // For now, we'll use a simple mapping based on tile position
+    const tileIndex = tile.y * state.board.w + tile.x;
+    const territoryIndex = tileIndex % allTerritories.length;
+    
+    return allTerritories[territoryIndex] || null;
+  }
+  
   function updateGridDisplay() {
     console.log('updateGridDisplay called', { gridEl, tiles: state.board.tiles, board: state.board });
     
@@ -879,6 +913,23 @@
         backgroundColor = '#1a2e1a'; // Slightly green tint for attackable unowned territories
       }
       
+      // Get territory name if scenario is active
+      let territoryName = '';
+      let territoryCost = tileCost;
+      
+      if (state.currentRoster && state.currentRoster.scenario) {
+        const scenario = state.currentRoster.scenario;
+        const territoryData = getTerritoryForTile(tile, scenario);
+        if (territoryData) {
+          territoryName = territoryData.name;
+          territoryCost = territoryData.cost;
+        }
+      }
+      
+      const displayName = territoryName || ownerName || '';
+      const displayCost = !owner ? (territoryCost || tileCost) : 0;
+      const costText = !owner ? `💰${displayCost}` : '';
+      
       return `<div class="cell" data-tile-id="${tile.id}" data-x="${tile.x}" data-y="${tile.y}" 
                 style="background: ${backgroundColor}; 
                        color: ${owner ? '#fff' : '#666'}; 
@@ -894,8 +945,8 @@
                        text-align: center;
                        transition: all 0.2s ease;"
                 onclick="handleTileClick('${tile.id}')"
-                title="${owner ? `Owned by ${ownerName}` : `Click to buy for ${tileCost} points`}${isAttackable && !isOwnedBySelected ? ' (Attackable!)' : ''}">
-                <div style="font-weight: 600;">${ownerName || ''}</div>
+                title="${owner ? `Owned by ${ownerName}` : `Click to buy ${territoryName || 'territory'} for ${displayCost} points`}${isAttackable && !isOwnedBySelected ? ' (Attackable!)' : ''}">
+                <div style="font-weight: 600;">${displayName}</div>
                 <div style="font-size: 10px;">${castleText || costText}</div>
               </div>`;
     }).join('');
@@ -1505,12 +1556,30 @@
       const teamInfo = r.teamName ? `<div style="font-size:10px; color:var(--muted);">${r.teamName}</div>` : '';
       const teamColor = r.teamColor || state.colors.get(r.gsId);
       
+      // Get character name if scenario is active
+      let characterName = '';
+      if (state.currentRoster && state.currentRoster.scenario) {
+        const scenario = state.currentRoster.scenario;
+        if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[r.gsId]) {
+          characterName = scenario.manualRoleAssignments[r.gsId];
+        } else if (scenario.aiAssignments) {
+          // Check if this student is assigned to an AI role
+          const aiRole = Object.values(scenario.aiAssignments).find(ai => ai.studentId === r.gsId);
+          if (aiRole) {
+            characterName = aiRole.roleName || 'AI Character';
+          }
+        }
+      }
+      
+      const characterDisplay = characterName ? `<div style="font-size:11px; color:#8b5cf6; font-weight:600;">${characterName}</div>` : '';
+      
       row.innerHTML = `
         <div style="display:flex; gap:6px; align-items:center;">
           <div style="width:10px;height:10px;border-radius:50%;background:${teamColor}; cursor:pointer;" 
                onclick="changeTeamColor('${r.gsId}')" title="Click to change team color"></div>
           <div>
           <div>${r.name}</div>
+            ${characterDisplay}
             ${teamInfo}
         </div>
         </div>

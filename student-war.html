@@ -692,6 +692,40 @@
     console.log('Starting tiles assigned - each student has at least one tile');
   }
   
+  function getTerritoryForTile(tile, scenario) {
+    if (!scenario || !scenario.factions) return null;
+    
+    // Get all territories from all factions
+    const allTerritories = [];
+    Object.values(scenario.factions).forEach(faction => {
+      faction.territories.forEach(territory => {
+        allTerritories.push({
+          ...territory,
+          factionName: faction.name,
+          factionColor: faction.color
+        });
+      });
+    });
+    
+    // Add neutral territories
+    if (scenario.neutralTerritories) {
+      scenario.neutralTerritories.forEach(territory => {
+        allTerritories.push({
+          ...territory,
+          factionName: 'Neutral',
+          factionColor: '#64748b'
+        });
+      });
+    }
+    
+    // Map tiles to territories based on position
+    // For now, we'll use a simple mapping based on tile position
+    const tileIndex = tile.y * state.board.w + tile.x;
+    const territoryIndex = tileIndex % allTerritories.length;
+    
+    return allTerritories[territoryIndex] || null;
+  }
+
   function updateGridDisplay() {
     console.log('updateGridDisplay called', { gridEl, tiles: state.board.tiles, board: state.board });
     
@@ -739,6 +773,23 @@
         backgroundColor = '#1a2e1a'; // Slightly green tint for claimable unowned territories
       }
       
+      // Get territory name if scenario is active
+      let territoryName = '';
+      let territoryCost = tileCost;
+      
+      if (state.currentRoster && state.currentRoster.scenario) {
+        const scenario = state.currentRoster.scenario;
+        const territoryData = getTerritoryForTile(tile, scenario);
+        if (territoryData) {
+          territoryName = territoryData.name;
+          territoryCost = territoryData.cost;
+        }
+      }
+      
+      const displayName = territoryName || ownerName || '';
+      const displayCost = !owner ? (territoryCost || tileCost) : 0;
+      const costText = !owner ? `💰${displayCost}` : '';
+      
       return `<div class="cell" data-tile-id="${tile.id}" data-x="${tile.x}" data-y="${tile.y}" 
                 style="background: ${backgroundColor}; 
                        color: ${owner ? '#fff' : '#666'}; 
@@ -754,8 +805,8 @@
                        text-align: center;
                        transition: all 0.2s ease;"
                 onclick="handleTileClick('${tile.id}')"
-                title="${owner ? `Owned by ${ownerName}` : `Click to buy for ${tileCost} points`}${isAttackable && !isOwnedByStudent && !owner ? ' (Claimable!)' : ''}">
-                <div style="font-weight: 600;">${ownerName || ''}</div>
+                title="${owner ? `Owned by ${ownerName}` : `Click to buy ${territoryName || 'territory'} for ${displayCost} points`}${isAttackable && !isOwnedByStudent && !owner ? ' (Claimable!)' : ''}">
+                <div style="font-weight: 600;">${displayName}</div>
                 <div style="font-size: 10px;">${castleText || costText}</div>
               </div>`;
     }).join('');
@@ -1322,6 +1373,36 @@
     }
   };
 
+  function getCharacterData(characterName, scenario) {
+    if (!scenario || !scenario.factions) return null;
+    
+    // Search through all factions for the character
+    for (const faction of Object.values(scenario.factions)) {
+      const character = faction.characters.find(char => char.name === characterName);
+      if (character) {
+        return character;
+      }
+      
+      // Check general roles too
+      const generalRole = faction.generalRoles.find(role => role.name === characterName);
+      if (generalRole) {
+        return {
+          name: characterName,
+          role: generalRole.name,
+          history: `${characterName} is a ${generalRole.name} in ${faction.name}.`,
+          startingResources: {
+            coins: generalRole.startingCoins,
+            weapons: generalRole.startingWeapons,
+            mercenaries: generalRole.startingMercenaries,
+            castles: generalRole.startingCastles
+          }
+        };
+      }
+    }
+    
+    return null;
+  }
+
   function renderRoster() {
     rosterEl.innerHTML = "";
     
@@ -1344,11 +1425,29 @@
       const mercenaries = loggedInStudent.mercenaries || 0;
       const weapons = loggedInStudent.weapons ? loggedInStudent.weapons.length : 0;
       
+      // Get character information if scenario is active
+      let characterInfo = '';
+      let characterName = '';
+      if (state.currentRoster && state.currentRoster.scenario) {
+        const scenario = state.currentRoster.scenario;
+        if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[loggedInStudent.gsId]) {
+          characterName = scenario.manualRoleAssignments[loggedInStudent.gsId];
+          characterInfo = `<div style="font-size:11px; color:#8b5cf6; font-weight:600;">${characterName}</div>`;
+        } else if (scenario.aiAssignments) {
+          const aiRole = Object.values(scenario.aiAssignments).find(ai => ai.studentId === loggedInStudent.gsId);
+          if (aiRole) {
+            characterName = aiRole.roleName || 'AI Character';
+            characterInfo = `<div style="font-size:11px; color:#ef4444; font-weight:600;">${characterName} (AI)</div>`;
+          }
+        }
+      }
+      
       row.innerHTML = `
         <div style="display:flex; gap:6px; align-items:center;">
           <div style="width:12px;height:12px;border-radius:50%;background:${state.colors.get(loggedInStudent.gsId)}; border: 2px solid #3b82f6;"></div>
           <div>
             <div style="font-weight: bold; color: #3b82f6;">${loggedInStudent.name} (You)</div>
+            ${characterInfo}
             <div style="font-size:10px; color:var(--muted);">Student Mode</div>
           </div>
         </div>
@@ -1370,6 +1469,31 @@
       };
       
       rosterEl.appendChild(row);
+      
+      // Add character profile section if scenario is active
+      if (characterName && state.currentRoster && state.currentRoster.scenario) {
+        const profileSection = document.createElement("div");
+        profileSection.className = "panel";
+        profileSection.style.marginTop = "12px";
+        
+        const characterData = getCharacterData(characterName, state.currentRoster.scenario);
+        
+        profileSection.innerHTML = `
+          <div class="title">Character Profile</div>
+          <div style="padding: 8px; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border: 1px solid rgba(139, 92, 246, 0.3);">
+            <div style="font-weight: bold; color: #8b5cf6; margin-bottom: 4px;">${characterName}</div>
+            ${characterData ? `
+              <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">${characterData.role || 'Character'}</div>
+              <div style="font-size: 11px; color: var(--text); line-height: 1.4;">${characterData.history || 'A character in this scenario.'}</div>
+              <div style="margin-top: 8px; font-size: 10px; color: var(--muted);">
+                Starting Resources: 💰${characterData.startingResources?.coins || 100} • ⚔️${characterData.startingResources?.weapons?.join(', ') || 'Sword'} • 🏰${characterData.startingResources?.castles || 1}
+              </div>
+            ` : '<div style="font-size: 11px; color: var(--muted);">Character information not available.</div>'}
+          </div>
+        `;
+        
+        rosterEl.appendChild(profileSection);
+      }
       
       // Update context to show student is selected
       contextEl.textContent = `Selected: ${loggedInStudent.name}. Click a tile to buy/upgrade/attack.`;
