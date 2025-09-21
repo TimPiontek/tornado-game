@@ -7536,7 +7536,7 @@
                             cursor: pointer;
                             font-weight: 600;
                             font-size: 1rem;
-                        ">📝 Manage Rosters</button>
+                        ">📝 Create Roster</button>
                         
                         <button id="closeNoRostersModal" style="
                             background: #6c757d;
@@ -7561,8 +7561,24 @@
             
             document.getElementById('goToRosterManagement').addEventListener('click', () => {
                 document.body.removeChild(modal);
-                // Navigate to roster management page
-                window.location.href = '/roster';
+                // Check if user is logged in
+                if (window.supabaseClient) {
+                    window.supabaseClient.auth.getSession().then(({ data: { session } }) => {
+                        if (session && session.user) {
+                            // User is logged in, go to roster management
+                            window.location.href = 'roster.html';
+                        } else {
+                            // User is not logged in, go to quick roster creator
+                            window.location.href = 'guest-roster.html';
+                        }
+                    }).catch(() => {
+                        // Error getting session, assume not logged in
+                        window.location.href = 'guest-roster.html';
+                    });
+                } else {
+                    // Supabase not available, assume not logged in
+                    window.location.href = 'guest-roster.html';
+                }
             });
             
             // Close modal when clicking outside

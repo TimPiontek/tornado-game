@@ -110,19 +110,6 @@
       </div>
     </div>
 
-    <div class="section">
-      <div class="title">Historical Scenarios</div>
-      <div style="margin-bottom: 8px;">
-        <select id="scenarioSelect" onchange="loadScenario()" style="width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
-          <option value="">Choose a Scenario</option>
-          <option value="roman_empire">Roman Empire Conquest</option>
-          <option value="american_revolution">American Revolution</option>
-          <option value="lord_of_rings">Lord of the Rings</option>
-          <option value="game_of_thrones">Game of Thrones</option>
-          <option value="world_war_2">World War II</option>
-        </select>
-      </div>
-    </div>
 
   </div>
 
@@ -1213,118 +1200,6 @@
     console.log("Shuffled roster");
   };
   
-  // === HISTORICAL SCENARIOS ===
-  const scenarios = {
-    roman_empire: {
-      name: "Roman Empire Conquest",
-      description: "Conquer territories like the ancient Romans!",
-      theme: "🏛️ Ancient Rome",
-      specialRules: [
-        "Castles are called 'Fortresses'",
-        "Mercenaries are 'Legionaries' (cost 15 points each)",
-        "Victory requires 60% of territories",
-        "Special: 'Gladiator Arena' tiles give +5 bonus points"
-      ],
-      tileNames: ["Rome", "Carthage", "Gaul", "Britannia", "Hispania", "Germania", "Aegyptus", "Syria"],
-      castleNames: ["Watchtower", "Fortress", "Citadel"]
-    },
-    american_revolution: {
-      name: "American Revolution",
-      description: "Fight for independence like the American colonies!",
-      theme: "🇺🇸 Revolutionary War",
-      specialRules: [
-        "Castles are called 'Colonies'",
-        "Mercenaries are 'Militia' (cost 8 points each)",
-        "Victory requires 50% of territories",
-        "Special: 'Liberty Bell' tiles give +3 bonus points"
-      ],
-      tileNames: ["Boston", "Philadelphia", "New York", "Charleston", "Savannah", "Richmond", "Baltimore", "Hartford"],
-      castleNames: ["Settlement", "Colony", "Capital"]
-    },
-    lord_of_rings: {
-      name: "Lord of the Rings",
-      description: "Battle for Middle-earth like in Tolkien's epic!",
-      theme: "💍 Middle-earth",
-      specialRules: [
-        "Castles are called 'Strongholds'",
-        "Mercenaries are 'Warriors' (cost 12 points each)",
-        "Victory requires 55% of territories",
-        "Special: 'Ring of Power' tiles give +10 bonus points"
-      ],
-      tileNames: ["Rivendell", "Gondor", "Rohan", "Mordor", "Shire", "Isengard", "Lothlórien", "Dale"],
-      castleNames: ["Village", "Stronghold", "Fortress"]
-    },
-    game_of_thrones: {
-      name: "Game of Thrones",
-      description: "Play the game of thrones in Westeros!",
-      theme: "👑 Westeros",
-      specialRules: [
-        "Castles are called 'Keeps'",
-        "Mercenaries are 'Knights' (cost 20 points each)",
-        "Victory requires 65% of territories",
-        "Special: 'Iron Throne' tiles give +15 bonus points"
-      ],
-      tileNames: ["King's Landing", "Winterfell", "Casterly Rock", "Highgarden", "Storm's End", "Sunspear", "Pyke", "Riverrun"],
-      castleNames: ["Holdfast", "Keep", "Castle"]
-    },
-    world_war_2: {
-      name: "World War II",
-      description: "Command forces in the greatest conflict!",
-      theme: "⚔️ WWII",
-      specialRules: [
-        "Castles are called 'Bases'",
-        "Mercenaries are 'Soldiers' (cost 10 points each)",
-        "Victory requires 70% of territories",
-        "Special: 'Victory Points' tiles give +8 bonus points"
-      ],
-      tileNames: ["London", "Paris", "Berlin", "Moscow", "Tokyo", "Washington", "Rome", "Madrid"],
-      castleNames: ["Outpost", "Base", "Headquarters"]
-    }
-  };
-
-  function loadScenario() {
-    const scenarioSelect = document.getElementById('scenarioSelect');
-    const scenarioId = scenarioSelect.value;
-    
-    if (!scenarioId) {
-      // Reset to normal mode
-      state.currentScenario = null;
-      updateScenarioDisplay();
-      return;
-    }
-    
-    const scenario = scenarios[scenarioId];
-    if (!scenario) return;
-    
-    state.currentScenario = scenario;
-    updateScenarioDisplay();
-    
-    // Show scenario info
-    alert(`🏛️ ${scenario.name}\n\n${scenario.description}\n\n${scenario.theme}\n\nSpecial Rules:\n${scenario.specialRules.join('\n')}`);
-  }
-  
-  function updateScenarioDisplay() {
-    const scenarioInfo = document.getElementById('scenarioInfo');
-    if (!scenarioInfo) {
-      // Create scenario info display
-      const scenarioSection = document.querySelector('.section:last-child');
-      const infoDiv = document.createElement('div');
-      infoDiv.id = 'scenarioInfo';
-      infoDiv.style.cssText = 'margin-top: 8px; padding: 8px; background: rgba(139, 92, 246, 0.1); border-radius: 6px; font-size: 12px;';
-      scenarioSection.appendChild(infoDiv);
-    }
-    
-    const infoDiv = document.getElementById('scenarioInfo');
-    if (state.currentScenario) {
-      infoDiv.innerHTML = `
-        <strong>${state.currentScenario.theme}</strong><br>
-        ${state.currentScenario.description}<br>
-        <small>Special rules are active!</small>
-      `;
-    } else {
-      infoDiv.innerHTML = '<small>No scenario selected - playing in normal mode</small>';
-    }
-  }
 
   // === TEAM RESOURCE MANAGEMENT ===
   function getTeamResources(teamId) {
