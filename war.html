@@ -2061,6 +2061,67 @@
     }
   });
 
+  // Polling mechanism to check for truce updates
+  let lastTruceCheck = Date.now();
+  setInterval(function() {
+    if (!state.currentRosterId) return;
+    
+    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+    const rosterIndex = rosters.findIndex(r => r.id === state.currentRosterId);
+    if (rosterIndex === -1) return;
+    
+    const savedTruces = rosters[rosterIndex].truces || [];
+    const savedInvitations = rosters[rosterIndex].truceInvitations || [];
+    
+    // Check if truce data has changed
+    const currentTruceCount = state.truces.length;
+    const currentInvitationCount = (state.truceInvitations || []).length;
+    const savedTruceCount = savedTruces.length;
+    const savedInvitationCount = savedInvitations.length;
+    
+    if (currentTruceCount !== savedTruceCount || currentInvitationCount !== savedInvitationCount) {
+      console.log('Teacher: Truce data changed, updating...', {
+        truces: `${currentTruceCount} → ${savedTruceCount}`,
+        invitations: `${currentInvitationCount} → ${savedInvitationCount}`
+      });
+      
+      state.truces = savedTruces;
+      state.truceInvitations = savedInvitations;
+      
+      // Refresh any open truce modals
+      const openModal = document.querySelector('div[style*="position: fixed"]');
+      if (openModal && openModal.innerHTML.includes('Truce Management')) {
+        openModal.remove();
+        if (state.selectedGsId) {
+          showTeacherTruceModal();
+        }
+      }
+    }
+  }, 2000); // Check every 2 seconds
+
+  // Check for updates when tab becomes visible
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden && state.currentRosterId) {
+      console.log('Teacher: Tab became visible, checking for truce updates...');
+      // Trigger immediate check
+      const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+      const rosterIndex = rosters.findIndex(r => r.id === state.currentRosterId);
+      if (rosterIndex !== -1) {
+        state.truces = rosters[rosterIndex].truces || [];
+        state.truceInvitations = rosters[rosterIndex].truceInvitations || [];
+        
+        // Refresh any open truce modals
+        const openModal = document.querySelector('div[style*="position: fixed"]');
+        if (openModal && openModal.innerHTML.includes('Truce Management')) {
+          openModal.remove();
+          if (state.selectedGsId) {
+            showTeacherTruceModal();
+          }
+        }
+      }
+    }
+  });
+
   function showTeacherTruceModal() {
     const selectedStudent = state.roster.find(s => s.gsId === state.selectedGsId);
     
