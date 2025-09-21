@@ -435,6 +435,8 @@
                 <button class="btn btn-link" onclick="showForgotPassword()" style="color: #6f5c91; text-decoration: underline; background: none; border: none; font-size: 0.9rem; margin-top: 0.5rem;">Forgot Password?</button>
                 <br>
                 <button class="btn btn-link" onclick="showStoredPasswords()" style="color: #ff6b6b; text-decoration: underline; background: none; border: none; font-size: 0.8rem; margin-top: 0.5rem;">🔍 Show Stored Passwords (Debug)</button>
+                <br>
+                <button class="btn btn-link" onclick="clearAllStudentData()" style="color: #dc3545; text-decoration: underline; background: none; border: none; font-size: 0.8rem; margin-top: 0.5rem;">🗑️ Clear All Student Data (Debug)</button>
             </div>
         </div>
 
@@ -620,6 +622,15 @@
             alert('STORED STUDENTS:\n\n' + studentList);
         }
 
+        // Temporary function to clear all student data (for debugging only)
+        function clearAllStudentData() {
+            if (confirm('Are you sure you want to clear ALL student data? This cannot be undone!')) {
+                localStorage.removeItem('tornadoStudents');
+                localStorage.removeItem('currentStudent');
+                alert('All student data has been cleared. You can now create fresh accounts.');
+            }
+        }
+
         function resetPassword() {
             const username = document.getElementById('forgotUsername').value.trim();
             const newPassword = document.getElementById('newPassword').value.trim();
@@ -734,6 +745,17 @@
             console.log('  Total students in storage:', students.length);
             console.log('  Students:', students.map(s => ({ username: s.username, password: s.password })));
             
+            // Check each student individually for debugging
+            console.log('  Checking each student:');
+            students.forEach((s, index) => {
+                const usernameMatch = s.username.toLowerCase() === username.toLowerCase();
+                const passwordMatch = s.password === password;
+                console.log(`    Student ${index + 1} (${s.username}):`);
+                console.log(`      Username match: ${usernameMatch} (stored: "${s.username}" vs entered: "${username}")`);
+                console.log(`      Password match: ${passwordMatch} (stored: "${s.password}" vs entered: "${password}")`);
+                console.log(`      Overall match: ${usernameMatch && passwordMatch}`);
+            });
+
             const student = students.find(s => 
                 s.username.toLowerCase() === username.toLowerCase() && 
                 s.password === password
