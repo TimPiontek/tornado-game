@@ -799,7 +799,7 @@
             // Try to create Supabase account first
             try {
                 console.log('🔍 Creating Supabase account...');
-                const studentEmail = `${username}@student.tornado.local`;
+                const studentEmail = `${username}@gmail.com`;
                 
                 const { data, error } = await supabaseClient.auth.signUp({
                     email: studentEmail,
@@ -908,7 +908,7 @@
             try {
                 console.log('🔍 Attempting Supabase login...');
                 const { data, error } = await supabaseClient.auth.signInWithPassword({
-                    email: `${username}@student.tornado.local`, // Use a consistent email format
+                    email: `${username}@gmail.com`, // Use a real email domain
                     password: password
                 });
 
@@ -1310,7 +1310,7 @@
 
             try {
                 console.log('🔍 Creating test Supabase account...');
-                const studentEmail = `${username}@student.tornado.local`;
+                const studentEmail = `${username}@gmail.com`;
                 
                 const { data, error } = await supabaseClient.auth.signUp({
                     email: studentEmail,
