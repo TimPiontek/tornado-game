@@ -1376,10 +1376,11 @@
 
   // Tornado button removed - tornado functionality moved to Student Market
   el("#btnTruces").onclick = () => {
-    // Toggle truces panel visibility
-    const trucesSection = document.querySelector('#truces').closest('.section');
-    const isVisible = trucesSection.style.display !== 'none';
-    trucesSection.style.display = isVisible ? 'none' : 'block';
+    if (!state.selectedGsId) {
+      alert('Please select a student first to manage their truces.');
+      return;
+    }
+    showTeacherTruceModal();
   };
 
   el("#btnReset").onclick = () => {
@@ -2026,6 +2027,301 @@
     console.log('Roster updated from another tab:', e.detail);
     loadRosters(true);
   });
+
+  function showTeacherTruceModal() {
+    const selectedStudent = state.roster.find(s => s.gsId === state.selectedGsId);
+    
+    if (!selectedStudent) {
+      alert('Selected student not found!');
+      return;
+    }
+
+    // Get current truces for this student
+    const currentTruces = state.truces.filter(truce => 
+      truce.student1 === selectedStudent.gsId || truce.student2 === selectedStudent.gsId
+    );
+
+    // Get pending invitations sent to this student
+    const incomingInvitations = state.truceInvitations.filter(inv => 
+      inv.toStudentId === selectedStudent.gsId
+    );
+
+    // Get pending invitations sent by this student
+    const outgoingInvitations = state.truceInvitations.filter(inv => 
+      inv.fromStudentId === selectedStudent.gsId
+    );
+
+    // Get students this student can send truce to (not already in truce, not self, not already invited)
+    const availableStudents = state.roster.filter(student => 
+      student.gsId !== selectedStudent.gsId &&
+      !currentTruces.some(truce => 
+        truce.student1 === student.gsId || truce.student2 === student.gsId
+      ) &&
+      !outgoingInvitations.some(inv => inv.toStudentId === student.gsId) &&
+      currentTruces.length < 3 // Limit to 3 truces
+    );
+
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+      background: rgba(0,0,0,0.8); z-index: 1000; display: flex; 
+      align-items: center; justify-content: center; padding: 20px;
+    `;
+    
+    modal.innerHTML = `
+      <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 12px; 
+                  padding: 24px; max-width: 800px; max-height: 80vh; overflow-y: auto;">
+        <h2 style="margin: 0 0 16px; color: var(--accent);">🤝 Truce Management - ${selectedStudent.name} (Teacher View)</h2>
+        
+        <div style="background: #1e3a8a; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
+          <h4 style="margin: 0 0 8px; color: #60a5fa;">📊 Truce Status</h4>
+          <p style="margin: 4px 0; color: #93c5fd;">Current Truces: ${currentTruces.length}/3</p>
+          <p style="margin: 4px 0; color: #93c5fd;">Pending Invitations: ${incomingInvitations.length}</p>
+          <p style="margin: 4px 0; color: #93c5fd;">Teacher managing truces for: ${selectedStudent.name}</p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+          <div>
+            <h3 style="color: #10b981; margin: 0 0 12px;">📨 Incoming Invitations</h3>
+            ${incomingInvitations.length === 0 ? 
+              '<p style="color: var(--muted); font-style: italic;">No pending invitations</p>' :
+              incomingInvitations.map(inv => {
+                const fromStudent = state.roster.find(s => s.gsId === inv.fromStudentId);
+                return `
+                  <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span>From: ${fromStudent ? fromStudent.name : 'Unknown'}</span>
+                      <div>
+                        <button onclick="respondToTeacherTruce('${inv.id}', true)" style="background: #10b981; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; margin-right: 4px;">Accept</button>
+                        <button onclick="respondToTeacherTruce('${inv.id}', false)" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">Deny</button>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join('')
+            }
+          </div>
+          
+          <div>
+            <h3 style="color: #3b82f6; margin: 0 0 12px;">📤 Outgoing Invitations</h3>
+            ${outgoingInvitations.length === 0 ? 
+              '<p style="color: var(--muted); font-style: italic;">No pending invitations</p>' :
+              outgoingInvitations.map(inv => {
+                const toStudent = state.roster.find(s => s.gsId === inv.toStudentId);
+                return `
+                  <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span>To: ${toStudent ? toStudent.name : 'Unknown'}</span>
+                      <button onclick="cancelTeacherTruceInvitation('${inv.id}')" style="background: #6b7280; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">Cancel</button>
+                    </div>
+                  </div>
+                `;
+              }).join('')
+            }
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <h3 style="color: #8b5cf6; margin: 0 0 12px;">🤝 Current Truces</h3>
+          ${currentTruces.length === 0 ? 
+            '<p style="color: var(--muted); font-style: italic;">No active truces</p>' :
+            currentTruces.map(truce => {
+              const otherStudent = state.roster.find(s => 
+                s.gsId === (truce.student1 === selectedStudent.gsId ? truce.student2 : truce.student1)
+              );
+              return `
+                <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>With: ${otherStudent ? otherStudent.name : 'Unknown'}</span>
+                    <button onclick="endTeacherTruce('${truce.id}')" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">End Truce</button>
+                  </div>
+                </div>
+              `;
+            }).join('')
+          }
+        </div>
+        
+        ${availableStudents.length > 0 && currentTruces.length < 3 ? `
+        <div style="margin-bottom: 16px;">
+          <h3 style="color: #f59e0b; margin: 0 0 12px;">📝 Send New Truce Invitation</h3>
+          <div style="display: grid; grid-template-columns: 1fr auto; gap: 8px;">
+            <select id="teacherTruceTargetSelect" style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
+              <option value="">Select a student...</option>
+              ${availableStudents.map(student => 
+                `<option value="${student.gsId}">${student.name}</option>`
+              ).join('')}
+            </select>
+            <button onclick="sendTeacherTruceInvitation()" style="background: #f59e0b; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Send Invitation</button>
+          </div>
+        </div>
+        ` : currentTruces.length >= 3 ? 
+          '<p style="color: #ef4444; font-style: italic;">This student has reached the maximum of 3 truces</p>' :
+          '<p style="color: var(--muted); font-style: italic;">No students available for truce</p>'
+        }
+
+        <button onclick="this.parentElement.parentElement.remove()" 
+                style="background: var(--accent); color: white; border: none; 
+                       padding: 12px 24px; border-radius: 8px; cursor: pointer; 
+                       font-size: 16px; width: 100%;">
+          Close Truce Manager
+        </button>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+  }
+
+  window.sendTeacherTruceInvitation = function() {
+    const targetSelect = document.getElementById('teacherTruceTargetSelect');
+    const targetStudentId = targetSelect.value;
+    
+    if (!targetStudentId) {
+      alert('Please select a student to send a truce invitation to.');
+      return;
+    }
+    
+    const selectedStudent = state.roster.find(s => s.gsId === state.selectedGsId);
+    
+    if (!selectedStudent) {
+      alert('Selected student not found!');
+      return;
+    }
+    
+    // Check if invitation already exists
+    const existingInvitation = state.truceInvitations.find(inv => 
+      inv.fromStudentId === selectedStudent.gsId && inv.toStudentId === targetStudentId
+    );
+    
+    if (existingInvitation) {
+      alert('A truce invitation has already been sent to this student.');
+      return;
+    }
+    
+    // Create new invitation
+    const invitation = {
+      id: `truce_inv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      fromStudentId: selectedStudent.gsId,
+      toStudentId: targetStudentId,
+      timestamp: new Date().toISOString()
+    };
+    
+    state.truceInvitations.push(invitation);
+    
+    // Save to localStorage
+    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+    const rosterIndex = rosters.findIndex(r => r.id === state.currentRosterId);
+    if (rosterIndex !== -1) {
+      rosters[rosterIndex].truceInvitations = state.truceInvitations;
+      localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+    }
+    
+    alert('Truce invitation sent successfully!');
+    
+    // Refresh modal
+    document.querySelector('div[style*="position: fixed"]').remove();
+    showTeacherTruceModal();
+  }
+
+  window.respondToTeacherTruce = function(invitationId, accept) {
+    const invitation = state.truceInvitations.find(inv => inv.id === invitationId);
+    if (!invitation) {
+      alert('Invitation not found!');
+      return;
+    }
+    
+    const selectedStudent = state.roster.find(s => s.gsId === state.selectedGsId);
+    
+    if (!selectedStudent) {
+      alert('Selected student not found!');
+      return;
+    }
+    
+    if (accept) {
+      // Check if either student already has 3 truces
+      const fromStudent = state.roster.find(s => s.gsId === invitation.fromStudentId);
+      const fromStudentTruces = state.truces.filter(truce => 
+        truce.student1 === fromStudent.gsId || truce.student2 === fromStudent.gsId
+      );
+      const toStudentTruces = state.truces.filter(truce => 
+        truce.student1 === selectedStudent.gsId || truce.student2 === selectedStudent.gsId
+      );
+      
+      if (fromStudentTruces.length >= 3 || toStudentTruces.length >= 3) {
+        alert('One of the students has reached the maximum of 3 truces.');
+        // Remove invitation
+        state.truceInvitations = state.truceInvitations.filter(inv => inv.id !== invitationId);
+        return;
+      }
+      
+      // Create truce
+      const truce = {
+        id: `truce_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        student1: invitation.fromStudentId,
+        student2: invitation.toStudentId,
+        timestamp: new Date().toISOString()
+      };
+      
+      state.truces.push(truce);
+    }
+    
+    // Remove invitation
+    state.truceInvitations = state.truceInvitations.filter(inv => inv.id !== invitationId);
+    
+    // Save to localStorage
+    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+    const rosterIndex = rosters.findIndex(r => r.id === state.currentRosterId);
+    if (rosterIndex !== -1) {
+      rosters[rosterIndex].truces = state.truces;
+      rosters[rosterIndex].truceInvitations = state.truceInvitations;
+      localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+    }
+    
+    alert(accept ? 'Truce accepted!' : 'Truce invitation declined.');
+    
+    // Refresh modal
+    document.querySelector('div[style*="position: fixed"]').remove();
+    showTeacherTruceModal();
+  }
+
+  window.cancelTeacherTruceInvitation = function(invitationId) {
+    state.truceInvitations = state.truceInvitations.filter(inv => inv.id !== invitationId);
+    
+    // Save to localStorage
+    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+    const rosterIndex = rosters.findIndex(r => r.id === state.currentRosterId);
+    if (rosterIndex !== -1) {
+      rosters[rosterIndex].truceInvitations = state.truceInvitations;
+      localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+    }
+    
+    alert('Truce invitation cancelled.');
+    
+    // Refresh modal
+    document.querySelector('div[style*="position: fixed"]').remove();
+    showTeacherTruceModal();
+  }
+
+  window.endTeacherTruce = function(truceId) {
+    if (!confirm('Are you sure you want to end this truce?')) {
+      return;
+    }
+    
+    state.truces = state.truces.filter(truce => truce.id !== truceId);
+    
+    // Save to localStorage
+    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+    const rosterIndex = rosters.findIndex(r => r.id === state.currentRosterId);
+    if (rosterIndex !== -1) {
+      rosters[rosterIndex].truces = state.truces;
+      localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+    }
+    
+    alert('Truce ended.');
+    
+    // Refresh modal
+    document.querySelector('div[style*="position: fixed"]').remove();
+    showTeacherTruceModal();
+  }
 </script>
 </body>
 </html>
