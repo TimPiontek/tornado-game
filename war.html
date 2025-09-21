@@ -1057,15 +1057,21 @@
                        align-items: center;
                        justify-content: center;
                        min-height: 50px;
-                       padding: 4px;
-                       font-size: 12px;
+                       padding: 2px;
+                       font-size: 10px;
                        text-align: center;
                        transition: all 0.2s ease;"
                 onclick="handleTileClick('${tile.id}')"
                 title="${owner ? `Owned by ${ownerName}${characterName ? ` (${characterName})` : ''}` : `Click to buy ${territoryName || 'territory'} for ${displayCost} points`}${isAttackable && !isOwnedBySelected ? ' (Attackable!)' : ''}">
-                ${owner ? `<div style="font-weight: 600; font-size: 11px; line-height: 1.1;">${ownerName}${characterName ? ` (${characterName})` : ''}</div>` : `<div style="font-weight: 600; font-size: 11px; line-height: 1.1;">${displayName}</div>`}
-                ${owner ? `<div style="font-size: 8px; color: #ccc; margin-top: 2px; line-height: 1.0;">${displayName}</div>` : ''}
-                <div style="font-size: 9px; margin-top: 2px;">${castleText || costText}</div>
+                ${owner ? `
+                  <div style="font-weight: bold; font-size: 10px; line-height: 1.0; color: #ffd700;">${characterName || 'Character'}</div>
+                  <div style="font-size: 8px; line-height: 1.0; margin-top: 1px;">${ownerName}</div>
+                  <div style="font-size: 7px; color: #ccc; line-height: 1.0; margin-top: 1px;">${displayName}</div>
+                ` : `
+                  <div style="font-weight: 600; font-size: 10px; line-height: 1.0;">${displayName}</div>
+                  <div style="font-size: 8px; line-height: 1.0; margin-top: 2px;">${costText}</div>
+                `}
+                <div style="font-size: 8px; margin-top: 1px;">${castleText || ''}</div>
               </div>`;
     }).join('');
     
@@ -1502,6 +1508,41 @@
       return true; // Initial placement - can claim any unowned tile
     }
     
+    // Check if target tile is owned by a teammate (same faction) - teammates cannot attack each other
+    if (targetTile.owner_game_student_id && state.scenario) {
+      const attacker = state.roster.find(r => r.gsId === studentGsId);
+      const defender = state.roster.find(r => r.gsId === targetTile.owner_game_student_id);
+      
+      if (attacker && defender && state.scenario.manualRoleAssignments) {
+        const attackerCharacter = state.scenario.manualRoleAssignments[attacker.gsId];
+        const defenderCharacter = state.scenario.manualRoleAssignments[defender.gsId];
+        
+        // Find which faction each character belongs to
+        let attackerFaction = null;
+        let defenderFaction = null;
+        
+        Object.entries(state.scenario.factions).forEach(([factionId, faction]) => {
+          if (faction.characters) {
+            faction.characters.forEach(char => {
+              if (char.name === attackerCharacter) attackerFaction = factionId;
+              if (char.name === defenderCharacter) defenderFaction = factionId;
+            });
+          }
+          if (faction.generalRoles) {
+            faction.generalRoles.forEach(role => {
+              if (role.name === attackerCharacter) attackerFaction = factionId;
+              if (role.name === defenderCharacter) defenderFaction = factionId;
+            });
+          }
+        });
+        
+        // If both characters are from the same faction, they cannot attack each other
+        if (attackerFaction && defenderFaction && attackerFaction === defenderFaction) {
+          return false;
+        }
+      }
+    }
+    
     // Check if target tile is adjacent to any of student's territories
     for (const studentTile of studentTiles) {
       if (areTilesAdjacent(studentTile, targetTile)) {
@@ -1638,6 +1679,36 @@
     } else {
       // Enemy tile - attack (check adjacency)
       if (!canStudentAttackTile(selectedStudent.gsId, tile)) {
+        const defender = state.roster.find(r => r.gsId === tile.owner_game_student_id);
+        if (defender && state.scenario && state.scenario.manualRoleAssignments) {
+          const attackerCharacter = state.scenario.manualRoleAssignments[selectedStudent.gsId];
+          const defenderCharacter = state.scenario.manualRoleAssignments[defender.gsId];
+          
+          // Check if they're teammates
+          let attackerFaction = null;
+          let defenderFaction = null;
+          
+          Object.entries(state.scenario.factions).forEach(([factionId, faction]) => {
+            if (faction.characters) {
+              faction.characters.forEach(char => {
+                if (char.name === attackerCharacter) attackerFaction = factionId;
+                if (char.name === defenderCharacter) defenderFaction = factionId;
+              });
+            }
+            if (faction.generalRoles) {
+              faction.generalRoles.forEach(role => {
+                if (role.name === attackerCharacter) attackerFaction = factionId;
+                if (role.name === defenderCharacter) defenderFaction = factionId;
+              });
+            }
+          });
+          
+          if (attackerFaction && defenderFaction && attackerFaction === defenderFaction) {
+            alert(`Cannot attack teammate! ${defender.name} (${defenderCharacter}) is on your side. You can only attack enemies from other factions.`);
+            return;
+          }
+        }
+        
         alert(`Cannot attack this territory! You can only attack territories that are adjacent to your own territories or your truce partners' territories.`);
         return;
       }
