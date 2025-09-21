@@ -106,6 +106,312 @@ const SCENARIOS = {
               "I always consider the settlement of America as the opening of a grand scheme."
             ],
             description: 'Defense lawyer for British soldiers and advocate for independence.'
+          },
+          {
+            name: 'Alexander Hamilton',
+            role: 'Soldier & Statesman',
+            startingCoins: 85,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'ambitious',
+            quotes: [
+              "A national debt, if it is not excessive, will be to us a national blessing.",
+              "The sacred rights of mankind are not to be rummaged for among old parchments.",
+              "I will never be satisfied with mediocrity.",
+              "The voice of the people has been said to be the voice of God.",
+              "Those who stand for nothing fall for anything."
+            ],
+            description: 'Founding Father, soldier, and first Secretary of the Treasury.'
+          },
+          {
+            name: 'John Hancock',
+            role: 'Merchant & Politician',
+            startingCoins: 90,
+            startingWeapons: ['wealth'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'wealthy',
+            quotes: [
+              "There, I guess King George will be able to read that!",
+              "We must be unanimous; there must be no pulling different ways.",
+              "The cause of America is the cause of all mankind.",
+              "We will not be taxed without representation!",
+              "Liberty is worth fighting for!"
+            ],
+            description: 'Wealthy merchant who signed the Declaration of Independence with a large signature.'
+          },
+          {
+            name: 'Samuel Adams',
+            role: 'Revolutionary Leader',
+            startingCoins: 70,
+            startingWeapons: ['words'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'radical',
+            quotes: [
+              "The liberties of our country, the freedom of our civil constitution, are worth defending.",
+              "It does not require a majority to prevail, but rather an irate, tireless minority.",
+              "We cannot make events. Our business is wisely to improve them.",
+              "The natural liberty of man is to be free from any superior power on Earth.",
+              "No taxation without representation!"
+            ],
+            description: 'Cousin of John Adams and leader of the Sons of Liberty.'
+          },
+          {
+            name: 'Patrick Henry',
+            role: 'Orator',
+            startingCoins: 75,
+            startingWeapons: ['words'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'passionate',
+            quotes: [
+              "Give me liberty, or give me death!",
+              "I know not what course others may take; but as for me, give me liberty or give me death!",
+              "The battle, sir, is not to the strong alone; it is to the vigilant, the active, the brave.",
+              "We are not weak if we make a proper use of those means which the God of nature hath placed in our power.",
+              "Is life so dear, or peace so sweet, as to be purchased at the price of chains and slavery?"
+            ],
+            description: 'Virginia lawyer and orator known for his passionate speeches.'
+          },
+          {
+            name: 'Marquis de Lafayette',
+            role: 'French General',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'idealistic',
+            quotes: [
+              "Humanity has won its battle. Liberty now has a country.",
+              "I was never able to resist the temptation of a good fight.",
+              "The welfare of America is intimately connected with the welfare of all mankind.",
+              "I am here to learn, not to teach.",
+              "The cause of America is the cause of all mankind."
+            ],
+            description: 'French aristocrat who fought for American independence.'
+          },
+          {
+            name: 'Baron von Steuben',
+            role: 'Military Instructor',
+            startingCoins: 75,
+            startingWeapons: ['discipline'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'disciplined',
+            quotes: [
+              "The American soldier, properly trained, is equal to any in the world.",
+              "Discipline is the soul of an army.",
+              "I will make soldiers of these farmers.",
+              "The Continental Army will be the finest in the world.",
+              "Training makes the difference between victory and defeat."
+            ],
+            description: 'Prussian officer who trained the Continental Army.'
+          },
+          {
+            name: 'Nathaniel Greene',
+            role: 'General',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'strategic',
+            quotes: [
+              "We fight, get beat, rise, and fight again.",
+              "I am determined to defend every inch of ground.",
+              "The enemy will find us ready.",
+              "We will not give up the cause.",
+              "Victory belongs to the persistent."
+            ],
+            description: 'Continental Army general known for his strategic retreats.'
+          },
+          {
+            name: 'Henry Knox',
+            role: 'Artillery Commander',
+            startingCoins: 70,
+            startingWeapons: ['cannon'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "We will drag these cannons to Boston!",
+              "Artillery is the god of war.",
+              "We will not be stopped by winter.",
+              "The British will hear our guns.",
+              "We will fight with everything we have."
+            ],
+            description: 'Continental Army officer who transported cannons from Fort Ticonderoga.'
+          },
+          {
+            name: 'Benedict Arnold',
+            role: 'General (Early Patriot)',
+            startingCoins: 85,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'ambitious',
+            quotes: [
+              "We will take Quebec!",
+              "I will prove my worth to Congress.",
+              "The British will not defeat us.",
+              "We will fight for our honor.",
+              "Victory will be ours."
+            ],
+            description: 'Initially a hero of the Revolution, later became a traitor.'
+          },
+          {
+            name: 'Ethan Allen',
+            role: 'Vermont Militia Leader',
+            startingCoins: 65,
+            startingWeapons: ['musket'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'bold',
+            quotes: [
+              "Come out, you old rat!",
+              "We will take this fort!",
+              "The Green Mountain Boys will not be denied!",
+              "We fight for Vermont!",
+              "We will not surrender!"
+            ],
+            description: 'Leader of the Green Mountain Boys who captured Fort Ticonderoga.'
+          },
+          {
+            name: 'John Paul Jones',
+            role: 'Naval Commander',
+            startingCoins: 75,
+            startingWeapons: ['ship'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "I have not yet begun to fight!",
+              "We will take the fight to the British at sea.",
+              "The Bonhomme Richard will not surrender!",
+              "We will show them American courage.",
+              "Victory or death!"
+            ],
+            description: 'Continental Navy captain known for his naval victories.'
+          },
+          {
+            name: 'Francis Marion',
+            role: 'Swamp Fox',
+            startingCoins: 70,
+            startingWeapons: ['guerilla tactics'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'elusive',
+            quotes: [
+              "We will strike from the swamps.",
+              "The British will never catch us.",
+              "We fight on our own terms.",
+              "The Swamp Fox will not be tamed.",
+              "We will harass them until they leave."
+            ],
+            description: 'South Carolina militia leader known for guerilla warfare.'
+          },
+          {
+            name: 'Daniel Morgan',
+            role: 'Rifleman Commander',
+            startingCoins: 75,
+            startingWeapons: ['rifle'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'tactical',
+            quotes: [
+              "We will use our rifles wisely.",
+              "The British will learn to fear our marksmanship.",
+              "We will fight from cover.",
+              "Every shot must count.",
+              "We will not waste ammunition."
+            ],
+            description: 'Continental Army officer known for his riflemen.'
+          },
+          {
+            name: 'John Stark',
+            role: 'New Hampshire General',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'defiant',
+            quotes: [
+              "Live free or die!",
+              "We will not be conquered.",
+              "New Hampshire stands with the cause.",
+              "We will fight for our freedom.",
+              "Death before dishonor!"
+            ],
+            description: 'New Hampshire general who led troops at the Battle of Bennington.'
+          },
+          {
+            name: 'Horatio Gates',
+            role: 'General',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'cautious',
+            quotes: [
+              "We must choose our battles carefully.",
+              "The Continental Army will be preserved.",
+              "We will not risk everything.",
+              "Strategy over bravery.",
+              "We will fight another day."
+            ],
+            description: 'Continental Army general who won at Saratoga but was cautious.'
+          },
+          {
+            name: 'Israel Putnam',
+            role: 'Connecticut General',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "Don't fire until you see the whites of their eyes!",
+              "We will hold this position.",
+              "The British will not pass.",
+              "We fight for Connecticut.",
+              "We will not retreat!"
+            ],
+            description: 'Connecticut general who fought at Bunker Hill.'
+          },
+          {
+            name: 'William Prescott',
+            role: 'Massachusetts Colonel',
+            startingCoins: 65,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "We will defend this hill.",
+              "The British will not take Bunker Hill.",
+              "We fight for Massachusetts.",
+              "We will not surrender.",
+              "Every man must do his duty."
+            ],
+            description: 'Massachusetts colonel who commanded at Bunker Hill.'
+          },
+          {
+            name: 'Joseph Warren',
+            role: 'Physician & Patriot',
+            startingCoins: 60,
+            startingWeapons: ['medical knowledge'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'dedicated',
+            quotes: [
+              "We will heal the wounded.",
+              "The cause needs every man.",
+              "We will not abandon our principles.",
+              "Liberty is worth dying for.",
+              "We will fight for our beliefs."
+            ],
+            description: 'Physician and patriot who died at Bunker Hill.'
           }
         ],
         generalRoles: [
@@ -211,6 +517,91 @@ const SCENARIOS = {
               "I deserve better recognition."
             ],
             description: 'American general who defected to the British side.'
+          },
+          {
+            name: 'General Burgoyne',
+            role: 'General',
+            startingCoins: 105,
+            startingWeapons: ['sword'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'confident',
+            quotes: [
+              "We will march from Canada to New York.",
+              "The Americans cannot stop us.",
+              "We will divide and conquer.",
+              "Victory will be ours.",
+              "The British Empire will prevail."
+            ],
+            description: 'British general who led the Saratoga campaign.'
+          },
+          {
+            name: 'General Clinton',
+            role: 'Commander-in-Chief',
+            startingCoins: 115,
+            startingWeapons: ['sword'],
+            startingMercenaries: 4,
+            startingCastles: 1,
+            personality: 'strategic',
+            quotes: [
+              "We will hold New York.",
+              "The Americans will not take our strongholds.",
+              "We will fight a defensive war.",
+              "The Royal Navy will support us.",
+              "We will outlast the rebels."
+            ],
+            description: 'British Commander-in-Chief in North America.'
+          },
+          {
+            name: 'General Gage',
+            role: 'Military Governor',
+            startingCoins: 100,
+            startingWeapons: ['sword'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'authoritarian',
+            quotes: [
+              "We will restore order to Boston.",
+              "The rebels will be crushed.",
+              "We will show them British might.",
+              "The colonies will submit.",
+              "We will not tolerate rebellion."
+            ],
+            description: 'British general and governor of Massachusetts.'
+          },
+          {
+            name: 'General Tarleton',
+            role: 'Cavalry Commander',
+            startingCoins: 95,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'aggressive',
+            quotes: [
+              "We will hunt down the rebels.",
+              "No quarter for traitors.",
+              "We will show them no mercy.",
+              "The cavalry will crush them.",
+              "We will not be stopped."
+            ],
+            description: 'British cavalry officer known for his aggressive tactics.'
+          },
+          {
+            name: 'Admiral Graves',
+            role: 'Naval Commander',
+            startingCoins: 100,
+            startingWeapons: ['naval cannon'],
+            startingMercenaries: 3,
+            startingCastles: 0,
+            personality: 'naval',
+            quotes: [
+              "The Royal Navy will blockade them.",
+              "We will cut off their supplies.",
+              "Sea power will win this war.",
+              "The Americans cannot match us at sea.",
+              "We will control the waters."
+            ],
+            description: 'British admiral who commanded naval forces.'
           }
         ],
         generalRoles: [
@@ -332,6 +723,244 @@ const SCENARIOS = {
               "The life of the nation is secure only while the nation is honest."
             ],
             description: 'Former slave who became a leading abolitionist and orator.'
+          },
+          {
+            name: 'George McClellan',
+            role: 'General',
+            startingCoins: 90,
+            startingWeapons: ['sword'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'cautious',
+            quotes: [
+              "We must be careful not to overextend ourselves.",
+              "The Army of the Potomac will be ready when ready.",
+              "We will not risk everything on one battle.",
+              "Preparation is the key to victory.",
+              "We will fight when we are prepared."
+            ],
+            description: 'Union general known for his cautious approach and training abilities.'
+          },
+          {
+            name: 'George Meade',
+            role: 'General',
+            startingCoins: 85,
+            startingWeapons: ['sword'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'defensive',
+            quotes: [
+              "We will hold this position.",
+              "The Army of the Potomac will not retreat.",
+              "We will defend Pennsylvania.",
+              "Gettysburg will be our victory.",
+              "We will not give ground."
+            ],
+            description: 'Union general who commanded at the Battle of Gettysburg.'
+          },
+          {
+            name: 'Philip Sheridan',
+            role: 'Cavalry Commander',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'aggressive',
+            quotes: [
+              "We will ride them down.",
+              "The cavalry will not be stopped.",
+              "We will destroy their supplies.",
+              "Speed and surprise will win.",
+              "We will not let them escape."
+            ],
+            description: 'Union cavalry officer known for his aggressive tactics.'
+          },
+          {
+            name: 'Winfield Scott Hancock',
+            role: 'General',
+            startingCoins: 85,
+            startingWeapons: ['sword'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'brave',
+            quotes: [
+              "We will hold Cemetery Hill.",
+              "The Second Corps will not break.",
+              "We will fight to the last man.",
+              "Gettysburg will be defended.",
+              "We will not surrender."
+            ],
+            description: 'Union general who commanded the Second Corps at Gettysburg.'
+          },
+          {
+            name: 'Joshua Chamberlain',
+            role: 'Colonel',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'heroic',
+            quotes: [
+              "We will hold Little Round Top.",
+              "The 20th Maine will not retreat.",
+              "We will fight with bayonets.",
+              "We will not give up this hill.",
+              "Victory or death!"
+            ],
+            description: 'Union colonel who held Little Round Top at Gettysburg.'
+          },
+          {
+            name: 'John Reynolds',
+            role: 'General',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 3,
+            startingCastles: 0,
+            personality: 'bold',
+            quotes: [
+              "Forward, men! Forward!",
+              "We will engage the enemy.",
+              "The First Corps will lead the way.",
+              "We will not hesitate.",
+              "We will fight now."
+            ],
+            description: 'Union general who was killed at Gettysburg.'
+          },
+          {
+            name: 'Ambrose Burnside',
+            role: 'General',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'unfortunate',
+            quotes: [
+              "We will cross the Rappahannock.",
+              "The Army of the Potomac will advance.",
+              "We will not be stopped by rivers.",
+              "We will fight at Fredericksburg.",
+              "We will not retreat."
+            ],
+            description: 'Union general known for his distinctive sideburns and military failures.'
+          },
+          {
+            name: 'Joseph Hooker',
+            role: 'General',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 3,
+            startingCastles: 0,
+            personality: 'confident',
+            quotes: [
+              "We will outflank Lee.",
+              "The Army of the Potomac will win.",
+              "We will not be defeated.",
+              "Chancellorsville will be ours.",
+              "We will fight with confidence."
+            ],
+            description: 'Union general who commanded at Chancellorsville.'
+          },
+          {
+            name: 'John Pope',
+            role: 'General',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'aggressive',
+            quotes: [
+              "We will attack from the west.",
+              "The Army of Virginia will fight.",
+              "We will not wait for the enemy.",
+              "We will take the offensive.",
+              "We will not be defensive."
+            ],
+            description: 'Union general who commanded the Army of Virginia.'
+          },
+          {
+            name: 'Benjamin Butler',
+            role: 'General',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'political',
+            quotes: [
+              "We will occupy New Orleans.",
+              "The Union will be restored.",
+              "We will not tolerate rebellion.",
+              "We will fight for the Constitution.",
+              "We will not compromise."
+            ],
+            description: 'Union general and politician who occupied New Orleans.'
+          },
+          {
+            name: 'Nathaniel Banks',
+            role: 'General',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'political',
+            quotes: [
+              "We will fight for the Union.",
+              "The Army of the Gulf will advance.",
+              "We will not be stopped.",
+              "We will fight for our country.",
+              "We will not surrender."
+            ],
+            description: 'Union general and politician who commanded the Army of the Gulf.'
+          },
+          {
+            name: 'John McClernand',
+            role: 'General',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'ambitious',
+            quotes: [
+              "We will take Vicksburg.",
+              "The Army of the Mississippi will fight.",
+              "We will not be denied.",
+              "We will fight for glory.",
+              "We will not retreat."
+            ],
+            description: 'Union general who commanded the Army of the Mississippi.'
+          },
+          {
+            name: 'William Rosecrans',
+            role: 'General',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 3,
+            startingCastles: 0,
+            personality: 'methodical',
+            quotes: [
+              "We will plan our moves carefully.",
+              "The Army of the Cumberland will advance.",
+              "We will not rush into battle.",
+              "We will fight with strategy.",
+              "We will not be reckless."
+            ],
+            description: 'Union general who commanded the Army of the Cumberland.'
+          },
+          {
+            name: 'Ulysses S. Grant Jr.',
+            role: 'Staff Officer',
+            startingCoins: 60,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "We will serve the Union.",
+              "The staff will support our generals.",
+              "We will not fail in our duty.",
+              "We will fight for our fathers.",
+              "We will not dishonor our name."
+            ],
+            description: 'Son of General Grant who served as a staff officer.'
           }
         ]
       },
@@ -432,6 +1061,91 @@ const SCENARIOS = {
               "I am a soldier, not a gentleman."
             ],
             description: 'Confederate cavalry commander known for his aggressive tactics.'
+          },
+          {
+            name: 'James Longstreet',
+            role: 'General',
+            startingCoins: 95,
+            startingWeapons: ['sword'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'defensive',
+            quotes: [
+              "We will hold this position.",
+              "The Army of Northern Virginia will not retreat.",
+              "We will fight defensively.",
+              "We will not attack unless necessary.",
+              "We will preserve our strength."
+            ],
+            description: 'Confederate general known for his defensive tactics.'
+          },
+          {
+            name: 'A.P. Hill',
+            role: 'General',
+            startingCoins: 85,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'aggressive',
+            quotes: [
+              "We will attack the enemy.",
+              "The Light Division will lead the charge.",
+              "We will not wait for orders.",
+              "We will fight with speed.",
+              "We will not be stopped."
+            ],
+            description: 'Confederate general who commanded the Light Division.'
+          },
+          {
+            name: 'Richard Ewell',
+            role: 'General',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'cautious',
+            quotes: [
+              "We must be careful.",
+              "The Second Corps will advance cautiously.",
+              "We will not rush into battle.",
+              "We will fight when ready.",
+              "We will not be reckless."
+            ],
+            description: 'Confederate general who commanded the Second Corps.'
+          },
+          {
+            name: 'Jubal Early',
+            role: 'General',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'bold',
+            quotes: [
+              "We will raid the North.",
+              "The Confederacy will not be defeated.",
+              "We will take the war to them.",
+              "We will not give up.",
+              "We will fight to the end."
+            ],
+            description: 'Confederate general who led raids into the North.'
+          },
+          {
+            name: 'John Bell Hood',
+            role: 'General',
+            startingCoins: 85,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'aggressive',
+            quotes: [
+              "We will attack with everything.",
+              "The Army of Tennessee will fight.",
+              "We will not retreat.",
+              "We will fight for our cause.",
+              "We will not surrender."
+            ],
+            description: 'Confederate general who commanded the Army of Tennessee.'
           }
         ]
       }
@@ -533,6 +1247,465 @@ const SCENARIOS = {
               "I am Augustus, the revered one."
             ],
             description: 'Caesar heir who became Augustus.'
+          },
+          {
+            name: 'Lepidus',
+            role: 'Triumvir',
+            startingCoins: 90,
+            startingWeapons: ['legion'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'weak',
+            quotes: [
+              "I am part of the triumvirate.",
+              "Caesar's will must be honored.",
+              "I serve the Republic.",
+              "The people need stability.",
+              "I will work harder."
+            ],
+            description: 'Third member of the Second Triumvirate with Antony and Octavian.'
+          },
+          {
+            name: 'Calpurnia',
+            role: 'Wife',
+            startingCoins: 70,
+            startingWeapons: ['intuition'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'protective',
+            quotes: [
+              "Caesar, I have had a terrible dream.",
+              "Do not go to the Senate today.",
+              "I fear for your safety.",
+              "The omens are bad.",
+              "Stay home with me."
+            ],
+            description: 'Caesar wife who warns him of danger through dreams.'
+          },
+          {
+            name: 'Servilia',
+            role: 'Mistress',
+            startingCoins: 60,
+            startingWeapons: ['charm'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'influential',
+            quotes: [
+              "Caesar loves me still.",
+              "I have influence in Rome.",
+              "My son Brutus is conflicted.",
+              "Love conquers all.",
+              "I will work harder."
+            ],
+            description: 'Caesar former mistress and mother of Brutus.'
+          },
+          {
+            name: 'Lucius',
+            role: 'Servant',
+            startingCoins: 40,
+            startingWeapons: ['loyalty'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'devoted',
+            quotes: [
+              "I serve Caesar faithfully.",
+              "Master, your toga is ready.",
+              "I will work harder.",
+              "Caesar is like a father to me.",
+              "I am always at your service."
+            ],
+            description: 'Caesar loyal servant and confidant.'
+          },
+          {
+            name: 'Artemidorus',
+            role: 'Teacher',
+            startingCoins: 50,
+            startingWeapons: ['warning'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'wise',
+            quotes: [
+              "Caesar, read this warning.",
+              "I know of the conspiracy.",
+              "Your life is in danger.",
+              "Trust no one today.",
+              "I will work harder."
+            ],
+            description: 'Teacher who tries to warn Caesar of the assassination plot.'
+          },
+          {
+            name: 'Popilius',
+            role: 'Senator',
+            startingCoins: 65,
+            startingWeapons: ['senate'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cautious',
+            quotes: [
+              "I wish your enterprise may thrive.",
+              "The Senate is dangerous today.",
+              "I will work harder.",
+              "Caesar should be careful.",
+              "The Republic is at stake."
+            ],
+            description: 'Senator who hints at knowledge of the conspiracy.'
+          },
+          {
+            name: 'Metellus Cimber',
+            role: 'Conspirator',
+            startingCoins: 75,
+            startingWeapons: ['petition'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'deceitful',
+            quotes: [
+              "Caesar, grant my brother's pardon.",
+              "I kneel before you.",
+              "Show mercy to my family.",
+              "I will work harder.",
+              "The Republic needs your mercy."
+            ],
+            description: 'Conspirator who distracts Caesar before the assassination.'
+          },
+          {
+            name: 'Cinna',
+            role: 'Poet',
+            startingCoins: 45,
+            startingWeapons: ['verses'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'artistic',
+            quotes: [
+              "I am Cinna the poet.",
+              "I have nothing to do with the conspiracy.",
+              "I will work harder.",
+              "Poetry is my weapon.",
+              "I am innocent."
+            ],
+            description: 'Poet mistaken for conspirator Cinna and killed by mob.'
+          },
+          {
+            name: 'Casca',
+            role: 'Conspirator',
+            startingCoins: 80,
+            startingWeapons: ['dagger'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'aggressive',
+            quotes: [
+              "Speak, hands, for me!",
+              "I strike first.",
+              "Caesar must die.",
+              "I will work harder.",
+              "The Republic will be free."
+            ],
+            description: 'Conspirator who strikes the first blow against Caesar.'
+          },
+          {
+            name: 'Decius Brutus',
+            role: 'Conspirator',
+            startingCoins: 85,
+            startingWeapons: ['persuasion'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'persuasive',
+            quotes: [
+              "Caesar, the Senate awaits you.",
+              "Your dream was misinterpreted.",
+              "Rome needs your leadership.",
+              "I will work harder.",
+              "The Republic depends on you."
+            ],
+            description: 'Conspirator who convinces Caesar to go to the Senate.'
+          },
+          {
+            name: 'Trebonius',
+            role: 'Conspirator',
+            startingCoins: 70,
+            startingWeapons: ['distraction'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cunning',
+            quotes: [
+              "Antony, come with me.",
+              "I will keep him occupied.",
+              "The deed must be done.",
+              "I will work harder.",
+              "Caesar must fall."
+            ],
+            description: 'Conspirator who distracts Antony during the assassination.'
+          },
+          {
+            name: 'Ligarius',
+            role: 'Conspirator',
+            startingCoins: 60,
+            startingWeapons: ['dedication'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'devoted',
+            quotes: [
+              "I am sick, but I will come.",
+              "Nothing can stop me.",
+              "The Republic needs me.",
+              "I will work harder.",
+              "Caesar must be stopped."
+            ],
+            description: 'Conspirator who joins despite being ill.'
+          },
+          {
+            name: 'Portia',
+            role: 'Wife',
+            startingCoins: 55,
+            startingWeapons: ['anxiety'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'worried',
+            quotes: [
+              "Brutus, what troubles you?",
+              "I am your wife, tell me.",
+              "Something is wrong.",
+              "I will work harder.",
+              "I share your burden."
+            ],
+            description: 'Brutus wife who senses his inner conflict.'
+          },
+          {
+            name: 'Lucius',
+            role: 'Servant',
+            startingCoins: 35,
+            startingWeapons: ['music'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'innocent',
+            quotes: [
+              "Master, I will play for you.",
+              "Music soothes the soul.",
+              "I will work harder.",
+              "I am here to serve.",
+              "The night is long."
+            ],
+            description: 'Brutus young servant who plays music for him.'
+          },
+          {
+            name: 'Varro',
+            role: 'Servant',
+            startingCoins: 30,
+            startingWeapons: ['sleep'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'sleepy',
+            quotes: [
+              "Master, I am tired.",
+              "May I sleep now?",
+              "I will work harder.",
+              "The night is late.",
+              "I serve you faithfully."
+            ],
+            description: 'Brutus servant who falls asleep on duty.'
+          },
+          {
+            name: 'Clitus',
+            role: 'Servant',
+            startingCoins: 40,
+            startingWeapons: ['loyalty'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'faithful',
+            quotes: [
+              "Master, I will not leave you.",
+              "I am your faithful servant.",
+              "I will work harder.",
+              "I will not abandon you.",
+              "Death is better than betrayal."
+            ],
+            description: 'Brutus loyal servant who refuses to help him die.'
+          },
+          {
+            name: 'Dardanius',
+            role: 'Servant',
+            startingCoins: 35,
+            startingWeapons: ['refusal'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "Master, I cannot do it.",
+              "I love you too much.",
+              "I will work harder.",
+              "I will not harm you.",
+              "You are like a father to me."
+            ],
+            description: 'Brutus servant who refuses to help him commit suicide.'
+          },
+          {
+            name: 'Volumnius',
+            role: 'Friend',
+            startingCoins: 50,
+            startingWeapons: ['friendship'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "Brutus, my friend.",
+              "I will not leave you.",
+              "I will work harder.",
+              "We face this together.",
+              "Friendship is stronger than death."
+            ],
+            description: 'Brutus close friend who stays with him until the end.'
+          },
+          {
+            name: 'Strato',
+            role: 'Servant',
+            startingCoins: 45,
+            startingWeapons: ['sword'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "Master, I will help you.",
+              "I understand your choice.",
+              "I will work harder.",
+              "I will hold the sword.",
+              "Death is better than capture."
+            ],
+            description: 'Brutus servant who helps him commit suicide.'
+          },
+          {
+            name: 'Messala',
+            role: 'Officer',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'military',
+            quotes: [
+              "Brutus, the enemy approaches.",
+              "We must prepare for battle.",
+              "I will work harder.",
+              "The Republic needs us.",
+              "Victory or death."
+            ],
+            description: 'Brutus military officer and friend.'
+          },
+          {
+            name: 'Titinius',
+            role: 'Officer',
+            startingCoins: 65,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "Cassius, I will scout ahead.",
+              "I will return with news.",
+              "I will work harder.",
+              "The battle is not lost.",
+              "I am your faithful officer."
+            ],
+            description: 'Cassius loyal officer who scouts the battlefield.'
+          },
+          {
+            name: 'Pindarus',
+            role: 'Servant',
+            startingCoins: 30,
+            startingWeapons: ['eyes'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'observant',
+            quotes: [
+              "Master, I see Titinius captured.",
+              "The enemy has him.",
+              "I will work harder.",
+              "I report what I see.",
+              "I am your eyes."
+            ],
+            description: 'Cassius servant who misreports Titinius fate.'
+          },
+          {
+            name: 'Lucilius',
+            role: 'Officer',
+            startingCoins: 60,
+            startingWeapons: ['deception'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "I am Brutus!",
+              "Take me instead.",
+              "I will work harder.",
+              "I protect my general.",
+              "Death is better than capture."
+            ],
+            description: 'Brutus officer who pretends to be him to protect him.'
+          },
+          {
+            name: 'Young Cato',
+            role: 'Soldier',
+            startingCoins: 55,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'patriotic',
+            quotes: [
+              "I am Cato's son!",
+              "The Republic lives!",
+              "I will work harder.",
+              "I fight for freedom.",
+              "Death before dishonor."
+            ],
+            description: 'Cato son who fights bravely for the Republic.'
+          },
+          {
+            name: 'Claudius',
+            role: 'Soldier',
+            startingCoins: 40,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cowardly',
+            quotes: [
+              "I am afraid.",
+              "The battle is lost.",
+              "I will work harder.",
+              "I want to live.",
+              "I will not fight."
+            ],
+            description: 'Cowardly soldier who flees from battle.'
+          },
+          {
+            name: 'Flavius',
+            role: 'Tribune',
+            startingCoins: 50,
+            startingWeapons: ['authority'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'authoritarian',
+            quotes: [
+              "Remove Caesar's decorations.",
+              "The people must not celebrate.",
+              "I will work harder.",
+              "I enforce the law.",
+              "Order must be maintained."
+            ],
+            description: 'Tribune who removes Caesar decorations from statues.'
+          },
+          {
+            name: 'Marullus',
+            role: 'Tribune',
+            startingCoins: 50,
+            startingWeapons: ['authority'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'strict',
+            quotes: [
+              "You blocks, you stones!",
+              "Caesar is not a god.",
+              "I will work harder.",
+              "I enforce the law.",
+              "The Republic must be respected."
+            ],
+            description: 'Tribune who scolds the people for celebrating Caesar.'
           }
         ]
       },
@@ -699,6 +1872,193 @@ const SCENARIOS = {
               "I will work harder."
             ],
             description: 'Pig who leads the revolution but is exiled by Napoleon.'
+          },
+          {
+            name: 'Old Major',
+            role: 'Prophet',
+            startingCoins: 90,
+            startingWeapons: ['vision'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'inspirational',
+            quotes: [
+              "Man is the only creature that consumes without producing.",
+              "All animals are comrades.",
+              "The life of an animal is misery and slavery.",
+              "Rebellion is the only way to freedom.",
+              "I will work harder."
+            ],
+            description: 'Elderly boar who inspires the revolution with his vision of equality.'
+          },
+          {
+            name: 'Minimus',
+            role: 'Poet',
+            startingCoins: 70,
+            startingWeapons: ['verses'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'artistic',
+            quotes: [
+              "Friend of fatherless! Fountain of happiness!",
+              "Napoleon is always right.",
+              "I will work harder.",
+              "The windmill brings prosperity.",
+              "All animals are equal."
+            ],
+            description: 'Pig poet who writes propaganda songs praising Napoleon.'
+          },
+          {
+            name: 'Pinkeye',
+            role: 'Food Taster',
+            startingCoins: 60,
+            startingWeapons: ['stomach'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cautious',
+            quotes: [
+              "I will work harder.",
+              "Napoleon's safety is our priority.",
+              "I taste everything first.",
+              "The food is safe now.",
+              "I will work harder."
+            ],
+            description: 'Pig who tastes Napoleon food to prevent poisoning.'
+          },
+          {
+            name: 'Whymper',
+            role: 'Human Agent',
+            startingCoins: 80,
+            startingWeapons: ['negotiation'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'opportunistic',
+            quotes: [
+              "I can get you better prices.",
+              "The humans will trade with you.",
+              "I will work harder.",
+              "Business is business.",
+              "I represent your interests."
+            ],
+            description: 'Human solicitor who acts as intermediary between farm and humans.'
+          },
+          {
+            name: 'Pilkington',
+            role: 'Neighbor Farmer',
+            startingCoins: 75,
+            startingWeapons: ['farm'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'competitive',
+            quotes: [
+              "My farm is better than yours.",
+              "I will work harder.",
+              "The windmill is impressive.",
+              "We should work together.",
+              "Competition drives progress."
+            ],
+            description: 'Owner of Foxwood Farm who competes with Animal Farm.'
+          },
+          {
+            name: 'Frederick',
+            role: 'Enemy Farmer',
+            startingCoins: 85,
+            startingWeapons: ['deception'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'deceitful',
+            quotes: [
+              "I will work harder.",
+              "The banknotes are real.",
+              "Trust me, I'm honest.",
+              "We can make a deal.",
+              "I never cheat."
+            ],
+            description: 'Owner of Pinchfield Farm who cheats the animals with fake money.'
+          },
+          {
+            name: 'Moses',
+            role: 'Raven Prophet',
+            startingCoins: 50,
+            startingWeapons: ['stories'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'mystical',
+            quotes: [
+              "Sugar Candy Mountain awaits.",
+              "I will work harder.",
+              "Death is not the end.",
+              "Heaven is real.",
+              "Believe in paradise."
+            ],
+            description: 'Raven who tells stories of Sugar Candy Mountain to comfort animals.'
+          },
+          {
+            name: 'Muriel',
+            role: 'Educated Goat',
+            startingCoins: 55,
+            startingWeapons: ['literacy'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'intelligent',
+            quotes: [
+              "I can read the commandments.",
+              "I will work harder.",
+              "The rules have changed.",
+              "I see what's happening.",
+              "Knowledge is power."
+            ],
+            description: 'Goat who can read and notices when the commandments are changed.'
+          },
+          {
+            name: 'Jessie',
+            role: 'Mother Dog',
+            startingCoins: 65,
+            startingWeapons: ['protection'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'protective',
+            quotes: [
+              "I will work harder.",
+              "I protect my puppies.",
+              "The farm needs guardians.",
+              "Napoleon is always right.",
+              "We must be vigilant."
+            ],
+            description: 'Mother dog who raises Napoleon guard dogs.'
+          },
+          {
+            name: 'Pincher',
+            role: 'Guard Dog',
+            startingCoins: 70,
+            startingWeapons: ['teeth'],
+            startingMercenaries: 3,
+            startingCastles: 0,
+            personality: 'aggressive',
+            quotes: [
+              "I will work harder.",
+              "I obey Napoleon.",
+              "Enemies will be punished.",
+              "The farm is secure.",
+              "I am the law."
+            ],
+            description: 'One of Napoleon fierce guard dogs who enforces his rule.'
+          },
+          {
+            name: 'Bluebell',
+            role: 'Mother Dog',
+            startingCoins: 60,
+            startingWeapons: ['maternal'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'nurturing',
+            quotes: [
+              "I will work harder.",
+              "My puppies will be strong.",
+              "The farm needs protectors.",
+              "Napoleon is always right.",
+              "I raise warriors."
+            ],
+            description: 'Mother dog who helps raise Napoleon guard dogs.'
           }
         ]
       },
@@ -782,6 +2142,193 @@ const SCENARIOS = {
               "I will work harder."
             ],
             description: 'Vain mare who abandons the farm for human comforts.'
+          },
+          {
+            name: 'Henrietta',
+            role: 'Hen Leader',
+            startingCoins: 45,
+            startingWeapons: ['eggs'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'productive',
+            quotes: [
+              "I will work harder.",
+              "My eggs feed the farm.",
+              "We hens are essential.",
+              "Napoleon is always right.",
+              "I lay the golden eggs."
+            ],
+            description: 'Leading hen who organizes egg production for the farm.'
+          },
+          {
+            name: 'Ducklings',
+            role: 'Young Workers',
+            startingCoins: 30,
+            startingWeapons: ['enthusiasm'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'innocent',
+            quotes: [
+              "I will work harder.",
+              "We want to help.",
+              "The farm is our home.",
+              "Napoleon is always right.",
+              "We are learning."
+            ],
+            description: 'Young ducklings who grow up under the new regime.'
+          },
+          {
+            name: 'Cat',
+            role: 'Independent',
+            startingCoins: 35,
+            startingWeapons: ['stealth'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'selfish',
+            quotes: [
+              "I will work harder.",
+              "I hunt for myself.",
+              "The farm provides mice.",
+              "Napoleon is always right.",
+              "I am independent."
+            ],
+            description: 'Cat who avoids work and only looks after herself.'
+          },
+          {
+            name: 'Sheep',
+            role: 'Followers',
+            startingCoins: 25,
+            startingWeapons: ['numbers'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'conformist',
+            quotes: [
+              "I will work harder.",
+              "Four legs good, two legs bad.",
+              "Napoleon is always right.",
+              "We follow the crowd.",
+              "I will work harder."
+            ],
+            description: 'Sheep who mindlessly repeat propaganda slogans.'
+          },
+          {
+            name: 'Cockerel',
+            role: 'Announcer',
+            startingCoins: 40,
+            startingWeapons: ['voice'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'loud',
+            quotes: [
+              "I will work harder.",
+              "Cock-a-doodle-doo!",
+              "The day begins!",
+              "Napoleon is always right.",
+              "I announce everything."
+            ],
+            description: 'Rooster who announces the start of each day.'
+          },
+          {
+            name: 'Rats',
+            role: 'Scavengers',
+            startingCoins: 20,
+            startingWeapons: ['stealth'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'opportunistic',
+            quotes: [
+              "I will work harder.",
+              "We find what others miss.",
+              "The farm has food.",
+              "Napoleon is always right.",
+              "We are survivors."
+            ],
+            description: 'Rats who scavenge for food and avoid work.'
+          },
+          {
+            name: 'Wild Pigeons',
+            role: 'Messengers',
+            startingCoins: 30,
+            startingWeapons: ['flight'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'free',
+            quotes: [
+              "I will work harder.",
+              "We spread the word.",
+              "Revolution is coming.",
+              "Napoleon is always right.",
+              "We fly free."
+            ],
+            description: 'Pigeons who carry messages to other farms.'
+          },
+          {
+            name: 'Raven',
+            role: 'Prophet',
+            startingCoins: 50,
+            startingWeapons: ['wisdom'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'mystical',
+            quotes: [
+              "Sugar Candy Mountain awaits.",
+              "I will work harder.",
+              "Death is not the end.",
+              "Heaven is real.",
+              "Believe in paradise."
+            ],
+            description: 'Raven who tells stories of Sugar Candy Mountain.'
+          },
+          {
+            name: 'Farm Cat',
+            role: 'Hunter',
+            startingCoins: 40,
+            startingWeapons: ['claws'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'independent',
+            quotes: [
+              "I will work harder.",
+              "I hunt mice.",
+              "The farm needs me.",
+              "Napoleon is always right.",
+              "I am useful."
+            ],
+            description: 'Cat who hunts mice to protect the farm food.'
+          },
+          {
+            name: 'Goose',
+            role: 'Guard',
+            startingCoins: 45,
+            startingWeapons: ['honking'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'alert',
+            quotes: [
+              "I will work harder.",
+              "Honk! Honk! Danger!",
+              "I warn the others.",
+              "Napoleon is always right.",
+              "I am vigilant."
+            ],
+            description: 'Goose who acts as a guard and warning system.'
+          },
+          {
+            name: 'Turkey',
+            role: 'Noble Bird',
+            startingCoins: 50,
+            startingWeapons: ['pride'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'proud',
+            quotes: [
+              "I will work harder.",
+              "I am a noble bird.",
+              "The farm respects me.",
+              "Napoleon is always right.",
+              "I have dignity."
+            ],
+            description: 'Turkey who maintains dignity despite the revolution.'
           }
         ]
       }
@@ -984,6 +2531,91 @@ const SCENARIOS = {
               "We're all human."
             ],
             description: 'Kind-hearted werewolf and Defense Against the Dark Arts professor.'
+          },
+          {
+            name: 'Molly Weasley',
+            role: 'Mother Figure',
+            startingCoins: 75,
+            startingWeapons: ['motherly love'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'protective',
+            quotes: [
+              "Not my daughter, you bitch!",
+              "I'll protect my children.",
+              "Family is everything.",
+              "We fight for our loved ones.",
+              "Love conquers all."
+            ],
+            description: 'Loving mother of the Weasley family and fierce protector.'
+          },
+          {
+            name: 'Arthur Weasley',
+            role: 'Muggle Expert',
+            startingCoins: 70,
+            startingWeapons: ['muggle knowledge'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'curious',
+            quotes: [
+              "What exactly is the function of a rubber duck?",
+              "We must understand the muggle world.",
+              "Knowledge is power.",
+              "We fight for equality.",
+              "We're all human."
+            ],
+            description: 'Kind-hearted father fascinated by muggle technology.'
+          },
+          {
+            name: 'Kingsley Shacklebolt',
+            role: 'Auror',
+            startingCoins: 85,
+            startingWeapons: ['auror training'],
+            startingMercenaries: 3,
+            startingCastles: 0,
+            personality: 'professional',
+            quotes: [
+              "We will restore order.",
+              "The Ministry will be rebuilt.",
+              "We fight for justice.",
+              "We will not be corrupted.",
+              "We serve the people."
+            ],
+            description: 'Skilled auror who becomes Minister for Magic.'
+          },
+          {
+            name: 'Minerva McGonagall',
+            role: 'Transfiguration Professor',
+            startingCoins: 90,
+            startingWeapons: ['transfiguration'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'strict',
+            quotes: [
+              "I will not have it!",
+              "We will defend Hogwarts.",
+              "Students come first.",
+              "We fight for our school.",
+              "We will not surrender."
+            ],
+            description: 'Strict but caring Transfiguration professor and Head of Gryffindor.'
+          },
+          {
+            name: 'Rubeus Hagrid',
+            role: 'Gamekeeper',
+            startingCoins: 70,
+            startingWeapons: ['giant strength'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'gentle',
+            quotes: [
+              "I shouldn't have told you that.",
+              "We'll take care of the creatures.",
+              "Friends are family.",
+              "We fight for what's right.",
+              "Love conquers all."
+            ],
+            description: 'Gentle half-giant gamekeeper and Care of Magical Creatures professor.'
           }
         ],
         generalRoles: [
@@ -1293,6 +2925,176 @@ const SCENARIOS = {
               "I'm with you till the end."
             ],
             description: 'Natasha Romanoff, former Russian spy turned Avenger.'
+          },
+          {
+            name: 'Hawkeye',
+            role: 'Master Archer',
+            startingCoins: 75,
+            startingWeapons: ['bow and arrow'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'precise',
+            quotes: [
+              "I never miss.",
+              "We're the Avengers.",
+              "I fight for my family.",
+              "We don't trade lives.",
+              "I'm with you till the end."
+            ],
+            description: 'Clint Barton, master archer and family man.'
+          },
+          {
+            name: 'Doctor Strange',
+            role: 'Sorcerer Supreme',
+            startingCoins: 100,
+            startingWeapons: ['mystic arts'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'mystical',
+            quotes: [
+              "I'm Doctor Strange.",
+              "We're the Avengers.",
+              "I protect reality.",
+              "We don't trade lives.",
+              "I'm with you till the end."
+            ],
+            description: 'Stephen Strange, master of the mystic arts.'
+          },
+          {
+            name: 'Spider-Man',
+            role: 'Friendly Neighborhood Hero',
+            startingCoins: 70,
+            startingWeapons: ['web shooters'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'youthful',
+            quotes: [
+              "I'm Spider-Man.",
+              "We're the Avengers.",
+              "With great power comes great responsibility.",
+              "We don't trade lives.",
+              "I'm with you till the end."
+            ],
+            description: 'Peter Parker, young superhero with spider powers.'
+          },
+          {
+            name: 'Black Panther',
+            role: 'King of Wakanda',
+            startingCoins: 95,
+            startingWeapons: ['vibranium suit'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'royal',
+            quotes: [
+              "I'm Black Panther.",
+              "We're the Avengers.",
+              "Wakanda forever.",
+              "We don't trade lives.",
+              "I'm with you till the end."
+            ],
+            description: 'T\'Challa, king of Wakanda and protector of his people.'
+          },
+          {
+            name: 'Captain Marvel',
+            role: 'Cosmic Hero',
+            startingCoins: 105,
+            startingWeapons: ['cosmic powers'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'powerful',
+            quotes: [
+              "I'm Captain Marvel.",
+              "We're the Avengers.",
+              "I protect the universe.",
+              "We don't trade lives.",
+              "I'm with you till the end."
+            ],
+            description: 'Carol Danvers, cosmic-powered superhero.'
+          },
+          {
+            name: 'Ant-Man',
+            role: 'Size-Changing Hero',
+            startingCoins: 65,
+            startingWeapons: ['pym particles'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'clever',
+            quotes: [
+              "I'm Ant-Man.",
+              "We're the Avengers.",
+              "I can shrink and grow.",
+              "We don't trade lives.",
+              "I'm with you till the end."
+            ],
+            description: 'Scott Lang, size-changing superhero.'
+          },
+          {
+            name: 'Wasp',
+            role: 'Size-Changing Heroine',
+            startingCoins: 70,
+            startingWeapons: ['pym particles'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "I'm Wasp.",
+              "We're the Avengers.",
+              "I can shrink and fly.",
+              "We don't trade lives.",
+              "I'm with you till the end."
+            ],
+            description: 'Hope van Dyne, size-changing superheroine.'
+          },
+          {
+            name: 'Falcon',
+            role: 'Flying Hero',
+            startingCoins: 70,
+            startingWeapons: ['wings'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "I'm Falcon.",
+              "We're the Avengers.",
+              "I can fly.",
+              "We don't trade lives.",
+              "I'm with you till the end."
+            ],
+            description: 'Sam Wilson, flying superhero and Captain America\'s partner.'
+          },
+          {
+            name: 'Winter Soldier',
+            role: 'Enhanced Soldier',
+            startingCoins: 85,
+            startingWeapons: ['metal arm'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'reformed',
+            quotes: [
+              "I'm Winter Soldier.",
+              "We're the Avengers.",
+              "I'm not the man I used to be.",
+              "We don't trade lives.",
+              "I'm with you till the end."
+            ],
+            description: 'Bucky Barnes, enhanced soldier and Captain America\'s friend.'
+          },
+          {
+            name: 'Vision',
+            role: 'Synthetic Being',
+            startingCoins: 90,
+            startingWeapons: ['mind stone'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'logical',
+            quotes: [
+              "I'm Vision.",
+              "We're the Avengers.",
+              "I'm not human, but I feel.",
+              "We don't trade lives.",
+              "I'm with you till the end."
+            ],
+            description: 'Synthetic being created by Ultron and the Avengers.'
           }
         ],
         generalRoles: [
@@ -1397,6 +3199,176 @@ const SCENARIOS = {
               "We will conquer the nine realms."
             ],
             description: 'Thor\'s sister, goddess of death and destruction.'
+          },
+          {
+            name: 'Killmonger',
+            role: 'Wakandan Prince',
+            startingCoins: 85,
+            startingWeapons: ['vibranium suit'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'vengeful',
+            quotes: [
+              "I am Killmonger.",
+              "I will rule Wakanda.",
+              "We will conquer the world.",
+              "I am the rightful king.",
+              "We will not be oppressed."
+            ],
+            description: 'Erik Killmonger, Wakandan prince seeking revenge.'
+          },
+          {
+            name: 'Vulture',
+            role: 'Tech Villain',
+            startingCoins: 70,
+            startingWeapons: ['wings'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'greedy',
+            quotes: [
+              "I am Vulture.",
+              "I will steal your tech.",
+              "We will get rich.",
+              "I am unstoppable.",
+              "We will not be caught."
+            ],
+            description: 'Adrian Toomes, tech-based villain and Spider-Man\'s enemy.'
+          },
+          {
+            name: 'Mysterio',
+            role: 'Master of Illusion',
+            startingCoins: 75,
+            startingWeapons: ['illusions'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'deceptive',
+            quotes: [
+              "I am Mysterio.",
+              "I will deceive you.",
+              "We will create illusions.",
+              "I am unstoppable.",
+              "We will not be seen."
+            ],
+            description: 'Quentin Beck, master of illusions and Spider-Man\'s enemy.'
+          },
+          {
+            name: 'Scarlet Witch',
+            role: 'Chaos Magic User',
+            startingCoins: 90,
+            startingWeapons: ['chaos magic'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'powerful',
+            quotes: [
+              "I am Scarlet Witch.",
+              "I will control reality.",
+              "We will reshape the world.",
+              "I am unstoppable.",
+              "We will not be stopped."
+            ],
+            description: 'Wanda Maximoff, powerful mutant with reality-warping abilities.'
+          },
+          {
+            name: 'Doctor Doom',
+            role: 'Latverian Dictator',
+            startingCoins: 100,
+            startingWeapons: ['doom armor'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'arrogant',
+            quotes: [
+              "I am Doctor Doom.",
+              "I will rule the world.",
+              "We will conquer all.",
+              "I am superior.",
+              "We will not be defeated."
+            ],
+            description: 'Victor von Doom, dictator of Latveria and Reed Richards\' enemy.'
+          },
+          {
+            name: 'Magneto',
+            role: 'Master of Magnetism',
+            startingCoins: 95,
+            startingWeapons: ['magnetism'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'magnetic',
+            quotes: [
+              "I am Magneto.",
+              "I will protect mutants.",
+              "We will not be oppressed.",
+              "I am unstoppable.",
+              "We will fight for our rights."
+            ],
+            description: 'Erik Lehnsherr, master of magnetism and mutant rights activist.'
+          },
+          {
+            name: 'Green Goblin',
+            role: 'Goblin Villain',
+            startingCoins: 80,
+            startingWeapons: ['goblin glider'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'insane',
+            quotes: [
+              "I am Green Goblin.",
+              "I will destroy you.",
+              "We will cause chaos.",
+              "I am unstoppable.",
+              "We will not be stopped."
+            ],
+            description: 'Norman Osborn, insane villain and Spider-Man\'s arch-enemy.'
+          },
+          {
+            name: 'Venom',
+            role: 'Symbiote Villain',
+            startingCoins: 85,
+            startingWeapons: ['symbiote'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'hungry',
+            quotes: [
+              "I am Venom.",
+              "I will consume you.",
+              "We will eat your brains.",
+              "I am unstoppable.",
+              "We will not be stopped."
+            ],
+            description: 'Eddie Brock, host of the Venom symbiote.'
+          },
+          {
+            name: 'Carnage',
+            role: 'Symbiote Killer',
+            startingCoins: 80,
+            startingWeapons: ['symbiote'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'murderous',
+            quotes: [
+              "I am Carnage.",
+              "I will kill you.",
+              "We will cause destruction.",
+              "I am unstoppable.",
+              "We will not be stopped."
+            ],
+            description: 'Cletus Kasady, host of the Carnage symbiote.'
+          },
+          {
+            name: 'Kingpin',
+            role: 'Crime Boss',
+            startingCoins: 75,
+            startingWeapons: ['criminal empire'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'criminal',
+            quotes: [
+              "I am Kingpin.",
+              "I will control the city.",
+              "We will run the underworld.",
+              "I am unstoppable.",
+              "We will not be stopped."
+            ],
+            description: 'Wilson Fisk, powerful crime boss and Spider-Man\'s enemy.'
           }
         ],
         generalRoles: [
@@ -1517,6 +3489,176 @@ const SCENARIOS = {
               "Wars not make one great."
             ],
             description: 'Ancient Jedi Master who trained Luke in the ways of the Force.'
+          },
+          {
+            name: 'Chewbacca',
+            role: 'Wookiee Warrior',
+            startingCoins: 80,
+            startingWeapons: ['bowcaster'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "Rrrrrrgh!",
+              "Grrrrr!",
+              "Wrrrrr!",
+              "Rrrrrr!",
+              "Grrrrr!"
+            ],
+            description: 'Loyal Wookiee co-pilot and friend of Han Solo.'
+          },
+          {
+            name: 'R2-D2',
+            role: 'Astromech Droid',
+            startingCoins: 60,
+            startingWeapons: ['tools'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'helpful',
+            quotes: [
+              "Beep boop!",
+              "Bleep bloop!",
+              "Beep beep!",
+              "Bloop bleep!",
+              "Beep boop!"
+            ],
+            description: 'Loyal astromech droid and friend of Luke Skywalker.'
+          },
+          {
+            name: 'C-3PO',
+            role: 'Protocol Droid',
+            startingCoins: 55,
+            startingWeapons: ['protocol knowledge'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'nervous',
+            quotes: [
+              "I have a bad feeling about this.",
+              "We're doomed!",
+              "I'm not very good at telling stories.",
+              "I'm fluent in over six million forms of communication.",
+              "I suggest a new strategy, Artoo."
+            ],
+            description: 'Protocol droid fluent in over six million forms of communication.'
+          },
+          {
+            name: 'Lando Calrissian',
+            role: 'Smuggler Turned General',
+            startingCoins: 85,
+            startingWeapons: ['blaster'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'charismatic',
+            quotes: [
+              "I'm a businessman.",
+              "I've got a bad feeling about this.",
+              "I'm not a hero.",
+              "We're all fine here now, thank you.",
+              "I'm with you till the end."
+            ],
+            description: 'Charismatic smuggler who became a general in the Rebel Alliance.'
+          },
+          {
+            name: 'Wedge Antilles',
+            role: 'X-Wing Pilot',
+            startingCoins: 70,
+            startingWeapons: ['X-wing'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "I'm with you, Red Leader.",
+              "We'll cover you.",
+              "I'm not afraid.",
+              "We'll make it.",
+              "For the Rebellion!"
+            ],
+            description: 'Skilled X-wing pilot and member of Rogue Squadron.'
+          },
+          {
+            name: 'Mon Mothma',
+            role: 'Rebel Leader',
+            startingCoins: 90,
+            startingWeapons: ['diplomacy'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'diplomatic',
+            quotes: [
+              "We must unite against the Empire.",
+              "The Rebellion needs leaders.",
+              "We will not be silenced.",
+              "Freedom is worth fighting for.",
+              "We will restore the Republic."
+            ],
+            description: 'Diplomatic leader of the Rebel Alliance.'
+          },
+          {
+            name: 'Admiral Ackbar',
+            role: 'Rebel Admiral',
+            startingCoins: 85,
+            startingWeapons: ['tactical knowledge'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'tactical',
+            quotes: [
+              "It's a trap!",
+              "We must be careful.",
+              "The Empire is cunning.",
+              "We will not fall for their tricks.",
+              "We will fight with honor."
+            ],
+            description: 'Tactical Mon Calamari admiral in the Rebel Alliance.'
+          },
+          {
+            name: 'Biggs Darklighter',
+            role: 'X-Wing Pilot',
+            startingCoins: 65,
+            startingWeapons: ['X-wing'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "I'm with you, Luke.",
+              "We'll fight together.",
+              "I'm not afraid.",
+              "We'll make it.",
+              "For our friends!"
+            ],
+            description: 'Luke Skywalker\'s childhood friend and X-wing pilot.'
+          },
+          {
+            name: 'Jyn Erso',
+            role: 'Rebel Spy',
+            startingCoins: 75,
+            startingWeapons: ['blaster'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "I'm not afraid.",
+              "We'll fight for what's right.",
+              "I'm with you till the end.",
+              "We'll make a difference.",
+              "For the Rebellion!"
+            ],
+            description: 'Determined rebel spy who led the mission to steal the Death Star plans.'
+          },
+          {
+            name: 'Cassian Andor',
+            role: 'Rebel Intelligence Officer',
+            startingCoins: 80,
+            startingWeapons: ['blaster'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'dedicated',
+            quotes: [
+              "I'm not afraid to die.",
+              "We'll fight for freedom.",
+              "I'm with you till the end.",
+              "We'll make a difference.",
+              "For the Rebellion!"
+            ],
+            description: 'Dedicated rebel intelligence officer and spy.'
           }
         ],
         generalRoles: [
@@ -1621,6 +3763,176 @@ const SCENARIOS = {
               "I will have my revenge."
             ],
             description: 'Sith apprentice trained by Darth Sidious to destroy the Jedi.'
+          },
+          {
+            name: 'General Veers',
+            role: 'Imperial General',
+            startingCoins: 75,
+            startingWeapons: ['AT-AT'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'military',
+            quotes: [
+              "We will crush the Rebellion.",
+              "The Empire will prevail.",
+              "We will not be defeated.",
+              "I serve the Emperor.",
+              "We will restore order."
+            ],
+            description: 'Imperial general who led the assault on Hoth.'
+          },
+          {
+            name: 'Admiral Piett',
+            role: 'Imperial Admiral',
+            startingCoins: 80,
+            startingWeapons: ['Star Destroyer'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "We will hunt down the Rebels.",
+              "The Empire will not be defeated.",
+              "I serve the Emperor.",
+              "We will restore order.",
+              "We will not fail."
+            ],
+            description: 'Imperial admiral who commanded the Executor.'
+          },
+          {
+            name: 'Captain Needa',
+            role: 'Imperial Captain',
+            startingCoins: 70,
+            startingWeapons: ['Star Destroyer'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'dedicated',
+            quotes: [
+              "We will not lose them.",
+              "The Empire will prevail.",
+              "I serve the Emperor.",
+              "We will restore order.",
+              "We will not fail."
+            ],
+            description: 'Imperial captain who served under Darth Vader.'
+          },
+          {
+            name: 'Admiral Ozzel',
+            role: 'Imperial Admiral',
+            startingCoins: 75,
+            startingWeapons: ['Star Destroyer'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'arrogant',
+            quotes: [
+              "We will crush the Rebellion.",
+              "The Empire will prevail.",
+              "I serve the Emperor.",
+              "We will restore order.",
+              "We will not be defeated."
+            ],
+            description: 'Imperial admiral who served under Darth Vader.'
+          },
+          {
+            name: 'General Tagge',
+            role: 'Imperial General',
+            startingCoins: 70,
+            startingWeapons: ['military tactics'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'strategic',
+            quotes: [
+              "We must be strategic.",
+              "The Empire will prevail.",
+              "I serve the Emperor.",
+              "We will restore order.",
+              "We will not be defeated."
+            ],
+            description: 'Imperial general who served on the Death Star.'
+          },
+          {
+            name: 'Admiral Motti',
+            role: 'Imperial Admiral',
+            startingCoins: 75,
+            startingWeapons: ['Star Destroyer'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'arrogant',
+            quotes: [
+              "We will crush the Rebellion.",
+              "The Empire will prevail.",
+              "I serve the Emperor.",
+              "We will restore order.",
+              "We will not be defeated."
+            ],
+            description: 'Imperial admiral who served on the Death Star.'
+          },
+          {
+            name: 'General Madine',
+            role: 'Imperial General',
+            startingCoins: 70,
+            startingWeapons: ['military tactics'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'strategic',
+            quotes: [
+              "We must be strategic.",
+              "The Empire will prevail.",
+              "I serve the Emperor.",
+              "We will restore order.",
+              "We will not be defeated."
+            ],
+            description: 'Imperial general who served on the Death Star.'
+          },
+          {
+            name: 'Admiral Yularen',
+            role: 'Imperial Admiral',
+            startingCoins: 75,
+            startingWeapons: ['Star Destroyer'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "We will hunt down the Rebels.",
+              "The Empire will not be defeated.",
+              "I serve the Emperor.",
+              "We will restore order.",
+              "We will not fail."
+            ],
+            description: 'Imperial admiral who served under Darth Vader.'
+          },
+          {
+            name: 'General Tagge',
+            role: 'Imperial General',
+            startingCoins: 70,
+            startingWeapons: ['military tactics'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'strategic',
+            quotes: [
+              "We must be strategic.",
+              "The Empire will prevail.",
+              "I serve the Emperor.",
+              "We will restore order.",
+              "We will not be defeated."
+            ],
+            description: 'Imperial general who served on the Death Star.'
+          },
+          {
+            name: 'Admiral Motti',
+            role: 'Imperial Admiral',
+            startingCoins: 75,
+            startingWeapons: ['Star Destroyer'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'arrogant',
+            quotes: [
+              "We will crush the Rebellion.",
+              "The Empire will prevail.",
+              "I serve the Emperor.",
+              "We will restore order.",
+              "We will not be defeated."
+            ],
+            description: 'Imperial admiral who served on the Death Star.'
           }
         ],
         generalRoles: [
@@ -1742,6 +4054,176 @@ const SCENARIOS = {
               "The frontier will be secured."
             ],
             description: 'General who defeated Tecumseh and became the 9th President.'
+          },
+          {
+            name: 'Isaac Brock',
+            role: 'British General',
+            startingCoins: 85,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'strategic',
+            quotes: [
+              "We will defend Canada.",
+              "The Americans will not take our territory.",
+              "We fight for the Crown.",
+              "Victory at Queenston Heights!",
+              "We will not surrender."
+            ],
+            description: 'British general who defended Canada and died at Queenston Heights.'
+          },
+          {
+            name: 'Tecumseh',
+            role: 'Shawnee Chief',
+            startingCoins: 75,
+            startingWeapons: ['tomahawk'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'unifying',
+            quotes: [
+              "We will unite all tribes.",
+              "The white man will not take our land.",
+              "We fight for our people.",
+              "We will not be divided.",
+              "The Great Spirit is with us."
+            ],
+            description: 'Shawnee chief who tried to unite Native American tribes against American expansion.'
+          },
+          {
+            name: 'Winfield Scott',
+            role: 'General',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'disciplined',
+            quotes: [
+              "We will train our soldiers properly.",
+              "Discipline wins battles.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through training."
+            ],
+            description: 'General known for his military reforms and training methods.'
+          },
+          {
+            name: 'Zebulon Pike',
+            role: 'Explorer & General',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'adventurous',
+            quotes: [
+              "We will explore the frontier.",
+              "The West is ours to claim.",
+              "We fight for expansion.",
+              "We will not be stopped.",
+              "The frontier calls us."
+            ],
+            description: 'Explorer and general who fought in the War of 1812.'
+          },
+          {
+            name: 'John Armstrong',
+            role: 'Secretary of War',
+            startingCoins: 75,
+            startingWeapons: ['military strategy'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'administrative',
+            quotes: [
+              "We will organize our forces.",
+              "The military needs proper leadership.",
+              "We fight for our nation.",
+              "We will not be defeated.",
+              "Organization wins wars."
+            ],
+            description: 'Secretary of War who organized American military efforts.'
+          },
+          {
+            name: 'Henry Clay',
+            role: 'War Hawk',
+            startingCoins: 80,
+            startingWeapons: ['oratory'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'passionate',
+            quotes: [
+              "We must fight for our rights.",
+              "The British will not bully us.",
+              "We fight for honor.",
+              "We will not back down.",
+              "War is necessary."
+            ],
+            description: 'Congressional leader and "War Hawk" who pushed for war with Britain.'
+          },
+          {
+            name: 'John Calhoun',
+            role: 'War Hawk',
+            startingCoins: 75,
+            startingWeapons: ['oratory'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'passionate',
+            quotes: [
+              "We must defend our sovereignty.",
+              "The British will not dictate our trade.",
+              "We fight for our rights.",
+              "We will not be oppressed.",
+              "War is our only option."
+            ],
+            description: 'Congressional leader and "War Hawk" who supported the war effort.'
+          },
+          {
+            name: 'Daniel Webster',
+            role: 'Orator',
+            startingCoins: 70,
+            startingWeapons: ['words'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'eloquent',
+            quotes: [
+              "We must unite against the British.",
+              "Our cause is just.",
+              "We fight for freedom.",
+              "We will not be silenced.",
+              "Words have power."
+            ],
+            description: 'Famous orator who supported the war effort.'
+          },
+          {
+            name: 'John Quincy Adams',
+            role: 'Diplomat',
+            startingCoins: 80,
+            startingWeapons: ['diplomacy'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'diplomatic',
+            quotes: [
+              "We must negotiate peace.",
+              "Diplomacy can end this war.",
+              "We fight for our rights.",
+              "We will not surrender.",
+              "Peace through strength."
+            ],
+            description: 'Diplomat who worked to end the war and became the 6th President.'
+          },
+          {
+            name: 'Dolley Madison',
+            role: 'First Lady',
+            startingCoins: 65,
+            startingWeapons: ['courage'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "I will save what I can.",
+              "The British will not destroy our history.",
+              "We fight for our heritage.",
+              "We will not be defeated.",
+              "Courage in the face of danger."
+            ],
+            description: 'First Lady who saved important documents when the British burned Washington.'
           }
         ],
         generalRoles: [
@@ -1846,6 +4328,176 @@ const SCENARIOS = {
               "We march to glory."
             ],
             description: 'British general who led the failed assault on New Orleans.'
+          },
+          {
+            name: 'George Prevost',
+            role: 'Governor General',
+            startingCoins: 85,
+            startingWeapons: ['administrative power'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'administrative',
+            quotes: [
+              "We will govern Canada properly.",
+              "The Americans will not take our territory.",
+              "We fight for the Crown.",
+              "We will not surrender.",
+              "Order must be maintained."
+            ],
+            description: 'Governor General of Canada who organized the defense.'
+          },
+          {
+            name: 'Charles de Salaberry',
+            role: 'Canadian Colonel',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "We will defend our homeland.",
+              "The Americans will not pass.",
+              "We fight for Canada.",
+              "We will not retreat.",
+              "Victory at Chateauguay!"
+            ],
+            description: 'Canadian colonel who defended against American invasion.'
+          },
+          {
+            name: 'John Coape Sherbrooke',
+            role: 'Lieutenant Governor',
+            startingCoins: 75,
+            startingWeapons: ['administrative power'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'administrative',
+            quotes: [
+              "We will govern Nova Scotia.",
+              "The Americans will not take our territory.",
+              "We fight for the Crown.",
+              "We will not surrender.",
+              "Order must be maintained."
+            ],
+            description: 'Lieutenant Governor of Nova Scotia who organized the defense.'
+          },
+          {
+            name: 'James Yeo',
+            role: 'Naval Commander',
+            startingCoins: 80,
+            startingWeapons: ['naval cannon'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'naval',
+            quotes: [
+              "We will control the Great Lakes.",
+              "The British navy will prevail.",
+              "We fight for naval supremacy.",
+              "We will not be defeated.",
+              "Victory on the water!"
+            ],
+            description: 'British naval commander who fought on the Great Lakes.'
+          },
+          {
+            name: 'Gordon Drummond',
+            role: 'General',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'strategic',
+            quotes: [
+              "We will defend Upper Canada.",
+              "The Americans will not take our territory.",
+              "We fight for the Crown.",
+              "We will not surrender.",
+              "Strategy wins wars."
+            ],
+            description: 'British general who defended Upper Canada.'
+          },
+          {
+            name: 'Phineas Riall',
+            role: 'General',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'aggressive',
+            quotes: [
+              "We will attack the Americans.",
+              "The British will prevail.",
+              "We fight for the Crown.",
+              "We will not retreat.",
+              "Attack is the best defense."
+            ],
+            description: 'British general who fought in Upper Canada.'
+          },
+          {
+            name: 'John Harvey',
+            role: 'Lieutenant Colonel',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "We will defend our position.",
+              "The Americans will not pass.",
+              "We fight for the Crown.",
+              "We will not retreat.",
+              "Courage wins battles."
+            ],
+            description: 'British lieutenant colonel who fought in Canada.'
+          },
+          {
+            name: 'William Mulcaster',
+            role: 'Naval Commander',
+            startingCoins: 75,
+            startingWeapons: ['naval cannon'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'naval',
+            quotes: [
+              "We will control the St. Lawrence.",
+              "The British navy will prevail.",
+              "We fight for naval supremacy.",
+              "We will not be defeated.",
+              "Victory on the water!"
+            ],
+            description: 'British naval commander who fought on the St. Lawrence River.'
+          },
+          {
+            name: 'John Norton',
+            role: 'Mohawk Chief',
+            startingCoins: 70,
+            startingWeapons: ['tomahawk'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "We will fight for the British.",
+              "The Americans will not take our land.",
+              "We fight for our people.",
+              "We will not be divided.",
+              "Loyalty to the Crown."
+            ],
+            description: 'Mohawk chief who fought alongside the British.'
+          },
+          {
+            name: 'John Brant',
+            role: 'Mohawk Leader',
+            startingCoins: 65,
+            startingWeapons: ['tomahawk'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "We will defend our homeland.",
+              "The Americans will not pass.",
+              "We fight for our people.",
+              "We will not retreat.",
+              "Courage in battle."
+            ],
+            description: 'Mohawk leader who fought alongside the British.'
           }
         ],
         generalRoles: [
@@ -1966,6 +4618,176 @@ const SCENARIOS = {
               "The frontier calls us."
             ],
             description: 'Explorer who helped secure California for the United States.'
+          },
+          {
+            name: 'Robert E. Lee',
+            role: 'Engineer',
+            startingCoins: 70,
+            startingWeapons: ['engineering tools'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'methodical',
+            quotes: [
+              "We will build proper fortifications.",
+              "Engineering wins wars.",
+              "We fight for our country.",
+              "We will not be defeated.",
+              "Victory through preparation."
+            ],
+            description: 'Future Confederate general who served as an engineer in the Mexican-American War.'
+          },
+          {
+            name: 'Ulysses S. Grant',
+            role: 'Lieutenant',
+            startingCoins: 65,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "We will fight with honor.",
+              "The Mexican army cannot stop us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through persistence."
+            ],
+            description: 'Future Union general who served as a lieutenant in the Mexican-American War.'
+          },
+          {
+            name: 'Jefferson Davis',
+            role: 'Colonel',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'ambitious',
+            quotes: [
+              "We will expand our territory.",
+              "The Mexican army will not stop us.",
+              "We fight for our destiny.",
+              "We will not be defeated.",
+              "Victory for America."
+            ],
+            description: 'Future Confederate president who served as a colonel in the Mexican-American War.'
+          },
+          {
+            name: 'George Meade',
+            role: 'Lieutenant',
+            startingCoins: 65,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "We will fight for our country.",
+              "The Mexican army cannot stop us.",
+              "We fight with honor.",
+              "We will not retreat.",
+              "Victory through courage."
+            ],
+            description: 'Future Union general who served as a lieutenant in the Mexican-American War.'
+          },
+          {
+            name: 'John Sedgwick',
+            role: 'Captain',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "We will serve our country.",
+              "The Mexican army will not stop us.",
+              "We fight for our flag.",
+              "We will not be defeated.",
+              "Victory through loyalty."
+            ],
+            description: 'Future Union general who served as a captain in the Mexican-American War.'
+          },
+          {
+            name: 'Joseph Hooker',
+            role: 'Captain',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'aggressive',
+            quotes: [
+              "We will attack the enemy.",
+              "The Mexican army cannot stop us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through attack."
+            ],
+            description: 'Future Union general who served as a captain in the Mexican-American War.'
+          },
+          {
+            name: 'George McClellan',
+            role: 'Lieutenant',
+            startingCoins: 65,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cautious',
+            quotes: [
+              "We must be careful.",
+              "The Mexican army is dangerous.",
+              "We fight for our country.",
+              "We will not rush into battle.",
+              "Victory through caution."
+            ],
+            description: 'Future Union general who served as a lieutenant in the Mexican-American War.'
+          },
+          {
+            name: 'Ambrose Burnside',
+            role: 'Lieutenant',
+            startingCoins: 65,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "We will fight for our country.",
+              "The Mexican army cannot stop us.",
+              "We fight with honor.",
+              "We will not retreat.",
+              "Victory through determination."
+            ],
+            description: 'Future Union general who served as a lieutenant in the Mexican-American War.'
+          },
+          {
+            name: 'John Pope',
+            role: 'Lieutenant',
+            startingCoins: 65,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'confident',
+            quotes: [
+              "We will defeat the enemy.",
+              "The Mexican army cannot stop us.",
+              "We fight for our country.",
+              "We will not be defeated.",
+              "Victory through confidence."
+            ],
+            description: 'Future Union general who served as a lieutenant in the Mexican-American War.'
+          },
+          {
+            name: 'William Tecumseh Sherman',
+            role: 'Lieutenant',
+            startingCoins: 65,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'strategic',
+            quotes: [
+              "We will use strategy.",
+              "The Mexican army cannot stop us.",
+              "We fight for our country.",
+              "We will not be defeated.",
+              "Victory through strategy."
+            ],
+            description: 'Future Union general who served as a lieutenant in the Mexican-American War.'
           }
         ],
         generalRoles: [
@@ -2070,6 +4892,176 @@ const SCENARIOS = {
               "We will resist the invaders."
             ],
             description: 'Governor of California who resisted American expansion.'
+          },
+          {
+            name: 'Valentin Gomez Farias',
+            role: 'Vice President',
+            startingCoins: 80,
+            startingWeapons: ['political power'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'reformist',
+            quotes: [
+              "We will reform our government.",
+              "The Americans will not conquer us.",
+              "We fight for our nation.",
+              "Mexico will be strong.",
+              "We will not surrender."
+            ],
+            description: 'Mexican Vice President who supported reforms during the war.'
+          },
+          {
+            name: 'Manuel de la Pena y Pena',
+            role: 'Interim President',
+            startingCoins: 85,
+            startingWeapons: ['political power'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'diplomatic',
+            quotes: [
+              "We must negotiate peace.",
+              "The Americans are too strong.",
+              "We fight for our survival.",
+              "Mexico must endure.",
+              "We will find a way."
+            ],
+            description: 'Interim President who negotiated the end of the war.'
+          },
+          {
+            name: 'Jose Joaquin de Herrera',
+            role: 'President',
+            startingCoins: 80,
+            startingWeapons: ['political power'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'moderate',
+            quotes: [
+              "We will find peace.",
+              "The Americans are powerful.",
+              "We fight for our nation.",
+              "Mexico will survive.",
+              "We must be realistic."
+            ],
+            description: 'Mexican President who worked to end the war.'
+          },
+          {
+            name: 'Manuel Robles Pezuela',
+            role: 'General',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'strategic',
+            quotes: [
+              "We will use strategy.",
+              "The Americans are strong.",
+              "We fight for our homeland.",
+              "Mexico will not fall.",
+              "We will be clever."
+            ],
+            description: 'Mexican general who fought strategically against the Americans.'
+          },
+          {
+            name: 'Jose Maria Tornel',
+            role: 'General',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "We will serve Mexico.",
+              "The Americans will not win.",
+              "We fight for our country.",
+              "Mexico stands strong.",
+              "We will not betray our nation."
+            ],
+            description: 'Mexican general loyal to Santa Anna.'
+          },
+          {
+            name: 'Manuel Lombardini',
+            role: 'General',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "We will fight bravely.",
+              "The Americans will not defeat us.",
+              "We fight for our honor.",
+              "Mexico will prevail.",
+              "We will not retreat."
+            ],
+            description: 'Mexican general known for his bravery.'
+          },
+          {
+            name: 'Jose Urrea',
+            role: 'General',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'aggressive',
+            quotes: [
+              "We will attack the Americans.",
+              "The invaders will not win.",
+              "We fight for our land.",
+              "Mexico will strike back.",
+              "We will not be passive."
+            ],
+            description: 'Mexican general known for aggressive tactics.'
+          },
+          {
+            name: 'Francisco Mejia',
+            role: 'General',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "We will defend our homeland.",
+              "The Americans will not conquer us.",
+              "We fight for our people.",
+              "Mexico will endure.",
+              "We will not give up."
+            ],
+            description: 'Mexican general determined to defend his country.'
+          },
+          {
+            name: 'Jose Maria Yanez',
+            role: 'General',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'patriotic',
+            quotes: [
+              "We will fight for Mexico.",
+              "The Americans will not win.",
+              "We fight for our flag.",
+              "Mexico stands proud.",
+              "We will defend our honor."
+            ],
+            description: 'Mexican general who fought patriotically for his country.'
+          },
+          {
+            name: 'Manuel Micheltorena',
+            role: 'General',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'defensive',
+            quotes: [
+              "We will defend our positions.",
+              "The Americans will not pass.",
+              "We fight for our territory.",
+              "Mexico will hold strong.",
+              "We will not be moved."
+            ],
+            description: 'Mexican general who focused on defensive strategies.'
           }
         ],
         generalRoles: [
@@ -2295,6 +5287,465 @@ const SCENARIOS = {
               "Freedom is the freedom to say that two plus two make four."
             ],
             description: 'Party member who works on statistics but is eventually vaporized.'
+          },
+          {
+            name: 'Withers',
+            role: 'Party Member',
+            startingCoins: 55,
+            startingWeapons: ['reports'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'diligent',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Party member who works on reports and is eventually vaporized.'
+          },
+          {
+            name: 'Rutherford',
+            role: 'Party Member',
+            startingCoins: 70,
+            startingWeapons: ['memories'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'defiant',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Former Party member who is tortured and eventually broken.'
+          },
+          {
+            name: 'Jones',
+            role: 'Party Member',
+            startingCoins: 65,
+            startingWeapons: ['memories'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'defiant',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Former Party member who is tortured and eventually broken.'
+          },
+          {
+            name: 'Katharine',
+            role: 'Wife',
+            startingCoins: 50,
+            startingWeapons: ['duty'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'dutiful',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Winston estranged wife who is completely devoted to the Party.'
+          },
+          {
+            name: 'Tom Parsons',
+            role: 'Child',
+            startingCoins: 30,
+            startingWeapons: ['spying'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'fanatical',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Parsons child who spies on his own father.'
+          },
+          {
+            name: 'Mrs. Parsons',
+            role: 'Wife',
+            startingCoins: 45,
+            startingWeapons: ['fear'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'fearful',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Parsons wife who lives in constant fear of her children.'
+          },
+          {
+            name: 'The Prole Woman',
+            role: 'Prole',
+            startingCoins: 40,
+            startingWeapons: ['song'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'free',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Prole woman who sings while hanging laundry, symbolizing natural freedom.'
+          },
+          {
+            name: 'The Prole Man',
+            role: 'Prole',
+            startingCoins: 35,
+            startingWeapons: ['work'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'ignorant',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Prole man who represents the working class masses.'
+          },
+          {
+            name: 'The Thought Police',
+            role: 'Enforcer',
+            startingCoins: 85,
+            startingWeapons: ['surveillance'],
+            startingMercenaries: 3,
+            startingCastles: 0,
+            personality: 'omnipresent',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Secret police who monitor and arrest thought criminals.'
+          },
+          {
+            name: 'The Telescreen',
+            role: 'Surveillance',
+            startingCoins: 75,
+            startingWeapons: ['monitoring'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'omnipresent',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Two-way television that monitors citizens constantly.'
+          },
+          {
+            name: 'The Ministry Worker',
+            role: 'Bureaucrat',
+            startingCoins: 50,
+            startingWeapons: ['paperwork'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'bureaucratic',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Anonymous bureaucrat who works in the Ministries.'
+          },
+          {
+            name: 'The Outer Party Member',
+            role: 'Party Member',
+            startingCoins: 45,
+            startingWeapons: ['loyalty'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'conformist',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Lower-level Party member who follows orders without question.'
+          },
+          {
+            name: 'The Inner Party Member',
+            role: 'Party Elite',
+            startingCoins: 100,
+            startingWeapons: ['power'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'privileged',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'High-level Party member who enjoys privileges denied to others.'
+          },
+          {
+            name: 'The Prole Child',
+            role: 'Child',
+            startingCoins: 25,
+            startingWeapons: ['innocence'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'innocent',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Prole child who represents hope for the future.'
+          },
+          {
+            name: 'The Newspeak Worker',
+            role: 'Linguist',
+            startingCoins: 55,
+            startingWeapons: ['language'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'systematic',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Worker who helps develop Newspeak to limit thought.'
+          },
+          {
+            name: 'The Memory Hole Worker',
+            role: 'Censor',
+            startingCoins: 60,
+            startingWeapons: ['destruction'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'destructive',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Worker who destroys historical records through memory holes.'
+          },
+          {
+            name: 'The Two Minutes Hate Participant',
+            role: 'Citizen',
+            startingCoins: 40,
+            startingWeapons: ['hatred'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'fanatical',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Citizen who participates in the daily Two Minutes Hate ritual.'
+          },
+          {
+            name: 'The Victory Gin Drinker',
+            role: 'Citizen',
+            startingCoins: 35,
+            startingWeapons: ['alcohol'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'escapist',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Citizen who drinks Victory Gin to escape reality.'
+          },
+          {
+            name: 'The Ration Card Holder',
+            role: 'Citizen',
+            startingCoins: 30,
+            startingWeapons: ['rations'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'deprived',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Citizen who survives on meager rations provided by the Party.'
+          },
+          {
+            name: 'The Newspeak Dictionary Worker',
+            role: 'Linguist',
+            startingCoins: 50,
+            startingWeapons: ['dictionary'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'systematic',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Worker who helps create the Newspeak dictionary to limit vocabulary.'
+          },
+          {
+            name: 'The Prole Street Vendor',
+            role: 'Vendor',
+            startingCoins: 40,
+            startingWeapons: ['goods'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'entrepreneurial',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Prole who sells goods on the street, representing economic freedom.'
+          },
+          {
+            name: 'The Ministry Canteen Worker',
+            role: 'Worker',
+            startingCoins: 45,
+            startingWeapons: ['food'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'servile',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Worker who serves food in the Ministry canteen.'
+          },
+          {
+            name: 'The Prole Pub Patron',
+            role: 'Patron',
+            startingCoins: 35,
+            startingWeapons: ['beer'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'social',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Prole who frequents pubs, representing social freedom.'
+          },
+          {
+            name: 'The Ministry Elevator Operator',
+            role: 'Operator',
+            startingCoins: 40,
+            startingWeapons: ['elevator'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'mechanical',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Worker who operates elevators in the Ministries.'
+          },
+          {
+            name: 'The Prole Market Trader',
+            role: 'Trader',
+            startingCoins: 45,
+            startingWeapons: ['trade'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'commercial',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Prole who trades in markets, representing economic freedom.'
+          },
+          {
+            name: 'The Prole Factory Worker',
+            role: 'Worker',
+            startingCoins: 40,
+            startingWeapons: ['labor'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'hardworking',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Prole who works in factories, representing the working class.'
+          },
+          {
+            name: 'The Prole Dock Worker',
+            role: 'Worker',
+            startingCoins: 40,
+            startingWeapons: ['strength'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'strong',
+            quotes: [
+              "The proles are human beings.",
+              "We will meet in the place where there is no darkness.",
+              "I love you.",
+              "We are the dead.",
+              "Freedom is the freedom to say that two plus two make four."
+            ],
+            description: 'Prole who works at the docks, representing physical labor.'
           }
         ],
         generalRoles: [
@@ -2415,6 +5866,176 @@ const SCENARIOS = {
               "The gods will guide us."
             ],
             description: 'King of Pylos, the oldest and wisest of the Greek leaders.'
+          },
+          {
+            name: 'Ajax the Great',
+            role: 'Mighty Warrior',
+            startingCoins: 95,
+            startingWeapons: ['shield'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'brave',
+            quotes: [
+              "I will fight Hector.",
+              "The Trojans cannot defeat me.",
+              "We fight for glory.",
+              "I am second only to Achilles.",
+              "Victory through strength."
+            ],
+            description: 'Second greatest Greek warrior after Achilles, known for his massive shield.'
+          },
+          {
+            name: 'Diomedes',
+            role: 'Warrior King',
+            startingCoins: 90,
+            startingWeapons: ['spear'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'fierce',
+            quotes: [
+              "I will fight the gods themselves.",
+              "The Trojans will fall before me.",
+              "We fight for honor.",
+              "I am unstoppable.",
+              "Victory through fury."
+            ],
+            description: 'King of Argos, known for wounding gods in battle.'
+          },
+          {
+            name: 'Patroclus',
+            role: 'Achilles\' Companion',
+            startingCoins: 80,
+            startingWeapons: ['spear'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "I will fight in Achilles' armor.",
+              "The Trojans will not defeat us.",
+              "We fight for our friends.",
+              "I will not let them down.",
+              "Victory through loyalty."
+            ],
+            description: 'Achilles\' closest companion and lover, killed by Hector.'
+          },
+          {
+            name: 'Ajax the Lesser',
+            role: 'Swift Warrior',
+            startingCoins: 75,
+            startingWeapons: ['spear'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'swift',
+            quotes: [
+              "I will outrun the Trojans.",
+              "Speed is my weapon.",
+              "We fight for our homeland.",
+              "I will not be caught.",
+              "Victory through speed."
+            ],
+            description: 'Faster but smaller Ajax, known for his swiftness in battle.'
+          },
+          {
+            name: 'Teucer',
+            role: 'Master Archer',
+            startingCoins: 70,
+            startingWeapons: ['bow'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'precise',
+            quotes: [
+              "I never miss my target.",
+              "The Trojans will fall to my arrows.",
+              "We fight for our cause.",
+              "I will not waste a shot.",
+              "Victory through precision."
+            ],
+            description: 'Ajax\'s half-brother and master archer.'
+          },
+          {
+            name: 'Idomeneus',
+            role: 'Cretan King',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'noble',
+            quotes: [
+              "I will lead my Cretans to victory.",
+              "The Trojans will not defeat us.",
+              "We fight for our honor.",
+              "I will not retreat.",
+              "Victory through nobility."
+            ],
+            description: 'King of Crete and leader of the Cretan forces.'
+          },
+          {
+            name: 'Meriones',
+            role: 'Cretan Warrior',
+            startingCoins: 70,
+            startingWeapons: ['spear'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "I will fight alongside Idomeneus.",
+              "The Trojans will not stop us.",
+              "We fight for Crete.",
+              "I will not be afraid.",
+              "Victory through courage."
+            ],
+            description: 'Cretan warrior and companion of Idomeneus.'
+          },
+          {
+            name: 'Antilochus',
+            role: 'Nestor\'s Son',
+            startingCoins: 65,
+            startingWeapons: ['spear'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'youthful',
+            quotes: [
+              "I will prove myself in battle.",
+              "The Trojans will not defeat me.",
+              "We fight for our fathers.",
+              "I will not disappoint.",
+              "Victory through youth."
+            ],
+            description: 'Nestor\'s youngest son, eager to prove himself.'
+          },
+          {
+            name: 'Thrasymedes',
+            role: 'Nestor\'s Son',
+            startingCoins: 70,
+            startingWeapons: ['spear'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'dutiful',
+            quotes: [
+              "I will serve my father.",
+              "The Trojans will not defeat us.",
+              "We fight for Pylos.",
+              "I will not fail.",
+              "Victory through duty."
+            ],
+            description: 'Nestor\'s elder son and heir to Pylos.'
+          },
+          {
+            name: 'Eurypylus',
+            role: 'Warrior King',
+            startingCoins: 75,
+            startingWeapons: ['spear'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "I will fight for the Greeks.",
+              "The Trojans will not defeat us.",
+              "We fight for our cause.",
+              "I will not give up.",
+              "Victory through determination."
+            ],
+            description: 'King of Ormenion and leader of Greek forces.'
           }
         ],
         generalRoles: [
@@ -2519,6 +6140,176 @@ const SCENARIOS = {
               "Love will conquer all."
             ],
             description: 'Wife of Hector and princess of Troy.'
+          },
+          {
+            name: 'Helen',
+            role: 'Queen of Sparta',
+            startingCoins: 75,
+            startingWeapons: ['beauty'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'beautiful',
+            quotes: [
+              "I am the cause of this war.",
+              "The gods chose me.",
+              "We fight for love.",
+              "I will not return to Menelaus.",
+              "Beauty is my weapon."
+            ],
+            description: 'The most beautiful woman in the world, whose abduction started the Trojan War.'
+          },
+          {
+            name: 'Deiphobus',
+            role: 'Prince of Troy',
+            startingCoins: 75,
+            startingWeapons: ['spear'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "I will fight for Troy.",
+              "The Greeks will not defeat us.",
+              "We fight for our city.",
+              "I will not retreat.",
+              "Victory through courage."
+            ],
+            description: 'Prince of Troy and brother of Hector.'
+          },
+          {
+            name: 'Polydamas',
+            role: 'Trojan Advisor',
+            startingCoins: 70,
+            startingWeapons: ['wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'wise',
+            quotes: [
+              "We must be strategic.",
+              "The Greeks are strong.",
+              "We fight for our survival.",
+              "We will not be reckless.",
+              "Victory through wisdom."
+            ],
+            description: 'Trojan advisor known for his wisdom and counsel.'
+          },
+          {
+            name: 'Sarpedon',
+            role: 'Lycian King',
+            startingCoins: 85,
+            startingWeapons: ['spear'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'noble',
+            quotes: [
+              "I will fight for Troy.",
+              "The Greeks will not defeat us.",
+              "We fight for our allies.",
+              "I will not retreat.",
+              "Victory through nobility."
+            ],
+            description: 'King of Lycia and ally of Troy, son of Zeus.'
+          },
+          {
+            name: 'Glaucus',
+            role: 'Lycian Warrior',
+            startingCoins: 75,
+            startingWeapons: ['spear'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "I will fight alongside Sarpedon.",
+              "The Greeks will not defeat us.",
+              "We fight for our friendship.",
+              "I will not retreat.",
+              "Victory through loyalty."
+            ],
+            description: 'Lycian warrior and companion of Sarpedon.'
+          },
+          {
+            name: 'Antenor',
+            role: 'Trojan Elder',
+            startingCoins: 70,
+            startingWeapons: ['wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'diplomatic',
+            quotes: [
+              "We must negotiate peace.",
+              "The Greeks are too strong.",
+              "We fight for our survival.",
+              "We will find a way.",
+              "Victory through diplomacy."
+            ],
+            description: 'Trojan elder who advocated for peace with the Greeks.'
+          },
+          {
+            name: 'Pandarus',
+            role: 'Trojan Archer',
+            startingCoins: 65,
+            startingWeapons: ['bow'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'treacherous',
+            quotes: [
+              "I will break the truce.",
+              "The Greeks will not expect this.",
+              "We fight for our advantage.",
+              "I will not play fair.",
+              "Victory through treachery."
+            ],
+            description: 'Trojan archer who broke the truce by wounding Menelaus.'
+          },
+          {
+            name: 'Dolon',
+            role: 'Trojan Spy',
+            startingCoins: 60,
+            startingWeapons: ['stealth'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'cowardly',
+            quotes: [
+              "I will spy on the Greeks.",
+              "The Greeks will not catch me.",
+              "We fight for information.",
+              "I will not be brave.",
+              "Victory through stealth."
+            ],
+            description: 'Trojan spy who was captured and killed by Odysseus and Diomedes.'
+          },
+          {
+            name: 'Rhesus',
+            role: 'Thracian King',
+            startingCoins: 80,
+            startingWeapons: ['spear'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'proud',
+            quotes: [
+              "I will fight for Troy.",
+              "The Greeks will not defeat us.",
+              "We fight for our honor.",
+              "I will not retreat.",
+              "Victory through pride."
+            ],
+            description: 'King of Thrace and ally of Troy, killed by Odysseus and Diomedes.'
+          },
+          {
+            name: 'Memnon',
+            role: 'Ethiopian King',
+            startingCoins: 85,
+            startingWeapons: ['spear'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'mighty',
+            quotes: [
+              "I will fight for Troy.",
+              "The Greeks will not defeat us.",
+              "We fight for our allies.",
+              "I will not retreat.",
+              "Victory through might."
+            ],
+            description: 'King of Ethiopia and ally of Troy, son of the dawn goddess Eos.'
           }
         ],
         generalRoles: [
@@ -2640,6 +6431,176 @@ const SCENARIOS = {
               "I am Aquaman."
             ],
             description: 'King of Atlantis and protector of the oceans.'
+          },
+          {
+            name: 'Green Lantern',
+            role: 'Space Cop',
+            startingCoins: 95,
+            startingWeapons: ['power ring'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'fearless',
+            quotes: [
+              "In brightest day, in blackest night.",
+              "I will overcome fear.",
+              "The Green Lantern Corps will prevail.",
+              "We protect the universe.",
+              "Willpower is my weapon."
+            ],
+            description: 'Member of the Green Lantern Corps, protector of space sector 2814.'
+          },
+          {
+            name: 'Cyborg',
+            role: 'Half-Man Half-Machine',
+            startingCoins: 90,
+            startingWeapons: ['cybernetic enhancements'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'tech-savvy',
+            quotes: [
+              "I am more than human.",
+              "Technology is my strength.",
+              "We will protect the world.",
+              "I am Cyborg.",
+              "Humanity and technology united."
+            ],
+            description: 'Half-human, half-machine hero with advanced technology.'
+          },
+          {
+            name: 'Green Arrow',
+            role: 'Master Archer',
+            startingCoins: 85,
+            startingWeapons: ['bow and arrow'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'rebellious',
+            quotes: [
+              "I fight for the little guy.",
+              "Justice for all.",
+              "We will protect Star City.",
+              "I am Green Arrow.",
+              "Never give up."
+            ],
+            description: 'Master archer and protector of Star City.'
+          },
+          {
+            name: 'Martian Manhunter',
+            role: 'Last Martian',
+            startingCoins: 100,
+            startingWeapons: ['telepathy'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'wise',
+            quotes: [
+              "I am the last of my kind.",
+              "We will protect Earth.",
+              "I am Martian Manhunter.",
+              "We must unite.",
+              "Peace through understanding."
+            ],
+            description: 'Last survivor of Mars, protector of Earth.'
+          },
+          {
+            name: 'Shazam',
+            role: 'World\'s Mightiest Mortal',
+            startingCoins: 95,
+            startingWeapons: ['lightning'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'youthful',
+            quotes: [
+              "Shazam!",
+              "I am the world's mightiest mortal.",
+              "We will protect the innocent.",
+              "I am Shazam.",
+              "Magic is my power."
+            ],
+            description: 'Young boy who transforms into the world\'s mightiest mortal.'
+          },
+          {
+            name: 'Black Canary',
+            role: 'Master Fighter',
+            startingCoins: 80,
+            startingWeapons: ['canary cry'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'fierce',
+            quotes: [
+              "I fight for justice.",
+              "We will protect the innocent.",
+              "I am Black Canary.",
+              "We must be strong.",
+              "Never back down."
+            ],
+            description: 'Master martial artist with sonic scream abilities.'
+          },
+          {
+            name: 'Hawkman',
+            role: 'Winged Warrior',
+            startingCoins: 85,
+            startingWeapons: ['mace'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'noble',
+            quotes: [
+              "I fight for justice.",
+              "We will protect the innocent.",
+              "I am Hawkman.",
+              "We must be strong.",
+              "Honor above all."
+            ],
+            description: 'Winged warrior with ancient Egyptian origins.'
+          },
+          {
+            name: 'Zatanna',
+            role: 'Mistress of Magic',
+            startingCoins: 90,
+            startingWeapons: ['magic'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'mystical',
+            quotes: [
+              "I am mistress of magic.",
+              "We will protect the world.",
+              "I am Zatanna.",
+              "Magic is my power.",
+              "Mystical forces unite."
+            ],
+            description: 'Mistress of magic and stage magician.'
+          },
+          {
+            name: 'Nightwing',
+            role: 'Former Robin',
+            startingCoins: 85,
+            startingWeapons: ['escrima sticks'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'acrobatic',
+            quotes: [
+              "I fight for justice.",
+              "We will protect the innocent.",
+              "I am Nightwing.",
+              "We must be strong.",
+              "Never give up."
+            ],
+            description: 'Former Robin, now protector of Blüdhaven.'
+          },
+          {
+            name: 'Supergirl',
+            role: 'Girl of Steel',
+            startingCoins: 100,
+            startingWeapons: ['heat vision'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'heroic',
+            quotes: [
+              "I am Supergirl.",
+              "We will protect Earth.",
+              "I am the girl of steel.",
+              "We must be strong.",
+              "Hope will triumph."
+            ],
+            description: 'Superman\'s cousin and protector of Earth.'
           }
         ],
         generalRoles: [
@@ -2744,6 +6705,176 @@ const SCENARIOS = {
               "I am T\'Challa."
             ],
             description: 'King of Wakanda and protector of his people.'
+          },
+          {
+            name: 'Hulk',
+            role: 'Green Goliath',
+            startingCoins: 110,
+            startingWeapons: ['super strength'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'angry',
+            quotes: [
+              "Hulk smash!",
+              "You wouldn't like me when I'm angry.",
+              "We are the Avengers.",
+              "Hulk is strongest one there is.",
+              "Hulk will protect."
+            ],
+            description: 'Bruce Banner\'s alter ego, the strongest Avenger.'
+          },
+          {
+            name: 'Wolverine',
+            role: 'Mutant Warrior',
+            startingCoins: 100,
+            startingWeapons: ['adamantium claws'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'fierce',
+            quotes: [
+              "I\'m the best there is at what I do.",
+              "We will protect mutants.",
+              "I am Wolverine.",
+              "We must be strong.",
+              "Never give up."
+            ],
+            description: 'Mutant with healing factor and adamantium claws.'
+          },
+          {
+            name: 'Storm',
+            role: 'Weather Goddess',
+            startingCoins: 95,
+            startingWeapons: ['weather control'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'regal',
+            quotes: [
+              "I am Storm.",
+              "We will protect mutants.",
+              "I am the weather goddess.",
+              "We must be strong.",
+              "Nature is my power."
+            ],
+            description: 'Mutant with weather control abilities and X-Men leader.'
+          },
+          {
+            name: 'Doctor Strange',
+            role: 'Sorcerer Supreme',
+            startingCoins: 105,
+            startingWeapons: ['magic'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'mystical',
+            quotes: [
+              "I am Doctor Strange.",
+              "We will protect the world.",
+              "I am the Sorcerer Supreme.",
+              "Magic is my power.",
+              "We must be strong."
+            ],
+            description: 'Master of the mystic arts and protector of Earth.'
+          },
+          {
+            name: 'Deadpool',
+            role: 'Merc with a Mouth',
+            startingCoins: 90,
+            startingWeapons: ['swords'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'chaotic',
+            quotes: [
+              "I am Deadpool.",
+              "We will protect the world.",
+              "I am the merc with a mouth.",
+              "We must be strong.",
+              "Never give up."
+            ],
+            description: 'Mercenary with healing factor and fourth wall awareness.'
+          },
+          {
+            name: 'Captain Marvel',
+            role: 'Cosmic Hero',
+            startingCoins: 110,
+            startingWeapons: ['cosmic energy'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'powerful',
+            quotes: [
+              "I am Captain Marvel.",
+              "We will protect the universe.",
+              "I am the cosmic hero.",
+              "We must be strong.",
+              "Power is my weapon."
+            ],
+            description: 'Cosmic-powered hero and protector of the universe.'
+          },
+          {
+            name: 'Ant-Man',
+            role: 'Size-Changing Hero',
+            startingCoins: 85,
+            startingWeapons: ['pym particles'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'clever',
+            quotes: [
+              "I am Ant-Man.",
+              "We will protect the world.",
+              "I am the size-changing hero.",
+              "We must be strong.",
+              "Size is my power."
+            ],
+            description: 'Hero who can change size using Pym particles.'
+          },
+          {
+            name: 'Wasp',
+            role: 'Size-Changing Heroine',
+            startingCoins: 85,
+            startingWeapons: ['pym particles'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "I am Wasp.",
+              "We will protect the world.",
+              "I am the size-changing heroine.",
+              "We must be strong.",
+              "Size is my power."
+            ],
+            description: 'Heroine who can change size and fly using Pym particles.'
+          },
+          {
+            name: 'Scarlet Witch',
+            role: 'Reality Warper',
+            startingCoins: 100,
+            startingWeapons: ['chaos magic'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'powerful',
+            quotes: [
+              "I am Scarlet Witch.",
+              "We will protect the world.",
+              "I am the reality warper.",
+              "We must be strong.",
+              "Magic is my power."
+            ],
+            description: 'Mutant with reality-warping abilities.'
+          },
+          {
+            name: 'Vision',
+            role: 'Synthetic Being',
+            startingCoins: 95,
+            startingWeapons: ['mind stone'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'logical',
+            quotes: [
+              "I am Vision.",
+              "We will protect the world.",
+              "I am the synthetic being.",
+              "We must be strong.",
+              "Logic is my power."
+            ],
+            description: 'Synthetic being created by Ultron and the Avengers.'
           }
         ],
         generalRoles: [
@@ -2864,6 +6995,176 @@ const SCENARIOS = {
               "We are strong together."
             ],
             description: 'Kristoff\'s loyal reindeer companion.'
+          },
+          {
+            name: 'Marshmallow',
+            role: 'Ice Monster',
+            startingCoins: 80,
+            startingWeapons: ['ice strength'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'protective',
+            quotes: [
+              "I will protect Elsa.",
+              "We are friends.",
+              "I will help you.",
+              "We are a team.",
+              "We are strong together."
+            ],
+            description: 'Elsa\'s ice monster guardian of the ice palace.'
+          },
+          {
+            name: 'Grand Pabbie',
+            role: 'Troll King',
+            startingCoins: 85,
+            startingWeapons: ['magic'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'wise',
+            quotes: [
+              "I will help you.",
+              "We are friends.",
+              "I will protect you.",
+              "We are a team.",
+              "We are strong together."
+            ],
+            description: 'King of the trolls who helps Elsa and Anna.'
+          },
+          {
+            name: 'Bulda',
+            role: 'Troll Mother',
+            startingCoins: 70,
+            startingWeapons: ['magic'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'motherly',
+            quotes: [
+              "I will help you.",
+              "We are friends.",
+              "I will protect you.",
+              "We are a team.",
+              "We are strong together."
+            ],
+            description: 'Troll mother who adopts Kristoff.'
+          },
+          {
+            name: 'Cliff',
+            role: 'Troll',
+            startingCoins: 65,
+            startingWeapons: ['magic'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'friendly',
+            quotes: [
+              "I will help you.",
+              "We are friends.",
+              "I will protect you.",
+              "We are a team.",
+              "We are strong together."
+            ],
+            description: 'Friendly troll who helps Elsa and Anna.'
+          },
+          {
+            name: 'Gale',
+            role: 'Wind Spirit',
+            startingCoins: 75,
+            startingWeapons: ['wind'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'playful',
+            quotes: [
+              "I will help you.",
+              "We are friends.",
+              "I will protect you.",
+              "We are a team.",
+              "We are strong together."
+            ],
+            description: 'Wind spirit who helps Elsa and Anna.'
+          },
+          {
+            name: 'Bruni',
+            role: 'Fire Spirit',
+            startingCoins: 70,
+            startingWeapons: ['fire'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'curious',
+            quotes: [
+              "I will help you.",
+              "We are friends.",
+              "I will protect you.",
+              "We are a team.",
+              "We are strong together."
+            ],
+            description: 'Fire spirit who helps Elsa and Anna.'
+          },
+          {
+            name: 'Nokk',
+            role: 'Water Spirit',
+            startingCoins: 80,
+            startingWeapons: ['water'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'mysterious',
+            quotes: [
+              "I will help you.",
+              "We are friends.",
+              "I will protect you.",
+              "We are a team.",
+              "We are strong together."
+            ],
+            description: 'Water spirit who helps Elsa and Anna.'
+          },
+          {
+            name: 'Earth Giants',
+            role: 'Earth Spirits',
+            startingCoins: 90,
+            startingWeapons: ['earth'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'ancient',
+            quotes: [
+              "I will help you.",
+              "We are friends.",
+              "I will protect you.",
+              "We are a team.",
+              "We are strong together."
+            ],
+            description: 'Ancient earth spirits who help Elsa and Anna.'
+          },
+          {
+            name: 'Ahtohallan',
+            role: 'Memory River',
+            startingCoins: 95,
+            startingWeapons: ['memories'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'mystical',
+            quotes: [
+              "I will help you.",
+              "We are friends.",
+              "I will protect you.",
+              "We are a team.",
+              "We are strong together."
+            ],
+            description: 'Mystical river of memories that helps Elsa.'
+          },
+          {
+            name: 'Iduna',
+            role: 'Queen Mother',
+            startingCoins: 85,
+            startingWeapons: ['love'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'loving',
+            quotes: [
+              "I will help you.",
+              "We are friends.",
+              "I will protect you.",
+              "We are a team.",
+              "We are strong together."
+            ],
+            description: 'Elsa and Anna\'s mother, queen of Arendelle.'
           }
         ],
         generalRoles: [
@@ -2968,6 +7269,176 @@ const SCENARIOS = {
               "Come in, come in."
             ],
             description: 'Friendly shopkeeper who helps travelers.'
+          },
+          {
+            name: 'Hans\' Brothers',
+            role: 'Princes',
+            startingCoins: 70,
+            startingWeapons: ['swords'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'ambitious',
+            quotes: [
+              "We will take what we want.",
+              "Power is everything.",
+              "We will not be denied.",
+              "We are the princes.",
+              "We will rule."
+            ],
+            description: 'Hans\' twelve brothers who seek power and control.'
+          },
+          {
+            name: 'Southern Isles Guards',
+            role: 'Soldiers',
+            startingCoins: 60,
+            startingWeapons: ['spears'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "We serve the princes.",
+              "We will follow orders.",
+              "We are loyal soldiers.",
+              "We will not fail.",
+              "We are strong."
+            ],
+            description: 'Loyal soldiers from the Southern Isles.'
+          },
+          {
+            name: 'Weselton Merchants',
+            role: 'Traders',
+            startingCoins: 55,
+            startingWeapons: ['gold'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'greedy',
+            quotes: [
+              "We will profit from this.",
+              "Money is power.",
+              "We will take what we want.",
+              "Business is business.",
+              "We are traders."
+            ],
+            description: 'Greedy merchants from Weselton.'
+          },
+          {
+            name: 'Dark Forest Creatures',
+            role: 'Predators',
+            startingCoins: 50,
+            startingWeapons: ['claws'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'dangerous',
+            quotes: [
+              "We hunt in the dark.",
+              "We are predators.",
+              "We will survive.",
+              "We are strong.",
+              "We protect our territory."
+            ],
+            description: 'Dangerous creatures that live in the dark forest.'
+          },
+          {
+            name: 'Frozen Fjord Monsters',
+            role: 'Sea Creatures',
+            startingCoins: 65,
+            startingWeapons: ['ice'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cold',
+            quotes: [
+              "We live in the ice.",
+              "We are cold creatures.",
+              "We will survive.",
+              "We are strong.",
+              "We protect our home."
+            ],
+            description: 'Mysterious creatures that live in the frozen fjord.'
+          },
+          {
+            name: 'Marshmallow\'s Minions',
+            role: 'Snow Creatures',
+            startingCoins: 45,
+            startingWeapons: ['snow'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "We serve Marshmallow.",
+              "We are snow creatures.",
+              "We will protect our master.",
+              "We are strong.",
+              "We are loyal."
+            ],
+            description: 'Small snow creatures that serve Marshmallow.'
+          },
+          {
+            name: 'Wolves\' Pack',
+            role: 'Hunters',
+            startingCoins: 50,
+            startingWeapons: ['claws'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'predatory',
+            quotes: [
+              "We hunt together.",
+              "We are the pack.",
+              "We will survive.",
+              "We are strong.",
+              "We protect our territory."
+            ],
+            description: 'Pack of wolves that hunt in the dark forest.'
+          },
+          {
+            name: 'Southern Isles Nobles',
+            role: 'Aristocrats',
+            startingCoins: 75,
+            startingWeapons: ['influence'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'arrogant',
+            quotes: [
+              "We are the nobles.",
+              "We will take what we want.",
+              "We are above the commoners.",
+              "We will rule.",
+              "We are the elite."
+            ],
+            description: 'Arrogant nobles from the Southern Isles.'
+          },
+          {
+            name: 'Weselton Soldiers',
+            role: 'Mercenaries',
+            startingCoins: 60,
+            startingWeapons: ['swords'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'mercenary',
+            quotes: [
+              "We fight for gold.",
+              "We are mercenaries.",
+              "We will not fail.",
+              "We are strong.",
+              "We serve the highest bidder."
+            ],
+            description: 'Mercenary soldiers from Weselton.'
+          },
+          {
+            name: 'Dark Forest Spirits',
+            role: 'Malevolent Entities',
+            startingCoins: 70,
+            startingWeapons: ['dark magic'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'evil',
+            quotes: [
+              "We are the dark spirits.",
+              "We will corrupt all.",
+              "We are evil.",
+              "We will spread darkness.",
+              "We are the shadows."
+            ],
+            description: 'Malevolent spirits that live in the dark forest.'
           }
         ],
         generalRoles: [
@@ -3089,6 +7560,176 @@ const SCENARIOS = {
               "The Atlantic is ours."
             ],
             description: 'Admiral who commanded the North Atlantic Squadron.'
+          },
+          {
+            name: 'Leonard Wood',
+            role: 'General',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "We will charge up San Juan Hill.",
+              "The Rough Riders will lead the way.",
+              "We fight for American honor.",
+              "Victory will be ours!",
+              "We are the Rough Riders."
+            ],
+            description: 'General who led the Rough Riders alongside Roosevelt.'
+          },
+          {
+            name: 'John J. Pershing',
+            role: 'Captain',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'disciplined',
+            quotes: [
+              "We will fight with discipline.",
+              "The Spanish will not defeat us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through training."
+            ],
+            description: 'Future general who fought in the Spanish-American War.'
+          },
+          {
+            name: 'William Shafter',
+            role: 'General',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'strategic',
+            quotes: [
+              "We will use strategy.",
+              "The Spanish will not defeat us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through strategy."
+            ],
+            description: 'General who commanded American forces in Cuba.'
+          },
+          {
+            name: 'Nelson Miles',
+            role: 'General',
+            startingCoins: 85,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'experienced',
+            quotes: [
+              "We will use our experience.",
+              "The Spanish will not defeat us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through experience."
+            ],
+            description: 'Experienced general who fought in the Spanish-American War.'
+          },
+          {
+            name: 'William R. Shafter',
+            role: 'General',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "We will be determined.",
+              "The Spanish will not defeat us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through determination."
+            ],
+            description: 'General who fought determinedly in the Spanish-American War.'
+          },
+          {
+            name: 'Joseph Wheeler',
+            role: 'General',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'confederate',
+            quotes: [
+              "We will fight for our country.",
+              "The Spanish will not defeat us.",
+              "We fight for our honor.",
+              "We will not retreat.",
+              "Victory through honor."
+            ],
+            description: 'Former Confederate general who fought in the Spanish-American War.'
+          },
+          {
+            name: 'Fitzhugh Lee',
+            role: 'General',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'confederate',
+            quotes: [
+              "We will fight for our country.",
+              "The Spanish will not defeat us.",
+              "We fight for our honor.",
+              "We will not retreat.",
+              "Victory through honor."
+            ],
+            description: 'Former Confederate general who fought in the Spanish-American War.'
+          },
+          {
+            name: 'William Jennings Bryan',
+            role: 'Politician',
+            startingCoins: 70,
+            startingWeapons: ['oratory'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'passionate',
+            quotes: [
+              "We will fight for our country.",
+              "The Spanish will not defeat us.",
+              "We fight for our honor.",
+              "We will not retreat.",
+              "Victory through passion."
+            ],
+            description: 'Politician who supported the Spanish-American War.'
+          },
+          {
+            name: 'John Hay',
+            role: 'Secretary of State',
+            startingCoins: 80,
+            startingWeapons: ['diplomacy'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'diplomatic',
+            quotes: [
+              "We will use diplomacy.",
+              "The Spanish will not defeat us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through diplomacy."
+            ],
+            description: 'Secretary of State who helped negotiate the end of the war.'
+          },
+          {
+            name: 'Elihu Root',
+            role: 'Secretary of War',
+            startingCoins: 75,
+            startingWeapons: ['military strategy'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'administrative',
+            quotes: [
+              "We will organize our forces.",
+              "The Spanish will not defeat us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through organization."
+            ],
+            description: 'Secretary of War who organized American military efforts.'
           }
         ],
         generalRoles: [
@@ -3193,6 +7834,176 @@ const SCENARIOS = {
               "The empire endures."
             ],
             description: 'Spanish governor of Cuba during the war.'
+          },
+          {
+            name: 'Antonio Cánovas del Castillo',
+            role: 'Prime Minister',
+            startingCoins: 85,
+            startingWeapons: ['political power'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'conservative',
+            quotes: [
+              "We will defend our empire.",
+              "Spain will not surrender.",
+              "We fight for our honor.",
+              "We will not retreat.",
+              "Victory through determination."
+            ],
+            description: 'Spanish Prime Minister who led the country during the war.'
+          },
+          {
+            name: 'Práxedes Mateo Sagasta',
+            role: 'Prime Minister',
+            startingCoins: 80,
+            startingWeapons: ['political power'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'liberal',
+            quotes: [
+              "We will defend our empire.",
+              "Spain will not surrender.",
+              "We fight for our honor.",
+              "We will not retreat.",
+              "Victory through determination."
+            ],
+            description: 'Spanish Prime Minister who succeeded Cánovas.'
+          },
+          {
+            name: 'Manuel Macías y Casado',
+            role: 'General',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'defensive',
+            quotes: [
+              "We will defend our positions.",
+              "The Americans will not defeat us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through defense."
+            ],
+            description: 'Spanish general who defended Puerto Rico.'
+          },
+          {
+            name: 'Fermín Jáudenes',
+            role: 'General',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'defensive',
+            quotes: [
+              "We will defend Manila.",
+              "The Americans will not defeat us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through defense."
+            ],
+            description: 'Spanish general who defended Manila.'
+          },
+          {
+            name: 'Basilio Augustín',
+            role: 'Governor',
+            startingCoins: 70,
+            startingWeapons: ['colonial administration'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'administrative',
+            quotes: [
+              "We will govern the Philippines.",
+              "The Americans will not defeat us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through administration."
+            ],
+            description: 'Spanish governor of the Philippines.'
+          },
+          {
+            name: 'Ricardo de Ortega y Diez',
+            role: 'General',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "We will fight bravely.",
+              "The Americans will not defeat us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through bravery."
+            ],
+            description: 'Spanish general who fought in Cuba.'
+          },
+          {
+            name: 'José Toral y Vázquez',
+            role: 'General',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'defensive',
+            quotes: [
+              "We will defend Santiago.",
+              "The Americans will not defeat us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through defense."
+            ],
+            description: 'Spanish general who defended Santiago.'
+          },
+          {
+            name: 'Francisco de Paula Loño y Pérez',
+            role: 'General',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "We will be determined.",
+              "The Americans will not defeat us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through determination."
+            ],
+            description: 'Spanish general who fought determinedly.'
+          },
+          {
+            name: 'Luis de Pando y Sánchez',
+            role: 'General',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'strategic',
+            quotes: [
+              "We will use strategy.",
+              "The Americans will not defeat us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through strategy."
+            ],
+            description: 'Spanish general who fought strategically.'
+          },
+          {
+            name: 'Arsenio Linares y Pombo',
+            role: 'General',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'experienced',
+            quotes: [
+              "We will use our experience.",
+              "The Americans will not defeat us.",
+              "We fight for our country.",
+              "We will not retreat.",
+              "Victory through experience."
+            ],
+            description: 'Spanish general with experience in colonial warfare.'
           }
         ],
         generalRoles: [
@@ -3314,6 +8125,176 @@ const SCENARIOS = {
               "The Atreides way will prevail."
             ],
             description: 'Warmaster and loyal retainer of House Atreides.'
+          },
+          {
+            name: 'Thufir Hawat',
+            role: 'Mentat',
+            startingCoins: 85,
+            startingWeapons: ['logic'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'analytical',
+            quotes: [
+              "We will use logic and reason.",
+              "The spice must be protected.",
+              "We will defend our people.",
+              "Logic will guide us.",
+              "The Atreides way will prevail."
+            ],
+            description: 'Mentat and master of assassins for House Atreides.'
+          },
+          {
+            name: 'Dr. Yueh',
+            role: 'Suk Doctor',
+            startingCoins: 80,
+            startingWeapons: ['medical knowledge'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'healing',
+            quotes: [
+              "We will heal and protect.",
+              "The spice must be protected.",
+              "We will defend our people.",
+              "Healing will guide us.",
+              "The Atreides way will prevail."
+            ],
+            description: 'Suk doctor bound by imperial conditioning.'
+          },
+          {
+            name: 'Stilgar',
+            role: 'Fremen Naib',
+            startingCoins: 90,
+            startingWeapons: ['crysknife'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'desert-wise',
+            quotes: [
+              "We will fight for the desert.",
+              "The spice must be protected.",
+              "We will defend our people.",
+              "The desert will guide us.",
+              "The Fremen way will prevail."
+            ],
+            description: 'Fremen naib and leader of Sietch Tabr.'
+          },
+          {
+            name: 'Chani',
+            role: 'Fremen Warrior',
+            startingCoins: 85,
+            startingWeapons: ['crysknife'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'fierce',
+            quotes: [
+              "We will fight for the desert.",
+              "The spice must be protected.",
+              "We will defend our people.",
+              "The desert will guide us.",
+              "The Fremen way will prevail."
+            ],
+            description: 'Fremen warrior and Paul\'s beloved.'
+          },
+          {
+            name: 'Liet-Kynes',
+            role: 'Planetologist',
+            startingCoins: 80,
+            startingWeapons: ['ecological knowledge'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'scientific',
+            quotes: [
+              "We will understand the desert.",
+              "The spice must be protected.",
+              "We will defend our people.",
+              "Science will guide us.",
+              "The ecological way will prevail."
+            ],
+            description: 'Planetologist and father of Chani.'
+          },
+          {
+            name: 'Jamis',
+            role: 'Fremen Warrior',
+            startingCoins: 75,
+            startingWeapons: ['crysknife'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'proud',
+            quotes: [
+              "We will fight for the desert.",
+              "The spice must be protected.",
+              "We will defend our people.",
+              "The desert will guide us.",
+              "The Fremen way will prevail."
+            ],
+            description: 'Fremen warrior who challenges Paul to a duel.'
+          },
+          {
+            name: 'Mapes',
+            role: 'Housekeeper',
+            startingCoins: 70,
+            startingWeapons: ['loyalty'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "We will serve House Atreides.",
+              "The spice must be protected.",
+              "We will defend our people.",
+              "Loyalty will guide us.",
+              "The Atreides way will prevail."
+            ],
+            description: 'Housekeeper and loyal servant of House Atreides.'
+          },
+          {
+            name: 'Piter de Vries',
+            role: 'Mentat',
+            startingCoins: 85,
+            startingWeapons: ['logic'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'analytical',
+            quotes: [
+              "We will use logic and reason.",
+              "The spice must be protected.",
+              "We will defend our people.",
+              "Logic will guide us.",
+              "The Atreides way will prevail."
+            ],
+            description: 'Mentat and master of assassins for House Atreides.'
+          },
+          {
+            name: 'Wellington Yueh',
+            role: 'Suk Doctor',
+            startingCoins: 80,
+            startingWeapons: ['medical knowledge'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'healing',
+            quotes: [
+              "We will heal and protect.",
+              "The spice must be protected.",
+              "We will defend our people.",
+              "Healing will guide us.",
+              "The Atreides way will prevail."
+            ],
+            description: 'Suk doctor bound by imperial conditioning.'
+          },
+          {
+            name: 'Shadout Mapes',
+            role: 'Housekeeper',
+            startingCoins: 70,
+            startingWeapons: ['loyalty'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "We will serve House Atreides.",
+              "The spice must be protected.",
+              "We will defend our people.",
+              "Loyalty will guide us.",
+              "The Atreides way will prevail."
+            ],
+            description: 'Housekeeper and loyal servant of House Atreides.'
           }
         ],
         generalRoles: [
@@ -3418,6 +8399,176 @@ const SCENARIOS = {
               "The Harkonnens will win."
             ],
             description: 'Imperial assassin and Harkonnen ally.'
+          },
+          {
+            name: 'Lady Margot Fenring',
+            role: 'Bene Gesserit',
+            startingCoins: 85,
+            startingWeapons: ['voice'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'mystical',
+            quotes: [
+              "We will use the voice.",
+              "The Atreides will not see us coming.",
+              "We will eliminate our enemies.",
+              "The voice is our weapon.",
+              "The Harkonnens will win."
+            ],
+            description: 'Bene Gesserit sister and wife of Count Fenring.'
+          },
+          {
+            name: 'Captain Iakin Nefud',
+            role: 'Captain',
+            startingCoins: 80,
+            startingWeapons: ['lasgun'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "We will serve the Baron.",
+              "The Atreides will not see us coming.",
+              "We will eliminate our enemies.",
+              "Loyalty is our weapon.",
+              "The Harkonnens will win."
+            ],
+            description: 'Harkonnen captain and loyal servant.'
+          },
+          {
+            name: 'Sardaukar Commander',
+            role: 'Elite Soldier',
+            startingCoins: 90,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'disciplined',
+            quotes: [
+              "We will fight with discipline.",
+              "The Atreides will not see us coming.",
+              "We will eliminate our enemies.",
+              "Discipline is our weapon.",
+              "The Harkonnens will win."
+            ],
+            description: 'Elite Sardaukar commander serving the Harkonnens.'
+          },
+          {
+            name: 'Harkonnen Spice Master',
+            role: 'Spice Controller',
+            startingCoins: 85,
+            startingWeapons: ['spice knowledge'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'greedy',
+            quotes: [
+              "We will control the spice.",
+              "The Atreides will not see us coming.",
+              "We will eliminate our enemies.",
+              "The spice is our weapon.",
+              "The Harkonnens will win."
+            ],
+            description: 'Harkonnen spice master and controller.'
+          },
+          {
+            name: 'Harkonnen Mentat',
+            role: 'Analyst',
+            startingCoins: 80,
+            startingWeapons: ['logic'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'analytical',
+            quotes: [
+              "We will use logic.",
+              "The Atreides will not see us coming.",
+              "We will eliminate our enemies.",
+              "Logic is our weapon.",
+              "The Harkonnens will win."
+            ],
+            description: 'Harkonnen mentat and analyst.'
+          },
+          {
+            name: 'Harkonnen Assassin',
+            role: 'Killer',
+            startingCoins: 75,
+            startingWeapons: ['poison'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'deadly',
+            quotes: [
+              "We will kill our enemies.",
+              "The Atreides will not see us coming.",
+              "We will eliminate our enemies.",
+              "Death is our weapon.",
+              "The Harkonnens will win."
+            ],
+            description: 'Harkonnen assassin and killer.'
+          },
+          {
+            name: 'Harkonnen Torturer',
+            role: 'Interrogator',
+            startingCoins: 70,
+            startingWeapons: ['pain'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cruel',
+            quotes: [
+              "We will torture our enemies.",
+              "The Atreides will not see us coming.",
+              "We will eliminate our enemies.",
+              "Pain is our weapon.",
+              "The Harkonnens will win."
+            ],
+            description: 'Harkonnen torturer and interrogator.'
+          },
+          {
+            name: 'Harkonnen Slave Master',
+            role: 'Overseer',
+            startingCoins: 75,
+            startingWeapons: ['whip'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'brutal',
+            quotes: [
+              "We will control the slaves.",
+              "The Atreides will not see us coming.",
+              "We will eliminate our enemies.",
+              "Fear is our weapon.",
+              "The Harkonnens will win."
+            ],
+            description: 'Harkonnen slave master and overseer.'
+          },
+          {
+            name: 'Harkonnen Ornithopter Pilot',
+            role: 'Aviator',
+            startingCoins: 70,
+            startingWeapons: ['ornithopter'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'skilled',
+            quotes: [
+              "We will fly to victory.",
+              "The Atreides will not see us coming.",
+              "We will eliminate our enemies.",
+              "Flight is our weapon.",
+              "The Harkonnens will win."
+            ],
+            description: 'Harkonnen ornithopter pilot and aviator.'
+          },
+          {
+            name: 'Harkonnen Spice Miner',
+            role: 'Worker',
+            startingCoins: 60,
+            startingWeapons: ['mining tools'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'enslaved',
+            quotes: [
+              "We will mine the spice.",
+              "The Atreides will not see us coming.",
+              "We will eliminate our enemies.",
+              "Labor is our weapon.",
+              "The Harkonnens will win."
+            ],
+            description: 'Harkonnen spice miner and worker.'
           }
         ],
         generalRoles: [
@@ -3538,6 +8689,176 @@ const SCENARIOS = {
               "We will protect!"
             ],
             description: 'Strong minion who can lift heavy objects.'
+          },
+          {
+            name: 'Jerry',
+            role: 'Chef',
+            startingCoins: 65,
+            startingWeapons: ['spatula'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cheerful',
+            quotes: [
+              "We will cook for our master!",
+              "We will make delicious food!",
+              "We are chefs!",
+              "Banana!",
+              "We will feed everyone!"
+            ],
+            description: 'Cheerful minion who loves to cook.'
+          },
+          {
+            name: 'Tom',
+            role: 'Dancer',
+            startingCoins: 60,
+            startingWeapons: ['rhythm'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'energetic',
+            quotes: [
+              "We will dance for our master!",
+              "We will move to the beat!",
+              "We are dancers!",
+              "Banana!",
+              "We will entertain!"
+            ],
+            description: 'Energetic minion who loves to dance.'
+          },
+          {
+            name: 'Phil',
+            role: 'Scientist',
+            startingCoins: 70,
+            startingWeapons: ['test tubes'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'curious',
+            quotes: [
+              "We will experiment for our master!",
+              "We will discover new things!",
+              "We are scientists!",
+              "Banana!",
+              "We will learn!"
+            ],
+            description: 'Curious minion who loves science.'
+          },
+          {
+            name: 'Larry',
+            role: 'Gardener',
+            startingCoins: 60,
+            startingWeapons: ['watering can'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'peaceful',
+            quotes: [
+              "We will grow plants for our master!",
+              "We will make things beautiful!",
+              "We are gardeners!",
+              "Banana!",
+              "We will nurture!"
+            ],
+            description: 'Peaceful minion who loves gardening.'
+          },
+          {
+            name: 'Mark',
+            role: 'Builder',
+            startingCoins: 70,
+            startingWeapons: ['hammer'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'constructive',
+            quotes: [
+              "We will build for our master!",
+              "We will create amazing things!",
+              "We are builders!",
+              "Banana!",
+              "We will construct!"
+            ],
+            description: 'Constructive minion who loves building.'
+          },
+          {
+            name: 'Steve',
+            role: 'Pilot',
+            startingCoins: 75,
+            startingWeapons: ['flight controls'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'adventurous',
+            quotes: [
+              "We will fly for our master!",
+              "We will soar through the sky!",
+              "We are pilots!",
+              "Banana!",
+              "We will explore!"
+            ],
+            description: 'Adventurous minion who loves flying.'
+          },
+          {
+            name: 'Tim',
+            role: 'Artist',
+            startingCoins: 65,
+            startingWeapons: ['paintbrush'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'creative',
+            quotes: [
+              "We will paint for our master!",
+              "We will create beautiful art!",
+              "We are artists!",
+              "Banana!",
+              "We will express!"
+            ],
+            description: 'Creative minion who loves art.'
+          },
+          {
+            name: 'John',
+            role: 'Mechanic',
+            startingCoins: 70,
+            startingWeapons: ['wrench'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'handy',
+            quotes: [
+              "We will fix things for our master!",
+              "We will repair everything!",
+              "We are mechanics!",
+              "Banana!",
+              "We will maintain!"
+            ],
+            description: 'Handy minion who loves fixing things.'
+          },
+          {
+            name: 'Mike',
+            role: 'Explorer',
+            startingCoins: 65,
+            startingWeapons: ['compass'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'adventurous',
+            quotes: [
+              "We will explore for our master!",
+              "We will discover new places!",
+              "We are explorers!",
+              "Banana!",
+              "We will adventure!"
+            ],
+            description: 'Adventurous minion who loves exploring.'
+          },
+          {
+            name: 'Ben',
+            role: 'Teacher',
+            startingCoins: 70,
+            startingWeapons: ['knowledge'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'wise',
+            quotes: [
+              "We will teach for our master!",
+              "We will share knowledge!",
+              "We are teachers!",
+              "Banana!",
+              "We will educate!"
+            ],
+            description: 'Wise minion who loves teaching.'
           }
         ],
         generalRoles: [
@@ -3642,6 +8963,176 @@ const SCENARIOS = {
               "We will rule with style!"
             ],
             description: '80s-obsessed supervillain who uses retro technology.'
+          },
+          {
+            name: 'El Macho',
+            role: 'Supervillain',
+            startingCoins: 85,
+            startingWeapons: ['muscle'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'macho',
+            quotes: [
+              "We will be the strongest villain!",
+              "Minions will respect our power!",
+              "We will crush our enemies!",
+              "Strength is our weapon!",
+              "We will not be defeated!"
+            ],
+            description: 'Macho supervillain who relies on brute strength.'
+          },
+          {
+            name: 'Fluffykins',
+            role: 'Evil Pet',
+            startingCoins: 70,
+            startingWeapons: ['cuteness'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'deceptive',
+            quotes: [
+              "We will trick everyone!",
+              "Minions will love our cuteness!",
+              "We will be underestimated!",
+              "Cuteness is our weapon!",
+              "We will surprise our enemies!"
+            ],
+            description: 'Deceptively cute evil pet.'
+          },
+          {
+            name: 'Herb Overkill',
+            role: 'Supervillain',
+            startingCoins: 80,
+            startingWeapons: ['inventions'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'inventive',
+            quotes: [
+              "We will invent amazing weapons!",
+              "Minions will love our gadgets!",
+              "We will be the smartest villain!",
+              "Invention is our power!",
+              "We will outsmart everyone!"
+            ],
+            description: 'Inventive supervillain who creates gadgets.'
+          },
+          {
+            name: 'Professor Flux',
+            role: 'Mad Scientist',
+            startingCoins: 85,
+            startingWeapons: ['experiments'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'mad',
+            quotes: [
+              "We will conduct mad experiments!",
+              "Minions will help our research!",
+              "We will be the maddest scientist!",
+              "Madness is our power!",
+              "We will create chaos!"
+            ],
+            description: 'Mad scientist who conducts crazy experiments.'
+          },
+          {
+            name: 'Count Dracula',
+            role: 'Vampire',
+            startingCoins: 90,
+            startingWeapons: ['fangs'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'undead',
+            quotes: [
+              "We will suck the life from our enemies!",
+              "Minions will serve the undead!",
+              "We will be the greatest vampire!",
+              "Undead is our power!",
+              "We will live forever!"
+            ],
+            description: 'Classic vampire supervillain.'
+          },
+          {
+            name: 'Madame Gasket',
+            role: 'Robot Master',
+            startingCoins: 80,
+            startingWeapons: ['robots'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'mechanical',
+            quotes: [
+              "We will build robot armies!",
+              "Minions will serve our machines!",
+              "We will be the greatest robot master!",
+              "Machines are our power!",
+              "We will automate everything!"
+            ],
+            description: 'Robot master who controls mechanical armies.'
+          },
+          {
+            name: 'Super Silly',
+            role: 'Clown Villain',
+            startingCoins: 75,
+            startingWeapons: ['jokes'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'silly',
+            quotes: [
+              "We will make everyone laugh!",
+              "Minions will love our jokes!",
+              "We will be the funniest villain!",
+              "Silliness is our power!",
+              "We will spread joy!"
+            ],
+            description: 'Silly clown supervillain.'
+          },
+          {
+            name: 'Evil Queen',
+            role: 'Royal Villain',
+            startingCoins: 95,
+            startingWeapons: ['royal power'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'regal',
+            quotes: [
+              "We will rule with royal power!",
+              "Minions will bow to us!",
+              "We will be the greatest queen!",
+              "Royalty is our power!",
+              "We will command respect!"
+            ],
+            description: 'Regal evil queen supervillain.'
+          },
+          {
+            name: 'Dr. Evil',
+            role: 'Classic Villain',
+            startingCoins: 85,
+            startingWeapons: ['evil plans'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'classic',
+            quotes: [
+              "We will execute evil plans!",
+              "Minions will follow our schemes!",
+              "We will be the classic villain!",
+              "Evil is our power!",
+              "We will achieve world domination!"
+            ],
+            description: 'Classic supervillain with evil plans.'
+          },
+          {
+            name: 'The Joker',
+            role: 'Chaos Villain',
+            startingCoins: 90,
+            startingWeapons: ['chaos'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'chaotic',
+            quotes: [
+              "We will create chaos!",
+              "Minions will spread our madness!",
+              "We will be the agent of chaos!",
+              "Chaos is our power!",
+              "We will bring down order!"
+            ],
+            description: 'Chaotic supervillain who thrives on disorder.'
           }
         ],
         generalRoles: [
@@ -3683,7 +9174,18 @@ const SCENARIOS = {
           { name: 'Buzz Lightyear', role: 'Space Ranger', startingCoins: 95, startingWeapons: ['laser'], startingMercenaries: 2, startingCastles: 1, personality: 'heroic', quotes: ['To infinity and beyond!', 'I am Buzz Lightyear!', 'We will save the day!'], description: 'Space ranger action figure with delusions of grandeur.' },
           { name: 'Jessie', role: 'Cowgirl', startingCoins: 85, startingWeapons: ['lasso'], startingMercenaries: 1, startingCastles: 0, personality: 'brave', quotes: ['We\'re not trash!', 'We belong together!', 'We will find our way!'], description: 'Cowgirl doll who fears abandonment.' },
           { name: 'Mr. Potato Head', role: 'Spud', startingCoins: 75, startingWeapons: ['detachable parts'], startingMercenaries: 1, startingCastles: 0, personality: 'grumpy', quotes: ['We\'re not garbage!', 'We will survive!', 'We stick together!'], description: 'Grumpy potato head with detachable parts.' },
-          { name: 'Rex', role: 'Dinosaur', startingCoins: 70, startingWeapons: ['roar'], startingMercenaries: 1, startingCastles: 0, personality: 'anxious', quotes: ['We will be brave!', 'We\'re not scary!', 'We will help!'], description: 'Anxious dinosaur who wants to be scary.' }
+          { name: 'Rex', role: 'Dinosaur', startingCoins: 70, startingWeapons: ['roar'], startingMercenaries: 1, startingCastles: 0, personality: 'anxious', quotes: ['We will be brave!', 'We\'re not scary!', 'We will help!'], description: 'Anxious dinosaur who wants to be scary.' },
+          { name: 'Hamm', role: 'Piggy Bank', startingCoins: 65, startingWeapons: ['coins'], startingMercenaries: 1, startingCastles: 0, personality: 'practical', quotes: ['We will save money!', 'We are practical!', 'We will help!'], description: 'Practical piggy bank who loves money.' },
+          { name: 'Slinky Dog', role: 'Dog', startingCoins: 70, startingWeapons: ['spring'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['We will stretch!', 'We are loyal!', 'We will help!'], description: 'Loyal dog toy with a spring body.' },
+          { name: 'Bo Peep', role: 'Shepherdess', startingCoins: 80, startingWeapons: ['shepherd\'s crook'], startingMercenaries: 1, startingCastles: 0, personality: 'caring', quotes: ['We will care!', 'We are gentle!', 'We will help!'], description: 'Caring shepherdess doll who looks after others.' },
+          { name: 'Forky', role: 'Spork', startingCoins: 60, startingWeapons: ['trash'], startingMercenaries: 0, startingCastles: 0, personality: 'confused', quotes: ['We are trash!', 'We are confused!', 'We will help!'], description: 'Confused spork who thinks he\'s trash.' },
+          { name: 'Ducky', role: 'Duck', startingCoins: 55, startingWeapons: ['quack'], startingMercenaries: 0, startingCastles: 0, personality: 'cheerful', quotes: ['We will quack!', 'We are cheerful!', 'We will help!'], description: 'Cheerful duck toy who loves to quack.' },
+          { name: 'Bunny', role: 'Rabbit', startingCoins: 55, startingWeapons: ['hop'], startingMercenaries: 0, startingCastles: 0, personality: 'energetic', quotes: ['We will hop!', 'We are energetic!', 'We will help!'], description: 'Energetic rabbit toy who loves to hop.' },
+          { name: 'Duke Caboom', role: 'Stuntman', startingCoins: 75, startingWeapons: ['motorcycle'], startingMercenaries: 1, startingCastles: 0, personality: 'daring', quotes: ['We will stunt!', 'We are daring!', 'We will help!'], description: 'Daring stuntman toy who loves motorcycles.' },
+          { name: 'Giggle McDimples', role: 'Police Officer', startingCoins: 70, startingWeapons: ['badge'], startingMercenaries: 1, startingCastles: 0, personality: 'authoritative', quotes: ['We will enforce!', 'We are authoritative!', 'We will help!'], description: 'Authoritative police officer toy.' },
+          { name: 'Buttercup', role: 'Unicorn', startingCoins: 65, startingWeapons: ['magic'], startingMercenaries: 1, startingCastles: 0, personality: 'magical', quotes: ['We will magic!', 'We are magical!', 'We will help!'], description: 'Magical unicorn toy who believes in magic.' },
+          { name: 'Trixie', role: 'Triceratops', startingCoins: 70, startingWeapons: ['horns'], startingMercenaries: 1, startingCastles: 0, personality: 'friendly', quotes: ['We will horn!', 'We are friendly!', 'We will help!'], description: 'Friendly triceratops toy with three horns.' },
+          { name: 'Peas-in-a-Pod', role: 'Peas', startingCoins: 60, startingWeapons: ['roll'], startingMercenaries: 0, startingCastles: 0, personality: 'playful', quotes: ['We will roll!', 'We are playful!', 'We will help!'], description: 'Playful peas toy that loves to roll.' }
         ],
         generalRoles: [
           { name: 'Toy Soldier', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'disciplined', quotes: ['We march!', 'We protect!', 'We serve!'] },
@@ -3707,7 +9209,18 @@ const SCENARIOS = {
           { name: 'Lotso', role: 'Bear Leader', startingCoins: 95, startingWeapons: ['manipulation'], startingMercenaries: 2, startingCastles: 1, personality: 'manipulative', quotes: ['We will control!', 'We are in charge!', 'We will not be replaced!'], description: 'Strawberry-scented bear who leads the daycare toys.' },
           { name: 'Stinky Pete', role: 'Prospector', startingCoins: 85, startingWeapons: ['gold'], startingMercenaries: 1, startingCastles: 0, personality: 'greedy', quotes: ['We will be rich!', 'We deserve better!', 'We will not be forgotten!'], description: 'Greedy prospector toy who wants to be valuable.' },
           { name: 'Al', role: 'Collector', startingCoins: 80, startingWeapons: ['money'], startingMercenaries: 1, startingCastles: 0, personality: 'greedy', quotes: ['We will profit!', 'We are valuable!', 'We will be collected!'], description: 'Toy collector who sees toys as investments.' },
-          { name: 'Zurg', role: 'Evil Emperor', startingCoins: 90, startingWeapons: ['death ray'], startingMercenaries: 2, startingCastles: 1, personality: 'evil', quotes: ['We will conquer!', 'We are evil!', 'We will destroy!'], description: 'Evil emperor action figure and Buzz\'s nemesis.' }
+          { name: 'Zurg', role: 'Evil Emperor', startingCoins: 90, startingWeapons: ['death ray'], startingMercenaries: 2, startingCastles: 1, personality: 'evil', quotes: ['We will conquer!', 'We are evil!', 'We will destroy!'], description: 'Evil emperor action figure and Buzz\'s nemesis.' },
+          { name: 'Big Baby', role: 'Broken Doll', startingCoins: 80, startingWeapons: ['crying'], startingMercenaries: 1, startingCastles: 0, personality: 'broken', quotes: ['We will cry!', 'We are broken!', 'We will destroy!'], description: 'Broken baby doll who cries constantly.' },
+          { name: 'Chunk', role: 'Broken Robot', startingCoins: 75, startingWeapons: ['broken parts'], startingMercenaries: 1, startingCastles: 0, personality: 'angry', quotes: ['We will break!', 'We are angry!', 'We will destroy!'], description: 'Angry broken robot toy.' },
+          { name: 'Rocky', role: 'Broken Action Figure', startingCoins: 70, startingWeapons: ['broken arm'], startingMercenaries: 1, startingCastles: 0, personality: 'bitter', quotes: ['We will fight!', 'We are bitter!', 'We will destroy!'], description: 'Bitter broken action figure with a broken arm.' },
+          { name: 'Lenny', role: 'Broken Binoculars', startingCoins: 65, startingWeapons: ['broken lenses'], startingMercenaries: 0, startingCastles: 0, personality: 'confused', quotes: ['We will see!', 'We are confused!', 'We will destroy!'], description: 'Confused broken binoculars toy.' },
+          { name: 'Sergeant', role: 'Broken Soldier', startingCoins: 70, startingWeapons: ['broken rifle'], startingMercenaries: 1, startingCastles: 0, personality: 'defiant', quotes: ['We will fight!', 'We are defiant!', 'We will destroy!'], description: 'Defiant broken soldier toy.' },
+          { name: 'RC', role: 'Broken Car', startingCoins: 75, startingWeapons: ['broken wheels'], startingMercenaries: 1, startingCastles: 0, personality: 'reckless', quotes: ['We will drive!', 'We are reckless!', 'We will destroy!'], description: 'Reckless broken remote control car.' },
+          { name: 'Screaming Mimi', role: 'Broken Doll', startingCoins: 65, startingWeapons: ['screaming'], startingMercenaries: 0, startingCastles: 0, personality: 'loud', quotes: ['We will scream!', 'We are loud!', 'We will destroy!'], description: 'Loud broken doll who screams constantly.' },
+          { name: 'Legs', role: 'Broken Spider', startingCoins: 60, startingWeapons: ['broken legs'], startingMercenaries: 0, startingCastles: 0, personality: 'crawling', quotes: ['We will crawl!', 'We are crawling!', 'We will destroy!'], description: 'Crawling broken spider toy with missing legs.' },
+          { name: 'Ducky & Bunny', role: 'Broken Duo', startingCoins: 70, startingWeapons: ['broken teamwork'], startingMercenaries: 1, startingCastles: 0, personality: 'chaotic', quotes: ['We will chaos!', 'We are chaotic!', 'We will destroy!'], description: 'Chaotic broken duck and bunny duo.' },
+          { name: 'Gabby Gabby', role: 'Broken Doll', startingCoins: 80, startingWeapons: ['broken voice'], startingMercenaries: 1, startingCastles: 0, personality: 'manipulative', quotes: ['We will manipulate!', 'We are manipulative!', 'We will destroy!'], description: 'Manipulative broken doll with a broken voice box.' },
+          { name: 'Benson', role: 'Broken Ventriloquist', startingCoins: 75, startingWeapons: ['broken puppet'], startingMercenaries: 1, startingCastles: 0, personality: 'creepy', quotes: ['We will puppet!', 'We are creepy!', 'We will destroy!'], description: 'Creepy broken ventriloquist dummy.' }
         ],
         generalRoles: [
           { name: 'Broken Toy', startingCoins: 40, startingWeapons: ['sharp edges'], startingMercenaries: 0, startingCastles: 0, personality: 'angry', quotes: ['We are broken!', 'We will get revenge!', 'We will not be forgotten!'] },
@@ -3747,7 +9260,16 @@ const SCENARIOS = {
           { name: 'Maui', role: 'Demigod', startingCoins: 110, startingWeapons: ['magic fishhook'], startingMercenaries: 3, startingCastles: 2, personality: 'proud', quotes: ['I am Maui!', 'We will restore the heart!', 'We are heroes!'], description: 'Demigod of the wind and sea who helps Moana.' },
           { name: 'Chief Tui', role: 'Chief', startingCoins: 90, startingWeapons: ['authority'], startingMercenaries: 2, startingCastles: 1, personality: 'protective', quotes: ['We will protect our people!', 'We stay on the island!', 'We are safe here!'], description: 'Chief of Motunui and Moana\'s father.' },
           { name: 'Gramma Tala', role: 'Grandmother', startingCoins: 80, startingWeapons: ['wisdom'], startingMercenaries: 1, startingCastles: 0, personality: 'wise', quotes: ['We are wayfinders!', 'We will follow our hearts!', 'We will save our island!'], description: 'Moana\'s grandmother who tells the old stories.' },
-          { name: 'Heihei', role: 'Rooster', startingCoins: 60, startingWeapons: ['pecking'], startingMercenaries: 0, startingCastles: 0, personality: 'clueless', quotes: ['We are confused!', 'We will help!', 'We are here!'], description: 'Clueless rooster who accompanies Moana.' }
+          { name: 'Heihei', role: 'Rooster', startingCoins: 60, startingWeapons: ['pecking'], startingMercenaries: 0, startingCastles: 0, personality: 'clueless', quotes: ['We are confused!', 'We will help!', 'We are here!'], description: 'Clueless rooster who accompanies Moana.' },
+          { name: 'Pua', role: 'Pig', startingCoins: 55, startingWeapons: ['snout'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['We will follow!', 'We are loyal!', 'We will help!'], description: 'Moana\'s loyal pet pig.' },
+          { name: 'Sina', role: 'Mother', startingCoins: 75, startingWeapons: ['wisdom'], startingMercenaries: 1, startingCastles: 0, personality: 'caring', quotes: ['We will protect our daughter!', 'We are mothers!', 'We will guide!'], description: 'Moana\'s mother and Chief Tui\'s wife.' },
+          { name: 'Ocean', role: 'Spirit', startingCoins: 95, startingWeapons: ['waves'], startingMercenaries: 2, startingCastles: 1, personality: 'mysterious', quotes: ['We choose the wayfinder!', 'We will guide!', 'We are the ocean!'], description: 'The living ocean that chose Moana.' },
+          { name: 'Te Fiti', role: 'Goddess', startingCoins: 110, startingWeapons: ['creation'], startingMercenaries: 3, startingCastles: 2, personality: 'peaceful', quotes: ['We will restore balance!', 'We are creation!', 'We will heal!'], description: 'Goddess of creation and life.' },
+          { name: 'Wayfinder Chief', role: 'Leader', startingCoins: 85, startingWeapons: ['navigation'], startingMercenaries: 2, startingCastles: 1, personality: 'brave', quotes: ['We will navigate!', 'We are wayfinders!', 'We will explore!'], description: 'Ancient wayfinder who led voyages.' },
+          { name: 'Coconut Villager', role: 'Farmer', startingCoins: 60, startingWeapons: ['coconut'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking', quotes: ['We will harvest!', 'We are farmers!', 'We will provide!'], description: 'Villager who tends the coconut groves.' },
+          { name: 'Fisherman Chief', role: 'Captain', startingCoins: 70, startingWeapons: ['fishing spear'], startingMercenaries: 1, startingCastles: 0, personality: 'skilled', quotes: ['We will fish!', 'We are captains!', 'We will provide!'], description: 'Chief fisherman of the village.' },
+          { name: 'Drummer', role: 'Musician', startingCoins: 50, startingWeapons: ['drum'], startingMercenaries: 0, startingCastles: 0, personality: 'rhythmic', quotes: ['We will drum!', 'We are musicians!', 'We will inspire!'], description: 'Village drummer who provides rhythm.' },
+          { name: 'Storyteller', role: 'Keeper', startingCoins: 65, startingWeapons: ['stories'], startingMercenaries: 0, startingCastles: 0, personality: 'wise', quotes: ['We will tell stories!', 'We are keepers!', 'We will remember!'], description: 'Keeper of the old stories and traditions.' }
         ],
         generalRoles: [
           { name: 'Villager', startingCoins: 50, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking', quotes: ['We work hard!', 'We protect our island!', 'We are strong!'] },
@@ -3771,7 +9293,16 @@ const SCENARIOS = {
           { name: 'Kakamora', role: 'Pirate', startingCoins: 70, startingWeapons: ['spear'], startingMercenaries: 1, startingCastles: 0, personality: 'aggressive', quotes: ['We will steal!', 'We are pirates!', 'We will attack!'], description: 'Coconut-clad pirates who attack Moana.' },
           { name: 'Tamatoa', role: 'Crab', startingCoins: 85, startingWeapons: ['claws'], startingMercenaries: 1, startingCastles: 0, personality: 'greedy', quotes: ['We will collect treasure!', 'We are shiny!', 'We will not be forgotten!'], description: 'Giant crab who loves treasure and shiny things.' },
           { name: 'Darkness', role: 'Shadow', startingCoins: 80, startingWeapons: ['shadow'], startingMercenaries: 1, startingCastles: 0, personality: 'corrupting', quotes: ['We will corrupt!', 'We are darkness!', 'We will spread!'], description: 'Darkness that corrupts everything it touches.' },
-          { name: 'Lava Monster', role: 'Fire Beast', startingCoins: 75, startingWeapons: ['fire'], startingMercenaries: 1, startingCastles: 0, personality: 'destructive', quotes: ['We will burn!', 'We are fire!', 'We will destroy!'], description: 'Fire-breathing monster that spreads destruction.' }
+          { name: 'Lava Monster', role: 'Fire Beast', startingCoins: 75, startingWeapons: ['fire'], startingMercenaries: 1, startingCastles: 0, personality: 'destructive', quotes: ['We will burn!', 'We are fire!', 'We will destroy!'], description: 'Fire-breathing monster that spreads destruction.' },
+          { name: 'Fire Demon', role: 'Destroyer', startingCoins: 80, startingWeapons: ['flame'], startingMercenaries: 1, startingCastles: 0, personality: 'destructive', quotes: ['We will burn!', 'We are demons!', 'We will destroy!'], description: 'Demon of fire and destruction.' },
+          { name: 'Shadow Crab', role: 'Guardian', startingCoins: 70, startingWeapons: ['claws'], startingMercenaries: 1, startingCastles: 0, personality: 'greedy', quotes: ['We will guard treasure!', 'We are crabs!', 'We will collect!'], description: 'Dark crab that guards stolen treasures.' },
+          { name: 'Lava Warrior', role: 'Soldier', startingCoins: 65, startingWeapons: ['lava spear'], startingMercenaries: 1, startingCastles: 0, personality: 'aggressive', quotes: ['We will fight!', 'We are warriors!', 'We will attack!'], description: 'Warrior made of molten lava.' },
+          { name: 'Dark Ocean Spirit', role: 'Corruptor', startingCoins: 85, startingWeapons: ['dark waves'], startingMercenaries: 2, startingCastles: 1, personality: 'corrupting', quotes: ['We will corrupt!', 'We are darkness!', 'We will spread!'], description: 'Dark spirit that corrupts the ocean.' },
+          { name: 'Volcano Guardian', role: 'Protector', startingCoins: 90, startingWeapons: ['volcanic rock'], startingMercenaries: 2, startingCastles: 1, personality: 'destructive', quotes: ['We will protect!', 'We are guardians!', 'We will destroy!'], description: 'Guardian of the volcano\'s power.' },
+          { name: 'Fire Sprite', role: 'Minion', startingCoins: 50, startingWeapons: ['spark'], startingMercenaries: 0, startingCastles: 0, personality: 'destructive', quotes: ['We will spark!', 'We are sprites!', 'We will burn!'], description: 'Small fire spirit that spreads flames.' },
+          { name: 'Shadow Beast', role: 'Hunter', startingCoins: 75, startingWeapons: ['shadow claws'], startingMercenaries: 1, startingCastles: 0, personality: 'dark', quotes: ['We will hunt!', 'We are beasts!', 'We will stalk!'], description: 'Dark beast that hunts in shadows.' },
+          { name: 'Lava Golem', role: 'Construct', startingCoins: 80, startingWeapons: ['molten fists'], startingMercenaries: 1, startingCastles: 0, personality: 'destructive', quotes: ['We will crush!', 'We are golems!', 'We will destroy!'], description: 'Giant construct made of molten rock.' },
+          { name: 'Dark Coral', role: 'Corruptor', startingCoins: 60, startingWeapons: ['dark spikes'], startingMercenaries: 0, startingCastles: 0, personality: 'corrupting', quotes: ['We will corrupt!', 'We are coral!', 'We will spread!'], description: 'Corrupted coral that spreads darkness.' }
         ],
         generalRoles: [
           { name: 'Dark Villager', startingCoins: 45, startingWeapons: ['darkness'], startingMercenaries: 0, startingCastles: 0, personality: 'corrupted', quotes: ['We are corrupted!', 'We will spread darkness!', 'We are evil!'] },
@@ -3892,6 +9423,244 @@ const SCENARIOS = {
               "We will hold fast!"
             ],
             description: 'Leper King of Jerusalem who defended the kingdom against Saladin.'
+          },
+          {
+            name: 'Raymond of Toulouse',
+            role: 'Count of Toulouse',
+            startingCoins: 90,
+            startingWeapons: ['lance'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'ambitious',
+            quotes: [
+              "We will claim our share!",
+              "Toulouse will be remembered!",
+              "We fight for our own glory!",
+              "The Holy Land awaits!",
+              "We will not be forgotten!"
+            ],
+            description: 'French noble who led the First Crusade.'
+          },
+          {
+            name: 'Bohemond of Taranto',
+            role: 'Prince of Antioch',
+            startingCoins: 95,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'cunning',
+            quotes: [
+              "We will take Antioch!",
+              "The city will be ours!",
+              "We will outwit our enemies!",
+              "Antioch is our prize!",
+              "We will be victorious!"
+            ],
+            description: 'Norman leader who captured Antioch during the First Crusade.'
+          },
+          {
+            name: 'Tancred of Hauteville',
+            role: 'Crusader Prince',
+            startingCoins: 85,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "We will fight for glory!",
+              "The Holy Land calls!",
+              "We will not retreat!",
+              "For God and honor!",
+              "We will be remembered!"
+            ],
+            description: 'Crusader prince and nephew of Bohemond.'
+          },
+          {
+            name: 'Hugh of Vermandois',
+            role: 'Count of Vermandois',
+            startingCoins: 80,
+            startingWeapons: ['lance'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'proud',
+            quotes: [
+              "We are of royal blood!",
+              "The Holy Land awaits!",
+              "We will lead the way!",
+              "For France and glory!",
+              "We will not be denied!"
+            ],
+            description: 'French count and brother of King Philip I.'
+          },
+          {
+            name: 'Robert of Normandy',
+            role: 'Duke of Normandy',
+            startingCoins: 85,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'noble',
+            quotes: [
+              "We will fight for the cross!",
+              "Normandy leads the way!",
+              "We will liberate Jerusalem!",
+              "For God and country!",
+              "We will not fail!"
+            ],
+            description: 'Duke of Normandy and leader of the First Crusade.'
+          },
+          {
+            name: 'Stephen of Blois',
+            role: 'Count of Blois',
+            startingCoins: 75,
+            startingWeapons: ['lance'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cautious',
+            quotes: [
+              "We must be careful!",
+              "The Holy Land is dangerous!",
+              "We will plan our moves!",
+              "For God and safety!",
+              "We will not rush!"
+            ],
+            description: 'French count who participated in the First Crusade.'
+          },
+          {
+            name: 'Adhemar of Le Puy',
+            role: 'Bishop of Le Puy',
+            startingCoins: 70,
+            startingWeapons: ['cross'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'spiritual',
+            quotes: [
+              "We fight for God!",
+              "The Holy Land is sacred!",
+              "We will purify the land!",
+              "For the glory of Christ!",
+              "We will not waver!"
+            ],
+            description: 'Papal legate and spiritual leader of the First Crusade.'
+          },
+          {
+            name: 'Peter the Hermit',
+            role: 'Preacher',
+            startingCoins: 60,
+            startingWeapons: ['words'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'charismatic',
+            quotes: [
+              "We will free Jerusalem!",
+              "God calls us to war!",
+              "We will march to victory!",
+              "The Holy Land awaits!",
+              "We will not be stopped!"
+            ],
+            description: 'Charismatic preacher who led the People Crusade.'
+          },
+          {
+            name: 'Guy of Lusignan',
+            role: 'King of Jerusalem',
+            startingCoins: 90,
+            startingWeapons: ['royal sword'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'unfortunate',
+            quotes: [
+              "We will reclaim our kingdom!",
+              "Jerusalem will be ours again!",
+              "We will not give up!",
+              "For our lost lands!",
+              "We will fight back!"
+            ],
+            description: 'King of Jerusalem who lost the kingdom to Saladin.'
+          },
+          {
+            name: 'Raynald of Châtillon',
+            role: 'Lord of Kerak',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'reckless',
+            quotes: [
+              "We will strike the enemy!",
+              "No mercy for infidels!",
+              "We will raid their lands!",
+              "For glory and plunder!",
+              "We will not be bound!"
+            ],
+            description: 'Crusader lord known for his aggressive raids.'
+          },
+          {
+            name: 'Gerard de Ridefort',
+            role: 'Grand Master of the Templars',
+            startingCoins: 85,
+            startingWeapons: ['templar sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'fanatical',
+            quotes: [
+              "We are God's warriors!",
+              "The Temple will not fall!",
+              "We will defend the faith!",
+              "For the Holy Temple!",
+              "We will not retreat!"
+            ],
+            description: 'Grand Master of the Knights Templar.'
+          },
+          {
+            name: 'William of Tyre',
+            role: 'Archbishop of Tyre',
+            startingCoins: 70,
+            startingWeapons: ['wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'scholarly',
+            quotes: [
+              "We will record our deeds!",
+              "History will remember us!",
+              "We will chronicle the truth!",
+              "For posterity!",
+              "We will not be forgotten!"
+            ],
+            description: 'Archbishop and chronicler of the Crusades.'
+          },
+          {
+            name: 'Conrad of Montferrat',
+            role: 'Marquis of Montferrat',
+            startingCoins: 90,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'ambitious',
+            quotes: [
+              "We will claim our throne!",
+              "Montferrat will rule!",
+              "We will not be denied!",
+              "For our family honor!",
+              "We will fight for power!"
+            ],
+            description: 'Italian noble who claimed the throne of Jerusalem.'
+          },
+          {
+            name: 'Philip II of France',
+            role: 'King of France',
+            startingCoins: 100,
+            startingWeapons: ['royal sword'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'political',
+            quotes: [
+              "We will lead France to glory!",
+              "The Holy Land awaits!",
+              "We will not be outdone!",
+              "For France and honor!",
+              "We will be remembered!"
+            ],
+            description: 'King of France who participated in the Third Crusade.'
           }
         ],
         generalRoles: [
@@ -3996,6 +9765,346 @@ const SCENARIOS = {
               "We will not yield!"
             ],
             description: 'Ayyubid prince who defended Muslim territories.'
+          },
+          {
+            name: 'Al-Adil',
+            role: 'Ayyubid Sultan',
+            startingCoins: 95,
+            startingWeapons: ['scimitar'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'strategic',
+            quotes: [
+              "We will outmaneuver the Franks!",
+              "The Holy Land is ours!",
+              "We will use our wisdom!",
+              "Allah guides our strategy!",
+              "We will not be outsmarted!"
+            ],
+            description: 'Ayyubid sultan and brother of Saladin.'
+          },
+          {
+            name: 'Al-Ashraf',
+            role: 'Ayyubid Sultan',
+            startingCoins: 90,
+            startingWeapons: ['mace'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'determined',
+            quotes: [
+              "We will reclaim our honor!",
+              "The Franks will pay!",
+              "We will not be defeated!",
+              "Allah strengthens our resolve!",
+              "We will fight to the end!"
+            ],
+            description: 'Ayyubid sultan who fought against the Crusaders.'
+          },
+          {
+            name: 'Qutuz',
+            role: 'Mamluk Sultan',
+            startingCoins: 100,
+            startingWeapons: ['mamluk sword'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'brave',
+            quotes: [
+              "We will face the Mongols!",
+              "The Holy Land will be defended!",
+              "We will not flee!",
+              "Allah gives us courage!",
+              "We will stand firm!"
+            ],
+            description: 'Mamluk sultan who defeated the Mongols.'
+          },
+          {
+            name: 'Al-Mansur',
+            role: 'Abbasid Caliph',
+            startingCoins: 80,
+            startingWeapons: ['authority'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'spiritual',
+            quotes: [
+              "We are the spiritual leader!",
+              "The faithful look to us!",
+              "We will guide our people!",
+              "Allah has chosen us!",
+              "We will lead with wisdom!"
+            ],
+            description: 'Abbasid caliph and spiritual leader of the Muslim world.'
+          },
+          {
+            name: 'Al-Nasir',
+            role: 'Abbasid Caliph',
+            startingCoins: 85,
+            startingWeapons: ['wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'wise',
+            quotes: [
+              "We will restore our power!",
+              "The caliphate will be strong!",
+              "We will unite the faithful!",
+              "Allah blesses our rule!",
+              "We will not be weak!"
+            ],
+            description: 'Abbasid caliph who sought to restore caliphal power.'
+          },
+          {
+            name: 'Al-Mustansir',
+            role: 'Fatimid Caliph',
+            startingCoins: 75,
+            startingWeapons: ['authority'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'proud',
+            quotes: [
+              "We are the true caliph!",
+              "Cairo is our capital!",
+              "We will defend our realm!",
+              "Allah protects us!",
+              "We will not submit!"
+            ],
+            description: 'Fatimid caliph who ruled from Cairo.'
+          },
+          {
+            name: 'Al-Hakim',
+            role: 'Fatimid Caliph',
+            startingCoins: 70,
+            startingWeapons: ['mysticism'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'mystical',
+            quotes: [
+              "We are divine!",
+              "The faithful must obey!",
+              "We will purify the land!",
+              "Allah speaks through us!",
+              "We will not be questioned!"
+            ],
+            description: 'Fatimid caliph known for his mystical beliefs.'
+          },
+          {
+            name: 'Al-Afdal',
+            role: 'Fatimid Vizier',
+            startingCoins: 80,
+            startingWeapons: ['administration'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'administrative',
+            quotes: [
+              "We will govern wisely!",
+              "The empire needs order!",
+              "We will manage our resources!",
+              "Allah guides our decisions!",
+              "We will not waste!"
+            ],
+            description: 'Fatimid vizier and administrator.'
+          },
+          {
+            name: 'Al-Mustali',
+            role: 'Fatimid Caliph',
+            startingCoins: 75,
+            startingWeapons: ['authority'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'legitimate',
+            quotes: [
+              "We are the rightful ruler!",
+              "The throne is ours!",
+              "We will maintain our power!",
+              "Allah supports us!",
+              "We will not be usurped!"
+            ],
+            description: 'Fatimid caliph who claimed legitimacy.'
+          },
+          {
+            name: 'Al-Amir',
+            role: 'Fatimid Caliph',
+            startingCoins: 70,
+            startingWeapons: ['authority'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'young',
+            quotes: [
+              "We will prove ourselves!",
+              "Youth will not stop us!",
+              "We will lead with strength!",
+              "Allah gives us power!",
+              "We will not be underestimated!"
+            ],
+            description: 'Young Fatimid caliph who ruled briefly.'
+          },
+          {
+            name: 'Al-Hafiz',
+            role: 'Fatimid Caliph',
+            startingCoins: 80,
+            startingWeapons: ['wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'experienced',
+            quotes: [
+              "We have seen much!",
+              "Experience guides us!",
+              "We will use our knowledge!",
+              "Allah has taught us!",
+              "We will not repeat mistakes!"
+            ],
+            description: 'Experienced Fatimid caliph.'
+          },
+          {
+            name: 'Al-Zafir',
+            role: 'Fatimid Caliph',
+            startingCoins: 75,
+            startingWeapons: ['authority'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "We will restore our glory!",
+              "The Fatimids will rise!",
+              "We will not be forgotten!",
+              "Allah strengthens us!",
+              "We will fight for our legacy!"
+            ],
+            description: 'Fatimid caliph who sought to restore Fatimid power.'
+          },
+          {
+            name: 'Al-Faiz',
+            role: 'Fatimid Caliph',
+            startingCoins: 70,
+            startingWeapons: ['authority'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'hopeful',
+            quotes: [
+              "We will bring prosperity!",
+              "The future is bright!",
+              "We will lead with hope!",
+              "Allah blesses our reign!",
+              "We will not despair!"
+            ],
+            description: 'Fatimid caliph who ruled during difficult times.'
+          },
+          {
+            name: 'Al-Adid',
+            role: 'Fatimid Caliph',
+            startingCoins: 65,
+            startingWeapons: ['authority'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'final',
+            quotes: [
+              "We are the last!",
+              "The Fatimids end with us!",
+              "We will go with dignity!",
+              "Allah has chosen our fate!",
+              "We will not be forgotten!"
+            ],
+            description: 'Last Fatimid caliph before the Ayyubid takeover.'
+          },
+          {
+            name: 'Al-Mustansir II',
+            role: 'Fatimid Pretender',
+            startingCoins: 60,
+            startingWeapons: ['claim'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'pretender',
+            quotes: [
+              "We are the true caliph!",
+              "Our claim is legitimate!",
+              "We will restore our line!",
+              "Allah supports us!",
+              "We will not give up!"
+            ],
+            description: 'Fatimid pretender who claimed the caliphate.'
+          },
+          {
+            name: 'Al-Mustali II',
+            role: 'Fatimid Pretender',
+            startingCoins: 55,
+            startingWeapons: ['claim'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'persistent',
+            quotes: [
+              "We will not surrender!",
+              "Our bloodline continues!",
+              "We will fight for our rights!",
+              "Allah will restore us!",
+              "We will not be silenced!"
+            ],
+            description: 'Fatimid pretender who continued the claim.'
+          },
+          {
+            name: 'Al-Amir II',
+            role: 'Fatimid Pretender',
+            startingCoins: 50,
+            startingWeapons: ['claim'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'hopeful',
+            quotes: [
+              "We will restore our dynasty!",
+              "The Fatimids will return!",
+              "We will not be forgotten!",
+              "Allah will help us!",
+              "We will fight for our legacy!"
+            ],
+            description: 'Fatimid pretender who hoped to restore the dynasty.'
+          },
+          {
+            name: 'Al-Hafiz II',
+            role: 'Fatimid Pretender',
+            startingCoins: 45,
+            startingWeapons: ['claim'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "We will not give up!",
+              "Our claim is just!",
+              "We will fight to the end!",
+              "Allah will judge us!",
+              "We will not be defeated!"
+            ],
+            description: 'Fatimid pretender who refused to surrender his claim.'
+          },
+          {
+            name: 'Al-Zafir II',
+            role: 'Fatimid Pretender',
+            startingCoins: 40,
+            startingWeapons: ['claim'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'stubborn',
+            quotes: [
+              "We will not yield!",
+              "Our bloodline is pure!",
+              "We will restore our glory!",
+              "Allah will support us!",
+              "We will not be broken!"
+            ],
+            description: 'Fatimid pretender who stubbornly maintained his claim.'
+          },
+          {
+            name: 'Al-Faiz II',
+            role: 'Fatimid Pretender',
+            startingCoins: 35,
+            startingWeapons: ['claim'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'persistent',
+            quotes: [
+              "We will continue the fight!",
+              "Our dynasty will survive!",
+              "We will not be forgotten!",
+              "Allah will remember us!",
+              "We will not surrender!"
+            ],
+            description: 'Fatimid pretender who continued the struggle.'
           }
         ],
         generalRoles: [
@@ -4116,6 +10225,159 @@ const SCENARIOS = {
               "We are unstoppable!"
             ],
             description: 'Duke of Gloucester and military leader.'
+          },
+          {
+            name: 'Richard II',
+            role: 'King of England',
+            startingCoins: 85,
+            startingWeapons: ['royal scepter'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'unstable',
+            quotes: [
+              "We will rule with absolute power!",
+              "The crown is divine!",
+              "We will not be challenged!",
+              "England will be strong!",
+              "We are the king!"
+            ],
+            description: 'English king known for his tyrannical rule.'
+          },
+          {
+            name: 'John Talbot',
+            role: 'Earl of Shrewsbury',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'brave',
+            quotes: [
+              "We will fight to the end!",
+              "Shrewsbury will not yield!",
+              "We are English warriors!",
+              "The French will fall!",
+              "We will be victorious!"
+            ],
+            description: 'English military leader and noble.'
+          },
+          {
+            name: 'William de la Pole',
+            role: 'Duke of Suffolk',
+            startingCoins: 75,
+            startingWeapons: ['mace'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'diplomatic',
+            quotes: [
+              "We will negotiate peace!",
+              "Suffolk will find a way!",
+              "We will avoid bloodshed!",
+              "The war must end!",
+              "We will be wise!"
+            ],
+            description: 'English noble known for his diplomatic skills.'
+          },
+          {
+            name: 'Humphrey of Gloucester',
+            role: 'Duke of Gloucester',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'scholarly',
+            quotes: [
+              "We will study war!",
+              "Gloucester will learn!",
+              "We will be prepared!",
+              "Knowledge is power!",
+              "We will be wise!"
+            ],
+            description: 'English noble known for his learning and scholarship.'
+          },
+          {
+            name: 'Richard Plantagenet',
+            role: 'Duke of York',
+            startingCoins: 90,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'ambitious',
+            quotes: [
+              "We will claim the throne!",
+              "York will rule!",
+              "We have the right!",
+              "The crown is ours!",
+              "We will not be denied!"
+            ],
+            description: 'English noble who claimed the throne.'
+          },
+          {
+            name: 'Edmund Mortimer',
+            role: 'Earl of March',
+            startingCoins: 65,
+            startingWeapons: ['lance'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "We will serve the crown!",
+              "March will be loyal!",
+              "We will fight!",
+              "The king commands!",
+              "We will obey!"
+            ],
+            description: 'English noble loyal to the crown.'
+          },
+          {
+            name: 'Thomas Mowbray',
+            role: 'Duke of Norfolk',
+            startingCoins: 60,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'proud',
+            quotes: [
+              "We are Norfolk!",
+              "We will fight with honor!",
+              "We are proud!",
+              "The duchy will stand!",
+              "We will not yield!"
+            ],
+            description: 'English noble and military leader.'
+          },
+          {
+            name: 'Henry Percy',
+            role: 'Earl of Northumberland',
+            startingCoins: 55,
+            startingWeapons: ['spear'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'rebellious',
+            quotes: [
+              "We will rebel!",
+              "Northumberland will rise!",
+              "We will not be oppressed!",
+              "The king must listen!",
+              "We will fight!"
+            ],
+            description: 'English noble known for his rebellious nature.'
+          },
+          {
+            name: 'Ralph Neville',
+            role: 'Earl of Westmorland',
+            startingCoins: 50,
+            startingWeapons: ['sword'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'steady',
+            quotes: [
+              "We will be steady!",
+              "Westmorland will endure!",
+              "We will not waver!",
+              "The earl will stand!",
+              "We will be strong!"
+            ],
+            description: 'English noble known for his steady leadership.'
           }
         ],
         generalRoles: [
@@ -4220,6 +10482,159 @@ const SCENARIOS = {
               "We are French!"
             ],
             description: 'French king captured at the Battle of Poitiers.'
+          },
+          {
+            name: 'Louis XI',
+            role: 'King of France',
+            startingCoins: 85,
+            startingWeapons: ['royal dagger'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'cunning',
+            quotes: [
+              "We will outsmart the English!",
+              "France will be cunning!",
+              "We will use strategy!",
+              "The English will be fooled!",
+              "We will be victorious!"
+            ],
+            description: 'French king known for his cunning and diplomacy.'
+          },
+          {
+            name: 'Charles the Bold',
+            role: 'Duke of Burgundy',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'ambitious',
+            quotes: [
+              "We will expand Burgundy!",
+              "The duchy will be great!",
+              "We will not be limited!",
+              "Burgundy will rule!",
+              "We will be powerful!"
+            ],
+            description: 'Duke of Burgundy known for his ambition.'
+          },
+          {
+            name: 'Jean de Dunois',
+            role: 'Bastard of Orleans',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'brave',
+            quotes: [
+              "We will defend Orleans!",
+              "The city will stand!",
+              "We will not surrender!",
+              "Orleans will be free!",
+              "We will fight!"
+            ],
+            description: 'French military leader who defended Orleans.'
+          },
+          {
+            name: 'Gilles de Rais',
+            role: 'Marshal of France',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'dark',
+            quotes: [
+              "We will fight with darkness!",
+              "The marshal will lead!",
+              "We will be feared!",
+              "France will be strong!",
+              "We will not yield!"
+            ],
+            description: 'French marshal known for his dark reputation.'
+          },
+          {
+            name: 'Jean Bureau',
+            role: 'Master of Artillery',
+            startingCoins: 65,
+            startingWeapons: ['cannon'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'innovative',
+            quotes: [
+              "We will use cannons!",
+              "Artillery will win!",
+              "We will be modern!",
+              "The English will fall!",
+              "We will be advanced!"
+            ],
+            description: 'French artillery master who revolutionized warfare.'
+          },
+          {
+            name: 'Louis de Bourbon',
+            role: 'Duke of Bourbon',
+            startingCoins: 60,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'noble',
+            quotes: [
+              "We are Bourbon!",
+              "The duchy will stand!",
+              "We will fight with honor!",
+              "France will be proud!",
+              "We will not yield!"
+            ],
+            description: 'French noble and military leader.'
+          },
+          {
+            name: 'Jean de Clermont',
+            role: 'Marshal of France',
+            startingCoins: 55,
+            startingWeapons: ['lance'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'chivalric',
+            quotes: [
+              "We will fight with honor!",
+              "The marshal will lead!",
+              "We will be chivalrous!",
+              "France will be noble!",
+              "We will not retreat!"
+            ],
+            description: 'French marshal known for his chivalry.'
+          },
+          {
+            name: 'Pierre de Breze',
+            role: 'Seneschal of Normandy',
+            startingCoins: 50,
+            startingWeapons: ['sword'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "We will serve Normandy!",
+              "The seneschal will protect!",
+              "We will be loyal!",
+              "Normandy will stand!",
+              "We will not fail!"
+            ],
+            description: 'French seneschal who protected Normandy.'
+          },
+          {
+            name: 'Antoine de Chabannes',
+            role: 'Count of Dammartin',
+            startingCoins: 45,
+            startingWeapons: ['sword'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "We will defend Dammartin!",
+              "The count will fight!",
+              "We will be determined!",
+              "France will not fall!",
+              "We will stand!"
+            ],
+            description: 'French count known for his determination.'
           }
         ],
         generalRoles: [
@@ -4340,6 +10755,159 @@ const SCENARIOS = {
               "We will not be merciful!"
             ],
             description: 'Head of the Cheka secret police.'
+          },
+          {
+            name: 'Nikolai Bukharin',
+            role: 'Bolshevik Theorist',
+            startingCoins: 85,
+            startingWeapons: ['economic theory'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'intellectual',
+            quotes: [
+              "We will build the new economy!",
+              "Socialism will be scientific!",
+              "We will plan production!",
+              "The workers will control!",
+              "We will be efficient!"
+            ],
+            description: 'Bolshevik theorist and economic planner.'
+          },
+          {
+            name: 'Grigory Zinoviev',
+            role: 'Bolshevik Leader',
+            startingCoins: 80,
+            startingWeapons: ['party organization'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'organizational',
+            quotes: [
+              "We will organize the party!",
+              "The Bolsheviks will be strong!",
+              "We will lead the workers!",
+              "Revolution will spread!",
+              "We will not fail!"
+            ],
+            description: 'Bolshevik leader and party organizer.'
+          },
+          {
+            name: 'Lev Kamenev',
+            role: 'Bolshevik Leader',
+            startingCoins: 75,
+            startingWeapons: ['political strategy'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'strategic',
+            quotes: [
+              "We will plan our strategy!",
+              "The party will be wise!",
+              "We will outmaneuver enemies!",
+              "Revolution will succeed!",
+              "We will be patient!"
+            ],
+            description: 'Bolshevik leader known for his strategic thinking.'
+          },
+          {
+            name: 'Alexei Rykov',
+            role: 'Soviet Premier',
+            startingCoins: 70,
+            startingWeapons: ['government authority'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'administrative',
+            quotes: [
+              "We will govern efficiently!",
+              "The Soviet will function!",
+              "We will build the state!",
+              "Socialism will work!",
+              "We will be practical!"
+            ],
+            description: 'Soviet premier and government administrator.'
+          },
+          {
+            name: 'Mikhail Kalinin',
+            role: 'Soviet President',
+            startingCoins: 65,
+            startingWeapons: ['ceremonial authority'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'ceremonial',
+            quotes: [
+              "We will represent the people!",
+              "The Soviet will be legitimate!",
+              "We will be the face!",
+              "Socialism will be official!",
+              "We will be respected!"
+            ],
+            description: 'Ceremonial president of the Soviet Union.'
+          },
+          {
+            name: 'Vyacheslav Molotov',
+            role: 'Bolshevik Diplomat',
+            startingCoins: 60,
+            startingWeapons: ['diplomatic skills'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'diplomatic',
+            quotes: [
+              "We will negotiate!",
+              "The Soviet will be recognized!",
+              "We will find allies!",
+              "Revolution will be supported!",
+              "We will be diplomatic!"
+            ],
+            description: 'Bolshevik diplomat and foreign minister.'
+          },
+          {
+            name: 'Kliment Voroshilov',
+            role: 'Red Army Marshal',
+            startingCoins: 55,
+            startingWeapons: ['military command'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'military',
+            quotes: [
+              "We will command the army!",
+              "The Red Army will be strong!",
+              "We will defend the revolution!",
+              "Socialism will be protected!",
+              "We will be victorious!"
+            ],
+            description: 'Red Army marshal and military leader.'
+          },
+          {
+            name: 'Semyon Budyonny',
+            role: 'Cavalry Commander',
+            startingCoins: 50,
+            startingWeapons: ['cavalry'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'cavalry',
+            quotes: [
+              "We will charge!",
+              "The cavalry will win!",
+              "We will be fast!",
+              "Revolution will be swift!",
+              "We will be mobile!"
+            ],
+            description: 'Red Army cavalry commander.'
+          },
+          {
+            name: 'Grigory Petrovsky',
+            role: 'Ukrainian Bolshevik',
+            startingCoins: 45,
+            startingWeapons: ['regional influence'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'regional',
+            quotes: [
+              "We will organize Ukraine!",
+              "The region will be red!",
+              "We will spread revolution!",
+              "Socialism will be local!",
+              "We will be regional!"
+            ],
+            description: 'Ukrainian Bolshevik leader.'
           }
         ],
         generalRoles: [
@@ -4444,6 +11012,159 @@ const SCENARIOS = {
               "We will not be broken!"
             ],
             description: 'General who led the Volunteer Army.'
+          },
+          {
+            name: 'Mikhail Alekseyev',
+            role: 'White General',
+            startingCoins: 85,
+            startingWeapons: ['military command'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'experienced',
+            quotes: [
+              "We will use our experience!",
+              "The Whites will be professional!",
+              "We will restore the army!",
+              "Russia will be disciplined!",
+              "We will not be amateur!"
+            ],
+            description: 'Experienced general who organized the White movement.'
+          },
+          {
+            name: 'Vladimir Kappel',
+            role: 'White General',
+            startingCoins: 80,
+            startingWeapons: ['infantry tactics'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'tactical',
+            quotes: [
+              "We will use tactics!",
+              "The Whites will be smart!",
+              "We will outmaneuver Reds!",
+              "Russia will be strategic!",
+              "We will not be foolish!"
+            ],
+            description: 'White general known for his tactical skills.'
+          },
+          {
+            name: 'Roman von Ungern-Sternberg',
+            role: 'White General',
+            startingCoins: 75,
+            startingWeapons: ['cavalry'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'eccentric',
+            quotes: [
+              "We will restore the monarchy!",
+              "The Whites will be mystical!",
+              "We will fight for the Tsar!",
+              "Russia will be traditional!",
+              "We will not be modern!"
+            ],
+            description: 'Eccentric White general who fought in Mongolia.'
+          },
+          {
+            name: 'Boris Savinkov',
+            role: 'White Revolutionary',
+            startingCoins: 70,
+            startingWeapons: ['revolutionary tactics'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'revolutionary',
+            quotes: [
+              "We will fight the Bolsheviks!",
+              "The Whites will be revolutionary!",
+              "We will overthrow Lenin!",
+              "Russia will be free!",
+              "We will not be communist!"
+            ],
+            description: 'White revolutionary who fought against the Bolsheviks.'
+          },
+          {
+            name: 'Nikolai Makhno',
+            role: 'Anarchist Leader',
+            startingCoins: 65,
+            startingWeapons: ['guerrilla tactics'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'anarchist',
+            quotes: [
+              "We will fight all authority!",
+              "The anarchists will be free!",
+              "We will reject all rulers!",
+              "Ukraine will be independent!",
+              "We will not be ruled!"
+            ],
+            description: 'Ukrainian anarchist who fought both Reds and Whites.'
+          },
+          {
+            name: 'Pavel Milyukov',
+            role: 'Liberal Leader',
+            startingCoins: 60,
+            startingWeapons: ['political influence'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'liberal',
+            quotes: [
+              "We will establish democracy!",
+              "The liberals will be moderate!",
+              "We will find compromise!",
+              "Russia will be democratic!",
+              "We will not be extreme!"
+            ],
+            description: 'Liberal politician who opposed the Bolsheviks.'
+          },
+          {
+            name: 'Alexander Kerensky',
+            role: 'Provisional Government Leader',
+            startingCoins: 55,
+            startingWeapons: ['government authority'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'moderate',
+            quotes: [
+              "We will govern moderately!",
+              "The provisional government will work!",
+              "We will find middle ground!",
+              "Russia will be stable!",
+              "We will not be radical!"
+            ],
+            description: 'Leader of the Provisional Government overthrown by the Bolsheviks.'
+          },
+          {
+            name: 'Vasily Shulgin',
+            role: 'Monarchist Leader',
+            startingCoins: 50,
+            startingWeapons: ['monarchist ideology'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'monarchist',
+            quotes: [
+              "We will restore the monarchy!",
+              "The monarchists will be loyal!",
+              "We will bring back the Tsar!",
+              "Russia will be traditional!",
+              "We will not be republican!"
+            ],
+            description: 'Monarchist leader who supported the restoration of the Tsar.'
+          },
+          {
+            name: 'Sergei Sazonov',
+            role: 'White Diplomat',
+            startingCoins: 45,
+            startingWeapons: ['diplomatic skills'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'diplomatic',
+            quotes: [
+              "We will find foreign support!",
+              "The Whites will be recognized!",
+              "We will negotiate!",
+              "Russia will have allies!",
+              "We will not be isolated!"
+            ],
+            description: 'White diplomat who sought foreign support.'
           }
         ],
         generalRoles: [
@@ -4564,6 +11285,159 @@ const SCENARIOS = {
               "We will not yield!"
             ],
             description: 'President of Catalonia during the civil war.'
+          },
+          {
+            name: 'Indalecio Prieto',
+            role: 'Socialist Leader',
+            startingCoins: 75,
+            startingWeapons: ['socialist policies'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'moderate',
+            quotes: [
+              "We will find compromise!",
+              "The socialists will be moderate!",
+              "We will work together!",
+              "Spain will be united!",
+              "We will not be extreme!"
+            ],
+            description: 'Moderate socialist leader who sought compromise.'
+          },
+          {
+            name: 'José Giral',
+            role: 'Prime Minister',
+            startingCoins: 70,
+            startingWeapons: ['government authority'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'administrative',
+            quotes: [
+              "We will govern effectively!",
+              "The republic will function!",
+              "We will maintain order!",
+              "Democracy will work!",
+              "We will be efficient!"
+            ],
+            description: 'Prime Minister who led the Republic early in the war.'
+          },
+          {
+            name: 'Santiago Carrillo',
+            role: 'Communist Leader',
+            startingCoins: 65,
+            startingWeapons: ['communist ideology'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'revolutionary',
+            quotes: [
+              "We will spread communism!",
+              "The workers will rule!",
+              "We will fight capitalism!",
+              "Revolution will succeed!",
+              "We will not compromise!"
+            ],
+            description: 'Communist leader who organized the party.'
+          },
+          {
+            name: 'Andrés Nin',
+            role: 'Anarchist Leader',
+            startingCoins: 60,
+            startingWeapons: ['anarchist ideology'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'anarchist',
+            quotes: [
+              "We will abolish authority!",
+              "The anarchists will be free!",
+              "We will reject all rulers!",
+              "Spain will be anarchist!",
+              "We will not be governed!"
+            ],
+            description: 'Anarchist leader who opposed all authority.'
+          },
+          {
+            name: 'Buenaventura Durruti',
+            role: 'Anarchist Militia Leader',
+            startingCoins: 55,
+            startingWeapons: ['militia command'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'revolutionary',
+            quotes: [
+              "We will fight for freedom!",
+              "The anarchists will resist!",
+              "We will not be oppressed!",
+              "Spain will be free!",
+              "We will not surrender!"
+            ],
+            description: 'Anarchist militia leader who fought for freedom.'
+          },
+          {
+            name: 'José Miaja',
+            role: 'Republican General',
+            startingCoins: 50,
+            startingWeapons: ['military command'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'military',
+            quotes: [
+              "We will defend Madrid!",
+              "The republic will stand!",
+              "We will not retreat!",
+              "Spain will be defended!",
+              "We will fight!"
+            ],
+            description: 'Republican general who defended Madrid.'
+          },
+          {
+            name: 'Vicente Rojo',
+            role: 'Republican General',
+            startingCoins: 45,
+            startingWeapons: ['military tactics'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'strategic',
+            quotes: [
+              "We will use strategy!",
+              "The republic will be smart!",
+              "We will outmaneuver!",
+              "Spain will be tactical!",
+              "We will be wise!"
+            ],
+            description: 'Republican general known for his strategic thinking.'
+          },
+          {
+            name: 'Enrique Lister',
+            role: 'Communist General',
+            startingCoins: 40,
+            startingWeapons: ['communist army'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'disciplined',
+            quotes: [
+              "We will be disciplined!",
+              "The communists will be strong!",
+              "We will maintain order!",
+              "Spain will be organized!",
+              "We will not be chaotic!"
+            ],
+            description: 'Communist general who led disciplined forces.'
+          },
+          {
+            name: 'Manuel Tagüeña',
+            role: 'Republican Officer',
+            startingCoins: 35,
+            startingWeapons: ['military command'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "We will serve the republic!",
+              "The officers will be loyal!",
+              "We will defend democracy!",
+              "Spain will be loyal!",
+              "We will not betray!"
+            ],
+            description: 'Republican officer loyal to the Republic.'
           }
         ],
         generalRoles: [
@@ -4668,6 +11542,159 @@ const SCENARIOS = {
               "We will not yield!"
             ],
             description: 'Nationalist general who led forces in the north.'
+          },
+          {
+            name: 'José Antonio Primo de Rivera',
+            role: 'Falangist Leader',
+            startingCoins: 85,
+            startingWeapons: ['fascist ideology'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'fascist',
+            quotes: [
+              "We will establish fascism!",
+              "The Falange will rule!",
+              "We will restore greatness!",
+              "Spain will be fascist!",
+              "We will not be democratic!"
+            ],
+            description: 'Founder of the Falange and fascist leader.'
+          },
+          {
+            name: 'Ramón Serrano Súñer',
+            role: 'Falangist Leader',
+            startingCoins: 80,
+            startingWeapons: ['political influence'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'political',
+            quotes: [
+              "We will organize the party!",
+              "The Falange will be strong!",
+              "We will lead Spain!",
+              "Fascism will triumph!",
+              "We will not be weak!"
+            ],
+            description: 'Falangist leader and Franco\'s brother-in-law.'
+          },
+          {
+            name: 'Tomás Domínguez Arévalo',
+            role: 'Carlist Leader',
+            startingCoins: 75,
+            startingWeapons: ['traditionalist ideology'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'traditionalist',
+            quotes: [
+              "We will restore the monarchy!",
+              "The Carlists will be loyal!",
+              "We will bring back tradition!",
+              "Spain will be traditional!",
+              "We will not be modern!"
+            ],
+            description: 'Carlist leader who supported the monarchy.'
+          },
+          {
+            name: 'Manuel Fal Conde',
+            role: 'Carlist Leader',
+            startingCoins: 70,
+            startingWeapons: ['monarchist support'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'monarchist',
+            quotes: [
+              "We will restore the king!",
+              "The Carlists will be royalist!",
+              "We will bring back the crown!",
+              "Spain will be monarchist!",
+              "We will not be republican!"
+            ],
+            description: 'Carlist leader who supported the restoration of the monarchy.'
+          },
+          {
+            name: 'Juan Yagüe',
+            role: 'Nationalist General',
+            startingCoins: 65,
+            startingWeapons: ['military command'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'aggressive',
+            quotes: [
+              "We will attack!",
+              "The nationalists will be aggressive!",
+              "We will crush the reds!",
+              "Spain will be conquered!",
+              "We will not be defensive!"
+            ],
+            description: 'Nationalist general known for his aggressive tactics.'
+          },
+          {
+            name: 'Agustín Muñoz Grandes',
+            role: 'Nationalist General',
+            startingCoins: 60,
+            startingWeapons: ['military tactics'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'tactical',
+            quotes: [
+              "We will use tactics!",
+              "The nationalists will be smart!",
+              "We will outmaneuver!",
+              "Spain will be strategic!",
+              "We will be wise!"
+            ],
+            description: 'Nationalist general known for his tactical skills.'
+          },
+          {
+            name: 'Valentín Galarza',
+            role: 'Nationalist General',
+            startingCoins: 55,
+            startingWeapons: ['military command'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "We will serve Franco!",
+              "The nationalists will be loyal!",
+              "We will defend our cause!",
+              "Spain will be loyal!",
+              "We will not betray!"
+            ],
+            description: 'Nationalist general loyal to Franco.'
+          },
+          {
+            name: 'José Enrique Varela',
+            role: 'Nationalist General',
+            startingCoins: 50,
+            startingWeapons: ['military experience'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'experienced',
+            quotes: [
+              "We will use our experience!",
+              "The nationalists will be professional!",
+              "We will restore the army!",
+              "Spain will be disciplined!",
+              "We will not be amateur!"
+            ],
+            description: 'Experienced nationalist general.'
+          },
+          {
+            name: 'Fidel Dávila',
+            role: 'Nationalist General',
+            startingCoins: 45,
+            startingWeapons: ['military command'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'steady',
+            quotes: [
+              "We will be steady!",
+              "The nationalists will endure!",
+              "We will not waver!",
+              "Spain will be strong!",
+              "We will be persistent!"
+            ],
+            description: 'Steady nationalist general who led forces consistently.'
           }
         ],
         generalRoles: [

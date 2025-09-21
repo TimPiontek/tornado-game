@@ -82,6 +82,7 @@
       <div style="margin-top: 8px; display: flex; gap: 8px;">
         <button class="pill" id="loadRosterBtn" style="background: #6f5c91; color: white; flex: 1;">Manage Rosters</button>
         <button class="pill" id="saveRosterBtn" style="background: #10b981; color: white; flex: 1;">Save Roster</button>
+        <button class="pill" id="createQuickRosterBtn" style="background: #f59e0b; color: white; flex: 1;">Quick Roster</button>
       </div>
     </div>
 
@@ -459,6 +460,15 @@
       await loadGames(false);
     }
   });
+
+  // Load local games (for offline mode)
+  async function loadLocalGames() {
+    console.log('Loading local games...');
+    // For now, just create a default roster if none exist
+    if (state.rosters.length === 0) {
+      createDefaultRoster();
+    }
+  }
 
   await updateAuth();
   supabase.auth.onAuthStateChange(() => updateAuth());
@@ -1430,6 +1440,11 @@
   // Save roster button functionality
   el("#saveRosterBtn").onclick = () => {
     saveCurrentRoster();
+  };
+
+  // Quick roster button functionality
+  el("#createQuickRosterBtn").onclick = () => {
+    createDefaultRoster();
   };
   
   function saveCurrentRoster() {
@@ -2805,6 +2820,41 @@
     }
     return false;
   }
+
+  // Create a default roster when none exist
+  function createDefaultRoster() {
+    console.log('Creating default roster...');
+    
+    const defaultRoster = {
+      id: 'default-roster-' + Date.now(),
+      name: 'Quick Start Roster',
+      roster: [
+        { name: 'Student 1', points: 10 },
+        { name: 'Student 2', points: 10 },
+        { name: 'Student 3', points: 10 },
+        { name: 'Student 4', points: 10 }
+      ],
+      created: new Date().toISOString(),
+      isQuickRoster: true
+    };
+    
+    // Add to rosters
+    state.rosters.push(defaultRoster);
+    
+    // Save to localStorage
+    localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+    
+    // Update UI
+    rosterList.innerHTML = `<option value="">Select Roster…</option>` + (state.rosters.map(r =>
+      `<option value="${r.id}">${r.name} (${r.roster ? r.roster.length : 0} students)${r.isQuickRoster ? ' 🎮' : ''}</option>`
+    ).join(""));
+    
+    // Select the default roster
+    rosterList.value = defaultRoster.id;
+    selectRoster(defaultRoster.id);
+    
+    console.log('Default roster created and selected');
+  }
   
   // Show scenario information
   function showScenarioInfo(scenarioData) {
@@ -2854,6 +2904,11 @@
   const loadedFromRosterPage = checkForRosterFromRosterPage();
   if (!loadedFromRosterPage) {
     loadRosters(true);
+    
+    // If no rosters exist, create a default one
+    if (state.rosters.length === 0) {
+      createDefaultRoster();
+    }
   }
 
   // Listen for roster updates from student war game
