@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>Tornado War – Student</title>
   <style>
     :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
@@ -2589,7 +2592,10 @@
   }
 
   // Setup scenario selection change handler
-  document.getElementById('scenarioSelect').onchange = updateScenarioDetails;
+  const scenarioSelect = document.getElementById('scenarioSelect');
+  if (scenarioSelect) {
+    scenarioSelect.onchange = updateScenarioDetails;
+  }
 
   // Auto-load student's roster
   function loadStudentRoster() {
@@ -2597,10 +2603,24 @@
     const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
     console.log('Current student:', currentStudent);
     
-    if (!currentStudent || !currentStudent.rosterId) {
+    if (!currentStudent) {
       alert('Please log in as a student first!');
       window.location.href = 'student-login.html';
       return;
+    }
+    
+    // If no rosterId, try to find any available roster
+    if (!currentStudent.rosterId) {
+      console.log('No rosterId found, looking for any available roster...');
+      const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+      if (rosters.length > 0) {
+        console.log('Using first available roster:', rosters[0].id);
+        currentStudent.rosterId = rosters[0].id;
+        localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+      } else {
+        alert('No rosters available! Please contact your teacher.');
+        return;
+      }
     }
 
     const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
