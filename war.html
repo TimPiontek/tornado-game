@@ -647,6 +647,14 @@
     if (roster.scenario) {
       console.log('Loading scenario:', roster.scenario.scenarioName);
       initializeScenario(roster.scenario);
+      
+      // Re-apply team colors after team assignment
+      state.roster.forEach(student => {
+        if (student.teamColor) {
+          state.colors.set(student.gsId, student.teamColor);
+          console.log(`Applied team color ${student.teamColor} to ${student.name}`);
+        }
+      });
     }
     
     // Create or load game board

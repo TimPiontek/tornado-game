@@ -2035,6 +2035,14 @@
         
         // Assign characters to any students who don't have them
         assignCharactersToStudents();
+        
+        // Re-apply team colors after team assignment
+        state.roster.forEach(student => {
+          if (student.teamColor) {
+            state.colors.set(student.gsId, student.teamColor);
+            console.log(`Applied team color ${student.teamColor} to ${student.name}`);
+          }
+        });
         break;
       }
     }
