@@ -3184,7 +3184,7 @@ The Beatles
             console.log('🚨 TESTING: Inside updateNavigationDirect()');
             const { data: { session } } = await supabaseClient.auth.getSession();
             console.log('🚨 TESTING: Session:', session);
-            const navLinks = document.querySelector('.nav-links');
+            const navLinks = document.querySelector('#mainNav > div:last-child');
             console.log('🚨 TESTING: navLinks element:', navLinks);
             if (!navLinks) return;
             
