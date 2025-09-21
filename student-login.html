@@ -761,7 +761,7 @@
             showLogin();
         }
 
-        function createStudentAccount() {
+        async function createStudentAccount() {
             const username = document.getElementById('signupUsername').value.trim();
             const password = document.getElementById('signupPassword').value.trim();
             const email = document.getElementById('signupEmail').value.trim();
@@ -782,14 +782,79 @@
                 return;
             }
 
-            // Check if username already exists
+            // Check if username already exists in localStorage
             const existingStudents = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
             if (existingStudents.find(s => s.username.toLowerCase() === username.toLowerCase())) {
                 showError('Username already exists! Please choose a different username.');
                 return;
             }
 
-            // Create student account
+            // Try to create Supabase account first
+            try {
+                console.log('🔍 Creating Supabase account...');
+                const studentEmail = `${username}@student.tornado.local`;
+                
+                const { data, error } = await supabaseClient.auth.signUp({
+                    email: studentEmail,
+                    password: password,
+                    options: {
+                        data: {
+                            username: username,
+                            grade: grade,
+                            user_type: 'student'
+                        }
+                    }
+                });
+
+                if (error) {
+                    console.log('Supabase signup failed:', error.message);
+                    // Fall back to localStorage
+                    await createStudentAccountLocalStorage(username, password, email, grade);
+                } else {
+                    console.log('Supabase signup successful:', data.user);
+                    
+                    // Create student object from Supabase user
+                    const student = {
+                        id: data.user.id,
+                        username: username,
+                        password: password, // Store locally for fallback
+                        email: studentEmail,
+                        grade: grade,
+                        createdAt: data.user.created_at,
+                        totalPoints: 0,
+                        quizGamesPlayed: 0,
+                        warGamesPlayed: 0,
+                        questionsAnswered: 0,
+                        correctAnswers: 0,
+                        lastLogin: new Date().toISOString(),
+                        rosterId: null,
+                        rosterName: null,
+                        isSupabaseUser: true
+                    };
+
+                    // Also store in localStorage for backward compatibility
+                    existingStudents.push(student);
+                    localStorage.setItem('tornadoStudents', JSON.stringify(existingStudents));
+
+                    // Auto-login the student
+                    currentStudent = student;
+                    localStorage.setItem('currentStudent', JSON.stringify(student));
+                    
+                    // Dispatch event to notify homepage of student login
+                    window.dispatchEvent(new CustomEvent('studentLoginChange'));
+                    showDashboard();
+
+                    showSuccess(`Welcome ${username}! Your account has been created successfully and is accessible from any device.`);
+                }
+            } catch (error) {
+                console.error('Supabase signup error:', error);
+                // Fall back to localStorage
+                await createStudentAccountLocalStorage(username, password, email, grade);
+            }
+        }
+
+        async function createStudentAccountLocalStorage(username, password, email, grade) {
+            // Create student account in localStorage
             const student = {
                 id: generateId(),
                 username: username,
@@ -804,23 +869,26 @@
                 correctAnswers: 0,
                 lastLogin: new Date().toISOString(),
                 rosterId: null,
-                rosterName: null
+                rosterName: null,
+                isSupabaseUser: false
             };
 
+            const existingStudents = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
             existingStudents.push(student);
             localStorage.setItem('tornadoStudents', JSON.stringify(existingStudents));
 
             // Auto-login the student
             currentStudent = student;
             localStorage.setItem('currentStudent', JSON.stringify(student));
+            
             // Dispatch event to notify homepage of student login
             window.dispatchEvent(new CustomEvent('studentLoginChange'));
             showDashboard();
 
-            showSuccess(`Welcome ${username}! Your account has been created successfully.`);
+            showSuccess(`Welcome ${username}! Your account has been created successfully. Note: This account is only accessible on this device.`);
         }
 
-        function loginStudent() {
+        async function loginStudent() {
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value.trim();
 
@@ -829,10 +897,61 @@
                 return;
             }
 
+            // Try Supabase authentication first
+            try {
+                console.log('🔍 Attempting Supabase login...');
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email: `${username}@student.tornado.local`, // Use a consistent email format
+                    password: password
+                });
+
+                if (error) {
+                    console.log('Supabase login failed:', error.message);
+                    // Fall back to localStorage for backward compatibility
+                    await loginStudentLocalStorage(username, password);
+                } else {
+                    console.log('Supabase login successful:', data.user);
+                    // Create student object from Supabase user
+                    currentStudent = {
+                        id: data.user.id,
+                        username: username,
+                        email: data.user.email,
+                        createdAt: data.user.created_at,
+                        lastLogin: new Date().toISOString(),
+                        totalPoints: 0,
+                        quizGamesPlayed: 0,
+                        warGamesPlayed: 0,
+                        questionsAnswered: 0,
+                        correctAnswers: 0,
+                        rosterId: null,
+                        rosterName: null,
+                        isSupabaseUser: true
+                    };
+                    
+                    localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+                    
+                    // Load roster if student is part of one
+                    if (currentStudent.rosterId) {
+                        const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                        currentRoster = rosters.find(r => r.id === currentStudent.rosterId);
+                    }
+                    
+                    // Dispatch event to notify homepage of student login
+                    window.dispatchEvent(new CustomEvent('studentLoginChange'));
+                    showDashboard();
+                }
+            } catch (error) {
+                console.error('Supabase login error:', error);
+                // Fall back to localStorage
+                await loginStudentLocalStorage(username, password);
+            }
+        }
+
+        async function loginStudentLocalStorage(username, password) {
             const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
             
             // Debug logging
-            console.log('🔍 LOGIN DEBUG:');
+            console.log('🔍 LOGIN DEBUG (LocalStorage):');
             console.log('  Username entered:', username);
             console.log('  Password entered:', password);
             console.log('  Total students in storage:', students.length);
@@ -868,7 +987,7 @@
             localStorage.setItem('tornadoStudents', JSON.stringify(students));
 
             currentStudent = student;
-            localStorage.setItem('currentStudent', JSON.stringify(student));
+            localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
             
             // Load roster if student is part of one
             if (student.rosterId) {
@@ -1176,13 +1295,79 @@
         }
 
         // Function to create a test student account
-        function createTestStudent() {
+        async function createTestStudent() {
+            const username = 'timpiontek';
+            const password = 'StudentLogin';
+            const email = 'test@example.com';
+            const grade = '12';
+
+            try {
+                console.log('🔍 Creating test Supabase account...');
+                const studentEmail = `${username}@student.tornado.local`;
+                
+                const { data, error } = await supabaseClient.auth.signUp({
+                    email: studentEmail,
+                    password: password,
+                    options: {
+                        data: {
+                            username: username,
+                            grade: grade,
+                            user_type: 'student'
+                        }
+                    }
+                });
+
+                if (error) {
+                    console.log('Supabase signup failed:', error.message);
+                    // Fall back to localStorage
+                    await createTestStudentLocalStorage(username, password, email, grade);
+                } else {
+                    console.log('Supabase signup successful:', data.user);
+                    
+                    // Create student object from Supabase user
+                    const testStudent = {
+                        id: data.user.id,
+                        username: username,
+                        password: password,
+                        email: studentEmail,
+                        grade: grade,
+                        createdAt: data.user.created_at,
+                        totalPoints: 0,
+                        quizGamesPlayed: 0,
+                        warGamesPlayed: 0,
+                        questionsAnswered: 0,
+                        correctAnswers: 0,
+                        lastLogin: new Date().toISOString(),
+                        rosterId: null,
+                        rosterName: null,
+                        isSupabaseUser: true
+                    };
+
+                    const existingStudents = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+                    
+                    // Remove any existing test student with same username
+                    const filteredStudents = existingStudents.filter(s => s.username !== username);
+                    filteredStudents.push(testStudent);
+                    
+                    localStorage.setItem('tornadoStudents', JSON.stringify(filteredStudents));
+                    
+                    console.log('Test student created:', testStudent);
+                    alert('Test student account created in Supabase! Username: timpiontek, Password: StudentLogin\n\nThis account is accessible from any device!');
+                }
+            } catch (error) {
+                console.error('Supabase signup error:', error);
+                // Fall back to localStorage
+                await createTestStudentLocalStorage(username, password, email, grade);
+            }
+        }
+
+        async function createTestStudentLocalStorage(username, password, email, grade) {
             const testStudent = {
                 id: generateId(),
-                username: 'timpiontek',
-                password: 'StudentLogin',
-                email: 'test@example.com',
-                grade: '12',
+                username: username,
+                password: password,
+                email: email,
+                grade: grade,
                 createdAt: new Date().toISOString(),
                 totalPoints: 0,
                 quizGamesPlayed: 0,
@@ -1191,19 +1376,20 @@
                 correctAnswers: 0,
                 lastLogin: new Date().toISOString(),
                 rosterId: null,
-                rosterName: null
+                rosterName: null,
+                isSupabaseUser: false
             };
 
             const existingStudents = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
             
             // Remove any existing test student with same username
-            const filteredStudents = existingStudents.filter(s => s.username !== 'timpiontek');
+            const filteredStudents = existingStudents.filter(s => s.username !== username);
             filteredStudents.push(testStudent);
             
             localStorage.setItem('tornadoStudents', JSON.stringify(filteredStudents));
             
             console.log('Test student created:', testStudent);
-            alert('Test student account created! Username: timpiontek, Password: StudentLogin');
+            alert('Test student account created in localStorage! Username: timpiontek, Password: StudentLogin\n\nNote: This account is only accessible on this device.');
         }
 
         // Make function globally accessible
