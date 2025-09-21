@@ -937,6 +937,9 @@
                     </div>
                     
                     <button class="btn" onclick="joinClassFromDashboard()">Join Class</button>
+                    <p style="margin-top: 1rem; font-size: 0.875rem; color: #666;">
+                        Don't have a class code? Ask your teacher to create a roster and share the class code with you.
+                    </p>
                 </div>
             `;
             
@@ -957,7 +960,10 @@
             
             const classFeaturesHTML = `
                 <div class="class-features" id="classFeatures">
-                    <h3>🏆 Class Features</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3>🏆 Class Features</h3>
+                        <button class="btn btn-small btn-secondary" onclick="leaveClass()" style="background: #dc3545; color: white; border: none;">Leave Class</button>
+                    </div>
                     
                     <div class="feature-grid">
                         <div class="feature-card">
@@ -1069,6 +1075,116 @@
         function viewAssignments() {
             // Redirect to assignments page
             window.location.href = 'student-assignments.html';
+        }
+
+        function joinClassFromDashboard() {
+            const classCode = document.getElementById('dashboardClassCode').value.trim().toUpperCase();
+
+            if (!classCode) {
+                showError('Please enter a class code.');
+                return;
+            }
+
+            if (classCode.length !== 6) {
+                showError('Class code must be 6 characters long.');
+                return;
+            }
+
+            // Find roster with matching class code
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            const roster = rosters.find(r => r.classCode === classCode);
+
+            if (!roster) {
+                showError('Invalid class code. Please check with your teacher.');
+                return;
+            }
+
+            // Add student to roster
+            const newStudentEntry = {
+                name: currentStudent.username,
+                points: currentStudent.totalPoints || 0,
+                id: currentStudent.id
+            };
+
+            roster.roster.push(newStudentEntry);
+            
+            // Update roster in storage
+            const rosterIndex = rosters.findIndex(r => r.id === roster.id);
+            rosters[rosterIndex] = roster;
+            localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+
+            // Update student record
+            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            const studentIndex = students.findIndex(s => s.id === currentStudent.id);
+            
+            if (studentIndex >= 0) {
+                students[studentIndex].rosterId = roster.id;
+                students[studentIndex].rosterName = currentStudent.username;
+                students[studentIndex].rosterIndex = roster.roster.length - 1;
+                localStorage.setItem('tornadoStudents', JSON.stringify(students));
+                
+                // Update current student
+                currentStudent = students[studentIndex];
+                localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+            }
+
+            // Set current roster
+            currentRoster = roster;
+
+            showSuccess(`Welcome to ${roster.name}! You've joined the class successfully.`);
+            
+            // Refresh dashboard
+            updateDashboard();
+        }
+
+        function leaveClass() {
+            if (!currentStudent || !currentStudent.rosterId) {
+                showError('You are not currently in a class.');
+                return;
+            }
+
+            if (!confirm(`Are you sure you want to leave ${currentRoster ? currentRoster.name : 'your current class'}? You will need a new class code to join another class.`)) {
+                return;
+            }
+
+            // Remove student from roster
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            const rosterIndex = rosters.findIndex(r => r.id === currentStudent.rosterId);
+            
+            if (rosterIndex >= 0) {
+                // Remove student from roster
+                const roster = rosters[rosterIndex];
+                const studentIndex = roster.roster.findIndex(s => s.name === currentStudent.rosterName);
+                
+                if (studentIndex >= 0) {
+                    roster.roster.splice(studentIndex, 1);
+                    rosters[rosterIndex] = roster;
+                    localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+                }
+            }
+
+            // Update student record
+            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            const studentIndex = students.findIndex(s => s.id === currentStudent.id);
+            
+            if (studentIndex >= 0) {
+                students[studentIndex].rosterId = null;
+                students[studentIndex].rosterName = null;
+                students[studentIndex].rosterIndex = null;
+                localStorage.setItem('tornadoStudents', JSON.stringify(students));
+                
+                // Update current student
+                currentStudent = students[studentIndex];
+                localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+            }
+
+            // Clear current roster
+            currentRoster = null;
+
+            showSuccess('You have successfully left the class. You can now join a new class using a class code.');
+            
+            // Refresh dashboard
+            updateDashboard();
         }
 
         function loadStudentAssignments() {
