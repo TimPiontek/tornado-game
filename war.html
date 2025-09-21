@@ -893,7 +893,6 @@
       
       // Calculate tile cost based on distance from center
       const tileCost = !owner ? calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h) : 0;
-      const costText = !owner ? `💰${tileCost}` : '';
       
       // Check if this tile is attackable by the selected student
       const isAttackable = attackableTileIds.has(tile.id);
@@ -918,18 +917,12 @@
       let territoryCost = tileCost;
       
       if (state.scenario) {
-        console.log('Scenario active:', state.scenario.scenarioName);
         const scenario = state.scenario;
         const territoryData = getTerritoryForTile(tile, scenario);
         if (territoryData) {
           territoryName = territoryData.name;
           territoryCost = territoryData.cost;
-          console.log('Territory found:', territoryName, 'for tile', tile.id);
-        } else {
-          console.log('No territory data found for tile', tile.id);
         }
-      } else {
-        console.log('No scenario active');
       }
       
       const displayName = territoryName || ownerName || '';
