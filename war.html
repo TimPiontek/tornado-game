@@ -1929,7 +1929,12 @@
       if (state.scenario) {
         console.log('Scenario active in renderRoster:', state.scenario.scenarioName);
         const scenario = state.scenario;
-        if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[r.gsId]) {
+        
+        // First check if student has characterName property
+        if (r.characterName) {
+          characterName = r.characterName;
+          console.log('Found character from student property for', r.name, ':', characterName);
+        } else if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[r.gsId]) {
           characterName = scenario.manualRoleAssignments[r.gsId];
           console.log('Found manual role assignment for', r.name, ':', characterName);
         } else if (scenario.aiAssignments) {
@@ -1940,6 +1945,30 @@
             console.log('Found AI role assignment for', r.name, ':', characterName);
           }
         }
+        
+        // Fallback: assign random character if none found
+        if (!characterName) {
+          const allCharacters = [];
+          Object.values(scenario.factions).forEach(faction => {
+            if (faction.characters) {
+              faction.characters.forEach(char => allCharacters.push(char.name));
+            }
+          });
+          
+          if (allCharacters.length > 0) {
+            const randomCharacter = allCharacters[Math.floor(Math.random() * allCharacters.length)];
+            characterName = randomCharacter;
+            
+            // Add to manualRoleAssignments for future reference
+            if (!scenario.manualRoleAssignments) {
+              scenario.manualRoleAssignments = {};
+            }
+            scenario.manualRoleAssignments[r.gsId] = characterName;
+            
+            console.log('Assigned random character:', characterName, 'to', r.name);
+          }
+        }
+        
         console.log('Character name for', r.name, ':', characterName);
       } else {
         console.log('No scenario active in renderRoster');

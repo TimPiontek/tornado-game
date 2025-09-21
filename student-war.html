@@ -807,6 +807,18 @@
       const castleLevel = tile.castle_level || 0;
       const castleText = castleLevel > 0 ? `🏰${castleLevel}` : '';
       
+      // Debug logging
+      if (tile.x === 0 && tile.y === 0) {
+        console.log('Debug tile (0,0):', {
+          tileId: tile.id,
+          ownerId: tile.owner_game_student_id,
+          owner: owner,
+          ownerName: ownerName,
+          rosterLength: state.roster.length,
+          scenario: !!state.scenario
+        });
+      }
+      
       // Calculate tile cost based on distance from center
       const tileCost = !owner ? calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h) : 0;
       const costText = !owner ? `💰${tileCost}` : '';
