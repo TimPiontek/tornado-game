@@ -678,13 +678,35 @@
       [allCharacters[i], allCharacters[j]] = [allCharacters[j], allCharacters[i]];
     }
     
-    // Assign characters to students
+    // Assign characters to students - ensure every student gets a character
     const roleAssignments = {};
     state.roster.forEach((student, index) => {
       if (index < allCharacters.length) {
         const character = allCharacters[index];
         roleAssignments[student.gsId] = character.name;
         console.log('Assigned', character.name, 'to', student.name);
+      } else {
+        // If we run out of characters, create a meaningful role based on faction
+        const factionIndex = index % Object.keys(scenarioData.factions).length;
+        const factionId = Object.keys(scenarioData.factions)[factionIndex];
+        const faction = scenarioData.factions[factionId];
+        
+        // Create a story-appropriate role name
+        let roleName = '';
+        if (scenarioData.scenarioName.includes('Harry Potter')) {
+          roleName = faction.name === 'Harry & Friends' ? 'Hogwarts Student' : 'Dark Wizard';
+        } else if (scenarioData.scenarioName.includes('Iliad')) {
+          roleName = faction.name.includes('Greek') ? 'Greek Warrior' : 'Trojan Warrior';
+        } else if (scenarioData.scenarioName.includes('Star Wars')) {
+          roleName = faction.name.includes('Rebel') ? 'Rebel Pilot' : 'Imperial Officer';
+        } else if (scenarioData.scenarioName.includes('Avengers')) {
+          roleName = faction.name.includes('Avengers') ? 'SHIELD Agent' : 'Hydra Agent';
+        } else {
+          roleName = faction.name + ' Soldier';
+        }
+        
+        roleAssignments[student.gsId] = roleName;
+        console.log('Assigned', roleName, 'to', student.name, '(fallback role)');
       }
     });
     

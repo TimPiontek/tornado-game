@@ -899,6 +899,91 @@ const SCENARIOS = {
               "The world is not divided into good people and Death Eaters."
             ],
             description: 'Complex character who was actually working for the good side all along.'
+          },
+          {
+            name: 'Neville Longbottom',
+            role: 'Brave Gryffindor',
+            startingCoins: 70,
+            startingWeapons: ['sword of gryffindor'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "I'll fight with you.",
+              "We're not going down without a fight.",
+              "For my parents!",
+              "I'm not afraid anymore.",
+              "We will win this war."
+            ],
+            description: 'Gryffindor student who became a hero in the final battle.'
+          },
+          {
+            name: 'Luna Lovegood',
+            role: 'Ravenclaw Seer',
+            startingCoins: 65,
+            startingWeapons: ['spectrespecs'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'wise',
+            quotes: [
+              "The things we lose have a way of coming back to us.",
+              "I believe in nargles.",
+              "We're all mad here.",
+              "Friends are the most important thing.",
+              "Love is the strongest magic."
+            ],
+            description: 'Quirky Ravenclaw known for her wisdom and loyalty.'
+          },
+          {
+            name: 'Ginny Weasley',
+            role: 'Fierce Witch',
+            startingCoins: 75,
+            startingWeapons: ['bat-bogey hex'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'fierce',
+            quotes: [
+              "I'm not going to be left behind.",
+              "I can fight too.",
+              "For my family!",
+              "We're all in this together.",
+              "I'm not afraid of you."
+            ],
+            description: 'Strong-willed Weasley sister and skilled witch.'
+          },
+          {
+            name: 'Sirius Black',
+            role: 'Godfather',
+            startingCoins: 85,
+            startingWeapons: ['animagus form'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "I would have died rather than betray my friends.",
+              "Harry is like a son to me.",
+              "We're family.",
+              "I'll protect you.",
+              "Love conquers all."
+            ],
+            description: 'Harry\'s godfather and loyal friend of James Potter.'
+          },
+          {
+            name: 'Remus Lupin',
+            role: 'Werewolf Professor',
+            startingCoins: 80,
+            startingWeapons: ['werewolf strength'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'wise',
+            quotes: [
+              "The time will come when you have to choose between what is right and what is easy.",
+              "I'm proud to be your teacher.",
+              "We fight for what's right.",
+              "Love is stronger than fear.",
+              "We're all human."
+            ],
+            description: 'Kind-hearted werewolf and Defense Against the Dark Arts professor.'
           }
         ],
         generalRoles: [
@@ -1003,6 +1088,91 @@ const SCENARIOS = {
               "We will not be defeated."
             ],
             description: 'Pure-blood witch and mother of Draco Malfoy.'
+          },
+          {
+            name: 'Draco Malfoy',
+            role: 'Slytherin Student',
+            startingCoins: 75,
+            startingWeapons: ['slytherin wand'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'conflicted',
+            quotes: [
+              "My father will hear about this.",
+              "I don't want to do this.",
+              "I'm not like them.",
+              "I have to protect my family.",
+              "I'm sorry."
+            ],
+            description: 'Slytherin student torn between family loyalty and doing what\'s right.'
+          },
+          {
+            name: 'Antonin Dolohov',
+            role: 'Death Eater',
+            startingCoins: 70,
+            startingWeapons: ['silent curse'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'dangerous',
+            quotes: [
+              "I will not be captured.",
+              "The Dark Lord will reward me.",
+              "I fight for pure blood.",
+              "Death to the Order.",
+              "I am unstoppable."
+            ],
+            description: 'Dangerous Death Eater known for his silent curses.'
+          },
+          {
+            name: 'Fenrir Greyback',
+            role: 'Werewolf',
+            startingCoins: 65,
+            startingWeapons: ['werewolf bite'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'savage',
+            quotes: [
+              "I will bite you.",
+              "The pack will hunt.",
+              "I serve the Dark Lord.",
+              "Children are easy prey.",
+              "I am the alpha."
+            ],
+            description: 'Savage werewolf who preys on children.'
+          },
+          {
+            name: 'Yaxley',
+            role: 'Death Eater',
+            startingCoins: 60,
+            startingWeapons: ['ministry connections'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'ambitious',
+            quotes: [
+              "I control the Ministry.",
+              "The Dark Lord trusts me.",
+              "I will rise in power.",
+              "Pure blood will rule.",
+              "I am indispensable."
+            ],
+            description: 'Ambitious Death Eater who infiltrated the Ministry.'
+          },
+          {
+            name: 'Alecto Carrow',
+            role: 'Death Eater',
+            startingCoins: 55,
+            startingWeapons: ['cruciatus curse'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cruel',
+            quotes: [
+              "I will torture them.",
+              "The Dark Lord will be pleased.",
+              "Pure blood supremacy.",
+              "I enjoy their screams.",
+              "I am unstoppable."
+            ],
+            description: 'Cruel Death Eater who became a professor at Hogwarts.'
           }
         ],
         generalRoles: [
