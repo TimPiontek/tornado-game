@@ -674,6 +674,17 @@
           student.teamId = 'bad_guys';
           student.teamName = 'Voldemort\'s Army';
           student.teamColor = '#2e8b57'; // Slytherin green for bad guys
+        } else if (state.scenario && state.scenario.scenarioName.includes('Harry Potter')) {
+          // Handle Harry Potter general roles
+          if (student.characterName === 'Hogwarts Student' || student.characterName === 'Order Member' || student.characterName === 'Muggle-born') {
+            student.teamId = 'good_guys';
+            student.teamName = 'Dumbledore\'s Army';
+            student.teamColor = '#dc143c'; // Gryffindor red for good guys
+          } else if (student.characterName === 'Death Eater' || student.characterName === 'Snatcher' || student.characterName === 'Inferi') {
+            student.teamId = 'bad_guys';
+            student.teamName = 'Voldemort\'s Army';
+            student.teamColor = '#2e8b57'; // Slytherin green for bad guys
+          }
         } else if (student.characterFaction === 'Rebel Alliance') {
           student.teamId = 'rebels';
           student.teamName = 'Rebel Alliance';
@@ -809,6 +820,17 @@
         student.teamId = 'bad_guys';
         student.teamName = 'Voldemort\'s Army';
         student.teamColor = '#2e8b57'; // Slytherin green for bad guys
+      } else if (scenarioData.scenarioName.includes('Harry Potter')) {
+        // Handle Harry Potter general roles
+        if (character.name === 'Hogwarts Student' || character.name === 'Order Member' || character.name === 'Muggle-born') {
+          student.teamId = 'good_guys';
+          student.teamName = 'Dumbledore\'s Army';
+          student.teamColor = '#dc143c'; // Gryffindor red for good guys
+        } else if (character.name === 'Death Eater' || character.name === 'Snatcher' || character.name === 'Inferi') {
+          student.teamId = 'bad_guys';
+          student.teamName = 'Voldemort\'s Army';
+          student.teamColor = '#2e8b57'; // Slytherin green for bad guys
+        }
       } else if (character.factionName === 'Rebel Alliance') {
         student.teamId = 'rebels';
         student.teamName = 'Rebel Alliance';
