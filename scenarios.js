@@ -2151,7 +2151,7 @@ const SCENARIOS = {
     factions: {
       greeks: {
         name: 'Greeks (Achaeans)',
-        color: '#4169e1',
+        color: '#1e40af', // Deep blue for Greeks
         description: 'Fighting to reclaim Helen and restore honor',
         territories: [
           { name: 'Mycenae', cost: 80, description: 'Agamemnon\'s kingdom' },
@@ -2255,7 +2255,7 @@ const SCENARIOS = {
       },
       trojans: {
         name: 'Trojans',
-        color: '#dc2626',
+        color: '#dc2626', // Red for Trojans (already good)
         description: 'Defending their city and protecting Helen',
         territories: [
           { name: 'Troy', cost: 100, description: 'The great city' },

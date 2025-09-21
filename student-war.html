@@ -789,10 +789,25 @@
         borderStyle = '2px solid #3b82f6'; // Blue border for own territories
       }
       
-      // Determine background color
-      let backgroundColor = owner ? state.colors.get(owner.gsId) : '#1a1a2e';
+      // Determine background color based on territory faction
+      let backgroundColor = '#1a1a2e';
+      if (state.scenario) {
+        const scenario = state.scenario;
+        const territoryData = getTerritoryForTile(tile, scenario);
+        if (territoryData && territoryData.factionColor) {
+          // Use faction color as base, but lighter
+          backgroundColor = territoryData.factionColor + '20'; // Add transparency
+        }
+      }
+      
+      // Override with owner color if owned
+      if (owner) {
+        backgroundColor = state.colors.get(owner.gsId);
+      }
+      
+      // Add green tint for claimable unowned territories
       if (isAttackable && !owner) {
-        backgroundColor = '#1a2e1a'; // Slightly green tint for claimable unowned territories
+        backgroundColor = '#1a2e1a';
       }
       
       // Get territory name if scenario is active
@@ -805,6 +820,20 @@
         if (territoryData) {
           territoryName = territoryData.name;
           territoryCost = territoryData.cost;
+        }
+      }
+      
+      // Get character name for the owner
+      let characterName = '';
+      if (owner && state.scenario) {
+        const scenario = state.scenario;
+        if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[owner.gsId]) {
+          characterName = scenario.manualRoleAssignments[owner.gsId];
+        } else if (scenario.aiAssignments) {
+          const aiRole = Object.values(scenario.aiAssignments).find(ai => ai.studentId === owner.gsId);
+          if (aiRole) {
+            characterName = aiRole.roleName || 'AI Character';
+          }
         }
       }
       
@@ -827,9 +856,9 @@
                        text-align: center;
                        transition: all 0.2s ease;"
                 onclick="handleTileClick('${tile.id}')"
-                title="${owner ? `Owned by ${ownerName}` : `Click to buy ${territoryName || 'territory'} for ${displayCost} points`}${isAttackable && !isOwnedByStudent && !owner ? ' (Claimable!)' : ''}">
+                title="${owner ? `Owned by ${ownerName}${characterName ? ` (${characterName})` : ''}` : `Click to buy ${territoryName || 'territory'} for ${displayCost} points`}${isAttackable && !isOwnedByStudent && !owner ? ' (Claimable!)' : ''}">
                 <div style="font-weight: 600; font-size: 11px; line-height: 1.1;">${displayName}</div>
-                ${owner ? `<div style="font-size: 8px; color: #ccc; margin-top: 2px; line-height: 1.0;">${ownerName}</div>` : ''}
+                ${owner ? `<div style="font-size: 8px; color: #ccc; margin-top: 2px; line-height: 1.0;">${ownerName}${characterName ? ` (${characterName})` : ''}</div>` : ''}
                 <div style="font-size: 9px; margin-top: 2px;">${castleText || costText}</div>
               </div>`;
     }).join('');
