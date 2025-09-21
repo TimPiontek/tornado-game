@@ -657,6 +657,47 @@
     updateVictoryTarget();
   }
   
+  // Assign teams based on character factions
+  function assignTeamsFromCharacters() {
+    if (!state.scenario || !state.roster) return;
+    
+    console.log('Assigning teams based on character factions...');
+    
+    state.roster.forEach(student => {
+      if (student.characterName && student.characterFaction) {
+        // Assign team based on character faction
+        if (student.characterFaction === 'Harry Potter & Friends') {
+          student.teamId = 'good_guys';
+          student.teamName = 'Dumbledore\'s Army';
+          student.teamColor = '#2e8b57'; // Green for good guys
+        } else if (student.characterFaction === 'Death Eaters & Voldemort') {
+          student.teamId = 'bad_guys';
+          student.teamName = 'Voldemort\'s Army';
+          student.teamColor = '#8b0000'; // Dark red for bad guys
+        } else if (student.characterFaction === 'Rebel Alliance') {
+          student.teamId = 'rebels';
+          student.teamName = 'Rebel Alliance';
+          student.teamColor = '#4169e1'; // Blue for rebels
+        } else if (student.characterFaction === 'Galactic Empire') {
+          student.teamId = 'empire';
+          student.teamName = 'Galactic Empire';
+          student.teamColor = '#8b0000'; // Dark red for empire
+        } else if (student.characterFaction === 'Neutral/Independent') {
+          student.teamId = 'neutral';
+          student.teamName = 'Neutral/Independent';
+          student.teamColor = '#808080'; // Gray for neutral
+        }
+        
+        // Update the color system to use team color
+        if (student.teamColor) {
+          state.colors.set(student.gsId, student.teamColor);
+        }
+        
+        console.log(`Assigned ${student.name} to team ${student.teamName} (${student.teamColor})`);
+      }
+    });
+  }
+
   // Initialize scenario data
   function assignRandomCharacters(scenarioData) {
     console.log('Assigning random characters to students');
@@ -780,6 +821,9 @@
     if (scenarioData.randomAssignment && !scenarioData.manualRoleAssignments) {
       assignRandomCharacters(scenarioData);
     }
+    
+    // Always assign teams based on character factions
+    assignTeamsFromCharacters();
     
     // Initialize AI if enabled
     if (scenarioData.enableAI && typeof initializeAIForScenario === 'function') {
@@ -938,30 +982,54 @@ delete state.currentRoster.gameState;
     
     console.log('Team groups:', teamGroups);
     
-    // Create strategic starting positions - group teams strategically
-    const team1Positions = []; // Left side
-    const team2Positions = []; // Right side  
-    const team3Positions = []; // Center/bottom
+    // Create strategic starting positions - MAXIMUM separation between teams
+    const team1Positions = []; // Far left side
+    const team2Positions = []; // Far right side  
+    const team3Positions = []; // Center (for 3-team scenarios)
     
-    // Team 1 gets left side (top-left to bottom-left)
-    for (let y = 0; y < h; y++) {
-      for (let x = 0; x < Math.floor(w / 3); x++) {
-        team1Positions.push({ x, y });
-      }
-    }
+    // Check if this is a 2-team or 3-team scenario
+    const teamCount = Object.keys(teamGroups).length;
+    const isThreeTeam = teamCount >= 3;
     
-    // Team 2 gets right side (top-right to bottom-right)
-    for (let y = 0; y < h; y++) {
-      for (let x = Math.floor(2 * w / 3); x < w; x++) {
-        team2Positions.push({ x, y });
+    if (isThreeTeam) {
+      // 3-team scenario: Left, Center, Right with neutral gaps
+      // Team 1 gets far left (first 1/4 of map)
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < Math.floor(w / 4); x++) {
+          team1Positions.push({ x, y });
+        }
       }
-    }
-    
-    // Team 3 gets center area
-    for (let y = 0; y < h; y++) {
-      for (let x = Math.floor(w / 3); x < Math.floor(2 * w / 3); x++) {
-        team3Positions.push({ x, y });
+      
+      // Team 2 gets far right (last 1/4 of map)
+      for (let y = 0; y < h; y++) {
+        for (let x = Math.floor(3 * w / 4); x < w; x++) {
+          team2Positions.push({ x, y });
+        }
       }
+      
+      // Team 3 gets center-left (middle-left 1/4 of map)
+      for (let y = 0; y < h; y++) {
+        for (let x = Math.floor(w / 4); x < Math.floor(w / 2); x++) {
+          team3Positions.push({ x, y });
+        }
+      }
+    } else {
+      // 2-team scenario: MAXIMUM separation - far left vs far right
+      // Team 1 gets far left (first 1/3 of map)
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < Math.floor(w / 3); x++) {
+          team1Positions.push({ x, y });
+        }
+      }
+      
+      // Team 2 gets far right (last 1/3 of map)
+      for (let y = 0; y < h; y++) {
+        for (let x = Math.floor(2 * w / 3); x < w; x++) {
+          team2Positions.push({ x, y });
+        }
+      }
+      
+      // Middle 1/3 remains neutral territory
     }
     
     // Sort positions by distance from center for better strategic placement
