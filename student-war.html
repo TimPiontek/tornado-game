@@ -2179,7 +2179,7 @@
     document.body.appendChild(modal);
   }
 
-  function buyStudentItem(itemType, cost) {
+  window.buyStudentItem = function(itemType, cost) {
     const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
     const loggedInStudent = state.roster.find(s => s.name === currentStudent.username);
     
