@@ -638,11 +638,73 @@
   }
   
   // Initialize scenario data
+  function assignRandomCharacters(scenarioData) {
+    console.log('Assigning random characters to students');
+    
+    // Get all available characters from all factions
+    const allCharacters = [];
+    Object.values(scenarioData.factions).forEach(faction => {
+      if (faction.characters) {
+        faction.characters.forEach(char => {
+          allCharacters.push({
+            ...char,
+            factionName: faction.name,
+            factionColor: faction.color
+          });
+        });
+      }
+      if (faction.generalRoles) {
+        faction.generalRoles.forEach(role => {
+          allCharacters.push({
+            name: role.name,
+            role: role.name,
+            startingCoins: role.startingCoins,
+            startingWeapons: role.startingWeapons,
+            startingMercenaries: role.startingMercenaries,
+            startingCastles: role.startingCastles,
+            personality: role.personality,
+            quotes: role.quotes,
+            history: `${role.name} in ${faction.name}`,
+            factionName: faction.name,
+            factionColor: faction.color
+          });
+        });
+      }
+    });
+    
+    // Shuffle characters
+    for (let i = allCharacters.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [allCharacters[i], allCharacters[j]] = [allCharacters[j], allCharacters[i]];
+    }
+    
+    // Assign characters to students
+    const roleAssignments = {};
+    state.roster.forEach((student, index) => {
+      if (index < allCharacters.length) {
+        const character = allCharacters[index];
+        roleAssignments[student.gsId] = character.name;
+        console.log('Assigned', character.name, 'to', student.name);
+      }
+    });
+    
+    // Store assignments in scenario data
+    scenarioData.manualRoleAssignments = roleAssignments;
+    state.scenario.manualRoleAssignments = roleAssignments;
+    
+    console.log('Character assignments completed:', roleAssignments);
+  }
+
   function initializeScenario(scenarioData) {
     console.log('Initializing scenario:', scenarioData);
     
     // Store scenario data in state
     state.scenario = scenarioData;
+    
+    // Auto-assign characters if random assignment and no manual assignments
+    if (scenarioData.randomAssignment && !scenarioData.manualRoleAssignments) {
+      assignRandomCharacters(scenarioData);
+    }
     
     // Initialize AI if enabled
     if (scenarioData.enableAI && typeof initializeAIForScenario === 'function') {
