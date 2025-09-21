@@ -1611,6 +1611,7 @@
         tiles: state.board.tiles,
         truces: state.truces || []
       },
+      scenario: state.scenario, // Save scenario data including character assignments
       lastModified: new Date().toISOString()
     };
     
@@ -2150,6 +2151,7 @@
           tiles: state.board.tiles,
           truces: state.truces || []
         },
+        scenario: state.scenario, // Save scenario data including character assignments
         lastModified: new Date().toISOString()
       };
       
