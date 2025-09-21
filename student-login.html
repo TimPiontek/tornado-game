@@ -872,6 +872,11 @@
         }
 
         function updateDashboard() {
+            if (!currentStudent) {
+                console.error('updateDashboard called but currentStudent is null');
+                return;
+            }
+            
             // Update student profile
             const studentProfile = document.getElementById('studentProfile');
             studentProfile.innerHTML = `
