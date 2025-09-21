@@ -1188,12 +1188,16 @@ const SCENARIOS = {
         color: '#dc2626', // Red
         description: 'Supporters of Julius Caesar',
         territories: [
-          { name: 'Rome', cost: 25, description: 'Capital of the Roman Empire' },
-          { name: 'Gaul', cost: 20, description: 'Caesar conquered territory' },
-          { name: 'Egypt', cost: 18, description: 'Allied with Cleopatra' },
-          { name: 'Spain', cost: 15, description: 'Roman province' },
-          { name: 'Africa', cost: 12, description: 'Roman territory' },
-          { name: 'Asia Minor', cost: 10, description: 'Eastern provinces' }
+          { name: 'Rome', cost: 25, description: 'Capital of the Roman Empire and power center' },
+          { name: 'Gaul', cost: 20, description: 'Caesar conquered territory and legion base' },
+          { name: 'Egypt', cost: 18, description: 'Allied with Cleopatra and grain source' },
+          { name: 'Spain', cost: 15, description: 'Roman province and silver mines' },
+          { name: 'Africa', cost: 12, description: 'Roman territory and grain supply' },
+          { name: 'Asia Minor', cost: 10, description: 'Eastern provinces and trade routes' },
+          { name: 'Caesar\'s Legions', cost: 22, description: 'Professional army and military force' },
+          { name: 'Caesar\'s Villa', cost: 16, description: 'Private residence and planning center' },
+          { name: 'Roman Navy', cost: 14, description: 'Naval fleet and maritime control' },
+          { name: 'Caesar\'s Treasury', cost: 18, description: 'Wealth storage and war funding' }
         ],
         characters: [
           {
@@ -1730,12 +1734,16 @@ const SCENARIOS = {
         color: '#1e40af', // Blue
         description: 'Defenders of the Roman Republic',
         territories: [
-          { name: 'Capitol Hill', cost: 20, description: 'Senate meeting place' },
-          { name: 'Forum', cost: 18, description: 'Public square' },
-          { name: 'Palatine Hill', cost: 15, description: 'Noble residences' },
-          { name: 'Aventine Hill', cost: 12, description: 'Plebeian district' },
-          { name: 'Caelian Hill', cost: 10, description: 'Residential area' },
-          { name: 'Esquiline Hill', cost: 8, description: 'Urban district' }
+          { name: 'Capitol Hill', cost: 20, description: 'Senate meeting place and government center' },
+          { name: 'Forum', cost: 18, description: 'Public square and political center' },
+          { name: 'Palatine Hill', cost: 15, description: 'Noble residences and elite district' },
+          { name: 'Aventine Hill', cost: 12, description: 'Plebeian district and common people' },
+          { name: 'Caelian Hill', cost: 10, description: 'Residential area and middle class' },
+          { name: 'Esquiline Hill', cost: 8, description: 'Urban district and working class' },
+          { name: 'Senate House', cost: 22, description: 'Legislative center and decision making' },
+          { name: 'Republican Guards', cost: 16, description: 'Military force and protection' },
+          { name: 'Consul\'s Palace', cost: 14, description: 'Executive residence and command' },
+          { name: 'Republican Treasury', cost: 12, description: 'Public funds and state resources' }
         ],
         characters: [
           {
@@ -1830,12 +1838,16 @@ const SCENARIOS = {
         color: '#dc2626', // Red
         description: 'The ruling class who exploit the other animals',
         territories: [
-          { name: 'Farmhouse', cost: 20, description: 'Former human residence' },
+          { name: 'Farmhouse', cost: 20, description: 'Former human residence and pig headquarters' },
           { name: 'Barn', cost: 15, description: 'Meeting place and shelter' },
-          { name: 'Windmill', cost: 18, description: 'Symbol of progress' },
-          { name: 'Orchard', cost: 12, description: 'Apple trees' },
-          { name: 'Hayfield', cost: 10, description: 'Grazing area' },
-          { name: 'Pig Pen', cost: 8, description: 'Pig quarters' }
+          { name: 'Windmill', cost: 18, description: 'Symbol of progress and power source' },
+          { name: 'Orchard', cost: 12, description: 'Apple trees and luxury food source' },
+          { name: 'Hayfield', cost: 10, description: 'Grazing area and food production' },
+          { name: 'Pig Pen', cost: 8, description: 'Pig quarters and breeding ground' },
+          { name: 'Command Center', cost: 16, description: 'Pig planning and control room' },
+          { name: 'Propaganda Office', cost: 14, description: 'Information control and manipulation' },
+          { name: 'Pig Treasury', cost: 12, description: 'Wealth storage and resource control' },
+          { name: 'Guard Dogs', cost: 10, description: 'Enforcement and intimidation force' }
         ],
         characters: [
           {
@@ -2083,12 +2095,16 @@ const SCENARIOS = {
         color: '#1e40af', // Blue
         description: 'The exploited working class of the farm',
         territories: [
-          { name: 'Pasture', cost: 8, description: 'Grazing land' },
-          { name: 'Field', cost: 10, description: 'Crop growing area' },
-          { name: 'Stable', cost: 6, description: 'Horse quarters' },
-          { name: 'Coop', cost: 4, description: 'Chicken house' },
-          { name: 'Sty', cost: 5, description: 'Pig quarters' },
-          { name: 'Meadow', cost: 7, description: 'Open grazing' }
+          { name: 'Pasture', cost: 8, description: 'Grazing land and food source' },
+          { name: 'Field', cost: 10, description: 'Crop growing area and labor center' },
+          { name: 'Stable', cost: 6, description: 'Horse quarters and work base' },
+          { name: 'Coop', cost: 4, description: 'Chicken house and egg production' },
+          { name: 'Meadow', cost: 7, description: 'Open grazing and freedom space' },
+          { name: 'Work Sites', cost: 9, description: 'Labor areas and production centers' },
+          { name: 'Animal Quarters', cost: 5, description: 'Living spaces and rest areas' },
+          { name: 'Food Storage', cost: 6, description: 'Supply depot and ration center' },
+          { name: 'Meeting Ground', cost: 7, description: 'Assembly area and discussion space' },
+          { name: 'Resistance Hideout', cost: 8, description: 'Secret meeting place and planning' }
         ],
         characters: [
           {
