@@ -776,6 +776,13 @@
 
             currentStudent = student;
             localStorage.setItem('currentStudent', JSON.stringify(student));
+            
+            // Load roster if student is part of one
+            if (student.rosterId) {
+                const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                currentRoster = rosters.find(r => r.id === student.rosterId);
+            }
+            
             // Dispatch event to notify homepage of student login
             window.dispatchEvent(new CustomEvent('studentLoginChange'));
             showDashboard();
@@ -829,7 +836,7 @@
             localStorage.setItem('tornadoStudents', JSON.stringify(students));
             localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
 
-            showSuccess(`Welcome to ${currentRoster.name}! You've joined as ${studentName}.`);
+            showSuccess(`Welcome to ${currentRoster ? currentRoster.name : 'your class'}! You've joined as ${studentName}.`);
             showDashboard();
         }
 
