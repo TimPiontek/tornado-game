@@ -945,8 +945,9 @@
                        transition: all 0.2s ease;"
                 onclick="handleTileClick('${tile.id}')"
                 title="${owner ? `Owned by ${ownerName}` : `Click to buy ${territoryName || 'territory'} for ${displayCost} points`}${isAttackable && !isOwnedBySelected ? ' (Attackable!)' : ''}">
-                <div style="font-weight: 600;">${displayName}</div>
-                <div style="font-size: 10px;">${castleText || costText}</div>
+                <div style="font-weight: 600; font-size: 11px; line-height: 1.1;">${displayName}</div>
+                ${owner ? `<div style="font-size: 8px; color: #ccc; margin-top: 2px; line-height: 1.0;">${ownerName}</div>` : ''}
+                <div style="font-size: 9px; margin-top: 2px;">${castleText || costText}</div>
               </div>`;
     }).join('');
     
