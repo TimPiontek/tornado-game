@@ -1755,7 +1755,36 @@
       return;
     }
     
-    // Check if any students have character names
+    // Check if the roster has scenario data with character assignments
+    if (state.currentRoster && state.currentRoster.scenario) {
+      const rosterScenario = state.currentRoster.scenario;
+      console.log('Found roster scenario data:', rosterScenario);
+      
+      if (rosterScenario.scenarioName) {
+        // Find the matching scenario in SCENARIOS
+        const scenarioId = Object.keys(SCENARIOS).find(id => 
+          SCENARIOS[id].name === rosterScenario.scenarioName || 
+          SCENARIOS[id].scenarioName === rosterScenario.scenarioName
+        );
+        
+        if (scenarioId) {
+          console.log(`Auto-loading scenario ${scenarioId} from roster data`);
+          const scenario = SCENARIOS[scenarioId];
+          
+          // Load the scenario with the roster's character assignments
+          state.scenario = {
+            ...scenario,
+            manualRoleAssignments: rosterScenario.manualRoleAssignments || {},
+            aiAssignments: rosterScenario.aiAssignments || {}
+          };
+          
+          updateScenarioDisplay(scenario.name, scenario.description, scenario.factions);
+          return;
+        }
+      }
+    }
+    
+    // Fallback: Check if any students have character names (for backward compatibility)
     const studentsWithCharacters = state.roster.filter(s => s.characterName);
     if (studentsWithCharacters.length === 0) {
       updateScenarioDisplay('No characters assigned - playing in normal mode');
