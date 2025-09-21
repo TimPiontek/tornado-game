@@ -707,10 +707,20 @@
             }
 
             const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            
+            // Debug logging
+            console.log('🔍 LOGIN DEBUG:');
+            console.log('  Username entered:', username);
+            console.log('  Password entered:', password);
+            console.log('  Total students in storage:', students.length);
+            console.log('  Students:', students.map(s => ({ username: s.username, password: s.password })));
+            
             const student = students.find(s => 
                 s.username.toLowerCase() === username.toLowerCase() && 
                 s.password === password
             );
+
+            console.log('  Found student:', student);
 
             if (!student) {
                 showError('Invalid username or password!');
