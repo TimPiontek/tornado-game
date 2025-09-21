@@ -719,7 +719,7 @@
       }
     });
   }
-
+  
   // Initialize scenario data
   function assignRandomCharacters(scenarioData) {
     console.log('Assigning random characters to students');
@@ -932,25 +932,25 @@
     console.log('Calculated board size:', { studentCount, w, h });
     
     // Always create fresh tiles for now to ensure proper starting positions
-    console.log('Creating fresh tiles with starting positions');
-    // Create fresh tiles
-    const tiles = [];
-    for (let y = 0; y < h; y++) {
-      for (let x = 0; x < w; x++) {
-        tiles.push({
-          id: `tile_${x}_${y}`,
-          x: x,
-          y: y,
-          owner_game_student_id: null,
-          castle_level: 0
-        });
+      console.log('Creating fresh tiles with starting positions');
+      // Create fresh tiles
+      const tiles = [];
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+          tiles.push({
+            id: `tile_${x}_${y}`,
+            x: x,
+            y: y,
+            owner_game_student_id: null,
+            castle_level: 0
+          });
+        }
       }
-    }
-    state.board = { w, h, tiles };
-    state.truces = [];
-    
-    // Assign starting tiles to students (2 tiles each on outer edges)
-    assignStartingTiles();
+      state.board = { w, h, tiles };
+      state.truces = [];
+      
+      // Assign starting tiles to students (2 tiles each on outer edges)
+      assignStartingTiles();
     
     // Place starting castles for characters who have them
     placeStartingCastles();
@@ -1014,7 +1014,7 @@
 
     // Clear saved game state from roster
     if (state.currentRoster.gameState) {
-delete state.currentRoster.gameState;
+      delete state.currentRoster.gameState;
     }
 
     // Update UI
@@ -1162,8 +1162,8 @@ delete state.currentRoster.gameState;
           const pos = teamPositions[positionIndex];
           const tile = state.board.tiles.find(t => t.x === pos.x && t.y === pos.y);
           if (tile && !tile.owner_game_student_id) {
-            tile.owner_game_student_id = student.gsId;
-            student.tilesOwned = (student.tilesOwned || 0) + 1;
+        tile.owner_game_student_id = student.gsId;
+        student.tilesOwned = (student.tilesOwned || 0) + 1;
             assignedTiles.push(tile);
             console.log(`Assigned additional tile (${tile.x}, ${tile.y}) to ${student.name} (${student.teamName || 'individual'})`);
           }
@@ -3592,7 +3592,10 @@ delete state.currentRoster.gameState;
     
     scenarioBtn.onclick = () => {
       closeNewGameModal();
+      // Add a small delay to ensure scenarios.js is loaded
+      setTimeout(() => {
       showScenarioSelectionModal();
+      }, 100);
     };
   }
   
@@ -3621,6 +3624,15 @@ delete state.currentRoster.gameState;
   }
   
   function showScenarioSelectionModal() {
+    // Check if scenarios are loaded
+    if (typeof SCENARIOS === 'undefined') {
+      console.error('SCENARIOS object not loaded yet!');
+      alert('Scenarios are still loading. Please wait a moment and try again.');
+      return;
+    }
+    
+    console.log('Available scenarios:', Object.keys(SCENARIOS));
+    
     const modal = document.createElement('div');
     modal.id = 'scenarioSelectionModal';
     modal.style.cssText = `
@@ -3784,23 +3796,23 @@ delete state.currentRoster.gameState;
             font-weight: 600;
           ">Clear Saved Scenario</button>
           <div style="display: flex; gap: 1rem;">
-            <button onclick="closeScenarioSelectionModal()" style="
-              background: #64748b;
-              color: white;
-              border: none;
-              padding: 0.75rem 1.5rem;
-              border-radius: 6px;
-              cursor: pointer;
-            ">Cancel</button>
-            <button id="startScenarioGameBtn" onclick="startScenarioGame()" style="
-              background: #10b981;
-              color: white;
-              border: none;
-              padding: 0.75rem 1.5rem;
-              border-radius: 6px;
-              cursor: pointer;
-              font-weight: 600;
-            " disabled>Start Scenario Game</button>
+          <button onclick="closeScenarioSelectionModal()" style="
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+          ">Cancel</button>
+          <button id="startScenarioGameBtn" onclick="startScenarioGame()" style="
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+          " disabled>Start Scenario Game</button>
           </div>
         </div>
       </div>
@@ -3835,6 +3847,9 @@ delete state.currentRoster.gameState;
     const scenarioDetails = document.getElementById('scenarioDetails');
     const startBtn = document.getElementById('startScenarioGameBtn');
     
+    console.log('updateScenarioDetails called with scenarioId:', scenarioId);
+    console.log('SCENARIOS object available:', typeof SCENARIOS !== 'undefined');
+    
     if (scenarioId === 'custom') {
       // Show custom scenario option
       document.getElementById('scenarioTitle').textContent = 'Create Custom Scenario';
@@ -3846,6 +3861,7 @@ delete state.currentRoster.gameState;
       startBtn.textContent = 'Open Custom Builder';
     } else if (scenarioId && typeof SCENARIOS !== 'undefined' && SCENARIOS[scenarioId]) {
       const scenario = SCENARIOS[scenarioId];
+      console.log('Found scenario:', scenario.name);
       
       // Update scenario info
       document.getElementById('scenarioTitle').textContent = scenario.name;
@@ -3864,6 +3880,10 @@ delete state.currentRoster.gameState;
       startBtn.disabled = false;
       startBtn.textContent = 'Start Scenario Game';
     } else {
+      console.log('Scenario not found or SCENARIOS not loaded. scenarioId:', scenarioId);
+      if (typeof SCENARIOS !== 'undefined') {
+        console.log('Available scenarios:', Object.keys(SCENARIOS));
+      }
       scenarioDetails.style.display = 'none';
       startBtn.disabled = true;
       startBtn.textContent = 'Start Scenario Game';
@@ -3905,7 +3925,7 @@ delete state.currentRoster.gameState;
       alert('No saved scenario found in current roster.');
     }
   };
-
+  
   window.startScenarioGame = function() {
     const scenarioId = document.getElementById('scenarioSelect').value;
     const enableAI = document.getElementById('enableAI').checked;
