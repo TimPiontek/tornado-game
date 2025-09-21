@@ -4825,7 +4825,7 @@
               }
               
               if (currentStudent) {
-                awardStudentPoints(currentStudent.name, individualPoints);
+                awardStudentPoints(currentStudent.name, individualPoints, true); // true = correct answer
                 updateTeamScores(); // Update the display
               }
             }
@@ -4858,6 +4858,24 @@
         // Incorrect button - show options
         if (document.getElementById("incorrectBtn")) {
           document.getElementById("incorrectBtn").onclick = () => {
+            // Track incorrect answer
+            if (rosterData && rosterData.roster) {
+              let currentStudent = null;
+              
+              if (teamMode && getCurrentStudent()) {
+                // Team mode - get current student from team
+                currentStudent = getCurrentStudent();
+              } else if (!teamMode) {
+                // Individual mode - get student by turn index
+                const studentIndex = turn.charCodeAt(0) - 65; // A=0, B=1, C=2, etc.
+                currentStudent = rosterData.roster[studentIndex];
+              }
+              
+              if (currentStudent) {
+                awardStudentPoints(currentStudent.name, 0, false); // false = incorrect answer
+              }
+            }
+            
             // Show the secondary action buttons more prominently
             const secondaryButtons = document.querySelectorAll('.secondary-btn');
             if (secondaryButtons && secondaryButtons.length > 0) {
@@ -6855,6 +6873,8 @@
         let currentStudentIndex = 0;
         let currentTeamStudents = [];
         let studentPoints = {}; // Track individual student points
+        let studentCorrectAnswers = {}; // Track correct answers per student
+        let studentTotalQuestions = {}; // Track total questions per student
         
         // === POINT CONFIGURATION ===
         let individualPoints = 100;
@@ -6953,13 +6973,15 @@
                 let questionsAnswered = 0;
                 let correctAnswers = 0;
                 
-                // Count questions answered and points earned
-                Object.values(studentPoints).forEach(points => {
-                    if (points > 0) {
-                        totalPointsEarned += points;
-                        questionsAnswered++;
-                        correctAnswers++; // Assuming points > 0 means correct answer
-                    }
+                // Count questions answered and points earned using accurate tracking
+                Object.keys(studentPoints).forEach(studentName => {
+                    const points = studentPoints[studentName] || 0;
+                    const correct = studentCorrectAnswers[studentName] || 0;
+                    const total = studentTotalQuestions[studentName] || 0;
+                    
+                    totalPointsEarned += points;
+                    questionsAnswered += total;
+                    correctAnswers += correct;
                 });
                 
                 // Update student stats
@@ -7030,12 +7052,29 @@
                 pointsToTransfer[student.name] = studentPoints[student.name] || 0;
             });
             
-            // Calculate team victory bonus
+            // Calculate team victory bonus - distribute to individual students in winning team
             const teamVictoryBonus = {};
             const winningTeamName = names[winningTeam];
             
-            if (winningTeamName) {
-                teamVictoryBonus[winningTeamName] = teamVictoryPoints;
+            if (winningTeamName && rosterData.teams) {
+                // Find the winning team
+                const winningTeamData = rosterData.teams.find(team => team.name === winningTeamName);
+                if (winningTeamData && winningTeamData.students) {
+                    // Distribute team victory bonus equally among team members
+                    const bonusPerStudent = Math.floor(teamVictoryPoints / winningTeamData.students.length);
+                    const remainder = teamVictoryPoints % winningTeamData.students.length;
+                    
+                    winningTeamData.students.forEach((studentName, index) => {
+                        let studentBonus = bonusPerStudent;
+                        // Give remainder to first few students
+                        if (index < remainder) {
+                            studentBonus += 1;
+                        }
+                        teamVictoryBonus[studentName] = studentBonus;
+                    });
+                    
+                    console.log(`Team victory bonus distributed: ${teamVictoryPoints} total, ${winningTeamData.students.length} students, ${bonusPerStudent} each + ${remainder} remainder`);
+                }
             }
             
             // Save points to war game
@@ -7049,7 +7088,11 @@
                                          Object.values(teamVictoryBonus).reduce((a, b) => a + b, 0);
             
             setTimeout(() => {
-                alert(`🎉 Quiz Complete!\n\nPoints transferred to Tornado War:\n• Individual quiz points: ${Object.values(pointsToTransfer).reduce((a, b) => a + b, 0)} total\n• Team ${winningTeamName} victory bonus: ${teamVictoryPoints} points\n\nTotal points transferred: ${totalPointsTransferred}\n\nCheck the War game to see updated student balances!`);
+                const individualTotal = Object.values(pointsToTransfer).reduce((a, b) => a + b, 0);
+                const teamBonusTotal = Object.values(teamVictoryBonus).reduce((a, b) => a + b, 0);
+                const totalPointsTransferred = individualTotal + teamBonusTotal;
+                
+                alert(`🎉 Quiz Complete!\n\nPoints transferred to Tornado War:\n• Individual quiz points: ${individualTotal} total\n• Team ${winningTeamName} victory bonus: ${teamBonusTotal} points (distributed among team members)\n\nTotal points transferred: ${totalPointsTransferred}\n\nCheck the War game to see updated student balances!`);
             }, 2000);
         }
         
@@ -9029,12 +9072,21 @@
             console.log('Initialized student points:', studentPoints);
         }
         
-        function awardStudentPoints(studentName, points) {
+        function awardStudentPoints(studentName, points, isCorrect = true) {
             if (!studentPoints.hasOwnProperty(studentName)) {
                 studentPoints[studentName] = 0;
+                studentCorrectAnswers[studentName] = 0;
+                studentTotalQuestions[studentName] = 0;
             }
             
-            studentPoints[studentName] += points;
+            // Track question attempt
+            studentTotalQuestions[studentName]++;
+            
+            // Only award points for correct answers
+            if (isCorrect) {
+                studentPoints[studentName] += points;
+                studentCorrectAnswers[studentName]++;
+            }
             
             // Update the student object in roster data
             if (rosterData && rosterData.roster) {
@@ -9044,7 +9096,7 @@
                 }
             }
             
-            console.log(`Awarded ${points} points to ${studentName}. Total: ${studentPoints[studentName]}`);
+            console.log(`Question for ${studentName}: ${isCorrect ? 'CORRECT' : 'INCORRECT'} - Points: ${isCorrect ? points : 0}, Total: ${studentPoints[studentName]}, Correct: ${studentCorrectAnswers[studentName]}/${studentTotalQuestions[studentName]}`);
         }
         
         function loadRosterData() {
