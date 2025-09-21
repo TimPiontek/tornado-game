@@ -2884,6 +2884,9 @@
               <option value="toyStory">Toy Story</option>
               <option value="moana">Moana</option>
             </optgroup>
+            <optgroup label="🎨 Custom Scenarios">
+              <option value="custom">Create Custom Scenario</option>
+            </optgroup>
           </select>
         </div>
         
@@ -2984,7 +2987,16 @@
     const scenarioDetails = document.getElementById('scenarioDetails');
     const startBtn = document.getElementById('startScenarioGameBtn');
     
-    if (scenarioId && typeof SCENARIOS !== 'undefined' && SCENARIOS[scenarioId]) {
+    if (scenarioId === 'custom') {
+      // Show custom scenario option
+      document.getElementById('scenarioTitle').textContent = 'Create Custom Scenario';
+      document.getElementById('scenarioDescription').textContent = 'Design your own scenario with custom factions, characters, and territories.';
+      document.getElementById('factionsPreview').innerHTML = '<strong>Custom Scenario Builder:</strong><br>You will create your own factions, characters, and territories.';
+      
+      scenarioDetails.style.display = 'block';
+      startBtn.disabled = false;
+      startBtn.textContent = 'Open Custom Builder';
+    } else if (scenarioId && typeof SCENARIOS !== 'undefined' && SCENARIOS[scenarioId]) {
       const scenario = SCENARIOS[scenarioId];
       
       // Update scenario info
@@ -3002,9 +3014,11 @@
       
       scenarioDetails.style.display = 'block';
       startBtn.disabled = false;
+      startBtn.textContent = 'Start Scenario Game';
     } else {
       scenarioDetails.style.display = 'none';
       startBtn.disabled = true;
+      startBtn.textContent = 'Start Scenario Game';
     }
   }
   
@@ -3016,6 +3030,13 @@
     
     if (!scenarioId) {
       alert('Please select a scenario.');
+      return;
+    }
+    
+    // Handle custom scenario
+    if (scenarioId === 'custom') {
+      closeScenarioSelectionModal();
+      showCustomScenarioBuilder();
       return;
     }
     
@@ -3057,6 +3078,659 @@
       resetGameToDefaults();
       showScenarioInfo(scenarioData);
     }
+  }
+
+  function showCustomScenarioBuilder() {
+    const modal = document.createElement('div');
+    modal.id = 'customScenarioBuilder';
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1003;
+    `;
+    
+    modal.innerHTML = `
+      <div style="
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 1200px;
+        width: 95%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      ">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h2 style="margin: 0; color: #1e293b; font-size: 1.5rem;">🎨 Custom Scenario Builder</h2>
+          <button onclick="closeCustomScenarioBuilder()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 1.5rem;">
+          <!-- Left Column: Scenario Setup -->
+          <div>
+            <h3 style="margin: 0 0 1rem 0; color: #1e293b;">Scenario Setup</h3>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Scenario Name:</label>
+              <input type="text" id="customScenarioName" placeholder="Enter scenario name..." style="
+                width: 100%;
+                padding: 0.75rem;
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                font-size: 1rem;
+              ">
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Scenario Type:</label>
+              <select id="customScenarioType" style="
+                width: 100%;
+                padding: 0.75rem;
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                font-size: 1rem;
+              ">
+                <option value="historical">Historical</option>
+                <option value="literary">Literary</option>
+                <option value="fantasy">Fantasy</option>
+                <option value="sci-fi">Science Fiction</option>
+                <option value="modern">Modern</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Description:</label>
+              <textarea id="customScenarioDescription" placeholder="Describe your scenario..." style="
+                width: 100%;
+                padding: 0.75rem;
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                font-size: 1rem;
+                min-height: 80px;
+                resize: vertical;
+              "></textarea>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Number of Factions:</label>
+              <select id="customFactionCount" onchange="updateCustomFactions()" style="
+                width: 100%;
+                padding: 0.75rem;
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                font-size: 1rem;
+              ">
+                <option value="2">2 Factions</option>
+                <option value="3">3 Factions</option>
+                <option value="4">4 Factions</option>
+                <option value="5">5 Factions</option>
+                <option value="6">6 Factions</option>
+              </select>
+            </div>
+            
+            <div id="customFactionsContainer">
+              <!-- Factions will be generated here -->
+            </div>
+          </div>
+          
+          <!-- Right Column: Characters & Territories -->
+          <div>
+            <h3 style="margin: 0 0 1rem 0; color: #1e293b;">Characters & Territories</h3>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Characters per Faction:</label>
+              <input type="number" id="charactersPerFaction" value="3" min="1" max="10" onchange="updateCustomCharacters()" style="
+                width: 100%;
+                padding: 0.75rem;
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                font-size: 1rem;
+              ">
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Territories per Faction:</label>
+              <input type="number" id="territoriesPerFaction" value="5" min="1" max="15" onchange="updateCustomTerritories()" style="
+                width: 100%;
+                padding: 0.75rem;
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                font-size: 1rem;
+              ">
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Neutral Territories:</label>
+              <input type="number" id="neutralTerritories" value="8" min="0" max="20" style="
+                width: 100%;
+                padding: 0.75rem;
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                font-size: 1rem;
+              ">
+            </div>
+            
+            <div id="customCharactersContainer">
+              <!-- Characters will be generated here -->
+            </div>
+            
+            <div id="customTerritoriesContainer">
+              <!-- Territories will be generated here -->
+            </div>
+          </div>
+        </div>
+        
+        <!-- Student Assignment Section -->
+        <div style="margin-bottom: 1.5rem;">
+          <h3 style="margin: 0 0 1rem 0; color: #1e293b;">Student Assignment</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+              <h4 style="margin: 0 0 0.5rem 0; color: #1e293b;">Your Students</h4>
+              <div id="customStudentsList" style="
+                border: 2px dashed #e2e8f0;
+                border-radius: 8px;
+                padding: 1rem;
+                min-height: 200px;
+                background: #f8fafc;
+              ">
+                ${state.roster.map(student => `
+                  <div class="custom-student-card" draggable="true" data-student-id="${student.gsId}" style="
+                    background: white;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 6px;
+                    padding: 0.75rem;
+                    margin-bottom: 0.5rem;
+                    cursor: move;
+                    transition: all 0.2s ease;
+                  ">
+                    <div style="font-weight: 600; color: #1e293b;">${student.name}</div>
+                    <div style="font-size: 0.875rem; color: #64748b;">Unassigned</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+            
+            <div>
+              <h4 style="margin: 0 0 0.5rem 0; color: #1e293b;">Available Roles</h4>
+              <div id="customRolesList" style="
+                border: 2px dashed #e2e8f0;
+                border-radius: 8px;
+                padding: 1rem;
+                min-height: 200px;
+                background: #f8fafc;
+              ">
+                <p style="color: #64748b; text-align: center; margin: 2rem 0;">Create factions and characters first</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <button onclick="closeCustomScenarioBuilder()" style="
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 1rem;
+          ">Cancel</button>
+          <button onclick="randomizeCustomRoles()" style="
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 1rem;
+          ">Randomize All</button>
+          <button onclick="saveCustomScenario()" style="
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 1rem;
+          ">Save Scenario</button>
+          <button onclick="startCustomScenarioGame()" style="
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+          ">Start Game</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Initialize with default factions
+    updateCustomFactions();
+    initializeCustomDragDrop();
+  }
+  
+  function closeCustomScenarioBuilder() {
+    const modal = document.getElementById('customScenarioBuilder');
+    if (modal) {
+      modal.remove();
+    }
+  }
+  
+  function updateCustomFactions() {
+    const factionCount = parseInt(document.getElementById('customFactionCount').value);
+    const container = document.getElementById('customFactionsContainer');
+    
+    container.innerHTML = '';
+    
+    const colors = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+    
+    for (let i = 0; i < factionCount; i++) {
+      const factionDiv = document.createElement('div');
+      factionDiv.style.cssText = `
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+      `;
+      
+      factionDiv.innerHTML = `
+        <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+          <div style="width: 20px; height: 20px; background: ${colors[i]}; border-radius: 50%; margin-right: 0.5rem;"></div>
+          <input type="text" placeholder="Faction ${i + 1} Name" class="faction-name" data-faction-index="${i}" style="
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            font-weight: 600;
+          ">
+        </div>
+        <textarea placeholder="Faction description..." class="faction-description" data-faction-index="${i}" style="
+          width: 100%;
+          padding: 0.5rem;
+          border: 1px solid #e2e8f0;
+          border-radius: 4px;
+          font-size: 0.875rem;
+          min-height: 60px;
+          resize: vertical;
+        "></textarea>
+      `;
+      
+      container.appendChild(factionDiv);
+    }
+    
+    // Update characters and territories
+    updateCustomCharacters();
+    updateCustomTerritories();
+  }
+  
+  function updateCustomCharacters() {
+    const charactersPerFaction = parseInt(document.getElementById('charactersPerFaction').value);
+    const factionCount = parseInt(document.getElementById('customFactionCount').value);
+    const container = document.getElementById('customCharactersContainer');
+    
+    container.innerHTML = '<h4 style="margin: 0 0 0.5rem 0; color: #1e293b;">Characters</h4>';
+    
+    const colors = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+    
+    for (let factionIndex = 0; factionIndex < factionCount; factionIndex++) {
+      const factionDiv = document.createElement('div');
+      factionDiv.style.cssText = `
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-left: 4px solid ${colors[factionIndex]};
+      `;
+      
+      factionDiv.innerHTML = `
+        <h5 style="margin: 0 0 0.5rem 0; color: #1e293b;">Faction ${factionIndex + 1} Characters</h5>
+        <div class="characters-list" data-faction-index="${factionIndex}">
+          ${Array.from({length: charactersPerFaction}, (_, charIndex) => `
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <input type="text" placeholder="Character name" class="char-name" data-faction="${factionIndex}" data-char="${charIndex}" style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 4px;">
+              <input type="text" placeholder="Role" class="char-role" data-faction="${factionIndex}" data-char="${charIndex}" style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 4px;">
+              <input type="number" placeholder="Coins" class="char-coins" data-faction="${factionIndex}" data-char="${charIndex}" value="100" min="0" style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 4px;">
+              <input type="text" placeholder="Weapons" class="char-weapons" data-faction="${factionIndex}" data-char="${charIndex}" style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 4px;">
+              <input type="number" placeholder="Castles" class="char-castles" data-faction="${factionIndex}" data-char="${charIndex}" value="1" min="0" style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 4px;">
+            </div>
+          `).join('')}
+        </div>
+      `;
+      
+      container.appendChild(factionDiv);
+    }
+    
+    updateCustomRolesList();
+  }
+  
+  function updateCustomTerritories() {
+    const territoriesPerFaction = parseInt(document.getElementById('territoriesPerFaction').value);
+    const factionCount = parseInt(document.getElementById('customFactionCount').value);
+    const container = document.getElementById('customTerritoriesContainer');
+    
+    container.innerHTML = '<h4 style="margin: 0 0 0.5rem 0; color: #1e293b;">Territories</h4>';
+    
+    const colors = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+    
+    for (let factionIndex = 0; factionIndex < factionCount; factionIndex++) {
+      const factionDiv = document.createElement('div');
+      factionDiv.style.cssText = `
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-left: 4px solid ${colors[factionIndex]};
+      `;
+      
+      factionDiv.innerHTML = `
+        <h5 style="margin: 0 0 0.5rem 0; color: #1e293b;">Faction ${factionIndex + 1} Territories</h5>
+        <div class="territories-list" data-faction-index="${factionIndex}">
+          ${Array.from({length: territoriesPerFaction}, (_, terrIndex) => `
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <input type="text" placeholder="Territory name" class="terr-name" data-faction="${factionIndex}" data-terr="${terrIndex}" style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 4px;">
+              <input type="number" placeholder="Cost" class="terr-cost" data-faction="${factionIndex}" data-terr="${terrIndex}" value="50" min="0" style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 4px;">
+            </div>
+          `).join('')}
+        </div>
+      `;
+      
+      container.appendChild(factionDiv);
+    }
+  }
+  
+  function updateCustomRolesList() {
+    const rolesList = document.getElementById('customRolesList');
+    const factionCount = parseInt(document.getElementById('customFactionCount').value);
+    const charactersPerFaction = parseInt(document.getElementById('charactersPerFaction').value);
+    
+    if (factionCount === 0) {
+      rolesList.innerHTML = '<p style="color: #64748b; text-align: center; margin: 2rem 0;">Create factions and characters first</p>';
+      return;
+    }
+    
+    rolesList.innerHTML = '';
+    const colors = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+    
+    for (let factionIndex = 0; factionIndex < factionCount; factionIndex++) {
+      for (let charIndex = 0; charIndex < charactersPerFaction; charIndex++) {
+        const roleCard = document.createElement('div');
+        roleCard.className = 'custom-role-card';
+        roleCard.dataset.factionIndex = factionIndex;
+        roleCard.dataset.charIndex = charIndex;
+        roleCard.style.cssText = `
+          background: white;
+          border: 1px solid #e2e8f0;
+          border-radius: 6px;
+          padding: 0.75rem;
+          margin-bottom: 0.5rem;
+          cursor: move;
+          transition: all 0.2s ease;
+          border-left: 4px solid ${colors[factionIndex]};
+        `;
+        
+        roleCard.innerHTML = `
+          <div style="font-weight: 600; color: #1e293b;">Character ${charIndex + 1}</div>
+          <div style="font-size: 0.875rem; color: #64748b;">Faction ${factionIndex + 1}</div>
+          <div style="font-size: 0.75rem; color: #94a3b8;">💰100 • ⚔️Sword • 🏰1</div>
+        `;
+        
+        rolesList.appendChild(roleCard);
+      }
+    }
+  }
+  
+  function initializeCustomDragDrop() {
+    const studentsList = document.getElementById('customStudentsList');
+    const rolesList = document.getElementById('customRolesList');
+    
+    // Make students draggable
+    studentsList.querySelectorAll('.custom-student-card').forEach(card => {
+      card.addEventListener('dragstart', function(e) {
+        e.dataTransfer.setData('text/plain', this.dataset.studentId);
+        e.dataTransfer.effectAllowed = 'move';
+        this.style.opacity = '0.5';
+      });
+      
+      card.addEventListener('dragend', function(e) {
+        this.style.opacity = '1';
+      });
+    });
+    
+    // Make roles droppable
+    rolesList.addEventListener('click', function(e) {
+      const roleCard = e.target.closest('.custom-role-card');
+      if (roleCard) {
+        roleCard.style.backgroundColor = '#f0f9ff';
+        setTimeout(() => {
+          roleCard.style.backgroundColor = 'white';
+        }, 200);
+      }
+    });
+  }
+  
+  function randomizeCustomRoles() {
+    const students = Array.from(document.querySelectorAll('.custom-student-card')).filter(card => card.draggable);
+    const roles = Array.from(document.querySelectorAll('.custom-role-card')).filter(card => !card.dataset.assignedStudent);
+    
+    // Shuffle students
+    for (let i = students.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [students[i], students[j]] = [students[j], students[i]];
+    }
+    
+    // Assign students to roles
+    students.forEach((student, index) => {
+      if (index < roles.length) {
+        const role = roles[index];
+        const studentId = student.dataset.studentId;
+        
+        // Create assigned student element
+        const assignedStudent = document.createElement('div');
+        assignedStudent.className = 'student-assigned';
+        assignedStudent.style.cssText = `
+          background: #10b981;
+          color: white;
+          padding: 0.5rem;
+          border-radius: 4px;
+          margin-top: 0.5rem;
+          font-size: 0.875rem;
+        `;
+        assignedStudent.textContent = student.querySelector('div').textContent;
+        
+        role.appendChild(assignedStudent);
+        
+        // Update student card
+        student.querySelector('div:last-child').textContent = role.querySelector('div').textContent;
+        student.style.opacity = '0.6';
+        student.draggable = false;
+        
+        // Store assignment
+        role.dataset.assignedStudent = studentId;
+      }
+    });
+  }
+  
+  function saveCustomScenario() {
+    const scenarioName = document.getElementById('customScenarioName').value.trim();
+    const scenarioType = document.getElementById('customScenarioType').value;
+    const scenarioDescription = document.getElementById('customScenarioDescription').value.trim();
+    
+    if (!scenarioName) {
+      alert('Please enter a scenario name.');
+      return;
+    }
+    
+    // Collect faction data
+    const factions = {};
+    const factionCount = parseInt(document.getElementById('customFactionCount').value);
+    const colors = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+    
+    for (let i = 0; i < factionCount; i++) {
+      const factionName = document.querySelector(`input[data-faction-index="${i}"].faction-name`).value.trim();
+      const factionDescription = document.querySelector(`textarea[data-faction-index="${i}"].faction-description`).value.trim();
+      
+      if (!factionName) {
+        alert(`Please enter a name for Faction ${i + 1}.`);
+        return;
+      }
+      
+      // Collect characters
+      const characters = [];
+      const charactersPerFaction = parseInt(document.getElementById('charactersPerFaction').value);
+      
+      for (let charIndex = 0; charIndex < charactersPerFaction; charIndex++) {
+        const charName = document.querySelector(`input[data-faction="${i}"][data-char="${charIndex}"].char-name`).value.trim();
+        const charRole = document.querySelector(`input[data-faction="${i}"][data-char="${charIndex}"].char-role`).value.trim();
+        const charCoins = parseInt(document.querySelector(`input[data-faction="${i}"][data-char="${charIndex}"].char-coins`).value) || 100;
+        const charWeapons = document.querySelector(`input[data-faction="${i}"][data-char="${charIndex}"].char-weapons`).value.trim() || 'Sword';
+        const charCastles = parseInt(document.querySelector(`input[data-faction="${i}"][data-char="${charIndex}"].char-castles`).value) || 1;
+        
+        if (charName) {
+          characters.push({
+            id: `char_${i}_${charIndex}`,
+            name: charName,
+            role: charRole || `Character ${charIndex + 1}`,
+            startingResources: {
+              coins: charCoins,
+              weapons: charWeapons.split(',').map(w => w.trim()).filter(w => w),
+              mercenaries: 0,
+              castles: charCastles
+            },
+            personality: 'Balanced',
+            quotes: ['Let\'s make our move!', 'Time for action!', 'Forward!', 'We can do this!', 'Victory awaits!'],
+            history: `${charName} is a key character in this scenario.`
+          });
+        }
+      }
+      
+      // Collect territories
+      const territories = [];
+      const territoriesPerFaction = parseInt(document.getElementById('territoriesPerFaction').value);
+      
+      for (let terrIndex = 0; terrIndex < territoriesPerFaction; terrIndex++) {
+        const terrName = document.querySelector(`input[data-faction="${i}"][data-terr="${terrIndex}"].terr-name`).value.trim();
+        const terrCost = parseInt(document.querySelector(`input[data-faction="${i}"][data-terr="${terrIndex}"].terr-cost`).value) || 50;
+        
+        if (terrName) {
+          territories.push({
+            name: terrName,
+            cost: terrCost,
+            description: `${terrName} is an important territory for ${factionName}.`
+          });
+        }
+      }
+      
+      factions[`faction_${i}`] = {
+        name: factionName,
+        color: colors[i],
+        description: factionDescription || `${factionName} is one of the main factions in this scenario.`,
+        territories: territories,
+        characters: characters,
+        generalRoles: [
+          {
+            name: 'Soldier',
+            startingCoins: 50,
+            startingWeapons: ['Sword'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'Aggressive',
+            quotes: ['For the cause!', 'Attack!', 'Victory!', 'Charge!', 'Fight!']
+          }
+        ]
+      };
+    }
+    
+    // Create scenario data
+    const scenarioData = {
+      id: `custom_${Date.now()}`,
+      name: scenarioName,
+      type: scenarioType,
+      description: scenarioDescription,
+      factions: factions,
+      neutralTerritories: Array.from({length: parseInt(document.getElementById('neutralTerritories').value)}, (_, i) => ({
+        name: `Neutral Territory ${i + 1}`,
+        cost: 75,
+        description: `A neutral territory that can be claimed by any faction.`
+      }))
+    };
+    
+    // Save to localStorage
+    const customScenarios = JSON.parse(localStorage.getItem('customScenarios') || '[]');
+    customScenarios.push(scenarioData);
+    localStorage.setItem('customScenarios', JSON.stringify(customScenarios));
+    
+    alert(`Custom scenario "${scenarioName}" saved successfully!`);
+  }
+  
+  function startCustomScenarioGame() {
+    const scenarioName = document.getElementById('customScenarioName').value.trim();
+    
+    if (!scenarioName) {
+      alert('Please enter a scenario name and save it first.');
+      return;
+    }
+    
+    // Get the saved scenario
+    const customScenarios = JSON.parse(localStorage.getItem('customScenarios') || '[]');
+    const scenario = customScenarios.find(s => s.name === scenarioName);
+    
+    if (!scenario) {
+      alert('Please save the scenario first.');
+      return;
+    }
+    
+    // Collect role assignments
+    const roleAssignments = {};
+    document.querySelectorAll('.custom-role-card[data-assigned-student]').forEach(roleCard => {
+      const studentId = roleCard.dataset.assignedStudent;
+      const factionIndex = roleCard.dataset.factionIndex;
+      const charIndex = roleCard.dataset.charIndex;
+      const charName = document.querySelector(`input[data-faction="${factionIndex}"][data-char="${charIndex}"].char-name`).value.trim();
+      roleAssignments[studentId] = charName || `Character ${parseInt(charIndex) + 1}`;
+    });
+    
+    // Create scenario data for the roster
+    const scenarioData = {
+      scenarioId: scenario.id,
+      scenarioName: scenario.name,
+      scenarioType: scenario.type,
+      factions: scenario.factions,
+      neutralTerritories: scenario.neutralTerritories,
+      randomAssignment: Object.keys(roleAssignments).length === 0,
+      manualRoleAssignments: roleAssignments,
+      enableAI: false,
+      aiDifficulty: 'medium'
+    };
+    
+    // Update current roster with scenario data
+    state.currentRoster.scenario = scenarioData;
+    
+    // Close modal
+    closeCustomScenarioBuilder();
+    
+    // Initialize scenario
+    initializeScenario(scenarioData);
+    
+    // Reset game with scenario
+    resetGameToDefaults();
+    
+    // Show scenario info
+    showScenarioInfo(scenarioData);
   }
 
   function showRoleAssignmentModal(scenario) {
