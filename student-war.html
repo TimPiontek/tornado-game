@@ -91,7 +91,7 @@
           <li>✅ Purchase available territories</li>
           <li>✅ Build castles and defenses</li>
           <li>✅ Buy weapons and mercenaries</li>
-          <li>✅ Attack other territories</li>
+          <li>❌ Cannot attack other territories</li>
           <li>❌ Cannot add/take points</li>
           <li>❌ Cannot modify other students' data</li>
         </ul>
@@ -107,28 +107,7 @@
 
     <!-- Quick awards removed for student version -->
 
-    <div class="section">
-      <div class="title">Sort roster</div>
-      <div style="margin-bottom: 8px;">
-        <button class="pill" onclick="sortWarRoster('first')" style="background: #6f5c91; font-size: 12px;">First Name</button>
-        <button class="pill" onclick="sortWarRoster('last')" style="background: #6f5c91; font-size: 12px;">Last Name</button>
-        <button class="pill" onclick="shuffleWarRoster()" style="background: #6f5c91; font-size: 12px;">Shuffle</button>
-      </div>
-    </div>
 
-    <div class="section">
-      <div class="title">Historical Scenarios</div>
-      <div style="margin-bottom: 8px;">
-        <select id="scenarioSelect" onchange="loadScenario()" style="width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
-          <option value="">Choose a Scenario</option>
-          <option value="roman_empire">Roman Empire Conquest</option>
-          <option value="american_revolution">American Revolution</option>
-          <option value="lord_of_rings">Lord of the Rings</option>
-          <option value="game_of_thrones">Game of Thrones</option>
-          <option value="world_war_2">World War II</option>
-        </select>
-      </div>
-    </div>
 
   </div>
 
@@ -983,15 +962,10 @@
         }
       }
     } else {
-      // Enemy tile - attack
+      // Enemy tile - students cannot attack
       const defender = state.roster.find(r => r.gsId === tile.owner_game_student_id);
       if (defender) {
-        // Check if defender has only 1 tile left (protection rule)
-        if (defender.tilesOwned <= 1) {
-          alert(`Cannot attack ${defender.name}! They only have 1 tile left and are protected from elimination.`);
-          return;
-        }
-        showFightScreen(selectedStudent.gsId, defender.gsId, tile);
+        alert(`This territory belongs to ${defender.name}. Students cannot attack other territories.`);
       }
     }
   };
