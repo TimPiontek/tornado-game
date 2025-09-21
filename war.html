@@ -588,6 +588,11 @@
       state.teamMode = roster.teamMode || false;
     }
     
+    // Initialize truce invitations if not present
+    if (!state.truceInvitations) {
+      state.truceInvitations = [];
+    }
+    
     // Create or load game board
     initializeGameBoard();
     
@@ -2042,12 +2047,12 @@
     );
 
     // Get pending invitations sent to this student
-    const incomingInvitations = state.truceInvitations.filter(inv => 
+    const incomingInvitations = (state.truceInvitations || []).filter(inv => 
       inv.toStudentId === selectedStudent.gsId
     );
 
     // Get pending invitations sent by this student
-    const outgoingInvitations = state.truceInvitations.filter(inv => 
+    const outgoingInvitations = (state.truceInvitations || []).filter(inv => 
       inv.fromStudentId === selectedStudent.gsId
     );
 
@@ -2188,7 +2193,7 @@
     }
     
     // Check if invitation already exists
-    const existingInvitation = state.truceInvitations.find(inv => 
+    const existingInvitation = (state.truceInvitations || []).find(inv => 
       inv.fromStudentId === selectedStudent.gsId && inv.toStudentId === targetStudentId
     );
     
@@ -2205,6 +2210,7 @@
       timestamp: new Date().toISOString()
     };
     
+    if (!state.truceInvitations) state.truceInvitations = [];
     state.truceInvitations.push(invitation);
     
     // Save to localStorage
@@ -2223,7 +2229,7 @@
   }
 
   window.respondToTeacherTruce = function(invitationId, accept) {
-    const invitation = state.truceInvitations.find(inv => inv.id === invitationId);
+    const invitation = (state.truceInvitations || []).find(inv => inv.id === invitationId);
     if (!invitation) {
       alert('Invitation not found!');
       return;
@@ -2265,6 +2271,7 @@
     }
     
     // Remove invitation
+    if (!state.truceInvitations) state.truceInvitations = [];
     state.truceInvitations = state.truceInvitations.filter(inv => inv.id !== invitationId);
     
     // Save to localStorage
@@ -2284,6 +2291,7 @@
   }
 
   window.cancelTeacherTruceInvitation = function(invitationId) {
+    if (!state.truceInvitations) state.truceInvitations = [];
     state.truceInvitations = state.truceInvitations.filter(inv => inv.id !== invitationId);
     
     // Save to localStorage
