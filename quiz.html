@@ -7458,6 +7458,28 @@
                             `).join('')}
                         </div>
                     </div>
+                    
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #ddd;">
+                        <h3 style="margin: 0 0 1rem 0; color: #333;">Don't have a roster yet?</h3>
+                        <p style="margin: 0 0 1rem 0; color: #666; font-size: 0.9rem;">
+                            Create a quick roster to get started with your quiz game.
+                        </p>
+                        <button id="createQuickRosterBtn" style="
+                            background: #10b981;
+                            color: white;
+                            border: none;
+                            padding: 0.75rem 1.5rem;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-weight: 600;
+                            font-size: 1rem;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                        ">
+                            🎮 Create Quick Roster
+                        </button>
+                    </div>
                 </div>
             `;
             
@@ -7475,6 +7497,13 @@
                     document.body.removeChild(modal);
                     selectQuizRoster(rosterId);
                 });
+            });
+            
+            // Add event listener for Create Quick Roster button
+            document.getElementById('createQuickRosterBtn').addEventListener('click', () => {
+                document.body.removeChild(modal);
+                // Redirect to guest roster creator
+                window.location.href = 'guest-roster.html';
             });
             
             // Close modal when clicking outside
