@@ -1524,20 +1524,33 @@
       let characterName = '';
       if (state.scenario) {
         const scenario = state.scenario;
+        console.log('Looking for character for student:', loggedInStudent.name, 'gsId:', loggedInStudent.gsId);
+        console.log('Scenario manualRoleAssignments:', scenario.manualRoleAssignments);
+        console.log('Scenario aiAssignments:', scenario.aiAssignments);
+        
         // First check if student has characterName property
         if (loggedInStudent.characterName) {
           characterName = loggedInStudent.characterName;
           characterInfo = `<div style="font-size:11px; color:#8b5cf6; font-weight:600;">${characterName}</div>`;
+          console.log('Found character from student property:', characterName);
         } else if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[loggedInStudent.gsId]) {
           characterName = scenario.manualRoleAssignments[loggedInStudent.gsId];
           characterInfo = `<div style="font-size:11px; color:#8b5cf6; font-weight:600;">${characterName}</div>`;
+          console.log('Found character from manualRoleAssignments:', characterName);
         } else if (scenario.aiAssignments) {
           const aiRole = Object.values(scenario.aiAssignments).find(ai => ai.studentId === loggedInStudent.gsId);
           if (aiRole) {
             characterName = aiRole.roleName || 'AI Character';
             characterInfo = `<div style="font-size:11px; color:#ef4444; font-weight:600;">${characterName} (AI)</div>`;
+            console.log('Found character from aiAssignments:', characterName);
           }
         }
+        
+        if (!characterName) {
+          console.log('No character found for student:', loggedInStudent.name);
+        }
+      } else {
+        console.log('No scenario active for character lookup');
       }
       
       row.innerHTML = `
@@ -1777,6 +1790,12 @@
             manualRoleAssignments: rosterScenario.manualRoleAssignments || {},
             aiAssignments: rosterScenario.aiAssignments || {}
           };
+          
+          console.log('Loaded scenario with assignments:', {
+            scenarioName: scenario.name,
+            manualRoleAssignments: state.scenario.manualRoleAssignments,
+            aiAssignments: state.scenario.aiAssignments
+          });
           
           updateScenarioDisplay(scenario.name, scenario.description, scenario.factions);
           return;
