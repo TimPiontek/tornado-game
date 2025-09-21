@@ -3224,6 +3224,21 @@ The Beatles
                 }
               };
             }
+            
+            // Update content visibility (show/hide Create Assignment card)
+            const createAssignmentCard = document.getElementById('assignmentCard');
+            if (createAssignmentCard) {
+              if (session && session.user) {
+                // Teacher is logged in - show Create Assignment card
+                createAssignmentCard.style.display = 'block';
+                console.log('🚨 TESTING: Showing Create Assignment card for teacher');
+              } else {
+                // Not logged in - hide Create Assignment card
+                createAssignmentCard.style.display = 'none';
+                console.log('🚨 TESTING: Hiding Create Assignment card for guest');
+              }
+            }
+            
           } catch (error) {
             console.error('Error updating navigation:', error);
           }
