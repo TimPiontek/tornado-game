@@ -917,13 +917,19 @@
       let territoryName = '';
       let territoryCost = tileCost;
       
-      if (state.currentRoster && state.currentRoster.scenario) {
-        const scenario = state.currentRoster.scenario;
+      if (state.scenario) {
+        console.log('Scenario active:', state.scenario.scenarioName);
+        const scenario = state.scenario;
         const territoryData = getTerritoryForTile(tile, scenario);
         if (territoryData) {
           territoryName = territoryData.name;
           territoryCost = territoryData.cost;
+          console.log('Territory found:', territoryName, 'for tile', tile.id);
+        } else {
+          console.log('No territory data found for tile', tile.id);
         }
+      } else {
+        console.log('No scenario active');
       }
       
       const displayName = territoryName || ownerName || '';
@@ -1558,8 +1564,8 @@
       
       // Get character name if scenario is active
       let characterName = '';
-      if (state.currentRoster && state.currentRoster.scenario) {
-        const scenario = state.currentRoster.scenario;
+      if (state.scenario) {
+        const scenario = state.scenario;
         if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[r.gsId]) {
           characterName = scenario.manualRoleAssignments[r.gsId];
         } else if (scenario.aiAssignments) {

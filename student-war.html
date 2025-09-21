@@ -777,8 +777,8 @@
       let territoryName = '';
       let territoryCost = tileCost;
       
-      if (state.currentRoster && state.currentRoster.scenario) {
-        const scenario = state.currentRoster.scenario;
+      if (state.scenario) {
+        const scenario = state.scenario;
         const territoryData = getTerritoryForTile(tile, scenario);
         if (territoryData) {
           territoryName = territoryData.name;
@@ -1428,8 +1428,8 @@
       // Get character information if scenario is active
       let characterInfo = '';
       let characterName = '';
-      if (state.currentRoster && state.currentRoster.scenario) {
-        const scenario = state.currentRoster.scenario;
+      if (state.scenario) {
+        const scenario = state.scenario;
         if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[loggedInStudent.gsId]) {
           characterName = scenario.manualRoleAssignments[loggedInStudent.gsId];
           characterInfo = `<div style="font-size:11px; color:#8b5cf6; font-weight:600;">${characterName}</div>`;
@@ -1471,12 +1471,12 @@
       rosterEl.appendChild(row);
       
       // Add character profile section if scenario is active
-      if (characterName && state.currentRoster && state.currentRoster.scenario) {
+      if (characterName && state.scenario) {
         const profileSection = document.createElement("div");
         profileSection.className = "panel";
         profileSection.style.marginTop = "12px";
         
-        const characterData = getCharacterData(characterName, state.currentRoster.scenario);
+        const characterData = getCharacterData(characterName, state.scenario);
         
         profileSection.innerHTML = `
           <div class="title">Character Profile</div>
