@@ -5726,8 +5726,10 @@
           updateTeamDisplay();
           
           const done = document.querySelectorAll("#grid button:disabled").length;
+          console.log(`Grid completion check: ${done}/${total} buttons disabled`);
           if (done === total) {
             // Game over - show end game screen
+            console.log('🎉 Grid complete! Triggering victory screen...');
             showEndGameResults();
           } else {
             // Use the centralized advanceTurn function
@@ -7118,6 +7120,7 @@
         }
         
         function showEndGameResults() {
+          console.log('🏆 showEndGameResults called - game complete!');
           // Find winner
           let winner = null;
           let highestScore = -1;
@@ -7148,11 +7151,14 @@
           
           // Transfer points to roster immediately
           if (winner && rosterData) {
+            console.log(`💰 Transferring points to roster for winner: ${winner}`);
             if (teamMode) {
               transferQuizPointsToWar(winner);
             } else {
               transferIndividualQuizPointsToWar();
             }
+          } else {
+            console.log('⚠️ No winner or roster data available for point transfer');
           }
           
           // Sort scores for display
