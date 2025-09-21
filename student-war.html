@@ -617,6 +617,9 @@
       }
     }
     
+    // Check if roster has character assignments and auto-select scenario
+    autoSelectScenarioFromRoster();
+    
     // Update UI
     console.log('About to call renderRoster');
     renderRoster();
@@ -881,7 +884,10 @@
       let characterName = '';
       if (owner && state.scenario) {
         const scenario = state.scenario;
-        if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[owner.gsId]) {
+        // First check if student has characterName property
+        if (owner.characterName) {
+          characterName = owner.characterName;
+        } else if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[owner.gsId]) {
           characterName = scenario.manualRoleAssignments[owner.gsId];
         } else if (scenario.aiAssignments) {
           const aiRole = Object.values(scenario.aiAssignments).find(ai => ai.studentId === owner.gsId);
@@ -1541,7 +1547,11 @@
       let characterName = '';
       if (state.scenario) {
         const scenario = state.scenario;
-        if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[loggedInStudent.gsId]) {
+        // First check if student has characterName property
+        if (loggedInStudent.characterName) {
+          characterName = loggedInStudent.characterName;
+          characterInfo = `<div style="font-size:11px; color:#8b5cf6; font-weight:600;">${characterName}</div>`;
+        } else if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[loggedInStudent.gsId]) {
           characterName = scenario.manualRoleAssignments[loggedInStudent.gsId];
           characterInfo = `<div style="font-size:11px; color:#8b5cf6; font-weight:600;">${characterName}</div>`;
         } else if (scenario.aiAssignments) {
@@ -1762,6 +1772,42 @@
     }
   };
 
+  function autoSelectScenarioFromRoster() {
+    if (!state.roster || state.roster.length === 0) return;
+    
+    // Check if any students have character names
+    const studentsWithCharacters = state.roster.filter(s => s.characterName);
+    if (studentsWithCharacters.length === 0) return;
+    
+    console.log('Found students with characters:', studentsWithCharacters.map(s => `${s.name}: ${s.characterName}`));
+    
+    // Try to find which scenario these characters belong to
+    const characterNames = studentsWithCharacters.map(s => s.characterName);
+    
+    for (const [scenarioId, scenario] of Object.entries(SCENARIOS)) {
+      const scenarioCharacters = [];
+      Object.values(scenario.factions).forEach(faction => {
+        if (faction.characters) {
+          faction.characters.forEach(char => scenarioCharacters.push(char.name));
+        }
+      });
+      
+      // Check if any of our character names match this scenario
+      const matches = characterNames.filter(name => scenarioCharacters.includes(name));
+      if (matches.length > 0) {
+        console.log(`Auto-selecting scenario ${scenarioId} based on characters:`, matches);
+        
+        // Set the scenario selector
+        const scenarioSelect = document.getElementById('scenarioSelect');
+        if (scenarioSelect) {
+          scenarioSelect.value = scenarioId;
+          updateScenarioDetails();
+        }
+        break;
+      }
+    }
+  }
+
   function assignCharactersToStudents() {
     if (!state.scenario || !state.roster) return;
     
@@ -1832,6 +1878,8 @@
     
     // Assign characters to students if not already assigned
     assignCharactersToStudents();
+    
+    console.log('Scenario selected:', scenarioId, 'Characters assigned:', state.roster.map(s => s.characterName));
     
     renderRoster();
     updateGridDisplay();
