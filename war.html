@@ -527,13 +527,36 @@
     try {
       const saved = localStorage.getItem('tornadoRosters');
       state.rosters = saved ? JSON.parse(saved) : [];
+      
+      // Check for quick roster (guest mode)
+      const quickRoster = localStorage.getItem('quickRoster');
+      if (quickRoster) {
+        const quickData = JSON.parse(quickRoster);
+        const quickRosterData = {
+          id: 'quick-roster',
+          name: quickData.name || 'Quick Roster',
+          roster: quickData.students.map(name => ({ name, points: 0 })),
+          isQuickRoster: true,
+          created: new Date().toISOString()
+        };
+        
+        // Add quick roster to the list if it doesn't exist
+        const existingQuickRoster = state.rosters.find(r => r.id === 'quick-roster');
+        if (!existingQuickRoster) {
+          state.rosters.unshift(quickRosterData); // Add to beginning
+        } else {
+          // Update existing quick roster
+          const index = state.rosters.findIndex(r => r.id === 'quick-roster');
+          state.rosters[index] = quickRosterData;
+        }
+      }
     } catch (e) {
       console.error('Error loading rosters:', e);
       state.rosters = [];
     }
     
     rosterList.innerHTML = `<option value="">Select Roster…</option>` + (state.rosters.map(r =>
-      `<option value="${r.id}">${r.name} (${r.roster ? r.roster.length : 0} students)</option>`
+      `<option value="${r.id}">${r.name} (${r.roster ? r.roster.length : 0} students)${r.isQuickRoster ? ' 🎮' : ''}</option>`
     ).join(""));
     
     if (selectNewest && state.rosters.length) {

@@ -464,8 +464,18 @@
             
             alert(`✅ Roster "${rosterName}" created with ${students.length} students!\n\nYou can now play Tornado Quiz and Tornado War games.`);
             
-            // Redirect to quiz
-            window.location.href = 'quiz.html';
+            // Check where user came from and redirect appropriately
+            const referrer = document.referrer;
+            if (referrer.includes('war.html')) {
+                // User came from Tornado War, go back there
+                window.location.href = 'war.html';
+            } else if (referrer.includes('quiz.html')) {
+                // User came from Tornado Quiz, go back there
+                window.location.href = 'quiz.html';
+            } else {
+                // Default to quiz
+                window.location.href = 'quiz.html';
+            }
         }
 
         // Auto-save as user types
