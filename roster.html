@@ -611,8 +611,11 @@
         <!-- Login Section (shown if not logged in) -->
         <div id="loginSection" class="login-section" style="display: none;">
             <h2>🔐 Login Required</h2>
-            <p>Please log in to manage your rosters</p>
-            <button class="btn" onclick="login()">Login with Google</button>
+            <p>Please log in to manage your rosters, or create a quick roster to play games</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+                <button class="btn" onclick="login()">👨‍🏫 Login with Google</button>
+                <button class="btn btn-secondary" onclick="window.location.href='guest-roster.html'">🎮 Quick Roster</button>
+            </div>
         </div>
         
         <!-- Action Buttons -->

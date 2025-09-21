@@ -6915,6 +6915,18 @@
                     });
                 }
                 
+                // For quick rosters, create or update the roster
+                if (rosterData && rosterData.isQuickRoster) {
+                    targetRoster = rosterData;
+                    // Update the roster in the list
+                    const existingIndex = rosters.findIndex(r => r.id === rosterData.id);
+                    if (existingIndex >= 0) {
+                        rosters[existingIndex] = targetRoster;
+                    } else {
+                        rosters.push(targetRoster);
+                    }
+                }
+                
                 // Add points to students in the roster using centralized system
                 if (targetRoster && targetRoster.roster) {
                     targetRoster.roster.forEach(student => {
@@ -6924,17 +6936,28 @@
                     });
                     
                     // Add team victory bonuses
-                    if (teamVictoryBonus && targetRoster.teams) {
-                        targetRoster.teams.forEach(team => {
-                            if (teamVictoryBonus[team.name]) {
-                                team.students.forEach(studentName => {
-                                    const student = targetRoster.roster.find(s => s.name === studentName);
-                                    if (student) {
-                                        student.points = (student.points || 0) + teamVictoryBonus[team.name];
-                                    }
-                                });
-                            }
-                        });
+                    if (teamVictoryBonus) {
+                        if (targetRoster.teams) {
+                            // Regular roster with teams
+                            targetRoster.teams.forEach(team => {
+                                if (teamVictoryBonus[team.name]) {
+                                    team.students.forEach(studentName => {
+                                        const student = targetRoster.roster.find(s => s.name === studentName);
+                                        if (student) {
+                                            student.points = (student.points || 0) + teamVictoryBonus[team.name];
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            // Quick roster - add bonuses directly to students
+                            Object.keys(teamVictoryBonus).forEach(studentName => {
+                                const student = targetRoster.roster.find(s => s.name === studentName);
+                                if (student) {
+                                    student.points = (student.points || 0) + teamVictoryBonus[studentName];
+                                }
+                            });
+                        }
                     }
                     
                     // Update last modified timestamp
@@ -7056,16 +7079,25 @@
             const teamVictoryBonus = {};
             const winningTeamName = names[winningTeam];
             
-            if (winningTeamName && rosterData.teams) {
-                // Find the winning team
-                const winningTeamData = rosterData.teams.find(team => team.name === winningTeamName);
-                if (winningTeamData && winningTeamData.students) {
-                    // Each student on winning team gets the full team victory bonus
-                    winningTeamData.students.forEach((studentName) => {
-                        teamVictoryBonus[studentName] = teamVictoryPoints;
+            if (winningTeamName) {
+                if (rosterData.teams) {
+                    // Regular roster with teams
+                    const winningTeamData = rosterData.teams.find(team => team.name === winningTeamName);
+                    if (winningTeamData && winningTeamData.students) {
+                        // Each student on winning team gets the full team victory bonus
+                        winningTeamData.students.forEach((studentName) => {
+                            teamVictoryBonus[studentName] = teamVictoryPoints;
+                        });
+                        
+                        console.log(`Team victory bonus awarded: ${teamVictoryPoints} points to each of ${winningTeamData.students.length} students (${teamVictoryPoints * winningTeamData.students.length} total)`);
+                    }
+                } else if (rosterData.isQuickRoster) {
+                    // Quick roster - give bonus to all students (since there are no teams)
+                    rosterData.roster.forEach(student => {
+                        teamVictoryBonus[student.name] = teamVictoryPoints;
                     });
                     
-                    console.log(`Team victory bonus awarded: ${teamVictoryPoints} points to each of ${winningTeamData.students.length} students (${teamVictoryPoints * winningTeamData.students.length} total)`);
+                    console.log(`Quick roster team victory bonus awarded: ${teamVictoryPoints} points to each of ${rosterData.roster.length} students (${teamVictoryPoints * rosterData.roster.length} total)`);
                 }
             }
             
@@ -9099,6 +9131,20 @@
             if (window.quizTeamAssignment && window.quizTeamAssignment.rosterData) {
                 rosterData = window.quizTeamAssignment.rosterData;
                 console.log('Roster loaded from quizTeamAssignment:', rosterData);
+                return true;
+            }
+            
+            // Check for quick roster (guest mode)
+            const quickRoster = localStorage.getItem('quickRoster');
+            if (quickRoster) {
+                const quickData = JSON.parse(quickRoster);
+                rosterData = {
+                    id: 'quick-roster',
+                    name: quickData.name || 'Quick Roster',
+                    roster: quickData.students.map(name => ({ name, points: 0 })),
+                    isQuickRoster: true
+                };
+                console.log('Quick roster loaded:', rosterData);
                 return true;
             }
             
