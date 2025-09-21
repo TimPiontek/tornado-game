@@ -547,10 +547,21 @@
   }
   // === ROSTER SELECTION ===
   function selectRoster(rosterId) {
-    if (!rosterId) return;
+    console.log('selectRoster called with ID:', rosterId);
+    console.log('state.rosters:', state.rosters);
+    
+    if (!rosterId) {
+      console.log('No rosterId provided');
+      return;
+    }
     
     const roster = state.rosters.find(r => r.id === rosterId);
-    if (!roster) return;
+    console.log('Found roster:', roster);
+    
+    if (!roster) {
+      console.log('Roster not found in state.rosters');
+      return;
+    }
     
     state.currentRoster = roster;
     state.currentRosterId = rosterId;
@@ -2019,6 +2030,12 @@
       return;
     }
 
+    // Add the roster to state.rosters if it's not already there
+    if (!state.rosters.find(r => r.id === studentRoster.id)) {
+      state.rosters.push(studentRoster);
+      console.log('Added roster to state.rosters:', studentRoster.id);
+    }
+    
     // Load the roster
     console.log('Calling selectRoster with ID:', studentRoster.id);
     selectRoster(studentRoster.id);
