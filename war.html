@@ -2902,6 +2902,20 @@
             </div>
             
             <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Role Assignment:</label>
+              <div style="margin-bottom: 0.5rem;">
+                <label style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                  <input type="radio" name="roleAssignment" value="random" checked style="margin-right: 0.5rem;">
+                  <span style="color: #1e293b;">Randomly assign students to factions</span>
+                </label>
+                <label style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                  <input type="radio" name="roleAssignment" value="manual" style="margin-right: 0.5rem;">
+                  <span style="color: #1e293b;">Manually assign students to roles</span>
+                </label>
+              </div>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
               <label style="display: flex; align-items: center; margin-bottom: 0.5rem;">
                 <input type="checkbox" id="enableAI" style="margin-right: 0.5rem;">
                 <span style="font-weight: 600; color: #1e293b;">Enable AI opponents</span>
@@ -2998,6 +3012,7 @@
     const scenarioId = document.getElementById('scenarioSelect').value;
     const enableAI = document.getElementById('enableAI').checked;
     const aiDifficulty = document.getElementById('aiDifficulty').value;
+    const roleAssignment = document.querySelector('input[name="roleAssignment"]:checked').value;
     
     if (!scenarioId) {
       alert('Please select a scenario.');
@@ -3022,7 +3037,7 @@
       scenarioType: scenario.type,
       factions: scenario.factions,
       neutralTerritories: scenario.neutralTerritories,
-      randomAssignment: true, // Default to random assignment
+      randomAssignment: roleAssignment === 'random',
       enableAI: enableAI,
       aiDifficulty: aiDifficulty
     };
@@ -3030,11 +3045,315 @@
     // Update current roster with scenario data
     state.currentRoster.scenario = scenarioData;
     
+    // Close modal
+    closeScenarioSelectionModal();
+    
+    // If manual assignment, show role assignment modal
+    if (roleAssignment === 'manual') {
+      showRoleAssignmentModal(scenario);
+    } else {
+      // Random assignment - proceed directly
+      initializeScenario(scenarioData);
+      resetGameToDefaults();
+      showScenarioInfo(scenarioData);
+    }
+  }
+
+  function showRoleAssignmentModal(scenario) {
+    const modal = document.createElement('div');
+    modal.id = 'roleAssignmentModal';
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1002;
+    `;
+    
+    // Get all available characters from all factions
+    const allCharacters = [];
+    Object.values(scenario.factions).forEach(faction => {
+      faction.characters.forEach(char => {
+        allCharacters.push({
+          ...char,
+          factionName: faction.name,
+          factionColor: faction.color
+        });
+      });
+    });
+    
+    // Add general roles
+    Object.values(scenario.factions).forEach(faction => {
+      faction.generalRoles.forEach(role => {
+        allCharacters.push({
+          name: `${role.name} (${faction.name})`,
+          role: role.name,
+          factionName: faction.name,
+          factionColor: faction.color,
+          startingCoins: role.startingCoins,
+          startingWeapons: role.startingWeapons,
+          startingMercenaries: role.startingMercenaries,
+          startingCastles: role.startingCastles,
+          personality: role.personality,
+          quotes: role.quotes,
+          description: `${role.name} of ${faction.name}`,
+          isGeneralRole: true
+        });
+      });
+    });
+    
+    modal.innerHTML = `
+      <div style="
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 1000px;
+        width: 95%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      ">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h2 style="margin: 0; color: #1e293b; font-size: 1.5rem;">👥 Assign Student Roles</h2>
+          <button onclick="closeRoleAssignmentModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+        </div>
+        
+        <p style="margin-bottom: 1.5rem; color: #64748b;">
+          Drag students to assign them to specific roles in the ${scenario.name} scenario:
+        </p>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 1.5rem;">
+          <!-- Students Column -->
+          <div>
+            <h3 style="margin: 0 0 1rem 0; color: #1e293b;">Students</h3>
+            <div id="studentsList" style="
+              border: 2px dashed #e2e8f0;
+              border-radius: 8px;
+              padding: 1rem;
+              min-height: 300px;
+              background: #f8fafc;
+            ">
+              ${state.roster.map(student => `
+                <div class="student-card" draggable="true" data-student-id="${student.gsId}" style="
+                  background: white;
+                  border: 1px solid #e2e8f0;
+                  border-radius: 6px;
+                  padding: 0.75rem;
+                  margin-bottom: 0.5rem;
+                  cursor: move;
+                  transition: all 0.2s ease;
+                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                  <div style="font-weight: 600; color: #1e293b;">${student.name}</div>
+                  <div style="font-size: 0.875rem; color: #64748b;">Unassigned</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          
+          <!-- Roles Column -->
+          <div>
+            <h3 style="margin: 0 0 1rem 0; color: #1e293b;">Available Roles</h3>
+            <div id="rolesList" style="
+              border: 2px dashed #e2e8f0;
+              border-radius: 8px;
+              padding: 1rem;
+              min-height: 300px;
+              background: #f8fafc;
+            ">
+              ${allCharacters.map(char => `
+                <div class="role-card" data-role-id="${char.name}" style="
+                  background: white;
+                  border: 1px solid #e2e8f0;
+                  border-radius: 6px;
+                  padding: 0.75rem;
+                  margin-bottom: 0.5rem;
+                  cursor: move;
+                  transition: all 0.2s ease;
+                  border-left: 4px solid ${char.factionColor};
+                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                  <div style="font-weight: 600; color: #1e293b;">${char.name}</div>
+                  <div style="font-size: 0.875rem; color: #64748b;">${char.role} • ${char.factionName}</div>
+                  <div style="font-size: 0.75rem; color: #94a3b8;">💰${char.startingCoins} • ⚔️${char.startingWeapons.join(', ')} • 🏰${char.startingCastles}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <button onclick="closeRoleAssignmentModal()" style="
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 1rem;
+          ">Cancel</button>
+          <button onclick="randomizeAllRoles()" style="
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 1rem;
+          ">Randomize All</button>
+          <button onclick="startGameWithManualRoles()" style="
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+          ">Start Game</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Initialize drag and drop
+    initializeRoleAssignmentDragDrop();
+  }
+  
+  function closeRoleAssignmentModal() {
+    const modal = document.getElementById('roleAssignmentModal');
+    if (modal) {
+      modal.remove();
+    }
+  }
+  
+  function initializeRoleAssignmentDragDrop() {
+    const studentsList = document.getElementById('studentsList');
+    const rolesList = document.getElementById('rolesList');
+    
+    // Make students draggable
+    studentsList.querySelectorAll('.student-card').forEach(card => {
+      card.addEventListener('dragstart', function(e) {
+        e.dataTransfer.setData('text/plain', this.dataset.studentId);
+        e.dataTransfer.effectAllowed = 'move';
+        this.style.opacity = '0.5';
+      });
+      
+      card.addEventListener('dragend', function(e) {
+        this.style.opacity = '1';
+      });
+    });
+    
+    // Make roles droppable
+    rolesList.querySelectorAll('.role-card').forEach(card => {
+      card.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        this.style.backgroundColor = '#f0f9ff';
+      });
+      
+      card.addEventListener('dragleave', function(e) {
+        this.style.backgroundColor = 'white';
+      });
+      
+      card.addEventListener('drop', function(e) {
+        e.preventDefault();
+        this.style.backgroundColor = 'white';
+        
+        const studentId = e.dataTransfer.getData('text/plain');
+        const studentCard = document.querySelector(`[data-student-id="${studentId}"]`);
+        
+        if (studentCard && !this.querySelector('.student-assigned')) {
+          // Create assigned student element
+          const assignedStudent = document.createElement('div');
+          assignedStudent.className = 'student-assigned';
+          assignedStudent.style.cssText = `
+            background: #10b981;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+          `;
+          assignedStudent.textContent = studentCard.querySelector('div').textContent;
+          
+          this.appendChild(assignedStudent);
+          
+          // Update student card
+          studentCard.querySelector('div:last-child').textContent = this.querySelector('div').textContent;
+          studentCard.style.opacity = '0.6';
+          studentCard.draggable = false;
+          
+          // Store assignment
+          this.dataset.assignedStudent = studentId;
+        }
+      });
+    });
+  }
+  
+  function randomizeAllRoles() {
+    const students = Array.from(document.querySelectorAll('.student-card')).filter(card => card.draggable);
+    const roles = Array.from(document.querySelectorAll('.role-card')).filter(card => !card.dataset.assignedStudent);
+    
+    // Shuffle students
+    for (let i = students.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [students[i], students[j]] = [students[j], students[i]];
+    }
+    
+    // Assign students to roles
+    students.forEach((student, index) => {
+      if (index < roles.length) {
+        const role = roles[index];
+        const studentId = student.dataset.studentId;
+        
+        // Create assigned student element
+        const assignedStudent = document.createElement('div');
+        assignedStudent.className = 'student-assigned';
+        assignedStudent.style.cssText = `
+          background: #10b981;
+          color: white;
+          padding: 0.5rem;
+          border-radius: 4px;
+          margin-top: 0.5rem;
+          font-size: 0.875rem;
+        `;
+        assignedStudent.textContent = student.querySelector('div').textContent;
+        
+        role.appendChild(assignedStudent);
+        
+        // Update student card
+        student.querySelector('div:last-child').textContent = role.querySelector('div').textContent;
+        student.style.opacity = '0.6';
+        student.draggable = false;
+        
+        // Store assignment
+        role.dataset.assignedStudent = studentId;
+      }
+    });
+  }
+  
+  function startGameWithManualRoles() {
+    // Collect role assignments
+    const roleAssignments = {};
+    document.querySelectorAll('.role-card[data-assigned-student]').forEach(roleCard => {
+      const studentId = roleCard.dataset.assignedStudent;
+      const roleName = roleCard.querySelector('div').textContent;
+      roleAssignments[studentId] = roleName;
+    });
+    
+    // Update scenario data with manual assignments
+    const scenarioData = state.currentRoster.scenario;
+    scenarioData.manualRoleAssignments = roleAssignments;
+    
     // Initialize scenario
     initializeScenario(scenarioData);
     
     // Close modal
-    closeScenarioSelectionModal();
+    closeRoleAssignmentModal();
     
     // Reset game with scenario
     resetGameToDefaults();
