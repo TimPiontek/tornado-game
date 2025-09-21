@@ -1989,7 +1989,12 @@
   // Initialize team mode sections
 
   // initial load - auto-load student's roster
-  loadStudentRoster();
+  // Wait for DOM to be fully loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadStudentRoster);
+  } else {
+    loadStudentRoster();
+  }
 
   // Auto-load student's roster
   function loadStudentRoster() {
@@ -2020,7 +2025,8 @@
     
     // Show success message
     setTimeout(() => {
-      updateStatusMessage(`Welcome to Tornado War, ${currentStudent.username}! Your class roster has been loaded.`, 'success');
+      console.log(`Welcome to Tornado War, ${currentStudent.username}! Your class roster has been loaded.`);
+      // You could also show an alert or update a status element here
     }, 500);
   }
 
