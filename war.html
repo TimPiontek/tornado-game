@@ -655,6 +655,9 @@
           console.log(`Applied team color ${student.teamColor} to ${student.name}`);
         }
       });
+    } else {
+      // Clear any existing scenario if roster has no saved scenario
+      state.scenario = null;
     }
     
     // Create or load game board
@@ -3653,6 +3656,23 @@ delete state.currentRoster.gameState;
           Select a historical war or literary story for your game:
         </p>
         
+        <div id="savedScenarioWarning" style="
+          background: #fef3c7;
+          border: 1px solid #f59e0b;
+          border-radius: 6px;
+          padding: 1rem;
+          margin-bottom: 1.5rem;
+          display: none;
+        ">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <span style="color: #f59e0b; font-size: 1.2rem;">⚠️</span>
+            <strong style="color: #92400e;">Saved Scenario Detected</strong>
+          </div>
+          <p style="color: #92400e; margin: 0; font-size: 0.9rem;">
+            This roster already has a saved scenario. To use a new scenario, click "Clear Saved Scenario" first.
+          </p>
+        </div>
+        
         <div style="margin-bottom: 1.5rem;">
           <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Choose Scenario:</label>
           <select id="scenarioSelect" style="
@@ -3753,25 +3773,35 @@ delete state.currentRoster.gameState;
           </div>
         </div>
         
-        <div style="text-align: center; margin-top: 1.5rem;">
-          <button onclick="closeScenarioSelectionModal()" style="
-            background: #64748b;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-right: 1rem;
-          ">Cancel</button>
-          <button id="startScenarioGameBtn" onclick="startScenarioGame()" style="
-            background: #10b981;
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+          <button onclick="clearSavedScenario()" style="
+            background: #ef4444;
             color: white;
             border: none;
             padding: 0.75rem 1.5rem;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-          " disabled>Start Scenario Game</button>
+          ">Clear Saved Scenario</button>
+          <div style="display: flex; gap: 1rem;">
+            <button onclick="closeScenarioSelectionModal()" style="
+              background: #64748b;
+              color: white;
+              border: none;
+              padding: 0.75rem 1.5rem;
+              border-radius: 6px;
+              cursor: pointer;
+            ">Cancel</button>
+            <button id="startScenarioGameBtn" onclick="startScenarioGame()" style="
+              background: #10b981;
+              color: white;
+              border: none;
+              padding: 0.75rem 1.5rem;
+              border-radius: 6px;
+              cursor: pointer;
+              font-weight: 600;
+            " disabled>Start Scenario Game</button>
+          </div>
         </div>
       </div>
     `;
@@ -3786,6 +3816,11 @@ delete state.currentRoster.gameState;
     
     // Setup scenario selection change handler
     document.getElementById('scenarioSelect').onchange = updateScenarioDetails;
+    
+    // Show warning if there's a saved scenario
+    if (state.currentRoster && state.currentRoster.scenario) {
+      document.getElementById('savedScenarioWarning').style.display = 'block';
+    }
   }
   
   window.closeScenarioSelectionModal = function() {
@@ -3835,6 +3870,42 @@ delete state.currentRoster.gameState;
     }
   }
   
+  // Function to clear saved scenario from current roster
+  window.clearSavedScenario = function() {
+    if (state.currentRoster && state.currentRoster.scenario) {
+      delete state.currentRoster.scenario;
+      state.scenario = null;
+      
+      // Clear character assignments
+      state.roster.forEach(student => {
+        student.characterName = null;
+        student.characterRole = null;
+        student.characterFaction = null;
+        student.teamId = null;
+        student.teamName = null;
+        student.teamColor = null;
+      });
+      
+      // Save the updated roster
+      saveCurrentRoster();
+      
+      // Refresh the display
+      initializeGameBoard();
+      renderRoster();
+      
+      // Hide the warning if modal is open
+      const warning = document.getElementById('savedScenarioWarning');
+      if (warning) {
+        warning.style.display = 'none';
+      }
+      
+      console.log('Cleared saved scenario from roster');
+      alert('Saved scenario cleared! You can now select a new scenario.');
+    } else {
+      alert('No saved scenario found in current roster.');
+    }
+  };
+
   window.startScenarioGame = function() {
     const scenarioId = document.getElementById('scenarioSelect').value;
     const enableAI = document.getElementById('enableAI').checked;
