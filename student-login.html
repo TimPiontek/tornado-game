@@ -433,6 +433,8 @@
                 <button class="btn btn-secondary" onclick="showSignup()">Need an account? Sign up</button>
                 <br>
                 <button class="btn btn-link" onclick="showForgotPassword()" style="color: #6f5c91; text-decoration: underline; background: none; border: none; font-size: 0.9rem; margin-top: 0.5rem;">Forgot Password?</button>
+                <br>
+                <button class="btn btn-link" onclick="showStoredPasswords()" style="color: #ff6b6b; text-decoration: underline; background: none; border: none; font-size: 0.8rem; margin-top: 0.5rem;">🔍 Show Stored Passwords (Debug)</button>
             </div>
         </div>
 
@@ -599,6 +601,23 @@
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
             });
+        }
+
+        // Temporary function to check stored passwords (for debugging only)
+        function showStoredPasswords() {
+            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            console.log('🔍 STORED STUDENTS:');
+            students.forEach((student, index) => {
+                console.log(`  Student ${index + 1}:`);
+                console.log(`    Username: "${student.username}"`);
+                console.log(`    Password: "${student.password}"`);
+                console.log(`    Email: "${student.email}"`);
+                console.log(`    ID: ${student.id}`);
+            });
+            
+            // Also show in alert for easy viewing
+            const studentList = students.map(s => `Username: "${s.username}"\nPassword: "${s.password}"\nEmail: "${s.email}"`).join('\n\n');
+            alert('STORED STUDENTS:\n\n' + studentList);
         }
 
         function resetPassword() {
