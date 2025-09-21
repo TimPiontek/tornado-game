@@ -524,6 +524,7 @@
         let currentRoster = null;
         let currentAssignment = null;
         let currentSubmission = null;
+        let currentStudentName = null;
 
         // === INITIALIZATION ===
         function init() {
@@ -702,6 +703,7 @@
             
             currentAssignment = assignment;
             currentSubmission = submission;
+            currentStudentName = studentName; // Store the student name globally
             
             // Populate grade modal
             const gradeContent = document.getElementById('gradeContent');
@@ -775,8 +777,16 @@
             // Save to storage
             const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
             const assignmentIndex = assignments.findIndex(a => a.id === currentAssignment.id);
-            assignments[assignmentIndex].submissions[currentSubmission.studentName] = currentSubmission;
-            localStorage.setItem('tornadoAssignments', JSON.stringify(assignments));
+            
+            // Use the stored student name
+            if (currentStudentName) {
+                assignments[assignmentIndex].submissions[currentStudentName] = currentSubmission;
+                localStorage.setItem('tornadoAssignments', JSON.stringify(assignments));
+            } else {
+                console.error('Student name is undefined when saving grades');
+                alert('Error: Student name not found. Please try again.');
+                return;
+            }
             
             // Update student points
             updateStudentPoints();
@@ -804,7 +814,7 @@
             // Update roster points
             const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
             const rosterIndex = rosters.findIndex(r => r.id === currentRoster.id);
-            const studentIndex = rosters[rosterIndex].roster.findIndex(s => s.name === currentSubmission.studentName);
+            const studentIndex = rosters[rosterIndex].roster.findIndex(s => s.name === currentStudentName);
             
             if (studentIndex !== -1) {
                 rosters[rosterIndex].roster[studentIndex].points = (rosters[rosterIndex].roster[studentIndex].points || 0) + totalPoints;
