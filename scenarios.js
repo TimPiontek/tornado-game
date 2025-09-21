@@ -297,7 +297,7 @@ const SCENARIOS = {
               "I am tired and sick of war.",
               "The way to success is to double your failure rate."
             ],
-            description: 'Union general known for his March to the Sea.'
+            description: "Union general known for his March to the Sea"
           },
           {
             name: 'Harriet Tubman',
@@ -3811,7 +3811,7 @@ const SCENARIOS = {
             description: 'Mamluk sultan who systematically destroyed Crusader strongholds.'
           },
           {
-            name: 'Al-Mu'azzam',
+            name: "Al-Mu'azzam",
             role: 'Ayyubid Prince',
             startingCoins: 85,
             startingWeapons: ['bow'],
