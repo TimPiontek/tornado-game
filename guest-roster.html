@@ -253,14 +253,15 @@
             <div class="input-group">
                 <label for="studentNames">Student Names</label>
                 <textarea id="studentNames" placeholder="Enter student names, one per line:&#10;John Smith&#10;Sarah Johnson&#10;Mike Wilson&#10;Lisa Brown"></textarea>
-                <div class="help-text">Enter one name per line. You can also add names individually below.</div>
+                <div class="help-text">Enter one name per line, then click "Add Students" below.</div>
+                <button class="pill secondary" onclick="addStudentsFromTextarea()" style="margin-top: 0.5rem;">📝 Add Students from List</button>
             </div>
 
             <div class="input-group">
                 <label for="addStudentName">Add Individual Student</label>
                 <div style="display: flex; gap: 0.5rem;">
-                    <input type="text" id="addStudentName" placeholder="Student name">
-                    <button class="pill" onclick="addStudent()">Add</button>
+                    <input type="text" id="addStudentName" placeholder="Student name" onkeypress="if(event.key==='Enter') addStudent()">
+                    <button class="pill" onclick="addStudent()">➕ Add</button>
                 </div>
             </div>
 
@@ -316,13 +317,39 @@
             const nameInput = document.getElementById('addStudentName');
             const name = nameInput.value.trim();
             
-            if (name && !students.includes(name)) {
-                students.push(name);
-                nameInput.value = '';
-                updateStudentList();
-            } else if (students.includes(name)) {
-                alert('Student already exists in the roster!');
+            if (!name) {
+                alert('❌ Please enter a student name!');
+                return;
             }
+            
+            if (students.includes(name)) {
+                alert('⚠️ Student already exists in the roster!');
+                return;
+            }
+            
+            students.push(name);
+            nameInput.value = '';
+            updateStudentList();
+            
+            // Show success feedback
+            const successMsg = document.createElement('div');
+            successMsg.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--accent);
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 6px;
+                z-index: 1000;
+                font-size: 0.9rem;
+            `;
+            successMsg.textContent = `✅ Added ${name} to roster`;
+            document.body.appendChild(successMsg);
+            
+            setTimeout(() => {
+                document.body.removeChild(successMsg);
+            }, 2000);
         }
 
         // Add students from textarea
@@ -332,14 +359,27 @@
                 .map(name => name.trim())
                 .filter(name => name.length > 0);
             
+            let addedCount = 0;
+            let skippedCount = 0;
+            
             names.forEach(name => {
                 if (!students.includes(name)) {
                     students.push(name);
+                    addedCount++;
+                } else {
+                    skippedCount++;
                 }
             });
             
-            textarea.value = '';
-            updateStudentList();
+            if (addedCount > 0) {
+                textarea.value = '';
+                updateStudentList();
+                alert(`✅ Added ${addedCount} students to the roster${skippedCount > 0 ? ` (${skippedCount} duplicates skipped)` : ''}!`);
+            } else if (skippedCount > 0) {
+                alert(`⚠️ All ${skippedCount} students were already in the roster!`);
+            } else {
+                alert('❌ No valid student names found. Please enter at least one name.');
+            }
         }
 
         // Remove student
@@ -357,12 +397,17 @@
                 return;
             }
             
-            listEl.innerHTML = students.map((student, index) => `
-                <div class="student-item">
-                    <span>${student}</span>
-                    <button class="remove-btn" onclick="removeStudent(${index})">Remove</button>
+            listEl.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 0.5rem; background: var(--primary); color: white; border-radius: 6px;">
+                    <span style="font-weight: bold;">📋 Student Roster (${students.length} students)</span>
                 </div>
-            `).join('');
+                ${students.map((student, index) => `
+                    <div class="student-item">
+                        <span>👤 ${student}</span>
+                        <button class="remove-btn" onclick="removeStudent(${index})">❌ Remove</button>
+                    </div>
+                `).join('')}
+            `;
         }
 
         // Clear all students
