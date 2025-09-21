@@ -59,15 +59,14 @@
 <body>
 
 <header>
-  <div class="bar">
-    <h1 style="cursor: pointer;" onclick="window.location.href = '/student-login.html'">TORNADO WAR - STUDENT</h1>
-    <button class="pill" id="btnTornado">Buy Tornado</button>
-    <button class="pill" id="btnTruces">Truces</button>
-    <button class="pill" id="btnHelp">How to Play</button>
-    <div style="flex:1"></div>
-    <span id="who" class="muted">Student Mode</span>
-    <button class="pill" onclick="window.location.href='student-login.html'" style="background: #10b981; color: white;">← Back to Dashboard</button>
-  </div>
+              <div class="bar">
+                <h1 style="cursor: pointer;" onclick="window.location.href = '/student-login.html'">TORNADO WAR - STUDENT</h1>
+                <button class="pill" id="btnTruces">Truces</button>
+                <button class="pill" id="btnHelp">How to Play</button>
+                <div style="flex:1"></div>
+                <span id="who" class="muted">Student Mode</span>
+                <button class="pill" onclick="window.location.href='student-login.html'" style="background: #10b981; color: white;">← Back to Dashboard</button>
+              </div>
 </header>
 
 <div class="wrap">
@@ -2150,13 +2149,22 @@
               </div>
             </div>
             
-            <h3 style="color: #ef4444; margin: 12px 0 8px;">🌪️ Special Items</h3>
+            <h3 style="color: #8b5cf6; margin: 12px 0 8px;">🧙‍♂️ Magic Items</h3>
             <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>🌪️ Tornado (Destroy territory)</span>
-                <button onclick="buyStudentItem('tornado', 200)" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Buy (200)</button>
+                <span>🧙‍♂️ Wizard (Enables tornado casting)</span>
+                <button onclick="buyStudentItem('wizard', 200)" style="background: #8b5cf6; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Buy (200)</button>
               </div>
             </div>
+            
+            ${loggedInStudent.wizard ? `
+            <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>🌪️ Cast Tornado (Destroy 2 territories)</span>
+                <button onclick="castTornado()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Cast (200)</button>
+              </div>
+            </div>
+            ` : ''}
           </div>
         </div>
         
@@ -2164,7 +2172,7 @@
           <h4 style="color: #f59e0b; margin: 0 0 8px;">📊 Your Current Inventory</h4>
           <p style="margin: 4px 0; color: var(--text);">🗡️ Weapons: ${loggedInStudent.weapons ? loggedInStudent.weapons.length : 0}</p>
           <p style="margin: 4px 0; color: var(--text);">⚔️ Mercenaries: ${loggedInStudent.mercenaries || 0}</p>
-          <p style="margin: 4px 0; color: var(--text);">🌪️ Tornados: ${loggedInStudent.tornados || 0}</p>
+          <p style="margin: 4px 0; color: var(--text);">🧙‍♂️ Wizard: ${loggedInStudent.wizard ? 'Yes' : 'No'}</p>
         </div>
 
         <button onclick="this.parentElement.parentElement.remove()" 
@@ -2199,8 +2207,8 @@
     // Add item
     if (itemType === 'mercenary') {
       loggedInStudent.mercenaries = (loggedInStudent.mercenaries || 0) + 1;
-    } else if (itemType === 'tornado') {
-      loggedInStudent.tornados = (loggedInStudent.tornados || 0) + 1;
+    } else if (itemType === 'wizard') {
+      loggedInStudent.wizard = true;
     } else {
       // Weapon
       if (!loggedInStudent.weapons) loggedInStudent.weapons = [];
@@ -2217,7 +2225,7 @@
         rosters[rosterIndex].roster[studentIndex].points = loggedInStudent.balance;
         rosters[rosterIndex].roster[studentIndex].weapons = loggedInStudent.weapons || [];
         rosters[rosterIndex].roster[studentIndex].mercenaries = loggedInStudent.mercenaries || 0;
-        rosters[rosterIndex].roster[studentIndex].tornados = loggedInStudent.tornados || 0;
+        rosters[rosterIndex].roster[studentIndex].wizard = loggedInStudent.wizard || false;
       }
       localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
     }
@@ -2241,6 +2249,99 @@
       marketModal.remove();
     }
     alert(`Successfully purchased ${itemType} for ${cost} points!`);
+  }
+
+  window.castTornado = function() {
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    const loggedInStudent = state.roster.find(s => s.name === currentStudent.username);
+    
+    if (!loggedInStudent) {
+      alert('Student not found!');
+      return;
+    }
+    
+    if (!loggedInStudent.wizard) {
+      alert('You need to purchase a Wizard first to cast tornadoes!');
+      return;
+    }
+    
+    if (loggedInStudent.balance < 200) {
+      alert(`Insufficient funds! You need 200 points to cast a tornado but only have ${loggedInStudent.balance}.`);
+      return;
+    }
+    
+    // Confirm the action
+    if (!confirm('Cast Tornado for 200 points? This will destroy 2 territories and you have an equal chance of losing one of your own territories.')) {
+      return;
+    }
+    
+    // Deduct cost
+    loggedInStudent.balance -= 200;
+    
+    // Get all students with more than 1 territory (protection rule)
+    const eligibleStudents = state.roster.filter(student => student.tilesOwned > 1);
+    
+    if (eligibleStudents.length < 2) {
+      alert('Not enough students with multiple territories to cast tornado!');
+      loggedInStudent.balance += 200; // Refund
+      return;
+    }
+    
+    // Randomly select 2 territories to destroy (including sender)
+    const allEligibleStudents = [...eligibleStudents];
+    const destroyedStudents = [];
+    
+    // Select 2 random students
+    for (let i = 0; i < 2 && allEligibleStudents.length > 0; i++) {
+      const randomIndex = Math.floor(Math.random() * allEligibleStudents.length);
+      const selectedStudent = allEligibleStudents.splice(randomIndex, 1)[0];
+      destroyedStudents.push(selectedStudent);
+    }
+    
+    // Destroy one territory from each selected student
+    destroyedStudents.forEach(student => {
+      // Find a random tile owned by this student
+      const studentTiles = state.board.tiles.filter(tile => tile.owner_game_student_id === student.gsId);
+      if (studentTiles.length > 0) {
+        const randomTile = studentTiles[Math.floor(Math.random() * studentTiles.length)];
+        randomTile.owner_game_student_id = null;
+        randomTile.castle_level = 0;
+        student.tilesOwned -= 1;
+      }
+    });
+    
+    // Update roster in localStorage
+    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+    const rosterIndex = rosters.findIndex(r => r.id === state.currentRosterId);
+    if (rosterIndex !== -1) {
+      const studentIndex = rosters[rosterIndex].roster.findIndex(s => s.name === loggedInStudent.name);
+      if (studentIndex !== -1) {
+        rosters[rosterIndex].roster[studentIndex].points = loggedInStudent.balance;
+      }
+      localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+    }
+    
+    // Update student record
+    updateStudentRecord();
+    
+    // Notify other tabs
+    notifyRosterChange();
+    
+    // Refresh display
+    updateGridDisplay();
+    renderRoster();
+    
+    // Close modal and show result
+    const modals = document.querySelectorAll('div[style*="position: fixed"]');
+    const marketModal = Array.from(modals).find(modal => 
+      modal.innerHTML.includes('Student Market') || modal.innerHTML.includes('Your Balance')
+    );
+    if (marketModal) {
+      marketModal.remove();
+    }
+    
+    const destroyedNames = destroyedStudents.map(s => s.name).join(' and ');
+    alert(`Tornado cast! Destroyed territories belonging to: ${destroyedNames}`);
   }
 </script>
 </body>
