@@ -2978,7 +2978,7 @@
     document.getElementById('scenarioSelect').onchange = updateScenarioDetails;
   }
   
-  function closeScenarioSelectionModal() {
+  window.closeScenarioSelectionModal = function() {
     const modal = document.getElementById('scenarioSelectionModal');
     if (modal) {
       modal.remove();
@@ -3025,7 +3025,7 @@
     }
   }
   
-  function startScenarioGame() {
+  window.startScenarioGame = function() {
     const scenarioId = document.getElementById('scenarioSelect').value;
     const enableAI = document.getElementById('enableAI').checked;
     const aiDifficulty = document.getElementById('aiDifficulty').value;
@@ -3276,7 +3276,7 @@
     }
   }
   
-  function closeAIRoleAssignmentModal() {
+  window.closeAIRoleAssignmentModal = function() {
     const modal = document.getElementById('aiRoleAssignmentModal');
     if (modal) {
       modal.remove();
@@ -3370,7 +3370,7 @@
     });
   }
   
-  function autoAssignBadGuys() {
+  window.autoAssignBadGuys = function() {
     const antagonistRoles = Array.from(document.querySelectorAll('.ai-role-card[data-is-antagonist="true"]')).filter(card => !card.dataset.assignedStudent);
     const students = Array.from(document.querySelectorAll('.ai-student-card')).filter(card => card.draggable);
     
@@ -3406,7 +3406,7 @@
     });
   }
   
-  function randomizeAIRoles() {
+  window.randomizeAIRoles = function() {
     const students = Array.from(document.querySelectorAll('.ai-student-card')).filter(card => card.draggable);
     const roles = Array.from(document.querySelectorAll('.ai-role-card')).filter(card => !card.dataset.assignedStudent);
     
@@ -3448,7 +3448,7 @@
     });
   }
   
-  function startGameWithAI() {
+  window.startGameWithAI = function() {
     // Collect role assignments
     const roleAssignments = {};
     const aiAssignments = {};
