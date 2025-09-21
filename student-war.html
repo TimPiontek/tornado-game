@@ -540,8 +540,8 @@
         gsId: student.id || `student_${i}`,
         name: student.name,
         tilesOwned: existingStudent?.tilesOwned || 0,
-        startPoints: existingStudent?.startPoints || 5,
-        balance: existingStudent?.balance || student.points || 5, // Use saved points or default
+        startPoints: existingStudent?.startPoints || 10,
+        balance: existingStudent?.balance || student.points || 10, // Use saved points or default (10 coins for mercenary)
         teamId: existingStudent?.teamId || null,
         teamName: existingStudent?.teamName || null,
         teamColor: existingStudent?.teamColor || null

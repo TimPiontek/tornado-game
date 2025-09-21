@@ -162,7 +162,7 @@
     <ul>
       <li><b>Create or select a roster:</b> Use the "Manage Roster" button to create student lists</li>
       <li><b>Set victory percentage:</b> Choose what % of territories needed to win</li>
-      <li><b>Click "Create Game":</b> Students start with 5 points each</li>
+      <li><b>Click "Create Game":</b> Students start with 10 points each</li>
     </ul>
     
     <h3>🎮 Basic Gameplay</h3>
@@ -560,8 +560,8 @@
         gsId: student.id || `student_${i}`,
         name: student.name,
         tilesOwned: existingStudent?.tilesOwned || 0,
-        startPoints: existingStudent?.startPoints || 5,
-        balance: existingStudent?.balance || student.points || 5, // Use saved points or default
+        startPoints: existingStudent?.startPoints || 10,
+        balance: existingStudent?.balance || student.points || 10, // Use saved points or default (10 coins for mercenary)
         teamId: existingStudent?.teamId || null,
         teamName: existingStudent?.teamName || null,
         teamColor: existingStudent?.teamColor || null
@@ -659,7 +659,7 @@
     // Reset all students to default state
     state.roster.forEach(student => {
       student.tilesOwned = 0;
-      student.balance = 5; // Default starting balance
+      student.balance = 10; // Default starting balance - enough for a mercenary
       student.weapons = [];
       student.mercenaries = 0;
       student.wizard = false;
@@ -706,7 +706,7 @@
     // Save the reset state
     autoSaveWarPoints();
 
-    alert('Game reset successfully! All students start fresh with 5 coins and new starting territories.');
+    alert('Game reset successfully! All students start fresh with 10 coins and new starting territories.');
   }
 
   function assignStartingTiles() {
