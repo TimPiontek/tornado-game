@@ -2507,6 +2507,12 @@
       localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
     }
     
+    // Notify other tabs about truce invitation
+    localStorage.setItem('truceUpdateTrigger', Date.now().toString());
+    window.dispatchEvent(new CustomEvent('truceUpdated', {
+      detail: { action: 'invitation_sent', invitation: invitation }
+    }));
+    
     alert('Truce invitation sent successfully!');
     
     // Refresh modal
@@ -2569,6 +2575,12 @@
       localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
     }
     
+    // Notify other tabs about truce response
+    localStorage.setItem('truceUpdateTrigger', Date.now().toString());
+    window.dispatchEvent(new CustomEvent('truceUpdated', {
+      detail: { action: accept ? 'truce_accepted' : 'truce_declined', invitation: invitation }
+    }));
+    
     alert(accept ? 'Truce accepted!' : 'Truce invitation declined.');
     
     // Refresh modal
@@ -2586,6 +2598,12 @@
       rosters[rosterIndex].truceInvitations = state.truceInvitations;
       localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
     }
+    
+    // Notify other tabs about truce cancellation
+    localStorage.setItem('truceUpdateTrigger', Date.now().toString());
+    window.dispatchEvent(new CustomEvent('truceUpdated', {
+      detail: { action: 'invitation_cancelled', invitationId: invitationId }
+    }));
     
     alert('Truce invitation cancelled.');
     
@@ -2609,12 +2627,44 @@
       localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
     }
     
+    // Notify other tabs about truce ending
+    localStorage.setItem('truceUpdateTrigger', Date.now().toString());
+    window.dispatchEvent(new CustomEvent('truceUpdated', {
+      detail: { action: 'truce_ended', truceId: truceId }
+    }));
+    
     alert('Truce ended.');
     
     // Refresh modal
     document.querySelector('div[style*="position: fixed"]').remove();
     showTruceModal();
   }
+
+  // Listen for truce updates from other tabs
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'truceUpdateTrigger') {
+      console.log('Student: Truce update detected from another tab');
+      // Reload truce data from localStorage
+      const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+      const rosterIndex = rosters.findIndex(r => r.id === state.currentRosterId);
+      if (rosterIndex !== -1) {
+        state.truces = rosters[rosterIndex].truces || [];
+        state.truceInvitations = rosters[rosterIndex].truceInvitations || [];
+        console.log('Student: Truce data reloaded:', { truces: state.truces.length, invitations: state.truceInvitations.length });
+      }
+    }
+  });
+
+  // Listen for custom truce events
+  window.addEventListener('truceUpdated', function(e) {
+    console.log('Student: Truce event received:', e.detail);
+    // Refresh any open truce modals
+    const openModal = document.querySelector('div[style*="position: fixed"]');
+    if (openModal && openModal.innerHTML.includes('Truce Management')) {
+      openModal.remove();
+      showTruceModal();
+    }
+  });
 </script>
 </body>
 </html>
