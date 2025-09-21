@@ -45,6 +45,74 @@
             text-align: center;
         }
 
+        /* Desktop layout for student dashboard */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 1200px;
+                padding: 3rem;
+            }
+            
+            .student-profile {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+                margin-bottom: 2rem;
+                text-align: left;
+            }
+            
+            .student-info {
+                background: #f8f9fa;
+                padding: 1.5rem;
+                border-radius: 8px;
+            }
+            
+            .student-stats {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+            
+            .stat-card {
+                background: #f8f9fa;
+                padding: 1.5rem;
+                border-radius: 8px;
+                text-align: center;
+                border: 1px solid #e9ecef;
+            }
+            
+            .join-class-section {
+                background: #f8f9fa;
+                padding: 2rem;
+                border-radius: 8px;
+                margin-top: 2rem;
+                text-align: left;
+            }
+            
+            .class-features {
+                background: #f8f9fa;
+                padding: 2rem;
+                border-radius: 8px;
+                margin-top: 2rem;
+                text-align: left;
+            }
+            
+            .feature-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+                margin-top: 1.5rem;
+            }
+            
+            .assignments-section {
+                background: #f8f9fa;
+                padding: 2rem;
+                border-radius: 8px;
+                margin-top: 2rem;
+                text-align: left;
+            }
+        }
+
         .logo {
             width: 80px;
             height: 80px;
@@ -880,11 +948,13 @@
             // Update student profile
             const studentProfile = document.getElementById('studentProfile');
             studentProfile.innerHTML = `
-                <h3>👤 ${currentStudent.username}</h3>
-                <p><strong>Grade:</strong> ${currentStudent.grade || 'Not specified'}</p>
-                <p><strong>Class:</strong> ${currentStudent.rosterName && currentRoster ? currentRoster.name : 'Not joined'}</p>
-                <p><strong>Member since:</strong> ${new Date(currentStudent.createdAt).toLocaleDateString()}</p>
-                <p><strong>Last login:</strong> ${new Date(currentStudent.lastLogin).toLocaleDateString()}</p>
+                <div class="student-info">
+                    <h3>👤 ${currentStudent.username}</h3>
+                    <p><strong>Grade:</strong> ${currentStudent.grade || 'Not specified'}</p>
+                    <p><strong>Class:</strong> ${currentStudent.rosterName && currentRoster ? currentRoster.name : 'Not joined'}</p>
+                    <p><strong>Member since:</strong> ${new Date(currentStudent.createdAt).toLocaleDateString()}</p>
+                    <p><strong>Last login:</strong> ${new Date(currentStudent.lastLogin).toLocaleDateString()}</p>
+                </div>
             `;
 
             // Update stats
