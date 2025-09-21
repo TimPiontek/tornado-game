@@ -635,9 +635,11 @@
           console.log('Checking saved student:', savedStudent);
           const currentStudent = state.roster.find(s => s.name === savedStudent.name); // Match by name
           console.log('Found current student:', currentStudent);
-          if (currentStudent && savedStudent.id !== currentStudent.gsId) {
-            oldIdToNewIdMap.set(savedStudent.id, currentStudent.gsId);
-            console.log(`Remapping: Old ID ${savedStudent.id} (Name: ${savedStudent.name}) -> New ID ${currentStudent.gsId}`);
+          // Use gsId from saved student, not id
+          const savedStudentId = savedStudent.gsId || savedStudent.id;
+          if (currentStudent && savedStudentId !== currentStudent.gsId) {
+            oldIdToNewIdMap.set(savedStudentId, currentStudent.gsId);
+            console.log(`Remapping: Old ID ${savedStudentId} (Name: ${savedStudent.name}) -> New ID ${currentStudent.gsId}`);
           }
         });
       }
