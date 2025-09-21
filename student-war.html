@@ -460,7 +460,7 @@
 
   // === UI HELPERS ===
   const el = (sel) => document.querySelector(sel);
-  const rosterList = el("#rosterList");
+  // rosterList removed for student version
   const rosterEl = el("#roster");
   const gridEl = el("#grid");
   const contextEl = el("#context");
@@ -507,14 +507,7 @@
       state.rosters = [];
     }
     
-    rosterList.innerHTML = `<option value="">Select Roster…</option>` + (state.rosters.map(r =>
-      `<option value="${r.id}">${r.name} (${r.roster ? r.roster.length : 0} students)</option>`
-    ).join(""));
-    
-    if (selectNewest && state.rosters.length) {
-      rosterList.value = state.rosters[0].id;
-      selectRoster(state.rosters[0].id);
-    }
+    // Roster list removed for student version - auto-load student's roster
   }
   // === ROSTER SELECTION ===
   function selectRoster(rosterId) {
@@ -780,15 +773,7 @@
     renderRoster();
   }
   
-  // Load roster button functionality
-  el("#loadRosterBtn").onclick = () => {
-    window.location.href = '/roster';
-  };
-  
-  // Save roster button functionality
-  el("#saveRosterBtn").onclick = () => {
-    saveCurrentRoster();
-  };
+  // Roster buttons removed for student version
   
   function saveCurrentRoster() {
     if (!state.currentRoster || !state.currentRosterId) {
@@ -832,7 +817,7 @@
   }
   
   // Roster list change event
-  rosterList.onchange = () => selectRoster(rosterList.value);
+  // rosterList.onchange removed for student version
 
 
 
