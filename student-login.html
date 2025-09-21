@@ -1175,6 +1175,40 @@
             return Date.now().toString(36) + Math.random().toString(36).substr(2);
         }
 
+        // Function to create a test student account
+        function createTestStudent() {
+            const testStudent = {
+                id: generateId(),
+                username: 'timpiontek',
+                password: 'StudentLogin',
+                email: 'test@example.com',
+                grade: '12',
+                createdAt: new Date().toISOString(),
+                totalPoints: 0,
+                quizGamesPlayed: 0,
+                warGamesPlayed: 0,
+                questionsAnswered: 0,
+                correctAnswers: 0,
+                lastLogin: new Date().toISOString(),
+                rosterId: null,
+                rosterName: null
+            };
+
+            const existingStudents = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            
+            // Remove any existing test student with same username
+            const filteredStudents = existingStudents.filter(s => s.username !== 'timpiontek');
+            filteredStudents.push(testStudent);
+            
+            localStorage.setItem('tornadoStudents', JSON.stringify(filteredStudents));
+            
+            console.log('Test student created:', testStudent);
+            alert('Test student account created! Username: timpiontek, Password: StudentLogin');
+        }
+
+        // Make function globally accessible
+        window.createTestStudent = createTestStudent;
+
         function generateClassCode() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let result = '';
