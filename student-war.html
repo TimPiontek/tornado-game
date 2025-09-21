@@ -87,7 +87,7 @@
       <div class="title">Student Mode</div>
       <div style="background: #1e3a8a; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
         <h4 style="margin: 0 0 8px; color: #60a5fa;">🎓 Student Permissions</h4>
-        <ul style="margin: 0; padding-left: 16px; font-size: 12px; color: #93c5fd;">
+        <ul style="margin: 0 0 12px; padding-left: 16px; font-size: 12px; color: #93c5fd;">
           <li>✅ Purchase available territories</li>
           <li>✅ Build castles and defenses</li>
           <li>✅ Buy weapons and mercenaries</li>
@@ -95,6 +95,7 @@
           <li>❌ Cannot add/take points</li>
           <li>❌ Cannot modify other students' data</li>
         </ul>
+        <button class="pill" onclick="showPurchaseGuide()" style="background: #3b82f6; color: white; font-size: 12px; width: 100%;">📖 Purchase Guide</button>
       </div>
     </div>
 
@@ -1945,8 +1946,111 @@
 
   // Initialize team mode sections
 
-  // initial load
-  loadRosters(true);
+  // initial load - auto-load student's roster
+  loadStudentRoster();
+
+  // Auto-load student's roster
+  function loadStudentRoster() {
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    if (!currentStudent || !currentStudent.rosterId) {
+      alert('Please log in as a student first!');
+      window.location.href = 'student-login.html';
+      return;
+    }
+
+    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+    const studentRoster = rosters.find(r => r.id === currentStudent.rosterId);
+    
+    if (!studentRoster) {
+      alert('Your class roster not found!');
+      window.location.href = 'student-login.html';
+      return;
+    }
+
+    // Load the roster
+    selectRoster(studentRoster.id);
+    
+    // Show success message
+    setTimeout(() => {
+      updateStatusMessage(`Welcome to Tornado War, ${currentStudent.username}! Your class roster has been loaded.`, 'success');
+    }, 500);
+  }
+
+  // Show purchase guide for students
+  function showPurchaseGuide() {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+      background: rgba(0,0,0,0.8); z-index: 1000; display: flex; 
+      align-items: center; justify-content: center; padding: 20px;
+    `;
+    
+    modal.innerHTML = `
+      <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 12px; 
+                  padding: 24px; max-width: 600px; max-height: 80vh; overflow-y: auto;">
+        <h2 style="margin: 0 0 16px; color: var(--accent);">📖 Student Purchase Guide</h2>
+        
+        <div style="margin-bottom: 16px;">
+          <h3 style="color: #10b981; margin: 0 0 8px;">🏰 Territory Purchases</h3>
+          <ul style="margin: 0; padding-left: 20px; color: var(--text);">
+            <li><strong>Available Territories:</strong> Click on empty (unclaimed) territories to purchase them</li>
+            <li><strong>Cost:</strong> Each territory has a different cost based on its strategic value</li>
+            <li><strong>Ownership:</strong> Once purchased, the territory becomes yours and shows your name</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <h3 style="color: #8b5cf6; margin: 0 0 8px;">🏰 Castle Building</h3>
+          <ul style="margin: 0; padding-left: 20px; color: var(--text);">
+            <li><strong>On Your Own Territory:</strong> Click on a territory you own to build a castle</li>
+            <li><strong>Stronger Defense:</strong> Castles built on your own territory provide +3 defense</li>
+            <li><strong>Battle Castles:</strong> Castles built during battles only provide +1 defense</li>
+            <li><strong>Cost:</strong> Building a castle costs 10 points</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <h3 style="color: #f59e0b; margin: 0 0 8px;">⚔️ Weapons & Mercenaries</h3>
+          <ul style="margin: 0; padding-left: 20px; color: var(--text);">
+            <li><strong>Sword:</strong> 5 points, +2 attack power</li>
+            <li><strong>Shield:</strong> 3 points, +1 defense</li>
+            <li><strong>Bow:</strong> 4 points, +1 attack power</li>
+            <li><strong>Armor:</strong> 6 points, +2 defense</li>
+            <li><strong>Usage:</strong> Weapons are used during attacks on enemy territories</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <h3 style="color: #ef4444; margin: 0 0 8px;">⚔️ Attacking Territories</h3>
+          <ul style="margin: 0; padding-left: 20px; color: var(--text);">
+            <li><strong>Select Yourself:</strong> Click on your name in the roster first</li>
+            <li><strong>Choose Target:</strong> Click on an enemy territory to attack</li>
+            <li><strong>Add Weapons:</strong> Select weapons to increase your attack power</li>
+            <li><strong>Battle Cost:</strong> Each attack costs 3 points + weapon costs</li>
+          </ul>
+        </div>
+
+        <div style="background: #1e3a8a; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
+          <h4 style="color: #60a5fa; margin: 0 0 8px;">💡 Pro Tips</h4>
+          <ul style="margin: 0; padding-left: 20px; color: #93c5fd; font-size: 14px;">
+            <li>Build castles on your territories BEFORE battles for stronger defense</li>
+            <li>Save points for multiple weapons to increase attack success</li>
+            <li>Focus on strategic territories that give you advantages</li>
+            <li>Earn more points by completing teacher assignments!</li>
+          </ul>
+        </div>
+
+        <button onclick="this.parentElement.parentElement.remove()" 
+                style="background: var(--accent); color: white; border: none; 
+                       padding: 12px 24px; border-radius: 8px; cursor: pointer; 
+                       font-size: 16px; width: 100%;">
+          Got it! Close Guide
+        </button>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+  }
 </script>
 </body>
 </html>
