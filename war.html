@@ -110,6 +110,26 @@
       </div>
     </div>
 
+    <div class="section" id="aiControls" style="display: none;">
+      <div class="title">AI Simulation</div>
+      <div style="margin-bottom: 8px;">
+        <button class="pill" onclick="simulateAllAI()" style="background: #8b5cf6; font-size: 12px;">Simulate All AI</button>
+        <button class="pill" onclick="showIndividualAIControls()" style="background: #3b82f6; font-size: 12px;">Individual AI</button>
+      </div>
+      <div id="individualAIControls" style="display: none; margin-top: 8px;">
+        <div class="title" style="font-size: 12px;">Individual AI Characters</div>
+        <div id="aiCharacterList"></div>
+      </div>
+    </div>
+
+    <div class="section" id="educationalControls" style="display: none;">
+      <div class="title">Educational Content</div>
+      <div style="margin-bottom: 8px;">
+        <button class="pill" onclick="showRandomHistoricalFact()" style="background: #f59e0b; font-size: 12px;">Random Fact</button>
+        <button class="pill" onclick="showEducationalHelp()" style="background: #10b981; font-size: 12px;">Help</button>
+      </div>
+    </div>
+
 
   </div>
 
@@ -603,12 +623,52 @@
       state.truceInvitations = [];
     }
     
+    // Handle scenario data if present
+    if (roster.scenario) {
+      console.log('Loading scenario:', roster.scenario.scenarioName);
+      initializeScenario(roster.scenario);
+    }
+    
     // Create or load game board
     initializeGameBoard();
     
     // Update UI
     renderRoster();
     updateVictoryTarget();
+  }
+  
+  // Initialize scenario data
+  function initializeScenario(scenarioData) {
+    console.log('Initializing scenario:', scenarioData);
+    
+    // Store scenario data in state
+    state.scenario = scenarioData;
+    
+    // Initialize AI if enabled
+    if (scenarioData.enableAI && typeof initializeAIForScenario === 'function') {
+      setTimeout(() => {
+        initializeAIForScenario();
+      }, 100);
+    }
+    
+    // Initialize educational content if available
+    if (typeof initializeEducationalContent === 'function') {
+      setTimeout(() => {
+        initializeEducationalContent();
+      }, 100);
+    }
+    
+    // Show AI controls if AI is enabled
+    const aiControls = document.getElementById('aiControls');
+    if (aiControls && scenarioData.enableAI) {
+      aiControls.style.display = 'block';
+    }
+    
+    // Show educational controls
+    const educationalControls = document.getElementById('educationalControls');
+    if (educationalControls) {
+      educationalControls.style.display = 'block';
+    }
   }
   
   function initializeGameBoard() {
@@ -787,6 +847,10 @@
     gridEl.style.gridTemplateColumns = `repeat(${state.board.w}, 1fr)`;
     gridEl.style.gridTemplateRows = `repeat(${state.board.h}, 1fr)`;
     
+    // Get attackable tiles for the selected student
+    const attackableTiles = state.selectedGsId ? getAttackableTiles(state.selectedGsId) : [];
+    const attackableTileIds = new Set(attackableTiles.map(t => t.id));
+    
     gridEl.innerHTML = state.board.tiles.map(tile => {
       const owner = state.roster.find(r => r.gsId === tile.owner_game_student_id);
       const ownerName = owner ? shortenName(owner.name) : '';
@@ -797,11 +861,29 @@
       const tileCost = !owner ? calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h) : 0;
       const costText = !owner ? `💰${tileCost}` : '';
       
+      // Check if this tile is attackable by the selected student
+      const isAttackable = attackableTileIds.has(tile.id);
+      const isOwnedBySelected = state.selectedGsId && tile.owner_game_student_id === state.selectedGsId;
+      
+      // Determine border style based on attackability
+      let borderStyle = '1px solid #333';
+      if (isAttackable && !isOwnedBySelected) {
+        borderStyle = '2px solid #10b981'; // Green border for attackable territories
+      } else if (isOwnedBySelected) {
+        borderStyle = '2px solid #3b82f6'; // Blue border for own territories
+      }
+      
+      // Determine background color
+      let backgroundColor = owner ? state.colors.get(owner.gsId) : '#1a1a2e';
+      if (isAttackable && !owner) {
+        backgroundColor = '#1a2e1a'; // Slightly green tint for attackable unowned territories
+      }
+      
       return `<div class="cell" data-tile-id="${tile.id}" data-x="${tile.x}" data-y="${tile.y}" 
-                style="background: ${owner ? state.colors.get(owner.gsId) : '#1a1a2e'}; 
+                style="background: ${backgroundColor}; 
                        color: ${owner ? '#fff' : '#666'}; 
                        cursor: pointer;
-                       border: 1px solid #333;
+                       border: ${borderStyle};
                        display: flex;
                        flex-direction: column;
                        align-items: center;
@@ -809,9 +891,10 @@
                        min-height: 50px;
                        padding: 4px;
                        font-size: 12px;
-                       text-align: center;"
+                       text-align: center;
+                       transition: all 0.2s ease;"
                 onclick="handleTileClick('${tile.id}')"
-                title="${owner ? `Owned by ${ownerName}` : `Click to buy for ${tileCost} points`}">
+                title="${owner ? `Owned by ${ownerName}` : `Click to buy for ${tileCost} points`}${isAttackable && !isOwnedBySelected ? ' (Attackable!)' : ''}">
                 <div style="font-weight: 600;">${ownerName || ''}</div>
                 <div style="font-size: 10px;">${castleText || costText}</div>
               </div>`;
@@ -828,6 +911,292 @@
       Math.max(0.25, 1 / state.roster.filter(r => r.teamId).length) : 0.25;
     
     victoryEl.textContent = `Target: ${(targetPercentage * 100).toFixed(0)}% of tiles (${Math.ceil(totalTiles * targetPercentage)} tiles)`;
+  }
+  
+  function checkVictoryCondition() {
+    if (!state.roster || !state.board || !state.board.tiles) return;
+    
+    const totalTiles = state.board.w * state.board.h;
+    const targetPercentage = state.teamMode ? 
+      Math.max(0.25, 1 / state.roster.filter(r => r.teamId).length) : 0.25;
+    const targetTiles = Math.ceil(totalTiles * targetPercentage);
+    
+    // Count tiles owned by each player/team
+    const tileCounts = {};
+    
+    if (state.teamMode) {
+      // Team mode - count tiles by team
+      state.roster.forEach(student => {
+        if (student.teamId) {
+          const teamId = student.teamId;
+          if (!tileCounts[teamId]) tileCounts[teamId] = 0;
+          
+          state.board.tiles.forEach(tile => {
+            if (tile.owner_game_student_id === student.gsId) {
+              tileCounts[teamId]++;
+            }
+          });
+        }
+      });
+      
+      // Check if any team has reached victory
+      for (const [teamId, count] of Object.entries(tileCounts)) {
+        if (count >= targetTiles) {
+          const teamName = state.roster.find(s => s.teamId === teamId)?.teamName || `Team ${teamId}`;
+          showVictoryScreen(teamName, count, totalTiles, 'team');
+          return;
+        }
+      }
+    } else {
+      // Individual mode - count tiles by student
+      state.roster.forEach(student => {
+        tileCounts[student.gsId] = 0;
+        state.board.tiles.forEach(tile => {
+          if (tile.owner_game_student_id === student.gsId) {
+            tileCounts[student.gsId]++;
+          }
+        });
+      });
+      
+      // Check if any student has reached victory
+      for (const [studentId, count] of Object.entries(tileCounts)) {
+        if (count >= targetTiles) {
+          const student = state.roster.find(s => s.gsId === studentId);
+          if (student) {
+            showVictoryScreen(student.name, count, totalTiles, 'individual');
+            return;
+          }
+        }
+      }
+    }
+  }
+  
+  function showVictoryScreen(winnerName, tilesOwned, totalTiles, mode) {
+    // Create victory screen overlay
+    const victoryOverlay = document.createElement('div');
+    victoryOverlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      animation: fadeIn 0.5s ease-in;
+    `;
+    
+    victoryOverlay.innerHTML = `
+      <div style="
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 3rem;
+        border-radius: 20px;
+        text-align: center;
+        color: white;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        max-width: 600px;
+        width: 90%;
+        animation: slideIn 0.5s ease-out;
+      ">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">🏆</div>
+        <h1 style="font-size: 3rem; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+          VICTORY!
+        </h1>
+        <h2 style="font-size: 2rem; margin-bottom: 2rem; color: #ffd700;">
+          ${winnerName} Wins!
+        </h2>
+        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 10px; margin: 2rem 0;">
+          <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">
+            🗺️ Controlled ${tilesOwned} out of ${totalTiles} territories
+          </p>
+          <p style="font-size: 1.2rem;">
+            📊 ${((tilesOwned / totalTiles) * 100).toFixed(1)}% of the map
+          </p>
+        </div>
+        <div style="margin-top: 2rem;">
+          <button id="continueGameBtn" style="
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: all 0.2s ease;
+          ">Continue Current Game</button>
+          <button id="newGameBtn" style="
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: all 0.2s ease;
+          ">Start New Game</button>
+        </div>
+      </div>
+      <style>
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideIn {
+          from { transform: scale(0.8) translateY(-50px); opacity: 0; }
+          to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        #continueGameBtn:hover, #newGameBtn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+      </style>
+    `;
+    
+    document.body.appendChild(victoryOverlay);
+    
+    // Add confetti effect
+    createConfettiEffect();
+    
+    // Play victory sound
+    if (typeof playWin === 'function') {
+      playWin();
+    }
+    
+    // Add button event listeners
+    document.getElementById('continueGameBtn').onclick = () => {
+      victoryOverlay.remove();
+      // Award victory points to winner
+      awardVictoryPoints(winnerName, mode);
+    };
+    
+    document.getElementById('newGameBtn').onclick = () => {
+      victoryOverlay.remove();
+      // Award victory points to winner
+      awardVictoryPoints(winnerName, mode);
+      // Reset game for new game
+      resetGameForNewRound();
+    };
+  }
+  
+  function createConfettiEffect() {
+    const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3'];
+    const confettiCount = 100;
+    
+    for (let i = 0; i < confettiCount; i++) {
+      setTimeout(() => {
+        const confetti = document.createElement('div');
+        confetti.style.cssText = `
+          position: fixed;
+          width: 10px;
+          height: 10px;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          top: -10px;
+          left: ${Math.random() * 100}%;
+          z-index: 10001;
+          animation: confettiFall 3s linear forwards;
+        `;
+        
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 3000);
+      }, i * 10);
+    }
+    
+    // Add confetti animation CSS
+    if (!document.getElementById('confetti-styles')) {
+      const style = document.createElement('style');
+      style.id = 'confetti-styles';
+      style.textContent = `
+        @keyframes confettiFall {
+          0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+  
+  function awardVictoryPoints(winnerName, mode) {
+    if (!state.currentRoster) return;
+    
+    const victoryBonus = 500; // Bonus points for winning
+    
+    if (mode === 'team') {
+      // Award points to all team members
+      const winningTeam = state.roster.find(s => s.teamName === winnerName);
+      if (winningTeam) {
+        state.roster.forEach(student => {
+          if (student.teamId === winningTeam.teamId) {
+            student.balance += victoryBonus;
+            // Update roster
+            const rosterIndex = state.currentRoster.roster.findIndex(r => r.name === student.name);
+            if (rosterIndex >= 0) {
+              state.currentRoster.roster[rosterIndex].points = student.balance;
+              state.currentRoster.roster[rosterIndex].victories = (state.currentRoster.roster[rosterIndex].victories || 0) + 1;
+            }
+          }
+        });
+      }
+    } else {
+      // Award points to individual winner
+      const winner = state.roster.find(s => s.name === winnerName);
+      if (winner) {
+        winner.balance += victoryBonus;
+        // Update roster
+        const rosterIndex = state.currentRoster.roster.findIndex(r => r.name === winnerName);
+        if (rosterIndex >= 0) {
+          state.currentRoster.roster[rosterIndex].points = winner.balance;
+          state.currentRoster.roster[rosterIndex].victories = (state.currentRoster.roster[rosterIndex].victories || 0) + 1;
+        }
+      }
+    }
+    
+    // Save updated roster
+    if (state.currentRoster) {
+      const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+      const rosterIndex = rosters.findIndex(r => r.id === state.currentRoster.id);
+      if (rosterIndex >= 0) {
+        rosters[rosterIndex] = state.currentRoster;
+        localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+      }
+    }
+    
+    // Show victory bonus notification
+    alert(`🎉 Victory Bonus!\n\n${winnerName} receives ${victoryBonus} bonus points for winning!\n\nVictory has been recorded in the roster.`);
+  }
+  
+  function resetGameForNewRound() {
+    // Reset all tiles to unowned
+    if (state.board && state.board.tiles) {
+      state.board.tiles.forEach(tile => {
+        tile.owner_game_student_id = null;
+        tile.castle_level = 0;
+      });
+    }
+    
+    // Reset tile counts
+    state.roster.forEach(student => {
+      student.tilesOwned = 0;
+    });
+    
+    // Update display
+    updateGridDisplay();
+    syncTileCounts();
+    updateVictoryTarget();
+    
+    alert('🎮 New game started! All territories are now available for conquest.');
   }
   
   function syncTileCounts() {
@@ -907,6 +1276,11 @@
     }
   }
   
+  // Load roster by ID (for use from roster page)
+  function loadRoster(rosterId) {
+    selectRoster(rosterId);
+  }
+
   // Roster list change event
   rosterList.onchange = () => selectRoster(rosterList.value);
 
@@ -944,6 +1318,60 @@
     autoSaveWarPoints();
   }
 
+  // Helper function to check if two tiles are adjacent (including diagonal)
+  function areTilesAdjacent(tile1, tile2) {
+    const dx = Math.abs(tile1.x - tile2.x);
+    const dy = Math.abs(tile1.y - tile2.y);
+    return (dx <= 1 && dy <= 1) && !(dx === 0 && dy === 0);
+  }
+  
+  // Helper function to check if a student can attack/claim a tile based on adjacency
+  function canStudentAttackTile(studentGsId, targetTile) {
+    // If student has no territories, they can claim any unowned tile (initial placement)
+    const studentTiles = state.board.tiles.filter(t => t.owner_game_student_id === studentGsId);
+    if (studentTiles.length === 0) {
+      return true; // Initial placement - can claim any unowned tile
+    }
+    
+    // Check if target tile is adjacent to any of student's territories
+    for (const studentTile of studentTiles) {
+      if (areTilesAdjacent(studentTile, targetTile)) {
+        return true;
+      }
+    }
+    
+    // Check if target tile is adjacent to any truce partner's territories
+    const studentTruces = state.truces.filter(truce => 
+      truce.student1 === studentGsId || truce.student2 === studentGsId
+    );
+    
+    for (const truce of studentTruces) {
+      const trucePartnerGsId = truce.student1 === studentGsId ? truce.student2 : truce.student1;
+      const trucePartnerTiles = state.board.tiles.filter(t => t.owner_game_student_id === trucePartnerGsId);
+      
+      for (const truceTile of trucePartnerTiles) {
+        if (areTilesAdjacent(truceTile, targetTile)) {
+          return true;
+        }
+      }
+    }
+    
+    return false;
+  }
+  
+  // Helper function to get all attackable tiles for a student
+  function getAttackableTiles(studentGsId) {
+    const attackableTiles = [];
+    
+    for (const tile of state.board.tiles) {
+      if (canStudentAttackTile(studentGsId, tile)) {
+        attackableTiles.push(tile);
+      }
+    }
+    
+    return attackableTiles;
+  }
+
   // Make handleTileClick globally accessible
   window.handleTileClick = function(tileId) {
     console.log('handleTileClick called with tileId:', tileId, 'selectedGsId:', state.selectedGsId);
@@ -968,7 +1396,12 @@
     console.log('Handling tile click:', { tile, selectedStudent });
 
     if (!tile.owner_game_student_id) {
-      // Empty tile - buy it
+      // Empty tile - buy it (check adjacency)
+      if (!canStudentAttackTile(selectedStudent.gsId, tile)) {
+        alert(`Cannot claim this territory! You can only claim territories that are adjacent to your own territories or your truce partners' territories.`);
+        return;
+      }
+      
       const cost = calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h);
       if (selectedStudent.balance >= cost) {
         tile.owner_game_student_id = selectedStudent.gsId;
@@ -1034,7 +1467,12 @@
         }
       }
     } else {
-      // Enemy tile - attack
+      // Enemy tile - attack (check adjacency)
+      if (!canStudentAttackTile(selectedStudent.gsId, tile)) {
+        alert(`Cannot attack this territory! You can only attack territories that are adjacent to your own territories or your truce partners' territories.`);
+        return;
+      }
+      
       const defender = state.roster.find(r => r.gsId === tile.owner_game_student_id);
       if (defender) {
         // Check if students are in a truce
@@ -1093,6 +1531,7 @@
         if (e.target.classList.contains("plus")) return;
         state.selectedGsId = r.gsId;
         renderRoster();
+        updateGridDisplay(); // Update grid to show attackable territories
         contextEl.textContent = `Selected: ${r.name}. Click a tile to buy/upgrade/attack.`;
       };
       row.querySelectorAll(".plus").forEach(button => {
@@ -1303,11 +1742,7 @@
       return;
     }
 
-    if (!confirm('Are you sure you want to start a new game? This will reset ALL game progress including:\n\n• All territory ownership\n• All castle levels\n• All student balances\n• All truces\n• All game state\n\nThis action cannot be undone!')) {
-      return;
-    }
-
-    resetGameToDefaults();
+    showNewGameModal();
   };
 
   // === AUDIT (simple) ===
@@ -1985,6 +2420,9 @@
     syncTileCounts();
     updateVictoryTarget();
     
+    // Check for victory condition after battle
+    checkVictoryCondition();
+    
     currentBattle = null;
   }
 
@@ -2055,8 +2493,83 @@
 
   // Initialize team mode sections
 
+  // Check if we're coming from a roster page with a specific roster
+  function checkForRosterFromRosterPage() {
+    const currentRosterData = localStorage.getItem('currentRoster');
+    if (currentRosterData) {
+      try {
+        const roster = JSON.parse(currentRosterData);
+        console.log('Loading roster from roster page:', roster.name);
+        
+        // Load the roster
+        loadRoster(roster.id);
+        
+        // Clear the temporary storage
+        localStorage.removeItem('currentRoster');
+        
+        // Show scenario info if it exists
+        if (roster.scenario) {
+          showScenarioInfo(roster.scenario);
+        }
+        
+        return true;
+      } catch (error) {
+        console.error('Error loading roster from roster page:', error);
+        localStorage.removeItem('currentRoster');
+      }
+    }
+    return false;
+  }
+  
+  // Show scenario information
+  function showScenarioInfo(scenarioData) {
+    const scenarioInfo = document.createElement('div');
+    scenarioInfo.id = 'scenarioInfo';
+    scenarioInfo.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      z-index: 1000;
+      max-width: 300px;
+      font-size: 14px;
+    `;
+    
+    scenarioInfo.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h3 style="margin: 0; color: #ffd700;">${scenarioData.scenarioName}</h3>
+        <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer;">&times;</button>
+      </div>
+      <p style="margin: 0 0 10px 0; color: #ccc;">${scenarioData.scenarioType === 'historical' ? '🏛️ Historical War' : '📚 Literary Story'}</p>
+      <div style="margin-bottom: 10px;">
+        <strong style="color: #ffd700;">Factions:</strong>
+        ${Object.values(scenarioData.factions).map(faction => 
+          `<div style="margin: 5px 0; padding: 5px; background: ${faction.color}20; border-radius: 5px;">
+            <span style="color: ${faction.color}; font-weight: bold;">${faction.name}</span>
+          </div>`
+        ).join('')}
+      </div>
+      ${scenarioData.enableAI ? '<p style="margin: 0; color: #4ade80;">🤖 AI opponents enabled</p>' : ''}
+    `;
+    
+    document.body.appendChild(scenarioInfo);
+    
+    // Auto-hide after 10 seconds
+    setTimeout(() => {
+      if (scenarioInfo.parentElement) {
+        scenarioInfo.remove();
+      }
+    }, 10000);
+  }
+
   // initial load
-  loadRosters(true);
+  const loadedFromRosterPage = checkForRosterFromRosterPage();
+  if (!loadedFromRosterPage) {
+    loadRosters(true);
+  }
 
   // Listen for roster updates from student war game
   window.addEventListener('storage', function(e) {
@@ -2160,6 +2673,419 @@
       }
     }
   });
+
+  function showNewGameModal() {
+    const modal = document.createElement('div');
+    modal.id = 'newGameModal';
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    `;
+    
+    modal.innerHTML = `
+      <div style="
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      ">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h2 style="margin: 0; color: #1e293b; font-size: 1.5rem;">🎮 Start New Game</h2>
+          <button onclick="closeNewGameModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+        </div>
+        
+        <p style="margin-bottom: 1.5rem; color: #64748b;">
+          Choose the type of game you want to start with your current roster:
+        </p>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <button id="regularGameBtn" style="
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #6f5c91;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+          ">🎯 Regular Game</button>
+          
+          <p style="margin: 0 0 1rem 0; color: #64748b; font-size: 0.9rem;">
+            Standard Tornado War with your current roster. Students play as themselves with basic resources.
+          </p>
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <button id="scenarioGameBtn" style="
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+          ">📚 Historical/Literary Scenario</button>
+          
+          <p style="margin: 0 0 1rem 0; color: #64748b; font-size: 0.9rem;">
+            Choose from 22 historical wars and literary stories. Students get authentic roles with period-appropriate weapons and personalities.
+          </p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <button onclick="closeNewGameModal()" style="
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 1rem;
+          ">Cancel</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Add hover effects
+    const regularBtn = document.getElementById('regularGameBtn');
+    const scenarioBtn = document.getElementById('scenarioGameBtn');
+    
+    regularBtn.onmouseover = () => regularBtn.style.transform = 'translateY(-2px)';
+    regularBtn.onmouseout = () => regularBtn.style.transform = 'translateY(0)';
+    scenarioBtn.onmouseover = () => scenarioBtn.style.transform = 'translateY(-2px)';
+    scenarioBtn.onmouseout = () => scenarioBtn.style.transform = 'translateY(0)';
+    
+    // Add click handlers
+    regularBtn.onclick = () => {
+      closeNewGameModal();
+      startRegularGame();
+    };
+    
+    scenarioBtn.onclick = () => {
+      closeNewGameModal();
+      showScenarioSelectionModal();
+    };
+  }
+  
+  function closeNewGameModal() {
+    const modal = document.getElementById('newGameModal');
+    if (modal) {
+      modal.remove();
+    }
+  }
+  
+  function startRegularGame() {
+    if (!confirm('Are you sure you want to start a new regular game? This will reset ALL game progress including:\n\n• All territory ownership\n• All castle levels\n• All student balances\n• All truces\n• All game state\n\nThis action cannot be undone!')) {
+      return;
+    }
+    
+    // Clear any existing scenario data
+    state.scenario = null;
+    
+    // Hide AI and educational controls
+    const aiControls = document.getElementById('aiControls');
+    const educationalControls = document.getElementById('educationalControls');
+    if (aiControls) aiControls.style.display = 'none';
+    if (educationalControls) educationalControls.style.display = 'none';
+    
+    resetGameToDefaults();
+  }
+  
+  function showScenarioSelectionModal() {
+    const modal = document.createElement('div');
+    modal.id = 'scenarioSelectionModal';
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1001;
+    `;
+    
+    modal.innerHTML = `
+      <div style="
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 800px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      ">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h2 style="margin: 0; color: #1e293b; font-size: 1.5rem;">📚 Choose Scenario</h2>
+          <button onclick="closeScenarioSelectionModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+        </div>
+        
+        <p style="margin-bottom: 1.5rem; color: #64748b;">
+          Select a historical war or literary story for your game:
+        </p>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Scenario Type:</label>
+          <select id="scenarioTypeSelect" onchange="updateScenarioOptions()" style="
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+          ">
+            <option value="">Select scenario type...</option>
+            <option value="historical">🏛️ Historical Wars</option>
+            <option value="literary">📚 Literary Stories</option>
+          </select>
+        </div>
+        
+        <div id="scenarioOptions" style="display: none;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Choose Scenario:</label>
+          <select id="scenarioSelect" style="
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+          ">
+            <option value="">Select a scenario...</option>
+          </select>
+          
+          <div id="scenarioDetails" style="display: none;">
+            <div id="scenarioInfo" style="
+              background: #f8fafc;
+              border: 1px solid #e2e8f0;
+              border-radius: 8px;
+              padding: 1rem;
+              margin-bottom: 1rem;
+            ">
+              <h4 id="scenarioTitle" style="margin: 0 0 0.5rem 0; color: #1e293b;"></h4>
+              <p id="scenarioDescription" style="margin: 0 0 0.5rem 0; color: #64748b;"></p>
+              <div id="factionsPreview"></div>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <input type="checkbox" id="enableAI" style="margin-right: 0.5rem;">
+                <span style="font-weight: 600; color: #1e293b;">Enable AI opponents</span>
+              </label>
+            </div>
+            
+            <div id="aiOptions" style="display: none;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">AI Difficulty:</label>
+              <select id="aiDifficulty" style="
+                width: 100%;
+                padding: 0.75rem;
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                font-size: 1rem;
+                margin-bottom: 1rem;
+              ">
+                <option value="easy">Easy</option>
+                <option value="medium" selected>Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <button onclick="closeScenarioSelectionModal()" style="
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 1rem;
+          ">Cancel</button>
+          <button id="startScenarioGameBtn" onclick="startScenarioGame()" style="
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+          " disabled>Start Scenario Game</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Setup AI options toggle
+    document.getElementById('enableAI').onchange = function() {
+      const aiOptions = document.getElementById('aiOptions');
+      aiOptions.style.display = this.checked ? 'block' : 'none';
+    };
+  }
+  
+  function closeScenarioSelectionModal() {
+    const modal = document.getElementById('scenarioSelectionModal');
+    if (modal) {
+      modal.remove();
+    }
+  }
+  
+  function updateScenarioOptions() {
+    const scenarioType = document.getElementById('scenarioTypeSelect').value;
+    const scenarioOptions = document.getElementById('scenarioOptions');
+    const scenarioSelect = document.getElementById('scenarioSelect');
+    const scenarioDetails = document.getElementById('scenarioDetails');
+    const startBtn = document.getElementById('startScenarioGameBtn');
+    
+    if (!scenarioType) {
+      scenarioOptions.style.display = 'none';
+      return;
+    }
+    
+    scenarioOptions.style.display = 'block';
+    scenarioDetails.style.display = 'none';
+    startBtn.disabled = true;
+    
+    // Populate scenarios based on type
+    scenarioSelect.innerHTML = '<option value="">Select a scenario...</option>';
+    
+    if (scenarioType === 'historical') {
+      const historicalScenarios = [
+        { id: 'americanRevolution', name: 'American Revolutionary War' },
+        { id: 'civilWar', name: 'American Civil War' },
+        { id: 'warOf1812', name: 'War of 1812' },
+        { id: 'mexicanAmerican', name: 'Mexican-American War' },
+        { id: 'spanishAmerican', name: 'Spanish-American War' },
+        { id: 'crusades', name: 'The Crusades' },
+        { id: 'hundredYearsWar', name: 'Hundred Years\' War' },
+        { id: 'russianCivilWar', name: 'Russian Civil War' },
+        { id: 'spanishCivilWar', name: 'Spanish Civil War' }
+      ];
+      
+      historicalScenarios.forEach(scenario => {
+        scenarioSelect.innerHTML += `<option value="${scenario.id}">${scenario.name}</option>`;
+      });
+    } else if (scenarioType === 'literary') {
+      const literaryScenarios = [
+        { id: 'juliusCaesar', name: 'Julius Caesar' },
+        { id: 'animalFarm', name: 'Animal Farm' },
+        { id: 'nineteenEightyFour', name: '1984' },
+        { id: 'theIliad', name: 'The Iliad' },
+        { id: 'harryPotter', name: 'Harry Potter' },
+        { id: 'avengers', name: 'Avengers' },
+        { id: 'starWars', name: 'Star Wars' },
+        { id: 'dcVsMarvel', name: 'DC vs Marvel' },
+        { id: 'frozen', name: 'Frozen' },
+        { id: 'dune', name: 'Dune' },
+        { id: 'minions', name: 'Minions' },
+        { id: 'toyStory', name: 'Toy Story' },
+        { id: 'moana', name: 'Moana' }
+      ];
+      
+      literaryScenarios.forEach(scenario => {
+        scenarioSelect.innerHTML += `<option value="${scenario.id}">${scenario.name}</option>`;
+      });
+    }
+    
+    // Add change handler for scenario selection
+    scenarioSelect.onchange = function() {
+      const scenarioId = this.value;
+      if (scenarioId && typeof SCENARIOS !== 'undefined' && SCENARIOS[scenarioId]) {
+        const scenario = SCENARIOS[scenarioId];
+        
+        // Update scenario info
+        document.getElementById('scenarioTitle').textContent = scenario.name;
+        document.getElementById('scenarioDescription').textContent = scenario.description;
+        
+        // Update factions preview
+        const factionsPreview = document.getElementById('factionsPreview');
+        factionsPreview.innerHTML = '<strong>Factions:</strong><br>';
+        Object.values(scenario.factions).forEach(faction => {
+          factionsPreview.innerHTML += `<div style="margin: 5px 0; padding: 5px; background: ${faction.color}20; border-radius: 5px;">
+            <span style="color: ${faction.color}; font-weight: bold;">${faction.name}</span>
+          </div>`;
+        });
+        
+        scenarioDetails.style.display = 'block';
+        startBtn.disabled = false;
+      } else {
+        scenarioDetails.style.display = 'none';
+        startBtn.disabled = true;
+      }
+    };
+  }
+  
+  function startScenarioGame() {
+    const scenarioId = document.getElementById('scenarioSelect').value;
+    const enableAI = document.getElementById('enableAI').checked;
+    const aiDifficulty = document.getElementById('aiDifficulty').value;
+    
+    if (!scenarioId) {
+      alert('Please select a scenario.');
+      return;
+    }
+    
+    if (!confirm('Are you sure you want to start a new scenario game? This will reset ALL game progress including:\n\n• All territory ownership\n• All castle levels\n• All student balances\n• All truces\n• All game state\n\nThis action cannot be undone!')) {
+      return;
+    }
+    
+    // Get scenario data
+    const scenario = SCENARIOS[scenarioId];
+    if (!scenario) {
+      alert('Scenario not found!');
+      return;
+    }
+    
+    // Create scenario data for the roster
+    const scenarioData = {
+      scenarioId: scenario.id,
+      scenarioName: scenario.name,
+      scenarioType: scenario.type,
+      factions: scenario.factions,
+      neutralTerritories: scenario.neutralTerritories,
+      randomAssignment: true, // Default to random assignment
+      enableAI: enableAI,
+      aiDifficulty: aiDifficulty
+    };
+    
+    // Update current roster with scenario data
+    state.currentRoster.scenario = scenarioData;
+    
+    // Initialize scenario
+    initializeScenario(scenarioData);
+    
+    // Close modal
+    closeScenarioSelectionModal();
+    
+    // Reset game with scenario
+    resetGameToDefaults();
+    
+    // Show scenario info
+    showScenarioInfo(scenarioData);
+  }
 
   function showTeacherTruceModal() {
     const selectedStudent = state.roster.find(s => s.gsId === state.selectedGsId);
@@ -2482,6 +3408,921 @@
     document.querySelector('div[style*="position: fixed"]').remove();
     showTeacherTruceModal();
   }
+
+  // === AI SIMULATION SYSTEM ===
+  
+  // AI Character class
+  class AICharacter {
+    constructor(characterData, factionId, scenarioData) {
+      this.id = characterData.id || `ai_${Math.random().toString(36).substr(2, 9)}`;
+      this.name = characterData.name;
+      this.role = characterData.role;
+      this.personality = characterData.personality;
+      this.quotes = characterData.quotes || [];
+      this.factionId = factionId;
+      this.scenarioData = scenarioData;
+      this.currentQuoteIndex = 0;
+      this.lastMoveTime = 0;
+      this.moveCooldown = 2000; // 2 seconds between moves
+    }
+
+    // Get a quote based on situation
+    getQuote(situation = 'general') {
+      if (this.quotes.length === 0) return `${this.name} acts!`;
+      
+      // Rotate through quotes
+      const quote = this.quotes[this.currentQuoteIndex];
+      this.currentQuoteIndex = (this.currentQuoteIndex + 1) % this.quotes.length;
+      return quote;
+    }
+
+    // Check if AI can make a move (cooldown)
+    canMove() {
+      return Date.now() - this.lastMoveTime > this.moveCooldown;
+    }
+
+    // Record move time
+    recordMove() {
+      this.lastMoveTime = Date.now();
+    }
+
+    // AI decision making based on personality
+    makeDecision(gameState, availableActions) {
+      const personality = this.personality.toLowerCase();
+      let decision = null;
+
+      // Personality-based decision making
+      switch (personality) {
+        case 'aggressive':
+        case 'military':
+        case 'offensive':
+          decision = this.makeAggressiveDecision(availableActions);
+          break;
+        case 'defensive':
+        case 'strategic':
+          decision = this.makeDefensiveDecision(availableActions);
+          break;
+        case 'economic':
+        case 'diplomatic':
+          decision = this.makeEconomicDecision(availableActions);
+          break;
+        case 'brave':
+        case 'heroic':
+          decision = this.makeBraveDecision(availableActions);
+          break;
+        case 'cunning':
+        case 'clever':
+          decision = this.makeCunningDecision(availableActions);
+          break;
+        case 'wise':
+        case 'intellectual':
+          decision = this.makeWiseDecision(availableActions);
+          break;
+        default:
+          decision = this.makeRandomDecision(availableActions);
+      }
+
+      return decision;
+    }
+
+    makeAggressiveDecision(actions) {
+      // Prefer attacking and expanding
+      const attackActions = actions.filter(a => a.type === 'attack');
+      const expandActions = actions.filter(a => a.type === 'claim');
+      
+      if (attackActions.length > 0) {
+        return attackActions[Math.floor(Math.random() * attackActions.length)];
+      }
+      if (expandActions.length > 0) {
+        return expandActions[Math.floor(Math.random() * expandActions.length)];
+      }
+      return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    makeDefensiveDecision(actions) {
+      // Prefer building castles and defending
+      const buildActions = actions.filter(a => a.type === 'build');
+      const defendActions = actions.filter(a => a.type === 'defend');
+      
+      if (buildActions.length > 0) {
+        return buildActions[Math.floor(Math.random() * buildActions.length)];
+      }
+      if (defendActions.length > 0) {
+        return defendActions[Math.floor(Math.random() * defendActions.length)];
+      }
+      return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    makeEconomicDecision(actions) {
+      // Prefer economic actions
+      const economicActions = actions.filter(a => 
+        a.type === 'trade' || a.type === 'collect' || a.type === 'upgrade'
+      );
+      
+      if (economicActions.length > 0) {
+        return economicActions[Math.floor(Math.random() * economicActions.length)];
+      }
+      return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    makeBraveDecision(actions) {
+      // Prefer heroic actions
+      const heroicActions = actions.filter(a => 
+        a.type === 'attack' || a.type === 'rescue' || a.type === 'challenge'
+      );
+      
+      if (heroicActions.length > 0) {
+        return heroicActions[Math.floor(Math.random() * heroicActions.length)];
+      }
+      return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    makeCunningDecision(actions) {
+      // Prefer sneaky or strategic actions
+      const cunningActions = actions.filter(a => 
+        a.type === 'spy' || a.type === 'trick' || a.type === 'ambush'
+      );
+      
+      if (cunningActions.length > 0) {
+        return cunningActions[Math.floor(Math.random() * cunningActions.length)];
+      }
+      return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    makeWiseDecision(actions) {
+      // Prefer thoughtful actions
+      const wiseActions = actions.filter(a => 
+        a.type === 'plan' || a.type === 'advise' || a.type === 'negotiate'
+      );
+      
+      if (wiseActions.length > 0) {
+        return wiseActions[Math.floor(Math.random() * wiseActions.length)];
+      }
+      return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    makeRandomDecision(actions) {
+      return actions[Math.floor(Math.random() * actions.length)];
+    }
+  }
+
+  // AI Simulation Manager
+  class AISimulationManager {
+    constructor() {
+      this.aiCharacters = new Map();
+      this.isSimulating = false;
+      this.simulationQueue = [];
+      this.currentSimulationIndex = 0;
+    }
+
+    // Initialize AI characters from scenario data
+    initializeAI(scenarioData, rosterData) {
+      this.aiCharacters.clear();
+      
+      if (!scenarioData || !scenarioData.factions) return;
+
+      // Create AI characters for each faction
+      Object.entries(scenarioData.factions).forEach(([factionId, faction]) => {
+        if (faction.characters) {
+          faction.characters.forEach(charData => {
+            const aiChar = new AICharacter(charData, factionId, scenarioData);
+            this.aiCharacters.set(aiChar.id, aiChar);
+          });
+        }
+      });
+    }
+
+    // Get available actions for AI character
+    getAvailableActions(aiCharacter, gameState) {
+      const actions = [];
+      
+      // Get character's territories
+      const characterTiles = state.board.tiles.filter(tile => 
+        tile.owner_game_student_id === aiCharacter.id
+      );
+
+      // Claim unowned territories
+      const unownedTiles = state.board.tiles.filter(tile => 
+        !tile.owner_game_student_id && 
+        this.canCharacterAttackTile(aiCharacter, tile, characterTiles)
+      );
+
+      unownedTiles.forEach(tile => {
+        actions.push({
+          type: 'claim',
+          tileId: tile.id,
+          cost: tile.cost || 10,
+          description: `Claim ${tile.name || 'territory'}`
+        });
+      });
+
+      // Attack enemy territories
+      const enemyTiles = state.board.tiles.filter(tile => 
+        tile.owner_game_student_id && 
+        tile.owner_game_student_id !== aiCharacter.id &&
+        this.canCharacterAttackTile(aiCharacter, tile, characterTiles)
+      );
+
+      enemyTiles.forEach(tile => {
+        actions.push({
+          type: 'attack',
+          tileId: tile.id,
+          cost: tile.cost || 10,
+          description: `Attack ${tile.name || 'territory'}`
+        });
+      });
+
+      // Build castles on owned territories
+      characterTiles.forEach(tile => {
+        if (!tile.castleLevel || tile.castleLevel < 3) {
+          const cost = tile.castleLevel === 0 ? 50 : tile.castleLevel === 1 ? 100 : 200;
+          actions.push({
+            type: 'build',
+            tileId: tile.id,
+            cost: cost,
+            description: `Build castle on ${tile.name || 'territory'}`
+          });
+        }
+      });
+
+      return actions;
+    }
+
+    // Check if character can attack a tile (adjacency)
+    canCharacterAttackTile(aiCharacter, targetTile, characterTiles) {
+      if (characterTiles.length === 0) return true; // Initial placement
+
+      for (const characterTile of characterTiles) {
+        if (this.areTilesAdjacent(characterTile, targetTile)) {
+          return true;
+        }
+      }
+
+      // Check truce territories
+      const characterTruces = state.truces.filter(truce =>
+        truce.student1 === aiCharacter.id || truce.student2 === aiCharacter.id
+      );
+
+      for (const truce of characterTruces) {
+        const trucePartnerId = truce.student1 === aiCharacter.id ? truce.student2 : truce.student1;
+        const trucePartnerTiles = state.board.tiles.filter(t => t.owner_game_student_id === trucePartnerId);
+
+        for (const truceTile of trucePartnerTiles) {
+          if (this.areTilesAdjacent(truceTile, targetTile)) {
+            return true;
+          }
+        }
+      }
+
+      return false;
+    }
+
+    // Check if two tiles are adjacent
+    areTilesAdjacent(tile1, tile2) {
+      const dx = Math.abs(tile1.x - tile2.x);
+      const dy = Math.abs(tile1.y - tile2.y);
+      return (dx <= 1 && dy <= 1) && !(dx === 0 && dy === 0);
+    }
+
+    // Execute AI move
+    async executeAIMove(aiCharacter, action) {
+      try {
+        // Show AI move notification
+        this.showAIMoveNotification(aiCharacter, action);
+
+        // Execute the action
+        switch (action.type) {
+          case 'claim':
+            await this.executeClaimAction(aiCharacter, action);
+            break;
+          case 'attack':
+            await this.executeAttackAction(aiCharacter, action);
+            break;
+          case 'build':
+            await this.executeBuildAction(aiCharacter, action);
+            break;
+        }
+
+        // Record move time
+        aiCharacter.recordMove();
+
+        // Update display
+        updateGridDisplay();
+        renderRoster();
+
+      } catch (error) {
+        console.error('AI move execution error:', error);
+      }
+    }
+
+    // Execute claim action
+    async executeClaimAction(aiCharacter, action) {
+      const tile = state.board.tiles.find(t => t.id === action.tileId);
+      if (!tile) return;
+
+      // Simulate claiming the tile
+      tile.owner_game_student_id = aiCharacter.id;
+      
+      // Update roster if character exists
+      const rosterEntry = state.roster.find(r => r.gsId === aiCharacter.id);
+      if (rosterEntry) {
+        rosterEntry.points = (rosterEntry.points || 0) - action.cost;
+      }
+    }
+
+    // Execute attack action
+    async executeAttackAction(aiCharacter, action) {
+      const tile = state.board.tiles.find(t => t.id === action.tileId);
+      if (!tile) return;
+
+      // Simulate battle
+      const attacker = state.roster.find(r => r.gsId === aiCharacter.id);
+      const defender = state.roster.find(r => r.gsId === tile.owner_game_student_id);
+      
+      if (!attacker || !defender) return;
+
+      // Simple battle simulation
+      const attackerPower = (attacker.points || 0) + (tile.castleLevel || 0) * 20;
+      const defenderPower = (defender.points || 0) + (tile.castleLevel || 0) * 20;
+      
+      const randomFactor = Math.random() * 0.4 + 0.8; // 0.8 to 1.2
+      const finalAttackerPower = attackerPower * randomFactor;
+
+      if (finalAttackerPower > defenderPower) {
+        // Attacker wins
+        tile.owner_game_student_id = aiCharacter.id;
+        tile.castleLevel = Math.max(0, (tile.castleLevel || 0) - 1);
+        
+        // Update points
+        attacker.points = (attacker.points || 0) - action.cost;
+        defender.points = Math.max(0, (defender.points || 0) - action.cost);
+      } else {
+        // Defender wins
+        attacker.points = Math.max(0, (attacker.points || 0) - action.cost);
+      }
+    }
+
+    // Execute build action
+    async executeBuildAction(aiCharacter, action) {
+      const tile = state.board.tiles.find(t => t.id === action.tileId);
+      if (!tile) return;
+
+      const rosterEntry = state.roster.find(r => r.gsId === aiCharacter.id);
+      if (!rosterEntry) return;
+
+      if ((rosterEntry.points || 0) >= action.cost) {
+        tile.castleLevel = (tile.castleLevel || 0) + 1;
+        rosterEntry.points = (rosterEntry.points || 0) - action.cost;
+      }
+    }
+
+    // Show AI move notification
+    showAIMoveNotification(aiCharacter, action) {
+      const quote = aiCharacter.getQuote();
+      
+      // Create notification element
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px;
+        max-width: 300px;
+        z-index: 1000;
+        animation: slideIn 0.3s ease-out;
+      `;
+
+      notification.innerHTML = `
+        <div style="font-weight: bold; color: var(--accent); margin-bottom: 4px;">
+          ${aiCharacter.name} (${aiCharacter.role})
+        </div>
+        <div style="font-size: 14px; margin-bottom: 4px;">
+          ${action.description}
+        </div>
+        <div style="font-style: italic; color: var(--muted); font-size: 12px;">
+          "${quote}"
+        </div>
+      `;
+
+      // Add CSS animation
+      if (!document.getElementById('aiNotificationStyle')) {
+        const style = document.createElement('style');
+        style.id = 'aiNotificationStyle';
+        style.textContent = `
+          @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+
+      document.body.appendChild(notification);
+
+      // Remove notification after 3 seconds
+      setTimeout(() => {
+        notification.style.animation = 'slideIn 0.3s ease-out reverse';
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 300);
+      }, 3000);
+    }
+
+    // Simulate all AI moves
+    async simulateAllAI() {
+      if (this.isSimulating) return;
+
+      this.isSimulating = true;
+      this.simulationQueue = Array.from(this.aiCharacters.values());
+      this.currentSimulationIndex = 0;
+
+      // Show simulation status
+      this.showSimulationStatus();
+
+      // Process each AI character
+      for (let i = 0; i < this.simulationQueue.length; i++) {
+        const aiCharacter = this.simulationQueue[i];
+        
+        if (aiCharacter.canMove()) {
+          const availableActions = this.getAvailableActions(aiCharacter, state);
+          
+          if (availableActions.length > 0) {
+            const decision = aiCharacter.makeDecision(state, availableActions);
+            await this.executeAIMove(aiCharacter, decision);
+            
+            // Small delay between moves for better UX
+            await new Promise(resolve => setTimeout(resolve, 500));
+          }
+        }
+      }
+
+      this.isSimulating = false;
+      this.hideSimulationStatus();
+    }
+
+    // Simulate single AI move
+    async simulateSingleAI(aiCharacterId) {
+      const aiCharacter = this.aiCharacters.get(aiCharacterId);
+      if (!aiCharacter || !aiCharacter.canMove()) return;
+
+      const availableActions = this.getAvailableActions(aiCharacter, state);
+      
+      if (availableActions.length > 0) {
+        const decision = aiCharacter.makeDecision(state, availableActions);
+        await this.executeAIMove(aiCharacter, decision);
+      }
+    }
+
+    // Show simulation status
+    showSimulationStatus() {
+      const status = document.createElement('div');
+      status.id = 'aiSimulationStatus';
+      status.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--panel);
+        border: 2px solid var(--accent);
+        border-radius: 10px;
+        padding: 20px;
+        z-index: 1001;
+        text-align: center;
+      `;
+
+      status.innerHTML = `
+        <div style="color: var(--accent); font-weight: bold; margin-bottom: 10px;">
+          AI Simulation in Progress
+        </div>
+        <div style="color: var(--text);">
+          Processing AI moves...
+        </div>
+      `;
+
+      document.body.appendChild(status);
+    }
+
+    // Hide simulation status
+    hideSimulationStatus() {
+      const status = document.getElementById('aiSimulationStatus');
+      if (status) {
+        status.remove();
+      }
+    }
+  }
+
+  // Global AI manager instance
+  const aiManager = new AISimulationManager();
+
+  // AI Control Functions
+  window.simulateAllAI = function() {
+    aiManager.simulateAllAI();
+  };
+
+  window.simulateSingleAI = function(characterId) {
+    aiManager.simulateSingleAI(characterId);
+  };
+
+  window.showIndividualAIControls = function() {
+    const controls = document.getElementById('individualAIControls');
+    const list = document.getElementById('aiCharacterList');
+    
+    if (controls.style.display === 'none') {
+      controls.style.display = 'block';
+      populateAICharacterList();
+    } else {
+      controls.style.display = 'none';
+    }
+  };
+
+  function populateAICharacterList() {
+    const list = document.getElementById('aiCharacterList');
+    list.innerHTML = '';
+
+    aiManager.aiCharacters.forEach((aiChar, charId) => {
+      const button = document.createElement('button');
+      button.className = 'pill';
+      button.style.cssText = 'background: #10b981; font-size: 11px; margin: 2px; padding: 4px 8px;';
+      button.textContent = `${aiChar.name} (${aiChar.personality})`;
+      button.onclick = () => simulateSingleAI(charId);
+      button.title = `Click to simulate ${aiChar.name}'s move`;
+      list.appendChild(button);
+    });
+
+    if (aiManager.aiCharacters.size === 0) {
+      list.innerHTML = '<div style="color: var(--muted); font-size: 12px; padding: 8px;">No AI characters available</div>';
+    }
+  }
+
+  function showAIControls() {
+    const aiControls = document.getElementById('aiControls');
+    if (aiManager.aiCharacters.size > 0) {
+      aiControls.style.display = 'block';
+    } else {
+      aiControls.style.display = 'none';
+    }
+  }
+
+  function showEducationalControls() {
+    const educationalControls = document.getElementById('educationalControls');
+    if (state.currentScenario && state.currentScenario.scenarioData) {
+      educationalControls.style.display = 'block';
+    } else {
+      educationalControls.style.display = 'none';
+    }
+  }
+
+  window.showEducationalHelp = function() {
+    const helpContent = {
+      title: 'Educational Features Help',
+      description: 'Tornado War includes educational content to enhance learning:',
+      context: '• Click "Random Fact" to learn historical information\n• Character profiles show historical context\n• Territory information explains strategic importance\n• AI characters use authentic quotes and personalities\n• All content is age-appropriate for classroom use'
+    };
+    
+    educationalManager.showEducationalPopup('help', helpContent);
+  };
+
+  // Initialize AI when scenario is loaded
+  function initializeAIForScenario() {
+    if (state.currentScenario && state.currentScenario.scenarioData) {
+      aiManager.initializeAI(state.currentScenario.scenarioData, state.currentRoster);
+      showAIControls();
+      showEducationalControls();
+    } else {
+      // Hide AI and educational controls if no scenario
+      const aiControls = document.getElementById('aiControls');
+      const educationalControls = document.getElementById('educationalControls');
+      if (aiControls) aiControls.style.display = 'none';
+      if (educationalControls) educationalControls.style.display = 'none';
+    }
+  }
+
+  // Add AI initialization to existing functions
+  const originalLoadRoster = loadRoster;
+  loadRoster = function(rosterId) {
+    originalLoadRoster(rosterId);
+    // Initialize AI after roster is loaded
+    setTimeout(initializeAIForScenario, 100);
+  };
+
+  // === EDUCATIONAL CONTENT SYSTEM ===
+  
+  // Educational Content Manager
+  class EducationalContentManager {
+    constructor() {
+      this.historicalFacts = new Map();
+      this.characterProfiles = new Map();
+      this.territoryInfo = new Map();
+      this.currentScenario = null;
+    }
+
+    // Initialize educational content for scenario
+    initializeEducationalContent(scenarioData) {
+      this.currentScenario = scenarioData;
+      this.historicalFacts.clear();
+      this.characterProfiles.clear();
+      this.territoryInfo.clear();
+
+      if (!scenarioData) return;
+
+      // Load historical facts
+      this.loadHistoricalFacts(scenarioData);
+      
+      // Load character profiles
+      this.loadCharacterProfiles(scenarioData);
+      
+      // Load territory information
+      this.loadTerritoryInfo(scenarioData);
+    }
+
+    // Load historical facts for the scenario
+    loadHistoricalFacts(scenarioData) {
+      const facts = this.getScenarioHistoricalFacts(scenarioData.id);
+      facts.forEach(fact => {
+        this.historicalFacts.set(fact.id, fact);
+      });
+    }
+
+    // Load character profiles
+    loadCharacterProfiles(scenarioData) {
+      if (!scenarioData.factions) return;
+
+      Object.values(scenarioData.factions).forEach(faction => {
+        if (faction.characters) {
+          faction.characters.forEach(character => {
+            this.characterProfiles.set(character.name, {
+              name: character.name,
+              role: character.role,
+              description: character.description,
+              faction: faction.name,
+              historicalContext: this.getCharacterHistoricalContext(character.name, scenarioData.id)
+            });
+          });
+        }
+      });
+    }
+
+    // Load territory information
+    loadTerritoryInfo(scenarioData) {
+      if (!scenarioData.factions) return;
+
+      Object.values(scenarioData.factions).forEach(faction => {
+        if (faction.territories) {
+          faction.territories.forEach(territory => {
+            this.territoryInfo.set(territory.name, {
+              name: territory.name,
+              description: territory.description,
+              cost: territory.cost,
+              historicalContext: this.getTerritoryHistoricalContext(territory.name, scenarioData.id)
+            });
+          });
+        }
+      });
+
+      // Add neutral territories
+      if (scenarioData.neutralTerritories) {
+        scenarioData.neutralTerritories.forEach(territory => {
+          this.territoryInfo.set(territory.name, {
+            name: territory.name,
+            description: territory.description,
+            cost: territory.cost,
+            historicalContext: this.getTerritoryHistoricalContext(territory.name, scenarioData.id)
+          });
+        });
+      }
+    }
+
+    // Get historical facts for specific scenario
+    getScenarioHistoricalFacts(scenarioId) {
+      const facts = {
+        americanRevolution: [
+          {
+            id: 'declaration',
+            title: 'Declaration of Independence',
+            fact: 'The Declaration of Independence was signed on July 4, 1776, declaring the 13 American colonies independent from British rule.',
+            context: 'This document marked the formal beginning of the American Revolutionary War.'
+          },
+          {
+            id: 'boston_tea_party',
+            title: 'Boston Tea Party',
+            fact: 'On December 16, 1773, colonists dumped 342 chests of British tea into Boston Harbor to protest taxation without representation.',
+            context: 'This event escalated tensions between the colonies and Britain.'
+          },
+          {
+            id: 'valley_forge',
+            title: 'Valley Forge',
+            fact: 'During the winter of 1777-1778, Washington\'s army endured harsh conditions at Valley Forge, emerging stronger and more disciplined.',
+            context: 'This period was crucial for training and preparing the Continental Army.'
+          }
+        ],
+        civilWar: [
+          {
+            id: 'emancipation',
+            title: 'Emancipation Proclamation',
+            fact: 'On January 1, 1863, Lincoln issued the Emancipation Proclamation, declaring all slaves in Confederate states free.',
+            context: 'This transformed the war from a conflict over secession to a fight for freedom.'
+          },
+          {
+            id: 'gettysburg',
+            title: 'Battle of Gettysburg',
+            fact: 'The Battle of Gettysburg (July 1-3, 1863) was the bloodiest battle of the Civil War, with over 50,000 casualties.',
+            context: 'This Union victory marked a turning point in the war.'
+          },
+          {
+            id: 'underground_railroad',
+            title: 'Underground Railroad',
+            fact: 'The Underground Railroad was a network of secret routes and safe houses used by enslaved people to escape to freedom.',
+            context: 'This network helped thousands of people reach freedom in the North.'
+          }
+        ],
+        harryPotter: [
+          {
+            id: 'horcruxes',
+            title: 'Horcruxes',
+            fact: 'Horcruxes are objects in which a wizard has hidden a fragment of their soul to achieve immortality.',
+            context: 'Voldemort created seven horcruxes to make himself nearly immortal.'
+          },
+          {
+            id: 'deathly_hallows',
+            title: 'Deathly Hallows',
+            fact: 'The Deathly Hallows are three magical objects: the Elder Wand, the Resurrection Stone, and the Invisibility Cloak.',
+            context: 'According to legend, possessing all three makes one the Master of Death.'
+          },
+          {
+            id: 'house_system',
+            title: 'Hogwarts Houses',
+            fact: 'Hogwarts students are sorted into four houses: Gryffindor (bravery), Hufflepuff (loyalty), Ravenclaw (wisdom), and Slytherin (ambition).',
+            context: 'Each house has its own values and characteristics.'
+          }
+        ]
+      };
+
+      return facts[scenarioId] || [];
+    }
+
+    // Get character historical context
+    getCharacterHistoricalContext(characterName, scenarioId) {
+      const contexts = {
+        americanRevolution: {
+          'George Washington': 'First President of the United States and Commander-in-Chief of the Continental Army during the Revolutionary War.',
+          'Thomas Jefferson': 'Primary author of the Declaration of Independence and third President of the United States.',
+          'Benjamin Franklin': 'Founding Father, inventor, and diplomat who helped secure French support for the American cause.'
+        },
+        civilWar: {
+          'Abraham Lincoln': '16th President who led the Union during the Civil War and issued the Emancipation Proclamation.',
+          'Robert E. Lee': 'Confederate general who commanded the Army of Northern Virginia.',
+          'Ulysses S. Grant': 'Union general who later became the 18th President of the United States.'
+        },
+        harryPotter: {
+          'Harry Potter': 'The Boy Who Lived, destined to defeat Voldemort and save the wizarding world.',
+          'Hermione Granger': 'Brilliant witch known for her intelligence and loyalty to her friends.',
+          'Ron Weasley': 'Harry\'s best friend, known for his bravery and loyalty despite his insecurities.'
+        }
+      };
+
+      return contexts[scenarioId]?.[characterName] || 'Historical character from this period.';
+    }
+
+    // Get territory historical context
+    getTerritoryHistoricalContext(territoryName, scenarioId) {
+      const contexts = {
+        americanRevolution: {
+          'Boston': 'Site of the Boston Tea Party and early revolutionary activity.',
+          'Philadelphia': 'Where the Declaration of Independence was signed and the Continental Congress met.',
+          'Yorktown': 'Where the final major battle of the Revolutionary War took place.'
+        },
+        civilWar: {
+          'Gettysburg': 'Site of the bloodiest battle of the Civil War.',
+          'Antietam': 'Site of the bloodiest single-day battle in American history.',
+          'Vicksburg': 'Strategic Confederate stronghold on the Mississippi River.'
+        },
+        harryPotter: {
+          'Hogwarts': 'School of Witchcraft and Wizardry, the main setting of the Harry Potter series.',
+          'Diagon Alley': 'Magical shopping district hidden in London.',
+          'Hogsmeade': 'The only all-wizarding village in Britain.'
+        }
+      };
+
+      return contexts[scenarioId]?.[territoryName] || 'Important location in this historical period.';
+    }
+
+    // Show educational popup
+    showEducationalPopup(type, content) {
+      const popup = document.createElement('div');
+      popup.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--panel);
+        border: 2px solid var(--accent);
+        border-radius: 12px;
+        padding: 20px;
+        max-width: 500px;
+        max-height: 80vh;
+        overflow-y: auto;
+        z-index: 1002;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      `;
+
+      popup.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+          <h3 style="margin: 0; color: var(--accent);">${content.title}</h3>
+          <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer;">&times;</button>
+        </div>
+        <div style="color: var(--text); line-height: 1.6;">
+          <p style="margin: 0 0 15px 0; font-size: 16px;">${content.fact || content.description}</p>
+          ${content.context ? `<p style="margin: 0; font-size: 14px; color: var(--muted); font-style: italic;">${content.context}</p>` : ''}
+        </div>
+        <div style="margin-top: 15px; text-align: center;">
+          <button onclick="this.parentElement.parentElement.remove()" style="background: var(--accent); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Close</button>
+        </div>
+      `;
+
+      document.body.appendChild(popup);
+
+      // Auto-close after 10 seconds
+      setTimeout(() => {
+        if (popup.parentNode) {
+          popup.remove();
+        }
+      }, 10000);
+    }
+
+    // Show random historical fact
+    showRandomHistoricalFact() {
+      if (this.historicalFacts.size === 0) return;
+
+      const facts = Array.from(this.historicalFacts.values());
+      const randomFact = facts[Math.floor(Math.random() * facts.length)];
+      this.showEducationalPopup('fact', randomFact);
+    }
+
+    // Show character profile
+    showCharacterProfile(characterName) {
+      const profile = this.characterProfiles.get(characterName);
+      if (!profile) return;
+
+      this.showEducationalPopup('character', {
+        title: `${profile.name} (${profile.role})`,
+        description: profile.description,
+        context: profile.historicalContext
+      });
+    }
+
+    // Show territory information
+    showTerritoryInfo(territoryName) {
+      const info = this.territoryInfo.get(territoryName);
+      if (!info) return;
+
+      this.showEducationalPopup('territory', {
+        title: territoryName,
+        description: info.description,
+        context: info.historicalContext
+      });
+    }
+  }
+
+  // Global educational content manager
+  const educationalManager = new EducationalContentManager();
+
+  // Educational control functions
+  window.showRandomHistoricalFact = function() {
+    educationalManager.showRandomHistoricalFact();
+  };
+
+  window.showCharacterProfile = function(characterName) {
+    educationalManager.showCharacterProfile(characterName);
+  };
+
+  window.showTerritoryInfo = function(territoryName) {
+    educationalManager.showTerritoryInfo(territoryName);
+  };
+
+  // Initialize educational content when scenario is loaded
+  function initializeEducationalContent() {
+    if (state.currentScenario && state.currentScenario.scenarioData) {
+      educationalManager.initializeEducationalContent(state.currentScenario.scenarioData);
+    }
+  }
+
+  // Add educational content initialization
+  const originalLoadRosterWithEducation = loadRoster;
+  loadRoster = function(rosterId) {
+    originalLoadRosterWithEducation(rosterId);
+    // Initialize AI and educational content after roster is loaded
+    setTimeout(() => {
+      initializeAIForScenario();
+      initializeEducationalContent();
+    }, 100);
+  };
+
 </script>
+<script src="scenarios.js"></script>
 </body>
 </html>

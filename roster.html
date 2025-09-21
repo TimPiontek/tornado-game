@@ -638,6 +638,145 @@
             </div>
             
             <div class="form-group">
+                <label for="gameMode">Game Mode</label>
+                <select id="gameMode" onchange="toggleScenarioOptions()">
+                    <option value="regular">Regular Game</option>
+                    <option value="historical">Historical War</option>
+                    <option value="literary">Literary Story</option>
+                    <option value="custom">Custom Scenario</option>
+                </select>
+            </div>
+            
+            <div id="scenarioOptions" style="display: none;">
+                <div class="form-group">
+                    <label for="scenarioSelect">Choose Scenario</label>
+                    <select id="scenarioSelect" onchange="loadScenarioDetails()">
+                        <option value="">Select a scenario...</option>
+                        <optgroup label="Historical Wars">
+                            <option value="americanRevolution">American Revolutionary War</option>
+                            <option value="civilWar">American Civil War</option>
+                            <option value="warOf1812">War of 1812</option>
+                            <option value="mexicanAmerican">Mexican-American War</option>
+                            <option value="spanishAmerican">Spanish-American War</option>
+                            <option value="crusades">The Crusades</option>
+                            <option value="hundredYearsWar">Hundred Years' War</option>
+                            <option value="russianCivilWar">Russian Civil War</option>
+                            <option value="spanishCivilWar">Spanish Civil War</option>
+                        </optgroup>
+                        <optgroup label="Literary Stories">
+                            <option value="juliusCaesar">Julius Caesar</option>
+                            <option value="animalFarm">Animal Farm</option>
+                            <option value="nineteenEightyFour">1984</option>
+                            <option value="theIliad">The Iliad</option>
+                            <option value="harryPotter">Harry Potter</option>
+                            <option value="avengers">Avengers</option>
+                            <option value="starWars">Star Wars</option>
+                            <option value="dcVsMarvel">DC vs Marvel</option>
+                            <option value="frozen">Frozen</option>
+                            <option value="dune">Dune</option>
+                            <option value="minions">Minions</option>
+                            <option value="toyStory">Toy Story</option>
+                            <option value="moana">Moana</option>
+                        </optgroup>
+                        <optgroup label="Custom Scenarios">
+                            <option value="custom">Create Custom Scenario</option>
+                        </optgroup>
+                    </select>
+                </div>
+                
+                <div id="scenarioDetails" style="display: none;">
+                    <div class="scenario-info">
+                        <h3 id="scenarioTitle"></h3>
+                        <p id="scenarioDescription"></p>
+                        <div class="factions-preview">
+                            <h4>Factions:</h4>
+                            <div id="factionsList"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="randomAssignment"> Randomly assign students to factions
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="enableAI"> Enable AI opponents
+                        </label>
+                    </div>
+                    
+                    <div id="aiOptions" style="display: none;">
+                        <div class="form-group">
+                            <label for="aiDifficulty">AI Difficulty</label>
+                            <select id="aiDifficulty">
+                                <option value="easy">Easy</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                    </div>
+                </div>
+
+                <!-- Custom Scenario Creation Interface -->
+                <div id="customScenarioCreator" style="display: none;">
+                    <div class="scenario-info">
+                        <h3>Create Custom Scenario</h3>
+                        <p>Design your own historical or literary scenario with custom factions, characters, and territories.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customScenarioName">Scenario Name</label>
+                        <input type="text" id="customScenarioName" placeholder="e.g., My Custom War">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customScenarioType">Scenario Type</label>
+                        <select id="customScenarioType">
+                            <option value="historical">Historical War</option>
+                            <option value="literary">Literary Story</option>
+                            <option value="custom">Custom Theme</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customScenarioDescription">Description</label>
+                        <textarea id="customScenarioDescription" placeholder="Describe your scenario..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Number of Factions</label>
+                        <select id="customFactionCount" onchange="updateCustomFactions()">
+                            <option value="2">2 Factions</option>
+                            <option value="3">3 Factions</option>
+                            <option value="4">4 Factions</option>
+                        </select>
+                    </div>
+
+                    <div id="customFactions">
+                        <!-- Factions will be generated dynamically -->
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="customRandomAssignment"> Randomly assign students to factions
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="customEnableAI"> Enable AI opponents
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <button onclick="saveCustomScenario()" style="background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Save Custom Scenario</button>
+                        <button onclick="loadCustomScenarioTemplate()" style="background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin-left: 10px;">Load Template</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+            <div class="form-group">
                 <label for="newStudentName">Add Student</label>
                 <input type="text" id="newStudentName" placeholder="Enter student name">
                 <button class="btn" onclick="addStudentToNew()">Add Student</button>
@@ -698,7 +837,7 @@
     <div id="editPointsModal" class="modal-overlay" style="display: none;">
         <div class="modal">
             <div class="modal-header">
-                <h2 class="modal-title">Edit Student Points</h2>
+                <h2 class="modal-title">Edit Student Stats</h2>
                 <button class="modal-close" onclick="closeEditPointsModal()">&times;</button>
             </div>
             <div class="modal-content">
@@ -710,10 +849,14 @@
                     <label for="editPointsValue">Points</label>
                     <input type="number" id="editPointsValue" placeholder="Enter points">
                 </div>
+                <div class="form-group">
+                    <label for="editVictoriesValue">Victories 🏆</label>
+                    <input type="number" id="editVictoriesValue" placeholder="Enter victories" min="0">
+                </div>
             </div>
             <div class="modal-actions">
                 <button class="btn btn-secondary" onclick="closeEditPointsModal()">Cancel</button>
-                <button class="btn" onclick="saveStudentPoints()">Save Points</button>
+                <button class="btn" onclick="saveStudentPoints()">Save Changes</button>
             </div>
         </div>
     </div>
@@ -795,6 +938,7 @@
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="scenarios.js"></script>
     <script>
         // === SUPABASE CLIENT ===
         const supabaseClient = window.supabase.createClient(
@@ -809,6 +953,7 @@
         let editingRosterStudents = [];
         let editingPointsRosterId = null;
         let editingPointsStudentId = null;
+        let selectedScenario = null;
         
         // === INITIALIZATION ===
         document.addEventListener('DOMContentLoaded', function() {
@@ -838,7 +983,432 @@
                     updateTeamSetup();
                 }
             });
+            
+            // Setup AI options toggle
+            document.getElementById('enableAI').addEventListener('change', function() {
+                const aiOptions = document.getElementById('aiOptions');
+                aiOptions.style.display = this.checked ? 'block' : 'none';
+            });
         });
+        
+        // === SCENARIO MANAGEMENT ===
+        function toggleScenarioOptions() {
+            const gameMode = document.getElementById('gameMode').value;
+            const scenarioOptions = document.getElementById('scenarioOptions');
+            
+            if (gameMode === 'regular') {
+                scenarioOptions.style.display = 'none';
+                selectedScenario = null;
+            } else {
+                scenarioOptions.style.display = 'block';
+            }
+        }
+        
+        function loadScenarioDetails() {
+            const scenarioId = document.getElementById('scenarioSelect').value;
+            const scenarioDetails = document.getElementById('scenarioDetails');
+            
+            if (!scenarioId) {
+                scenarioDetails.style.display = 'none';
+                selectedScenario = null;
+                return;
+            }
+            
+            selectedScenario = SCENARIOS[scenarioId];
+            if (!selectedScenario) {
+                alert('Scenario not found!');
+                return;
+            }
+            
+            // Update scenario info display
+            document.getElementById('scenarioTitle').textContent = selectedScenario.name;
+            document.getElementById('scenarioDescription').textContent = selectedScenario.description;
+            
+            // Update factions list
+            const factionsList = document.getElementById('factionsList');
+            factionsList.innerHTML = '';
+            
+            Object.entries(selectedScenario.factions).forEach(([factionKey, faction]) => {
+                const factionDiv = document.createElement('div');
+                factionDiv.className = 'faction-preview';
+                factionDiv.style.cssText = `
+                    margin: 10px 0;
+                    padding: 10px;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 8px;
+                    background: ${faction.color}20;
+                `;
+                
+                factionDiv.innerHTML = `
+                    <h5 style="color: ${faction.color}; margin: 0 0 5px 0;">${faction.name}</h5>
+                    <p style="margin: 0; font-size: 0.9rem; color: #666;">${faction.description}</p>
+                    <p style="margin: 5px 0 0 0; font-size: 0.8rem; color: #888;">
+                        ${faction.characters.length} characters • ${faction.territories.length} territories
+                    </p>
+                `;
+                
+                factionsList.appendChild(factionDiv);
+            });
+            
+            scenarioDetails.style.display = 'block';
+        }
+
+        // Custom Scenario Functions
+        function loadScenarioDetails() {
+            const scenarioId = document.getElementById('scenarioSelect').value;
+            const scenarioDetails = document.getElementById('scenarioDetails');
+            const customCreator = document.getElementById('customScenarioCreator');
+            
+            if (!scenarioId) {
+                scenarioDetails.style.display = 'none';
+                customCreator.style.display = 'none';
+                selectedScenario = null;
+                return;
+            }
+            
+            if (scenarioId === 'custom') {
+                scenarioDetails.style.display = 'none';
+                customCreator.style.display = 'block';
+                selectedScenario = null;
+                updateCustomFactions();
+                return;
+            }
+            
+            selectedScenario = SCENARIOS[scenarioId];
+            if (!selectedScenario) {
+                alert('Scenario not found!');
+                return;
+            }
+            
+            // Update scenario info display
+            document.getElementById('scenarioTitle').textContent = selectedScenario.name;
+            document.getElementById('scenarioDescription').textContent = selectedScenario.description;
+            
+            // Update factions list
+            const factionsList = document.getElementById('factionsList');
+            factionsList.innerHTML = '';
+            
+            Object.entries(selectedScenario.factions).forEach(([factionKey, faction]) => {
+                const factionDiv = document.createElement('div');
+                factionDiv.className = 'faction-preview';
+                factionDiv.style.cssText = `
+                    margin: 10px 0;
+                    padding: 10px;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 8px;
+                    background: ${faction.color}20;
+                `;
+                
+                factionDiv.innerHTML = `
+                    <h5 style="color: ${faction.color}; margin: 0 0 5px 0;">${faction.name}</h5>
+                    <p style="margin: 0; font-size: 0.9rem; color: #666;">${faction.description}</p>
+                    <p style="margin: 5px 0 0 0; font-size: 0.8rem; color: #888;">
+                        ${faction.characters.length} characters • ${faction.territories.length} territories
+                    </p>
+                `;
+                
+                factionsList.appendChild(factionDiv);
+            });
+            
+            scenarioDetails.style.display = 'block';
+            customCreator.style.display = 'none';
+        }
+
+        function updateCustomFactions() {
+            const factionCount = parseInt(document.getElementById('customFactionCount').value);
+            const factionsContainer = document.getElementById('customFactions');
+            
+            factionsContainer.innerHTML = '';
+            
+            for (let i = 1; i <= factionCount; i++) {
+                const factionDiv = document.createElement('div');
+                factionDiv.className = 'custom-faction';
+                factionDiv.style.cssText = `
+                    margin: 15px 0;
+                    padding: 15px;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 8px;
+                    background: #f8fafc;
+                `;
+                
+                factionDiv.innerHTML = `
+                    <h4 style="margin: 0 0 10px 0; color: #1e293b;">Faction ${i}</h4>
+                    
+                    <div class="form-group">
+                        <label>Faction Name</label>
+                        <input type="text" id="faction${i}Name" placeholder="e.g., Rebels, Empire, etc.">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Faction Color</label>
+                        <input type="color" id="faction${i}Color" value="${getDefaultFactionColor(i)}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Faction Description</label>
+                        <textarea id="faction${i}Description" placeholder="Describe this faction..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Number of Characters</label>
+                        <select id="faction${i}CharacterCount" onchange="updateFactionCharacters(${i})">
+                            <option value="3">3 Characters</option>
+                            <option value="4">4 Characters</option>
+                            <option value="5">5 Characters</option>
+                            <option value="6">6 Characters</option>
+                        </select>
+                    </div>
+                    
+                    <div id="faction${i}Characters">
+                        <!-- Characters will be generated dynamically -->
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Number of Territories</label>
+                        <select id="faction${i}TerritoryCount" onchange="updateFactionTerritories(${i})">
+                            <option value="3">3 Territories</option>
+                            <option value="4">4 Territories</option>
+                            <option value="5">5 Territories</option>
+                            <option value="6">6 Territories</option>
+                        </select>
+                    </div>
+                    
+                    <div id="faction${i}Territories">
+                        <!-- Territories will be generated dynamically -->
+                    </div>
+                `;
+                
+                factionsContainer.appendChild(factionDiv);
+                
+                // Initialize characters and territories
+                updateFactionCharacters(i);
+                updateFactionTerritories(i);
+            }
+        }
+
+        function getDefaultFactionColor(index) {
+            const colors = ['#1e40af', '#dc2626', '#059669', '#7c3aed'];
+            return colors[(index - 1) % colors.length];
+        }
+
+        function updateFactionCharacters(factionIndex) {
+            const characterCount = parseInt(document.getElementById(`faction${factionIndex}CharacterCount`).value);
+            const charactersContainer = document.getElementById(`faction${factionIndex}Characters`);
+            
+            charactersContainer.innerHTML = '';
+            
+            for (let i = 1; i <= characterCount; i++) {
+                const characterDiv = document.createElement('div');
+                characterDiv.style.cssText = `
+                    margin: 10px 0;
+                    padding: 10px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 6px;
+                    background: white;
+                `;
+                
+                characterDiv.innerHTML = `
+                    <h5 style="margin: 0 0 8px 0; color: #374151;">Character ${i}</h5>
+                    
+                    <div class="form-group">
+                        <label>Character Name</label>
+                        <input type="text" id="faction${factionIndex}Char${i}Name" placeholder="e.g., John Smith">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Character Role</label>
+                        <input type="text" id="faction${factionIndex}Char${i}Role" placeholder="e.g., General, Spy, etc.">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Personality</label>
+                        <select id="faction${factionIndex}Char${i}Personality">
+                            <option value="aggressive">Aggressive</option>
+                            <option value="defensive">Defensive</option>
+                            <option value="strategic">Strategic</option>
+                            <option value="brave">Brave</option>
+                            <option value="cunning">Cunning</option>
+                            <option value="wise">Wise</option>
+                            <option value="diplomatic">Diplomatic</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Starting Coins</label>
+                        <input type="number" id="faction${factionIndex}Char${i}Coins" value="50" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Starting Weapons</label>
+                        <input type="text" id="faction${factionIndex}Char${i}Weapons" placeholder="e.g., sword, bow, magic">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Character Quote</label>
+                        <input type="text" id="faction${factionIndex}Char${i}Quote" placeholder="e.g., 'For honor and glory!'">
+                    </div>
+                `;
+                
+                charactersContainer.appendChild(characterDiv);
+            }
+        }
+
+        function updateFactionTerritories(factionIndex) {
+            const territoryCount = parseInt(document.getElementById(`faction${factionIndex}TerritoryCount`).value);
+            const territoriesContainer = document.getElementById(`faction${factionIndex}Territories`);
+            
+            territoriesContainer.innerHTML = '';
+            
+            for (let i = 1; i <= territoryCount; i++) {
+                const territoryDiv = document.createElement('div');
+                territoryDiv.style.cssText = `
+                    margin: 10px 0;
+                    padding: 10px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 6px;
+                    background: white;
+                `;
+                
+                territoryDiv.innerHTML = `
+                    <h5 style="margin: 0 0 8px 0; color: #374151;">Territory ${i}</h5>
+                    
+                    <div class="form-group">
+                        <label>Territory Name</label>
+                        <input type="text" id="faction${factionIndex}Territory${i}Name" placeholder="e.g., Capital City">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Territory Cost</label>
+                        <input type="number" id="faction${factionIndex}Territory${i}Cost" value="50" min="10">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Territory Description</label>
+                        <input type="text" id="faction${factionIndex}Territory${i}Description" placeholder="e.g., Strategic location">
+                    </div>
+                `;
+                
+                territoriesContainer.appendChild(territoryDiv);
+            }
+        }
+
+        function saveCustomScenario() {
+            const scenarioName = document.getElementById('customScenarioName').value;
+            const scenarioType = document.getElementById('customScenarioType').value;
+            const scenarioDescription = document.getElementById('customScenarioDescription').value;
+            const factionCount = parseInt(document.getElementById('customFactionCount').value);
+            
+            if (!scenarioName || !scenarioDescription) {
+                alert('Please fill in scenario name and description.');
+                return;
+            }
+            
+            const customScenario = {
+                id: `custom_${Date.now()}`,
+                name: scenarioName,
+                type: scenarioType,
+                description: scenarioDescription,
+                factions: {},
+                neutralTerritories: []
+            };
+            
+            // Build factions
+            for (let i = 1; i <= factionCount; i++) {
+                const factionName = document.getElementById(`faction${i}Name`).value;
+                const factionColor = document.getElementById(`faction${i}Color`).value;
+                const factionDescription = document.getElementById(`faction${i}Description`).value;
+                
+                if (!factionName) {
+                    alert(`Please fill in Faction ${i} name.`);
+                    return;
+                }
+                
+                const faction = {
+                    name: factionName,
+                    color: factionColor,
+                    description: factionDescription,
+                    territories: [],
+                    characters: [],
+                    generalRoles: [
+                        { name: 'Soldier', startingCoins: 30, startingWeapons: ['weapon'], startingMercenaries: 0, startingCastles: 0, personality: 'brave', quotes: ['For our cause!', 'We fight!', 'Victory!'] },
+                        { name: 'Worker', startingCoins: 25, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking', quotes: ['We work hard!', 'For our people!', 'We build!'] }
+                    ]
+                };
+                
+                // Add characters
+                const characterCount = parseInt(document.getElementById(`faction${i}CharacterCount`).value);
+                for (let j = 1; j <= characterCount; j++) {
+                    const charName = document.getElementById(`faction${i}Char${j}Name`).value;
+                    const charRole = document.getElementById(`faction${i}Char${j}Role`).value;
+                    const charPersonality = document.getElementById(`faction${i}Char${j}Personality`).value;
+                    const charCoins = parseInt(document.getElementById(`faction${i}Char${j}Coins`).value);
+                    const charWeapons = document.getElementById(`faction${i}Char${j}Weapons`).value.split(',').map(w => w.trim());
+                    const charQuote = document.getElementById(`faction${i}Char${j}Quote`).value;
+                    
+                    if (charName && charRole) {
+                        faction.characters.push({
+                            name: charName,
+                            role: charRole,
+                            startingCoins: charCoins,
+                            startingWeapons: charWeapons,
+                            startingMercenaries: 1,
+                            startingCastles: 0,
+                            personality: charPersonality,
+                            quotes: [charQuote || 'We will prevail!'],
+                            description: `${charRole} of ${factionName}`
+                        });
+                    }
+                }
+                
+                // Add territories
+                const territoryCount = parseInt(document.getElementById(`faction${i}TerritoryCount`).value);
+                for (let j = 1; j <= territoryCount; j++) {
+                    const territoryName = document.getElementById(`faction${i}Territory${j}Name`).value;
+                    const territoryCost = parseInt(document.getElementById(`faction${i}Territory${j}Cost`).value);
+                    const territoryDescription = document.getElementById(`faction${i}Territory${j}Description`).value;
+                    
+                    if (territoryName) {
+                        faction.territories.push({
+                            name: territoryName,
+                            cost: territoryCost,
+                            description: territoryDescription || 'Strategic location'
+                        });
+                    }
+                }
+                
+                customScenario.factions[`faction${i}`] = faction;
+            }
+            
+            // Save to localStorage
+            const customScenarios = JSON.parse(localStorage.getItem('customScenarios') || '[]');
+            customScenarios.push(customScenario);
+            localStorage.setItem('customScenarios', JSON.stringify(customScenarios));
+            
+            alert('Custom scenario saved successfully!');
+            
+            // Reset form
+            document.getElementById('customScenarioName').value = '';
+            document.getElementById('customScenarioDescription').value = '';
+            updateCustomFactions();
+        }
+
+        function loadCustomScenarioTemplate() {
+            // Load a template based on scenario type
+            const scenarioType = document.getElementById('customScenarioType').value;
+            
+            if (scenarioType === 'historical') {
+                document.getElementById('customScenarioName').value = 'Custom Historical War';
+                document.getElementById('customScenarioDescription').value = 'A custom historical conflict with multiple factions fighting for control.';
+            } else if (scenarioType === 'literary') {
+                document.getElementById('customScenarioName').value = 'Custom Literary Story';
+                document.getElementById('customScenarioDescription').value = 'A custom literary conflict based on your chosen story or theme.';
+            } else {
+                document.getElementById('customScenarioName').value = 'Custom Scenario';
+                document.getElementById('customScenarioDescription').value = 'A custom scenario with unique factions and characters.';
+            }
+            
+            updateCustomFactions();
+        }
         
         function checkAuthStatus() {
             // Check actual authentication status
@@ -899,6 +1469,7 @@
                         ${roster.roster.length} students • 
                         ${roster.teamMode === 'individual' ? 'Individual Mode' : 
                           roster.teams ? `${roster.teams.length} Teams` : 'No Teams'} • 
+                        ${roster.scenario ? `<span style="color: #10b981; font-weight: bold;">${roster.scenario.scenarioType === 'historical' ? '🏛️ Historical' : '📚 Literary'}: ${roster.scenario.scenarioName}</span> • ` : ''}
                         Last modified: ${new Date(roster.lastModified).toLocaleDateString()}
                     </div>
                     <div class="roster-points">
@@ -908,10 +1479,12 @@
                             <button class="btn btn-small btn-secondary" onclick="sortRoster('${roster.id}', 'last')">Last Name</button>
                             <button class="btn btn-small btn-secondary" onclick="shuffleRoster('${roster.id}')">Shuffle</button>
                         </div>
-                        <strong>Points:</strong>
+                        <strong>Points & Victories:</strong>
                         ${roster.roster.map(student => `
                             <span class="point-item">
-                                ${student.name}: <span class="point-value" data-student-id="${student.id}">${student.points || 0}</span>
+                                ${student.name}: 
+                                <span class="point-value" data-student-id="${student.id}">${student.points || 0}</span> pts
+                                ${student.victories ? `<span style="color: #ffd700; font-weight: bold; margin-left: 0.5rem;">🏆 ${student.victories}</span>` : ''}
                                 <button class="btn btn-small" onclick="editStudentPoints('${roster.id}', '${student.id}', '${student.name}')">Edit</button>
                             </span>
                         `).join('')}
@@ -922,6 +1495,7 @@
                         `).join('')}
                     </div>
                     <div class="roster-actions">
+                        <button class="btn btn-small" onclick="startGameFromRoster('${roster.id}')" style="background: #10b981;">🎮 Start Game</button>
                         <button class="btn btn-small" onclick="editRoster('${roster.id}')">Edit</button>
                         <button class="btn btn-small btn-secondary" onclick="duplicateRoster('${roster.id}')">Duplicate</button>
                         <button class="btn btn-small btn-danger" onclick="deleteRoster('${roster.id}')">Delete</button>
@@ -1050,6 +1624,27 @@
                 teamMode = 'team';
             }
             
+            // Handle scenario data
+            const gameMode = document.getElementById('gameMode').value;
+            let scenarioData = null;
+            
+            if (gameMode !== 'regular' && selectedScenario) {
+                const randomAssignment = document.getElementById('randomAssignment').checked;
+                const enableAI = document.getElementById('enableAI').checked;
+                const aiDifficulty = document.getElementById('aiDifficulty').value;
+                
+                scenarioData = {
+                    scenarioId: selectedScenario.id,
+                    scenarioName: selectedScenario.name,
+                    scenarioType: selectedScenario.type,
+                    factions: selectedScenario.factions,
+                    neutralTerritories: selectedScenario.neutralTerritories,
+                    randomAssignment: randomAssignment,
+                    enableAI: enableAI,
+                    aiDifficulty: aiDifficulty
+                };
+            }
+            
             const rosterData = {
                 id: generateRosterId(),
                 name: rosterName,
@@ -1057,6 +1652,7 @@
                 roster: newRosterStudents,
                 teams: teams,
                 teamMode: teamMode,
+                scenario: scenarioData,
                 lastModified: new Date().toISOString()
             };
             
@@ -1092,6 +1688,22 @@
         }
         
         // === ROSTER ACTIONS ===
+        function startGameFromRoster(rosterId) {
+            const allRosters = getAllRosters();
+            const roster = allRosters.find(r => r.id === rosterId);
+            
+            if (!roster) {
+                alert('Roster not found!');
+                return;
+            }
+            
+            // Store the roster data for the war game
+            localStorage.setItem('currentRoster', JSON.stringify(roster));
+            
+            // Navigate to war game
+            window.location.href = 'war.html';
+        }
+        
         function editRoster(rosterId) {
             const allRosters = getAllRosters();
             const roster = allRosters.find(r => r.id === rosterId);
@@ -1549,6 +2161,7 @@
             
             document.getElementById('editPointsStudentName').value = studentName;
             document.getElementById('editPointsValue').value = student.points || 0;
+            document.getElementById('editVictoriesValue').value = student.victories || 0;
             
             document.getElementById('editPointsModal').style.display = 'flex';
         }
@@ -1561,12 +2174,14 @@
         
         function saveStudentPoints() {
             const newPoints = parseInt(document.getElementById('editPointsValue').value) || 0;
+            const newVictories = parseInt(document.getElementById('editVictoriesValue').value) || 0;
             
             const allRosters = getAllRosters();
             const rosterIndex = allRosters.findIndex(r => r.id === editingPointsRosterId);
             const studentIndex = allRosters[rosterIndex].roster.findIndex(s => s.id === editingPointsStudentId);
             
             allRosters[rosterIndex].roster[studentIndex].points = newPoints;
+            allRosters[rosterIndex].roster[studentIndex].victories = newVictories;
             allRosters[rosterIndex].lastModified = new Date().toISOString();
             
             localStorage.setItem('tornadoRosters', JSON.stringify(allRosters));
@@ -1574,7 +2189,7 @@
             closeEditPointsModal();
             loadExistingRosters();
             
-            alert(`Points updated for ${allRosters[rosterIndex].roster[studentIndex].name}: ${newPoints}`);
+            alert(`Stats updated for ${allRosters[rosterIndex].roster[studentIndex].name}: ${newPoints} points, ${newVictories} victories`);
         }
         
         // === POINT SYNC FUNCTIONS ===

@@ -705,6 +705,12 @@
     gridEl.style.gridTemplateColumns = `repeat(${state.board.w}, 1fr)`;
     gridEl.style.gridTemplateRows = `repeat(${state.board.h}, 1fr)`;
     
+    // Get the logged-in student to show attackable territories
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    const loggedInStudent = state.roster.find(s => s.name === currentStudent.username);
+    const attackableTiles = loggedInStudent ? getAttackableTiles(loggedInStudent.gsId) : [];
+    const attackableTileIds = new Set(attackableTiles.map(t => t.id));
+    
     gridEl.innerHTML = state.board.tiles.map(tile => {
       const owner = state.roster.find(r => r.gsId === tile.owner_game_student_id);
       const ownerName = owner ? shortenName(owner.name) : '';
@@ -715,11 +721,29 @@
       const tileCost = !owner ? calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h) : 0;
       const costText = !owner ? `💰${tileCost}` : '';
       
+      // Check if this tile is claimable by the logged-in student
+      const isAttackable = attackableTileIds.has(tile.id);
+      const isOwnedByStudent = loggedInStudent && tile.owner_game_student_id === loggedInStudent.gsId;
+      
+      // Determine border style based on claimability
+      let borderStyle = '1px solid #333';
+      if (isAttackable && !isOwnedByStudent && !owner) {
+        borderStyle = '2px solid #10b981'; // Green border for claimable territories
+      } else if (isOwnedByStudent) {
+        borderStyle = '2px solid #3b82f6'; // Blue border for own territories
+      }
+      
+      // Determine background color
+      let backgroundColor = owner ? state.colors.get(owner.gsId) : '#1a1a2e';
+      if (isAttackable && !owner) {
+        backgroundColor = '#1a2e1a'; // Slightly green tint for claimable unowned territories
+      }
+      
       return `<div class="cell" data-tile-id="${tile.id}" data-x="${tile.x}" data-y="${tile.y}" 
-                style="background: ${owner ? state.colors.get(owner.gsId) : '#1a1a2e'}; 
+                style="background: ${backgroundColor}; 
                        color: ${owner ? '#fff' : '#666'}; 
                        cursor: pointer;
-                       border: 1px solid #333;
+                       border: ${borderStyle};
                        display: flex;
                        flex-direction: column;
                        align-items: center;
@@ -727,9 +751,10 @@
                        min-height: 50px;
                        padding: 4px;
                        font-size: 12px;
-                       text-align: center;"
+                       text-align: center;
+                       transition: all 0.2s ease;"
                 onclick="handleTileClick('${tile.id}')"
-                title="${owner ? `Owned by ${ownerName}` : `Click to buy for ${tileCost} points`}">
+                title="${owner ? `Owned by ${ownerName}` : `Click to buy for ${tileCost} points`}${isAttackable && !isOwnedByStudent && !owner ? ' (Claimable!)' : ''}">
                 <div style="font-weight: 600;">${ownerName || ''}</div>
                 <div style="font-size: 10px;">${castleText || costText}</div>
               </div>`;
@@ -746,6 +771,292 @@
       Math.max(0.25, 1 / state.roster.filter(r => r.teamId).length) : 0.25;
     
     // victoryEl removed for student version
+  }
+  
+  function checkVictoryCondition() {
+    if (!state.roster || !state.board || !state.board.tiles) return;
+    
+    const totalTiles = state.board.w * state.board.h;
+    const targetPercentage = state.teamMode ? 
+      Math.max(0.25, 1 / state.roster.filter(r => r.teamId).length) : 0.25;
+    const targetTiles = Math.ceil(totalTiles * targetPercentage);
+    
+    // Count tiles owned by each player/team
+    const tileCounts = {};
+    
+    if (state.teamMode) {
+      // Team mode - count tiles by team
+      state.roster.forEach(student => {
+        if (student.teamId) {
+          const teamId = student.teamId;
+          if (!tileCounts[teamId]) tileCounts[teamId] = 0;
+          
+          state.board.tiles.forEach(tile => {
+            if (tile.owner_game_student_id === student.gsId) {
+              tileCounts[teamId]++;
+            }
+          });
+        }
+      });
+      
+      // Check if any team has reached victory
+      for (const [teamId, count] of Object.entries(tileCounts)) {
+        if (count >= targetTiles) {
+          const teamName = state.roster.find(s => s.teamId === teamId)?.teamName || `Team ${teamId}`;
+          showVictoryScreen(teamName, count, totalTiles, 'team');
+          return;
+        }
+      }
+    } else {
+      // Individual mode - count tiles by student
+      state.roster.forEach(student => {
+        tileCounts[student.gsId] = 0;
+        state.board.tiles.forEach(tile => {
+          if (tile.owner_game_student_id === student.gsId) {
+            tileCounts[student.gsId]++;
+          }
+        });
+      });
+      
+      // Check if any student has reached victory
+      for (const [studentId, count] of Object.entries(tileCounts)) {
+        if (count >= targetTiles) {
+          const student = state.roster.find(s => s.gsId === studentId);
+          if (student) {
+            showVictoryScreen(student.name, count, totalTiles, 'individual');
+            return;
+          }
+        }
+      }
+    }
+  }
+  
+  function showVictoryScreen(winnerName, tilesOwned, totalTiles, mode) {
+    // Create victory screen overlay
+    const victoryOverlay = document.createElement('div');
+    victoryOverlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      animation: fadeIn 0.5s ease-in;
+    `;
+    
+    victoryOverlay.innerHTML = `
+      <div style="
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 3rem;
+        border-radius: 20px;
+        text-align: center;
+        color: white;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        max-width: 600px;
+        width: 90%;
+        animation: slideIn 0.5s ease-out;
+      ">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">🏆</div>
+        <h1 style="font-size: 3rem; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+          VICTORY!
+        </h1>
+        <h2 style="font-size: 2rem; margin-bottom: 2rem; color: #ffd700;">
+          ${winnerName} Wins!
+        </h2>
+        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 10px; margin: 2rem 0;">
+          <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">
+            🗺️ Controlled ${tilesOwned} out of ${totalTiles} territories
+          </p>
+          <p style="font-size: 1.2rem;">
+            📊 ${((tilesOwned / totalTiles) * 100).toFixed(1)}% of the map
+          </p>
+        </div>
+        <div style="margin-top: 2rem;">
+          <button id="continueGameBtn" style="
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: all 0.2s ease;
+          ">Continue Current Game</button>
+          <button id="newGameBtn" style="
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: all 0.2s ease;
+          ">Start New Game</button>
+        </div>
+      </div>
+      <style>
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideIn {
+          from { transform: scale(0.8) translateY(-50px); opacity: 0; }
+          to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        #continueGameBtn:hover, #newGameBtn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+      </style>
+    `;
+    
+    document.body.appendChild(victoryOverlay);
+    
+    // Add confetti effect
+    createConfettiEffect();
+    
+    // Play victory sound
+    if (typeof playWin === 'function') {
+      playWin();
+    }
+    
+    // Add button event listeners
+    document.getElementById('continueGameBtn').onclick = () => {
+      victoryOverlay.remove();
+      // Award victory points to winner
+      awardVictoryPoints(winnerName, mode);
+    };
+    
+    document.getElementById('newGameBtn').onclick = () => {
+      victoryOverlay.remove();
+      // Award victory points to winner
+      awardVictoryPoints(winnerName, mode);
+      // Reset game for new game
+      resetGameForNewRound();
+    };
+  }
+  
+  function createConfettiEffect() {
+    const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3'];
+    const confettiCount = 100;
+    
+    for (let i = 0; i < confettiCount; i++) {
+      setTimeout(() => {
+        const confetti = document.createElement('div');
+        confetti.style.cssText = `
+          position: fixed;
+          width: 10px;
+          height: 10px;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          top: -10px;
+          left: ${Math.random() * 100}%;
+          z-index: 10001;
+          animation: confettiFall 3s linear forwards;
+        `;
+        
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 3000);
+      }, i * 10);
+    }
+    
+    // Add confetti animation CSS
+    if (!document.getElementById('confetti-styles')) {
+      const style = document.createElement('style');
+      style.id = 'confetti-styles';
+      style.textContent = `
+        @keyframes confettiFall {
+          0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+  
+  function awardVictoryPoints(winnerName, mode) {
+    if (!state.currentRoster) return;
+    
+    const victoryBonus = 500; // Bonus points for winning
+    
+    if (mode === 'team') {
+      // Award points to all team members
+      const winningTeam = state.roster.find(s => s.teamName === winnerName);
+      if (winningTeam) {
+        state.roster.forEach(student => {
+          if (student.teamId === winningTeam.teamId) {
+            student.balance += victoryBonus;
+            // Update roster
+            const rosterIndex = state.currentRoster.roster.findIndex(r => r.name === student.name);
+            if (rosterIndex >= 0) {
+              state.currentRoster.roster[rosterIndex].points = student.balance;
+              state.currentRoster.roster[rosterIndex].victories = (state.currentRoster.roster[rosterIndex].victories || 0) + 1;
+            }
+          }
+        });
+      }
+    } else {
+      // Award points to individual winner
+      const winner = state.roster.find(s => s.name === winnerName);
+      if (winner) {
+        winner.balance += victoryBonus;
+        // Update roster
+        const rosterIndex = state.currentRoster.roster.findIndex(r => r.name === winnerName);
+        if (rosterIndex >= 0) {
+          state.currentRoster.roster[rosterIndex].points = winner.balance;
+          state.currentRoster.roster[rosterIndex].victories = (state.currentRoster.roster[rosterIndex].victories || 0) + 1;
+        }
+      }
+    }
+    
+    // Save updated roster
+    if (state.currentRoster) {
+      const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+      const rosterIndex = rosters.findIndex(r => r.id === state.currentRoster.id);
+      if (rosterIndex >= 0) {
+        rosters[rosterIndex] = state.currentRoster;
+        localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+      }
+    }
+    
+    // Show victory bonus notification
+    alert(`🎉 Victory Bonus!\n\n${winnerName} receives ${victoryBonus} bonus points for winning!\n\nVictory has been recorded in the roster.`);
+  }
+  
+  function resetGameForNewRound() {
+    // Reset all tiles to unowned
+    if (state.board && state.board.tiles) {
+      state.board.tiles.forEach(tile => {
+        tile.owner_game_student_id = null;
+        tile.castle_level = 0;
+      });
+    }
+    
+    // Reset tile counts
+    state.roster.forEach(student => {
+      student.tilesOwned = 0;
+    });
+    
+    // Update display
+    updateGridDisplay();
+    syncTileCounts();
+    updateVictoryTarget();
+    
+    alert('🎮 New game started! All territories are now available for conquest.');
   }
   
   function syncTileCounts() {
@@ -852,6 +1163,60 @@
     autoSaveWarPoints();
   }
 
+  // Helper function to check if two tiles are adjacent (including diagonal)
+  function areTilesAdjacent(tile1, tile2) {
+    const dx = Math.abs(tile1.x - tile2.x);
+    const dy = Math.abs(tile1.y - tile2.y);
+    return (dx <= 1 && dy <= 1) && !(dx === 0 && dy === 0);
+  }
+  
+  // Helper function to check if a student can attack/claim a tile based on adjacency
+  function canStudentAttackTile(studentGsId, targetTile) {
+    // If student has no territories, they can claim any unowned tile (initial placement)
+    const studentTiles = state.board.tiles.filter(t => t.owner_game_student_id === studentGsId);
+    if (studentTiles.length === 0) {
+      return true; // Initial placement - can claim any unowned tile
+    }
+    
+    // Check if target tile is adjacent to any of student's territories
+    for (const studentTile of studentTiles) {
+      if (areTilesAdjacent(studentTile, targetTile)) {
+        return true;
+      }
+    }
+    
+    // Check if target tile is adjacent to any truce partner's territories
+    const studentTruces = state.truces.filter(truce => 
+      truce.student1 === studentGsId || truce.student2 === studentGsId
+    );
+    
+    for (const truce of studentTruces) {
+      const trucePartnerGsId = truce.student1 === studentGsId ? truce.student2 : truce.student1;
+      const trucePartnerTiles = state.board.tiles.filter(t => t.owner_game_student_id === trucePartnerGsId);
+      
+      for (const truceTile of trucePartnerTiles) {
+        if (areTilesAdjacent(truceTile, targetTile)) {
+          return true;
+        }
+      }
+    }
+    
+    return false;
+  }
+  
+  // Helper function to get all attackable tiles for a student
+  function getAttackableTiles(studentGsId) {
+    const attackableTiles = [];
+    
+    for (const tile of state.board.tiles) {
+      if (canStudentAttackTile(studentGsId, tile)) {
+        attackableTiles.push(tile);
+      }
+    }
+    
+    return attackableTiles;
+  }
+
   // Make handleTileClick globally accessible
   window.handleTileClick = function(tileId) {
     console.log('handleTileClick called with tileId:', tileId, 'selectedGsId:', state.selectedGsId);
@@ -876,7 +1241,12 @@
     console.log('Handling tile click:', { tile, selectedStudent });
 
     if (!tile.owner_game_student_id) {
-      // Empty tile - buy it
+      // Empty tile - buy it (check adjacency)
+      if (!canStudentAttackTile(selectedStudent.gsId, tile)) {
+        alert(`Cannot claim this territory! You can only claim territories that are adjacent to your own territories or your truce partners' territories.`);
+        return;
+      }
+      
       const cost = calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h);
       if (selectedStudent.balance >= cost) {
         tile.owner_game_student_id = selectedStudent.gsId;
@@ -1872,6 +2242,9 @@
     updateGridDisplay();
     syncTileCounts();
     updateVictoryTarget();
+    
+    // Check for victory condition after battle
+    checkVictoryCondition();
     
     currentBattle = null;
   }
