@@ -2893,6 +2893,11 @@
       return;
     }
 
+    // Get scenario-specific market items
+    const marketItems = getScenarioMarketItems(state.scenario);
+    const marketTitle = marketItems.title;
+    const marketIcon = marketItems.icon;
+
     const modal = document.createElement('div');
     modal.style.cssText = `
       position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
@@ -2903,7 +2908,7 @@
     modal.innerHTML = `
       <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 12px; 
                   padding: 24px; max-width: 700px; max-height: 80vh; overflow-y: auto;">
-        <h2 style="margin: 0 0 16px; color: var(--accent);">🛒 Student Market - ${loggedInStudent.name}</h2>
+        <h2 style="margin: 0 0 16px; color: var(--accent);">${marketIcon} ${marketTitle} - ${loggedInStudent.name}</h2>
         
         <div style="background: #1e3a8a; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
           <h4 style="margin: 0 0 8px; color: #60a5fa;">💰 Your Balance: ${formatMoney(loggedInStudent.balance)}</h4>
@@ -2911,43 +2916,37 @@
         
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
           <div>
-            <h3 style="color: #3b82f6; margin: 0 0 12px;">⚔️ Weapons</h3>
-            <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>🗡️ Spear (+25 power)</span>
-                <button onclick="buyStudentItem('spear', 30)" style="background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Buy (30)</button>
+            <h3 style="color: #3b82f6; margin: 0 0 12px;">${marketItems.weapons.title}</h3>
+            ${marketItems.weapons.items.map(item => `
+              <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>${item.icon} ${item.name} (${item.description})</span>
+                  <button onclick="buyStudentItem('${item.id}', ${item.cost})" style="background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Buy (${item.cost})</button>
+                </div>
               </div>
-            </div>
-            <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>🏹 Crossbow (+50 power)</span>
-                <button onclick="buyStudentItem('crossbow', 60)" style="background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Buy (60)</button>
-              </div>
-            </div>
-            <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>💥 Catapult (+100 power)</span>
-                <button onclick="buyStudentItem('catapult', 100)" style="background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Buy (100)</button>
-              </div>
-            </div>
+            `).join('')}
           </div>
           
           <div>
-            <h3 style="color: #10b981; margin: 0 0 12px;">⚔️ Mercenaries</h3>
-            <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>🛡️ Mercenary (+10 power)</span>
-                <button onclick="buyStudentItem('mercenary', 10)" style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Buy (10)</button>
+            <h3 style="color: #10b981; margin: 0 0 12px;">${marketItems.allies.title}</h3>
+            ${marketItems.allies.items.map(item => `
+              <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>${item.icon} ${item.name} (${item.description})</span>
+                  <button onclick="buyStudentItem('${item.id}', ${item.cost})" style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Buy (${item.cost})</button>
+                </div>
               </div>
-            </div>
+            `).join('')}
             
-            <h3 style="color: #8b5cf6; margin: 12px 0 8px;">🧙‍♂️ Magic Items</h3>
-            <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>🧙‍♂️ Wizard (Enables tornado casting)</span>
-                <button onclick="buyStudentItem('wizard', 200)" style="background: #8b5cf6; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Buy (200)</button>
+            <h3 style="color: #8b5cf6; margin: 12px 0 8px;">${marketItems.special.title}</h3>
+            ${marketItems.special.items.map(item => `
+              <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>${item.icon} ${item.name} (${item.description})</span>
+                  <button onclick="buyStudentItem('${item.id}', ${item.cost})" style="background: #8b5cf6; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Buy (${item.cost})</button>
+                </div>
               </div>
-            </div>
+            `).join('')}
             
             ${loggedInStudent.wizard ? `
             <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
@@ -2962,8 +2961,8 @@
         
         <div style="margin-bottom: 16px; padding: 12px; background: #1f2937; border-radius: 8px;">
           <h4 style="color: #f59e0b; margin: 0 0 8px;">📊 Your Current Inventory</h4>
-          <p style="margin: 4px 0; color: var(--text);">🗡️ Weapons: ${loggedInStudent.weapons ? loggedInStudent.weapons.length : 0}</p>
-          <p style="margin: 4px 0; color: var(--text);">⚔️ Mercenaries: ${loggedInStudent.mercenaries || 0}</p>
+          <p style="margin: 4px 0; color: var(--text);">${marketItems.weapons.icon} ${marketItems.weapons.title}: ${loggedInStudent.weapons ? loggedInStudent.weapons.length : 0}</p>
+          <p style="margin: 4px 0; color: var(--text);">${marketItems.allies.icon} ${marketItems.allies.title}: ${loggedInStudent.mercenaries || 0}</p>
           <p style="margin: 4px 0; color: var(--text);">🧙‍♂️ Wizard: ${loggedInStudent.wizard ? 'Yes' : 'No'}</p>
         </div>
 
@@ -2977,6 +2976,167 @@
     `;
     
     document.body.appendChild(modal);
+  }
+
+  // Function to get scenario-specific market items
+  function getScenarioMarketItems(scenario) {
+    if (!scenario) {
+      // Default market for no scenario
+      return {
+        title: "General Market",
+        icon: "🛒",
+        weapons: {
+          title: "⚔️ Weapons",
+          icon: "🗡️",
+          items: [
+            { id: 'spear', name: 'Spear', description: '+25 power', cost: 30, icon: '🗡️' },
+            { id: 'crossbow', name: 'Crossbow', description: '+50 power', cost: 60, icon: '🏹' },
+            { id: 'catapult', name: 'Catapult', description: '+100 power', cost: 100, icon: '🏰' }
+          ]
+        },
+        allies: {
+          title: "⚔️ Mercenaries",
+          icon: "⚔️",
+          items: [
+            { id: 'mercenary', name: 'Mercenary', description: '+10 power', cost: 10, icon: '⚔️' }
+          ]
+        },
+        special: {
+          title: "🧙‍♂️ Magic Items",
+          icon: "🧙‍♂️",
+          items: [
+            { id: 'wizard', name: 'Wizard', description: 'Enables tornado casting', cost: 200, icon: '🧙‍♂️' }
+          ]
+        }
+      };
+    }
+
+    // Scenario-specific markets
+    switch (scenario.id) {
+      case 'harryPotter':
+        return {
+          title: "Diagon Alley Market",
+          icon: "🏪",
+          weapons: {
+            title: "🪄 Magical Items",
+            icon: "🪄",
+            items: [
+              { id: 'wand', name: 'Wand', description: '+25 magical power', cost: 30, icon: '🪄' },
+              { id: 'broomstick', name: 'Broomstick', description: '+50 flying power', cost: 60, icon: '🧹' },
+              { id: 'elder_wand', name: 'Elder Wand', description: '+100 ultimate power', cost: 100, icon: '⚡' }
+            ]
+          },
+          allies: {
+            title: "👥 Magical Allies",
+            icon: "👥",
+            items: [
+              { id: 'house_elf', name: 'House Elf', description: '+10 loyalty power', cost: 10, icon: '🧝‍♂️' },
+              { id: 'phoenix', name: 'Phoenix', description: '+30 healing power', cost: 50, icon: '🦅' },
+              { id: 'hippogriff', name: 'Hippogriff', description: '+40 flying power', cost: 80, icon: '🦅' }
+            ]
+          },
+          special: {
+            title: "✨ Special Spells",
+            icon: "✨",
+            items: [
+              { id: 'patronus', name: 'Patronus Charm', description: 'Protects against dark magic', cost: 150, icon: '🦌' },
+              { id: 'wizard', name: 'Advanced Wizardry', description: 'Enables tornado casting', cost: 200, icon: '🧙‍♂️' }
+            ]
+          }
+        };
+
+      case 'americanRevolution':
+        return {
+          title: "Colonial Market",
+          icon: "🏛️",
+          weapons: {
+            title: "🔫 Revolutionary Weapons",
+            icon: "🔫",
+            items: [
+              { id: 'musket', name: 'Musket', description: '+25 firepower', cost: 30, icon: '🔫' },
+              { id: 'cannon', name: 'Cannon', description: '+50 artillery power', cost: 60, icon: '💣' },
+              { id: 'naval_ship', name: 'Naval Ship', description: '+100 naval power', cost: 100, icon: '🚢' }
+            ]
+          },
+          allies: {
+            title: "👥 Colonial Allies",
+            icon: "👥",
+            items: [
+              { id: 'militia', name: 'Militia', description: '+10 defense power', cost: 10, icon: '⚔️' },
+              { id: 'french_allies', name: 'French Allies', description: '+30 naval support', cost: 50, icon: '🇫🇷' }
+            ]
+          },
+          special: {
+            title: "📜 Revolutionary Items",
+            icon: "📜",
+            items: [
+              { id: 'declaration', name: 'Declaration of Independence', description: 'Inspires all troops', cost: 150, icon: '📜' },
+              { id: 'wizard', name: 'Strategic Genius', description: 'Enables tornado casting', cost: 200, icon: '🧙‍♂️' }
+            ]
+          }
+        };
+
+      case 'worldWar2':
+        return {
+          title: "War Supply Market",
+          icon: "⚔️",
+          weapons: {
+            title: "🔫 Military Weapons",
+            icon: "🔫",
+            items: [
+              { id: 'rifle', name: 'Rifle', description: '+25 combat power', cost: 30, icon: '🔫' },
+              { id: 'tank', name: 'Tank', description: '+50 armored power', cost: 60, icon: '🚗' },
+              { id: 'bomber', name: 'Bomber', description: '+100 air power', cost: 100, icon: '✈️' }
+            ]
+          },
+          allies: {
+            title: "👥 Military Units",
+            icon: "👥",
+            items: [
+              { id: 'soldier', name: 'Soldier', description: '+10 combat power', cost: 10, icon: '⚔️' },
+              { id: 'spy', name: 'Spy', description: '+20 intelligence', cost: 30, icon: '🕵️' }
+            ]
+          },
+          special: {
+            title: "🎖️ Special Operations",
+            icon: "🎖️",
+            items: [
+              { id: 'radar', name: 'Radar Technology', description: 'Detects enemy movements', cost: 150, icon: '📡' },
+              { id: 'wizard', name: 'Military Genius', description: 'Enables tornado casting', cost: 200, icon: '🧙‍♂️' }
+            ]
+          }
+        };
+
+      default:
+        // Default market for unknown scenarios
+        return {
+          title: "General Market",
+          icon: "🛒",
+          weapons: {
+            title: "⚔️ Weapons",
+            icon: "🗡️",
+            items: [
+              { id: 'spear', name: 'Spear', description: '+25 power', cost: 30, icon: '🗡️' },
+              { id: 'crossbow', name: 'Crossbow', description: '+50 power', cost: 60, icon: '🏹' },
+              { id: 'catapult', name: 'Catapult', description: '+100 power', cost: 100, icon: '🏰' }
+            ]
+          },
+          allies: {
+            title: "⚔️ Mercenaries",
+            icon: "⚔️",
+            items: [
+              { id: 'mercenary', name: 'Mercenary', description: '+10 power', cost: 10, icon: '⚔️' }
+            ]
+          },
+          special: {
+            title: "🧙‍♂️ Magic Items",
+            icon: "🧙‍♂️",
+            items: [
+              { id: 'wizard', name: 'Wizard', description: 'Enables tornado casting', cost: 200, icon: '🧙‍♂️' }
+            ]
+          }
+        };
+    }
   }
 
   window.buyStudentItem = function(itemType, cost) {
