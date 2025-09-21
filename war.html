@@ -83,6 +83,7 @@
         <button class="pill" id="loadRosterBtn" style="background: #6f5c91; color: white; flex: 1;">Manage Rosters</button>
         <button class="pill" id="saveRosterBtn" style="background: #10b981; color: white; flex: 1;">Save Roster</button>
         <button class="pill" id="createQuickRosterBtn" style="background: #f59e0b; color: white; flex: 1;">Quick Roster</button>
+        <button class="pill" id="createTeamsBtn" style="background: #8b5cf6; color: white; flex: 1;">Create Teams</button>
       </div>
     </div>
 
@@ -779,34 +780,26 @@
     
     console.log('Calculated board size:', { studentCount, w, h });
     
-    // Check if roster has saved game state
-    if (state.currentRoster.gameState && state.currentRoster.gameState.tiles) {
-      console.log('Loading saved game state');
-      // Load saved game state
-      state.board = state.currentRoster.gameState.board;
-      state.board.tiles = state.currentRoster.gameState.tiles;
-      state.truces = state.currentRoster.gameState.truces || [];
-    } else {
-      console.log('Creating fresh tiles with starting positions');
-      // Create fresh tiles
-      const tiles = [];
-      for (let y = 0; y < h; y++) {
-        for (let x = 0; x < w; x++) {
-          tiles.push({
-            id: `tile_${x}_${y}`,
-            x: x,
-            y: y,
-            owner_game_student_id: null,
-            castle_level: 0
-          });
-        }
+    // Always create fresh tiles for now to ensure proper starting positions
+    console.log('Creating fresh tiles with starting positions');
+    // Create fresh tiles
+    const tiles = [];
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        tiles.push({
+          id: `tile_${x}_${y}`,
+          x: x,
+          y: y,
+          owner_game_student_id: null,
+          castle_level: 0
+        });
       }
-      state.board = { w, h, tiles };
-      state.truces = [];
-      
-      // Assign starting tiles to students (2 tiles each on outer edges)
-      assignStartingTiles();
     }
+    state.board = { w, h, tiles };
+    state.truces = [];
+    
+    // Assign starting tiles to students (2 tiles each on outer edges)
+    assignStartingTiles();
     
     console.log('Board created:', { board: state.board, tilesCount: state.board.tiles.length });
     
@@ -1585,6 +1578,11 @@
   // Quick roster button functionality
   el("#createQuickRosterBtn").onclick = () => {
     createDefaultRoster();
+  };
+
+  // Create teams button functionality
+  el("#createTeamsBtn").onclick = () => {
+    createRandomTeams();
   };
   
   function saveCurrentRoster() {
@@ -2997,6 +2995,61 @@
     selectRoster(defaultRoster.id);
     
     console.log('Default roster created and selected');
+  }
+
+  function createRandomTeams() {
+    if (!state.roster || state.roster.length < 2) {
+      alert('Need at least 2 students to create teams!');
+      return;
+    }
+    
+    const numTeams = prompt('How many teams? (2-6)', '2');
+    if (!numTeams || numTeams < 2 || numTeams > 6) return;
+    
+    const numTeamsInt = parseInt(numTeams);
+    const students = [...state.roster];
+    const teams = [];
+    
+    // Define team colors
+    const teamColors = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+    
+    // Create teams
+    for (let i = 0; i < numTeamsInt; i++) {
+      teams.push({
+        id: String.fromCharCode(65 + i), // A, B, C, etc.
+        name: `Team ${String.fromCharCode(65 + i)}`,
+        color: teamColors[i] || '#6b7280',
+        students: []
+      });
+    }
+    
+    // Randomly assign students to teams
+    const shuffled = [...students].sort(() => Math.random() - 0.5);
+    shuffled.forEach((student, index) => {
+      const teamIndex = index % numTeamsInt;
+      teams[teamIndex].students.push(student.name);
+      
+      // Update student data
+      student.teamId = teams[teamIndex].id;
+      student.teamName = teams[teamIndex].name;
+      student.teamColor = teams[teamIndex].color;
+    });
+    
+    // Update roster with team information
+    if (state.currentRoster) {
+      state.currentRoster.teams = teams;
+      state.currentRoster.teamMode = true;
+      state.teamMode = true;
+      
+      // Save updated roster
+      localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+    }
+    
+    // Refresh display
+    renderRoster();
+    updateGridDisplay();
+    
+    alert(`Teams created! ${teams.map(t => `${t.name}: ${t.students.join(', ')}`).join('\n')}`);
   }
   
   // Show scenario information
