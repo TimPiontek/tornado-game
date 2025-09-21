@@ -994,7 +994,7 @@
             // Get current points from roster if student is in a class
             let currentPoints = currentStudent.totalPoints || 0;
             if (currentRoster && currentStudent.rosterId) {
-                const rosterStudent = currentRoster.students.find(s => s.name === currentStudent.username);
+                const rosterStudent = currentRoster.roster.find(s => s.name === currentStudent.username);
                 if (rosterStudent) {
                     currentPoints = rosterStudent.points || 0;
                     // Update student's stored points to match roster
