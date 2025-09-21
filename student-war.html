@@ -7,6 +7,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <title>Tornado War – Student</title>
+  <script src="scenarios.js"></script>
   <style>
     :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
     * { box-sizing: border-box }
@@ -97,31 +98,28 @@
       <div class="title">Scenario</div>
       <select id="scenarioSelect" style="width: 100%; margin-bottom: 12px;">
         <option value="">Select a scenario...</option>
-        <option value="roman_empire">🏛️ Roman Empire Conquest</option>
-        <option value="american_revolution">🇺🇸 American Revolution</option>
-        <option value="lord_of_rings">💍 Lord of the Rings</option>
-        <option value="game_of_thrones">👑 Game of Thrones</option>
-        <option value="harry_potter">🧙 Harry Potter</option>
-        <option value="star_wars">⭐ Star Wars</option>
+        <option value="americanRevolution">🇺🇸 American Revolutionary War</option>
+        <option value="americanCivilWar">🇺🇸 American Civil War</option>
+        <option value="harryPotter">🧙 Harry Potter</option>
         <option value="avengers">🦸 Avengers</option>
+        <option value="starWars">⭐ Star Wars</option>
+        <option value="warOf1812">🇺🇸 War of 1812</option>
+        <option value="mexicanAmericanWar">🇺🇸 Mexican-American War</option>
+        <option value="theIliad">🏛️ The Iliad</option>
+        <option value="dcVsMarvel">🦸 DC vs Marvel</option>
         <option value="frozen">❄️ Frozen</option>
-        <option value="moana">🌊 Moana</option>
-        <option value="toy_story">🧸 Toy Story</option>
-        <option value="minions">🟡 Minions</option>
-        <option value="dc_vs_marvel">🦸 DC vs Marvel</option>
+        <option value="spanishAmericanWar">🇺🇸 Spanish-American War</option>
         <option value="dune">🏜️ Dune</option>
-        <option value="spanish_american_war">🇺🇸 Spanish-American War</option>
-        <option value="hundred_years_war">⚔️ Hundred Years War</option>
-        <option value="russian_civil_war">🇷🇺 Russian Civil War</option>
-        <option value="spanish_civil_war">🇪🇸 Spanish Civil War</option>
-        <option value="war_of_1812">🇺🇸 War of 1812</option>
-        <option value="mexican_american_war">🇺🇸 Mexican-American War</option>
-        <option value="the_iliad">🏛️ The Iliad</option>
-        <option value="american_civil_war">🇺🇸 American Civil War</option>
-        <option value="the_crusades">⚔️ The Crusades</option>
+        <option value="minions">🟡 Minions</option>
+        <option value="toyStory">🧸 Toy Story</option>
+        <option value="moana">🌊 Moana</option>
+        <option value="hundredYearsWar">⚔️ Hundred Years War</option>
+        <option value="russianCivilWar">🇷🇺 Russian Civil War</option>
+        <option value="spanishCivilWar">🇪🇸 Spanish Civil War</option>
+        <option value="theCrusades">⚔️ The Crusades</option>
         <option value="1984">📚 1984</option>
-        <option value="julius_caesar">🏛️ Julius Caesar</option>
-        <option value="animal_farm">🐷 Animal Farm</option>
+        <option value="juliusCaesar">🏛️ Julius Caesar</option>
+        <option value="animalFarm">🐷 Animal Farm</option>
       </select>
       <div id="scenarioInfo"></div>
     </div>
@@ -1764,6 +1762,47 @@
     }
   };
 
+  function assignCharactersToStudents() {
+    if (!state.scenario || !state.roster) return;
+    
+    console.log('Assigning characters to students...');
+    
+    // Get all characters from all factions
+    const allCharacters = [];
+    Object.entries(state.scenario.factions).forEach(([factionId, faction]) => {
+      if (faction.characters) {
+        faction.characters.forEach(char => {
+          allCharacters.push({
+            ...char,
+            factionId,
+            factionName: faction.name
+          });
+        });
+      }
+    });
+    
+    console.log('Available characters:', allCharacters.length);
+    
+    // Assign characters to students who don't have them
+    let characterIndex = 0;
+    state.roster.forEach(student => {
+      if (!student.characterName && allCharacters.length > 0) {
+        const character = allCharacters[characterIndex % allCharacters.length];
+        student.characterName = character.name;
+        student.characterRole = character.role;
+        student.characterFaction = character.factionName;
+        console.log(`Assigned ${character.name} to ${student.name}`);
+        characterIndex++;
+      }
+    });
+    
+    // Save the updated roster
+    if (state.currentRoster) {
+      state.currentRoster.roster = state.roster;
+      localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+    }
+  }
+
   function updateScenarioDetails() {
     const scenarioSelect = document.getElementById('scenarioSelect');
     const scenarioId = scenarioSelect.value;
@@ -1775,7 +1814,7 @@
       return;
     }
     
-    const scenario = scenarios[scenarioId];
+    const scenario = SCENARIOS[scenarioId];
     if (!scenario) return;
     
     scenarioInfo.innerHTML = `
@@ -1783,14 +1822,17 @@
         <div style="font-weight: bold; color: #8b5cf6; margin-bottom: 4px;">${scenario.name}</div>
         <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">${scenario.description}</div>
         <div style="font-size: 11px; color: var(--text); line-height: 1.4;">
-          <strong>Theme:</strong> ${scenario.theme}<br>
-          <strong>Special Rules:</strong><br>
-          ${scenario.specialRules.map(rule => `• ${rule}`).join('<br>')}
+          <strong>Factions:</strong><br>
+          ${Object.entries(scenario.factions).map(([id, faction]) => `• ${faction.name}`).join('<br>')}
         </div>
       </div>
     `;
     
     state.scenario = scenario;
+    
+    // Assign characters to students if not already assigned
+    assignCharactersToStudents();
+    
     renderRoster();
     updateGridDisplay();
   }
