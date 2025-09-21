@@ -96,32 +96,9 @@
 
     <div class="section">
       <div class="title">Scenario</div>
-      <select id="scenarioSelect" style="width: 100%; margin-bottom: 12px;">
-        <option value="">Select a scenario...</option>
-        <option value="americanRevolution">🇺🇸 American Revolutionary War</option>
-        <option value="americanCivilWar">🇺🇸 American Civil War</option>
-        <option value="harryPotter">🧙 Harry Potter</option>
-        <option value="avengers">🦸 Avengers</option>
-        <option value="starWars">⭐ Star Wars</option>
-        <option value="warOf1812">🇺🇸 War of 1812</option>
-        <option value="mexicanAmericanWar">🇺🇸 Mexican-American War</option>
-        <option value="theIliad">🏛️ The Iliad</option>
-        <option value="dcVsMarvel">🦸 DC vs Marvel</option>
-        <option value="frozen">❄️ Frozen</option>
-        <option value="spanishAmericanWar">🇺🇸 Spanish-American War</option>
-        <option value="dune">🏜️ Dune</option>
-        <option value="minions">🟡 Minions</option>
-        <option value="toyStory">🧸 Toy Story</option>
-        <option value="moana">🌊 Moana</option>
-        <option value="hundredYearsWar">⚔️ Hundred Years War</option>
-        <option value="russianCivilWar">🇷🇺 Russian Civil War</option>
-        <option value="spanishCivilWar">🇪🇸 Spanish Civil War</option>
-        <option value="theCrusades">⚔️ The Crusades</option>
-        <option value="1984">📚 1984</option>
-        <option value="juliusCaesar">🏛️ Julius Caesar</option>
-        <option value="animalFarm">🐷 Animal Farm</option>
-      </select>
-      <div id="scenarioInfo"></div>
+      <div id="scenarioInfo" style="background: rgba(139, 92, 246, 0.1); padding: 8px; border-radius: 8px; border: 1px solid rgba(139, 92, 246, 0.3);">
+        <div style="font-size: 12px; color: var(--muted);">Loading scenario from teacher...</div>
+      </div>
     </div>
 
     <div class="section">
@@ -1773,11 +1750,17 @@
   };
 
   function autoSelectScenarioFromRoster() {
-    if (!state.roster || state.roster.length === 0) return;
+    if (!state.roster || state.roster.length === 0) {
+      updateScenarioDisplay('No roster loaded');
+      return;
+    }
     
     // Check if any students have character names
     const studentsWithCharacters = state.roster.filter(s => s.characterName);
-    if (studentsWithCharacters.length === 0) return;
+    if (studentsWithCharacters.length === 0) {
+      updateScenarioDisplay('No characters assigned - playing in normal mode');
+      return;
+    }
     
     console.log('Found students with characters:', studentsWithCharacters.map(s => `${s.name}: ${s.characterName}`));
     
@@ -1795,17 +1778,37 @@
       // Check if any of our character names match this scenario
       const matches = characterNames.filter(name => scenarioCharacters.includes(name));
       if (matches.length > 0) {
-        console.log(`Auto-selecting scenario ${scenarioId} based on characters:`, matches);
+        console.log(`Auto-loading scenario ${scenarioId} based on characters:`, matches);
         
-        // Set the scenario selector
-        const scenarioSelect = document.getElementById('scenarioSelect');
-        if (scenarioSelect) {
-          scenarioSelect.value = scenarioId;
-          updateScenarioDetails();
-        }
+        // Load the scenario automatically
+        state.scenario = scenario;
+        updateScenarioDisplay(scenario.name, scenario.description, scenario.factions);
+        
+        // Assign characters to any students who don't have them
+        assignCharactersToStudents();
         break;
       }
     }
+  }
+
+  function updateScenarioDisplay(scenarioName, description, factions) {
+    const scenarioInfo = document.getElementById('scenarioInfo');
+    
+    if (!scenarioName) {
+      scenarioInfo.innerHTML = '<div style="font-size: 12px; color: var(--muted);">No scenario active - playing in normal mode</div>';
+      return;
+    }
+    
+    scenarioInfo.innerHTML = `
+      <div style="font-weight: bold; color: #8b5cf6; margin-bottom: 4px;">${scenarioName}</div>
+      ${description ? `<div style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">${description}</div>` : ''}
+      ${factions ? `
+        <div style="font-size: 11px; color: var(--text); line-height: 1.4;">
+          <strong>Factions:</strong><br>
+          ${Object.entries(factions).map(([id, faction]) => `• ${faction.name}`).join('<br>')}
+        </div>
+      ` : ''}
+    `;
   }
 
   function assignCharactersToStudents() {
@@ -1849,85 +1852,7 @@
     }
   }
 
-  function updateScenarioDetails() {
-    const scenarioSelect = document.getElementById('scenarioSelect');
-    const scenarioId = scenarioSelect.value;
-    const scenarioInfo = document.getElementById('scenarioInfo');
-    
-    if (!scenarioId) {
-      scenarioInfo.innerHTML = '<small>No scenario selected - playing in normal mode</small>';
-      state.scenario = null;
-      return;
-    }
-    
-    const scenario = SCENARIOS[scenarioId];
-    if (!scenario) return;
-    
-    scenarioInfo.innerHTML = `
-      <div style="background: rgba(139, 92, 246, 0.1); padding: 8px; border-radius: 8px; border: 1px solid rgba(139, 92, 246, 0.3);">
-        <div style="font-weight: bold; color: #8b5cf6; margin-bottom: 4px;">${scenario.name}</div>
-        <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">${scenario.description}</div>
-        <div style="font-size: 11px; color: var(--text); line-height: 1.4;">
-          <strong>Factions:</strong><br>
-          ${Object.entries(scenario.factions).map(([id, faction]) => `• ${faction.name}`).join('<br>')}
-        </div>
-      </div>
-    `;
-    
-    state.scenario = scenario;
-    
-    // Assign characters to students if not already assigned
-    assignCharactersToStudents();
-    
-    console.log('Scenario selected:', scenarioId, 'Characters assigned:', state.roster.map(s => s.characterName));
-    
-    renderRoster();
-    updateGridDisplay();
-  }
 
-  function loadScenario() {
-    const scenarioSelect = document.getElementById('scenarioSelect');
-    const scenarioId = scenarioSelect.value;
-    
-    if (!scenarioId) {
-      // Reset to normal mode
-      state.currentScenario = null;
-      updateScenarioDisplay();
-      return;
-    }
-    
-    const scenario = scenarios[scenarioId];
-    if (!scenario) return;
-    
-    state.currentScenario = scenario;
-    updateScenarioDisplay();
-    
-    // Show scenario info
-    alert(`🏛️ ${scenario.name}\n\n${scenario.description}\n\n${scenario.theme}\n\nSpecial Rules:\n${scenario.specialRules.join('\n')}`);
-  }
-  
-  function updateScenarioDisplay() {
-    const scenarioInfo = document.getElementById('scenarioInfo');
-    if (!scenarioInfo) {
-      // Create scenario info display
-      const scenarioSection = document.querySelector('.section:last-child');
-      const infoDiv = document.createElement('div');
-      infoDiv.id = 'scenarioInfo';
-      infoDiv.style.cssText = 'margin-top: 8px; padding: 8px; background: rgba(139, 92, 246, 0.1); border-radius: 6px; font-size: 12px;';
-      scenarioSection.appendChild(infoDiv);
-    }
-    
-    const infoDiv = document.getElementById('scenarioInfo');
-    if (state.currentScenario) {
-      infoDiv.innerHTML = `
-        <strong>${state.currentScenario.theme}</strong><br>
-        ${state.currentScenario.description}<br>
-        <small>Special rules are active!</small>
-      `;
-    } else {
-      infoDiv.innerHTML = '<small>No scenario selected - playing in normal mode</small>';
-    }
-  }
 
   // === TEAM RESOURCE MANAGEMENT ===
   function getTeamResources(teamId) {
@@ -2681,11 +2606,7 @@
     loadStudentRoster();
   }
 
-  // Setup scenario selection change handler
-  const scenarioSelect = document.getElementById('scenarioSelect');
-  if (scenarioSelect) {
-    scenarioSelect.onchange = updateScenarioDetails;
-  }
+  // No scenario selector for students - scenarios are auto-detected from teacher's roster
 
   // Auto-load student's roster
   function loadStudentRoster() {
@@ -3474,3 +3395,4 @@
 </script>
 </body>
 </html>
+
