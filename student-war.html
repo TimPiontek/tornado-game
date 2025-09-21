@@ -503,6 +503,15 @@
 
   function colorFor(gsId, i, total) {
     if (state.colors.has(gsId)) return state.colors.get(gsId);
+    
+    // Use team-based colors instead of individual colors
+    const student = state.roster.find(s => s.gsId === gsId);
+    if (student && student.teamColor) {
+      state.colors.set(gsId, student.teamColor);
+      return student.teamColor;
+    }
+    
+    // Fallback to individual colors if no team color
     const h = Math.round((i / Math.max(total,1)) * 360);
     const c = `hsl(${h} 65% 48%)`;
     state.colors.set(gsId, c);
@@ -706,68 +715,122 @@
     console.log('Assigning starting tiles to', state.roster.length, 'students');
     
     const { w, h } = state.board;
-    const tilesByDistance = [];
     
-    // Calculate distance from center for all tiles and sort by distance (outermost first)
+    // Group students by team for strategic placement
+    const teamGroups = {};
+    state.roster.forEach(student => {
+      const teamId = student.teamId || 'individual';
+      if (!teamGroups[teamId]) {
+        teamGroups[teamId] = [];
+      }
+      teamGroups[teamId].push(student);
+    });
+    
+    console.log('Team groups:', teamGroups);
+    
+    // Create strategic starting positions - group teams on opposite sides
+    const goodGuyPositions = [];
+    const badGuyPositions = [];
+    
+    // Good guys get left side (top-left to bottom-left)
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < Math.floor(w / 2); x++) {
+        goodGuyPositions.push({ x, y });
+      }
+    }
+    
+    // Bad guys get right side (top-right to bottom-right)
+    for (let y = 0; y < h; y++) {
+      for (let x = Math.floor(w / 2); x < w; x++) {
+        badGuyPositions.push({ x, y });
+      }
+    }
+    
+    // Sort positions by distance from center for better strategic placement
     const centerX = (w - 1) / 2;
     const centerY = (h - 1) / 2;
     
-    state.board.tiles.forEach(tile => {
-      const distance = Math.sqrt(Math.pow(tile.x - centerX, 2) + Math.pow(tile.y - centerY, 2));
-      tilesByDistance.push({ tile, distance });
+    goodGuyPositions.sort((a, b) => {
+      const distA = Math.sqrt(Math.pow(a.x - centerX, 2) + Math.pow(a.y - centerY, 2));
+      const distB = Math.sqrt(Math.pow(b.x - centerX, 2) + Math.pow(b.y - centerY, 2));
+      return distB - distA; // Furthest from center first
     });
     
-    // Sort by distance (outermost tiles first)
-    tilesByDistance.sort((a, b) => b.distance - a.distance);
+    badGuyPositions.sort((a, b) => {
+      const distA = Math.sqrt(Math.pow(a.x - centerX, 2) + Math.pow(a.y - centerY, 2));
+      const distB = Math.sqrt(Math.pow(b.x - centerX, 2) + Math.pow(b.y - centerY, 2));
+      return distB - distA; // Furthest from center first
+    });
     
-    // Get available tiles (unowned)
-    const availableTiles = tilesByDistance.filter(item => !item.tile.owner_game_student_id);
-    
-    console.log('Available tiles:', availableTiles.length, 'out of', tilesByDistance.length);
-    
-    // Each student gets exactly 2 tiles
-    const tilesPerStudent = 2;
-    const totalTilesNeeded = state.roster.length * tilesPerStudent;
-    
-    console.log('Tiles per student:', tilesPerStudent, 'Total tiles needed:', totalTilesNeeded);
-    
-    if (availableTiles.length < totalTilesNeeded) {
-      console.warn(`Not enough tiles! Need ${totalTilesNeeded} but only have ${availableTiles.length} available`);
-    }
-    
-    // Assign exactly 2 tiles per student
-    let tileIndex = 0;
-    state.roster.forEach((student, studentIndex) => {
-      const assignedTiles = [];
+    // Assign starting positions to teams
+    Object.entries(teamGroups).forEach(([teamId, students]) => {
+      console.log(`Assigning positions for team ${teamId} with ${students.length} students`);
       
-      for (let i = 0; i < tilesPerStudent && tileIndex < availableTiles.length; i++) {
-        const tile = availableTiles[tileIndex].tile;
-        tile.owner_game_student_id = student.gsId;
-        student.tilesOwned = (student.tilesOwned || 0) + 1;
-        assignedTiles.push(tile);
-        tileIndex++;
-        console.log(`Assigned tile (${tile.x}, ${tile.y}) to ${student.name}`);
+      // Choose positions based on team
+      let teamPositions = [];
+      if (teamId === 'good_guys') {
+        teamPositions = goodGuyPositions;
+      } else if (teamId === 'bad_guys') {
+        teamPositions = badGuyPositions;
+      } else {
+        // Individual players get mixed positions
+        teamPositions = [...goodGuyPositions, ...badGuyPositions];
       }
       
-      // Fallback: if still don't have 2 tiles, assign any available tiles
-      if (assignedTiles.length < tilesPerStudent) {
-        const remainingTiles = state.board.tiles.filter(tile => !tile.owner_game_student_id);
-        while (assignedTiles.length < tilesPerStudent && remainingTiles.length > 0) {
-          const tile = remainingTiles.shift(); // Take first available tile
-          tile.owner_game_student_id = student.gsId;
-          student.tilesOwned = (student.tilesOwned || 0) + 1;
-          assignedTiles.push(tile);
-          console.log(`Fallback: Assigned tile (${tile.x}, ${tile.y}) to ${student.name}`);
+      let positionIndex = 0;
+      students.forEach(student => {
+        // Each student gets 2 tiles - try to place them adjacent
+        const tilesPerStudent = 2;
+        const assignedTiles = [];
+        
+        for (let i = 0; i < tilesPerStudent && positionIndex < teamPositions.length; i++) {
+          const pos = teamPositions[positionIndex];
+          
+          // Find the tile at this position
+          const tile = state.board.tiles.find(t => t.x === pos.x && t.y === pos.y);
+          if (tile && !tile.owner_game_student_id) {
+            tile.owner_game_student_id = student.gsId;
+            student.tilesOwned = (student.tilesOwned || 0) + 1;
+            assignedTiles.push(tile);
+            console.log(`Assigned tile (${tile.x}, ${tile.y}) to ${student.name} (${student.teamName || 'individual'})`);
+          }
+          
+          positionIndex++;
         }
-      }
-      
-      // Ensure we have exactly 2 tiles per student
-      if (assignedTiles.length !== tilesPerStudent) {
-        console.warn(`Student ${student.name} has ${assignedTiles.length} tiles instead of ${tilesPerStudent}`);
-      }
+        
+        // If we couldn't get 2 tiles from team positions, get more from same team area
+        while (assignedTiles.length < tilesPerStudent && positionIndex < teamPositions.length) {
+          const pos = teamPositions[positionIndex];
+          const tile = state.board.tiles.find(t => t.x === pos.x && t.y === pos.y);
+          if (tile && !tile.owner_game_student_id) {
+            tile.owner_game_student_id = student.gsId;
+            student.tilesOwned = (student.tilesOwned || 0) + 1;
+            assignedTiles.push(tile);
+            console.log(`Assigned additional tile (${tile.x}, ${tile.y}) to ${student.name} (${student.teamName || 'individual'})`);
+          }
+          positionIndex++;
+        }
+        
+        // Fallback: if still don't have 2 tiles, assign any available tiles
+        if (assignedTiles.length < tilesPerStudent) {
+          const availableTiles = state.board.tiles.filter(tile => !tile.owner_game_student_id);
+          while (assignedTiles.length < tilesPerStudent && availableTiles.length > 0) {
+            const tile = availableTiles.shift(); // Take first available tile
+            tile.owner_game_student_id = student.gsId;
+            student.tilesOwned = (student.tilesOwned || 0) + 1;
+            assignedTiles.push(tile);
+            console.log(`Fallback: Assigned tile (${tile.x}, ${tile.y}) to ${student.name} (${student.teamName || 'individual'})`);
+          }
+        }
+        
+        // Ensure we have exactly 2 tiles per student
+        if (assignedTiles.length !== tilesPerStudent) {
+          console.warn(`Student ${student.name} has ${assignedTiles.length} tiles instead of ${tilesPerStudent}`);
+        }
+      });
     });
     
-    console.log('Starting tiles assigned - each student has at least one tile');
+    console.log('Strategic starting tiles assigned - teams grouped on opposite sides');
   }
   
   function getTerritoryForTile(tile, scenario) {
@@ -1993,7 +2056,18 @@
         student.mercenaries = character.startingMercenaries || 0;
         student.startingCastles = character.startingCastles || 0;
         
-        console.log(`Assigned ${character.name} to ${student.name} with ${character.startingCoins} coins, ${character.startingWeapons?.length || 0} weapons, ${character.startingMercenaries || 0} mercenaries, ${character.startingCastles || 0} castles`);
+        // Assign team based on character faction
+        if (character.factionName === 'Harry Potter & Friends') {
+          student.teamId = 'good_guys';
+          student.teamName = 'Dumbledore\'s Army';
+          student.teamColor = '#2e8b57'; // Green for good guys
+        } else if (character.factionName === 'Death Eaters & Voldemort') {
+          student.teamId = 'bad_guys';
+          student.teamName = 'Voldemort\'s Army';
+          student.teamColor = '#8b0000'; // Dark red for bad guys
+        }
+        
+        console.log(`Assigned ${character.name} to ${student.name} (${student.teamName}) with ${character.startingCoins} coins, ${character.startingWeapons?.length || 0} weapons, ${character.startingMercenaries || 0} mercenaries, ${character.startingCastles || 0} castles`);
         characterIndex++;
       }
     });

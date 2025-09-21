@@ -533,6 +533,15 @@
 
   function colorFor(gsId, i, total) {
     if (state.colors.has(gsId)) return state.colors.get(gsId);
+    
+    // Use team-based colors instead of individual colors
+    const student = state.roster.find(s => s.gsId === gsId);
+    if (student && student.teamColor) {
+      state.colors.set(gsId, student.teamColor);
+      return student.teamColor;
+    }
+    
+    // Fallback to individual colors if no team color
     const h = Math.round((i / Math.max(total,1)) * 360);
     const c = `hsl(${h} 65% 48%)`;
     state.colors.set(gsId, c);
@@ -704,8 +713,19 @@
         student.mercenaries = character.startingMercenaries || 0;
         student.startingCastles = character.startingCastles || 0;
         
+        // Assign team based on character faction
+        if (character.factionName === 'Harry Potter & Friends') {
+          student.teamId = 'good_guys';
+          student.teamName = 'Dumbledore\'s Army';
+          student.teamColor = '#2e8b57'; // Green for good guys
+        } else if (character.factionName === 'Death Eaters & Voldemort') {
+          student.teamId = 'bad_guys';
+          student.teamName = 'Voldemort\'s Army';
+          student.teamColor = '#8b0000'; // Dark red for bad guys
+        }
+        
         roleAssignments[student.gsId] = character.name;
-        console.log(`Assigned ${character.name} to ${student.name} with ${character.startingCoins} coins, ${character.startingWeapons?.length || 0} weapons, ${character.startingMercenaries || 0} mercenaries, ${character.startingCastles || 0} castles`);
+        console.log(`Assigned ${character.name} to ${student.name} (${student.teamName}) with ${character.startingCoins} coins, ${character.startingWeapons?.length || 0} weapons, ${character.startingMercenaries || 0} mercenaries, ${character.startingCastles || 0} castles`);
       } else {
         // If we run out of characters, create a meaningful role based on faction
         const factionIndex = index % Object.keys(scenarioData.factions).length;
@@ -906,43 +926,63 @@ delete state.currentRoster.gameState;
     
     console.log('Team groups:', teamGroups);
     
-    // Create strategic starting positions
-    const startingPositions = [];
+    // Create strategic starting positions - group teams on opposite sides
+    const goodGuyPositions = [];
+    const badGuyPositions = [];
     
-    // Define corner and edge positions for strategic placement
-    const corners = [
-      { x: 0, y: 0 },           // Top-left
-      { x: w-1, y: 0 },         // Top-right
-      { x: 0, y: h-1 },         // Bottom-left
-      { x: w-1, y: h-1 }         // Bottom-right
-    ];
-    
-    const edges = [];
-    // Add edge positions (excluding corners)
-    for (let x = 1; x < w-1; x++) {
-      edges.push({ x, y: 0 });      // Top edge
-      edges.push({ x, y: h-1 });    // Bottom edge
-    }
-    for (let y = 1; y < h-1; y++) {
-      edges.push({ x: 0, y });      // Left edge
-      edges.push({ x: w-1, y });    // Right edge
+    // Good guys get left side (top-left to bottom-left)
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < Math.floor(w / 2); x++) {
+        goodGuyPositions.push({ x, y });
+      }
     }
     
-    // Combine corners and edges for starting positions
-    const allPositions = [...corners, ...edges];
+    // Bad guys get right side (top-right to bottom-right)
+    for (let y = 0; y < h; y++) {
+      for (let x = Math.floor(w / 2); x < w; x++) {
+        badGuyPositions.push({ x, y });
+      }
+    }
+    
+    // Sort positions by distance from center for better strategic placement
+    const centerX = (w - 1) / 2;
+    const centerY = (h - 1) / 2;
+    
+    goodGuyPositions.sort((a, b) => {
+      const distA = Math.sqrt(Math.pow(a.x - centerX, 2) + Math.pow(a.y - centerY, 2));
+      const distB = Math.sqrt(Math.pow(b.x - centerX, 2) + Math.pow(b.y - centerY, 2));
+      return distB - distA; // Furthest from center first
+    });
+    
+    badGuyPositions.sort((a, b) => {
+      const distA = Math.sqrt(Math.pow(a.x - centerX, 2) + Math.pow(a.y - centerY, 2));
+      const distB = Math.sqrt(Math.pow(b.x - centerX, 2) + Math.pow(b.y - centerY, 2));
+      return distB - distA; // Furthest from center first
+    });
     
     // Assign starting positions to teams
-    let positionIndex = 0;
     Object.entries(teamGroups).forEach(([teamId, students]) => {
       console.log(`Assigning positions for team ${teamId} with ${students.length} students`);
       
+      // Choose positions based on team
+      let teamPositions = [];
+      if (teamId === 'good_guys') {
+        teamPositions = goodGuyPositions;
+      } else if (teamId === 'bad_guys') {
+        teamPositions = badGuyPositions;
+      } else {
+        // Individual players get mixed positions
+        teamPositions = [...goodGuyPositions, ...badGuyPositions];
+      }
+      
+      let positionIndex = 0;
       students.forEach(student => {
         // Each student gets 2 tiles - try to place them adjacent
         const tilesPerStudent = 2;
         const assignedTiles = [];
         
-        for (let i = 0; i < tilesPerStudent && positionIndex < allPositions.length; i++) {
-          const pos = allPositions[positionIndex];
+        for (let i = 0; i < tilesPerStudent && positionIndex < teamPositions.length; i++) {
+          const pos = teamPositions[positionIndex];
           
           // Find the tile at this position
           const tile = state.board.tiles.find(t => t.x === pos.x && t.y === pos.y);
@@ -950,21 +990,21 @@ delete state.currentRoster.gameState;
             tile.owner_game_student_id = student.gsId;
             student.tilesOwned = (student.tilesOwned || 0) + 1;
             assignedTiles.push(tile);
-            console.log(`Assigned tile (${tile.x}, ${tile.y}) to ${student.name}`);
+            console.log(`Assigned tile (${tile.x}, ${tile.y}) to ${student.name} (${student.teamName || 'individual'})`);
           }
           
           positionIndex++;
         }
         
-        // If we couldn't get 2 tiles from strategic positions, get more from edges
-        while (assignedTiles.length < tilesPerStudent && positionIndex < allPositions.length) {
-          const pos = allPositions[positionIndex];
+        // If we couldn't get 2 tiles from team positions, get more from same team area
+        while (assignedTiles.length < tilesPerStudent && positionIndex < teamPositions.length) {
+          const pos = teamPositions[positionIndex];
           const tile = state.board.tiles.find(t => t.x === pos.x && t.y === pos.y);
           if (tile && !tile.owner_game_student_id) {
             tile.owner_game_student_id = student.gsId;
             student.tilesOwned = (student.tilesOwned || 0) + 1;
             assignedTiles.push(tile);
-            console.log(`Assigned additional tile (${tile.x}, ${tile.y}) to ${student.name}`);
+            console.log(`Assigned additional tile (${tile.x}, ${tile.y}) to ${student.name} (${student.teamName || 'individual'})`);
           }
           positionIndex++;
         }
@@ -977,7 +1017,7 @@ delete state.currentRoster.gameState;
             tile.owner_game_student_id = student.gsId;
             student.tilesOwned = (student.tilesOwned || 0) + 1;
             assignedTiles.push(tile);
-            console.log(`Fallback: Assigned tile (${tile.x}, ${tile.y}) to ${student.name}`);
+            console.log(`Fallback: Assigned tile (${tile.x}, ${tile.y}) to ${student.name} (${student.teamName || 'individual'})`);
           }
         }
         

@@ -2805,6 +2805,57 @@ const SCENARIOS = {
               "I am unstoppable."
             ],
             description: 'Cruel Death Eater who became a professor at Hogwarts.'
+          },
+          {
+            name: 'Nagini',
+            role: 'Magical Snake',
+            startingCoins: 70,
+            startingWeapons: ['venomous bite', 'horcrux'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "I serve my master.",
+              "The Dark Lord's faithful companion.",
+              "I will strike when commanded.",
+              "Pure blood will triumph.",
+              "I am Voldemort's last horcrux."
+            ],
+            description: 'Voldemort\'s loyal magical snake and final horcrux.'
+          },
+          {
+            name: 'Giant',
+            role: 'Magical Giant',
+            startingCoins: 80,
+            startingWeapons: ['massive club', 'earthquake stomp'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'brutal',
+            quotes: [
+              "I crush enemies!",
+              "The Dark Lord rewards giants!",
+              "I will destroy everything!",
+              "Pure blood will rule!",
+              "I am unstoppable!"
+            ],
+            description: 'Massive magical giant allied with Voldemort.'
+          },
+          {
+            name: 'Giant Spider',
+            role: 'Acromantula',
+            startingCoins: 65,
+            startingWeapons: ['venomous fangs', 'web trap'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'predatory',
+            quotes: [
+              "I will catch prey.",
+              "The Dark Lord feeds us well.",
+              "I spin webs of death.",
+              "Pure blood tastes sweet.",
+              "I am the hunter."
+            ],
+            description: 'Massive magical spider from the Forbidden Forest.'
           }
         ],
         generalRoles: [
