@@ -1364,7 +1364,7 @@
         }
 
         function getAssignmentScore(assignment, submission) {
-            if (!submission || !submission.gradedAt) return null;
+            if (!submission || !submission.submittedAt) return null;
             
             let totalPoints = 0;
             let earnedPoints = 0;
