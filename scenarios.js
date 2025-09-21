@@ -14,12 +14,16 @@ const SCENARIOS = {
         color: '#1e40af', // Blue
         description: 'American colonists fighting for independence',
         territories: [
-          { name: 'Boston', cost: 15, description: 'Center of revolutionary activity' },
-          { name: 'Philadelphia', cost: 20, description: 'Where the Declaration was signed' },
-          { name: 'New York', cost: 18, description: 'Strategic port city' },
-          { name: 'Charleston', cost: 12, description: 'Southern stronghold' },
-          { name: 'Valley Forge', cost: 8, description: 'Winter encampment' },
-          { name: 'Saratoga', cost: 10, description: 'Turning point battle' }
+          { name: 'Boston', cost: 15, description: 'Center of revolutionary activity and Tea Party' },
+          { name: 'Philadelphia', cost: 20, description: 'Continental Congress and Declaration signing' },
+          { name: 'New York', cost: 18, description: 'Strategic port city and Continental Army HQ' },
+          { name: 'Charleston', cost: 12, description: 'Southern stronghold and supply base' },
+          { name: 'Valley Forge', cost: 8, description: 'Winter encampment and training ground' },
+          { name: 'Saratoga', cost: 10, description: 'Turning point battle and French alliance' },
+          { name: 'Yorktown', cost: 16, description: 'Final battle site and victory location' },
+          { name: 'Lexington & Concord', cost: 9, description: 'First shots fired and revolution begins' },
+          { name: 'Trenton', cost: 7, description: 'Washington\'s Christmas victory' },
+          { name: 'Continental Army Camps', cost: 6, description: 'Mobile military bases and training' }
         ],
         characters: [
           {
@@ -425,12 +429,16 @@ const SCENARIOS = {
         color: '#dc2626', // Red
         description: 'British forces maintaining colonial control',
         territories: [
-          { name: 'London', cost: 25, description: 'Capital of the British Empire' },
-          { name: 'New York Harbor', cost: 20, description: 'British naval base' },
-          { name: 'Charleston Harbor', cost: 18, description: 'Southern British stronghold' },
-          { name: 'Quebec', cost: 15, description: 'Northern British territory' },
-          { name: 'Halifax', cost: 12, description: 'Nova Scotia naval base' },
-          { name: 'Bermuda', cost: 10, description: 'Atlantic naval station' }
+          { name: 'London', cost: 25, description: 'Capital of the British Empire and command center' },
+          { name: 'New York Harbor', cost: 20, description: 'British naval base and occupied city' },
+          { name: 'Charleston Harbor', cost: 18, description: 'Southern British stronghold and port' },
+          { name: 'Quebec', cost: 15, description: 'Northern British territory and fortress' },
+          { name: 'Halifax', cost: 12, description: 'Nova Scotia naval base and supply depot' },
+          { name: 'Bermuda', cost: 10, description: 'Atlantic naval station and blockade base' },
+          { name: 'British Fleet', cost: 22, description: 'Royal Navy armada and blockade force' },
+          { name: 'Fort Ticonderoga', cost: 14, description: 'Strategic fortress and artillery position' },
+          { name: 'Loyalist Strongholds', cost: 11, description: 'Tory settlements and British supporters' },
+          { name: 'Caribbean Bases', cost: 13, description: 'Sugar islands and naval supply stations' }
         ],
         characters: [
           {
@@ -631,12 +639,16 @@ const SCENARIOS = {
         color: '#1e40af', // Blue
         description: 'Northern states fighting to preserve the Union and end slavery',
         territories: [
-          { name: 'Washington D.C.', cost: 20, description: 'Union capital' },
-          { name: 'New York', cost: 18, description: 'Industrial center' },
-          { name: 'Philadelphia', cost: 15, description: 'Manufacturing hub' },
-          { name: 'Boston', cost: 12, description: 'Port city' },
-          { name: 'Chicago', cost: 10, description: 'Railroad center' },
-          { name: 'Cleveland', cost: 8, description: 'Industrial city' }
+          { name: 'Washington D.C.', cost: 20, description: 'Union capital and command center' },
+          { name: 'New York', cost: 18, description: 'Industrial center and financial hub' },
+          { name: 'Philadelphia', cost: 15, description: 'Manufacturing hub and supply center' },
+          { name: 'Boston', cost: 12, description: 'Port city and naval base' },
+          { name: 'Chicago', cost: 10, description: 'Railroad center and transportation hub' },
+          { name: 'Cleveland', cost: 8, description: 'Industrial city and manufacturing' },
+          { name: 'Union Army Camps', cost: 16, description: 'Military training and deployment centers' },
+          { name: 'Gettysburg', cost: 14, description: 'Turning point battle site' },
+          { name: 'Union Navy', cost: 13, description: 'Naval blockade and river fleet' },
+          { name: 'Underground Railroad', cost: 11, description: 'Freedom network and intelligence' }
         ],
         characters: [
           {
@@ -969,12 +981,16 @@ const SCENARIOS = {
         color: '#dc2626', // Red
         description: 'Southern states fighting to preserve slavery and states rights',
         territories: [
-          { name: 'Richmond', cost: 18, description: 'Confederate capital' },
-          { name: 'Atlanta', cost: 15, description: 'Railroad hub' },
-          { name: 'Charleston', cost: 12, description: 'Port city' },
-          { name: 'New Orleans', cost: 14, description: 'Mississippi port' },
-          { name: 'Memphis', cost: 10, description: 'River city' },
-          { name: 'Nashville', cost: 8, description: 'State capital' }
+          { name: 'Richmond', cost: 18, description: 'Confederate capital and command center' },
+          { name: 'Atlanta', cost: 15, description: 'Railroad hub and supply center' },
+          { name: 'Charleston', cost: 12, description: 'Port city and blockade runner base' },
+          { name: 'New Orleans', cost: 14, description: 'Mississippi port and trade hub' },
+          { name: 'Memphis', cost: 10, description: 'River city and transportation center' },
+          { name: 'Nashville', cost: 8, description: 'State capital and strategic position' },
+          { name: 'Confederate Army Camps', cost: 16, description: 'Military training and deployment centers' },
+          { name: 'Fort Sumter', cost: 13, description: 'First battle site and symbolic stronghold' },
+          { name: 'Confederate Navy', cost: 11, description: 'River fleet and blockade runners' },
+          { name: 'Plantation Strongholds', cost: 9, description: 'Economic base and slave labor' }
         ],
         characters: [
           {
@@ -2355,11 +2371,16 @@ const SCENARIOS = {
         color: '#2e8b57',
         description: 'Fighting for love, friendship, and the protection of the wizarding world',
         territories: [
-          { name: 'Hogwarts', cost: 100, description: 'School of Witchcraft and Wizardry' },
-          { name: 'Gryffindor Tower', cost: 80, description: 'House of the brave' },
-          { name: 'Hogsmeade', cost: 70, description: 'Wizarding village' },
-          { name: 'Diagon Alley', cost: 75, description: 'Wizarding shopping district' },
-          { name: 'Platform 9¾', cost: 65, description: 'Magical train station' }
+          { name: 'Hogwarts', cost: 100, description: 'Central fortress and headquarters of the resistance' },
+          { name: 'Gryffindor Tower', cost: 80, description: 'Defensive stronghold within Hogwarts' },
+          { name: 'Hogsmeade', cost: 70, description: 'Strategic village and supply base' },
+          { name: 'Diagon Alley', cost: 75, description: 'Commercial center and resource hub' },
+          { name: 'Order Headquarters', cost: 85, description: 'Secret base of the Order of the Phoenix' },
+          { name: 'Grimmauld Place', cost: 80, description: 'Hidden safe house and planning center' },
+          { name: 'Ministry of Magic', cost: 90, description: 'Government center and power base' },
+          { name: 'St. Mungo\'s Hospital', cost: 70, description: 'Healing center and medical fortress' },
+          { name: 'The Burrow', cost: 65, description: 'Weasley family stronghold and refuge' },
+          { name: 'Godric\'s Hollow', cost: 75, description: 'Symbolic birthplace and memorial site' }
         ],
         characters: [
           {
@@ -2629,11 +2650,16 @@ const SCENARIOS = {
         color: '#8b0000',
         description: 'Seeking pure-blood supremacy and magical dominance',
         territories: [
-          { name: 'Malfoy Manor', cost: 90, description: 'Luxurious pure-blood estate' },
-          { name: 'Azkaban', cost: 85, description: 'Wizarding prison' },
-          { name: 'Knockturn Alley', cost: 70, description: 'Dark wizarding district' },
-          { name: 'Borgin & Burkes', cost: 65, description: 'Dark artifacts shop' },
-          { name: 'Riddle House', cost: 75, description: 'Voldemort\'s birthplace' }
+          { name: 'Malfoy Manor', cost: 90, description: 'Death Eater headquarters and planning center' },
+          { name: 'Azkaban', cost: 85, description: 'Prison fortress and terror weapon' },
+          { name: 'Knockturn Alley', cost: 70, description: 'Dark recruitment and supply district' },
+          { name: 'Riddle House', cost: 75, description: 'Symbolic birthplace and dark power site' },
+          { name: 'Little Hangleton Graveyard', cost: 80, description: 'Dark ritual site and resurrection ground' },
+          { name: 'Forbidden Forest', cost: 65, description: 'Dark creature territory and hiding place' },
+          { name: 'Chamber of Secrets', cost: 85, description: 'Hidden lair and monster breeding ground' },
+          { name: 'Nurmengard', cost: 90, description: 'International dark wizard prison' },
+          { name: 'Lestrange Vault', cost: 75, description: 'Dark artifact storage and power source' },
+          { name: 'Dark Mark Territory', cost: 70, description: 'Marked territory under Death Eater control' }
         ],
         characters: [
           {
@@ -2885,11 +2911,16 @@ const SCENARIOS = {
         color: '#4169e1',
         description: 'Protecting Earth from threats',
         territories: [
-          { name: 'Stark Tower', cost: 100, description: 'Avengers headquarters' },
-          { name: 'SHIELD Base', cost: 80, description: 'Government agency headquarters' },
-          { name: 'Asgard', cost: 90, description: 'Thor\'s home realm' },
-          { name: 'Wakanda', cost: 85, description: 'Advanced African nation' },
-          { name: 'Sanctum Sanctorum', cost: 75, description: 'Doctor Strange\'s home' }
+          { name: 'Stark Tower', cost: 100, description: 'Avengers headquarters and command center' },
+          { name: 'SHIELD Base', cost: 80, description: 'Government agency headquarters and intelligence' },
+          { name: 'Asgard', cost: 90, description: 'Thor\'s home realm and Asgardian stronghold' },
+          { name: 'Wakanda', cost: 85, description: 'Advanced African nation and vibranium source' },
+          { name: 'Sanctum Sanctorum', cost: 75, description: 'Doctor Strange\'s home and mystical base' },
+          { name: 'Avengers Compound', cost: 95, description: 'Upstate New York training facility' },
+          { name: 'New Asgard', cost: 80, description: 'Asgardian settlement on Earth' },
+          { name: 'Wakandan Border Tribe', cost: 70, description: 'Defensive outpost and warrior training' },
+          { name: 'Avengers Academy', cost: 75, description: 'Training facility for new heroes' },
+          { name: 'Stark Industries', cost: 85, description: 'Technology development and armory' }
         ],
         characters: [
           {
@@ -3159,11 +3190,16 @@ const SCENARIOS = {
         color: '#8b0000',
         description: 'Seeking power and destruction',
         territories: [
-          { name: 'Titan', cost: 90, description: 'Thanos\' home planet' },
-          { name: 'Hydra Base', cost: 80, description: 'Evil organization headquarters' },
-          { name: 'Vormir', cost: 85, description: 'Planet of the soul stone' },
-          { name: 'Sakaar', cost: 75, description: 'Planet of gladiators' },
-          { name: 'Nidavellir', cost: 70, description: 'Dwarf forge world' }
+          { name: 'Titan', cost: 90, description: 'Thanos\' home planet and command center' },
+          { name: 'Hydra Base', cost: 80, description: 'Evil organization headquarters and training' },
+          { name: 'Vormir', cost: 85, description: 'Planet of the soul stone and sacrifice' },
+          { name: 'Sakaar', cost: 75, description: 'Planet of gladiators and Grandmaster\'s domain' },
+          { name: 'Knowhere', cost: 70, description: 'Criminal space station and black market' },
+          { name: 'Dark Dimension', cost: 95, description: 'Dormammu\'s realm and mystical stronghold' },
+          { name: 'Hydra Island', cost: 75, description: 'Secret base and weapon development' },
+          { name: 'Chitauri Territory', cost: 80, description: 'Alien invasion force and army' },
+          { name: 'Ultron\'s Base', cost: 85, description: 'AI stronghold and robot factory' },
+          { name: 'Loki\'s Domain', cost: 70, description: 'Trickster\'s realm and illusion stronghold' }
         ],
         characters: [
           {
@@ -3449,11 +3485,16 @@ const SCENARIOS = {
         color: '#4169e1',
         description: 'Fighting for freedom and justice across the galaxy',
         territories: [
-          { name: 'Yavin 4', cost: 80, description: 'Rebel base moon' },
-          { name: 'Hoth', cost: 70, description: 'Ice planet base' },
-          { name: 'Endor', cost: 75, description: 'Forest moon' },
-          { name: 'Dagobah', cost: 65, description: 'Swamp planet' },
-          { name: 'Tatooine', cost: 60, description: 'Desert planet' }
+          { name: 'Yavin 4', cost: 80, description: 'Primary rebel base and command center' },
+          { name: 'Hoth', cost: 70, description: 'Secret ice planet base and Echo Base' },
+          { name: 'Endor', cost: 75, description: 'Forest moon and Death Star II battle site' },
+          { name: 'Dagobah', cost: 65, description: 'Jedi training ground and Force nexus' },
+          { name: 'Rebel Fleet', cost: 85, description: 'Mobile space fleet and command ships' },
+          { name: 'Alderaan', cost: 90, description: 'Destroyed homeworld and symbol of resistance' },
+          { name: 'Mon Calamari', cost: 80, description: 'Shipyard world and fleet construction base' },
+          { name: 'Rogue Squadron Base', cost: 75, description: 'Elite fighter pilot training facility' },
+          { name: 'Hidden Rebel Cells', cost: 70, description: 'Underground resistance network' },
+          { name: 'Jedi Temple Ruins', cost: 85, description: 'Ancient Force stronghold and training site' }
         ],
         characters: [
           {
@@ -3723,11 +3764,16 @@ const SCENARIOS = {
         color: '#8b0000',
         description: 'Seeking order and control through fear and power',
         territories: [
-          { name: 'Death Star', cost: 120, description: 'Ultimate weapon' },
-          { name: 'Coruscant', cost: 100, description: 'Imperial capital' },
-          { name: 'Mustafar', cost: 80, description: 'Volcanic planet' },
-          { name: 'Kamino', cost: 70, description: 'Clone planet' },
-          { name: 'Geonosis', cost: 65, description: 'Droid factory world' }
+          { name: 'Death Star', cost: 120, description: 'Ultimate superweapon and terror device' },
+          { name: 'Coruscant', cost: 100, description: 'Imperial capital and galactic center' },
+          { name: 'Mustafar', cost: 80, description: 'Vader\'s fortress and dark side nexus' },
+          { name: 'Kamino', cost: 70, description: 'Clone production facility and army source' },
+          { name: 'Geonosis', cost: 65, description: 'Droid factory world and manufacturing base' },
+          { name: 'Imperial Fleet', cost: 110, description: 'Massive space armada and Star Destroyers' },
+          { name: 'Imperial Palace', cost: 95, description: 'Emperor\'s throne and command center' },
+          { name: 'Death Star II', cost: 125, description: 'Second superweapon and final battle site' },
+          { name: 'Imperial Academy', cost: 75, description: 'Officer training and indoctrination center' },
+          { name: 'Sith Temple', cost: 90, description: 'Dark side stronghold and Force training site' }
         ],
         characters: [
           {
@@ -3998,10 +4044,15 @@ const SCENARIOS = {
         description: 'Bounty hunters, smugglers, and independent forces seeking profit',
         territories: [
           { name: 'Tatooine', cost: 60, description: 'Desert planet with criminal underworld' },
-          { name: 'Nar Shaddaa', cost: 70, description: 'Smuggler\'s moon' },
-          { name: 'Ord Mantell', cost: 55, description: 'Bounty hunter haven' },
-          { name: 'Corellia', cost: 65, description: 'Shipbuilding world' },
-          { name: 'Kessel', cost: 50, description: 'Spice mining planet' }
+          { name: 'Nar Shaddaa', cost: 70, description: 'Smuggler\'s moon and black market hub' },
+          { name: 'Ord Mantell', cost: 55, description: 'Bounty hunter haven and mercenary base' },
+          { name: 'Corellia', cost: 65, description: 'Shipbuilding world and trade center' },
+          { name: 'Kessel', cost: 50, description: 'Spice mining planet and prison world' },
+          { name: 'Cloud City', cost: 75, description: 'Mining facility and neutral territory' },
+          { name: 'Cantina Network', cost: 60, description: 'Information hub and meeting places' },
+          { name: 'Smuggler\'s Run', cost: 65, description: 'Dangerous trade route and hideout' },
+          { name: 'Black Sun Territory', cost: 70, description: 'Criminal organization stronghold' },
+          { name: 'Independent Colonies', cost: 55, description: 'Free worlds outside Imperial control' }
         ],
         characters: [
           {
@@ -5930,11 +5981,16 @@ const SCENARIOS = {
         color: '#1e40af', // Deep blue for Greeks
         description: 'Fighting to reclaim Helen and restore honor',
         territories: [
-          { name: 'Mycenae', cost: 80, description: 'Agamemnon\'s kingdom' },
-          { name: 'Sparta', cost: 75, description: 'Menelaus\' kingdom' },
-          { name: 'Ithaca', cost: 70, description: 'Odysseus\' kingdom' },
-          { name: 'Pylos', cost: 65, description: 'Nestor\'s kingdom' },
-          { name: 'Phthia', cost: 60, description: 'Achilles\' homeland' }
+          { name: 'Mycenae', cost: 80, description: 'Agamemnon\'s kingdom and command center' },
+          { name: 'Sparta', cost: 75, description: 'Menelaus\' kingdom and warrior training' },
+          { name: 'Ithaca', cost: 70, description: 'Odysseus\' kingdom and strategic planning' },
+          { name: 'Pylos', cost: 65, description: 'Nestor\'s kingdom and wisdom center' },
+          { name: 'Phthia', cost: 60, description: 'Achilles\' homeland and warrior breeding' },
+          { name: 'Greek Camp', cost: 85, description: 'Beachhead base outside Troy' },
+          { name: 'Greek Ships', cost: 75, description: 'Naval fleet and supply line' },
+          { name: 'Mount Olympus', cost: 90, description: 'Divine support and godly favor' },
+          { name: 'Greek Allies', cost: 70, description: 'Allied kingdoms and reinforcements' },
+          { name: 'Patroclus\' Tomb', cost: 65, description: 'Sacred memorial and rallying point' }
         ],
         characters: [
           {
@@ -6204,11 +6260,16 @@ const SCENARIOS = {
         color: '#dc2626', // Red for Trojans (already good)
         description: 'Defending their city and protecting Helen',
         territories: [
-          { name: 'Troy', cost: 100, description: 'The great city' },
-          { name: 'Troy Walls', cost: 90, description: 'Impenetrable defenses' },
-          { name: 'Troy Gates', cost: 85, description: 'City entrances' },
-          { name: 'Troy Palace', cost: 95, description: 'Royal residence' },
-          { name: 'Troy Temple', cost: 80, description: 'Sacred place' }
+          { name: 'Troy', cost: 100, description: 'The great city and fortress' },
+          { name: 'Troy Walls', cost: 90, description: 'Impenetrable defenses and battlements' },
+          { name: 'Troy Gates', cost: 85, description: 'City entrances and defensive chokepoints' },
+          { name: 'Troy Palace', cost: 95, description: 'Royal residence and command center' },
+          { name: 'Troy Temple', cost: 80, description: 'Sacred place and divine protection' },
+          { name: 'Troy Citadel', cost: 88, description: 'Inner fortress and last defense' },
+          { name: 'Troy Armory', cost: 75, description: 'Weapon storage and military supplies' },
+          { name: 'Troy Marketplace', cost: 70, description: 'Supply center and trade hub' },
+          { name: 'Troy Barracks', cost: 72, description: 'Soldier quarters and training ground' },
+          { name: 'Troy Treasury', cost: 78, description: 'Wealth storage and war funding' }
         ],
         characters: [
           {
