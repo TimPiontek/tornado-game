@@ -95,7 +95,8 @@
           <li>❌ Cannot add/take points</li>
           <li>❌ Cannot modify other students' data</li>
         </ul>
-        <button class="pill" onclick="showPurchaseGuide()" style="background: #3b82f6; color: white; font-size: 12px; width: 100%;">📖 Purchase Guide</button>
+        <button class="pill" onclick="showPurchaseGuide()" style="background: #3b82f6; color: white; font-size: 12px; width: 100%; margin-bottom: 8px;">📖 Purchase Guide</button>
+        <button class="pill" onclick="showStudentMarket()" style="background: #10b981; color: white; font-size: 12px; width: 100%;">🛒 Student Market</button>
       </div>
     </div>
 
@@ -608,6 +609,16 @@
     initializeGameBoard();
     console.log('initializeGameBoard completed');
     
+    // Auto-select the logged-in student
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    if (currentStudent && currentStudent.username) {
+      const loggedInStudent = state.roster.find(s => s.name === currentStudent.username);
+      if (loggedInStudent) {
+        state.selectedGsId = loggedInStudent.gsId;
+        console.log('Auto-selected logged-in student:', currentStudent.username);
+      }
+    }
+    
     // Update UI
     console.log('About to call renderRoster');
     renderRoster();
@@ -987,46 +998,55 @@
 
   function renderRoster() {
     rosterEl.innerHTML = "";
-    for (const r of state.roster) {
+    
+    // Get the logged-in student
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    const loggedInStudent = state.roster.find(s => s.name === currentStudent.username);
+    
+    if (loggedInStudent) {
+      // Show only the logged-in student with detailed stats
       const row = document.createElement("div");
-      row.className = "row" + (state.selectedGsId===r.gsId ? " sel" : "");
-      row.style.borderColor = state.colors.get(r.gsId);
-      const teamInfo = r.teamName ? `<div style="font-size:10px; color:var(--muted);">${r.teamName}</div>` : '';
-      const teamColor = r.teamColor || state.colors.get(r.gsId);
+      row.className = "row sel"; // Always selected
+      row.style.borderColor = state.colors.get(loggedInStudent.gsId);
+      row.style.background = "rgba(59, 130, 246, 0.1)"; // Highlight the logged-in student
+      
+      // Count castles, mercenaries, and weapons for this student
+      const castles = state.board.tiles.filter(tile => 
+        tile.owner_game_student_id === loggedInStudent.gsId && tile.castle_level > 0
+      ).length;
+      
+      const mercenaries = loggedInStudent.mercenaries || 0;
+      const weapons = loggedInStudent.weapons ? loggedInStudent.weapons.length : 0;
       
       row.innerHTML = `
         <div style="display:flex; gap:6px; align-items:center;">
-          <div style="width:10px;height:10px;border-radius:50%;background:${teamColor}; cursor:pointer;" 
-               onclick="changeTeamColor('${r.gsId}')" title="Click to change team color"></div>
+          <div style="width:12px;height:12px;border-radius:50%;background:${state.colors.get(loggedInStudent.gsId)}; border: 2px solid #3b82f6;"></div>
           <div>
-          <div>${r.name}</div>
-            ${teamInfo}
-        </div>
+            <div style="font-weight: bold; color: #3b82f6;">${loggedInStudent.name} (You)</div>
+            <div style="font-size:10px; color:var(--muted);">Student Mode</div>
+          </div>
         </div>
         <div class="bal" title="Balance" style="display: flex; align-items: center; gap: 4px;">
           <span>💰</span>
-          <span style="font-size: 12px;">${formatMoney(r.balance)}</span>
+          <span style="font-size: 12px; font-weight: bold;">${formatMoney(loggedInStudent.balance)}</span>
         </div>
-        <div class="chip" title="Tiles owned">🧩 ${r.tilesOwned}</div>
-        <!-- Point manipulation buttons removed for student version -->
+        <div class="chip" title="Territories owned">🧩 ${loggedInStudent.tilesOwned}</div>
+        <div class="chip" title="Castles built">🏰 ${castles}</div>
+        <div class="chip" title="Mercenaries">⚔️ ${mercenaries}</div>
+        <div class="chip" title="Weapons">🗡️ ${weapons}</div>
       `;
+      
+      // Don't allow clicking to change selection
       row.onclick = (e) => {
-        if (e.target.classList.contains("plus")) return;
-        state.selectedGsId = r.gsId;
-        renderRoster();
-        contextEl.textContent = `Selected: ${r.name}. Click a tile to buy/upgrade/attack.`;
-      };
-      row.querySelectorAll(".plus").forEach(button => {
-        button.onclick = async (e) => {
+        e.preventDefault();
         e.stopPropagation();
-          const action = button.dataset.action;
-          const amount = parseInt(button.dataset.amount);
-          const finalAmount = action === "subtract" ? -amount : amount;
-          const actionText = action === "subtract" ? `Quick -${amount}` : `Quick +${amount}`;
-          await awardPoints([{ gsId: r.gsId }], finalAmount, actionText);
-        };
-      });
+        // Do nothing - student is always selected
+      };
+      
       rosterEl.appendChild(row);
+      
+      // Update context to show student is selected
+      contextEl.textContent = `Selected: ${loggedInStudent.name}. Click a tile to buy/upgrade/attack.`;
     }
   }
 
@@ -2121,6 +2141,145 @@
     `;
     
     document.body.appendChild(modal);
+  }
+
+  function showStudentMarket() {
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    const loggedInStudent = state.roster.find(s => s.name === currentStudent.username);
+    
+    if (!loggedInStudent) {
+      alert('Student not found!');
+      return;
+    }
+
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+      background: rgba(0,0,0,0.8); z-index: 1000; display: flex; 
+      align-items: center; justify-content: center; padding: 20px;
+    `;
+    
+    modal.innerHTML = `
+      <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 12px; 
+                  padding: 24px; max-width: 700px; max-height: 80vh; overflow-y: auto;">
+        <h2 style="margin: 0 0 16px; color: var(--accent);">🛒 Student Market - ${loggedInStudent.name}</h2>
+        
+        <div style="background: #1e3a8a; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
+          <h4 style="margin: 0 0 8px; color: #60a5fa;">💰 Your Balance: ${formatMoney(loggedInStudent.balance)}</h4>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+          <div>
+            <h3 style="color: #3b82f6; margin: 0 0 12px;">⚔️ Weapons</h3>
+            <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>🗡️ Spear (+25 power)</span>
+                <button onclick="buyStudentItem('spear', 30)" style="background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Buy (30)</button>
+              </div>
+            </div>
+            <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>🏹 Crossbow (+50 power)</span>
+                <button onclick="buyStudentItem('crossbow', 60)" style="background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Buy (60)</button>
+              </div>
+            </div>
+            <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>💥 Catapult (+100 power)</span>
+                <button onclick="buyStudentItem('catapult', 100)" style="background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Buy (100)</button>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h3 style="color: #10b981; margin: 0 0 12px;">⚔️ Mercenaries</h3>
+            <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>🛡️ Mercenary (+10 power)</span>
+                <button onclick="buyStudentItem('mercenary', 10)" style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Buy (10)</button>
+              </div>
+            </div>
+            
+            <h3 style="color: #ef4444; margin: 12px 0 8px;">🌪️ Special Items</h3>
+            <div style="background: #374151; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>🌪️ Tornado (Destroy territory)</span>
+                <button onclick="buyStudentItem('tornado', 200)" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Buy (200)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 16px; padding: 12px; background: #1f2937; border-radius: 8px;">
+          <h4 style="color: #f59e0b; margin: 0 0 8px;">📊 Your Current Inventory</h4>
+          <p style="margin: 4px 0; color: var(--text);">🗡️ Weapons: ${loggedInStudent.weapons ? loggedInStudent.weapons.length : 0}</p>
+          <p style="margin: 4px 0; color: var(--text);">⚔️ Mercenaries: ${loggedInStudent.mercenaries || 0}</p>
+          <p style="margin: 4px 0; color: var(--text);">🌪️ Tornados: ${loggedInStudent.tornados || 0}</p>
+        </div>
+
+        <button onclick="this.parentElement.parentElement.remove()" 
+                style="background: var(--accent); color: white; border: none; 
+                       padding: 12px 24px; border-radius: 8px; cursor: pointer; 
+                       font-size: 16px; width: 100%;">
+          Close Market
+        </button>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+  }
+
+  function buyStudentItem(itemType, cost) {
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    const loggedInStudent = state.roster.find(s => s.name === currentStudent.username);
+    
+    if (!loggedInStudent) {
+      alert('Student not found!');
+      return;
+    }
+    
+    if (loggedInStudent.balance < cost) {
+      alert(`Insufficient funds! You need ${cost} points but only have ${loggedInStudent.balance}.`);
+      return;
+    }
+    
+    // Deduct cost
+    loggedInStudent.balance -= cost;
+    
+    // Add item
+    if (itemType === 'mercenary') {
+      loggedInStudent.mercenaries = (loggedInStudent.mercenaries || 0) + 1;
+    } else if (itemType === 'tornado') {
+      loggedInStudent.tornados = (loggedInStudent.tornados || 0) + 1;
+    } else {
+      // Weapon
+      if (!loggedInStudent.weapons) loggedInStudent.weapons = [];
+      loggedInStudent.weapons.push(itemType);
+    }
+    
+    // Update roster in localStorage
+    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+    const rosterIndex = rosters.findIndex(r => r.id === state.currentRosterId);
+    if (rosterIndex !== -1) {
+      const studentIndex = rosters[rosterIndex].roster.findIndex(s => s.name === loggedInStudent.name);
+      if (studentIndex !== -1) {
+        rosters[rosterIndex].roster[studentIndex].points = loggedInStudent.balance;
+      }
+      localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+    }
+    
+    // Update student record
+    updateStudentRecord();
+    
+    // Notify other tabs
+    notifyRosterChange();
+    
+    // Refresh display
+    renderRoster();
+    
+    // Close modal and show success
+    document.querySelector('.modal').remove();
+    alert(`Successfully purchased ${itemType} for ${cost} points!`);
   }
 </script>
 </body>
