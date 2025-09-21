@@ -1135,8 +1135,8 @@ delete state.currentRoster.gameState;
       
       let positionIndex = 0;
       students.forEach(student => {
-        // Each student gets 2 tiles - try to place them adjacent
-        const tilesPerStudent = 2;
+        // Each student gets 1 tile if 10+ students, otherwise 2 tiles
+        const tilesPerStudent = state.roster.length >= 10 ? 1 : 2;
         const assignedTiles = [];
         
         for (let i = 0; i < tilesPerStudent && positionIndex < teamPositions.length; i++) {
@@ -1179,14 +1179,15 @@ delete state.currentRoster.gameState;
           }
         }
         
-        // Ensure we have exactly 2 tiles per student
+        // Ensure we have exactly the right number of tiles per student
         if (assignedTiles.length !== tilesPerStudent) {
           console.warn(`Student ${student.name} has ${assignedTiles.length} tiles instead of ${tilesPerStudent}`);
         }
       });
     });
     
-    console.log('Strategic starting tiles assigned - teams placed in corners/edges');
+    const tilesPerStudent = state.roster.length >= 10 ? 1 : 2;
+    console.log(`Strategic starting tiles assigned - ${tilesPerStudent} tile(s) per student, teams placed in corners/edges`);
     
     // If we have a scenario, try to assign characters to appropriate territories
     if (state.scenario) {

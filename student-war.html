@@ -819,8 +819,8 @@
       
       let positionIndex = 0;
       students.forEach(student => {
-        // Each student gets 2 tiles - try to place them adjacent
-        const tilesPerStudent = 2;
+        // Each student gets 1 tile if 10+ students, otherwise 2 tiles
+        const tilesPerStudent = state.roster.length >= 10 ? 1 : 2;
         const assignedTiles = [];
         
         for (let i = 0; i < tilesPerStudent && positionIndex < teamPositions.length; i++) {
@@ -863,14 +863,15 @@
           }
         }
         
-        // Ensure we have exactly 2 tiles per student
+        // Ensure we have exactly the right number of tiles per student
         if (assignedTiles.length !== tilesPerStudent) {
           console.warn(`Student ${student.name} has ${assignedTiles.length} tiles instead of ${tilesPerStudent}`);
         }
       });
     });
     
-    console.log('Strategic starting tiles assigned - teams grouped on opposite sides');
+    const tilesPerStudent = state.roster.length >= 10 ? 1 : 2;
+    console.log(`Strategic starting tiles assigned - ${tilesPerStudent} tile(s) per student, teams grouped on opposite sides`);
   }
   
   function getTerritoryForTile(tile, scenario) {
