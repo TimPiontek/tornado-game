@@ -1,1065 +1,1952 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Tornado War - Tornado Game</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <style>
-        :root {
-            --primary: #8b5cf6;
-            --secondary: #10b981;
-            --accent: #f59e0b;
-            --danger: #ef4444;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --info: #3b82f6;
-            --text: #1f2937;
-            --muted: #6b7280;
-            --border: #e5e7eb;
-            --background: #f9fafb;
-            --card: #ffffff;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem;
-        }
-
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 1rem 2rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header h1 {
-            margin: 0;
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
-
-        .student-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .student-badge {
-            background: var(--primary);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-
-        .points-display {
-            background: var(--accent);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-
-        .back-btn {
-            background: var(--muted);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .back-btn:hover {
-            background: #4b5563;
-        }
-
-        .game-container {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 1rem;
-            height: calc(100vh - 120px);
-        }
-
-        .game-board {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            overflow: auto;
-        }
-
-        .student-sidebar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
-        }
-
-        .sidebar-section {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .sidebar-section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-
-        .sidebar-section h3 {
-            margin: 0 0 1rem 0;
-            color: var(--text);
-            font-size: 1rem;
-        }
-
-        .student-list {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .student-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem;
-            margin-bottom: 0.5rem;
-            background: var(--background);
-            border-radius: 6px;
-            border: 1px solid var(--border);
-        }
-
-        .student-name {
-            font-weight: 500;
-            color: var(--text);
-        }
-
-        .student-points {
-            color: var(--accent);
-            font-weight: bold;
-            font-size: 0.875rem;
-        }
-
-        .action-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.75rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-            text-align: center;
-            text-decoration: none;
-            display: block;
-        }
-
-        .btn:hover {
-            background: #7c3aed;
-            transform: translateY(-1px);
-        }
-
-        .btn:disabled {
-            background: var(--muted);
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-secondary {
-            background: var(--secondary);
-        }
-
-        .btn-secondary:hover {
-            background: #059669;
-        }
-
-        .btn-danger {
-            background: var(--danger);
-        }
-
-        .btn-danger:hover {
-            background: #dc2626;
-        }
-
-        .btn-warning {
-            background: var(--warning);
-        }
-
-        .btn-warning:hover {
-            background: #d97706;
-        }
-
-        .btn-small {
-            padding: 0.5rem 0.75rem;
-            font-size: 0.875rem;
-        }
-
-        .status-message {
-            padding: 0.75rem;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-
-        .status-success {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
-
-        .status-error {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-
-        .status-info {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--info);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-        }
-
-        .status-warning {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--warning);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .grid-item {
-            aspect-ratio: 1;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: white;
-            position: relative;
-        }
-
-        .grid-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .grid-item.owned {
-            border-color: var(--primary);
-            background: rgba(139, 92, 246, 0.1);
-        }
-
-        .grid-item.available {
-            border-color: var(--secondary);
-            background: rgba(16, 185, 129, 0.1);
-        }
-
-        .grid-item.other-owned {
-            border-color: var(--danger);
-            background: rgba(239, 68, 68, 0.1);
-        }
-
-        .tile-name {
-            font-size: 0.75rem;
-            font-weight: 500;
-            text-align: center;
-            margin-bottom: 0.25rem;
-        }
-
-        .tile-cost {
-            font-size: 0.625rem;
-            color: var(--muted);
-        }
-
-        .owner-badge {
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            background: var(--primary);
-            color: white;
-            font-size: 0.5rem;
-            padding: 0.125rem 0.25rem;
-            border-radius: 3px;
-            font-weight: bold;
-        }
-
-        .battle-section {
-            background: rgba(245, 158, 11, 0.05);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 1rem;
-        }
-
-        .battle-section h4 {
-            margin: 0 0 1rem 0;
-            color: var(--warning);
-        }
-
-        .battle-controls {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .weapon-select {
-            flex: 1;
-            padding: 0.5rem;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            background: white;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 2rem;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .modal-header h2 {
-            margin: 0;
-            color: var(--text);
-        }
-
-        .close {
-            color: var(--muted);
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .close:hover {
-            color: var(--text);
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--text);
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-            margin-top: 2rem;
-        }
-
-        .alert {
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-
-        .alert-success {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
-
-        .alert-error {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-
-        .alert-info {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--info);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-        }
-
-        .alert-warning {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--warning);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-        }
-
-        @media (max-width: 768px) {
-            .game-container {
-                grid-template-columns: 1fr;
-                height: auto;
-            }
-            
-            .student-sidebar {
-                order: -1;
-            }
-            
-            .header {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-            
-            .student-info {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tornado War – Student</title>
+  <style>
+    :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
+    * { box-sizing: border-box }
+    html, body { height:100% }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    header { position:sticky; top:0; z-index:3; background:#0d1628cc; backdrop-filter: blur(6px); border-bottom:1px solid var(--border); }
+    .bar { display:flex; gap:8px; align-items:center; padding:10px 14px; flex-wrap:wrap }
+    .bar h1 { font-size:18px; margin:0 8px 0 0; }
+    .pill { padding:8px 12px; border:1px solid var(--border); border-radius:10px; background:var(--panel); color:var(--text); cursor:pointer; }
+    .pill[disabled] { opacity:.6; cursor:not-allowed }
+    .muted { color:var(--muted) }
+    .wrap { display:grid; grid-template-columns: 400px 1fr; gap:12px; padding:12px; }
+    .panel { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:12px; }
+    .title { font-size:14px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0 0 8px; }
+    #gamesList { width: 100%; }
+    #roster { display:flex; flex-direction:column; gap:6px; max-height: calc(100vh - 220px); overflow:auto; }
+    .row { display:grid; grid-template-columns: 1fr auto auto auto auto auto auto auto; gap:6px; align-items:center; padding:6px 8px; border:1px solid var(--border); border-radius:10px; cursor:pointer; }
+    .row.sel { outline:2px solid var(--accent) }
+    .bal { font-variant-numeric: tabular-nums; }
+    .chip { padding:4px 8px; border:1px solid var(--border); border-radius:8px; font-size:12px; color:var(--muted) }
+    .plus { padding:4px 8px; border:1px solid var(--border); border-radius:8px; background:#12223a; cursor:pointer }
+    #board { width:100%; aspect-ratio: 0.8 / 1; background:#0a1220; border:1px solid var(--border); border-radius:12px; overflow:hidden; max-height: 60vh; }
+    #grid { width:100%; height:100%; display:grid; }
+    .cell { border:1px solid #0d1930; display:flex; align-items:center; justify-content:center; font-size:12px; user-select:none; position:relative; }
+    .castle { font-weight:bold; filter: drop-shadow(0 1px 0 #0008) }
+    .section { margin: 10px 0 0 }
+    input, textarea, select { width:100%; padding:10px; border:1px solid var(--border); border-radius:10px; background:#081125; color:var(--text) }
+    textarea { min-height: 160px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap:8px; }
+    table { width:100%; border-collapse: collapse; }
+    th, td { padding:6px 4px; border-bottom: 1px solid var(--border); text-align:left; font-size:14px }
+    .minor { font-size:12px; color:var(--muted) }
+    .ok { color:#86efac } .warn { color:#facc15 } .err { color:#f87171 }
+    
+    /* Team color picker */
+    .team-color-picker { display: flex; gap: 8px; margin: 8px 0; }
+    .color-option { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; }
+    .color-option.selected { border-color: var(--accent); border-width: 3px; }
+    .team-section { margin: 8px 0; padding: 8px; border: 1px solid var(--border); border-radius: 8px; }
+    .team-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .team-dot { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--border); cursor: pointer; }
+    .team-name-input { flex: 1; padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); }
+
+    /* Help modal */
+    .modal { position:fixed; inset:0; background:#0009; display:none; place-items:center; z-index:50; }
+    .modal.show { display:grid; }
+    .card { width:min(900px,92vw); max-height:82vh; overflow:auto; background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:18px; }
+    .card h2 { margin:0 0 8px }
+    .card p, .card li { color:#cbd5e1; line-height:1.5 }
+    .closeX { float:right; font-size:14px; opacity:.8; cursor:pointer; padding:6px 8px; border:1px solid var(--border); border-radius:8px; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>⚔️ Student Tornado War</h1>
-            <div class="student-info">
-                <div class="student-badge" id="studentBadge">Student Mode</div>
-                <div class="points-display" id="studentPoints">0 Points</div>
-                <a href="student-login.html" class="back-btn">← Back to Dashboard</a>
-            </div>
-        </div>
 
-        <div class="game-container">
-            <div class="game-board">
-                <div id="statusMessage" class="status-message status-info">
-                    Welcome to Tornado War! Click on available territories to claim them with your points.
-                </div>
-                
-                <div class="grid-container" id="gameGrid">
-                    <!-- Game grid will be populated by JavaScript -->
-                </div>
+<header>
+  <div class="bar">
+    <h1 style="cursor: pointer;" onclick="window.location.href = '/student-login.html'">TORNADO WAR - STUDENT</h1>
+    <button class="pill" id="btnTornado">Buy Tornado</button>
+    <button class="pill" id="btnTruces">Truces</button>
+    <button class="pill" id="btnHelp">How to Play</button>
+    <div style="flex:1"></div>
+    <span id="who" class="muted">Student Mode</span>
+    <button class="pill" onclick="window.location.href='student-login.html'" style="background: #10b981; color: white;">← Back to Dashboard</button>
+  </div>
+</header>
 
-                <div class="battle-section" id="battleSection" style="display: none;">
-                    <h4>⚔️ Battle Controls</h4>
-                    <div class="battle-controls">
-                        <select class="weapon-select" id="weaponSelect">
-                            <option value="">Select Weapon</option>
-                            <option value="sword">Sword (5 points, +2 power)</option>
-                            <option value="shield">Shield (3 points, +1 defense)</option>
-                            <option value="bow">Bow (4 points, +1 power)</option>
-                            <option value="armor">Armor (6 points, +2 defense)</option>
-                        </select>
-                        <button class="btn btn-small" onclick="addWeapon()">Add Weapon</button>
-                        <button class="btn btn-small btn-danger" onclick="clearWeapons()">Clear All</button>
-                    </div>
-                    <div id="weaponDisplay"></div>
-                    <div class="action-buttons">
-                        <button class="btn btn-warning" onclick="initiateBattle()">⚔️ Attack Territory</button>
-                        <button class="btn btn-secondary" onclick="defendTerritory()">🛡️ Defend Territory</button>
-                        <button class="btn btn-accent" onclick="buildCastle()">🏰 Build Castle</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="student-sidebar">
-                <div class="sidebar-section">
-                    <h3>👥 Class Roster</h3>
-                    <div class="student-list" id="studentList">
-                        <!-- Student list will be populated by JavaScript -->
-                    </div>
-                </div>
-
-                <div class="sidebar-section">
-                    <h3>🎯 Your Actions</h3>
-                    <div class="action-buttons">
-                        <button class="btn btn-secondary" onclick="refreshGame()">🔄 Refresh Game</button>
-                        <button class="btn" onclick="viewLeaderboard()">📊 View Leaderboard</button>
-                    </div>
-                </div>
-
-                <div class="sidebar-section">
-                    <h3>ℹ️ Student Mode</h3>
-                    <div class="alert alert-info">
-                        <strong>What you can do:</strong>
-                        <ul style="margin: 0.5rem 0; padding-left: 1rem;">
-                            <li>Buy available territories</li>
-                            <li>Attack other players' territories</li>
-                            <li>Defend your own territories</li>
-                            <li>Spend your earned points</li>
-                        </ul>
-                        <strong>What you cannot do:</strong>
-                        <ul style="margin: 0.5rem 0; padding-left: 1rem;">
-                            <li>Give yourself points</li>
-                            <li>Modify other students' data</li>
-                            <li>Access teacher controls</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="wrap">
+  <!-- LEFT: roster and create -->
+  <div class="panel">
+    <div class="section">
+      <div class="title">Roster</div>
+      <select id="rosterList"></select>
+      <div class="minor" id="victory"></div>
+      <div style="margin-top: 8px; display: flex; gap: 8px;">
+        <button class="pill" id="loadRosterBtn" style="background: #6f5c91; color: white; flex: 1;">Manage Rosters</button>
+        <button class="pill" id="saveRosterBtn" style="background: #10b981; color: white; flex: 1;">Save Roster</button>
+      </div>
     </div>
 
-    <!-- Battle Modal -->
-    <div id="battleModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>⚔️ Battle Results</h2>
-                <span class="close" onclick="closeBattleModal()">&times;</span>
-            </div>
-            <div id="battleResults"></div>
-            <div class="modal-actions">
-                <button class="btn" onclick="closeBattleModal()">Close</button>
-            </div>
-        </div>
+    <div class="section">
+      <div class="title">Student Mode</div>
+      <div style="background: #1e3a8a; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+        <h4 style="margin: 0 0 8px; color: #60a5fa;">🎓 Student Permissions</h4>
+        <ul style="margin: 0; padding-left: 16px; font-size: 12px; color: #93c5fd;">
+          <li>✅ Purchase available territories</li>
+          <li>✅ Build castles and defenses</li>
+          <li>✅ Buy weapons and mercenaries</li>
+          <li>✅ Attack other territories</li>
+          <li>❌ Cannot add/take points</li>
+          <li>❌ Cannot modify other students' data</li>
+        </ul>
+      </div>
     </div>
 
-    <script>
-        // === GAME STATE ===
-        let currentStudent = null;
-        let currentRoster = null;
-        let gameState = {
-            tiles: [],
-            studentBalances: {},
-            selectedTile: null,
-            battleMode: false,
-            currentBattle: {
-                attacker: null,
-                defender: null,
-                attackerWeapons: [],
-                defenderWeapons: []
-            }
+    <div class="section">
+      <div class="title">Students</div>
+      <div id="roster"></div>
+    </div>
+
+    <!-- Quick awards removed for student version -->
+
+    <div class="section">
+      <div class="title">Sort roster</div>
+      <div style="margin-bottom: 8px;">
+        <button class="pill" onclick="sortWarRoster('first')" style="background: #6f5c91; font-size: 12px;">First Name</button>
+        <button class="pill" onclick="sortWarRoster('last')" style="background: #6f5c91; font-size: 12px;">Last Name</button>
+        <button class="pill" onclick="shuffleWarRoster()" style="background: #6f5c91; font-size: 12px;">Shuffle</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="title">Historical Scenarios</div>
+      <div style="margin-bottom: 8px;">
+        <select id="scenarioSelect" onchange="loadScenario()" style="width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
+          <option value="">Choose a Scenario</option>
+          <option value="roman_empire">Roman Empire Conquest</option>
+          <option value="american_revolution">American Revolution</option>
+          <option value="lord_of_rings">Lord of the Rings</option>
+          <option value="game_of_thrones">Game of Thrones</option>
+          <option value="world_war_2">World War II</option>
+        </select>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: map -->
+  <div class="panel">
+    <div class="title">Map</div>
+    <div id="board">
+      <div id="grid"></div>
+    </div>
+    <div class="minor" id="tip">Tip: click a roster name, then click a tile.</div>
+  </div>
+  </div>
+
+<!-- Actions panel below the main content -->
+<div class="panel" style="margin: 12px;">
+  <div class="title">Actions & Game Info</div>
+    <div id="context">Select a student, then click a tile.</div>
+
+    <div class="section">
+      <div class="title">Truces</div>
+      <div id="truces"></div>
+    </div>
+
+    <div class="section">
+      <div class="title">Recent activity</div>
+      <div id="audit"></div>
+  </div>
+</div>
+
+<!-- Help modal -->
+<div id="helpModal" class="modal" aria-hidden="true">
+  <div class="card">
+    <button class="closeX" id="helpClose">Close</button>
+    <h2>How to Play – Tornado War</h2>
+    
+    <h3>🎯 Getting Started</h3>
+    <ul>
+      <li><b>Create or select a roster:</b> Use the "Manage Roster" button to create student lists</li>
+      <li><b>Set victory percentage:</b> Choose what % of territories needed to win</li>
+      <li><b>Click "Create Game":</b> Students start with 5 points each</li>
+    </ul>
+    
+    <h3>🎮 Basic Gameplay</h3>
+    <ul>
+      <li><b>Select a student:</b> Click their name in the roster to highlight their territories</li>
+      <li><b>Buy territories:</b> Click empty tiles to purchase them</li>
+      <li><b>Upgrade castles:</b> Click your territories to build defenses (Level 1-3)</li>
+      <li><b>Attack enemies:</b> Select attacker → click enemy tile → choose weapons → resolve battle</li>
+    </ul>
+    
+    <h3>⚔️ Combat System</h3>
+    <ul>
+      <li><b>Weapons cost points:</b> Higher levels = better attack power</li>
+      <li><b>Castles provide defense:</b> Higher levels = harder to capture</li>
+      <li><b>Successful attacks:</b> Destroy enemy castle and capture territory</li>
+      <li><b>Failed attacks:</b> Lose weapons and points</li>
+    </ul>
+    
+    <h3>🤝 Alliances & Strategy</h3>
+    <ul>
+      <li><b>Form truces:</b> Students can have up to 2 alliances</li>
+      <li><b>Allied players:</b> Cannot attack each other</li>
+      <li><b>Coalition victory:</b> Teams need more territories to win together</li>
+    </ul>
+    
+    <h3>🌪️ Special Actions</h3>
+    <ul>
+      <li><b>Award points:</b> Give students extra points for good answers</li>
+      <li><b>Buy tornado:</b> Spend 50 points to randomly affect territories</li>
+      <li><b>Batch actions:</b> Award points to multiple students at once</li>
+    </ul>
+    
+    <h3>🏆 Winning</h3>
+    <ul>
+      <li><b>Individual victory:</b> Control the target % of territories</li>
+      <li><b>Team victory:</b> Allied players need proportionally more territories</li>
+    </ul>
+    
+    <p class="minor"><b>💡 Pro Tip:</b> Everything saves automatically. Check the Activity panel to see recent moves!</p>
+  </div>
+</div>
+
+<!-- Roster Selection Modal -->
+<div id="rosterSelectionModal" class="modal" aria-hidden="true">
+  <div class="card" style="width: min(600px, 90vw);">
+    <button class="closeX" id="rosterSelectionClose">Close</button>
+    <h2>Select Roster</h2>
+    
+    <div id="rosterSelectionContent" style="margin: 20px 0;">
+      <!-- Existing rosters will be populated here -->
+    </div>
+    
+    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; gap: 10px;">
+      <button id="createNewRosterBtn" class="pill" style="background: #6f5c91; color: white; flex: 1;">Create New Roster</button>
+      <button id="manageRostersBtn" class="pill" style="background: #31727a; color: white; flex: 1;">Manage Rosters</button>
+    </div>
+  </div>
+</div>
+
+<!-- Fight Screen Modal -->
+<div id="fightModal" class="modal" aria-hidden="true">
+  <div class="card" style="width: min(1200px, 95vw); max-height: 90vh;">
+    <button class="closeX" id="fightClose">Close</button>
+    <h2>⚔️ Battle Preparation</h2>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+      <!-- Attacker Panel -->
+      <div class="panel">
+        <h3 id="attackerName" style="color: #10b981;">Attacker</h3>
+        <div class="section">
+          <div class="title">Resources</div>
+          <div>💰 Balance: <span id="attackerBalance">0</span></div>
+        </div>
+        <div class="section">
+          <div class="title">Mercenaries</div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <button class="pill" id="attackerMercMinus">-</button>
+            <span id="attackerMercCount">0</span>
+            <button class="pill" id="attackerMercPlus">+</button>
+            <span class="minor">(10 points each)</span>
+          </div>
+        </div>
+        <div class="section">
+          <div class="title">Weapons</div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="pill" id="attackerSpear" style="background: #8b5cf6;">Spear (30 pts)</button>
+            <button class="pill" id="attackerCrossbow" style="background: #3b82f6;">Crossbow (60 pts)</button>
+            <button class="pill" id="attackerCatapult" style="background: #dc2626;">Catapult (100 pts)</button>
+          </div>
+          <div class="minor">Selected: <span id="attackerWeapons">None</span></div>
+          <div id="attackerWeaponList" style="margin-top: 8px;"></div>
+        </div>
+      </div>
+
+      <!-- Defender Panel -->
+      <div class="panel">
+        <h3 id="defenderName" style="color: #ef4444;">Defender</h3>
+        <div class="section">
+          <div class="title">Resources</div>
+          <div>💰 Balance: <span id="defenderBalance">0</span></div>
+        </div>
+        <div class="section">
+          <div class="title">Mercenaries</div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <button class="pill" id="defenderMercMinus">-</button>
+            <span id="defenderMercCount">0</span>
+            <button class="pill" id="defenderMercPlus">+</button>
+            <span class="minor">(10 points each, +10 power)</span>
+          </div>
+        </div>
+        <div class="section">
+          <div class="title">Weapons</div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="pill" id="defenderSpear" style="background: #8b5cf6;">Spear (30 pts)</button>
+            <button class="pill" id="defenderCrossbow" style="background: #3b82f6;">Crossbow (60 pts)</button>
+            <button class="pill" id="defenderCatapult" style="background: #dc2626;">Catapult (100 pts)</button>
+          </div>
+          <div class="minor">Selected: <span id="defenderWeapons">None</span></div>
+          <div id="defenderWeaponList" style="margin-top: 8px;"></div>
+        </div>
+        <div class="section">
+          <div class="title">Castle Defense</div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="pill" id="defenderCastle1" style="background: #10b981;">Wooden Keep (50 pts)</button>
+            <button class="pill" id="defenderCastle2" style="background: #3b82f6;">Stone Fortress (100 pts)</button>
+            <button class="pill" id="defenderCastle3" style="background: #8b5cf6;">Iron Citadel (200 pts)</button>
+          </div>
+          <div class="minor">Selected: <span id="defenderCastle">None</span> <button class="pill" id="removeDefenderCastle" style="background: #ef4444; color: white; font-size: 12px; padding: 4px 8px; margin-left: 8px;">Remove</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin: 20px 0;">
+      <div class="section">
+        <div class="title">Battle Summary</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 10px 0;">
+          <div>
+            <div>Attacker Power: <span id="attackerPower">0</span></div>
+            <div>Attacker Cost: <span id="attackerCost">0</span> points</div>
+          </div>
+          <div>
+            <div>Defender Power: <span id="defenderPower">0</span></div>
+            <div>Defender Cost: <span id="defenderCost">0</span> points</div>
+          </div>
+        </div>
+        <div style="font-size: 18px; font-weight: bold; margin: 15px 0; padding: 10px; border-radius: 8px; background: var(--panel);">
+          <span id="victoryOdds">Victory Odds: 50%</span>
+        </div>
+        <div class="minor" style="margin-top: 10px;">
+          <strong>How items affect power:</strong><br>
+          • Mercenaries: +15 power each<br>
+          • Spear: +50% power multiplier<br>
+          • Crossbow: +100% power multiplier<br>
+          • Catapult: +200% power multiplier<br>
+          • Pre-built Castle L1: +150 power (2x bonus)<br>
+          • Pre-built Castle L2: +300 power (2x bonus)<br>
+          • Pre-built Castle L3: +600 power (2x bonus)<br>
+          • Battle Castle L1: +75 power<br>
+          • Battle Castle L2: +150 power<br>
+          • Battle Castle L3: +300 power<br>
+          <strong>Combo Bonuses:</strong><br>
+          • 2+ items: +10% total power<br>
+          • 3+ items: +25% total power<br>
+          • 4+ items: +50% total power
+        </div>
+      </div>
+      <button class="pill" id="simulateWar" style="background: #dc2626; color: white; font-size: 18px; padding: 15px 30px;">⚔️ SIMULATE WAR</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+  // === CONFIG ===
+  const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+  const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+  // === STATE ===
+  const state = {
+    session: null,
+    rosters: [],
+    currentRoster: null,
+    currentRosterId: null,
+    board: { w: 0, h: 0, tiles: [] },
+    roster: [],
+    selectedGsId: null,
+    truces: [],
+    colors: new Map(),
+    costs: { land: 10, castleL1: 50, castleL2: 100, castleL3: 200 },
+    weaponCosts: { spear: 30, crossbow: 60, catapult: 100 },
+    offlineMode: false, // Start in online mode, can switch to offline
+    teams: [],
+    teamMode: false,
+    currentScenario: null
+  };
+
+  // === AUTH (force redirect + ensure_user) ===
+  const who = document.getElementById("who");
+  const signinBtn = document.getElementById("signin");
+  const signoutBtn = document.getElementById("signout");
+  const playOfflineBtn = document.getElementById("playOffline");
+
+  async function updateAuth() {
+    const { data: { session } } = await supabase.auth.getSession();
+    state.session = session;
+    console.log('War game auth update:', session ? 'Logged in as ' + session.user.email : 'Not logged in');
+    
+    if (state.offlineMode) {
+      who.textContent = "Playing Offline";
+      signinBtn.textContent = "Switch to Online";
+      signinBtn.style.display = "inline-block";
+      signoutBtn.style.display = "none";
+      playOfflineBtn.style.display = "none";
+    } else {
+    who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
+      signinBtn.textContent = "Sign in with Google";
+      signinBtn.style.display = session ? "none" : "inline-block";
+      signoutBtn.style.display = session ? "inline-block" : "none";
+      playOfflineBtn.style.display = session ? "none" : "inline-block";
+    }
+    
+    if (session && !state.offlineMode) {
+      // Ensure teacher row exists so RLS allows inserts/selects
+      try {
+        const { error } = await supabase.rpc("ensure_user");
+        if (error && !/function ensure_user/.test(error.message)) console.warn("ensure_user error:", error.message);
+      } catch (e) { console.warn("ensure_user exception:", e); }
+    }
+  }
+
+  signinBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    if (state.offlineMode) {
+      // Switch back to online mode
+      if (confirm("Switch to online mode? You'll need to sign in to access your saved games. Local games will remain available.")) {
+        state.offlineMode = false;
+        await updateAuth();
+        // Clear any existing game selection
+        state.gameId = null;
+        state.game = null;
+        gamesList.value = "";
+        await loadGames(false);
+        // Remove offline warning
+        const warning = document.getElementById('offlineWarning');
+        if (warning) warning.remove();
+      }
+    } else {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.href, skipBrowserRedirect: true }
+    });
+    if (error) { alert("Sign-in error: " + error.message); return; }
+    if (data?.url) window.location.assign(data.url);
+    }
+  });
+
+  signoutBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    if (confirm("Are you sure you want to sign out? You'll lose access to your saved games until you sign in again.")) {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        alert("Sign out error: " + error.message);
+        return;
+      }
+      // Clear any existing game selection
+      state.gameId = null;
+      state.game = null;
+      gamesList.value = "";
+      await loadGames(false);
+    }
+  });
+
+  playOfflineBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    if (confirm("Play offline mode? Your games will be saved locally but won't sync across devices. You can still sign in later to save games permanently.\n\nNote: Some advanced features like truces and tornado effects are simplified in offline mode.")) {
+      state.offlineMode = true;
+      await updateAuth();
+      await loadLocalGames();
+      showOfflineWarning();
+      // Clear any existing game selection
+      state.gameId = null;
+      state.game = null;
+      gamesList.value = "";
+      await loadGames(false);
+    }
+  });
+
+  await updateAuth();
+  supabase.auth.onAuthStateChange(() => updateAuth());
+
+
+
+
+  function showOfflineWarning() {
+    const warning = document.createElement('div');
+    warning.id = 'offlineWarning';
+    warning.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #f59e0b;
+      color: white;
+      padding: 8px;
+      text-align: center;
+      font-weight: bold;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    `;
+    warning.innerHTML = `
+      ⚠️ Playing Offline - Games saved locally only. 
+      <button onclick="this.parentElement.remove()" style="background: white; color: #f59e0b; border: none; padding: 4px 8px; border-radius: 4px; margin-left: 8px; cursor: pointer;">Dismiss</button>
+    `;
+    document.body.insertBefore(warning, document.body.firstChild);
+  }
+
+  // === UI HELPERS ===
+  const el = (sel) => document.querySelector(sel);
+  const rosterList = el("#rosterList");
+  const rosterEl = el("#roster");
+  const gridEl = el("#grid");
+  const contextEl = el("#context");
+  const trucesEl = el("#truces");
+  const auditEl = el("#audit");
+  const victoryEl = el("#victory");
+
+  const helpModal = el("#helpModal");
+  el("#btnHelp").onclick = () => helpModal.classList.add("show");
+  el("#helpClose").onclick = () => helpModal.classList.remove("show");
+  helpModal.addEventListener("click", (e)=>{ if(e.target===helpModal) helpModal.classList.remove("show"); });
+
+  // Roster selection modal
+  const rosterSelectionModal = el("#rosterSelectionModal");
+  el("#rosterSelectionClose").onclick = () => rosterSelectionModal.classList.remove("show");
+  rosterSelectionModal.addEventListener("click", (e)=>{ if(e.target===rosterSelectionModal) rosterSelectionModal.classList.remove("show"); });
+  
+  el("#createNewRosterBtn").onclick = () => {
+    rosterSelectionModal.classList.remove("show");
+    window.location.href = '/roster';
+  };
+  
+  el("#manageRostersBtn").onclick = () => {
+    rosterSelectionModal.classList.remove("show");
+    window.location.href = '/roster';
+  };
+
+  function colorFor(gsId, i, total) {
+    if (state.colors.has(gsId)) return state.colors.get(gsId);
+    const h = Math.round((i / Math.max(total,1)) * 360);
+    const c = `hsl(${h} 65% 48%)`;
+    state.colors.set(gsId, c);
+    return c;
+  }
+  function formatMoney(n){ return Math.round(n); }
+
+  // === LOAD ROSTERS ===
+  function loadRosters(selectNewest=false) {
+    try {
+      const saved = localStorage.getItem('tornadoRosters');
+      state.rosters = saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      console.error('Error loading rosters:', e);
+      state.rosters = [];
+    }
+    
+    rosterList.innerHTML = `<option value="">Select Roster…</option>` + (state.rosters.map(r =>
+      `<option value="${r.id}">${r.name} (${r.roster ? r.roster.length : 0} students)</option>`
+    ).join(""));
+    
+    if (selectNewest && state.rosters.length) {
+      rosterList.value = state.rosters[0].id;
+      selectRoster(state.rosters[0].id);
+    }
+  }
+  // === ROSTER SELECTION ===
+  function selectRoster(rosterId) {
+    if (!rosterId) return;
+    
+    const roster = state.rosters.find(r => r.id === rosterId);
+    if (!roster) return;
+    
+    state.currentRoster = roster;
+    state.currentRosterId = rosterId;
+    
+    // Convert roster to war game format, preserving existing scores
+    state.roster = roster.roster.map((student, i) => {
+      // Check if student already has war game data
+      const existingStudent = state.roster.find(s => s.name === student.name);
+      
+      const studentData = {
+        gsId: student.id || `student_${i}`,
+        name: student.name,
+        tilesOwned: existingStudent?.tilesOwned || 0,
+        startPoints: existingStudent?.startPoints || 5,
+        balance: existingStudent?.balance || student.points || 5, // Use saved points or default
+        teamId: existingStudent?.teamId || null,
+        teamName: existingStudent?.teamName || null,
+        teamColor: existingStudent?.teamColor || null
+      };
+      
+      // Assign color to student
+      colorFor(studentData.gsId, i, roster.roster.length);
+      
+      return studentData;
+    });
+    
+    // Apply team information if available
+    if (roster.teams && roster.teams.length > 0) {
+      state.roster.forEach(student => {
+        const team = roster.teams.find(t => 
+          t.students && t.students.includes(student.name)
+        );
+        if (team) {
+          student.teamId = team.id;
+          student.teamName = team.name;
+          student.teamColor = team.color;
+        }
+      });
+      state.teamMode = roster.teamMode || false;
+    }
+    
+    // Create or load game board
+    initializeGameBoard();
+    
+    // Update UI
+    renderRoster();
+    updateVictoryTarget();
+  }
+  
+  function initializeGameBoard() {
+    console.log('initializeGameBoard called', { currentRoster: state.currentRoster, roster: state.roster });
+    
+    if (!state.currentRoster) {
+      console.log('No current roster, returning');
+      return;
+    }
+    
+    const studentCount = state.roster.length;
+    const w = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
+    const h = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
+    
+    console.log('Calculated board size:', { studentCount, w, h });
+    
+    // Check if roster has saved game state
+    if (state.currentRoster.gameState && state.currentRoster.gameState.tiles) {
+      console.log('Loading saved game state');
+      // Load saved game state
+      state.board = state.currentRoster.gameState.board;
+      state.board.tiles = state.currentRoster.gameState.tiles;
+      state.truces = state.currentRoster.gameState.truces || [];
+    } else {
+      console.log('Creating fresh tiles with starting positions');
+      // Create fresh tiles
+      const tiles = [];
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+          tiles.push({
+            id: `tile_${x}_${y}`,
+            x: x,
+            y: y,
+            owner_game_student_id: null,
+            castle_level: 0
+          });
+        }
+      }
+      state.board = { w, h, tiles };
+      state.truces = [];
+      
+      // Assign starting tiles to students (2 tiles each on outer edges)
+      assignStartingTiles();
+    }
+    
+    console.log('Board created:', { board: state.board, tilesCount: state.board.tiles.length });
+    
+    // Sync tile counts with actual board state
+    syncTileCounts();
+    
+    // Update grid display
+    updateGridDisplay();
+  }
+  
+  function assignStartingTiles() {
+    if (!state.roster || state.roster.length === 0) return;
+    
+    console.log('Assigning starting tiles to', state.roster.length, 'students');
+    
+    const { w, h } = state.board;
+    const tilesByDistance = [];
+    
+    // Calculate distance from center for all tiles and sort by distance (outermost first)
+    const centerX = (w - 1) / 2;
+    const centerY = (h - 1) / 2;
+    
+    state.board.tiles.forEach(tile => {
+      const distance = Math.sqrt(Math.pow(tile.x - centerX, 2) + Math.pow(tile.y - centerY, 2));
+      tilesByDistance.push({ tile, distance });
+    });
+    
+    // Sort by distance (outermost tiles first)
+    tilesByDistance.sort((a, b) => b.distance - a.distance);
+    
+    // Get available tiles (unowned)
+    const availableTiles = tilesByDistance.filter(item => !item.tile.owner_game_student_id);
+    
+    console.log('Available tiles:', availableTiles.length, 'out of', tilesByDistance.length);
+    
+    // Each student gets exactly 2 tiles
+    const tilesPerStudent = 2;
+    const totalTilesNeeded = state.roster.length * tilesPerStudent;
+    
+    console.log('Tiles per student:', tilesPerStudent, 'Total tiles needed:', totalTilesNeeded);
+    
+    if (availableTiles.length < totalTilesNeeded) {
+      console.warn(`Not enough tiles! Need ${totalTilesNeeded} but only have ${availableTiles.length} available`);
+    }
+    
+    // Assign exactly 2 tiles per student
+    let tileIndex = 0;
+    state.roster.forEach((student, studentIndex) => {
+      for (let i = 0; i < tilesPerStudent && tileIndex < availableTiles.length; i++) {
+        const tile = availableTiles[tileIndex].tile;
+        tile.owner_game_student_id = student.gsId;
+        student.tilesOwned = (student.tilesOwned || 0) + 1;
+        tileIndex++;
+        console.log(`Assigned tile (${tile.x}, ${tile.y}) to ${student.name}`);
+      }
+    });
+    
+    console.log('Starting tiles assigned - each student has at least one tile');
+  }
+  
+  function updateGridDisplay() {
+    console.log('updateGridDisplay called', { gridEl, tiles: state.board.tiles, board: state.board });
+    
+    if (!gridEl || !state.board.tiles) {
+      console.log('updateGridDisplay: gridEl or tiles not found', { gridEl, tiles: state.board.tiles });
+      return;
+    }
+    
+    console.log('updateGridDisplay: updating grid with', state.board.tiles.length, 'tiles');
+    
+    gridEl.style.gridTemplateColumns = `repeat(${state.board.w}, 1fr)`;
+    gridEl.style.gridTemplateRows = `repeat(${state.board.h}, 1fr)`;
+    
+    gridEl.innerHTML = state.board.tiles.map(tile => {
+      const owner = state.roster.find(r => r.gsId === tile.owner_game_student_id);
+      const ownerName = owner ? shortenName(owner.name) : '';
+      const castleLevel = tile.castle_level || 0;
+      const castleText = castleLevel > 0 ? `🏰${castleLevel}` : '';
+      
+      // Calculate tile cost based on distance from center
+      const tileCost = !owner ? calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h) : 0;
+      const costText = !owner ? `💰${tileCost}` : '';
+      
+      return `<div class="cell" data-tile-id="${tile.id}" data-x="${tile.x}" data-y="${tile.y}" 
+                style="background: ${owner ? state.colors.get(owner.gsId) : '#1a1a2e'}; 
+                       color: ${owner ? '#fff' : '#666'}; 
+                       cursor: pointer;
+                       border: 1px solid #333;
+                       display: flex;
+                       flex-direction: column;
+                       align-items: center;
+                       justify-content: center;
+                       min-height: 50px;
+                       padding: 4px;
+                       font-size: 12px;
+                       text-align: center;"
+                onclick="handleTileClick('${tile.id}')"
+                title="${owner ? `Owned by ${ownerName}` : `Click to buy for ${tileCost} points`}">
+                <div style="font-weight: 600;">${ownerName || ''}</div>
+                <div style="font-size: 10px;">${castleText || costText}</div>
+              </div>`;
+    }).join('');
+    
+    console.log('Grid updated with', state.board.tiles.length, 'tiles');
+  }
+  
+  function updateVictoryTarget() {
+    if (!state.currentRoster) return;
+    
+    const totalTiles = state.board.w * state.board.h;
+    const targetPercentage = state.teamMode ? 
+      Math.max(0.25, 1 / state.roster.filter(r => r.teamId).length) : 0.25;
+    
+    victoryEl.textContent = `Target: ${(targetPercentage * 100).toFixed(0)}% of tiles (${Math.ceil(totalTiles * targetPercentage)} tiles)`;
+  }
+  
+  function syncTileCounts() {
+    if (!state.roster || !state.board || !state.board.tiles) return;
+    
+    console.log('Syncing tile counts with actual board state');
+    
+    // Reset all tile counts to 0
+    state.roster.forEach(student => {
+      student.tilesOwned = 0;
+    });
+    
+    // Count actual tiles owned by each student
+    state.board.tiles.forEach(tile => {
+      if (tile.owner_game_student_id) {
+        const student = state.roster.find(s => s.gsId === tile.owner_game_student_id);
+        if (student) {
+          student.tilesOwned = (student.tilesOwned || 0) + 1;
+        }
+      }
+    });
+    
+    console.log('Tile counts synced:', state.roster.map(s => `${s.name}: ${s.tilesOwned} tiles`));
+    
+    // Update the roster display
+    renderRoster();
+  }
+  
+  // Load roster button functionality
+  el("#loadRosterBtn").onclick = () => {
+    window.location.href = '/roster';
+  };
+  
+  // Save roster button functionality
+  el("#saveRosterBtn").onclick = () => {
+    saveCurrentRoster();
+  };
+  
+  function saveCurrentRoster() {
+    if (!state.currentRoster || !state.currentRosterId) {
+      alert('No roster selected to save.');
+      return;
+    }
+    
+    // Sync tile counts before saving
+    syncTileCounts();
+    
+    // Update the roster data with current scores and game state
+    const updatedRoster = {
+      ...state.currentRoster,
+      roster: state.roster.map(student => ({
+        id: student.gsId,
+        name: student.name,
+        points: student.balance, // Save current balance as points
+        tilesOwned: student.tilesOwned,
+        teamId: student.teamId,
+        teamName: student.teamName,
+        teamColor: student.teamColor
+      })),
+      gameState: {
+        board: state.board,
+        tiles: state.board.tiles,
+        truces: state.truces || []
+      },
+      lastModified: new Date().toISOString()
+    };
+    
+    // Update in the rosters array
+    const rosterIndex = state.rosters.findIndex(r => r.id === state.currentRosterId);
+    if (rosterIndex >= 0) {
+      state.rosters[rosterIndex] = updatedRoster;
+      
+      // Save to localStorage
+      localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+      
+      alert(`Roster "${state.currentRoster.name}" saved successfully!`);
+    }
+  }
+  
+  // Roster list change event
+  rosterList.onchange = () => selectRoster(rosterList.value);
+
+
+
+
+
+
+  
+
+
+
+  // updateStudentPoints function removed for student version
+  
+  function awardPoints(students, amount, actionText) {
+    if (!students || students.length === 0) return;
+    
+    students.forEach(studentData => {
+      const student = state.roster.find(s => s.gsId === studentData.gsId);
+      if (student) {
+        student.balance += amount;
+        console.log(`${actionText}: ${student.name} now has ${student.balance} points`);
+      }
+    });
+    
+    // Update the display and auto-save
+    renderRoster();
+    autoSaveWarPoints();
+  }
+
+  // Make handleTileClick globally accessible
+  window.handleTileClick = function(tileId) {
+    console.log('handleTileClick called with tileId:', tileId, 'selectedGsId:', state.selectedGsId);
+    
+    if (!state.selectedGsId) {
+      alert("Please select a student first by clicking on their name in the roster.");
+      return;
+    }
+
+    const tile = state.board.tiles.find(t => t.id === tileId);
+    if (!tile) {
+      console.log('Tile not found:', tileId);
+      return;
+    }
+
+    const selectedStudent = state.roster.find(r => r.gsId === state.selectedGsId);
+    if (!selectedStudent) {
+      console.log('Selected student not found:', state.selectedGsId);
+      return;
+    }
+
+    console.log('Handling tile click:', { tile, selectedStudent });
+
+    if (!tile.owner_game_student_id) {
+      // Empty tile - buy it
+      const cost = calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h);
+      if (selectedStudent.balance >= cost) {
+        tile.owner_game_student_id = selectedStudent.gsId;
+        selectedStudent.balance -= cost;
+        selectedStudent.tilesOwned += 1;
+        updateGridDisplay();
+        syncTileCounts();
+        autoSaveWarPoints();
+        alert(`${selectedStudent.name} bought the tile for ${cost} points!`);
+      } else {
+        alert(`Insufficient funds! Need ${cost} points.`);
+      }
+    } else if (tile.owner_game_student_id === selectedStudent.gsId) {
+      // Own tile - show castle options
+      if (tile.castle_level > 0) {
+        // Has castle - show upgrade/sell options
+        const upgradeCost = tile.castle_level === 1 ? state.costs.castleL2 : 
+                           tile.castle_level === 2 ? state.costs.castleL3 : 0;
+        const sellValue = tile.castle_level === 1 ? state.costs.castleL1 : 
+                         tile.castle_level === 2 ? state.costs.castleL2 : 
+                         tile.castle_level === 3 ? state.costs.castleL3 : 0;
+        
+        const options = [];
+        if (upgradeCost > 0) {
+          options.push(`Upgrade to level ${tile.castle_level + 1} (${upgradeCost} points)`);
+        } else {
+          options.push("Castle is at maximum level");
+        }
+        options.push(`Sell castle (get back ${sellValue} points)`);
+        
+        const choice = prompt(`Castle Level ${tile.castle_level} Options:\n\n${options.map((opt, i) => `${i + 1}. ${opt}`).join('\n')}\n\nEnter choice (1-${options.length}):`);
+        
+        if (choice === '1' && upgradeCost > 0) {
+          // Upgrade
+          if (selectedStudent.balance >= upgradeCost) {
+            tile.castle_level += 1;
+            selectedStudent.balance -= upgradeCost;
+            updateGridDisplay();
+            renderRoster();
+            alert(`${selectedStudent.name} upgraded castle to level ${tile.castle_level} for ${upgradeCost} points!`);
+          } else {
+            alert(`Insufficient funds! Need ${upgradeCost} points.`);
+          }
+        } else if (choice === '2' || (choice === '1' && upgradeCost === 0)) {
+          // Sell castle
+          tile.castle_level = 0;
+          selectedStudent.balance += sellValue;
+          updateGridDisplay();
+          renderRoster();
+          alert(`${selectedStudent.name} sold castle and got back ${sellValue} points!`);
+        }
+      } else {
+        // No castle - build one
+        const buildCost = state.costs.castleL1;
+        if (selectedStudent.balance >= buildCost) {
+          tile.castle_level = 1;
+          selectedStudent.balance -= buildCost;
+          updateGridDisplay();
+          renderRoster();
+          alert(`${selectedStudent.name} built a castle for ${buildCost} points!`);
+        } else {
+          alert(`Insufficient funds! Need ${buildCost} points.`);
+        }
+      }
+    } else {
+      // Enemy tile - attack
+      const defender = state.roster.find(r => r.gsId === tile.owner_game_student_id);
+      if (defender) {
+        // Check if defender has only 1 tile left (protection rule)
+        if (defender.tilesOwned <= 1) {
+          alert(`Cannot attack ${defender.name}! They only have 1 tile left and are protected from elimination.`);
+          return;
+        }
+        showFightScreen(selectedStudent.gsId, defender.gsId, tile);
+      }
+    }
+  };
+
+  function renderRoster() {
+    rosterEl.innerHTML = "";
+    for (const r of state.roster) {
+      const row = document.createElement("div");
+      row.className = "row" + (state.selectedGsId===r.gsId ? " sel" : "");
+      row.style.borderColor = state.colors.get(r.gsId);
+      const teamInfo = r.teamName ? `<div style="font-size:10px; color:var(--muted);">${r.teamName}</div>` : '';
+      const teamColor = r.teamColor || state.colors.get(r.gsId);
+      
+      row.innerHTML = `
+        <div style="display:flex; gap:6px; align-items:center;">
+          <div style="width:10px;height:10px;border-radius:50%;background:${teamColor}; cursor:pointer;" 
+               onclick="changeTeamColor('${r.gsId}')" title="Click to change team color"></div>
+          <div>
+          <div>${r.name}</div>
+            ${teamInfo}
+        </div>
+        </div>
+        <div class="bal" title="Balance" style="display: flex; align-items: center; gap: 4px;">
+          <span>💰</span>
+          <span style="font-size: 12px;">${formatMoney(r.balance)}</span>
+        </div>
+        <div class="chip" title="Tiles owned">🧩 ${r.tilesOwned}</div>
+        <!-- Point manipulation buttons removed for student version -->
+      `;
+      row.onclick = (e) => {
+        if (e.target.classList.contains("plus")) return;
+        state.selectedGsId = r.gsId;
+        renderRoster();
+        contextEl.textContent = `Selected: ${r.name}. Click a tile to buy/upgrade/attack.`;
+      };
+      row.querySelectorAll(".plus").forEach(button => {
+        button.onclick = async (e) => {
+        e.stopPropagation();
+          const action = button.dataset.action;
+          const amount = parseInt(button.dataset.amount);
+          const finalAmount = action === "subtract" ? -amount : amount;
+          const actionText = action === "subtract" ? `Quick -${amount}` : `Quick +${amount}`;
+          await awardPoints([{ gsId: r.gsId }], finalAmount, actionText);
         };
+      });
+      rosterEl.appendChild(row);
+    }
+  }
 
-        // === INITIALIZATION ===
-        function init() {
-            // Check if student is logged in
-            const studentData = localStorage.getItem('currentStudent');
-            if (!studentData) {
-                alert('Please log in as a student first!');
-                window.location.href = 'student-login.html';
-                return;
-            }
+  // === BOARD ===
 
-            currentStudent = JSON.parse(studentData);
-            
-            // Load roster data
-            loadRosterData();
-            
-            // Initialize game
-            initializeGame();
-            
-            // Update UI
-            updateStudentInfo();
-            updateStudentList();
-            renderGameGrid();
+  function nameForGs(gsId){
+    const student = state.roster.find(r=>r.gsId===gsId);
+    if (!student) {
+      return "Unknown";
+    }
+    return student.name;
+  }
+
+  // Calculate tile price based on distance from center
+  function calculateTilePrice(x, y, boardW, boardH) {
+    const centerX = (boardW - 1) / 2;
+    const centerY = (boardH - 1) / 2;
+    const distanceFromCenter = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+    const maxDistance = Math.sqrt(Math.pow(boardW / 2, 2) + Math.pow(boardH / 2, 2));
+    
+    // Price starts at 20 (first row in from outer edge) and increases by 10 for each ring toward center
+    // Calculate which "ring" this tile is in (0 = first row in, higher = closer to center)
+    const ringLevel = Math.floor((1 - distanceFromCenter / maxDistance) * 6);
+    
+    // Base price of 20, plus 10 for each ring level
+    const price = 20 + (ringLevel * 10);
+    return Math.max(20, Math.min(200, price));
+  }
+
+  // Shorten student name to fit in tile
+  function shortenName(name, maxLength = 8) {
+    if (name.length <= maxLength) return name;
+    // Try to keep first name + last initial
+    const parts = name.split(' ');
+    if (parts.length >= 2) {
+      return parts[0] + ' ' + parts[parts.length - 1][0];
+    }
+    // If single name, truncate with ellipsis
+    return name.substring(0, maxLength - 1) + '…';
+  }
+
+
+  // Quick award function removed for student version
+
+  // === ROSTER SORTING ===
+  window.sortWarRoster = (sortType) => {
+    if (!state.roster || state.roster.length === 0) return alert("No roster loaded.");
+    
+    state.roster.sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+      
+      if (sortType === 'first') {
+        // Sort by first name
+        const firstNameA = nameA.split(' ')[0];
+        const firstNameB = nameB.split(' ')[0];
+        return firstNameA.localeCompare(firstNameB);
+      } else if (sortType === 'last') {
+        // Sort by last name
+        const lastNameA = nameA.split(' ').pop() || '';
+        const lastNameB = nameB.split(' ').pop() || '';
+        return lastNameA.localeCompare(lastNameB);
+      }
+      
+      return nameA.localeCompare(nameB);
+    });
+    
+    renderRoster();
+    autoSaveWarPoints();
+    console.log(`Sorted roster by ${sortType} name`);
+  };
+
+  window.shuffleWarRoster = () => {
+    if (!state.roster || state.roster.length === 0) return alert("No roster loaded.");
+    
+    // Fisher-Yates shuffle algorithm
+    for (let i = state.roster.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [state.roster[i], state.roster[j]] = [state.roster[j], state.roster[i]];
+    }
+    
+    renderRoster();
+    autoSaveWarPoints();
+    console.log("Shuffled roster");
+  };
+  
+  // === HISTORICAL SCENARIOS ===
+  const scenarios = {
+    roman_empire: {
+      name: "Roman Empire Conquest",
+      description: "Conquer territories like the ancient Romans!",
+      theme: "🏛️ Ancient Rome",
+      specialRules: [
+        "Castles are called 'Fortresses'",
+        "Mercenaries are 'Legionaries' (cost 15 points each)",
+        "Victory requires 60% of territories",
+        "Special: 'Gladiator Arena' tiles give +5 bonus points"
+      ],
+      tileNames: ["Rome", "Carthage", "Gaul", "Britannia", "Hispania", "Germania", "Aegyptus", "Syria"],
+      castleNames: ["Watchtower", "Fortress", "Citadel"]
+    },
+    american_revolution: {
+      name: "American Revolution",
+      description: "Fight for independence like the American colonies!",
+      theme: "🇺🇸 Revolutionary War",
+      specialRules: [
+        "Castles are called 'Colonies'",
+        "Mercenaries are 'Militia' (cost 8 points each)",
+        "Victory requires 50% of territories",
+        "Special: 'Liberty Bell' tiles give +3 bonus points"
+      ],
+      tileNames: ["Boston", "Philadelphia", "New York", "Charleston", "Savannah", "Richmond", "Baltimore", "Hartford"],
+      castleNames: ["Settlement", "Colony", "Capital"]
+    },
+    lord_of_rings: {
+      name: "Lord of the Rings",
+      description: "Battle for Middle-earth like in Tolkien's epic!",
+      theme: "💍 Middle-earth",
+      specialRules: [
+        "Castles are called 'Strongholds'",
+        "Mercenaries are 'Warriors' (cost 12 points each)",
+        "Victory requires 55% of territories",
+        "Special: 'Ring of Power' tiles give +10 bonus points"
+      ],
+      tileNames: ["Rivendell", "Gondor", "Rohan", "Mordor", "Shire", "Isengard", "Lothlórien", "Dale"],
+      castleNames: ["Village", "Stronghold", "Fortress"]
+    },
+    game_of_thrones: {
+      name: "Game of Thrones",
+      description: "Play the game of thrones in Westeros!",
+      theme: "👑 Westeros",
+      specialRules: [
+        "Castles are called 'Keeps'",
+        "Mercenaries are 'Knights' (cost 20 points each)",
+        "Victory requires 65% of territories",
+        "Special: 'Iron Throne' tiles give +15 bonus points"
+      ],
+      tileNames: ["King's Landing", "Winterfell", "Casterly Rock", "Highgarden", "Storm's End", "Sunspear", "Pyke", "Riverrun"],
+      castleNames: ["Holdfast", "Keep", "Castle"]
+    },
+    world_war_2: {
+      name: "World War II",
+      description: "Command forces in the greatest conflict!",
+      theme: "⚔️ WWII",
+      specialRules: [
+        "Castles are called 'Bases'",
+        "Mercenaries are 'Soldiers' (cost 10 points each)",
+        "Victory requires 70% of territories",
+        "Special: 'Victory Points' tiles give +8 bonus points"
+      ],
+      tileNames: ["London", "Paris", "Berlin", "Moscow", "Tokyo", "Washington", "Rome", "Madrid"],
+      castleNames: ["Outpost", "Base", "Headquarters"]
+    }
+  };
+
+  function loadScenario() {
+    const scenarioSelect = document.getElementById('scenarioSelect');
+    const scenarioId = scenarioSelect.value;
+    
+    if (!scenarioId) {
+      // Reset to normal mode
+      state.currentScenario = null;
+      updateScenarioDisplay();
+      return;
+    }
+    
+    const scenario = scenarios[scenarioId];
+    if (!scenario) return;
+    
+    state.currentScenario = scenario;
+    updateScenarioDisplay();
+    
+    // Show scenario info
+    alert(`🏛️ ${scenario.name}\n\n${scenario.description}\n\n${scenario.theme}\n\nSpecial Rules:\n${scenario.specialRules.join('\n')}`);
+  }
+  
+  function updateScenarioDisplay() {
+    const scenarioInfo = document.getElementById('scenarioInfo');
+    if (!scenarioInfo) {
+      // Create scenario info display
+      const scenarioSection = document.querySelector('.section:last-child');
+      const infoDiv = document.createElement('div');
+      infoDiv.id = 'scenarioInfo';
+      infoDiv.style.cssText = 'margin-top: 8px; padding: 8px; background: rgba(139, 92, 246, 0.1); border-radius: 6px; font-size: 12px;';
+      scenarioSection.appendChild(infoDiv);
+    }
+    
+    const infoDiv = document.getElementById('scenarioInfo');
+    if (state.currentScenario) {
+      infoDiv.innerHTML = `
+        <strong>${state.currentScenario.theme}</strong><br>
+        ${state.currentScenario.description}<br>
+        <small>Special rules are active!</small>
+      `;
+    } else {
+      infoDiv.innerHTML = '<small>No scenario selected - playing in normal mode</small>';
+    }
+  }
+
+  // === TEAM RESOURCE MANAGEMENT ===
+  function getTeamResources(teamId) {
+    if (!state.teamMode || !teamId) return null;
+    
+    const teamMembers = state.roster.filter(student => student.teamId === teamId);
+    const totalBalance = teamMembers.reduce((sum, student) => sum + student.balance, 0);
+    const averageBalance = teamMembers.length > 0 ? totalBalance / teamMembers.length : 0;
+    
+    return {
+      members: teamMembers,
+      totalBalance: totalBalance,
+      averageBalance: averageBalance,
+      memberCount: teamMembers.length
+    };
+  }
+  
+  function canTeamAffordCost(teamId, cost) {
+    if (!state.teamMode || !teamId) return false;
+    
+    const teamResources = getTeamResources(teamId);
+    if (!teamResources) return false;
+    
+    // Team can afford if they have enough total resources
+    return teamResources.totalBalance >= cost;
+  }
+  
+  function deductTeamCost(teamId, cost, reason = '') {
+    if (!state.teamMode || !teamId) return false;
+    
+    const teamResources = getTeamResources(teamId);
+    if (!teamResources || teamResources.totalBalance < cost) return false;
+    
+    // Distribute cost evenly among team members
+    const costPerMember = Math.ceil(cost / teamResources.memberCount);
+    let remainingCost = cost;
+    
+    teamResources.members.forEach((member, index) => {
+      const memberCost = Math.min(costPerMember, remainingCost);
+      member.balance = Math.max(0, member.balance - memberCost);
+      remainingCost -= memberCost;
+      
+      console.log(`${member.name} (${teamResources.members[0].teamName}) paid ${memberCost} points for ${reason}`);
+    });
+    
+    return true;
+  }
+
+  // === AUTO-SAVE SYSTEM ===
+  function autoSaveWarPoints() {
+    if (!state.currentRoster || !state.currentRosterId) return;
+    
+    try {
+      // Update the roster data with current scores and game state
+      const updatedRoster = {
+        ...state.currentRoster,
+        roster: state.roster.map(student => ({
+          id: student.gsId,
+          name: student.name,
+          points: student.balance, // Save current balance as points
+          tilesOwned: student.tilesOwned,
+          teamId: student.teamId,
+          teamName: student.teamName,
+          teamColor: student.teamColor
+        })),
+        gameState: {
+          board: state.board,
+          tiles: state.board.tiles,
+          truces: state.truces || []
+        },
+        lastModified: new Date().toISOString()
+      };
+      
+      // Update in the rosters array
+      const rosterIndex = state.rosters.findIndex(r => r.id === state.currentRosterId);
+      if (rosterIndex >= 0) {
+        state.rosters[rosterIndex] = updatedRoster;
+        
+        // Save to localStorage
+        localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+        
+        console.log('Auto-saved war points to roster');
+      }
+    } catch (error) {
+      console.error('Error auto-saving war points:', error);
+    }
+  }
+
+  el("#btnTornado").onclick = async () => {
+    if (!state.roster || state.roster.length === 0) return alert("No roster loaded.");
+    if (!confirm("Buy TORNADO for 50 points? This will randomly affect territories across the map.")) return;
+    
+    // Simple tornado effect - randomly reassign some tiles
+    if (state.board.tiles) {
+      const ownedTiles = state.board.tiles.filter(t => t.owner_game_student_id);
+      
+      // Randomly reassign 1-3 tiles per student
+      state.roster.forEach(student => {
+        const studentTiles = ownedTiles.filter(t => t.owner_game_student_id === student.gsId);
+        const tilesToReassign = Math.min(Math.floor(Math.random() * 3) + 1, studentTiles.length);
+        
+        for (let i = 0; i < tilesToReassign; i++) {
+          const randomTile = studentTiles[Math.floor(Math.random() * studentTiles.length)];
+          randomTile.owner_game_student_id = null;
+          randomTile.castle_level = 0;
+          student.tilesOwned = Math.max(0, student.tilesOwned - 1);
         }
+      });
+      
+      updateGridDisplay();
+      renderRoster();
+      autoSaveWarPoints();
+    }
+    
+    alert("Tornado purchased and cast!");
+  };
+  el("#btnTruces").onclick = () => {
+    // Toggle truces panel visibility
+    const trucesSection = document.querySelector('#truces').closest('.section');
+    const isVisible = trucesSection.style.display !== 'none';
+    trucesSection.style.display = isVisible ? 'none' : 'block';
+  };
 
-        function loadRosterData() {
-            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
-            currentRoster = rosters.find(r => r.id === currentStudent.rosterId);
-            
-            if (!currentRoster) {
-                alert('Class roster not found! Please contact your teacher.');
-                window.location.href = 'student-login.html';
-                return;
-            }
+  // === AUDIT (simple) ===
 
-            // Initialize student balances from roster
-            gameState.studentBalances = {};
-            currentRoster.roster.forEach(student => {
-                gameState.studentBalances[student.name] = student.points || 0;
-            });
+
+
+  // === FIGHT SCREEN FUNCTIONALITY ===
+  let currentBattle = null;
+  
+  function showFightScreen(attackerId, defenderId, tile) {
+    const attacker = state.roster.find(r => r.gsId === attackerId);
+    const defender = state.roster.find(r => r.gsId === defenderId);
+    
+    if (!attacker || !defender) return alert("Student not found");
+    
+    currentBattle = {
+      attacker: attacker,
+      defender: defender,
+      tile: tile,
+      attackerMercs: 0,
+      attackerWeapons: [], // Array of weapons
+      defenderMercs: 0,
+      defenderWeapons: [], // Array of weapons
+      defenderCastle: tile.castle_level || null, // Pre-built castle from tile
+      defenderBattleCastle: null // Battle-screen castle
+    };
+    
+    // Update modal content
+    document.getElementById('attackerName').textContent = attacker.name;
+    document.getElementById('defenderName').textContent = defender.name;
+    document.getElementById('attackerBalance').textContent = attacker.balance;
+    document.getElementById('defenderBalance').textContent = defender.balance;
+    
+    // Reset selections
+    document.getElementById('attackerMercCount').textContent = '0';
+    document.getElementById('defenderMercCount').textContent = '0';
+    document.getElementById('attackerWeapons').textContent = 'None';
+    document.getElementById('defenderWeapons').textContent = 'None';
+    document.getElementById('attackerWeaponList').innerHTML = '';
+    document.getElementById('defenderWeaponList').innerHTML = '';
+    
+    // Show pre-built castle if it exists
+    if (tile.castle_level > 0) {
+      const castleNames = ['', 'Wooden Keep', 'Stone Fortress', 'Iron Citadel'];
+      document.getElementById('defenderCastle').textContent = `${castleNames[tile.castle_level]} (Pre-built)`;
+    } else {
+      document.getElementById('defenderCastle').textContent = 'None';
+    }
+    updateBattleSummary();
+    
+    // Show modal
+    document.getElementById('fightModal').classList.add('show');
+  }
+  
+  // Helper functions for weapon management
+  function addWeapon(type, isAttacker) {
+    const weaponArray = isAttacker ? currentBattle.attackerWeapons : currentBattle.defenderWeapons;
+    weaponArray.push(type);
+    updateWeaponDisplay(isAttacker);
+    updateBattleSummary();
+  }
+  
+  function removeWeapon(index, isAttacker) {
+    const weaponArray = isAttacker ? currentBattle.attackerWeapons : currentBattle.defenderWeapons;
+    weaponArray.splice(index, 1);
+    updateWeaponDisplay(isAttacker);
+    updateBattleSummary();
+  }
+  
+  // Make removeWeapon globally accessible
+  window.removeWeapon = removeWeapon;
+  
+  function updateWeaponDisplay(isAttacker) {
+    const weaponArray = isAttacker ? currentBattle.attackerWeapons : currentBattle.defenderWeapons;
+    const summaryElement = isAttacker ? document.getElementById('attackerWeapons') : document.getElementById('defenderWeapons');
+    const listElement = isAttacker ? document.getElementById('attackerWeaponList') : document.getElementById('defenderWeaponList');
+    
+    if (weaponArray.length === 0) {
+      summaryElement.textContent = 'None';
+      listElement.innerHTML = '';
+    } else {
+      summaryElement.textContent = `${weaponArray.length} weapon${weaponArray.length > 1 ? 's' : ''}`;
+      
+      // Create individual weapon items with remove buttons
+      listElement.innerHTML = weaponArray.map((weapon, index) => {
+        const weaponNames = { spear: 'Spear', crossbow: 'Crossbow', catapult: 'Catapult' };
+        const weaponCosts = { spear: 30, crossbow: 60, catapult: 100 };
+        return `
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px; padding: 4px 8px; background: rgba(255,255,255,0.1); border-radius: 6px;">
+            <span>${weaponNames[weapon]} (${weaponCosts[weapon]} pts)</span>
+            <button onclick="removeWeapon(${index}, ${isAttacker})" style="background: #ef4444; color: white; border: none; padding: 2px 6px; border-radius: 4px; font-size: 12px; cursor: pointer;">×</button>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+
+  function updateBattleSummary() {
+    if (!currentBattle) return;
+    
+    // Calculate attacker power with new system
+    const attackerBasePower = currentBattle.attackerMercs * 15; // Increased from 10
+    
+    // Calculate weapon power from multiple weapons
+    let attackerWeaponPower = 0;
+    currentBattle.attackerWeapons.forEach(weapon => {
+      const weaponPower = weapon === 'spear' ? 15 : 
+                         weapon === 'crossbow' ? 20 : 30; // Base power per weapon
+      attackerWeaponPower += weaponPower;
+    });
+    
+    const attackerMercPower = attackerBasePower + attackerWeaponPower;
+    
+    // Calculate combo bonus for attacker
+    const attackerItemCount = currentBattle.attackerMercs + currentBattle.attackerWeapons.length;
+    const attackerComboBonus = attackerItemCount >= 4 ? 1.5 : 
+                              attackerItemCount >= 3 ? 1.25 : 
+                              attackerItemCount >= 2 ? 1.1 : 1;
+    const attackerPower = attackerMercPower * attackerComboBonus;
+    
+    // Calculate defender power with new system
+    const defenderBasePower = currentBattle.defenderMercs * 15; // Increased from 10
+    
+    // Calculate weapon power from multiple weapons
+    let defenderWeaponPower = 0;
+    currentBattle.defenderWeapons.forEach(weapon => {
+      const weaponPower = weapon === 'spear' ? 15 : 
+                         weapon === 'crossbow' ? 20 : 30; // Base power per weapon
+      defenderWeaponPower += weaponPower;
+    });
+    
+    const defenderMercPower = defenderBasePower + defenderWeaponPower;
+    // Calculate defender castle power - distinguish pre-built vs battle castles
+    const defenderCastlePower = currentBattle.defenderCastle ? 
+      (currentBattle.defenderCastle === 1 ? 150 : 
+       currentBattle.defenderCastle === 2 ? 300 : 600) : 0; // Pre-built castles get 2x power
+    const defenderBattleCastlePower = currentBattle.defenderBattleCastle ? 
+      (currentBattle.defenderBattleCastle === 1 ? 75 : 
+       currentBattle.defenderBattleCastle === 2 ? 150 : 300) : 0; // Battle castles get base power
+    const defenderBaseTotal = defenderMercPower + defenderCastlePower + defenderBattleCastlePower;
+    
+    // Calculate combo bonus for defender
+    const defenderItemCount = currentBattle.defenderMercs + 
+      currentBattle.defenderWeapons.length + 
+      (currentBattle.defenderCastle ? 1 : 0) +
+      (currentBattle.defenderBattleCastle ? 1 : 0);
+    const defenderComboBonus = defenderItemCount >= 4 ? 1.5 : 
+                              defenderItemCount >= 3 ? 1.25 : 
+                              defenderItemCount >= 2 ? 1.1 : 1;
+    const defenderPower = defenderBaseTotal * defenderComboBonus;
+    
+    // Calculate costs
+    let attackerWeaponCost = 0;
+    currentBattle.attackerWeapons.forEach(weapon => {
+      attackerWeaponCost += weapon === 'spear' ? 30 : 
+                           weapon === 'crossbow' ? 60 : 
+                           weapon === 'catapult' ? 100 : 0;
+    });
+    
+    let defenderWeaponCost = 0;
+    currentBattle.defenderWeapons.forEach(weapon => {
+      defenderWeaponCost += weapon === 'spear' ? 30 : 
+                           weapon === 'crossbow' ? 60 : 
+                           weapon === 'catapult' ? 100 : 0;
+    });
+    
+    const attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost;
+    const defenderCost = currentBattle.defenderMercs * 10 + defenderWeaponCost +
+      (currentBattle.defenderBattleCastle === 1 ? 50 : 
+       currentBattle.defenderBattleCastle === 2 ? 100 : 
+       currentBattle.defenderBattleCastle === 3 ? 200 : 0);
+    
+    // Calculate victory odds
+    const totalPower = attackerPower + defenderPower;
+    const attackerOdds = totalPower > 0 ? (attackerPower / totalPower) * 100 : 50;
+    
+    // Update display
+    document.getElementById('attackerPower').textContent = attackerPower.toFixed(1);
+    document.getElementById('defenderPower').textContent = defenderPower.toFixed(1);
+    document.getElementById('attackerCost').textContent = attackerCost;
+    document.getElementById('defenderCost').textContent = defenderCost;
+    document.getElementById('victoryOdds').textContent = `Victory Odds: ${attackerOdds.toFixed(1)}%`;
+    
+    // Update balances in real-time
+    document.getElementById('attackerBalance').textContent = currentBattle.attacker.balance - attackerCost;
+    document.getElementById('defenderBalance').textContent = currentBattle.defender.balance - defenderCost;
+    
+    // Color code the odds
+    const oddsElement = document.getElementById('victoryOdds');
+    if (attackerOdds > 60) {
+      oddsElement.style.color = '#10b981'; // Green for attacker advantage
+    } else if (attackerOdds < 40) {
+      oddsElement.style.color = '#ef4444'; // Red for defender advantage
+    } else {
+      oddsElement.style.color = '#facc15'; // Yellow for balanced
+    }
+  }
+  
+  // Fight screen event listeners
+  document.getElementById('fightClose').onclick = () => {
+    document.getElementById('fightModal').classList.remove('show');
+    currentBattle = null;
+  };
+  
+  // Attacker mercenaries
+  document.getElementById('attackerMercPlus').onclick = () => {
+    if (currentBattle.attackerMercs < 20) {
+      currentBattle.attackerMercs++;
+      document.getElementById('attackerMercCount').textContent = currentBattle.attackerMercs;
+      updateBattleSummary();
+    }
+  };
+  
+  document.getElementById('attackerMercMinus').onclick = () => {
+    if (currentBattle.attackerMercs > 0) {
+      currentBattle.attackerMercs--;
+      document.getElementById('attackerMercCount').textContent = currentBattle.attackerMercs;
+      updateBattleSummary();
+    }
+  };
+  
+  // Defender mercenaries
+  document.getElementById('defenderMercPlus').onclick = () => {
+    if (currentBattle.defenderMercs < 20) {
+      currentBattle.defenderMercs++;
+      document.getElementById('defenderMercCount').textContent = currentBattle.defenderMercs;
+      updateBattleSummary();
+    }
+  };
+  
+  document.getElementById('defenderMercMinus').onclick = () => {
+    if (currentBattle.defenderMercs > 0) {
+      currentBattle.defenderMercs--;
+      document.getElementById('defenderMercCount').textContent = currentBattle.defenderMercs;
+      updateBattleSummary();
+    }
+  };
+  
+  // Attacker weapons
+  document.getElementById('attackerSpear').onclick = () => {
+    addWeapon('spear', true);
+  };
+  
+  document.getElementById('attackerCrossbow').onclick = () => {
+    addWeapon('crossbow', true);
+  };
+  
+  document.getElementById('attackerCatapult').onclick = () => {
+    addWeapon('catapult', true);
+  };
+  
+  // Defender weapons
+  document.getElementById('defenderSpear').onclick = () => {
+    addWeapon('spear', false);
+  };
+  
+  document.getElementById('defenderCrossbow').onclick = () => {
+    addWeapon('crossbow', false);
+  };
+  
+  document.getElementById('defenderCatapult').onclick = () => {
+    addWeapon('catapult', false);
+  };
+  
+  document.getElementById('removeDefenderCastle').onclick = () => {
+    currentBattle.defenderBattleCastle = null;
+    document.getElementById('defenderCastle').textContent = 'None';
+    updateBattleSummary();
+  };
+  
+  // Defender castles (battle-screen castles)
+  document.getElementById('defenderCastle1').onclick = () => {
+    currentBattle.defenderBattleCastle = 1;
+    document.getElementById('defenderCastle').textContent = 'Wooden Keep (Battle)';
+    updateBattleSummary();
+  };
+  
+  document.getElementById('defenderCastle2').onclick = () => {
+    currentBattle.defenderBattleCastle = 2;
+    document.getElementById('defenderCastle').textContent = 'Stone Fortress (Battle)';
+    updateBattleSummary();
+  };
+  
+  document.getElementById('defenderCastle3').onclick = () => {
+    currentBattle.defenderBattleCastle = 3;
+    document.getElementById('defenderCastle').textContent = 'Iron Citadel (Battle)';
+    updateBattleSummary();
+  };
+  
+  // Simulate war button
+  document.getElementById('simulateWar').onclick = async () => {
+    if (!currentBattle) return;
+    
+    const attackerCost = currentBattle.attackerMercs * 10 + 
+      (currentBattle.attackerWeapon === 'spear' ? 30 : 
+       currentBattle.attackerWeapon === 'crossbow' ? 60 : 
+       currentBattle.attackerWeapon === 'catapult' ? 100 : 0);
+    const defenderCost = currentBattle.defenderMercs * 10 + 
+      (currentBattle.defenderWeapon === 'spear' ? 30 : 
+       currentBattle.defenderWeapon === 'crossbow' ? 60 : 
+       currentBattle.defenderWeapon === 'catapult' ? 100 : 0) +
+      (currentBattle.defenderCastle === 1 ? 50 : 
+       currentBattle.defenderCastle === 2 ? 100 : 
+       currentBattle.defenderCastle === 3 ? 200 : 0);
+    
+    // Check if students/teams have enough points for the battle
+    let attackerCanAfford = false;
+    let defenderCanAfford = false;
+    
+    if (state.teamMode && currentBattle.attacker.teamId) {
+      // Team mode - check team resources
+      attackerCanAfford = canTeamAffordCost(currentBattle.attacker.teamId, attackerCost);
+      if (!attackerCanAfford) {
+        const teamResources = getTeamResources(currentBattle.attacker.teamId);
+        alert(`Insufficient team funds! ${currentBattle.attacker.teamName} needs ${attackerCost} points but has ${teamResources.totalBalance}.`);
+        return;
+      }
+    } else {
+      // Individual mode - check individual resources
+      const attackerBalanceAfterCost = currentBattle.attacker.balance - attackerCost;
+      attackerCanAfford = attackerBalanceAfterCost >= 0;
+      if (!attackerCanAfford) {
+        alert(`Insufficient funds! ${currentBattle.attacker.name} needs ${attackerCost} points but has ${currentBattle.attacker.balance}.`);
+        return;
+      }
+    }
+    
+    if (state.teamMode && currentBattle.defender.teamId) {
+      // Team mode - check team resources
+      defenderCanAfford = canTeamAffordCost(currentBattle.defender.teamId, defenderCost);
+      if (!defenderCanAfford) {
+        const teamResources = getTeamResources(currentBattle.defender.teamId);
+        alert(`Insufficient team funds! ${currentBattle.defender.teamName} needs ${defenderCost} points but has ${teamResources.totalBalance}.`);
+        return;
+      }
+    } else {
+      // Individual mode - check individual resources
+      const defenderBalanceAfterCost = currentBattle.defender.balance - defenderCost;
+      defenderCanAfford = defenderBalanceAfterCost >= 0;
+      if (!defenderCanAfford) {
+        alert(`Insufficient funds! ${currentBattle.defender.name} needs ${defenderCost} points but has ${currentBattle.defender.balance}.`);
+        return;
+      }
+    }
+    
+    // Close modal
+    document.getElementById('fightModal').classList.remove('show');
+    
+    // Show battle animation
+    showBattleAnimation();
+    
+    // Simulate battle after animation
+    setTimeout(() => {
+      simulateBattle();
+    }, 3000);
+  };
+  
+  function showBattleAnimation() {
+    // Create battle animation overlay
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      font-size: 48px;
+      color: white;
+      text-align: center;
+    `;
+    
+    overlay.innerHTML = `
+      <div>
+        <div style="font-size: 72px; margin-bottom: 20px;">⚔️</div>
+        <div>${currentBattle.attacker.name} vs ${currentBattle.defender.name}</div>
+        <div style="font-size: 24px; margin-top: 20px;">Battle in progress...</div>
+      </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    setTimeout(() => {
+      document.body.removeChild(overlay);
+    }, 3000);
+  }
+  
+  async function simulateBattle() {
+    if (!currentBattle) return;
+    
+    // Calculate attacker power with new system
+    const attackerBasePower = currentBattle.attackerMercs * 15;
+    
+    // Calculate weapon power from multiple weapons
+    let attackerWeaponPower = 0;
+    currentBattle.attackerWeapons.forEach(weapon => {
+      const weaponPower = weapon === 'spear' ? 15 : 
+                         weapon === 'crossbow' ? 20 : 30; // Base power per weapon
+      attackerWeaponPower += weaponPower;
+    });
+    
+    const attackerMercPower = attackerBasePower + attackerWeaponPower;
+    
+    // Calculate combo bonus for attacker
+    const attackerItemCount = currentBattle.attackerMercs + currentBattle.attackerWeapons.length;
+    const attackerComboBonus = attackerItemCount >= 4 ? 1.5 : 
+                              attackerItemCount >= 3 ? 1.25 : 
+                              attackerItemCount >= 2 ? 1.1 : 1;
+    const attackerPower = attackerMercPower * attackerComboBonus;
+    
+    // Calculate defender power with new system
+    const defenderBasePower = currentBattle.defenderMercs * 15;
+    
+    // Calculate weapon power from multiple weapons
+    let defenderWeaponPower = 0;
+    currentBattle.defenderWeapons.forEach(weapon => {
+      const weaponPower = weapon === 'spear' ? 15 : 
+                         weapon === 'crossbow' ? 20 : 30; // Base power per weapon
+      defenderWeaponPower += weaponPower;
+    });
+    
+    const defenderMercPower = defenderBasePower + defenderWeaponPower;
+    // Calculate defender castle power - distinguish pre-built vs battle castles
+    const defenderCastlePower = currentBattle.defenderCastle ? 
+      (currentBattle.defenderCastle === 1 ? 150 : 
+       currentBattle.defenderCastle === 2 ? 300 : 600) : 0; // Pre-built castles get 2x power
+    const defenderBattleCastlePower = currentBattle.defenderBattleCastle ? 
+      (currentBattle.defenderBattleCastle === 1 ? 75 : 
+       currentBattle.defenderBattleCastle === 2 ? 150 : 300) : 0; // Battle castles get base power
+    const defenderBaseTotal = defenderMercPower + defenderCastlePower + defenderBattleCastlePower;
+    
+    // Calculate combo bonus for defender
+    const defenderItemCount = currentBattle.defenderMercs + 
+      currentBattle.defenderWeapons.length + 
+      (currentBattle.defenderCastle ? 1 : 0) +
+      (currentBattle.defenderBattleCastle ? 1 : 0);
+    const defenderComboBonus = defenderItemCount >= 4 ? 1.5 : 
+                              defenderItemCount >= 3 ? 1.25 : 
+                              defenderItemCount >= 2 ? 1.1 : 1;
+    const defenderPower = defenderBaseTotal * defenderComboBonus;
+    
+    const odds = attackerPower / (attackerPower + defenderPower);
+    const roll = Math.random();
+    const attackerWins = roll < odds;
+    
+    // Calculate costs
+    let attackerWeaponCost = 0;
+    currentBattle.attackerWeapons.forEach(weapon => {
+      attackerWeaponCost += weapon === 'spear' ? 30 : 
+                           weapon === 'crossbow' ? 60 : 
+                           weapon === 'catapult' ? 100 : 0;
+    });
+    
+    let defenderWeaponCost = 0;
+    currentBattle.defenderWeapons.forEach(weapon => {
+      defenderWeaponCost += weapon === 'spear' ? 30 : 
+                           weapon === 'crossbow' ? 60 : 
+                           weapon === 'catapult' ? 100 : 0;
+    });
+    
+    const attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost;
+    const defenderCost = currentBattle.defenderMercs * 10 + defenderWeaponCost +
+      (currentBattle.defenderBattleCastle === 1 ? 50 : 
+       currentBattle.defenderBattleCastle === 2 ? 100 : 
+       currentBattle.defenderBattleCastle === 3 ? 200 : 0);
+    
+    // Apply battle results to current roster system
+    // Deduct costs from students or teams
+    if (state.teamMode && currentBattle.attacker.teamId) {
+      // Team mode - deduct from team resources
+      deductTeamCost(currentBattle.attacker.teamId, attackerCost, 'attack');
+    } else {
+      // Individual mode - deduct from individual balance
+      currentBattle.attacker.balance -= attackerCost;
+    }
+    
+    if (state.teamMode && currentBattle.defender.teamId) {
+      // Team mode - deduct from team resources
+      deductTeamCost(currentBattle.defender.teamId, defenderCost, 'defense');
+    } else {
+      // Individual mode - deduct from individual balance
+      currentBattle.defender.balance -= defenderCost;
+    }
+    
+    // Auto-save points after battle
+    autoSaveWarPoints();
+    
+    if (attackerWins) {
+      // Attacker takes the tile
+      currentBattle.tile.owner_game_student_id = currentBattle.attacker.gsId;
+      currentBattle.tile.castle_level = 0; // Destroy castle
+      
+      // Update tile counts
+      currentBattle.attacker.tilesOwned += 1;
+      currentBattle.defender.tilesOwned = Math.max(0, currentBattle.defender.tilesOwned - 1);
+    }
+    
+    // Save the updated roster
+    if (state.currentRoster) {
+      // Update the roster data
+      const attackerIndex = state.currentRoster.roster.findIndex(r => r.name === currentBattle.attacker.name);
+      const defenderIndex = state.currentRoster.roster.findIndex(r => r.name === currentBattle.defender.name);
+      
+      if (attackerIndex >= 0) {
+        state.currentRoster.roster[attackerIndex].points = currentBattle.attacker.balance;
+      }
+      if (defenderIndex >= 0) {
+        state.currentRoster.roster[defenderIndex].points = currentBattle.defender.balance;
+      }
+      
+      // Save game state to roster
+      state.currentRoster.gameState = {
+        board: state.board,
+        tiles: state.board.tiles,
+        truces: state.truces || []
+      };
+      
+      // Save to localStorage
+      const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+      const rosterIndex = rosters.findIndex(r => r.id === state.currentRoster.id);
+      if (rosterIndex >= 0) {
+        rosters[rosterIndex] = state.currentRoster;
+        localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+      }
+    }
+    
+    // Show result
+    const attackerWeaponText = currentBattle.attackerWeapon ? ` with ${currentBattle.attackerWeapon}` : '';
+    const defenderWeaponText = currentBattle.defenderWeapon ? ` with ${currentBattle.defenderWeapon}` : '';
+    const castleText = currentBattle.defenderCastle ? ` (Castle L${currentBattle.defenderCastle})` : '';
+    
+    alert(`⚔️ BATTLE RESULT ⚔️\n\n` +
+          `${currentBattle.attacker.name}${attackerWeaponText}: ${attackerPower.toFixed(1)} power\n` +
+          `${currentBattle.defender.name}${defenderWeaponText}${castleText}: ${defenderPower.toFixed(1)} power\n\n` +
+          `Odds: ${(odds*100).toFixed(1)}% · Roll: ${roll.toFixed(2)}\n\n` +
+          `🏆 ${attackerWins ? currentBattle.attacker.name : currentBattle.defender.name} WINS! 🏆\n\n` +
+          `Costs: ${currentBattle.attacker.name} paid ${attackerCost} points, ${currentBattle.defender.name} paid ${defenderCost} points`);
+    
+    // Update the display
+    updateGridDisplay();
+    syncTileCounts();
+    updateVictoryTarget();
+    
+    currentBattle = null;
+  }
+
+  // === TEAM COLOR CHANGE FUNCTIONALITY ===
+  window.changeTeamColor = function(studentId) {
+    const student = state.roster.find(r => r.gsId === studentId);
+    if (!student || !student.teamId) return;
+    
+    const currentGame = state.localGames.find(g => g.id === state.gameId);
+    if (!currentGame) return;
+    
+    // Show color picker
+    const colorPicker = document.createElement('div');
+    colorPicker.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      z-index: 1000;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    `;
+    
+    colorPicker.innerHTML = `
+      <h3 style="margin: 0 0 15px 0;">Change Team Color</h3>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        ${teamColors.map(color => 
+          `<div class="color-option" style="background-color: ${color}; width: 30px; height: 30px;" 
+               data-color="${color}"></div>`
+        ).join('')}
+      </div>
+      <button onclick="this.parentElement.remove()" style="margin-top: 15px; padding: 8px 16px; background: var(--accent); color: white; border: none; border-radius: 6px; cursor: pointer;">Cancel</button>
+    `;
+    
+    document.body.appendChild(colorPicker);
+    
+    // Add click handlers for color selection
+    colorPicker.querySelectorAll('.color-option').forEach(option => {
+      option.addEventListener('click', () => {
+        const newColor = option.dataset.color;
+        
+        // Update team color in game data
+        const team = currentGame.teams.find(t => t.id === student.teamId);
+        if (team) {
+          team.color = newColor;
         }
+        
+        // Update all students in this team
+        currentGame.roster.forEach(r => {
+          if (r.teamId === student.teamId) {
+            r.teamColor = newColor;
+          }
+        });
+        
+        // Save and refresh
+        saveLocalGame(currentGame);
+        renderRoster();
+        loadTiles(); // Refresh tile colors
+        
+        document.body.removeChild(colorPicker);
+      });
+    });
+  };
 
-        function initializeGame() {
-            // Initialize tiles if not already done
-            if (!currentRoster.tiles || currentRoster.tiles.length === 0) {
-                currentRoster.tiles = generateInitialTiles();
-            }
-            
-            gameState.tiles = currentRoster.tiles;
-            
-            // Initialize board if not already done
-            if (!currentRoster.board) {
-                currentRoster.board = generateInitialBoard();
-            }
-        }
 
-        function generateInitialTiles() {
-            const tileNames = [
-                'Forest', 'Mountain', 'River', 'Desert', 'Plains', 'Coast',
-                'Valley', 'Hill', 'Lake', 'Canyon', 'Meadow', 'Cliff',
-                'Swamp', 'Tundra', 'Volcano', 'Island', 'Peninsula', 'Bay',
-                'Fjord', 'Glacier', 'Oasis', 'Cave', 'Bridge', 'Tower'
-            ];
-            
-            return tileNames.map((name, index) => ({
-                id: index,
-                name: name,
-                cost: Math.floor(Math.random() * 10) + 5, // 5-14 points
-                owner: null,
-                defense: 0,
-                isCastle: Math.random() < 0.2 // 20% chance to be a castle
-            }));
-        }
+  // Initialize team mode sections
 
-        function generateInitialBoard() {
-            return Array(24).fill(null).map((_, index) => ({
-                tileId: index,
-                owner: null,
-                defense: 0
-            }));
-        }
-
-        // === UI UPDATES ===
-        function updateStudentInfo() {
-            document.getElementById('studentBadge').textContent = `${currentStudent.username} (Student)`;
-            document.getElementById('studentPoints').textContent = `${getStudentPoints()} Points`;
-        }
-
-        function updateStudentList() {
-            const studentList = document.getElementById('studentList');
-            studentList.innerHTML = '';
-            
-            currentRoster.roster.forEach(student => {
-                const studentItem = document.createElement('div');
-                studentItem.className = 'student-item';
-                studentItem.innerHTML = `
-                    <span class="student-name">${student.name}</span>
-                    <span class="student-points">${student.points || 0}</span>
-                `;
-                studentList.appendChild(studentItem);
-            });
-        }
-
-        function renderGameGrid() {
-            const grid = document.getElementById('gameGrid');
-            grid.innerHTML = '';
-            
-            gameState.tiles.forEach((tile, index) => {
-                const tileElement = document.createElement('div');
-                tileElement.className = 'grid-item';
-                tileElement.onclick = () => selectTile(index);
-                
-                // Determine tile state
-                if (tile.owner === currentStudent.username) {
-                    tileElement.classList.add('owned');
-                } else if (tile.owner === null) {
-                    tileElement.classList.add('available');
-                } else {
-                    tileElement.classList.add('other-owned');
-                }
-                
-                tileElement.innerHTML = `
-                    <div class="tile-name">${tile.name}</div>
-                    <div class="tile-cost">${tile.cost} pts</div>
-                    ${tile.owner ? `<div class="owner-badge">${tile.owner}</div>` : ''}
-                `;
-                
-                grid.appendChild(tileElement);
-            });
-        }
-
-        function selectTile(tileIndex) {
-            const tile = gameState.tiles[tileIndex];
-            
-            if (tile.owner === currentStudent.username) {
-                // Owned tile - show battle options
-                gameState.selectedTile = tileIndex;
-                showBattleSection();
-                updateStatusMessage(`Selected your territory: ${tile.name}. Choose to attack or defend!`, 'info');
-            } else if (tile.owner === null) {
-                // Available tile - try to buy
-                buyTerritory(tileIndex);
-            } else {
-                // Other player's tile - show attack option
-                gameState.selectedTile = tileIndex;
-                showBattleSection();
-                updateStatusMessage(`Selected ${tile.owner}'s territory: ${tile.name}. You can attack this territory!`, 'warning');
-            }
-        }
-
-        function showBattleSection() {
-            document.getElementById('battleSection').style.display = 'block';
-        }
-
-        function hideBattleSection() {
-            document.getElementById('battleSection').style.display = 'none';
-            gameState.selectedTile = null;
-        }
-
-        // === TERRITORY ACTIONS ===
-        function buyTerritory(tileIndex) {
-            const tile = gameState.tiles[tileIndex];
-            const studentPoints = getStudentPoints();
-            
-            if (studentPoints < tile.cost) {
-                updateStatusMessage(`Insufficient points! You need ${tile.cost} points but only have ${studentPoints}.`, 'error');
-                return;
-            }
-            
-            // Buy the territory
-            tile.owner = currentStudent.username;
-            tile.defense = 1;
-            
-            // Deduct points
-            deductStudentPoints(tile.cost);
-            
-            // Update roster
-            updateRosterData();
-            
-            // Update UI
-            updateStudentInfo();
-            updateStudentList();
-            renderGameGrid();
-            
-            updateStatusMessage(`Successfully claimed ${tile.name} for ${tile.cost} points!`, 'success');
-        }
-
-        function initiateBattle() {
-            if (gameState.selectedTile === null) {
-                updateStatusMessage('Please select a territory first!', 'error');
-                return;
-            }
-            
-            const tile = gameState.tiles[gameState.selectedTile];
-            
-            if (tile.owner === currentStudent.username) {
-                updateStatusMessage('You cannot attack your own territory!', 'error');
-                return;
-            }
-            
-            if (tile.owner === null) {
-                updateStatusMessage('This territory is unclaimed! Use the buy option instead.', 'error');
-                return;
-            }
-            
-            // Calculate battle
-            const battleResult = calculateBattle(tile, 'attack');
-            
-            if (battleResult.success) {
-                // Successfully attacked
-                tile.owner = currentStudent.username;
-                tile.defense = 1;
-                
-                // Deduct attack cost
-                deductStudentPoints(battleResult.cost);
-                
-                // Update roster
-                updateRosterData();
-                
-                // Update UI
-                updateStudentInfo();
-                updateStudentList();
-                renderGameGrid();
-                
-                updateStatusMessage(`Successfully attacked and claimed ${tile.name}!`, 'success');
-            } else {
-                updateStatusMessage(`Attack failed: ${battleResult.reason}`, 'error');
-            }
-            
-            hideBattleSection();
-        }
-
-        function defendTerritory() {
-            if (gameState.selectedTile === null) {
-                updateStatusMessage('Please select a territory first!', 'error');
-                return;
-            }
-            
-            const tile = gameState.tiles[gameState.selectedTile];
-            
-            if (tile.owner !== currentStudent.username) {
-                updateStatusMessage('You can only defend your own territories!', 'error');
-                return;
-            }
-            
-            // Add defense
-            const defenseCost = 2;
-            const studentPoints = getStudentPoints();
-            
-            if (studentPoints < defenseCost) {
-                updateStatusMessage(`Insufficient points! Defense costs ${defenseCost} points.`, 'error');
-                return;
-            }
-            
-            tile.defense += 1;
-            deductStudentPoints(defenseCost);
-            
-            // Update roster
-            updateRosterData();
-            
-            // Update UI
-            updateStudentInfo();
-            updateStudentList();
-            renderGameGrid();
-            
-            updateStatusMessage(`Added defense to ${tile.name}! Defense level: ${tile.defense}`, 'success');
-            hideBattleSection();
-        }
-
-        function buildCastle() {
-            if (gameState.selectedTile === null) {
-                updateStatusMessage('Please select a territory first!', 'error');
-                return;
-            }
-            
-            const tile = gameState.tiles[gameState.selectedTile];
-            
-            if (tile.owner !== currentStudent.username) {
-                updateStatusMessage('You can only build castles on your own territories!', 'error');
-                return;
-            }
-            
-            // Build castle (stronger defense)
-            const castleCost = 10;
-            const studentPoints = getStudentPoints();
-            
-            if (studentPoints < castleCost) {
-                updateStatusMessage(`Insufficient points! Castle costs ${castleCost} points.`, 'error');
-                return;
-            }
-            
-            tile.defense += 3; // Castle provides +3 defense
-            tile.isCastle = true;
-            deductStudentPoints(castleCost);
-            
-            // Update roster
-            updateRosterData();
-            
-            // Update UI
-            updateStudentInfo();
-            updateStudentList();
-            renderGameGrid();
-            
-            updateStatusMessage(`Built castle on ${tile.name}! Defense level: ${tile.defense}`, 'success');
-            hideBattleSection();
-        }
-
-        // === BATTLE SYSTEM ===
-        function calculateBattle(tile, action) {
-            const studentPoints = getStudentPoints();
-            const baseCost = action === 'attack' ? 3 : 2;
-            const weaponCost = gameState.currentBattle.attackerWeapons.reduce((total, weapon) => total + getWeaponCost(weapon), 0);
-            const totalCost = baseCost + weaponCost;
-            
-            if (studentPoints < totalCost) {
-                return {
-                    success: false,
-                    reason: `Insufficient points! Need ${totalCost} points.`
-                };
-            }
-            
-            // Simple battle calculation
-            const attackPower = 1 + gameState.currentBattle.attackerWeapons.reduce((total, weapon) => total + getWeaponPower(weapon), 0);
-            const defensePower = tile.defense || 1;
-            
-            const success = Math.random() < (attackPower / (attackPower + defensePower));
-            
-            return {
-                success: success,
-                cost: totalCost,
-                attackPower: attackPower,
-                defensePower: defensePower
-            };
-        }
-
-        // === WEAPON SYSTEM ===
-        function addWeapon() {
-            const weaponSelect = document.getElementById('weaponSelect');
-            const weapon = weaponSelect.value;
-            
-            if (!weapon) {
-                updateStatusMessage('Please select a weapon first!', 'error');
-                return;
-            }
-            
-            gameState.currentBattle.attackerWeapons.push(weapon);
-            updateWeaponDisplay();
-            weaponSelect.value = '';
-        }
-
-        function clearWeapons() {
-            gameState.currentBattle.attackerWeapons = [];
-            updateWeaponDisplay();
-        }
-
-        function updateWeaponDisplay() {
-            const display = document.getElementById('weaponDisplay');
-            const weapons = gameState.currentBattle.attackerWeapons;
-            
-            if (weapons.length === 0) {
-                display.innerHTML = '<p style="color: var(--muted); font-size: 0.875rem;">No weapons selected</p>';
-                return;
-            }
-            
-            let html = '<div style="margin-bottom: 0.5rem;"><strong>Selected Weapons:</strong></div>';
-            weapons.forEach((weapon, index) => {
-                html += `
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.25rem; background: var(--background); border-radius: 4px; margin-bottom: 0.25rem;">
-                        <span>${getWeaponName(weapon)} (+${getWeaponPower(weapon)} power, ${getWeaponCost(weapon)} pts)</span>
-                        <button class="btn btn-small btn-danger" onclick="removeWeapon(${index})" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Remove</button>
-                    </div>
-                `;
-            });
-            
-            display.innerHTML = html;
-        }
-
-        function removeWeapon(index) {
-            gameState.currentBattle.attackerWeapons.splice(index, 1);
-            updateWeaponDisplay();
-        }
-
-        function getWeaponName(weapon) {
-            const names = {
-                sword: 'Sword',
-                shield: 'Shield',
-                bow: 'Bow',
-                armor: 'Armor'
-            };
-            return names[weapon] || weapon;
-        }
-
-        function getWeaponPower(weapon) {
-            const powers = {
-                sword: 2,
-                shield: 1,
-                bow: 1,
-                armor: 2
-            };
-            return powers[weapon] || 0;
-        }
-
-        function getWeaponCost(weapon) {
-            const costs = {
-                sword: 5,
-                shield: 3,
-                bow: 4,
-                armor: 6
-            };
-            return costs[weapon] || 0;
-        }
-
-        // === POINT MANAGEMENT ===
-        function getStudentPoints() {
-            return gameState.studentBalances[currentStudent.username] || 0;
-        }
-
-        function deductStudentPoints(amount) {
-            if (!gameState.studentBalances[currentStudent.username]) {
-                gameState.studentBalances[currentStudent.username] = 0;
-            }
-            gameState.studentBalances[currentStudent.username] -= amount;
-        }
-
-        function updateRosterData() {
-            // Update the roster with current game state
-            currentRoster.tiles = gameState.tiles;
-            currentRoster.board = currentRoster.board || generateInitialBoard();
-            
-            // Update student points in roster
-            currentRoster.roster.forEach(student => {
-                student.points = gameState.studentBalances[student.name] || 0;
-            });
-            
-            // Save to localStorage
-            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
-            const rosterIndex = rosters.findIndex(r => r.id === currentRoster.id);
-            if (rosterIndex !== -1) {
-                rosters[rosterIndex] = currentRoster;
-                localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
-            }
-        }
-
-        // === UTILITY FUNCTIONS ===
-        function updateStatusMessage(message, type = 'info') {
-            const statusEl = document.getElementById('statusMessage');
-            statusEl.textContent = message;
-            statusEl.className = `status-message status-${type}`;
-        }
-
-        function refreshGame() {
-            loadRosterData();
-            initializeGame();
-            updateStudentInfo();
-            updateStudentList();
-            renderGameGrid();
-            hideBattleSection();
-            updateStatusMessage('Game refreshed!', 'success');
-        }
-
-        function viewLeaderboard() {
-            alert('📊 Leaderboard feature coming soon!\n\nThis will show your ranking in the class based on points earned.');
-        }
-
-        function closeBattleModal() {
-            document.getElementById('battleModal').style.display = 'none';
-        }
-
-        // === INITIALIZE GAME ===
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
+  // initial load
+  loadRosters(true);
+</script>
 </body>
 </html>
