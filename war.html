@@ -1027,6 +1027,17 @@
       // Enemy tile - attack
       const defender = state.roster.find(r => r.gsId === tile.owner_game_student_id);
       if (defender) {
+        // Check if students are in a truce
+        const areInTruce = state.truces.some(truce => 
+          (truce.student1 === selectedStudent.gsId && truce.student2 === defender.gsId) ||
+          (truce.student1 === defender.gsId && truce.student2 === selectedStudent.gsId)
+        );
+        
+        if (areInTruce) {
+          alert(`Cannot attack ${defender.name}! You are in a truce with them.`);
+          return;
+        }
+        
         // Check if defender has only 1 tile left (protection rule)
         if (defender.tilesOwned <= 1) {
           alert(`Cannot attack ${defender.name}! They only have 1 tile left and are protected from elimination.`);
@@ -1426,11 +1437,36 @@
       defenderBattleCastle: null // Battle-screen castle
     };
     
+    // Check if students are in a truce
+    const areInTruce = state.truces.some(truce => 
+      (truce.student1 === attacker.gsId && truce.student2 === defender.gsId) ||
+      (truce.student1 === defender.gsId && truce.student2 === attacker.gsId)
+    );
+    
     // Update modal content
     document.getElementById('attackerName').textContent = attacker.name;
     document.getElementById('defenderName').textContent = defender.name;
     document.getElementById('attackerBalance').textContent = attacker.balance;
     document.getElementById('defenderBalance').textContent = defender.balance;
+    
+    // Add truce indicator if students are in a truce
+    if (areInTruce) {
+      const truceIndicator = document.createElement('div');
+      truceIndicator.style.cssText = `
+        background: #10b981;
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        margin: 10px 0;
+        text-align: center;
+        font-weight: bold;
+      `;
+      truceIndicator.innerHTML = '🤝 TRUCE ACTIVE - Resources can be shared!';
+      
+      // Insert after the battle summary
+      const battleSummary = document.querySelector('#fightModal .card > div:last-child');
+      battleSummary.parentNode.insertBefore(truceIndicator, battleSummary);
+    }
     
     // Reset selections
     document.getElementById('attackerMercCount').textContent = '0';
@@ -1550,6 +1586,12 @@
                               defenderItemCount >= 2 ? 1.1 : 1;
     const defenderPower = defenderBaseTotal * defenderComboBonus;
     
+    // Check if students are in a truce
+    const areInTruce = state.truces.some(truce => 
+      (truce.student1 === currentBattle.attacker.gsId && truce.student2 === currentBattle.defender.gsId) ||
+      (truce.student1 === currentBattle.defender.gsId && truce.student2 === currentBattle.attacker.gsId)
+    );
+    
     // Calculate costs
     let attackerWeaponCost = 0;
     currentBattle.attackerWeapons.forEach(weapon => {
@@ -1565,11 +1607,35 @@
                            weapon === 'catapult' ? 100 : 0;
     });
     
-    const attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost;
-    const defenderCost = currentBattle.defenderMercs * 10 + defenderWeaponCost +
+    let attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost;
+    let defenderCost = currentBattle.defenderMercs * 10 + defenderWeaponCost +
       (currentBattle.defenderBattleCastle === 1 ? 50 : 
        currentBattle.defenderBattleCastle === 2 ? 100 : 
        currentBattle.defenderBattleCastle === 3 ? 200 : 0);
+    
+    // If students are in a truce, allow resource sharing with limits
+    if (areInTruce) {
+      const totalCost = attackerCost + defenderCost;
+      const attackerBalance = currentBattle.attacker.balance;
+      const defenderBalance = currentBattle.defender.balance;
+      const totalBalance = attackerBalance + defenderBalance;
+      
+      // Limit money sharing to 50% of each student's balance
+      const maxAttackerShare = Math.min(attackerCost, attackerBalance * 0.5);
+      const maxDefenderShare = Math.min(defenderCost, defenderBalance * 0.5);
+      
+      // If total cost exceeds individual limits but is within combined limits, share costs
+      if (attackerCost > attackerBalance || defenderCost > defenderBalance) {
+        if (totalCost <= totalBalance) {
+          // Distribute costs proportionally, respecting individual limits
+          const attackerShare = Math.min(attackerCost, maxAttackerShare + (totalCost - maxAttackerShare - maxDefenderShare) * 0.5);
+          const defenderShare = Math.min(defenderCost, maxDefenderShare + (totalCost - maxAttackerShare - maxDefenderShare) * 0.5);
+          
+          attackerCost = attackerShare;
+          defenderCost = defenderShare;
+        }
+      }
+    }
     
     // Calculate victory odds
     const totalPower = attackerPower + defenderPower;
@@ -1692,17 +1758,55 @@
   document.getElementById('simulateWar').onclick = async () => {
     if (!currentBattle) return;
     
-    const attackerCost = currentBattle.attackerMercs * 10 + 
-      (currentBattle.attackerWeapon === 'spear' ? 30 : 
-       currentBattle.attackerWeapon === 'crossbow' ? 60 : 
-       currentBattle.attackerWeapon === 'catapult' ? 100 : 0);
-    const defenderCost = currentBattle.defenderMercs * 10 + 
-      (currentBattle.defenderWeapon === 'spear' ? 30 : 
-       currentBattle.defenderWeapon === 'crossbow' ? 60 : 
-       currentBattle.defenderWeapon === 'catapult' ? 100 : 0) +
-      (currentBattle.defenderCastle === 1 ? 50 : 
-       currentBattle.defenderCastle === 2 ? 100 : 
-       currentBattle.defenderCastle === 3 ? 200 : 0);
+    // Calculate weapon costs for multiple weapons
+    let attackerWeaponCost = 0;
+    currentBattle.attackerWeapons.forEach(weapon => {
+      attackerWeaponCost += weapon === 'spear' ? 30 : 
+                           weapon === 'crossbow' ? 60 : 
+                           weapon === 'catapult' ? 100 : 0;
+    });
+    
+    let defenderWeaponCost = 0;
+    currentBattle.defenderWeapons.forEach(weapon => {
+      defenderWeaponCost += weapon === 'spear' ? 30 : 
+                           weapon === 'crossbow' ? 60 : 
+                           weapon === 'catapult' ? 100 : 0;
+    });
+    
+    let attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost;
+    let defenderCost = currentBattle.defenderMercs * 10 + defenderWeaponCost +
+      (currentBattle.defenderBattleCastle === 1 ? 50 : 
+       currentBattle.defenderBattleCastle === 2 ? 100 : 
+       currentBattle.defenderBattleCastle === 3 ? 200 : 0);
+    
+    // Check if students are in a truce and implement resource sharing
+    const areInTruce = state.truces.some(truce => 
+      (truce.student1 === currentBattle.attacker.gsId && truce.student2 === currentBattle.defender.gsId) ||
+      (truce.student1 === currentBattle.defender.gsId && truce.student2 === currentBattle.attacker.gsId)
+    );
+    
+    if (areInTruce) {
+      const totalCost = attackerCost + defenderCost;
+      const attackerBalance = currentBattle.attacker.balance;
+      const defenderBalance = currentBattle.defender.balance;
+      const totalBalance = attackerBalance + defenderBalance;
+      
+      // Limit money sharing to 50% of each student's balance
+      const maxAttackerShare = Math.min(attackerCost, attackerBalance * 0.5);
+      const maxDefenderShare = Math.min(defenderCost, defenderBalance * 0.5);
+      
+      // If total cost exceeds individual limits but is within combined limits, share costs
+      if (attackerCost > attackerBalance || defenderCost > defenderBalance) {
+        if (totalCost <= totalBalance) {
+          // Distribute costs proportionally, respecting individual limits
+          const attackerShare = Math.min(attackerCost, maxAttackerShare + (totalCost - maxAttackerShare - maxDefenderShare) * 0.5);
+          const defenderShare = Math.min(defenderCost, maxDefenderShare + (totalCost - maxAttackerShare - maxDefenderShare) * 0.5);
+          
+          attackerCost = attackerShare;
+          defenderCost = defenderShare;
+        }
+      }
+    }
     
     // Check if students/teams have enough points for the battle
     let attackerCanAfford = false;
@@ -1870,21 +1974,58 @@
        currentBattle.defenderBattleCastle === 3 ? 200 : 0);
     
     // Apply battle results to current roster system
-    // Deduct costs from students or teams
-    if (state.teamMode && currentBattle.attacker.teamId) {
-      // Team mode - deduct from team resources
-      deductTeamCost(currentBattle.attacker.teamId, attackerCost, 'attack');
-    } else {
-      // Individual mode - deduct from individual balance
-      currentBattle.attacker.balance -= attackerCost;
-    }
+    // Check if students are in a truce for resource sharing
+    const areInTruce = state.truces.some(truce => 
+      (truce.student1 === currentBattle.attacker.gsId && truce.student2 === currentBattle.defender.gsId) ||
+      (truce.student1 === currentBattle.defender.gsId && truce.student2 === currentBattle.attacker.gsId)
+    );
     
-    if (state.teamMode && currentBattle.defender.teamId) {
-      // Team mode - deduct from team resources
-      deductTeamCost(currentBattle.defender.teamId, defenderCost, 'defense');
+    if (areInTruce) {
+      // Truce resource sharing - weapons and mercenaries are free, only share money costs
+      const attackerMoneyCost = currentBattle.attackerMercs * 10; // Only mercenary money cost
+      const defenderMoneyCost = currentBattle.defenderMercs * 10 + 
+        (currentBattle.defenderBattleCastle === 1 ? 50 : 
+         currentBattle.defenderBattleCastle === 2 ? 100 : 
+         currentBattle.defenderBattleCastle === 3 ? 200 : 0); // Only mercenary and castle money costs
+      
+      const totalMoneyCost = attackerMoneyCost + defenderMoneyCost;
+      const attackerBalance = currentBattle.attacker.balance;
+      const defenderBalance = currentBattle.defender.balance;
+      const totalBalance = attackerBalance + defenderBalance;
+      
+      if (totalMoneyCost <= totalBalance) {
+        // Distribute money costs proportionally
+        const attackerMoneyShare = Math.min(attackerMoneyCost, attackerBalance * 0.5);
+        const defenderMoneyShare = Math.min(defenderMoneyCost, defenderBalance * 0.5);
+        const remainingCost = totalMoneyCost - attackerMoneyShare - defenderMoneyShare;
+        
+        const attackerFinalShare = attackerMoneyShare + (remainingCost * 0.5);
+        const defenderFinalShare = defenderMoneyCost + (remainingCost * 0.5);
+        
+        currentBattle.attacker.balance -= attackerFinalShare;
+        currentBattle.defender.balance -= defenderFinalShare;
+      } else {
+        // Not enough combined funds
+        alert(`Insufficient combined funds! Need ${totalMoneyCost} points but have ${totalBalance}.`);
+        return;
+      }
     } else {
-      // Individual mode - deduct from individual balance
-      currentBattle.defender.balance -= defenderCost;
+      // Normal cost deduction
+      if (state.teamMode && currentBattle.attacker.teamId) {
+        // Team mode - deduct from team resources
+        deductTeamCost(currentBattle.attacker.teamId, attackerCost, 'attack');
+      } else {
+        // Individual mode - deduct from individual balance
+        currentBattle.attacker.balance -= attackerCost;
+      }
+      
+      if (state.teamMode && currentBattle.defender.teamId) {
+        // Team mode - deduct from team resources
+        deductTeamCost(currentBattle.defender.teamId, defenderCost, 'defense');
+      } else {
+        // Individual mode - deduct from individual balance
+        currentBattle.defender.balance -= defenderCost;
+      }
     }
     
     // Auto-save points after battle
