@@ -936,7 +936,12 @@
         if (territoryData && territoryData.factionColor) {
           // Use faction color as base, but lighter
           backgroundColor = territoryData.factionColor + '20'; // Add transparency
+          console.log('Territory', territoryData.name, 'faction color:', territoryData.factionColor, 'background:', backgroundColor);
+        } else {
+          console.log('No territory data or faction color for tile', tile.id);
         }
+      } else {
+        console.log('No scenario active for tile', tile.id);
       }
       
       // Override with owner color if owned
@@ -1610,16 +1615,22 @@
       // Get character name if scenario is active
       let characterName = '';
       if (state.scenario) {
+        console.log('Scenario active in renderRoster:', state.scenario.scenarioName);
         const scenario = state.scenario;
         if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[r.gsId]) {
           characterName = scenario.manualRoleAssignments[r.gsId];
+          console.log('Found manual role assignment for', r.name, ':', characterName);
         } else if (scenario.aiAssignments) {
           // Check if this student is assigned to an AI role
           const aiRole = Object.values(scenario.aiAssignments).find(ai => ai.studentId === r.gsId);
           if (aiRole) {
             characterName = aiRole.roleName || 'AI Character';
+            console.log('Found AI role assignment for', r.name, ':', characterName);
           }
         }
+        console.log('Character name for', r.name, ':', characterName);
+      } else {
+        console.log('No scenario active in renderRoster');
       }
       
       const characterDisplay = characterName ? `<div style="font-size:11px; color:#8b5cf6; font-weight:600;">${characterName}</div>` : '';
