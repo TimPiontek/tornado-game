@@ -12139,6 +12139,526 @@ const AI_PERSONALITIES = {
     description: 'Pursues personal gain above all',
     behaviors: ['economic', 'offensive', 'strategic'],
     moveFrequency: 0.8
+  },
+
+  romeoAndJuliet: {
+    id: 'romeoAndJuliet',
+    name: 'Romeo and Juliet (Shakespeare)',
+    type: 'literary',
+    description: 'The tragic tale of star-crossed lovers caught between feuding families in Verona.',
+    factions: {
+      montagues: {
+        name: 'House of Montague',
+        color: '#1e40af', // Blue
+        description: 'Noble family seeking peace and reconciliation',
+        territories: [
+          { name: 'Montague Manor', cost: 80, description: 'Family estate and headquarters' },
+          { name: 'Montague Gardens', cost: 70, description: 'Private gardens and meeting place' },
+          { name: 'Montague Library', cost: 75, description: 'Knowledge center and planning room' },
+          { name: 'Montague Stables', cost: 65, description: 'Horse breeding and transportation' },
+          { name: 'Montague Treasury', cost: 85, description: 'Wealth storage and resources' },
+          { name: 'Montague Guards', cost: 60, description: 'Security force and protection' },
+          { name: 'Montague Allies', cost: 70, description: 'Supporting families and friends' },
+          { name: 'Montague Council', cost: 75, description: 'Family decision-making center' },
+          { name: 'Montague Workshops', cost: 55, description: 'Craft production and trade' },
+          { name: 'Montague Sanctuary', cost: 80, description: 'Safe haven and refuge' }
+        ],
+        characters: [
+          {
+            name: 'Romeo Montague',
+            role: 'Young Lover',
+            startingCoins: 100,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'romantic',
+            quotes: [
+              "But soft, what light through yonder window breaks?",
+              "My only love sprung from my only hate!",
+              "O, I am fortune's fool!",
+              "A plague o' both your houses!",
+              "Thus with a kiss I die."
+            ],
+            description: 'Young Montague who falls in love with Juliet Capulet.'
+          },
+          {
+            name: 'Lord Montague',
+            role: 'Family Patriarch',
+            startingCoins: 120,
+            startingWeapons: ['sword'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'noble',
+            quotes: [
+              "What light is light, if Silvia be not seen?",
+              "We must end this feud.",
+              "Our family honor is at stake.",
+              "Peace, I pray thee.",
+              "Let us be friends."
+            ],
+            description: 'Patriarch of the Montague family seeking peace.'
+          },
+          {
+            name: 'Lady Montague',
+            role: 'Family Matriarch',
+            startingCoins: 90,
+            startingWeapons: ['wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'caring',
+            quotes: [
+              "O, where is Romeo?",
+              "We must protect our son.",
+              "This feud has gone too far.",
+              "Love conquers all.",
+              "Peace be with our family."
+            ],
+            description: 'Caring mother who worries for her family.'
+          },
+          {
+            name: 'Benvolio Montague',
+            role: 'Peacemaker',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'peaceful',
+            quotes: [
+              "Part, fools! Put up your swords.",
+              "I do but keep the peace.",
+              "Let us reason together.",
+              "Violence solves nothing.",
+              "We must find another way."
+            ],
+            description: 'Romeo\'s cousin who tries to keep the peace.'
+          },
+          {
+            name: 'Mercutio',
+            role: 'Loyal Friend',
+            startingCoins: 85,
+            startingWeapons: ['sword', 'wit'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "A plague o' both your houses!",
+              "If love be rough with you, be rough with love.",
+              "True, I talk of dreams.",
+              "Ask for me tomorrow, and you shall find me a grave man.",
+              "Why the devil came you between us?"
+            ],
+            description: 'Romeo\'s loyal friend and Prince\'s kinsman.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Montague Servant', startingCoins: 40, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['For House Montague!', 'We serve our masters!', 'Peace be with us!'] },
+          { name: 'Montague Guard', startingCoins: 50, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'protective', quotes: ['We protect our family!', 'Stand guard!', 'No harm shall come!'] },
+          { name: 'Montague Ally', startingCoins: 60, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'supportive', quotes: ['We stand with Montague!', 'Friendship forever!', 'Together we are strong!'] }
+        ]
+      },
+      capulets: {
+        name: 'House of Capulet',
+        color: '#dc2626', // Red
+        description: 'Proud family defending their honor and traditions',
+        territories: [
+          { name: 'Capulet Manor', cost: 80, description: 'Family estate and headquarters' },
+          { name: 'Capulet Gardens', cost: 70, description: 'Private gardens and meeting place' },
+          { name: 'Capulet Library', cost: 75, description: 'Knowledge center and planning room' },
+          { name: 'Capulet Stables', cost: 65, description: 'Horse breeding and transportation' },
+          { name: 'Capulet Treasury', cost: 85, description: 'Wealth storage and resources' },
+          { name: 'Capulet Guards', cost: 60, description: 'Security force and protection' },
+          { name: 'Capulet Allies', cost: 70, description: 'Supporting families and friends' },
+          { name: 'Capulet Council', cost: 75, description: 'Family decision-making center' },
+          { name: 'Capulet Workshops', cost: 55, description: 'Craft production and trade' },
+          { name: 'Capulet Sanctuary', cost: 80, description: 'Safe haven and refuge' }
+        ],
+        characters: [
+          {
+            name: 'Juliet Capulet',
+            role: 'Young Lover',
+            startingCoins: 100,
+            startingWeapons: ['dagger'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'passionate',
+            quotes: [
+              "What's in a name? That which we call a rose by any other name would smell as sweet.",
+              "My only love sprung from my only hate!",
+              "O Romeo, Romeo! Wherefore art thou Romeo?",
+              "Parting is such sweet sorrow.",
+              "O happy dagger!"
+            ],
+            description: 'Young Capulet who falls in love with Romeo Montague.'
+          },
+          {
+            name: 'Lord Capulet',
+            role: 'Family Patriarch',
+            startingCoins: 120,
+            startingWeapons: ['sword'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'proud',
+            quotes: [
+              "My child is yet a stranger in the world.",
+              "We will not be dishonored.",
+              "Our family name must be protected.",
+              "This feud has lasted too long.",
+              "We must defend our honor."
+            ],
+            description: 'Proud patriarch of the Capulet family.'
+          },
+          {
+            name: 'Lady Capulet',
+            role: 'Family Matriarch',
+            startingCoins: 90,
+            startingWeapons: ['wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'traditional',
+            quotes: [
+              "We must arrange Juliet's marriage.",
+              "Our daughter must marry well.",
+              "Family honor comes first.",
+              "We cannot allow this disgrace.",
+              "Tradition must be upheld."
+            ],
+            description: 'Traditional mother focused on family honor.'
+          },
+          {
+            name: 'Tybalt Capulet',
+            role: 'Hot-Headed Cousin',
+            startingCoins: 85,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'aggressive',
+            quotes: [
+              "What, drawn, and talk of peace!",
+              "Romeo, the hate I bear thee can afford no better term than this: thou art a villain.",
+              "This shall not excuse the injuries that thou hast done me.",
+              "Boy, this shall not excuse the injuries.",
+              "Thou, wretched boy, that didst consort him here."
+            ],
+            description: 'Juliet\'s hot-tempered cousin who hates the Montagues.'
+          },
+          {
+            name: 'Nurse',
+            role: 'Juliet\'s Confidante',
+            startingCoins: 70,
+            startingWeapons: ['wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'caring',
+            quotes: [
+              "What, lamb! What, ladybird!",
+              "I am the drudge and toil in your delight.",
+              "Go, girl, seek happy nights to happy days.",
+              "Hie to your chamber.",
+              "I'll find Romeo to comfort you."
+            ],
+            description: 'Juliet\'s devoted nurse and confidante.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Capulet Servant', startingCoins: 40, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['For House Capulet!', 'We serve our masters!', 'Honor be with us!'] },
+          { name: 'Capulet Guard', startingCoins: 50, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'protective', quotes: ['We protect our family!', 'Stand guard!', 'No dishonor shall come!'] },
+          { name: 'Capulet Ally', startingCoins: 60, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'supportive', quotes: ['We stand with Capulet!', 'Honor forever!', 'Together we are strong!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Verona Square', cost: 90, description: 'Central marketplace and gathering place, very high strategic value' },
+      { name: 'Friar Laurence\'s Cell', cost: 85, description: 'Sacred place of peace and wisdom, high strategic value' },
+      { name: 'Apothecary Shop', cost: 80, description: 'Medicine and potion source, high strategic value' },
+      { name: 'Prince\'s Palace', cost: 95, description: 'Government center and law enforcement, very high strategic value' },
+      { name: 'City Gates', cost: 75, description: 'Entry and exit points, high strategic value' },
+      { name: 'Public Gardens', cost: 70, description: 'Neutral meeting ground, medium strategic value' },
+      { name: 'Market District', cost: 65, description: 'Trade and commerce center, medium strategic value' },
+      { name: 'Church Square', cost: 80, description: 'Religious center and sanctuary, high strategic value' },
+      { name: 'Tavern District', cost: 60, description: 'Social gathering place, medium strategic value' },
+      { name: 'Artisan Quarter', cost: 70, description: 'Craft production center, medium strategic value' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  lordOfTheRings: {
+    id: 'lordOfTheRings',
+    name: 'The Lord of the Rings (J.R.R. Tolkien)',
+    type: 'literary',
+    description: 'The epic struggle between the forces of good and evil in Middle-earth.',
+    factions: {
+      fellowship: {
+        name: 'Fellowship of the Ring',
+        color: '#1e40af', // Blue
+        description: 'Allies fighting to destroy the One Ring and save Middle-earth',
+        territories: [
+          { name: 'Rivendell', cost: 100, description: 'Elven stronghold and council center' },
+          { name: 'Lothlórien', cost: 95, description: 'Golden Wood and Galadriel\'s realm' },
+          { name: 'Minas Tirith', cost: 90, description: 'Gondor\'s capital and fortress' },
+          { name: 'Helm\'s Deep', cost: 85, description: 'Rohan\'s defensive fortress' },
+          { name: 'The Shire', cost: 80, description: 'Hobbit homeland and peaceful refuge' },
+          { name: 'Grey Havens', cost: 75, description: 'Elven port and departure point' },
+          { name: 'Fangorn Forest', cost: 70, description: 'Ent stronghold and ancient woods' },
+          { name: 'Dale', cost: 65, description: 'Human city and trade center' },
+          { name: 'Erebor', cost: 85, description: 'Dwarf kingdom and mountain fortress' },
+          { name: 'White Council', cost: 90, description: 'Wise council and planning center' }
+        ],
+        characters: [
+          {
+            name: 'Aragorn',
+            role: 'Ranger King',
+            startingCoins: 120,
+            startingWeapons: ['Andúril', 'bow'],
+            startingMercenaries: 4,
+            startingCastles: 1,
+            personality: 'noble',
+            quotes: [
+              "I am Aragorn, son of Arathorn.",
+              "Not all those who wander are lost.",
+              "There is always hope.",
+              "I would have gone with you to the end.",
+              "The crownless again shall be king."
+            ],
+            description: 'Ranger who becomes King of Gondor and Arnor.'
+          },
+          {
+            name: 'Gandalf',
+            role: 'Wizard',
+            startingCoins: 150,
+            startingWeapons: ['Glamdring', 'staff'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "All we have to decide is what to do with the time that is given us.",
+              "You shall not pass!",
+              "A wizard is never late, nor is he early.",
+              "The road goes ever on and on.",
+              "Fly, you fools!"
+            ],
+            description: 'Wise wizard and leader of the Fellowship.'
+          },
+          {
+            name: 'Legolas',
+            role: 'Elven Prince',
+            startingCoins: 100,
+            startingWeapons: ['bow', 'knives'],
+            startingMercenaries: 3,
+            startingCastles: 0,
+            personality: 'agile',
+            quotes: [
+              "They're taking the hobbits to Isengard!",
+              "A red sun rises. Blood has been spilled this night.",
+              "The stars shine down upon us.",
+              "I go to find the sun!",
+              "Still only counts as one!"
+            ],
+            description: 'Elven prince and master archer.'
+          },
+          {
+            name: 'Gimli',
+            role: 'Dwarf Warrior',
+            startingCoins: 95,
+            startingWeapons: ['axe'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "That still only counts as one!",
+              "Nobody tosses a dwarf!",
+              "Let them come!",
+              "I cannot jump the distance.",
+              "We dwarves are natural sprinters."
+            ],
+            description: 'Dwarf warrior and loyal companion.'
+          },
+          {
+            name: 'Frodo Baggins',
+            role: 'Ring Bearer',
+            startingCoins: 80,
+            startingWeapons: ['Sting'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "I will take the Ring to Mordor.",
+              "I wish the Ring had never come to me.",
+              "I will do what I must.",
+              "The Ring is mine!",
+              "It is done."
+            ],
+            description: 'Hobbit chosen to carry the One Ring to Mount Doom.'
+          },
+          {
+            name: 'Samwise Gamgee',
+            role: 'Loyal Companion',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "I can't carry it for you, but I can carry you!",
+              "There's some good in this world, Mr. Frodo.",
+              "I made a promise, Mr. Frodo.",
+              "Don't you leave him, Samwise Gamgee.",
+              "Well, I'm back."
+            ],
+            description: 'Frodo\'s loyal friend and companion.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Elven Warrior', startingCoins: 60, startingWeapons: ['bow'], startingMercenaries: 1, startingCastles: 0, personality: 'graceful', quotes: ['For the Elves!', 'We fight for Middle-earth!', 'The light will prevail!'] },
+          { name: 'Dwarf Warrior', startingCoins: 55, startingWeapons: ['axe'], startingMercenaries: 1, startingCastles: 0, personality: 'sturdy', quotes: ['For the Dwarves!', 'We stand strong!', 'Stone and steel!'] },
+          { name: 'Rohirrim', startingCoins: 50, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'honorable', quotes: ['For Rohan!', 'We ride to war!', 'Honor and glory!'] },
+          { name: 'Gondorian Soldier', startingCoins: 45, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'disciplined', quotes: ['For Gondor!', 'We defend the realm!', 'Duty and honor!'] }
+        ]
+      },
+      mordor: {
+        name: 'Mordor',
+        color: '#8b0000', // Dark red
+        description: 'Dark forces seeking to conquer Middle-earth with the One Ring',
+        territories: [
+          { name: 'Barad-dûr', cost: 120, description: 'Dark Tower and Sauron\'s fortress' },
+          { name: 'Mount Doom', cost: 110, description: 'Volcano and Ring\'s forge' },
+          { name: 'Minas Morgul', cost: 100, description: 'Dark fortress and Nazgûl base' },
+          { name: 'Cirith Ungol', cost: 95, description: 'Spider\'s lair and mountain pass' },
+          { name: 'Isengard', cost: 90, description: 'Saruman\'s tower and orc factory' },
+          { name: 'Dol Guldur', cost: 85, description: 'Dark fortress and necromancer\'s lair' },
+          { name: 'Morgul Vale', cost: 80, description: 'Cursed valley and dark magic source' },
+          { name: 'Udûn', cost: 75, description: 'Hell valley and orc breeding ground' },
+          { name: 'Nurn', cost: 70, description: 'Slave fields and agricultural base' },
+          { name: 'Gorgoroth', cost: 85, description: 'Wasteland and military training ground' }
+        ],
+        characters: [
+          {
+            name: 'Sauron',
+            role: 'Dark Lord',
+            startingCoins: 200,
+            startingWeapons: ['One Ring', 'dark magic'],
+            startingMercenaries: 6,
+            startingCastles: 2,
+            personality: 'evil',
+            quotes: [
+              "One Ring to rule them all.",
+              "There is no life in the void.",
+              "The age of men is over.",
+              "Build me an army worthy of Mordor.",
+              "The Ring has awoken."
+            ],
+            description: 'Dark Lord seeking to conquer Middle-earth.'
+          },
+          {
+            name: 'Saruman',
+            role: 'White Wizard',
+            startingCoins: 140,
+            startingWeapons: ['staff', 'dark magic'],
+            startingMercenaries: 4,
+            startingCastles: 1,
+            personality: 'corrupted',
+            quotes: [
+              "The old world will burn in the fires of industry.",
+              "We must join with Sauron.",
+              "The Ring will come to me.",
+              "There will be no dawn for men.",
+              "The hour is later than you think."
+            ],
+            description: 'Corrupted wizard who allies with Sauron.'
+          },
+          {
+            name: 'Witch-king',
+            role: 'Lord of the Nazgûl',
+            startingCoins: 130,
+            startingWeapons: ['morgul blade'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'terrifying',
+            quotes: [
+              "Do you not know death when you see it?",
+              "Come not between the Nazgûl and his prey.",
+              "The Ring will come to me.",
+              "You cannot hide from me.",
+              "I will break you."
+            ],
+            description: 'Leader of the Nazgûl and Sauron\'s most powerful servant.'
+          },
+          {
+            name: 'Gollum',
+            role: 'Ring Bearer',
+            startingCoins: 60,
+            startingWeapons: ['stealth'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'deceitful',
+            quotes: [
+              "My precious!",
+              "We wants it, we needs it.",
+              "Tricksy hobbitses!",
+              "Smeagol will help you.",
+              "The precious is ours!"
+            ],
+            description: 'Former Ring bearer corrupted by its power.'
+          },
+          {
+            name: 'Gothmog',
+            role: 'Orc Commander',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'brutal',
+            quotes: [
+              "The age of men is over.",
+              "We will crush them all.",
+              "For Mordor!",
+              "Death to the free peoples!",
+              "The dark lord will prevail!"
+            ],
+            description: 'Orc commander leading Sauron\'s armies.'
+          },
+          {
+            name: 'Gríma Wormtongue',
+            role: 'Spy',
+            startingCoins: 70,
+            startingWeapons: ['poison'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'treacherous',
+            quotes: [
+              "Theoden is weak.",
+              "We must join with Saruman.",
+              "The old ways are dead.",
+              "Power is everything.",
+              "I serve the white hand."
+            ],
+            description: 'Saruman\'s spy and agent of corruption.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Orc Warrior', startingCoins: 30, startingWeapons: ['sword'], startingMercenaries: 0, startingCastles: 0, personality: 'brutal', quotes: ['For Mordor!', 'We crush enemies!', 'Death to all!'] },
+          { name: 'Uruk-hai', startingCoins: 40, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'fierce', quotes: ['We are Uruk-hai!', 'We fight for Saruman!', 'No mercy!'] },
+          { name: 'Nazgûl', startingCoins: 80, startingWeapons: ['morgul blade'], startingMercenaries: 1, startingCastles: 0, personality: 'terrifying', quotes: ['We serve the dark lord!', 'Fear us!', 'The Ring calls!'] },
+          { name: 'Troll', startingCoins: 60, startingWeapons: ['club'], startingMercenaries: 1, startingCastles: 0, personality: 'strong', quotes: ['We smash!', 'Big and strong!', 'Crush enemies!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Moria', cost: 90, description: 'Ancient dwarf kingdom and dangerous mines, very high strategic value' },
+      { name: 'Weathertop', cost: 85, description: 'Ancient watchtower and strategic overlook, high strategic value' },
+      { name: 'Bree', cost: 70, description: 'Crossroads town and meeting place, medium strategic value' },
+      { name: 'Old Forest', cost: 75, description: 'Mysterious woods and ancient magic, medium strategic value' },
+      { name: 'Dead Marshes', cost: 80, description: 'Dangerous swampland and treacherous path, high strategic value' },
+      { name: 'Emyn Muil', cost: 85, description: 'Rocky hills and difficult terrain, high strategic value' },
+      { name: 'Ithilien', cost: 80, description: 'Forest region and contested territory, high strategic value' },
+      { name: 'Osgiliath', cost: 90, description: 'Ruined city and strategic crossing, very high strategic value' },
+      { name: 'Pelennor Fields', cost: 95, description: 'Battlefield and strategic plain, very high strategic value' },
+      { name: 'Black Gate', cost: 100, description: 'Entrance to Mordor and final barrier, very high strategic value' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
   }
 };
 
