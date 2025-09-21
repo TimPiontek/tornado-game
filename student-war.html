@@ -2232,9 +2232,13 @@
     renderRoster();
     
     // Close modal and show success
-    const modal = document.querySelector('.modal');
-    if (modal) {
-      modal.remove();
+    // Find the modal by looking for the most recently added modal with the market content
+    const modals = document.querySelectorAll('div[style*="position: fixed"]');
+    const marketModal = Array.from(modals).find(modal => 
+      modal.innerHTML.includes('Student Market') || modal.innerHTML.includes('Your Balance')
+    );
+    if (marketModal) {
+      marketModal.remove();
     }
     alert(`Successfully purchased ${itemType} for ${cost} points!`);
   }
