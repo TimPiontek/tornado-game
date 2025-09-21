@@ -7060,20 +7060,12 @@
                 // Find the winning team
                 const winningTeamData = rosterData.teams.find(team => team.name === winningTeamName);
                 if (winningTeamData && winningTeamData.students) {
-                    // Distribute team victory bonus equally among team members
-                    const bonusPerStudent = Math.floor(teamVictoryPoints / winningTeamData.students.length);
-                    const remainder = teamVictoryPoints % winningTeamData.students.length;
-                    
-                    winningTeamData.students.forEach((studentName, index) => {
-                        let studentBonus = bonusPerStudent;
-                        // Give remainder to first few students
-                        if (index < remainder) {
-                            studentBonus += 1;
-                        }
-                        teamVictoryBonus[studentName] = studentBonus;
+                    // Each student on winning team gets the full team victory bonus
+                    winningTeamData.students.forEach((studentName) => {
+                        teamVictoryBonus[studentName] = teamVictoryPoints;
                     });
                     
-                    console.log(`Team victory bonus distributed: ${teamVictoryPoints} total, ${winningTeamData.students.length} students, ${bonusPerStudent} each + ${remainder} remainder`);
+                    console.log(`Team victory bonus awarded: ${teamVictoryPoints} points to each of ${winningTeamData.students.length} students (${teamVictoryPoints * winningTeamData.students.length} total)`);
                 }
             }
             
@@ -7092,7 +7084,7 @@
                 const teamBonusTotal = Object.values(teamVictoryBonus).reduce((a, b) => a + b, 0);
                 const totalPointsTransferred = individualTotal + teamBonusTotal;
                 
-                alert(`🎉 Quiz Complete!\n\nPoints transferred to Tornado War:\n• Individual quiz points: ${individualTotal} total\n• Team ${winningTeamName} victory bonus: ${teamBonusTotal} points (distributed among team members)\n\nTotal points transferred: ${totalPointsTransferred}\n\nCheck the War game to see updated student balances!`);
+                alert(`🎉 Quiz Complete!\n\nPoints transferred to Tornado War:\n• Individual quiz points: ${individualTotal} total\n• Team ${winningTeamName} victory bonus: ${teamVictoryPoints} points to each team member (${teamBonusTotal} total)\n\nTotal points transferred: ${totalPointsTransferred}\n\nCheck the War game to see updated student balances!`);
             }, 2000);
         }
         
