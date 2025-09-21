@@ -813,6 +813,20 @@
             checkAuthStatus();
             loadExistingRosters();
             
+            // Listen for roster updates from student war game
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'tornadoRosters' || e.key === 'rosterUpdateTrigger') {
+                    // Reload rosters when they're updated
+                    loadExistingRosters();
+                }
+            });
+
+            // Listen for custom roster update events
+            window.addEventListener('rosterUpdated', function(e) {
+                console.log('Roster updated from another tab:', e.detail);
+                loadExistingRosters();
+            });
+            
             // Setup team management event listeners
             document.getElementById('enableTeams').addEventListener('change', function() {
                 const teamSetup = document.getElementById('teamSetup');

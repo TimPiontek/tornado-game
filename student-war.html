@@ -939,6 +939,7 @@
           selectedStudent.balance += sellValue;
           updateGridDisplay();
           renderRoster();
+          autoSaveWarPoints(); // Auto-save after castle selling
           alert(`${selectedStudent.name} sold castle and got back ${sellValue} points!`);
         }
       } else {
@@ -949,6 +950,7 @@
           selectedStudent.balance -= buildCost;
           updateGridDisplay();
           renderRoster();
+          autoSaveWarPoints(); // Auto-save after castle building
           alert(`${selectedStudent.name} built a castle for ${buildCost} points!`);
         } else {
           alert(`Insufficient funds! Need ${buildCost} points.`);
@@ -1289,11 +1291,47 @@
         // Save to localStorage
         localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
         
+        // Also update individual student record if logged in
+        updateStudentRecord();
+        
+        // Notify other tabs/windows of the change
+        notifyRosterChange();
+        
         console.log('Auto-saved war points to roster');
       }
     } catch (error) {
       console.error('Error auto-saving war points:', error);
     }
+  }
+
+  // Update individual student record for dashboard sync
+  function updateStudentRecord() {
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    if (!currentStudent) return;
+
+    // Find the student in the current roster
+    const studentInRoster = state.roster.find(s => s.name === currentStudent.username);
+    if (studentInRoster) {
+      // Update the student's points in their individual record
+      currentStudent.totalPoints = studentInRoster.balance;
+      localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+      
+      console.log(`Updated student record: ${currentStudent.username} now has ${studentInRoster.balance} points`);
+    }
+  }
+
+  // Notify other tabs/windows of roster changes
+  function notifyRosterChange() {
+    // Dispatch a custom event to notify other tabs
+    window.dispatchEvent(new CustomEvent('rosterUpdated', {
+      detail: {
+        rosterId: state.currentRosterId,
+        timestamp: new Date().toISOString()
+      }
+    }));
+    
+    // Also trigger a storage event for cross-tab communication
+    localStorage.setItem('rosterUpdateTrigger', Date.now().toString());
   }
 
   el("#btnTornado").onclick = async () => {

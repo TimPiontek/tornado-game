@@ -1964,6 +1964,20 @@
 
   // initial load
   loadRosters(true);
+
+  // Listen for roster updates from student war game
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'tornadoRosters' || e.key === 'rosterUpdateTrigger') {
+      // Reload rosters when they're updated
+      loadRosters(true);
+    }
+  });
+
+  // Listen for custom roster update events
+  window.addEventListener('rosterUpdated', function(e) {
+    console.log('Roster updated from another tab:', e.detail);
+    loadRosters(true);
+  });
 </script>
 </body>
 </html>
