@@ -12248,6 +12248,176 @@ const AI_PERSONALITIES = {
               "Why the devil came you between us?"
             ],
             description: 'Romeo\'s loyal friend and Prince\'s kinsman.'
+          },
+          {
+            name: 'Abraham Montague',
+            role: 'Family Steward',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'dutiful',
+            quotes: [
+              "I serve the Montague family with honor.",
+              "Our house must remain strong.",
+              "Peace through strength.",
+              "We will not be dishonored.",
+              "The Montague name endures."
+            ],
+            description: 'Trusted family steward and advisor.'
+          },
+          {
+            name: 'Balthasar Montague',
+            role: 'Romeo\'s Servant',
+            startingCoins: 60,
+            startingWeapons: ['dagger'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "I serve Romeo faithfully.",
+              "My master\'s will is my command.",
+              "I will protect the young master.",
+              "The Montague cause is just.",
+              "Loyalty above all."
+            ],
+            description: 'Romeo\'s devoted servant and messenger.'
+          },
+          {
+            name: 'Gregory Montague',
+            role: 'Family Guard',
+            startingCoins: 65,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "We defend our family honor.",
+              "No Capulet shall pass.",
+              "Montague blood runs strong.",
+              "We fight for what is right.",
+              "Honor guides our blade."
+            ],
+            description: 'Loyal family guard and protector.'
+          },
+          {
+            name: 'Sampson Montague',
+            role: 'House Servant',
+            startingCoins: 55,
+            startingWeapons: ['club'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'proud',
+            quotes: [
+              "We Montagues are not to be trifled with.",
+              "Our house stands tall.",
+              "We serve with pride.",
+              "Montague loyalty is unbreakable.",
+              "We will not be intimidated."
+            ],
+            description: 'Proud house servant and family supporter.'
+          },
+          {
+            name: 'Peter Montague',
+            role: 'Family Messenger',
+            startingCoins: 50,
+            startingWeapons: ['staff'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'quick',
+            quotes: [
+              "I carry messages swiftly.",
+              "Communication is key to peace.",
+              "I serve the family cause.",
+              "Speed and accuracy are my tools.",
+              "The Montague word spreads fast."
+            ],
+            description: 'Swift messenger and family communicator.'
+          },
+          {
+            name: 'Anthony Montague',
+            role: 'Family Cousin',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'noble',
+            quotes: [
+              "Family bonds are sacred.",
+              "We Montagues stand together.",
+              "Blood calls to blood.",
+              "Our lineage is our strength.",
+              "United we are unbreakable."
+            ],
+            description: 'Distant cousin and family ally.'
+          },
+          {
+            name: 'Potpan Montague',
+            role: 'Kitchen Steward',
+            startingCoins: 45,
+            startingWeapons: ['knife'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'practical',
+            quotes: [
+              "A well-fed family is a strong family.",
+              "I keep the household running.",
+              "Food brings people together.",
+              "The kitchen is the heart of the home.",
+              "Nourishment for body and soul."
+            ],
+            description: 'Kitchen steward and household manager.'
+          },
+          {
+            name: 'Simon Montague',
+            role: 'Family Scholar',
+            startingCoins: 80,
+            startingWeapons: ['wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'learned',
+            quotes: [
+              "Knowledge is our greatest weapon.",
+              "We must understand our enemies.",
+              "Education leads to peace.",
+              "The pen is mightier than the sword.",
+              "Wisdom guides our actions."
+            ],
+            description: 'Family scholar and advisor.'
+          },
+          {
+            name: 'Hugh Montague',
+            role: 'Family Merchant',
+            startingCoins: 85,
+            startingWeapons: ['coin purse'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'shrewd',
+            quotes: [
+              "Trade builds bridges between families.",
+              "Commerce can end conflicts.",
+              "Wealth serves our cause.",
+              "Business brings prosperity.",
+              "Gold speaks louder than swords."
+            ],
+            description: 'Family merchant and trade negotiator.'
+          },
+          {
+            name: 'Valentine Montague',
+            role: 'Family Priest',
+            startingCoins: 70,
+            startingWeapons: ['holy symbol'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'pious',
+            quotes: [
+              "God wills peace between families.",
+              "Prayer can heal all wounds.",
+              "Faith guides our path.",
+              "Divine love conquers all.",
+              "Blessed are the peacemakers."
+            ],
+            description: 'Family priest and spiritual advisor.'
           }
         ],
         generalRoles: [
@@ -12357,6 +12527,176 @@ const AI_PERSONALITIES = {
               "I'll find Romeo to comfort you."
             ],
             description: 'Juliet\'s devoted nurse and confidante.'
+          },
+          {
+            name: 'Sampson Capulet',
+            role: 'House Servant',
+            startingCoins: 55,
+            startingWeapons: ['club'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'proud',
+            quotes: [
+              "We Capulets are not to be trifled with.",
+              "Our house stands tall.",
+              "We serve with pride.",
+              "Capulet loyalty is unbreakable.",
+              "We will not be intimidated."
+            ],
+            description: 'Proud house servant and family supporter.'
+          },
+          {
+            name: 'Gregory Capulet',
+            role: 'Family Guard',
+            startingCoins: 65,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "We defend our family honor.",
+              "No Montague shall pass.",
+              "Capulet blood runs strong.",
+              "We fight for what is right.",
+              "Honor guides our blade."
+            ],
+            description: 'Loyal family guard and protector.'
+          },
+          {
+            name: 'Peter Capulet',
+            role: 'Family Servant',
+            startingCoins: 50,
+            startingWeapons: ['staff'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'quick',
+            quotes: [
+              "I serve the Capulet family faithfully.",
+              "Speed and accuracy are my tools.",
+              "I carry out my duties swiftly.",
+              "The Capulet word spreads fast.",
+              "Service is my honor."
+            ],
+            description: 'Swift servant and family communicator.'
+          },
+          {
+            name: 'Anthony Capulet',
+            role: 'Family Cousin',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'noble',
+            quotes: [
+              "Family bonds are sacred.",
+              "We Capulets stand together.",
+              "Blood calls to blood.",
+              "Our lineage is our strength.",
+              "United we are unbreakable."
+            ],
+            description: 'Distant cousin and family ally.'
+          },
+          {
+            name: 'Potpan Capulet',
+            role: 'Kitchen Steward',
+            startingCoins: 45,
+            startingWeapons: ['knife'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'practical',
+            quotes: [
+              "A well-fed family is a strong family.",
+              "I keep the household running.",
+              "Food brings people together.",
+              "The kitchen is the heart of the home.",
+              "Nourishment for body and soul."
+            ],
+            description: 'Kitchen steward and household manager.'
+          },
+          {
+            name: 'Simon Capulet',
+            role: 'Family Scholar',
+            startingCoins: 80,
+            startingWeapons: ['wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'learned',
+            quotes: [
+              "Knowledge is our greatest weapon.",
+              "We must understand our enemies.",
+              "Education leads to peace.",
+              "The pen is mightier than the sword.",
+              "Wisdom guides our actions."
+            ],
+            description: 'Family scholar and advisor.'
+          },
+          {
+            name: 'Hugh Capulet',
+            role: 'Family Merchant',
+            startingCoins: 85,
+            startingWeapons: ['coin purse'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'shrewd',
+            quotes: [
+              "Trade builds bridges between families.",
+              "Commerce can end conflicts.",
+              "Wealth serves our cause.",
+              "Business brings prosperity.",
+              "Gold speaks louder than swords."
+            ],
+            description: 'Family merchant and trade negotiator.'
+          },
+          {
+            name: 'Valentine Capulet',
+            role: 'Family Priest',
+            startingCoins: 70,
+            startingWeapons: ['holy symbol'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'pious',
+            quotes: [
+              "God wills peace between families.",
+              "Prayer can heal all wounds.",
+              "Faith guides our path.",
+              "Divine love conquers all.",
+              "Blessed are the peacemakers."
+            ],
+            description: 'Family priest and spiritual advisor.'
+          },
+          {
+            name: 'Abraham Capulet',
+            role: 'Family Steward',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'dutiful',
+            quotes: [
+              "I serve the Capulet family with honor.",
+              "Our house must remain strong.",
+              "Peace through strength.",
+              "We will not be dishonored.",
+              "The Capulet name endures."
+            ],
+            description: 'Trusted family steward and advisor.'
+          },
+          {
+            name: 'Balthasar Capulet',
+            role: 'Juliet\'s Servant',
+            startingCoins: 60,
+            startingWeapons: ['dagger'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "I serve Juliet faithfully.",
+              "My mistress\'s will is my command.",
+              "I will protect the young mistress.",
+              "The Capulet cause is just.",
+              "Loyalty above all."
+            ],
+            description: 'Juliet\'s devoted servant and messenger.'
           }
         ],
         generalRoles: [
@@ -12507,6 +12847,210 @@ const AI_PERSONALITIES = {
               "Well, I'm back."
             ],
             description: 'Frodo\'s loyal friend and companion.'
+          },
+          {
+            name: 'Boromir',
+            role: 'Gondor Captain',
+            startingCoins: 110,
+            startingWeapons: ['sword', 'horn'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'proud',
+            quotes: [
+              "One does not simply walk into Mordor.",
+              "Gondor needs no king.",
+              "I would have followed you, my brother.",
+              "The Ring would give me power.",
+              "I have failed you all."
+            ],
+            description: 'Captain of Gondor and member of the Fellowship.'
+          },
+          {
+            name: 'Pippin',
+            role: 'Hobbit',
+            startingCoins: 65,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'curious',
+            quotes: [
+              "What about second breakfast?",
+              "I\'m not a wizard, I\'m a hobbit!",
+              "We\'re going on an adventure!",
+              "I want to see the mountains.",
+              "I\'m ready for anything."
+            ],
+            description: 'Young hobbit and member of the Fellowship.'
+          },
+          {
+            name: 'Merry',
+            role: 'Hobbit',
+            startingCoins: 65,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "We\'re going to see the elves!",
+              "I\'m not afraid of anything.",
+              "Let\'s go on an adventure!",
+              "We\'ll stick together.",
+              "Hobbits are made of stern stuff."
+            ],
+            description: 'Brave hobbit and member of the Fellowship.'
+          },
+          {
+            name: 'Galadriel',
+            role: 'Elven Queen',
+            startingCoins: 140,
+            startingWeapons: ['magic', 'wisdom'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "Even the smallest person can change the course of the future.",
+              "I will diminish and go into the West.",
+              "The power of the Ring cannot be undone.",
+              "You have a choice to make.",
+              "May the light of Eärendil shine upon you."
+            ],
+            description: 'Elven queen of Lothlórien and bearer of Nenya.'
+          },
+          {
+            name: 'Elrond',
+            role: 'Elven Lord',
+            startingCoins: 130,
+            startingWeapons: ['sword', 'magic'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'ancient',
+            quotes: [
+              "The Ring cannot be destroyed by any craft we here possess.",
+              "I was there the day the strength of men failed.",
+              "The time of the elves is over.",
+              "You must decide how to use what you have been given.",
+              "The road ahead is long and hard."
+            ],
+            description: 'Elven lord of Rivendell and bearer of Vilya.'
+          },
+          {
+            name: 'Arwen',
+            role: 'Elven Princess',
+            startingCoins: 100,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'devoted',
+            quotes: [
+              "I would rather share one lifetime with you than face all the ages of this world alone.",
+              "I choose a mortal life.",
+              "The shadow does not hold sway yet.",
+              "I will not leave you.",
+              "My heart belongs to you."
+            ],
+            description: 'Elven princess and Aragorn\'s beloved.'
+          },
+          {
+            name: 'Éowyn',
+            role: 'Shield-maiden',
+            startingCoins: 90,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'fierce',
+            quotes: [
+              "I am no man!",
+              "I will not be left behind.",
+              "I can fight as well as any man.",
+              "The women of this country learned long ago that those without swords can still die upon them.",
+              "I will not be caged."
+            ],
+            description: 'Rohan shield-maiden and warrior princess.'
+          },
+          {
+            name: 'Théoden',
+            role: 'King of Rohan',
+            startingCoins: 120,
+            startingWeapons: ['sword'],
+            startingMercenaries: 4,
+            startingCastles: 1,
+            personality: 'noble',
+            quotes: [
+              "Where is the horse and the rider?",
+              "I will not risk open war.",
+              "The horn of Helm Hammerhand shall sound in the deep.",
+              "Ride now! Ride for ruin and the world\'s ending!",
+              "Death! Death! Death!"
+            ],
+            description: 'King of Rohan and leader of the Rohirrim.'
+          },
+          {
+            name: 'Éomer',
+            role: 'Rohan Marshal',
+            startingCoins: 95,
+            startingWeapons: ['sword'],
+            startingMercenaries: 3,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "I would cut off your head if it stood but a little higher from the ground.",
+              "We are the Rohirrim.",
+              "Ride with me!",
+              "The white wizard approaches.",
+              "For Rohan!"
+            ],
+            description: 'Marshal of Rohan and Théoden\'s nephew.'
+          },
+          {
+            name: 'Faramir',
+            role: 'Gondor Captain',
+            startingCoins: 105,
+            startingWeapons: ['sword', 'bow'],
+            startingMercenaries: 3,
+            startingCastles: 0,
+            personality: 'wise',
+            quotes: [
+              "I would not take this thing if it lay by the highway.",
+              "War must be, while we defend our lives against a destroyer.",
+              "I do not love the bright sword for its sharpness.",
+              "The enemy is at hand.",
+              "We will defend the city."
+            ],
+            description: 'Captain of Gondor and Boromir\'s brother.'
+          },
+          {
+            name: 'Denethor',
+            role: 'Steward of Gondor',
+            startingCoins: 115,
+            startingWeapons: ['wisdom'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'proud',
+            quotes: [
+              "The rule of Gondor is mine and no other\'s!",
+              "I have seen the fall of Gondor.",
+              "The line of kings is broken.",
+              "We are all going to die.",
+              "The city is lost."
+            ],
+            description: 'Steward of Gondor and father of Boromir and Faramir.'
+          },
+          {
+            name: 'Treebeard',
+            role: 'Ent',
+            startingCoins: 120,
+            startingWeapons: ['branch'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'patient',
+            quotes: [
+              "I am not altogether on anybody\'s side.",
+              "The Ents are going to war.",
+              "We have come to the end of our time.",
+              "The trees are speaking.",
+              "We must march to Isengard."
+            ],
+            description: 'Ancient Ent and shepherd of the trees.'
           }
         ],
         generalRoles: [
@@ -12634,6 +13178,193 @@ const AI_PERSONALITIES = {
               "I serve the white hand."
             ],
             description: 'Saruman\'s spy and agent of corruption.'
+          },
+          {
+            name: 'Lurtz',
+            role: 'Uruk-hai Captain',
+            startingCoins: 85,
+            startingWeapons: ['sword', 'bow'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'ruthless',
+            quotes: [
+              "We are the fighting Uruk-hai!",
+              "The white wizard will have his prize.",
+              "We will hunt them down.",
+              "No man can kill me.",
+              "For Saruman!"
+            ],
+            description: 'Uruk-hai captain and Saruman\'s elite warrior.'
+          },
+          {
+            name: 'Gothmog',
+            role: 'Orc Lieutenant',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'brutal',
+            quotes: [
+              "The age of men is over.",
+              "We will crush them all.",
+              "For Mordor!",
+              "Death to the free peoples!",
+              "The dark lord will prevail!"
+            ],
+            description: 'Orc lieutenant and commander of Sauron\'s forces.'
+          },
+          {
+            name: 'Shagrat',
+            role: 'Orc Captain',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cruel',
+            quotes: [
+              "We will find the hobbits.",
+              "The Ring must be ours.",
+              "No one escapes Mordor.",
+              "We serve the Eye.",
+              "Death to all who oppose us!"
+            ],
+            description: 'Orc captain and tower guard.'
+          },
+          {
+            name: 'Gorbag',
+            role: 'Orc Captain',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'greedy',
+            quotes: [
+              "We will take their weapons.",
+              "The hobbits are ours.",
+              "We will be rewarded.",
+              "No mercy for prisoners.",
+              "The Eye watches all."
+            ],
+            description: 'Orc captain and rival of Shagrat.'
+          },
+          {
+            name: 'Grishnákh',
+            role: 'Orc Captain',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cunning',
+            quotes: [
+              "We will find the Ring.",
+              "The hobbits cannot hide.",
+              "We will be rewarded.",
+              "The Eye sees all.",
+              "No one escapes our grasp."
+            ],
+            description: 'Orc captain and tracker.'
+          },
+          {
+            name: 'Uglúk',
+            role: 'Uruk-hai Captain',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'disciplined',
+            quotes: [
+              "We are the fighting Uruk-hai!",
+              "We will not be stopped.",
+              "For Saruman!",
+              "The white hand guides us.",
+              "We are superior to all others."
+            ],
+            description: 'Uruk-hai captain and elite warrior.'
+          },
+          {
+            name: 'Mauhúr',
+            role: 'Uruk-hai Scout',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'agile',
+            quotes: [
+              "We will track them down.",
+              "No one escapes the Uruk-hai.",
+              "We are faster and stronger.",
+              "The white wizard will be pleased.",
+              "We will not fail."
+            ],
+            description: 'Uruk-hai scout and tracker.'
+          },
+          {
+            name: 'Snaga',
+            role: 'Orc Scout',
+            startingCoins: 60,
+            startingWeapons: ['dagger'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'sneaky',
+            quotes: [
+              "We will find them.",
+              "The hobbits cannot hide.",
+              "We will be rewarded.",
+              "The Eye sees all.",
+              "No one escapes our notice."
+            ],
+            description: 'Orc scout and spy.'
+          },
+          {
+            name: 'Gorbag',
+            role: 'Orc Warrior',
+            startingCoins: 65,
+            startingWeapons: ['sword'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'brutal',
+            quotes: [
+              "We will crush our enemies.",
+              "Death to all who oppose us!",
+              "We serve the Eye.",
+              "The Ring will be ours.",
+              "Mordor will rule all."
+            ],
+            description: 'Orc warrior and loyal servant of Sauron.'
+          },
+          {
+            name: 'Sharku',
+            role: 'Warg Rider',
+            startingCoins: 70,
+            startingWeapons: ['spear'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'feral',
+            quotes: [
+              "We will hunt them down.",
+              "The wargs are hungry.",
+              "We will not stop until they are dead.",
+              "The Eye commands us.",
+              "We are the hunters."
+            ],
+            description: 'Warg rider and mounted warrior.'
+          },
+          {
+            name: 'Gorbag',
+            role: 'Orc Overseer',
+            startingCoins: 70,
+            startingWeapons: ['whip'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cruel',
+            quotes: [
+              "We will make them work.",
+              "The slaves will obey.",
+              "We serve the Eye.",
+              "No mercy for the weak.",
+              "We will break their spirit."
+            ],
+            description: 'Orc overseer and slave driver.'
           }
         ],
         generalRoles: [
