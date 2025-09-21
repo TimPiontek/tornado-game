@@ -2232,7 +2232,10 @@
     renderRoster();
     
     // Close modal and show success
-    document.querySelector('.modal').remove();
+    const modal = document.querySelector('.modal');
+    if (modal) {
+      modal.remove();
+    }
     alert(`Successfully purchased ${itemType} for ${cost} points!`);
   }
 </script>
