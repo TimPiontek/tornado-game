@@ -728,21 +728,29 @@
     
     console.log('Team groups:', teamGroups);
     
-    // Create strategic starting positions - group teams on opposite sides
-    const goodGuyPositions = [];
-    const badGuyPositions = [];
+    // Create strategic starting positions - group teams strategically
+    const team1Positions = []; // Left side
+    const team2Positions = []; // Right side  
+    const team3Positions = []; // Center/bottom
     
-    // Good guys get left side (top-left to bottom-left)
+    // Team 1 gets left side (top-left to bottom-left)
     for (let y = 0; y < h; y++) {
-      for (let x = 0; x < Math.floor(w / 2); x++) {
-        goodGuyPositions.push({ x, y });
+      for (let x = 0; x < Math.floor(w / 3); x++) {
+        team1Positions.push({ x, y });
       }
     }
     
-    // Bad guys get right side (top-right to bottom-right)
+    // Team 2 gets right side (top-right to bottom-right)
     for (let y = 0; y < h; y++) {
-      for (let x = Math.floor(w / 2); x < w; x++) {
-        badGuyPositions.push({ x, y });
+      for (let x = Math.floor(2 * w / 3); x < w; x++) {
+        team2Positions.push({ x, y });
+      }
+    }
+    
+    // Team 3 gets center area
+    for (let y = 0; y < h; y++) {
+      for (let x = Math.floor(w / 3); x < Math.floor(2 * w / 3); x++) {
+        team3Positions.push({ x, y });
       }
     }
     
@@ -750,13 +758,19 @@
     const centerX = (w - 1) / 2;
     const centerY = (h - 1) / 2;
     
-    goodGuyPositions.sort((a, b) => {
+    team1Positions.sort((a, b) => {
       const distA = Math.sqrt(Math.pow(a.x - centerX, 2) + Math.pow(a.y - centerY, 2));
       const distB = Math.sqrt(Math.pow(b.x - centerX, 2) + Math.pow(b.y - centerY, 2));
       return distB - distA; // Furthest from center first
     });
     
-    badGuyPositions.sort((a, b) => {
+    team2Positions.sort((a, b) => {
+      const distA = Math.sqrt(Math.pow(a.x - centerX, 2) + Math.pow(a.y - centerY, 2));
+      const distB = Math.sqrt(Math.pow(b.x - centerX, 2) + Math.pow(b.y - centerY, 2));
+      return distB - distA; // Furthest from center first
+    });
+    
+    team3Positions.sort((a, b) => {
       const distA = Math.sqrt(Math.pow(a.x - centerX, 2) + Math.pow(a.y - centerY, 2));
       const distB = Math.sqrt(Math.pow(b.x - centerX, 2) + Math.pow(b.y - centerY, 2));
       return distB - distA; // Furthest from center first
@@ -768,13 +782,15 @@
       
       // Choose positions based on team
       let teamPositions = [];
-      if (teamId === 'good_guys') {
-        teamPositions = goodGuyPositions;
-      } else if (teamId === 'bad_guys') {
-        teamPositions = badGuyPositions;
+      if (teamId === 'good_guys' || teamId === 'rebels') {
+        teamPositions = team1Positions; // Left side
+      } else if (teamId === 'bad_guys' || teamId === 'empire') {
+        teamPositions = team2Positions; // Right side
+      } else if (teamId === 'neutral') {
+        teamPositions = team3Positions; // Center
       } else {
         // Individual players get mixed positions
-        teamPositions = [...goodGuyPositions, ...badGuyPositions];
+        teamPositions = [...team1Positions, ...team2Positions, ...team3Positions];
       }
       
       let positionIndex = 0;
@@ -2065,6 +2081,18 @@
           student.teamId = 'bad_guys';
           student.teamName = 'Voldemort\'s Army';
           student.teamColor = '#8b0000'; // Dark red for bad guys
+        } else if (character.factionName === 'Rebel Alliance') {
+          student.teamId = 'rebels';
+          student.teamName = 'Rebel Alliance';
+          student.teamColor = '#4169e1'; // Blue for rebels
+        } else if (character.factionName === 'Galactic Empire') {
+          student.teamId = 'empire';
+          student.teamName = 'Galactic Empire';
+          student.teamColor = '#8b0000'; // Dark red for empire
+        } else if (character.factionName === 'Neutral/Independent') {
+          student.teamId = 'neutral';
+          student.teamName = 'Neutral/Independent';
+          student.teamColor = '#808080'; // Gray for neutral
         }
         
         console.log(`Assigned ${character.name} to ${student.name} (${student.teamName}) with ${character.startingCoins} coins, ${character.startingWeapons?.length || 0} weapons, ${character.startingMercenaries || 0} mercenaries, ${character.startingCastles || 0} castles`);

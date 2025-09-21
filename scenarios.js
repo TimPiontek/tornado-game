@@ -3991,6 +3991,110 @@ const SCENARIOS = {
           { name: 'Imperial Officer', startingCoins: 55, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 0, personality: 'disciplined', quotes: ['At attention!', 'Follow orders!', 'For the Empire!'] },
           { name: 'TIE Pilot', startingCoins: 50, startingWeapons: ['blaster'], startingMercenaries: 0, startingCastles: 0, personality: 'skilled', quotes: ['I can handle it!', 'Let\'s do this!', 'For the Empire!'] }
         ]
+      },
+      neutral: {
+        name: 'Neutral/Independent',
+        color: '#808080',
+        description: 'Bounty hunters, smugglers, and independent forces seeking profit',
+        territories: [
+          { name: 'Tatooine', cost: 60, description: 'Desert planet with criminal underworld' },
+          { name: 'Nar Shaddaa', cost: 70, description: 'Smuggler\'s moon' },
+          { name: 'Ord Mantell', cost: 55, description: 'Bounty hunter haven' },
+          { name: 'Corellia', cost: 65, description: 'Shipbuilding world' },
+          { name: 'Kessel', cost: 50, description: 'Spice mining planet' }
+        ],
+        characters: [
+          {
+            name: 'Boba Fett',
+            role: 'Bounty Hunter',
+            startingCoins: 80,
+            startingWeapons: ['blaster', 'jetpack'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'mercenary',
+            quotes: [
+              "I'm just a simple man trying to make my way in the universe.",
+              "No disintegrations.",
+              "He's no good to me dead.",
+              "I'll bring him in warm.",
+              "The Empire will compensate me if he dies."
+            ],
+            description: 'The most feared bounty hunter in the galaxy.'
+          },
+          {
+            name: 'Han Solo',
+            role: 'Smuggler',
+            startingCoins: 75,
+            startingWeapons: ['blaster', 'millennium falcon'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'charismatic',
+            quotes: [
+              "I've got a bad feeling about this.",
+              "Never tell me the odds!",
+              "I know.",
+              "Chewie, we're home.",
+              "Great, kid. Don't get cocky."
+            ],
+            description: 'Charming smuggler who becomes a hero.'
+          },
+          {
+            name: 'Jabba the Hutt',
+            role: 'Crime Lord',
+            startingCoins: 100,
+            startingWeapons: ['criminal empire'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'greedy',
+            quotes: [
+              "You will bring Captain Solo and the Wookiee to me.",
+              "I will not give up my favorite decoration.",
+              "There will be a substantial reward for the one responsible.",
+              "I have spoken.",
+              "You will pay the price for your insolence."
+            ],
+            description: 'Powerful Hutt crime lord controlling Tatooine.'
+          },
+          {
+            name: 'Lando Calrissian',
+            role: 'Gambler',
+            startingCoins: 70,
+            startingWeapons: ['charisma', 'cloud city'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'smooth',
+            quotes: [
+              "I'm a businessman, not a warrior.",
+              "I've got a bad feeling about this.",
+              "I'm not much for trusting people.",
+              "I'm responsible for these people.",
+              "I'm a gambler, not a warrior."
+            ],
+            description: 'Smooth-talking gambler and administrator of Cloud City.'
+          },
+          {
+            name: 'Chewbacca',
+            role: 'Wookiee Warrior',
+            startingCoins: 65,
+            startingWeapons: ['bowcaster', 'strength'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "Rrrrrrgh!",
+              "Rrrr rrr rrrr!",
+              "Rrrrr rrr rrrrr!",
+              "Rrr rrrr rrr!",
+              "Rrrrrrr!"
+            ],
+            description: 'Loyal Wookiee co-pilot and warrior.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Bounty Hunter', startingCoins: 60, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 0, personality: 'mercenary', quotes: ['Credits will do fine.', 'I work for money.', 'No questions asked.'] },
+          { name: 'Smuggler', startingCoins: 55, startingWeapons: ['blaster'], startingMercenaries: 0, startingCastles: 0, personality: 'opportunistic', quotes: ['I can get you anything.', 'For the right price.', 'Business is business.'] },
+          { name: 'Pirate', startingCoins: 50, startingWeapons: ['blaster'], startingMercenaries: 0, startingCastles: 0, personality: 'lawless', quotes: ['We take what we want!', 'No law out here!', 'Pirates don\'t ask!'] }
+        ]
       }
     },
     neutralTerritories: [
