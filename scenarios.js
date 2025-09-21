@@ -12139,9 +12139,11 @@ const AI_PERSONALITIES = {
     description: 'Pursues personal gain above all',
     behaviors: ['economic', 'offensive', 'strategic'],
     moveFrequency: 0.8
-  },
+  }
+};
 
-  romeoAndJuliet: {
+// Add Romeo and Juliet and Lord of the Rings scenarios to SCENARIOS
+SCENARIOS.romeoAndJuliet = {
     id: 'romeoAndJuliet',
     name: 'Romeo and Juliet (Shakespeare)',
     type: 'literary',
@@ -12721,9 +12723,10 @@ const AI_PERSONALITIES = {
     randomAssignment: true,
     manualRoleAssignments: false,
     aiAssignments: false
-  },
+  };
 
-  lordOfTheRings: {
+// Add Lord of the Rings scenario to SCENARIOS
+SCENARIOS.lordOfTheRings = {
     id: 'lordOfTheRings',
     name: 'The Lord of the Rings (J.R.R. Tolkien)',
     type: 'literary',
@@ -13390,8 +13393,7 @@ const AI_PERSONALITIES = {
     randomAssignment: true,
     manualRoleAssignments: false,
     aiAssignments: false
-  }
-};
+  };
 
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
