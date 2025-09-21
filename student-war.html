@@ -2213,7 +2213,11 @@
     if (rosterIndex !== -1) {
       const studentIndex = rosters[rosterIndex].roster.findIndex(s => s.name === loggedInStudent.name);
       if (studentIndex !== -1) {
+        // Update all student data, not just points
         rosters[rosterIndex].roster[studentIndex].points = loggedInStudent.balance;
+        rosters[rosterIndex].roster[studentIndex].weapons = loggedInStudent.weapons || [];
+        rosters[rosterIndex].roster[studentIndex].mercenaries = loggedInStudent.mercenaries || 0;
+        rosters[rosterIndex].roster[studentIndex].tornados = loggedInStudent.tornados || 0;
       }
       localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
     }
