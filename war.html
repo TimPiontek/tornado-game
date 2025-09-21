@@ -669,11 +669,11 @@
         if (student.characterFaction === 'Harry Potter & Friends') {
           student.teamId = 'good_guys';
           student.teamName = 'Dumbledore\'s Army';
-          student.teamColor = '#2e8b57'; // Green for good guys
+          student.teamColor = '#dc143c'; // Gryffindor red for good guys
         } else if (student.characterFaction === 'Death Eaters & Voldemort') {
           student.teamId = 'bad_guys';
           student.teamName = 'Voldemort\'s Army';
-          student.teamColor = '#8b0000'; // Dark red for bad guys
+          student.teamColor = '#2e8b57'; // Slytherin green for bad guys
         } else if (student.characterFaction === 'Rebel Alliance') {
           student.teamId = 'rebels';
           student.teamName = 'Rebel Alliance';
@@ -702,21 +702,41 @@
   function assignRandomCharacters(scenarioData) {
     console.log('Assigning random characters to students');
     
-    // Get all available characters from all factions
+    // Get all available characters from all factions, prioritizing main characters
     const allCharacters = [];
+    const mainCharacters = [];
+    const otherCharacters = [];
+    
     Object.values(scenarioData.factions).forEach(faction => {
       if (faction.characters) {
         faction.characters.forEach(char => {
-          allCharacters.push({
+          const characterData = {
             ...char,
             factionName: faction.name,
             factionColor: faction.color
-          });
+          };
+          
+          // Prioritize main characters for Harry Potter scenario
+          if (scenarioData.scenarioName.includes('Harry Potter')) {
+            const mainCharacterNames = ['Harry Potter', 'Ron Weasley', 'Hermione Granger', 'Albus Dumbledore', 'Lord Voldemort', 'Bellatrix Lestrange', 'Lucius Malfoy', 'Severus Snape'];
+            if (mainCharacterNames.includes(char.name)) {
+              mainCharacters.push(characterData);
+            } else {
+              otherCharacters.push(characterData);
+            }
+          } else {
+            // For other scenarios, prioritize characters with higher starting resources
+            if (char.startingCoins >= 100 || char.startingCastles >= 1) {
+              mainCharacters.push(characterData);
+            } else {
+              otherCharacters.push(characterData);
+            }
+          }
         });
       }
       if (faction.generalRoles) {
         faction.generalRoles.forEach(role => {
-          allCharacters.push({
+          otherCharacters.push({
             name: role.name,
             role: role.name,
             startingCoins: role.startingCoins,
@@ -733,76 +753,88 @@
       }
     });
     
-    // Shuffle characters
-    for (let i = allCharacters.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+    // Combine: main characters first, then others
+    allCharacters.push(...mainCharacters, ...otherCharacters);
+    
+    // Shuffle only the non-main characters to keep main characters prioritized
+    for (let i = mainCharacters.length; i < allCharacters.length - 1; i++) {
+      const j = mainCharacters.length + Math.floor(Math.random() * (allCharacters.length - mainCharacters.length));
       [allCharacters[i], allCharacters[j]] = [allCharacters[j], allCharacters[i]];
     }
     
-    // Assign characters to students - ensure every student gets a character
+    // Assign characters to students - ensure balanced teams
     const roleAssignments = {};
+    
+    // Group characters by faction for balanced assignment
+    const charactersByFaction = {};
+    allCharacters.forEach(char => {
+      if (!charactersByFaction[char.factionName]) {
+        charactersByFaction[char.factionName] = [];
+      }
+      charactersByFaction[char.factionName].push(char);
+    });
+    
+    const factionNames = Object.keys(charactersByFaction);
+    const factionCounts = {};
+    factionNames.forEach(faction => {
+      factionCounts[faction] = 0;
+    });
+    
+    // Assign characters to students with balanced faction distribution
     state.roster.forEach((student, index) => {
-      if (index < allCharacters.length) {
-        const character = allCharacters[index];
-        student.characterName = character.name;
-        student.characterRole = character.role;
-        student.characterFaction = character.factionName;
-        
-        // Apply character starting resources
-        student.balance = character.startingCoins || student.balance || 10;
-        student.weapons = character.startingWeapons || [];
-        student.mercenaries = character.startingMercenaries || 0;
-        student.startingCastles = character.startingCastles || 0;
-        
-        // Assign team based on character faction
-        if (character.factionName === 'Harry Potter & Friends') {
-          student.teamId = 'good_guys';
-          student.teamName = 'Dumbledore\'s Army';
-          student.teamColor = '#2e8b57'; // Green for good guys
-        } else if (character.factionName === 'Death Eaters & Voldemort') {
-          student.teamId = 'bad_guys';
-          student.teamName = 'Voldemort\'s Army';
-          student.teamColor = '#8b0000'; // Dark red for bad guys
-        } else if (character.factionName === 'Rebel Alliance') {
-          student.teamId = 'rebels';
-          student.teamName = 'Rebel Alliance';
-          student.teamColor = '#4169e1'; // Blue for rebels
-        } else if (character.factionName === 'Galactic Empire') {
-          student.teamId = 'empire';
-          student.teamName = 'Galactic Empire';
-          student.teamColor = '#8b0000'; // Dark red for empire
-        } else if (character.factionName === 'Neutral/Independent') {
-          student.teamId = 'neutral';
-          student.teamName = 'Neutral/Independent';
-          student.teamColor = '#808080'; // Gray for neutral
-        }
-        
-        roleAssignments[student.gsId] = character.name;
-        console.log(`Assigned ${character.name} to ${student.name} (${student.teamName}) with ${character.startingCoins} coins, ${character.startingWeapons?.length || 0} weapons, ${character.startingMercenaries || 0} mercenaries, ${character.startingCastles || 0} castles`);
-      } else {
-        // If we run out of characters, create a meaningful role based on faction
-        const factionIndex = index % Object.keys(scenarioData.factions).length;
-        const factionId = Object.keys(scenarioData.factions)[factionIndex];
-        const faction = scenarioData.factions[factionId];
-        
-        // Create a story-appropriate role name
-        let roleName = '';
-        if (scenarioData.scenarioName.includes('Harry Potter')) {
-          roleName = faction.name === 'Harry & Friends' ? 'Hogwarts Student' : 'Dark Wizard';
-        } else if (scenarioData.scenarioName.includes('Iliad')) {
-          roleName = faction.name.includes('Greek') ? 'Greek Warrior' : 'Trojan Warrior';
-        } else if (scenarioData.scenarioName.includes('Star Wars')) {
-          roleName = faction.name.includes('Rebel') ? 'Rebel Pilot' : 'Imperial Officer';
-        } else if (scenarioData.scenarioName.includes('Avengers')) {
-          roleName = faction.name.includes('Avengers') ? 'SHIELD Agent' : 'Hydra Agent';
-        } else {
-          roleName = faction.name + ' Soldier';
-        }
-        
-        roleAssignments[student.gsId] = roleName;
-        console.log('Assigned', roleName, 'to', student.name, '(fallback role)');
+      // Determine which faction this student should get based on balanced distribution
+      const targetFaction = factionNames[index % factionNames.length];
+      const factionCharacters = charactersByFaction[targetFaction];
+      const characterIndex = factionCounts[targetFaction] % factionCharacters.length;
+      const character = factionCharacters[characterIndex];
+      
+      factionCounts[targetFaction]++;
+      
+      student.characterName = character.name;
+      student.characterRole = character.role;
+      student.characterFaction = character.factionName;
+      
+      // Apply character starting resources
+      student.balance = character.startingCoins || student.balance || 10;
+      student.weapons = character.startingWeapons || [];
+      student.mercenaries = character.startingMercenaries || 0;
+      student.startingCastles = character.startingCastles || 0;
+      
+      // Assign team based on character faction
+      if (character.factionName === 'Harry Potter & Friends') {
+        student.teamId = 'good_guys';
+        student.teamName = 'Dumbledore\'s Army';
+        student.teamColor = '#dc143c'; // Gryffindor red for good guys
+      } else if (character.factionName === 'Death Eaters & Voldemort') {
+        student.teamId = 'bad_guys';
+        student.teamName = 'Voldemort\'s Army';
+        student.teamColor = '#2e8b57'; // Slytherin green for bad guys
+      } else if (character.factionName === 'Rebel Alliance') {
+        student.teamId = 'rebels';
+        student.teamName = 'Rebel Alliance';
+        student.teamColor = '#4169e1'; // Blue for rebels
+      } else if (character.factionName === 'Galactic Empire') {
+        student.teamId = 'empire';
+        student.teamName = 'Galactic Empire';
+        student.teamColor = '#8b0000'; // Dark red for empire
+      } else if (character.factionName === 'Neutral/Independent') {
+        student.teamId = 'neutral';
+        student.teamName = 'Neutral/Independent';
+        student.teamColor = '#808080'; // Gray for neutral
+      }
+      
+      roleAssignments[student.gsId] = character.name;
+      console.log(`Assigned ${character.name} to ${student.name} (${student.teamName}) with ${character.startingCoins} coins, ${character.startingWeapons?.length || 0} weapons, ${character.startingMercenaries || 0} mercenaries, ${character.startingCastles || 0} castles`);
+    });
+    
+    // Log team balance
+    const teamBalance = {};
+    state.roster.forEach(student => {
+      if (student.teamName) {
+        teamBalance[student.teamName] = (teamBalance[student.teamName] || 0) + 1;
       }
     });
+    console.log('Team balance:', teamBalance);
     
     // Store assignments in scenario data
     scenarioData.manualRoleAssignments = roleAssignments;

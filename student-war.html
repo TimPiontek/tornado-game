@@ -2072,11 +2072,11 @@
         if (student.characterFaction === 'Harry Potter & Friends') {
           student.teamId = 'good_guys';
           student.teamName = 'Dumbledore\'s Army';
-          student.teamColor = '#2e8b57'; // Green for good guys
+          student.teamColor = '#dc143c'; // Gryffindor red for good guys
         } else if (student.characterFaction === 'Death Eaters & Voldemort') {
           student.teamId = 'bad_guys';
           student.teamName = 'Voldemort\'s Army';
-          student.teamColor = '#8b0000'; // Dark red for bad guys
+          student.teamColor = '#2e8b57'; // Slytherin green for bad guys
         } else if (student.characterFaction === 'Rebel Alliance') {
           student.teamId = 'rebels';
           student.teamName = 'Rebel Alliance';
@@ -2106,27 +2106,72 @@
     
     console.log('Assigning characters to students...');
     
-    // Get all characters from all factions
+    // Get all characters from all factions, prioritizing main characters
     const allCharacters = [];
+    const mainCharacters = [];
+    const otherCharacters = [];
+    
     Object.entries(state.scenario.factions).forEach(([factionId, faction]) => {
       if (faction.characters) {
         faction.characters.forEach(char => {
-          allCharacters.push({
+          const characterData = {
             ...char,
             factionId,
             factionName: faction.name
-          });
+          };
+          
+          // Prioritize main characters for Harry Potter scenario
+          if (state.scenario.scenarioName.includes('Harry Potter')) {
+            const mainCharacterNames = ['Harry Potter', 'Ron Weasley', 'Hermione Granger', 'Albus Dumbledore', 'Lord Voldemort', 'Bellatrix Lestrange', 'Lucius Malfoy', 'Severus Snape'];
+            if (mainCharacterNames.includes(char.name)) {
+              mainCharacters.push(characterData);
+            } else {
+              otherCharacters.push(characterData);
+            }
+          } else {
+            // For other scenarios, prioritize characters with higher starting resources
+            if (char.startingCoins >= 100 || char.startingCastles >= 1) {
+              mainCharacters.push(characterData);
+            } else {
+              otherCharacters.push(characterData);
+            }
+          }
         });
       }
     });
     
-    console.log('Available characters:', allCharacters.length);
+    // Combine: main characters first, then others
+    allCharacters.push(...mainCharacters, ...otherCharacters);
     
-    // Assign characters to students who don't have them
-    let characterIndex = 0;
+    console.log('Available characters:', allCharacters.length, '(Main:', mainCharacters.length, 'Others:', otherCharacters.length, ')');
+    
+    // Group characters by faction for balanced assignment
+    const charactersByFaction = {};
+    allCharacters.forEach(char => {
+      if (!charactersByFaction[char.factionName]) {
+        charactersByFaction[char.factionName] = [];
+      }
+      charactersByFaction[char.factionName].push(char);
+    });
+    
+    const factionNames = Object.keys(charactersByFaction);
+    const factionCounts = {};
+    factionNames.forEach(faction => {
+      factionCounts[faction] = 0;
+    });
+    
+    // Assign characters to students who don't have them with balanced faction distribution
+    let studentIndex = 0;
     state.roster.forEach(student => {
       if (!student.characterName && allCharacters.length > 0) {
-        const character = allCharacters[characterIndex % allCharacters.length];
+        // Determine which faction this student should get based on balanced distribution
+        const targetFaction = factionNames[studentIndex % factionNames.length];
+        const factionCharacters = charactersByFaction[targetFaction];
+        const characterIndex = factionCounts[targetFaction] % factionCharacters.length;
+        const character = factionCharacters[characterIndex];
+        
+        factionCounts[targetFaction]++;
+        
         student.characterName = character.name;
         student.characterRole = character.role;
         student.characterFaction = character.factionName;
@@ -2141,11 +2186,11 @@
         if (character.factionName === 'Harry Potter & Friends') {
           student.teamId = 'good_guys';
           student.teamName = 'Dumbledore\'s Army';
-          student.teamColor = '#2e8b57'; // Green for good guys
+          student.teamColor = '#dc143c'; // Gryffindor red for good guys
         } else if (character.factionName === 'Death Eaters & Voldemort') {
           student.teamId = 'bad_guys';
           student.teamName = 'Voldemort\'s Army';
-          student.teamColor = '#8b0000'; // Dark red for bad guys
+          student.teamColor = '#2e8b57'; // Slytherin green for bad guys
         } else if (character.factionName === 'Rebel Alliance') {
           student.teamId = 'rebels';
           student.teamName = 'Rebel Alliance';
@@ -2161,9 +2206,18 @@
         }
         
         console.log(`Assigned ${character.name} to ${student.name} (${student.teamName}) with ${character.startingCoins} coins, ${character.startingWeapons?.length || 0} weapons, ${character.startingMercenaries || 0} mercenaries, ${character.startingCastles || 0} castles`);
-        characterIndex++;
+        studentIndex++;
       }
     });
+    
+    // Log team balance
+    const teamBalance = {};
+    state.roster.forEach(student => {
+      if (student.teamName) {
+        teamBalance[student.teamName] = (teamBalance[student.teamName] || 0) + 1;
+      }
+    });
+    console.log('Team balance:', teamBalance);
     
     // Place starting castles on students' first territories
     placeStartingCastles();
