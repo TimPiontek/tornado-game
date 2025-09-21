@@ -626,10 +626,15 @@
       
       // --- Start of gsId remapping logic ---
       const oldIdToNewIdMap = new Map();
+      console.log('Saved roster structure:', state.currentRoster.roster);
+      console.log('Current roster structure:', state.roster);
+      
       if (state.currentRoster.roster && state.roster) {
         console.log('Attempting to remap tile ownership IDs...');
         state.currentRoster.roster.forEach(savedStudent => {
+          console.log('Checking saved student:', savedStudent);
           const currentStudent = state.roster.find(s => s.name === savedStudent.name); // Match by name
+          console.log('Found current student:', currentStudent);
           if (currentStudent && savedStudent.id !== currentStudent.gsId) {
             oldIdToNewIdMap.set(savedStudent.id, currentStudent.gsId);
             console.log(`Remapping: Old ID ${savedStudent.id} (Name: ${savedStudent.name}) -> New ID ${currentStudent.gsId}`);
@@ -637,16 +642,24 @@
         });
       }
 
+      console.log('Remapping map:', oldIdToNewIdMap);
+      
       if (oldIdToNewIdMap.size > 0) {
         console.log('Applying tile ownership ID remapping...');
+        let remappedCount = 0;
         state.board.tiles.forEach(tile => {
           if (tile.owner_game_student_id && oldIdToNewIdMap.has(tile.owner_game_student_id)) {
+            const oldId = tile.owner_game_student_id;
             tile.owner_game_student_id = oldIdToNewIdMap.get(tile.owner_game_student_id);
+            remappedCount++;
+            console.log(`Remapped tile ${tile.id}: ${oldId} -> ${tile.owner_game_student_id}`);
           }
         });
-        console.log('Tile ownership IDs remapped successfully.');
+        console.log(`Tile ownership IDs remapped successfully. ${remappedCount} tiles remapped.`);
       } else {
         console.log('No remapping needed or no old IDs found for remapping.');
+        // Debug: show some tile ownership IDs
+        console.log('Sample tile ownership IDs:', state.board.tiles.slice(0, 5).map(t => ({ id: t.id, owner: t.owner_game_student_id })));
       }
       // --- End of gsId remapping logic ---
     } else {
