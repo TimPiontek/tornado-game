@@ -374,9 +374,11 @@
   const playOfflineBtn = document.getElementById("playOffline");
 
   async function updateAuth() {
-    const { data: { session } } = await supabase.auth.getSession();
-    state.session = session;
-    console.log('War game auth update:', session ? 'Logged in as ' + session.user.email : 'Not logged in');
+    // Check for student login instead of teacher login
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    const isStudentLoggedIn = currentStudent && currentStudent.username;
+    
+    console.log('Student war auth update:', isStudentLoggedIn ? 'Student logged in as ' + currentStudent.username : 'No student logged in');
     
     if (state.offlineMode) {
       if (who) who.textContent = "Playing Offline";
@@ -387,22 +389,16 @@
       if (signoutBtn) signoutBtn.style.display = "none";
       if (playOfflineBtn) playOfflineBtn.style.display = "none";
     } else {
-      if (who) who.textContent = session ? `Signed in as ${session.user.email}` : "Not signed in";
+      if (who) who.textContent = isStudentLoggedIn ? `Student: ${currentStudent.username}` : "Not signed in";
       if (signinBtn) {
         signinBtn.textContent = "Sign in with Google";
-        signinBtn.style.display = session ? "none" : "inline-block";
+        signinBtn.style.display = isStudentLoggedIn ? "none" : "inline-block";
       }
-      if (signoutBtn) signoutBtn.style.display = session ? "inline-block" : "none";
-      if (playOfflineBtn) playOfflineBtn.style.display = session ? "none" : "inline-block";
+      if (signoutBtn) signoutBtn.style.display = isStudentLoggedIn ? "inline-block" : "none";
+      if (playOfflineBtn) playOfflineBtn.style.display = isStudentLoggedIn ? "none" : "inline-block";
     }
     
-    if (session && !state.offlineMode) {
-      // Ensure teacher row exists so RLS allows inserts/selects
-      try {
-        const { error } = await supabase.rpc("ensure_user");
-        if (error && !/function ensure_user/.test(error.message)) console.warn("ensure_user error:", error.message);
-      } catch (e) { console.warn("ensure_user exception:", e); }
-    }
+    // Student mode doesn't need Supabase authentication
   }
 
   if (signinBtn) signinBtn.addEventListener("click", async (e) => {
