@@ -595,9 +595,6 @@
       }
     }
     
-    // Check if roster has character assignments and auto-select scenario
-    autoSelectScenarioFromRoster();
-    
     // Update UI
     console.log('About to call renderRoster');
     renderRoster();
@@ -626,6 +623,32 @@
       state.board = state.currentRoster.gameState.board;
       state.board.tiles = state.currentRoster.gameState.tiles;
       state.truces = state.currentRoster.gameState.truces || [];
+      
+      // --- Start of gsId remapping logic ---
+      const oldIdToNewIdMap = new Map();
+      if (state.currentRoster.roster && state.roster) {
+        console.log('Attempting to remap tile ownership IDs...');
+        state.currentRoster.roster.forEach(savedStudent => {
+          const currentStudent = state.roster.find(s => s.name === savedStudent.name); // Match by name
+          if (currentStudent && savedStudent.id !== currentStudent.gsId) {
+            oldIdToNewIdMap.set(savedStudent.id, currentStudent.gsId);
+            console.log(`Remapping: Old ID ${savedStudent.id} (Name: ${savedStudent.name}) -> New ID ${currentStudent.gsId}`);
+          }
+        });
+      }
+
+      if (oldIdToNewIdMap.size > 0) {
+        console.log('Applying tile ownership ID remapping...');
+        state.board.tiles.forEach(tile => {
+          if (tile.owner_game_student_id && oldIdToNewIdMap.has(tile.owner_game_student_id)) {
+            tile.owner_game_student_id = oldIdToNewIdMap.get(tile.owner_game_student_id);
+          }
+        });
+        console.log('Tile ownership IDs remapped successfully.');
+      } else {
+        console.log('No remapping needed or no old IDs found for remapping.');
+      }
+      // --- End of gsId remapping logic ---
     } else {
       console.log('Creating fresh tiles with starting positions');
       // Create fresh tiles
@@ -652,6 +675,9 @@
     
     // Sync tile counts with actual board state
     syncTileCounts();
+    
+    // Check if roster has character assignments and auto-select scenario BEFORE updating grid
+    autoSelectScenarioFromRoster();
     
     // Update grid display
     console.log('About to call updateGridDisplay');
