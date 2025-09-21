@@ -78,6 +78,7 @@
     <div class="section">
       <div class="title">Roster</div>
       <select id="rosterList"></select>
+      <div id="teamScoreboards" style="margin-bottom: 1rem;"></div>
       <div class="minor" id="victory"></div>
       <div style="margin-top: 8px; display: flex; gap: 8px;">
         <button class="pill" id="loadRosterBtn" style="background: #6f5c91; color: white; flex: 1;">Manage Rosters</button>
@@ -660,12 +661,18 @@
       state.scenario = null;
     }
     
+    // Load saved victory goals
+    if (roster.victoryGoals) {
+      state.victoryGoals = roster.victoryGoals;
+    }
+    
     // Create or load game board
     initializeGameBoard();
     
     // Update UI
     renderRoster();
     updateVictoryTarget();
+    updateTeamScoreboards();
   }
   
   // Assign teams based on character factions
@@ -1034,6 +1041,7 @@
     updateGridDisplay();
     renderRoster();
     updateVictoryTarget();
+    updateTeamScoreboards();
 
     // Save the reset state
     autoSaveWarPoints();
@@ -1228,8 +1236,72 @@
   function placeStartingCastles() {
     if (!state.board || !state.board.tiles) return;
     
-    console.log('Placing starting castles...');
+    console.log('Placing starting castles with fair distribution...');
     
+    // Group students by team to ensure fair castle distribution
+    const teamGroups = {};
+    state.roster.forEach(student => {
+      const teamId = student.teamId || 'individual';
+      if (!teamGroups[teamId]) {
+        teamGroups[teamId] = [];
+      }
+      teamGroups[teamId].push(student);
+    });
+    
+    // Calculate total castles per team
+    const teamCastleCounts = {};
+    Object.entries(teamGroups).forEach(([teamId, students]) => {
+      teamCastleCounts[teamId] = students.reduce((total, student) => total + (student.startingCastles || 0), 0);
+    });
+    
+    console.log('Team castle counts:', teamCastleCounts);
+    
+    // Ensure fair distribution - if one team has significantly more castles, redistribute
+    const teamIds = Object.keys(teamCastleCounts);
+    if (teamIds.length >= 2) {
+      const maxCastles = Math.max(...Object.values(teamCastleCounts));
+      const minCastles = Math.min(...Object.values(teamCastleCounts));
+      
+      // If there's a significant imbalance (more than 2 castle difference), redistribute
+      if (maxCastles - minCastles > 2) {
+        console.log('Redistributing castles for fair gameplay...');
+        
+        // Calculate fair distribution
+        const totalCastles = Object.values(teamCastleCounts).reduce((sum, count) => sum + count, 0);
+        const fairCastlesPerTeam = Math.floor(totalCastles / teamIds.length);
+        const extraCastles = totalCastles % teamIds.length;
+        
+        // Redistribute castles fairly
+        teamIds.forEach((teamId, index) => {
+          const targetCastles = fairCastlesPerTeam + (index < extraCastles ? 1 : 0);
+          const currentCastles = teamCastleCounts[teamId];
+          const difference = targetCastles - currentCastles;
+          
+          if (difference !== 0) {
+            const teamStudents = teamGroups[teamId];
+            // Add or remove castles from team members
+            let castlesToAdjust = Math.abs(difference);
+            let studentIndex = 0;
+            
+            while (castlesToAdjust > 0 && studentIndex < teamStudents.length) {
+              const student = teamStudents[studentIndex];
+              if (difference > 0 && student.startingCastles < 3) {
+                // Add castle
+                student.startingCastles = (student.startingCastles || 0) + 1;
+                castlesToAdjust--;
+              } else if (difference < 0 && student.startingCastles > 0) {
+                // Remove castle
+                student.startingCastles = Math.max(0, (student.startingCastles || 0) - 1);
+                castlesToAdjust--;
+              }
+              studentIndex++;
+            }
+          }
+        });
+      }
+    }
+    
+    // Place castles on students' territories
     state.roster.forEach(student => {
       if (student.startingCastles > 0) {
         // Find student's first territory (lowest coordinates)
@@ -1522,6 +1594,126 @@
     victoryEl.textContent = `Target: ${(targetPercentage * 100).toFixed(0)}% of tiles (${Math.ceil(totalTiles * targetPercentage)} tiles)`;
   }
   
+  function updateTeamScoreboards() {
+    if (!state.roster || !state.board || !state.board.tiles) return;
+    
+    const scoreboardsEl = document.getElementById('teamScoreboards');
+    if (!scoreboardsEl) return;
+    
+    // Group students by team
+    const teamGroups = {};
+    state.roster.forEach(student => {
+      const teamId = student.teamId || 'individual';
+      if (!teamGroups[teamId]) {
+        teamGroups[teamId] = {
+          students: [],
+          teamName: student.teamName || 'Individual Players',
+          teamColor: student.teamColor || '#6b7280'
+        };
+      }
+      teamGroups[teamId].students.push(student);
+    });
+    
+    // Calculate team statistics
+    const totalTiles = state.board.w * state.board.h;
+    const teamStats = {};
+    
+    Object.entries(teamGroups).forEach(([teamId, team]) => {
+      const teamTiles = state.board.tiles.filter(tile => {
+        const owner = state.roster.find(s => s.gsId === tile.owner_game_student_id);
+        return owner && owner.teamId === teamId;
+      });
+      
+      const territoryPercentage = (teamTiles.length / totalTiles) * 100;
+      const castles = teamTiles.reduce((total, tile) => total + (tile.castle_level || 0), 0);
+      
+      teamStats[teamId] = {
+        ...team,
+        tilesOwned: teamTiles.length,
+        territoryPercentage: territoryPercentage,
+        castles: castles,
+        students: team.students
+      };
+    });
+    
+    // Create scoreboard HTML
+    let scoreboardHTML = '<div style="margin-bottom: 1rem;"><h4 style="margin: 0 0 0.5rem 0; color: #1e293b;">🏆 Team Scoreboards</h4>';
+    
+    Object.entries(teamStats).forEach(([teamId, stats]) => {
+      const isWinning = stats.territoryPercentage >= 50; // Simple winning condition
+      const victoryGoal = state.victoryGoals?.[teamId] || 50; // Default 50% goal
+      
+      scoreboardHTML += `
+        <div style="
+          background: ${stats.teamColor}20;
+          border: 2px solid ${stats.teamColor};
+          border-radius: 8px;
+          padding: 0.75rem;
+          margin-bottom: 0.5rem;
+          ${isWinning ? 'box-shadow: 0 0 10px ' + stats.teamColor + '40;' : ''}
+        ">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <h5 style="margin: 0; color: ${stats.teamColor}; font-weight: bold;">${stats.teamName}</h5>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <input type="number" 
+                     id="victoryGoal_${teamId}" 
+                     value="${victoryGoal}" 
+                     min="10" 
+                     max="90" 
+                     style="width: 50px; padding: 2px; border: 1px solid #d1d5db; border-radius: 4px; text-align: center;"
+                     onchange="updateVictoryGoal('${teamId}', this.value)">
+              <span style="font-size: 0.8rem; color: #6b7280;">%</span>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.9rem;">
+            <div>Territories: <strong>${stats.tilesOwned}/${totalTiles}</strong></div>
+            <div>Castles: <strong>${stats.castles}</strong></div>
+            <div>Percentage: <strong>${stats.territoryPercentage.toFixed(1)}%</strong></div>
+            <div>Students: <strong>${stats.students.length}</strong></div>
+          </div>
+          <div style="margin-top: 0.5rem;">
+            <div style="
+              background: #e5e7eb;
+              border-radius: 4px;
+              height: 8px;
+              overflow: hidden;
+            ">
+              <div style="
+                background: ${stats.teamColor};
+                height: 100%;
+                width: ${Math.min(100, stats.territoryPercentage)}%;
+                transition: width 0.3s ease;
+              "></div>
+            </div>
+            <div style="font-size: 0.8rem; color: #6b7280; margin-top: 0.25rem;">
+              ${stats.territoryPercentage >= victoryGoal ? '🎉 VICTORY!' : `${victoryGoal - stats.territoryPercentage.toFixed(1)}% to victory`}
+            </div>
+          </div>
+        </div>
+      `;
+    });
+    
+    scoreboardHTML += '</div>';
+    scoreboardsEl.innerHTML = scoreboardHTML;
+  }
+  
+  function updateVictoryGoal(teamId, newGoal) {
+    if (!state.victoryGoals) {
+      state.victoryGoals = {};
+    }
+    state.victoryGoals[teamId] = parseInt(newGoal);
+    
+    // Save the updated goals
+    if (state.currentRoster) {
+      state.currentRoster.victoryGoals = state.victoryGoals;
+      saveCurrentRoster();
+    }
+    
+    // Update display
+    updateTeamScoreboards();
+    checkVictoryCondition();
+  }
+  
   function checkVictoryCondition() {
     if (!state.roster || !state.board || !state.board.tiles) return;
     
@@ -1548,9 +1740,12 @@
         }
       });
       
-      // Check if any team has reached victory
+      // Check if any team has reached victory using custom victory goals
       for (const [teamId, count] of Object.entries(tileCounts)) {
-        if (count >= targetTiles) {
+        const teamPercentage = (count / totalTiles) * 100;
+        const victoryGoal = state.victoryGoals?.[teamId] || 50; // Default 50% goal
+        
+        if (teamPercentage >= victoryGoal) {
           const teamName = state.roster.find(s => s.teamId === teamId)?.teamName || `Team ${teamId}`;
           showVictoryScreen(teamName, count, totalTiles, 'team');
           return;
@@ -3160,6 +3355,7 @@
     updateGridDisplay();
     syncTileCounts();
     updateVictoryTarget();
+    updateTeamScoreboards();
     
     // Check for victory condition after battle
     checkVictoryCondition();
