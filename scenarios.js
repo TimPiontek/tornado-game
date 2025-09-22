@@ -416,6 +416,23 @@ const SCENARIOS = {
               "We will fight for our beliefs."
             ],
             description: 'Physician and patriot who died at Bunker Hill.'
+          },
+          {
+            name: 'Samuel Adams',
+            role: 'Revolutionary Leader',
+            startingCoins: 55,
+            startingWeapons: ['rhetoric'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'passionate',
+            quotes: [
+              "The natural liberty of man is to be free from any superior power on Earth.",
+              "We cannot make events. Our business is wisely to improve them.",
+              "The people have a right to alter or abolish government.",
+              "No taxation without representation!",
+              "Liberty or death!"
+            ],
+            description: 'Revolutionary leader who organized resistance to British rule.'
           }
         ],
         generalRoles: [
@@ -610,6 +627,193 @@ const SCENARIOS = {
               "We will control the waters."
             ],
             description: 'British admiral who commanded naval forces.'
+          },
+          {
+            name: 'Lord North',
+            role: 'Prime Minister',
+            startingCoins: 110,
+            startingWeapons: ['parliamentary power'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'stubborn',
+            quotes: [
+              "The colonies must submit.",
+              "We will not negotiate with rebels.",
+              "British law must be enforced.",
+              "The Americans will learn obedience.",
+              "We will maintain our empire."
+            ],
+            description: 'British Prime Minister during the American Revolution.'
+          },
+          {
+            name: 'General Burgoyne',
+            role: 'General',
+            startingCoins: 95,
+            startingWeapons: ['sword', 'strategy'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'confident',
+            quotes: [
+              "I will march from Canada.",
+              "The Americans cannot stop me.",
+              "Victory at Saratoga will be mine.",
+              "We will divide and conquer.",
+              "The rebellion will be crushed."
+            ],
+            description: 'British general who led the Saratoga campaign.'
+          },
+          {
+            name: 'General Clinton',
+            role: 'Commander-in-Chief',
+            startingCoins: 105,
+            startingWeapons: ['sword', 'command'],
+            startingMercenaries: 4,
+            startingCastles: 1,
+            personality: 'cautious',
+            quotes: [
+              "We must be strategic.",
+              "I will not rush into battle.",
+              "The Americans are cunning.",
+              "We will wear them down.",
+              "Patience will win this war."
+            ],
+            description: 'British Commander-in-Chief in North America.'
+          },
+          {
+            name: 'General Gage',
+            role: 'Military Governor',
+            startingCoins: 90,
+            startingWeapons: ['sword', 'authority'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'authoritarian',
+            quotes: [
+              "I will restore order.",
+              "The rebels will be punished.",
+              "British law will be enforced.",
+              "We will maintain control.",
+              "The colonies will submit."
+            ],
+            description: 'British general and military governor of Massachusetts.'
+          },
+          {
+            name: 'General Tarleton',
+            role: 'Cavalry Commander',
+            startingCoins: 85,
+            startingWeapons: ['sword', 'cavalry'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'aggressive',
+            quotes: [
+              "I will hunt them down.",
+              "The Americans cannot hide.",
+              "We will strike fast and hard.",
+              "No mercy for rebels.",
+              "We will not be stopped."
+            ],
+            description: 'British cavalry officer known for his aggressive tactics.'
+          },
+          {
+            name: 'Benedict Arnold',
+            role: 'Traitor',
+            startingCoins: 80,
+            startingWeapons: ['sword', 'treachery'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'ambitious',
+            quotes: [
+              "The British offer more.",
+              "I will switch sides.",
+              "Money and power matter most.",
+              "I deserve recognition.",
+              "The Americans betrayed me."
+            ],
+            description: 'American general who defected to the British.'
+          },
+          {
+            name: 'John André',
+            role: 'Spy',
+            startingCoins: 70,
+            startingWeapons: ['intelligence'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'charming',
+            quotes: [
+              "I will gather intelligence.",
+              "The Americans trust me.",
+              "Information is power.",
+              "I will infiltrate their ranks.",
+              "We will know their plans."
+            ],
+            description: 'British spy who worked with Benedict Arnold.'
+          },
+          {
+            name: 'Charles Cornwallis',
+            role: 'General',
+            startingCoins: 100,
+            startingWeapons: ['sword', 'tactics'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'determined',
+            quotes: [
+              "I will not surrender.",
+              "We will fight to the end.",
+              "The British never give up.",
+              "We will hold our ground.",
+              "Victory or death."
+            ],
+            description: 'British general who surrendered at Yorktown.'
+          },
+          {
+            name: 'Banastre Tarleton',
+            role: 'Cavalry Officer',
+            startingCoins: 80,
+            startingWeapons: ['sword', 'cavalry'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'ruthless',
+            quotes: [
+              "No quarter for rebels.",
+              "We will show no mercy.",
+              "The Americans will fear us.",
+              "We will crush their spirit.",
+              "Victory through terror."
+            ],
+            description: 'British cavalry officer known for his brutality.'
+          },
+          {
+            name: 'William Howe',
+            role: 'General',
+            startingCoins: 95,
+            startingWeapons: ['sword', 'strategy'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'methodical',
+            quotes: [
+              "We will take New York.",
+              "The Americans cannot stop us.",
+              "We will control the cities.",
+              "Urban warfare is our strength.",
+              "We will win this war."
+            ],
+            description: 'British general who captured New York.'
+          },
+          {
+            name: 'Henry Clinton',
+            role: 'General',
+            startingCoins: 90,
+            startingWeapons: ['sword', 'command'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'strategic',
+            quotes: [
+              "We must be patient.",
+              "The Americans will tire.",
+              "We will outlast them.",
+              "Strategy over speed.",
+              "We will win through attrition."
+            ],
+            description: 'British general known for his strategic thinking.'
           }
         ],
         generalRoles: [
@@ -13393,9 +13597,17788 @@ SCENARIOS.lordOfTheRings = {
     randomAssignment: true,
     manualRoleAssignments: false,
     aiAssignments: false
-  };
+  },
+
+  // WORLD WAR 1 SCENARIO
+  worldWar1: {
+    id: 'worldWar1',
+    name: 'World War I: The Great War (1914-1918)',
+    type: 'historical',
+    description: 'The devastating global conflict that reshaped the world and ended empires.',
+    factions: {
+      allies: {
+        name: 'Allied Powers',
+        color: '#1e40af', // Blue
+        description: 'Britain, France, Russia, and their allies fighting for democracy and freedom',
+        territories: [
+          { name: 'London', cost: 25, description: 'Capital of the British Empire and naval headquarters' },
+          { name: 'Paris', cost: 22, description: 'Capital of France and center of resistance' },
+          { name: 'Moscow', cost: 20, description: 'Capital of Russia and Eastern Front command' },
+          { name: 'Verdun', cost: 18, description: 'Fortress city and symbol of French resistance' },
+          { name: 'Ypres', cost: 15, description: 'Belgian city and site of major battles' },
+          { name: 'Gallipoli', cost: 16, description: 'Strategic peninsula and failed Allied campaign' },
+          { name: 'Somme', cost: 14, description: 'Battlefield where new tactics were tested' },
+          { name: 'Marne', cost: 12, description: 'River where the German advance was stopped' },
+          { name: 'Tannenberg', cost: 10, description: 'Eastern Front battlefield and German victory' },
+          { name: 'Allied Trenches', cost: 8, description: 'Defensive positions along the Western Front' },
+          { name: 'Arras', cost: 11, description: 'French city and major battle site' },
+          { name: 'Cambrai', cost: 9, description: 'First major tank battle location' },
+          { name: 'Passchendaele', cost: 13, description: 'Muddy battlefield and British offensive' },
+          { name: 'Jutland', cost: 17, description: 'Major naval battle in the North Sea' },
+          { name: 'Mesopotamia', cost: 7, description: 'Middle Eastern campaign territory' },
+          { name: 'Palestine', cost: 6, description: 'Ottoman territory and British campaign' },
+          { name: 'East Africa', cost: 5, description: 'Colonial campaign in German East Africa' },
+          { name: 'Balkans', cost: 8, description: 'Southeastern European front' },
+          { name: 'Italian Front', cost: 10, description: 'Alpine warfare and mountain battles' },
+          { name: 'Royal Navy', cost: 20, description: 'British naval blockade and sea control' }
+        ],
+        characters: [
+          {
+            name: 'Field Marshal Douglas Haig',
+            role: 'British Commander',
+            startingCoins: 120,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 4,
+            startingCastles: 2,
+            personality: 'methodical',
+            quotes: [
+              "We must attack with all our might.",
+              "The machine gun is a much overrated weapon.",
+              "We will break through their lines.",
+              "Victory will be ours through persistence.",
+              "Every man must do his duty."
+            ],
+            description: 'British field marshal who led the British Expeditionary Force.'
+          },
+          {
+            name: 'General Philippe Pétain',
+            role: 'French Commander',
+            startingCoins: 110,
+            startingWeapons: ['rifle', 'cannon'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'defensive',
+            quotes: [
+              "They shall not pass!",
+              "We will hold Verdun at all costs.",
+              "Defense is the best offense.",
+              "The French soldier will not retreat.",
+              "Victory through endurance."
+            ],
+            description: 'French general who defended Verdun and became a national hero.'
+          },
+          {
+            name: 'General Alexei Brusilov',
+            role: 'Russian Commander',
+            startingCoins: 100,
+            startingWeapons: ['rifle', 'cavalry'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'aggressive',
+            quotes: [
+              "We will attack with everything we have.",
+              "The Russian soldier is fearless.",
+              "We will break the Austrian lines.",
+              "Victory through overwhelming force.",
+              "For Mother Russia!"
+            ],
+            description: 'Russian general who led the successful Brusilov Offensive.'
+          },
+          {
+            name: 'Winston Churchill',
+            role: 'First Lord of the Admiralty',
+            startingCoins: 90,
+            startingWeapons: ['naval guns'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'innovative',
+            quotes: [
+              "We shall never surrender.",
+              "The Navy will win this war.",
+              "Innovation is our greatest weapon.",
+              "We must adapt to new warfare.",
+              "Victory through technology."
+            ],
+            description: 'British politician and naval strategist who championed new technologies.'
+          },
+          {
+            name: 'General John Pershing',
+            role: 'American Commander',
+            startingCoins: 95,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'determined',
+            quotes: [
+              "Lafayette, we are here!",
+              "We will fight as Americans.",
+              "No compromise with the enemy.",
+              "We will win this war.",
+              "The American soldier is unstoppable."
+            ],
+            description: 'American general who led the American Expeditionary Force.'
+          },
+          {
+            name: 'Admiral John Jellicoe',
+            role: 'Royal Navy Commander',
+            startingCoins: 100,
+            startingWeapons: ['naval guns', 'battleships'],
+            startingMercenaries: 3,
+            startingCastles: 0,
+            personality: 'cautious',
+            quotes: [
+              "The Royal Navy can lose the war in an afternoon.",
+              "We will maintain the blockade.",
+              "The seas belong to Britain.",
+              "Victory through naval supremacy.",
+              "We will starve Germany into submission."
+            ],
+            description: 'British admiral who commanded the Grand Fleet at Jutland.'
+          },
+          {
+            name: 'General Herbert Plumer',
+            role: 'British General',
+            startingCoins: 85,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'methodical',
+            quotes: [
+              "We will take the ridge with minimal casualties.",
+              "Careful planning saves lives.",
+              "The British soldier is the best in the world.",
+              "Victory through superior tactics.",
+              "We will hold our ground."
+            ],
+            description: 'British general known for his careful planning and low casualties.'
+          },
+          {
+            name: 'General Edmund Allenby',
+            role: 'Middle East Commander',
+            startingCoins: 80,
+            startingWeapons: ['rifle', 'cavalry'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'cavalry',
+            quotes: [
+              "We will liberate Jerusalem.",
+              "The desert is our battlefield.",
+              "We will outmaneuver the Turks.",
+              "Victory through mobility.",
+              "The Holy Land will be free."
+            ],
+            description: 'British general who led the successful Middle Eastern campaign.'
+          },
+          {
+            name: 'General Luigi Cadorna',
+            role: 'Italian Commander',
+            startingCoins: 75,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'stubborn',
+            quotes: [
+              "We will break through the Austrian lines.",
+              "The Italian army will prevail.",
+              "We must attack the Isonzo.",
+              "Victory through persistence.",
+              "For King and Country!"
+            ],
+            description: 'Italian general who led multiple offensives on the Isonzo Front.'
+          },
+          {
+            name: 'General Alexei Evert',
+            role: 'Russian General',
+            startingCoins: 70,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'defensive',
+            quotes: [
+              "We will hold our positions.",
+              "The Russian soldier will not retreat.",
+              "We will defend Mother Russia.",
+              "Victory through endurance.",
+              "For the Tsar!"
+            ],
+            description: 'Russian general who commanded the Western Front.'
+          },
+          {
+            name: 'General Maurice Sarrail',
+            role: 'French General',
+            startingCoins: 75,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'political',
+            quotes: [
+              "We will coordinate with our allies.",
+              "Unity is our strength.",
+              "We will defeat the Central Powers.",
+              "Victory through cooperation.",
+              "For France and liberty!"
+            ],
+            description: 'French general who commanded the Allied forces in Salonika.'
+          },
+          {
+            name: 'General Jan Smuts',
+            role: 'South African Commander',
+            startingCoins: 65,
+            startingWeapons: ['rifle', 'cavalry'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'guerilla',
+            quotes: [
+              "We will fight in the bush.",
+              "The Boer tactics will prevail.",
+              "We will outmaneuver the Germans.",
+              "Victory through mobility.",
+              "For South Africa!"
+            ],
+            description: 'South African general who led campaigns in East Africa.'
+          },
+          {
+            name: 'General Arthur Currie',
+            role: 'Canadian Commander',
+            startingCoins: 80,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'innovative',
+            quotes: [
+              "We will use new tactics.",
+              "The Canadian Corps is elite.",
+              "We will break through at Vimy.",
+              "Victory through innovation.",
+              "For Canada and the Empire!"
+            ],
+            description: 'Canadian general who led the successful Vimy Ridge assault.'
+          },
+          {
+            name: 'General William Birdwood',
+            role: 'ANZAC Commander',
+            startingCoins: 70,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "The ANZACs will not fail.",
+              "We will fight for the Empire.",
+              "Gallipoli will be ours.",
+              "Victory through courage.",
+              "For Australia and New Zealand!"
+            ],
+            description: 'British general who commanded the ANZAC forces at Gallipoli.'
+          },
+          {
+            name: 'General Henri Gouraud',
+            role: 'French General',
+            startingCoins: 85,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'defensive',
+            quotes: [
+              "We will hold the Marne.",
+              "The French army is strong.",
+              "We will stop the German advance.",
+              "Victory through defense.",
+              "For France!"
+            ],
+            description: 'French general who led the defense of the Marne.'
+          },
+          {
+            name: 'General Radko Dimitriev',
+            role: 'Bulgarian Commander',
+            startingCoins: 60,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'nationalist',
+            quotes: [
+              "We will fight for Bulgaria.",
+              "The Bulgarian army is ready.",
+              "We will defend our homeland.",
+              "Victory through patriotism.",
+              "For Bulgaria!"
+            ],
+            description: 'Bulgarian general who initially fought for the Allies.'
+          },
+          {
+            name: 'General Armando Diaz',
+            role: 'Italian Chief of Staff',
+            startingCoins: 70,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'reformist',
+            quotes: [
+              "We will reform the army.",
+              "The Italian soldier needs better treatment.",
+              "We will win through morale.",
+              "Victory through reform.",
+              "For Italy!"
+            ],
+            description: 'Italian general who reformed the army after Caporetto.'
+          },
+          {
+            name: 'General Paul Maistre',
+            role: 'French General',
+            startingCoins: 75,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'offensive',
+            quotes: [
+              "We will attack the Germans.",
+              "The French army will advance.",
+              "We will break their lines.",
+              "Victory through attack.",
+              "For France and victory!"
+            ],
+            description: 'French general who led successful offensives in 1918.'
+          },
+          {
+            name: 'General Henry Rawlinson',
+            role: 'British General',
+            startingCoins: 80,
+            startingWeapons: ['rifle', 'artillery', 'tanks'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'innovative',
+            quotes: [
+              "We will use tanks effectively.",
+              "The British army will innovate.",
+              "We will break through at Cambrai.",
+              "Victory through technology.",
+              "For Britain and innovation!"
+            ],
+            description: 'British general who pioneered tank warfare at Cambrai.'
+          },
+          {
+            name: 'General Charles Mangin',
+            role: 'French General',
+            startingCoins: 70,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'aggressive',
+            quotes: [
+              "We will attack relentlessly.",
+              "The French army will not stop.",
+              "We will drive the Germans back.",
+              "Victory through aggression.",
+              "For France and glory!"
+            ],
+            description: 'French general known for his aggressive tactics.'
+          },
+          {
+            name: 'General John Monash',
+            role: 'Australian Commander',
+            startingCoins: 85,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'engineer',
+            quotes: [
+              "We will plan this like an engineering project.",
+              "The Australian Corps is professional.",
+              "We will use combined arms.",
+              "Victory through planning.",
+              "For Australia and efficiency!"
+            ],
+            description: 'Australian general known for his engineering approach to warfare.'
+          },
+          {
+            name: 'General Philippe Pétain',
+            role: 'French Commander',
+            startingCoins: 110,
+            startingWeapons: ['rifle', 'cannon'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'defensive',
+            quotes: [
+              "They shall not pass!",
+              "We will hold Verdun at all costs.",
+              "Defense is the best offense.",
+              "The French soldier will not retreat.",
+              "Victory through endurance."
+            ],
+            description: 'French general who defended Verdun and became a national hero.'
+          }
+        ],
+        generalRoles: [
+          { name: 'British Soldier', startingCoins: 40, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['For King and Country!', 'We will not retreat!', 'Stand firm!'] },
+          { name: 'French Poilu', startingCoins: 35, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'brave', quotes: ['Vive la France!', 'We will defend our homeland!', 'Never surrender!'] },
+          { name: 'Russian Cossack', startingCoins: 30, startingWeapons: ['rifle', 'saber'], startingMercenaries: 0, startingCastles: 0, personality: 'fierce', quotes: ['For the Tsar!', 'We will crush the enemy!', 'Victory or death!'] },
+          { name: 'American Doughboy', startingCoins: 45, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'patriotic', quotes: ['Over there!', 'We will make the world safe!', 'For democracy!'] }
+        ]
+      },
+      central: {
+        name: 'Central Powers',
+        color: '#dc2626', // Red
+        description: 'Germany, Austria-Hungary, and their allies fighting for dominance',
+        territories: [
+          { name: 'Berlin', cost: 25, description: 'Capital of Germany and military headquarters' },
+          { name: 'Vienna', cost: 22, description: 'Capital of Austria-Hungary and imperial center' },
+          { name: 'Istanbul', cost: 20, description: 'Capital of the Ottoman Empire' },
+          { name: 'Tannenberg', cost: 18, description: 'Eastern Front battlefield and German victory' },
+          { name: 'Gallipoli', cost: 16, description: 'Ottoman victory against Allied invasion' },
+          { name: 'Caporetto', cost: 15, description: 'Austrian victory on the Italian Front' },
+          { name: 'Verdun', cost: 14, description: 'German offensive and brutal battle' },
+          { name: 'Somme', cost: 12, description: 'German defensive positions' },
+          { name: 'German Trenches', cost: 10, description: 'Defensive positions along the Western Front' },
+          { name: 'U-Boat Bases', cost: 8, description: 'Submarine warfare headquarters' }
+        ],
+        characters: [
+          {
+            name: 'General Erich Ludendorff',
+            role: 'German Chief of Staff',
+            startingCoins: 130,
+            startingWeapons: ['rifle', 'artillery', 'machine gun'],
+            startingMercenaries: 5,
+            startingCastles: 2,
+            personality: 'aggressive',
+            quotes: [
+              "We will break through their lines!",
+              "The German soldier is superior.",
+              "Victory through superior tactics.",
+              "We must attack before they do.",
+              "The war will be won by Germany."
+            ],
+            description: 'German general who planned the Spring Offensive and was a key strategist.'
+          },
+          {
+            name: 'Field Marshal Paul von Hindenburg',
+            role: 'German Commander',
+            startingCoins: 125,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 4,
+            startingCastles: 2,
+            personality: 'strategic',
+            quotes: [
+              "We will outmaneuver them.",
+              "The German army is invincible.",
+              "Strategy wins wars, not just battles.",
+              "We will hold our positions.",
+              "Victory through superior planning."
+            ],
+            description: 'German field marshal who led the Eastern Front and became a national hero.'
+          },
+          {
+            name: 'General Conrad von Hötzendorf',
+            role: 'Austrian Chief of Staff',
+            startingCoins: 100,
+            startingWeapons: ['rifle', 'cannon'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'ambitious',
+            quotes: [
+              "We will crush the Russians.",
+              "The Austrian army will prevail.",
+              "We must strike first.",
+              "Victory through bold action.",
+              "The Habsburg Empire will triumph."
+            ],
+            description: 'Austrian general who planned the initial offensives against Serbia and Russia.'
+          },
+          {
+            name: 'General Mustafa Kemal',
+            role: 'Ottoman Commander',
+            startingCoins: 90,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'defensive',
+            quotes: [
+              "We will defend our homeland.",
+              "The Ottoman Empire will not fall.",
+              "We will hold Gallipoli.",
+              "Victory through determination.",
+              "For the Sultan and the Empire!"
+            ],
+            description: 'Ottoman general who successfully defended Gallipoli and later became Atatürk.'
+          },
+          {
+            name: 'Admiral Alfred von Tirpitz',
+            role: 'German Naval Commander',
+            startingCoins: 85,
+            startingWeapons: ['naval guns', 'submarines'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'naval',
+            quotes: [
+              "The German Navy will rule the seas.",
+              "U-boats will win this war.",
+              "We will starve Britain into submission.",
+              "Victory through naval supremacy.",
+              "The High Seas Fleet is unstoppable."
+            ],
+            description: 'German admiral who built the High Seas Fleet and championed submarine warfare.'
+          }
+        ],
+        generalRoles: [
+          { name: 'German Soldier', startingCoins: 45, startingWeapons: ['rifle', 'bayonet'], startingMercenaries: 0, startingCastles: 0, personality: 'disciplined', quotes: ['Für das Vaterland!', 'We will not retreat!', 'Victory or death!'] },
+          { name: 'Austrian Soldier', startingCoins: 35, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['Für Kaiser und Reich!', 'We will defend our empire!', 'Stand firm!'] },
+          { name: 'Ottoman Soldier', startingCoins: 30, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'devout', quotes: ['Allahu Akbar!', 'We will defend our faith!', 'For the Sultan!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Switzerland', cost: 5, description: 'Neutral country and safe haven' },
+      { name: 'Netherlands', cost: 8, description: 'Neutral country and trade center' },
+      { name: 'Spain', cost: 6, description: 'Neutral country and diplomatic center' },
+      { name: 'Norway', cost: 4, description: 'Neutral country and shipping center' },
+      { name: 'Sweden', cost: 5, description: 'Neutral country and iron supplier' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // WORLD WAR 2 SCENARIO
+  worldWar2: {
+    id: 'worldWar2',
+    name: 'World War II: The Global Conflict (1939-1945)',
+    type: 'historical',
+    description: 'The deadliest conflict in human history, fought across six continents and all oceans.',
+    factions: {
+      allies: {
+        name: 'Allied Powers',
+        color: '#1e40af', // Blue
+        description: 'United States, Britain, Soviet Union, and their allies fighting against fascism',
+        territories: [
+          { name: 'Washington D.C.', cost: 30, description: 'Capital of the United States and Allied command center' },
+          { name: 'London', cost: 25, description: 'Capital of Britain and symbol of resistance' },
+          { name: 'Moscow', cost: 22, description: 'Capital of the Soviet Union and Eastern Front HQ' },
+          { name: 'Normandy', cost: 20, description: 'D-Day landing beaches and liberation of France' },
+          { name: 'Stalingrad', cost: 18, description: 'Turning point battle of the Eastern Front' },
+          { name: 'Pearl Harbor', cost: 16, description: 'Naval base and symbol of American resolve' },
+          { name: 'Midway', cost: 15, description: 'Decisive naval battle in the Pacific' },
+          { name: 'El Alamein', cost: 14, description: 'North African victory and turning point' },
+          { name: 'Dunkirk', cost: 12, description: 'Miraculous evacuation and British determination' },
+          { name: 'Allied Airfields', cost: 10, description: 'Strategic bombing bases and air superiority' }
+        ],
+        characters: [
+          {
+            name: 'General Dwight D. Eisenhower',
+            role: 'Supreme Allied Commander',
+            startingCoins: 150,
+            startingWeapons: ['rifle', 'artillery', 'tanks'],
+            startingMercenaries: 6,
+            startingCastles: 3,
+            personality: 'diplomatic',
+            quotes: [
+              "We will accept nothing less than full victory.",
+              "The eyes of the world are upon you.",
+              "We will liberate Europe from tyranny.",
+              "Victory through unity and determination.",
+              "The free world depends on our success."
+            ],
+            description: 'American general who led the Allied forces in Europe and planned D-Day.'
+          },
+          {
+            name: 'Winston Churchill',
+            role: 'British Prime Minister',
+            startingCoins: 140,
+            startingWeapons: ['words', 'naval guns'],
+            startingMercenaries: 4,
+            startingCastles: 2,
+            personality: 'inspirational',
+            quotes: [
+              "We shall never surrender.",
+              "This was their finest hour.",
+              "We will fight them on the beaches.",
+              "Victory at all costs, victory in spite of all terror.",
+              "The British Empire will not fall."
+            ],
+            description: 'British prime minister who led Britain through its darkest hour.'
+          },
+          {
+            name: 'General Georgy Zhukov',
+            role: 'Soviet Marshal',
+            startingCoins: 145,
+            startingWeapons: ['rifle', 'artillery', 'tanks'],
+            startingMercenaries: 5,
+            startingCastles: 2,
+            personality: 'aggressive',
+            quotes: [
+              "We will crush the fascist invaders.",
+              "The Red Army is invincible.",
+              "We will defend Mother Russia.",
+              "Victory through overwhelming force.",
+              "For Stalin and the Soviet Union!"
+            ],
+            description: 'Soviet marshal who led the defense of Moscow and the counteroffensive.'
+          },
+          {
+            name: 'General Douglas MacArthur',
+            role: 'Pacific Theater Commander',
+            startingCoins: 130,
+            startingWeapons: ['rifle', 'naval guns'],
+            startingMercenaries: 4,
+            startingCastles: 1,
+            personality: 'bold',
+            quotes: [
+              "I shall return.",
+              "We will liberate the Philippines.",
+              "The Pacific will be ours.",
+              "Victory through superior strategy.",
+              "The American soldier never quits."
+            ],
+            description: 'American general who led the Pacific campaign and liberated the Philippines.'
+          },
+          {
+            name: 'General Charles de Gaulle',
+            role: 'Free French Leader',
+            startingCoins: 100,
+            startingWeapons: ['rifle', 'words'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'defiant',
+            quotes: [
+              "France has lost a battle, but not the war.",
+              "We will liberate our homeland.",
+              "The French will never surrender.",
+              "Victory through resistance.",
+              "Vive la France libre!"
+            ],
+            description: 'French general who led the Free French forces and inspired resistance.'
+          }
+        ],
+        generalRoles: [
+          { name: 'American GI', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'patriotic', quotes: ['Over there!', 'We will win this war!', 'For freedom!'] },
+          { name: 'British Tommy', startingCoins: 45, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'stubborn', quotes: ['Keep calm and carry on!', 'We will not be defeated!', 'For King and Country!'] },
+          { name: 'Soviet Red Army Soldier', startingCoins: 40, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'fierce', quotes: ['For the Motherland!', 'We will crush the fascists!', 'Victory or death!'] },
+          { name: 'French Resistance Fighter', startingCoins: 35, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'defiant', quotes: ['Vive la France!', 'We will resist!', 'Liberty or death!'] }
+        ]
+      },
+      axis: {
+        name: 'Axis Powers',
+        color: '#dc2626', // Red
+        description: 'Germany, Japan, and their allies fighting for world domination',
+        territories: [
+          { name: 'Berlin', cost: 30, description: 'Capital of Nazi Germany and military headquarters' },
+          { name: 'Tokyo', cost: 25, description: 'Capital of Imperial Japan and Pacific command' },
+          { name: 'Rome', cost: 20, description: 'Capital of Fascist Italy' },
+          { name: 'Stalingrad', cost: 18, description: 'Failed German offensive and turning point' },
+          { name: 'Pearl Harbor', cost: 16, description: 'Japanese surprise attack and war declaration' },
+          { name: 'Midway', cost: 15, description: 'Failed Japanese naval offensive' },
+          { name: 'El Alamein', cost: 14, description: 'German defeat in North Africa' },
+          { name: 'Dunkirk', cost: 12, description: 'German victory and British evacuation' },
+          { name: 'Axis Fortress Europe', cost: 10, description: 'Fortified defensive positions' },
+          { name: 'U-Boat Wolf Packs', cost: 8, description: 'Submarine warfare bases' }
+        ],
+        characters: [
+          {
+            name: 'Adolf Hitler',
+            role: 'Führer of Germany',
+            startingCoins: 160,
+            startingWeapons: ['rifle', 'artillery', 'tanks', 'propaganda'],
+            startingMercenaries: 6,
+            startingCastles: 3,
+            personality: 'fanatical',
+            quotes: [
+              "We will create a thousand-year Reich.",
+              "The German people are superior.",
+              "We will conquer all of Europe.",
+              "Victory through will and determination.",
+              "The Third Reich will last forever."
+            ],
+            description: 'German dictator who led the Nazi Party and initiated World War II.'
+          },
+          {
+            name: 'General Erwin Rommel',
+            role: 'Desert Fox',
+            startingCoins: 130,
+            startingWeapons: ['rifle', 'tanks'],
+            startingMercenaries: 4,
+            startingCastles: 1,
+            personality: 'tactical',
+            quotes: [
+              "The best defense is a good offense.",
+              "We will outmaneuver the enemy.",
+              "The German soldier is the best in the world.",
+              "Victory through superior tactics.",
+              "We will conquer North Africa."
+            ],
+            description: 'German general known as the Desert Fox for his North African campaigns.'
+          },
+          {
+            name: 'Emperor Hirohito',
+            role: 'Emperor of Japan',
+            startingCoins: 140,
+            startingWeapons: ['rifle', 'naval guns', 'kamikaze'],
+            startingMercenaries: 5,
+            startingCastles: 2,
+            personality: 'imperial',
+            quotes: [
+              "We will create the Greater East Asia Co-Prosperity Sphere.",
+              "The Japanese spirit is invincible.",
+              "We will rule the Pacific.",
+              "Victory through divine will.",
+              "The Empire of Japan will never fall."
+            ],
+            description: 'Japanese emperor who led Japan into World War II.'
+          },
+          {
+            name: 'General Hideki Tojo',
+            role: 'Japanese Prime Minister',
+            startingCoins: 120,
+            startingWeapons: ['rifle', 'artillery'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'militaristic',
+            quotes: [
+              "We will strike first and strike hard.",
+              "The Japanese military is unstoppable.",
+              "We will conquer all of Asia.",
+              "Victory through surprise and speed.",
+              "The Rising Sun will never set."
+            ],
+            description: 'Japanese general and prime minister who planned the attack on Pearl Harbor.'
+          },
+          {
+            name: 'Benito Mussolini',
+            role: 'Il Duce of Italy',
+            startingCoins: 100,
+            startingWeapons: ['rifle', 'words'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'bombastic',
+            quotes: [
+              "We will restore the Roman Empire.",
+              "The Italian people are superior.",
+              "We will conquer the Mediterranean.",
+              "Victory through fascist discipline.",
+              "The New Rome will rise again."
+            ],
+            description: 'Italian dictator who founded fascism and allied with Hitler.'
+          }
+        ],
+        generalRoles: [
+          { name: 'German Wehrmacht Soldier', startingCoins: 50, startingWeapons: ['rifle', 'bayonet'], startingMercenaries: 0, startingCastles: 0, personality: 'disciplined', quotes: ['Für das Vaterland!', 'We will not retreat!', 'Victory or death!'] },
+          { name: 'Japanese Imperial Soldier', startingCoins: 45, startingWeapons: ['rifle', 'katana'], startingMercenaries: 0, startingCastles: 0, personality: 'fanatical', quotes: ['Banzai!', 'We will die for the Emperor!', 'Victory or death!'] },
+          { name: 'Italian Fascist Soldier', startingCoins: 35, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['Per il Duce!', 'We will restore Rome!', 'Fascism will triumph!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Switzerland', cost: 5, description: 'Neutral country and safe haven' },
+      { name: 'Sweden', cost: 6, description: 'Neutral country and iron supplier' },
+      { name: 'Spain', cost: 7, description: 'Neutral country under Franco' },
+      { name: 'Portugal', cost: 4, description: 'Neutral country and trade center' },
+      { name: 'Turkey', cost: 8, description: 'Neutral country and strategic position' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // TO KILL A MOCKINGBIRD SCENARIO
+  toKillAMockingbird: {
+    id: 'toKillAMockingbird',
+    name: 'To Kill a Mockingbird: Maycomb County (1930s)',
+    type: 'literary',
+    description: 'Harper Lee\'s classic tale of justice, prejudice, and growing up in the American South during the Great Depression.',
+    factions: {
+      justice: {
+        name: 'Defenders of Justice',
+        color: '#1e40af', // Blue
+        description: 'Those who fight for truth, equality, and moral courage in the face of prejudice',
+        territories: [
+          { name: 'Atticus Finch\'s Office', cost: 25, description: 'Law office and center of moral courage' },
+          { name: 'Finch House', cost: 20, description: 'Home of Atticus, Scout, and Jem' },
+          { name: 'Maycomb County Courthouse', cost: 22, description: 'Symbol of justice and the trial of Tom Robinson' },
+          { name: 'First Purchase Church', cost: 15, description: 'Black community church and gathering place' },
+          { name: 'Calpurnia\'s Kitchen', cost: 12, description: 'Bridge between white and black communities' },
+          { name: 'Miss Maudie\'s Garden', cost: 10, description: 'Place of wisdom and moral guidance' },
+          { name: 'The Radley Place', cost: 8, description: 'Mysterious house and symbol of misunderstood innocence' },
+          { name: 'School Grounds', cost: 6, description: 'Where Scout learns about the world' },
+          { name: 'The Tree', cost: 5, description: 'Where Boo Radley leaves gifts for the children' },
+          { name: 'The Jail', cost: 18, description: 'Where Atticus guards Tom Robinson' },
+          { name: 'The Church', cost: 14, description: 'White community church and social center' },
+          { name: 'The Store', cost: 7, description: 'General store and community gathering place' },
+          { name: 'The Post Office', cost: 4, description: 'Communication hub and gossip center' },
+          { name: 'The Bank', cost: 16, description: 'Economic center and symbol of stability' },
+          { name: 'The Library', cost: 9, description: 'Source of knowledge and education' },
+          { name: 'The Park', cost: 3, description: 'Public space and community gathering' },
+          { name: 'The Bridge', cost: 11, description: 'Connection between communities' },
+          { name: 'The Woods', cost: 2, description: 'Natural space and place of discovery' },
+          { name: 'The Field', cost: 1, description: 'Open space and freedom' },
+          { name: 'The Hill', cost: 13, description: 'High ground and perspective' }
+        ],
+        characters: [
+          {
+            name: 'Atticus Finch',
+            role: 'Defense Attorney',
+            startingCoins: 120,
+            startingWeapons: ['law books', 'moral courage'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'principled',
+            quotes: [
+              "The one place where a man ought to get a square deal is in a courtroom.",
+              "You never really understand a person until you consider things from his point of view.",
+              "Courage is not a man with a gun in his hand.",
+              "The one thing that doesn't abide by majority rule is a person's conscience.",
+              "I wanted you to see what real courage is."
+            ],
+            description: 'Moral compass of Maycomb, defending Tom Robinson despite community pressure.'
+          },
+          {
+            name: 'Scout Finch',
+            role: 'Narrator & Observer',
+            startingCoins: 60,
+            startingWeapons: ['curiosity', 'innocence'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'curious',
+            quotes: [
+              "I think there's just one kind of folks. Folks.",
+              "Atticus, he was real nice.",
+              "I think I'm beginning to understand why Boo Radley's stayed shut up in the house all this time.",
+              "Until I feared I would lose it, I never loved to read.",
+              "I wanted you to see what real courage is."
+            ],
+            description: 'Young narrator who learns about justice, prejudice, and human nature.'
+          },
+          {
+            name: 'Jem Finch',
+            role: 'Older Brother',
+            startingCoins: 70,
+            startingWeapons: ['baseball', 'growing wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'protective',
+            quotes: [
+              "It's not time to worry yet.",
+              "I think I'm beginning to understand something. I think I'm beginning to understand why Boo Radley's stayed shut up in the house all this time.",
+              "Atticus, he was real nice.",
+              "I think there's just one kind of folks. Folks.",
+              "I wanted you to see what real courage is."
+            ],
+            description: 'Scout\'s older brother who matures and learns about injustice.'
+          },
+          {
+            name: 'Calpurnia',
+            role: 'Housekeeper & Bridge',
+            startingCoins: 80,
+            startingWeapons: ['wisdom', 'patience'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "It's not necessary to tell all you know.",
+              "There's some folks who don't eat like us, but you ain't called on to contradict 'em at the table when they don't.",
+              "Don't matter who they are, anybody sets foot in this house's yo' comp'ny.",
+              "I can't say nothing if you don't understand what I'm saying.",
+              "There's some folks who don't eat like us, but you ain't called on to contradict 'em at the table when they don't."
+            ],
+            description: 'The Finch family\'s housekeeper who bridges white and black communities.'
+          },
+          {
+            name: 'Miss Maudie Atkinson',
+            role: 'Neighbor & Friend',
+            startingCoins: 75,
+            startingWeapons: ['garden tools', 'wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "Mockingbirds don't do one thing but make music for us to enjoy.",
+              "People in their right minds never take pride in their talents.",
+              "The things that happen to people we never really know.",
+              "Sometimes the Bible in the hand of one man is worse than a whiskey bottle in the hand of another.",
+              "There are some men in this world who were born to do our unpleasant jobs for us."
+            ],
+            description: 'Wise neighbor who provides moral guidance and support to the children.'
+          },
+          {
+            name: 'Tom Robinson',
+            role: 'Accused Man',
+            startingCoins: 50,
+            startingWeapons: ['dignity', 'truth'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'dignified',
+            quotes: [
+              "I felt right sorry for her, she seemed to try more'n the rest of 'em.",
+              "I don't know, suh, but I looked at her as I passed by the porch.",
+              "I was just tryin' to help her out, suh.",
+              "I don't know, suh, but I looked at her as I passed by the porch.",
+              "I was just tryin' to help her out, suh."
+            ],
+            description: 'Innocent black man falsely accused of assaulting Mayella Ewell.'
+          },
+          {
+            name: 'Reverend Sykes',
+            role: 'Church Leader',
+            startingCoins: 65,
+            startingWeapons: ['faith', 'community'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'spiritual',
+            quotes: [
+              "We're mighty glad to have you all here.",
+              "I want to see you all stand up and be counted.",
+              "We're mighty glad to have you all here.",
+              "I want to see you all stand up and be counted.",
+              "We're mighty glad to have you all here."
+            ],
+            description: 'Black church leader who supports Tom Robinson and the community.'
+          },
+          {
+            name: 'Judge Taylor',
+            role: 'Court Judge',
+            startingCoins: 100,
+            startingWeapons: ['gavel', 'authority'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'fair',
+            quotes: [
+              "This case is as simple as black and white.",
+              "The state has not produced one iota of medical evidence.",
+              "The defendant is not guilty, but somebody in this courtroom is.",
+              "This case is as simple as black and white.",
+              "The state has not produced one iota of medical evidence."
+            ],
+            description: 'Fair-minded judge who tries to ensure a just trial for Tom Robinson.'
+          },
+          {
+            name: 'Heck Tate',
+            role: 'Sheriff',
+            startingCoins: 85,
+            startingWeapons: ['badge', 'integrity'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'honest',
+            quotes: [
+              "Let the dead bury the dead this time, Mr. Finch.",
+              "I never heard tell that it's against the law for a citizen to do his utmost to prevent a crime.",
+              "Let the dead bury the dead this time, Mr. Finch.",
+              "I never heard tell that it's against the law for a citizen to do his utmost to prevent a crime.",
+              "Let the dead bury the dead this time, Mr. Finch."
+            ],
+            description: 'Honest sheriff who tries to do the right thing despite community pressure.'
+          },
+          {
+            name: 'Miss Stephanie Crawford',
+            role: 'Town Gossip',
+            startingCoins: 40,
+            startingWeapons: ['gossip', 'rumors'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'nosy',
+            quotes: [
+              "I know what happened.",
+              "I was there, I saw it all.",
+              "I know what happened.",
+              "I was there, I saw it all.",
+              "I know what happened."
+            ],
+            description: 'Town gossip who spreads rumors and misinformation.'
+          },
+          {
+            name: 'Mrs. Dubose',
+            role: 'Cranky Neighbor',
+            startingCoins: 45,
+            startingWeapons: ['cane', 'insults'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'cranky',
+            quotes: [
+              "Your father's no better than the niggers and trash he works for!",
+              "Not only a Finch waiting on tables but one in the courthouse lawing for niggers!",
+              "Your father's no better than the niggers and trash he works for!",
+              "Not only a Finch waiting on tables but one in the courthouse lawing for niggers!",
+              "Your father's no better than the niggers and trash he works for!"
+            ],
+            description: 'Cranky old neighbor who represents the worst of Maycomb\'s prejudices.'
+          },
+          {
+            name: 'Dill Harris',
+            role: 'Summer Friend',
+            startingCoins: 55,
+            startingWeapons: ['imagination', 'adventure'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'imaginative',
+            quotes: [
+              "I think I'll be a clown when I get grown.",
+              "I'm little but I'm old.",
+              "I think I'll be a clown when I get grown.",
+              "I'm little but I'm old.",
+              "I think I'll be a clown when I get grown."
+            ],
+            description: 'Scout and Jem\'s summer friend who brings adventure and imagination.'
+          },
+          {
+            name: 'Mr. Underwood',
+            role: 'Newspaper Editor',
+            startingCoins: 70,
+            startingWeapons: ['pen', 'truth'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'journalistic',
+            quotes: [
+              "It's a sin to kill a mockingbird.",
+              "The senseless slaughter of songbirds.",
+              "It's a sin to kill a mockingbird.",
+              "The senseless slaughter of songbirds.",
+              "It's a sin to kill a mockingbird."
+            ],
+            description: 'Newspaper editor who supports Atticus and writes about the trial.'
+          },
+          {
+            name: 'Link Deas',
+            role: 'Employer',
+            startingCoins: 60,
+            startingWeapons: ['employment', 'support'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'supportive',
+            quotes: [
+              "I just want the whole lot of you to know one thing right now.",
+              "That boy's worked for me eight years an' I ain't had a speck o' trouble outa him.",
+              "I just want the whole lot of you to know one thing right now.",
+              "That boy's worked for me eight years an' I ain't had a speck o' trouble outa him.",
+              "I just want the whole lot of you to know one thing right now."
+            ],
+            description: 'Tom Robinson\'s employer who testifies to his character.'
+          },
+          {
+            name: 'Dolphus Raymond',
+            role: 'Town Outcast',
+            startingCoins: 50,
+            startingWeapons: ['whiskey', 'defiance'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'defiant',
+            quotes: [
+              "I try to give 'em a reason, you see.",
+              "It helps folks if they can latch onto a reason.",
+              "I try to give 'em a reason, you see.",
+              "It helps folks if they can latch onto a reason.",
+              "I try to give 'em a reason, you see."
+            ],
+            description: 'White man who lives with black people and pretends to be drunk.'
+          },
+          {
+            name: 'Mr. Gilmer',
+            role: 'Prosecuting Attorney',
+            startingCoins: 90,
+            startingWeapons: ['law books', 'prejudice'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'prejudiced',
+            quotes: [
+              "Were you so scared that she'd hurt you, you ran, a big buck like you?",
+              "No suh, I's scared I'd be in court.",
+              "Were you so scared that she'd hurt you, you ran, a big buck like you?",
+              "No suh, I's scared I'd be in court.",
+              "Were you so scared that she'd hurt you, you ran, a big buck like you?"
+            ],
+            description: 'Prosecuting attorney who uses prejudice to try to convict Tom Robinson.'
+          },
+          {
+            name: 'Aunt Alexandra',
+            role: 'Family Matriarch',
+            startingCoins: 80,
+            startingWeapons: ['traditions', 'expectations'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'traditional',
+            quotes: [
+              "The thing is, you can scrub Walter Cunningham till he shines, you can put him in shoes and a new suit, but he'll never be like Jem.",
+              "I don't know, but I think it's time we started being a family.",
+              "The thing is, you can scrub Walter Cunningham till he shines, you can put him in shoes and a new suit, but he'll never be like Jem.",
+              "I don't know, but I think it's time we started being a family.",
+              "The thing is, you can scrub Walter Cunningham till he shines, you can put him in shoes and a new suit, but he'll never be like Jem."
+            ],
+            description: 'Atticus\'s sister who represents traditional Southern values and social expectations.'
+          },
+          {
+            name: 'Uncle Jack',
+            role: 'Family Doctor',
+            startingCoins: 75,
+            startingWeapons: ['medical bag', 'wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'wise',
+            quotes: [
+              "I'm going to tell you something and tell you one time: stop tormenting that man.",
+              "I'm going to tell you something and tell you one time: stop tormenting that man.",
+              "I'm going to tell you something and tell you one time: stop tormenting that man.",
+              "I'm going to tell you something and tell you one time: stop tormenting that man.",
+              "I'm going to tell you something and tell you one time: stop tormenting that man."
+            ],
+            description: 'Atticus\'s brother and family doctor who provides wisdom and support.'
+          },
+          {
+            name: 'Miss Caroline',
+            role: 'School Teacher',
+            startingCoins: 45,
+            startingWeapons: ['books', 'rules'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'rigid',
+            quotes: [
+              "Your father does not know how to teach.",
+              "You tell him I'll take over from here and try to undo the damage.",
+              "Your father does not know how to teach.",
+              "You tell him I'll take over from here and try to undo the damage.",
+              "Your father does not know how to teach."
+            ],
+            description: 'Scout\'s first-grade teacher who represents rigid educational approaches.'
+          },
+          {
+            name: 'Walter Cunningham Sr.',
+            role: 'Farmer',
+            startingCoins: 35,
+            startingWeapons: ['honor', 'pride'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'proud',
+            quotes: [
+              "I don't want my boy to be beholden to anybody.",
+              "I don't want my boy to be beholden to anybody.",
+              "I don't want my boy to be beholden to anybody.",
+              "I don't want my boy to be beholden to anybody.",
+              "I don't want my boy to be beholden to anybody."
+            ],
+            description: 'Poor farmer who represents the honorable working class of Maycomb.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Maycomb Citizen', startingCoins: 30, startingWeapons: ['voice'], startingMercenaries: 0, startingCastles: 0, personality: 'community', quotes: ['We stand together!', 'Justice will prevail!', 'We are Maycomb!'] },
+          { name: 'Church Member', startingCoins: 25, startingWeapons: ['faith'], startingMercenaries: 0, startingCastles: 0, personality: 'faithful', quotes: ['God is with us!', 'We have faith!', 'Justice will be done!'] },
+          { name: 'Student', startingCoins: 20, startingWeapons: ['books'], startingMercenaries: 0, startingCastles: 0, personality: 'learning', quotes: ['We are learning!', 'Knowledge is power!', 'We will understand!'] }
+        ]
+      },
+      prejudice: {
+        name: 'Forces of Prejudice',
+        color: '#dc2626', // Red
+        description: 'Those who perpetuate injustice, racism, and intolerance in Maycomb',
+        territories: [
+          { name: 'Ewell House', cost: 15, description: 'Home of the Ewell family and source of false accusations' },
+          { name: 'The Jail', cost: 18, description: 'Where Tom Robinson is held and Atticus guards him' },
+          { name: 'The Courthouse', cost: 22, description: 'Where the trial takes place and justice is denied' },
+          { name: 'The School', cost: 12, description: 'Where children learn prejudice and discrimination' },
+          { name: 'The Church', cost: 14, description: 'Where some preach hate instead of love' },
+          { name: 'The Store', cost: 8, description: 'Where gossip and rumors spread' },
+          { name: 'The Post Office', cost: 6, description: 'Where news and misinformation circulates' },
+          { name: 'The Bank', cost: 16, description: 'Where economic power maintains inequality' },
+          { name: 'The Library', cost: 10, description: 'Where some knowledge is suppressed' },
+          { name: 'The Park', cost: 5, description: 'Where segregation is enforced' },
+          { name: 'The Bridge', cost: 11, description: 'Where divisions are maintained' },
+          { name: 'The Woods', cost: 4, description: 'Where secrets and lies hide' },
+          { name: 'The Field', cost: 3, description: 'Where inequality is visible' },
+          { name: 'The Hill', cost: 13, description: 'Where power looks down on others' },
+          { name: 'The Road', cost: 7, description: 'Where separate paths are enforced' },
+          { name: 'The Fence', cost: 2, description: 'Where barriers are maintained' },
+          { name: 'The Gate', cost: 1, description: 'Where access is controlled' },
+          { name: 'The Window', cost: 9, description: 'Where people watch but don\'t act' },
+          { name: 'The Door', cost: 6, description: 'Where some are kept out' },
+          { name: 'The Wall', cost: 8, description: 'Where divisions are built' }
+        ],
+        characters: [
+          {
+            name: 'Bob Ewell',
+            role: 'Accuser & Abuser',
+            startingCoins: 100,
+            startingWeapons: ['lies', 'violence'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'vicious',
+            quotes: [
+              "I seen that black nigger yonder ruttin' on my Mayella!",
+              "I seen that black nigger yonder ruttin' on my Mayella!",
+              "I seen that black nigger yonder ruttin' on my Mayella!",
+              "I seen that black nigger yonder ruttin' on my Mayella!",
+              "I seen that black nigger yonder ruttin' on my Mayella!"
+            ],
+            description: 'Vicious father who beats his daughter and falsely accuses Tom Robinson.'
+          },
+          {
+            name: 'Mayella Ewell',
+            role: 'False Accuser',
+            startingCoins: 60,
+            startingWeapons: ['lies', 'fear'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'trapped',
+            quotes: [
+              "I don't remember, I don't remember, I don't remember.",
+              "I don't remember, I don't remember, I don't remember.",
+              "I don't remember, I don't remember, I don't remember.",
+              "I don't remember, I don't remember, I don't remember.",
+              "I don't remember, I don't remember, I don't remember."
+            ],
+            description: 'Bob Ewell\'s daughter who falsely accuses Tom Robinson to cover up her father\'s abuse.'
+          },
+          {
+            name: 'Burris Ewell',
+            role: 'Troublemaker',
+            startingCoins: 30,
+            startingWeapons: ['disruption', 'defiance'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'disruptive',
+            quotes: [
+              "I don't have to do nothin' but stay out of jail and not much of that.",
+              "I don't have to do nothin' but stay out of jail and not much of that.",
+              "I don't have to do nothin' but stay out of jail and not much of that.",
+              "I don't have to do nothin' but stay out of jail and not much of that.",
+              "I don't have to do nothin' but stay out of jail and not much of that."
+            ],
+            description: 'Bob Ewell\'s son who causes trouble at school and represents the cycle of poverty and ignorance.'
+          },
+          {
+            name: 'Cecil Jacobs',
+            role: 'School Bully',
+            startingCoins: 25,
+            startingWeapons: ['taunts', 'prejudice'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'bullying',
+            quotes: [
+              "Scout Finch's daddy defended niggers.",
+              "Scout Finch's daddy defended niggers.",
+              "Scout Finch's daddy defended niggers.",
+              "Scout Finch's daddy defended niggers.",
+              "Scout Finch's daddy defended niggers."
+            ],
+            description: 'School bully who taunts Scout about her father defending Tom Robinson.'
+          },
+          {
+            name: 'Mrs. Merriweather',
+            role: 'Hypocritical Church Lady',
+            startingCoins: 70,
+            startingWeapons: ['hypocrisy', 'gossip'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'hypocritical',
+            quotes: [
+              "I tell you there are some good but misguided people in this town.",
+              "I tell you there are some good but misguided people in this town.",
+              "I tell you there are some good but misguided people in this town.",
+              "I tell you there are some good but misguided people in this town.",
+              "I tell you there are some good but misguided people in this town."
+            ],
+            description: 'Church lady who claims to help the poor but perpetuates prejudice and inequality.'
+          },
+          {
+            name: 'Mrs. Farrow',
+            role: 'Gossip & Prejudiced',
+            startingCoins: 55,
+            startingWeapons: ['gossip', 'prejudice'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'gossipy',
+            quotes: [
+              "I tell you there are some good but misguided people in this town.",
+              "I tell you there are some good but misguided people in this town.",
+              "I tell you there are some good but misguided people in this town.",
+              "I tell you there are some good but misguided people in this town.",
+              "I tell you there are some good but misguided people in this town."
+            ],
+            description: 'Another church lady who spreads gossip and maintains prejudice.'
+          },
+          {
+            name: 'Mr. Cunningham',
+            role: 'Mob Member',
+            startingCoins: 50,
+            startingWeapons: ['mob mentality', 'peer pressure'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'mob',
+            quotes: [
+              "We're here to get Tom Robinson.",
+              "We're here to get Tom Robinson.",
+              "We're here to get Tom Robinson.",
+              "We're here to get Tom Robinson.",
+              "We're here to get Tom Robinson."
+            ],
+            description: 'Farmer who joins the mob trying to lynch Tom Robinson but is shamed by Scout.'
+          },
+          {
+            name: 'Mr. Gilmer',
+            role: 'Prosecuting Attorney',
+            startingCoins: 90,
+            startingWeapons: ['law books', 'prejudice'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'prejudiced',
+            quotes: [
+              "Were you so scared that she'd hurt you, you ran, a big buck like you?",
+              "Were you so scared that she'd hurt you, you ran, a big buck like you?",
+              "Were you so scared that she'd hurt you, you ran, a big buck like you?",
+              "Were you so scared that she'd hurt you, you ran, a big buck like you?",
+              "Were you so scared that she'd hurt you, you ran, a big buck like you?"
+            ],
+            description: 'Prosecuting attorney who uses prejudice and racism to try to convict Tom Robinson.'
+          },
+          {
+            name: 'The Mob',
+            role: 'Lynch Mob',
+            startingCoins: 80,
+            startingWeapons: ['violence', 'intimidation'],
+            startingMercenaries: 4,
+            startingCastles: 0,
+            personality: 'violent',
+            quotes: [
+              "We're here to get Tom Robinson.",
+              "We're here to get Tom Robinson.",
+              "We're here to get Tom Robinson.",
+              "We're here to get Tom Robinson.",
+              "We're here to get Tom Robinson."
+            ],
+            description: 'Group of men who try to lynch Tom Robinson before the trial.'
+          },
+          {
+            name: 'The Jury',
+            role: 'Prejudiced Jury',
+            startingCoins: 75,
+            startingWeapons: ['prejudice', 'injustice'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'prejudiced',
+            quotes: [
+              "Guilty.",
+              "Guilty.",
+              "Guilty.",
+              "Guilty.",
+              "Guilty."
+            ],
+            description: 'All-white jury that convicts Tom Robinson despite the evidence.'
+          },
+          {
+            name: 'The Sheriff',
+            role: 'Complicit Law Enforcement',
+            startingCoins: 85,
+            startingWeapons: ['badge', 'complicity'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'complicit',
+            quotes: [
+              "I never heard tell that it's against the law for a citizen to do his utmost to prevent a crime.",
+              "I never heard tell that it's against the law for a citizen to do his utmost to prevent a crime.",
+              "I never heard tell that it's against the law for a citizen to do his utmost to prevent a crime.",
+              "I never heard tell that it's against the law for a citizen to do his utmost to prevent a crime.",
+              "I never heard tell that it's against the law for a citizen to do his utmost to prevent a crime."
+            ],
+            description: 'Law enforcement who is complicit in the injustice and cover-up.'
+          },
+          {
+            name: 'The Judge',
+            role: 'Biased Judge',
+            startingCoins: 100,
+            startingWeapons: ['gavel', 'bias'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'biased',
+            quotes: [
+              "This case is as simple as black and white.",
+              "This case is as simple as black and white.",
+              "This case is as simple as black and white.",
+              "This case is as simple as black and white.",
+              "This case is as simple as black and white."
+            ],
+            description: 'Judge who allows prejudice to influence the trial and verdict.'
+          },
+          {
+            name: 'The Witnesses',
+            role: 'False Witnesses',
+            startingCoins: 40,
+            startingWeapons: ['lies', 'perjury'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'deceitful',
+            quotes: [
+              "I seen him.",
+              "I seen him.",
+              "I seen him.",
+              "I seen him.",
+              "I seen him."
+            ],
+            description: 'Witnesses who provide false testimony to support the Ewells\' lies.'
+          },
+          {
+            name: 'The Community',
+            role: 'Silent Complicity',
+            startingCoins: 60,
+            startingWeapons: ['silence', 'indifference'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'silent',
+            quotes: [
+              "We don't want any trouble.",
+              "We don't want any trouble.",
+              "We don't want any trouble.",
+              "We don't want any trouble.",
+              "We don't want any trouble."
+            ],
+            description: 'Community members who remain silent in the face of injustice.'
+          },
+          {
+            name: 'The System',
+            role: 'Institutional Racism',
+            startingCoins: 120,
+            startingWeapons: ['institutional power', 'systemic oppression'],
+            startingMercenaries: 5,
+            startingCastles: 3,
+            personality: 'oppressive',
+            quotes: [
+              "This is how it's always been.",
+              "This is how it's always been.",
+              "This is how it's always been.",
+              "This is how it's always been.",
+              "This is how it's always been."
+            ],
+            description: 'The systemic racism and institutional oppression that maintains inequality.'
+          },
+          {
+            name: 'The Past',
+            role: 'Historical Injustice',
+            startingCoins: 110,
+            startingWeapons: ['tradition', 'history'],
+            startingMercenaries: 4,
+            startingCastles: 2,
+            personality: 'entrenched',
+            quotes: [
+              "This is how it's always been.",
+              "This is how it's always been.",
+              "This is how it's always been.",
+              "This is how it's always been.",
+              "This is how it's always been."
+            ],
+            description: 'The historical legacy of slavery and racism that continues to influence the present.'
+          },
+          {
+            name: 'The Fear',
+            role: 'Fear of Change',
+            startingCoins: 95,
+            startingWeapons: ['fear', 'resistance'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'fearful',
+            quotes: [
+              "We don't want things to change.",
+              "We don't want things to change.",
+              "We don't want things to change.",
+              "We don't want things to change.",
+              "We don't want things to change."
+            ],
+            description: 'The fear of change and loss of privilege that drives resistance to justice.'
+          },
+          {
+            name: 'The Ignorance',
+            role: 'Willful Ignorance',
+            startingCoins: 70,
+            startingWeapons: ['ignorance', 'denial'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'ignorant',
+            quotes: [
+              "We don't know any better.",
+              "We don't know any better.",
+              "We don't know any better.",
+              "We don't know any better.",
+              "We don't know any better."
+            ],
+            description: 'The willful ignorance and denial that perpetuates prejudice and injustice.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Prejudiced Citizen', startingCoins: 30, startingWeapons: ['prejudice'], startingMercenaries: 0, startingCastles: 0, personality: 'prejudiced', quotes: ['We know what\'s right!', 'This is how it should be!', 'We won\'t change!'] },
+          { name: 'Silent Bystander', startingCoins: 25, startingWeapons: ['silence'], startingMercenaries: 0, startingCastles: 0, personality: 'passive', quotes: ['We don\'t want trouble!', 'It\'s not our business!', 'We stay out of it!'] },
+          { name: 'Mob Member', startingCoins: 35, startingWeapons: ['violence'], startingMercenaries: 0, startingCastles: 0, personality: 'violent', quotes: ['We take action!', 'We show them!', 'We make them pay!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Tree', cost: 5, description: 'Where Boo Radley leaves gifts and innocence is preserved' },
+      { name: 'The Porch', cost: 3, description: 'Where people sit and watch the world go by' },
+      { name: 'The Street', cost: 2, description: 'Where children play and adults walk' },
+      { name: 'The Yard', cost: 1, description: 'Where families gather and memories are made' },
+      { name: 'The Window', cost: 4, description: 'Where people watch but don\'t always see' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // HAMLET SCENARIO
+  hamlet: {
+    id: 'hamlet',
+    name: 'Hamlet: The Tragedy of the Prince of Denmark',
+    type: 'literary',
+    description: 'Shakespeare\'s masterpiece of revenge, madness, and moral corruption in the court of Elsinore.',
+    factions: {
+      justice: {
+        name: 'Seekers of Truth',
+        color: '#1e40af', // Blue
+        description: 'Those who seek justice, truth, and moral order in the corrupt court of Denmark',
+        territories: [
+          { name: 'Elsinore Castle', cost: 25, description: 'Royal palace and center of political intrigue' },
+          { name: 'Hamlet\'s Chamber', cost: 20, description: 'Private quarters where the prince contemplates his fate' },
+          { name: 'The Throne Room', cost: 22, description: 'Where power is contested and decisions are made' },
+          { name: 'The Chapel', cost: 15, description: 'Sacred space where Claudius attempts to pray' },
+          { name: 'The Library', cost: 12, description: 'Where Hamlet studies and seeks knowledge' },
+          { name: 'The Garden', cost: 10, description: 'Where the ghost first appears to Hamlet' },
+          { name: 'The Ramparts', cost: 8, description: 'Where the ghost reveals the truth about murder' },
+          { name: 'The Graveyard', cost: 6, description: 'Where Yorick\'s skull is found and mortality is contemplated' },
+          { name: 'The Study', cost: 7, description: 'Where Hamlet devises his plan to catch the king' },
+          { name: 'The Hall', cost: 9, description: 'Where the play within a play is performed' },
+          { name: 'The Tower', cost: 11, description: 'Where Ophelia is confined and madness takes hold' },
+          { name: 'The Courtyard', cost: 5, description: 'Where duels are fought and honor is tested' },
+          { name: 'The Stables', cost: 4, description: 'Where horses are kept and messengers arrive' },
+          { name: 'The Kitchen', cost: 3, description: 'Where servants work and gossip spreads' },
+          { name: 'The Cellar', cost: 2, description: 'Where secrets are hidden and plots are hatched' },
+          { name: 'The Attic', cost: 1, description: 'Where old memories and forgotten truths are stored' },
+          { name: 'The Balcony', cost: 13, description: 'Where private conversations take place' },
+          { name: 'The Gallery', cost: 14, description: 'Where portraits of the royal family hang' },
+          { name: 'The Antechamber', cost: 16, description: 'Where courtiers wait and politics unfold' },
+          { name: 'The Secret Passage', cost: 18, description: 'Hidden route for spies and secret meetings' }
+        ],
+        characters: [
+          {
+            name: 'Prince Hamlet',
+            role: 'The Melancholy Prince',
+            startingCoins: 120,
+            startingWeapons: ['sword', 'words', 'intelligence'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'melancholic',
+            quotes: [
+              "To be, or not to be, that is the question.",
+              "Something is rotten in the state of Denmark.",
+              "The time is out of joint. O cursed spite, that ever I was born to set it right!",
+              "I must be cruel only to be kind.",
+              "There are more things in heaven and earth, Horatio, than are dreamt of in your philosophy."
+            ],
+            description: 'The brooding prince of Denmark who seeks to avenge his father\'s murder while questioning the nature of existence.'
+          },
+          {
+            name: 'Horatio',
+            role: 'Loyal Friend',
+            startingCoins: 80,
+            startingWeapons: ['loyalty', 'wisdom'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "There are more things in heaven and earth, Horatio, than are dreamt of in your philosophy.",
+              "I am more an antique Roman than a Dane.",
+              "Now cracks a noble heart. Good night, sweet prince.",
+              "I do not set my life at a pin\'s fee.",
+              "Heaven and earth, must I remember?"
+            ],
+            description: 'Hamlet\'s loyal friend and confidant who serves as his moral compass and witness to the tragedy.'
+          },
+          {
+            name: 'The Ghost of King Hamlet',
+            role: 'Avenging Spirit',
+            startingCoins: 100,
+            startingWeapons: ['supernatural power', 'truth'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'vengeful',
+            quotes: [
+              "I am thy father\'s spirit, doomed for a certain term to walk the night.",
+              "The serpent that did sting thy father\'s life now wears his crown.",
+              "Revenge his foul and most unnatural murder.",
+              "But howsomever thou pursuest this act, taint not thy mind.",
+              "Adieu, adieu, adieu. Remember me."
+            ],
+            description: 'The murdered king who returns as a ghost to reveal the truth and demand vengeance.'
+          },
+          {
+            name: 'Ophelia',
+            role: 'Innocent Victim',
+            startingCoins: 60,
+            startingWeapons: ['innocence', 'flowers'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'innocent',
+            quotes: [
+              "O, what a noble mind is here o\'erthrown!",
+              "We know what we are, but know not what we may be.",
+              "There\'s rosemary, that\'s for remembrance.",
+              "O, woe is me, to have seen what I have seen!",
+              "Lord, we know what we are, but know not what we may be."
+            ],
+            description: 'Hamlet\'s beloved who descends into madness after her father\'s death and Hamlet\'s rejection.'
+          },
+          {
+            name: 'Polonius',
+            role: 'Chief Counselor',
+            startingCoins: 90,
+            startingWeapons: ['words', 'spying'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'pompous',
+            quotes: [
+              "Neither a borrower nor a lender be.",
+              "This above all: to thine own self be true.",
+              "Brevity is the soul of wit.",
+              "Give every man thy ear, but few thy voice.",
+              "To thine own self be true, and it must follow, as the night the day, thou canst not then be false to any man."
+            ],
+            description: 'The verbose chief counselor whose meddling leads to his own death and his daughter\'s madness.'
+          },
+          {
+            name: 'Laertes',
+            role: 'Avenging Son',
+            startingCoins: 85,
+            startingWeapons: ['sword', 'honor'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'hotheaded',
+            quotes: [
+              "I\'ll not be juggled with. To hell, allegiance!",
+              "I dare damnation. To this point I stand.",
+              "I am satisfied in nature, whose motive in this case should stir me most to my revenge.",
+              "Let come what comes, only I\'ll be revenged most thoroughly for my father.",
+              "I\'ll be your foil, Laertes. In mine ignorance your skill shall, like a star in the darkest night, stick fiery off indeed."
+            ],
+            description: 'Ophelia\'s brother who returns from France to avenge his father\'s death and sister\'s madness.'
+          },
+          {
+            name: 'Rosencrantz',
+            role: 'Courtier & Spy',
+            startingCoins: 50,
+            startingWeapons: ['deception', 'obedience'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'obedient',
+            quotes: [
+              "My lord, you once did love me.",
+              "We were sent for.",
+              "My lord, we were sent for.",
+              "We were sent for.",
+              "We were sent for."
+            ],
+            description: 'Hamlet\'s childhood friend who becomes a spy for Claudius and is sent to England with Hamlet.'
+          },
+          {
+            name: 'Guildenstern',
+            role: 'Courtier & Spy',
+            startingCoins: 50,
+            startingWeapons: ['deception', 'obedience'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'obedient',
+            quotes: [
+              "My lord, you once did love me.",
+              "We were sent for.",
+              "My lord, we were sent for.",
+              "We were sent for.",
+              "We were sent for."
+            ],
+            description: 'Hamlet\'s childhood friend who becomes a spy for Claudius and is sent to England with Hamlet.'
+          },
+          {
+            name: 'Marcellus',
+            role: 'Guard',
+            startingCoins: 40,
+            startingWeapons: ['spear', 'loyalty'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "Something is rotten in the state of Denmark.",
+              "Horatio says \'tis but our fantasy.",
+              "Something is rotten in the state of Denmark.",
+              "Horatio says \'tis but our fantasy.",
+              "Something is rotten in the state of Denmark."
+            ],
+            description: 'A guard who witnesses the ghost and remains loyal to Hamlet throughout the play.'
+          },
+          {
+            name: 'Bernardo',
+            role: 'Guard',
+            startingCoins: 35,
+            startingWeapons: ['spear', 'vigilance'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'vigilant',
+            quotes: [
+              "Who\'s there?",
+              "Long live the king!",
+              "Who\'s there?",
+              "Long live the king!",
+              "Who\'s there?"
+            ],
+            description: 'A guard who first encounters the ghost and reports it to Horatio.'
+          },
+          {
+            name: 'Francisco',
+            role: 'Guard',
+            startingCoins: 30,
+            startingWeapons: ['spear', 'duty'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'dutiful',
+            quotes: [
+              "For this relief much thanks: \'tis bitter cold, and I am sick at heart.",
+              "For this relief much thanks: \'tis bitter cold, and I am sick at heart.",
+              "For this relief much thanks: \'tis bitter cold, and I am sick at heart.",
+              "For this relief much thanks: \'tis bitter cold, and I am sick at heart.",
+              "For this relief much thanks: \'tis bitter cold, and I am sick at heart."
+            ],
+            description: 'A guard who is relieved from duty and reports the ghost sighting.'
+          },
+          {
+            name: 'The Gravediggers',
+            role: 'Comic Relief',
+            startingCoins: 25,
+            startingWeapons: ['shovel', 'wit'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'philosophical',
+            quotes: [
+              "There is no ancient gentleman but gardeners, ditchers, and grave-makers.",
+              "The more pity that great folk should have countenance in this world to drown or hang themselves.",
+              "There is no ancient gentleman but gardeners, ditchers, and grave-makers.",
+              "The more pity that great folk should have countenance in this world to drown or hang themselves.",
+              "There is no ancient gentleman but gardeners, ditchers, and grave-makers."
+            ],
+            description: 'Two gravediggers who provide comic relief while discussing death and mortality.'
+          },
+          {
+            name: 'The Players',
+            role: 'Actors',
+            startingCoins: 45,
+            startingWeapons: ['acting', 'deception'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'theatrical',
+            quotes: [
+              "The play\'s the thing wherein I\'ll catch the conscience of the king.",
+              "The play\'s the thing wherein I\'ll catch the conscience of the king.",
+              "The play\'s the thing wherein I\'ll catch the conscience of the king.",
+              "The play\'s the thing wherein I\'ll catch the conscience of the king.",
+              "The play\'s the thing wherein I\'ll catch the conscience of the king."
+            ],
+            description: 'Traveling actors who perform the play within a play to expose Claudius\'s guilt.'
+          },
+          {
+            name: 'Fortinbras',
+            role: 'Norwegian Prince',
+            startingCoins: 95,
+            startingWeapons: ['army', 'ambition'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'ambitious',
+            quotes: [
+              "I have some rights of memory in this kingdom, which now to claim my vantage doth invite me.",
+              "I have some rights of memory in this kingdom, which now to claim my vantage doth invite me.",
+              "I have some rights of memory in this kingdom, which now to claim my vantage doth invite me.",
+              "I have some rights of memory in this kingdom, which now to claim my vantage doth invite me.",
+              "I have some rights of memory in this kingdom, which now to claim my vantage doth invite me."
+            ],
+            description: 'The Norwegian prince who invades Denmark and becomes the new king after the tragedy.'
+          },
+          {
+            name: 'Voltemand',
+            role: 'Ambassador',
+            startingCoins: 60,
+            startingWeapons: ['diplomacy', 'messages'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'diplomatic',
+            quotes: [
+              "Most fair return of greetings and desires.",
+              "Most fair return of greetings and desires.",
+              "Most fair return of greetings and desires.",
+              "Most fair return of greetings and desires.",
+              "Most fair return of greetings and desires."
+            ],
+            description: 'A Danish ambassador sent to Norway to negotiate with Fortinbras.'
+          },
+          {
+            name: 'Cornelius',
+            role: 'Ambassador',
+            startingCoins: 55,
+            startingWeapons: ['diplomacy', 'messages'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'diplomatic',
+            quotes: [
+              "Most fair return of greetings and desires.",
+              "Most fair return of greetings and desires.",
+              "Most fair return of greetings and desires.",
+              "Most fair return of greetings and desires.",
+              "Most fair return of greetings and desires."
+            ],
+            description: 'A Danish ambassador sent to Norway with Voltemand.'
+          },
+          {
+            name: 'Reynaldo',
+            role: 'Spy',
+            startingCoins: 40,
+            startingWeapons: ['spying', 'deception'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'sneaky',
+            quotes: [
+              "I will, my lord.",
+              "I will, my lord.",
+              "I will, my lord.",
+              "I will, my lord.",
+              "I will, my lord."
+            ],
+            description: 'Polonius\'s servant sent to spy on Laertes in France.'
+          },
+          {
+            name: 'The Priest',
+            role: 'Religious Figure',
+            startingCoins: 50,
+            startingWeapons: ['faith', 'ritual'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'pious',
+            quotes: [
+              "Her death was doubtful.",
+              "Her death was doubtful.",
+              "Her death was doubtful.",
+              "Her death was doubtful.",
+              "Her death was doubtful."
+            ],
+            description: 'The priest who officiates at Ophelia\'s funeral and questions her burial rites.'
+          },
+          {
+            name: 'The Captain',
+            role: 'Military Officer',
+            startingCoins: 65,
+            startingWeapons: ['sword', 'authority'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'military',
+            quotes: [
+              "We go to gain a little patch of ground that hath in it no profit but the name.",
+              "We go to gain a little patch of ground that hath in it no profit but the name.",
+              "We go to gain a little patch of ground that hath in it no profit but the name.",
+              "We go to gain a little patch of ground that hath in it no profit but the name.",
+              "We go to gain a little patch of ground that hath in it no profit but the name."
+            ],
+            description: 'A military captain who reports to Hamlet about Fortinbras\'s army.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Courtier', startingCoins: 30, startingWeapons: ['words'], startingMercenaries: 0, startingCastles: 0, personality: 'political', quotes: ['We serve the crown!', 'Long live the king!', 'We are loyal!'] },
+          { name: 'Guard', startingCoins: 25, startingWeapons: ['spear'], startingMercenaries: 0, startingCastles: 0, personality: 'dutiful', quotes: ['We stand guard!', 'We protect the castle!', 'We are vigilant!'] },
+          { name: 'Servant', startingCoins: 20, startingWeapons: ['service'], startingMercenaries: 0, startingCastles: 0, personality: 'obedient', quotes: ['We serve!', 'We obey!', 'We are faithful!'] }
+        ]
+      },
+      corruption: {
+        name: 'Forces of Corruption',
+        color: '#dc2626', // Red
+        description: 'Those who perpetuate murder, deception, and moral decay in the Danish court',
+        territories: [
+          { name: 'Claudius\'s Chamber', cost: 25, description: 'Private quarters where the murderous king plots' },
+          { name: 'Gertrude\'s Chamber', cost: 20, description: 'Queen\'s quarters where she tries to understand her son' },
+          { name: 'The Throne', cost: 22, description: 'Symbol of power and the seat of corruption' },
+          { name: 'The Wine Cellar', cost: 15, description: 'Where the poisoned wine is prepared' },
+          { name: 'The Armory', cost: 12, description: 'Where weapons are stored and duels are prepared' },
+          { name: 'The Dungeon', cost: 10, description: 'Where prisoners are held and tortured' },
+          { name: 'The Tower', cost: 8, description: 'Where Ophelia is confined and madness takes hold' },
+          { name: 'The Secret Room', cost: 6, description: 'Where private meetings and plots are held' },
+          { name: 'The Poison Garden', cost: 5, description: 'Where deadly plants are cultivated' },
+          { name: 'The Executioner\'s Block', cost: 4, description: 'Where traitors are beheaded' },
+          { name: 'The Torture Chamber', cost: 3, description: 'Where enemies are interrogated' },
+          { name: 'The Spy\'s Nest', cost: 2, description: 'Where secret information is gathered' },
+          { name: 'The Betrayal Room', cost: 1, description: 'Where loyalties are broken' },
+          { name: 'The Deception Hall', cost: 7, description: 'Where lies are crafted and spread' },
+          { name: 'The Murder Chamber', cost: 9, description: 'Where the old king was poisoned' },
+          { name: 'The Conspiracy Room', cost: 11, description: 'Where plots against Hamlet are hatched' },
+          { name: 'The Poison Vault', cost: 13, description: 'Where deadly substances are stored' },
+          { name: 'The Treachery Tower', cost: 14, description: 'Where betrayals are planned' },
+          { name: 'The Corruption Court', cost: 16, description: 'Where justice is perverted' },
+          { name: 'The Evil Throne', cost: 18, description: 'Where the usurper sits and rules' }
+        ],
+        characters: [
+          {
+            name: 'King Claudius',
+            role: 'The Murderous King',
+            startingCoins: 130,
+            startingWeapons: ['crown', 'poison', 'deception'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'manipulative',
+            quotes: [
+              "My words fly up, my thoughts remain below. Words without thoughts never to heaven go.",
+              "O, my offence is rank, it smells to heaven.",
+              "What if this cursed hand were thicker than itself with brother\'s blood?",
+              "O, wretched state! O, bosom black as death!",
+              "My crown, mine own ambition, and my queen."
+            ],
+            description: 'The murderous king who killed his brother to seize the throne and marry his sister-in-law.'
+          },
+          {
+            name: 'Queen Gertrude',
+            role: 'The Complicit Queen',
+            startingCoins: 100,
+            startingWeapons: ['crown', 'deception'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'deluded',
+            quotes: [
+              "The lady doth protest too much, methinks.",
+              "O Hamlet, speak no more! Thou turn\'st mine eyes into my very soul.",
+              "O, what a rash and bloody deed is this!",
+              "The sun no sooner shall the mountains touch but we will ship him hence.",
+              "O, my dear Hamlet, the drink, the drink! I am poisoned!"
+            ],
+            description: 'Hamlet\'s mother who marries her brother-in-law and becomes complicit in the corruption.'
+          },
+          {
+            name: 'Polonius',
+            role: 'The Meddling Counselor',
+            startingCoins: 90,
+            startingWeapons: ['words', 'spying'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'pompous',
+            quotes: [
+              "Neither a borrower nor a lender be.",
+              "This above all: to thine own self be true.",
+              "Brevity is the soul of wit.",
+              "Give every man thy ear, but few thy voice.",
+              "To thine own self be true, and it must follow, as the night the day, thou canst not then be false to any man."
+            ],
+            description: 'The verbose chief counselor whose meddling leads to his own death and his daughter\'s madness.'
+          },
+          {
+            name: 'Rosencrantz',
+            role: 'The Betraying Friend',
+            startingCoins: 60,
+            startingWeapons: ['deception', 'obedience'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'obedient',
+            quotes: [
+              "My lord, you once did love me.",
+              "We were sent for.",
+              "My lord, we were sent for.",
+              "We were sent for.",
+              "We were sent for."
+            ],
+            description: 'Hamlet\'s childhood friend who becomes a spy for Claudius and is sent to England with Hamlet.'
+          },
+          {
+            name: 'Guildenstern',
+            role: 'The Betraying Friend',
+            startingCoins: 60,
+            startingWeapons: ['deception', 'obedience'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'obedient',
+            quotes: [
+              "My lord, you once did love me.",
+              "We were sent for.",
+              "My lord, we were sent for.",
+              "We were sent for.",
+              "We were sent for."
+            ],
+            description: 'Hamlet\'s childhood friend who becomes a spy for Claudius and is sent to England with Hamlet.'
+          },
+          {
+            name: 'The Murderer',
+            role: 'The Poisoner',
+            startingCoins: 80,
+            startingWeapons: ['poison', 'deception'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'treacherous',
+            quotes: [
+              "The serpent that did sting thy father\'s life now wears his crown.",
+              "The serpent that did sting thy father\'s life now wears his crown.",
+              "The serpent that did sting thy father\'s life now wears his crown.",
+              "The serpent that did sting thy father\'s life now wears his crown.",
+              "The serpent that did sting thy father\'s life now wears his crown."
+            ],
+            description: 'The unknown murderer who poisoned King Hamlet in his sleep.'
+          },
+          {
+            name: 'The Poisoner',
+            role: 'The Assassin',
+            startingCoins: 75,
+            startingWeapons: ['poison', 'stealth'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'sneaky',
+            quotes: [
+              "The drink, the drink! I am poisoned!",
+              "The drink, the drink! I am poisoned!",
+              "The drink, the drink! I am poisoned!",
+              "The drink, the drink! I am poisoned!",
+              "The drink, the drink! I am poisoned!"
+            ],
+            description: 'The assassin who prepares the poisoned wine and sword for the final duel.'
+          },
+          {
+            name: 'The Spy',
+            role: 'The Informant',
+            startingCoins: 55,
+            startingWeapons: ['information', 'deception'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'sneaky',
+            quotes: [
+              "I will, my lord.",
+              "I will, my lord.",
+              "I will, my lord.",
+              "I will, my lord.",
+              "I will, my lord."
+            ],
+            description: 'The spy who reports on Hamlet\'s activities to Claudius.'
+          },
+          {
+            name: 'The Executioner',
+            role: 'The Killer',
+            startingCoins: 70,
+            startingWeapons: ['axe', 'violence'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'brutal',
+            quotes: [
+              "Off with his head!",
+              "Off with his head!",
+              "Off with his head!",
+              "Off with his head!",
+              "Off with his head!"
+            ],
+            description: 'The executioner who carries out the king\'s orders to kill traitors.'
+          },
+          {
+            name: 'The Torturer',
+            role: 'The Interrogator',
+            startingCoins: 65,
+            startingWeapons: ['torture', 'fear'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cruel',
+            quotes: [
+              "Confess!",
+              "Confess!",
+              "Confess!",
+              "Confess!",
+              "Confess!"
+            ],
+            description: 'The torturer who extracts information from prisoners through pain and fear.'
+          },
+          {
+            name: 'The Deceiver',
+            role: 'The Liar',
+            startingCoins: 50,
+            startingWeapons: ['lies', 'deception'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'deceitful',
+            quotes: [
+              "We were sent for.",
+              "We were sent for.",
+              "We were sent for.",
+              "We were sent for.",
+              "We were sent for."
+            ],
+            description: 'The deceiver who spreads lies and misinformation throughout the court.'
+          },
+          {
+            name: 'The Betrayer',
+            role: 'The Traitor',
+            startingCoins: 45,
+            startingWeapons: ['betrayal', 'treachery'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'treacherous',
+            quotes: [
+              "We were sent for.",
+              "We were sent for.",
+              "We were sent for.",
+              "We were sent for.",
+              "We were sent for."
+            ],
+            description: 'The betrayer who turns against his friends and allies for personal gain.'
+          },
+          {
+            name: 'The Corruptor',
+            role: 'The Corrupter',
+            startingCoins: 85,
+            startingWeapons: ['corruption', 'temptation'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'corrupting',
+            quotes: [
+              "The serpent that did sting thy father\'s life now wears his crown.",
+              "The serpent that did sting thy father\'s life now wears his crown.",
+              "The serpent that did sting thy father\'s life now wears his crown.",
+              "The serpent that did sting thy father\'s life now wears his crown.",
+              "The serpent that did sting thy father\'s life now wears his crown."
+            ],
+            description: 'The corrupter who spreads moral decay and corruption throughout the court.'
+          },
+          {
+            name: 'The Usurper',
+            role: 'The Thief',
+            startingCoins: 95,
+            startingWeapons: ['crown', 'power'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'greedy',
+            quotes: [
+              "My crown, mine own ambition, and my queen.",
+              "My crown, mine own ambition, and my queen.",
+              "My crown, mine own ambition, and my queen.",
+              "My crown, mine own ambition, and my queen.",
+              "My crown, mine own ambition, and my queen."
+            ],
+            description: 'The usurper who steals the throne and power from the rightful heir.'
+          },
+          {
+            name: 'The Poison Master',
+            role: 'The Assassin',
+            startingCoins: 75,
+            startingWeapons: ['poison', 'knowledge'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'deadly',
+            quotes: [
+              "The drink, the drink! I am poisoned!",
+              "The drink, the drink! I am poisoned!",
+              "The drink, the drink! I am poisoned!",
+              "The drink, the drink! I am poisoned!",
+              "The drink, the drink! I am poisoned!"
+            ],
+            description: 'The poison master who creates deadly substances and plots assassinations.'
+          },
+          {
+            name: 'The Conspirator',
+            role: 'The Plotter',
+            startingCoins: 70,
+            startingWeapons: ['plots', 'secrets'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'scheming',
+            quotes: [
+              "We were sent for.",
+              "We were sent for.",
+              "We were sent for.",
+              "We were sent for.",
+              "We were sent for."
+            ],
+            description: 'The conspirator who plots against Hamlet and the rightful order.'
+          },
+          {
+            name: 'The Murderer\'s Accomplice',
+            role: 'The Helper',
+            startingCoins: 60,
+            startingWeapons: ['complicity', 'silence'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'complicit',
+            quotes: [
+              "We were sent for.",
+              "We were sent for.",
+              "We were sent for.",
+              "We were sent for.",
+              "We were sent for."
+            ],
+            description: 'The murderer\'s accomplice who helps cover up the crime and maintain the deception.'
+          },
+          {
+            name: 'The Corrupt Court',
+            role: 'The System',
+            startingCoins: 110,
+            startingWeapons: ['institutional power', 'corruption'],
+            startingMercenaries: 4,
+            startingCastles: 2,
+            personality: 'corrupt',
+            quotes: [
+              "Something is rotten in the state of Denmark.",
+              "Something is rotten in the state of Denmark.",
+              "Something is rotten in the state of Denmark.",
+              "Something is rotten in the state of Denmark.",
+              "Something is rotten in the state of Denmark."
+            ],
+            description: 'The corrupt court system that enables and perpetuates the moral decay.'
+          },
+          {
+            name: 'The Evil Spirit',
+            role: 'The Tempter',
+            startingCoins: 100,
+            startingWeapons: ['temptation', 'corruption'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'tempting',
+            quotes: [
+              "The serpent that did sting thy father\'s life now wears his crown.",
+              "The serpent that did sting thy father\'s life now wears his crown.",
+              "The serpent that did sting thy father\'s life now wears his crown.",
+              "The serpent that did sting thy father\'s life now wears his crown.",
+              "The serpent that did sting thy father\'s life now wears his crown."
+            ],
+            description: 'The evil spirit that tempts and corrupts the characters throughout the play.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Corrupt Courtier', startingCoins: 30, startingWeapons: ['deception'], startingMercenaries: 0, startingCastles: 0, personality: 'corrupt', quotes: ['We serve the king!', 'We obey!', 'We are loyal!'] },
+          { name: 'Spy', startingCoins: 25, startingWeapons: ['information'], startingMercenaries: 0, startingCastles: 0, personality: 'sneaky', quotes: ['We watch!', 'We report!', 'We spy!'] },
+          { name: 'Murderer', startingCoins: 35, startingWeapons: ['violence'], startingMercenaries: 0, startingCastles: 0, personality: 'violent', quotes: ['We kill!', 'We destroy!', 'We murder!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Graveyard', cost: 5, description: 'Where Yorick\'s skull is found and mortality is contemplated' },
+      { name: 'The Garden', cost: 3, description: 'Where the ghost first appears to Hamlet' },
+      { name: 'The Ramparts', cost: 2, description: 'Where the ghost reveals the truth about murder' },
+      { name: 'The Chapel', cost: 4, description: 'Sacred space where Claudius attempts to pray' },
+      { name: 'The Library', cost: 6, description: 'Where Hamlet studies and seeks knowledge' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // THE GREAT GATSBY SCENARIO
+  theGreatGatsby: {
+    id: 'theGreatGatsby',
+    name: 'The Great Gatsby: The Jazz Age (1920s)',
+    type: 'literary',
+    description: 'F. Scott Fitzgerald\'s tale of the American Dream, love, and the corruption of wealth in 1920s New York.',
+    factions: {
+      dreamers: {
+        name: 'Dreamers & Romantics',
+        color: '#1e40af', // Blue
+        description: 'Those who believe in the American Dream, love, and the possibility of reinvention',
+        territories: [
+          { name: 'Gatsby\'s Mansion', cost: 25, description: 'The grand estate where Gatsby hosts his legendary parties' },
+          { name: 'West Egg', cost: 22, description: 'Where the newly rich live and dream of acceptance' },
+          { name: 'The Green Light', cost: 20, description: 'The symbol of Gatsby\'s hopes and dreams across the water' },
+          { name: 'Daisy\'s House', cost: 18, description: 'The elegant home where Daisy lives with Tom' },
+          { name: 'The Valley of Ashes', cost: 15, description: 'The desolate wasteland between the city and the suburbs' },
+          { name: 'The Plaza Hotel', cost: 16, description: 'Where the confrontation between Gatsby and Tom takes place' },
+          { name: 'The Garden', cost: 12, description: 'Where Gatsby and Daisy reunite after five years' },
+          { name: 'The Library', cost: 10, description: 'Where Gatsby\'s books reveal his true nature' },
+          { name: 'The Pool', cost: 8, description: 'Where Gatsby meets his tragic end' },
+          { name: 'The Drive', cost: 6, description: 'Where Gatsby and Daisy drive together' },
+          { name: 'The Party', cost: 14, description: 'Where Gatsby\'s guests celebrate and dance' },
+          { name: 'The Study', cost: 9, description: 'Where Gatsby plans his future with Daisy' },
+          { name: 'The Balcony', cost: 7, description: 'Where Gatsby watches the green light' },
+          { name: 'The Stairs', cost: 5, description: 'Where Gatsby descends to meet his guests' },
+          { name: 'The Window', cost: 4, description: 'Where Gatsby looks out at the world' },
+          { name: 'The Door', cost: 3, description: 'Where guests enter Gatsby\'s world' },
+          { name: 'The Hall', cost: 11, description: 'Where the party music fills the air' },
+          { name: 'The Terrace', cost: 13, description: 'Where guests gather and socialize' },
+          { name: 'The Fountain', cost: 2, description: 'Where water flows and dreams are born' },
+          { name: 'The Path', cost: 1, description: 'Where Gatsby walks toward his destiny' }
+        ],
+        characters: [
+          {
+            name: 'Jay Gatsby',
+            role: 'The Great Gatsby',
+            startingCoins: 120,
+            startingWeapons: ['dreams', 'wealth', 'love'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'romantic',
+            quotes: [
+              "So we beat on, boats against the current, borne back ceaselessly into the past.",
+              "I\'m going to fix everything just the way it was before.",
+              "Can\'t repeat the past? Why of course you can!",
+              "I want to speak to Daisy alone. She\'s all right now.",
+              "Gatsby believed in the green light, the orgastic future that year by year recedes before us."
+            ],
+            description: 'The mysterious millionaire who throws lavish parties in hopes of winning back his lost love, Daisy.'
+          },
+          {
+            name: 'Nick Carraway',
+            role: 'The Narrator',
+            startingCoins: 80,
+            startingWeapons: ['honesty', 'observation'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'honest',
+            quotes: [
+              "I\'m inclined to reserve all judgments, a habit that has opened up many curious natures to me.",
+              "So we beat on, boats against the current, borne back ceaselessly into the past.",
+              "Gatsby turned out all right at the end; it is what preyed on Gatsby, what foul dust floated in the wake of his dreams.",
+              "I was within and without, simultaneously enchanted and repelled by the inexhaustible variety of life.",
+              "Reserving judgments is a matter of infinite hope."
+            ],
+            description: 'The honest narrator who becomes Gatsby\'s neighbor and friend, witnessing the tragedy unfold.'
+          },
+          {
+            name: 'Daisy Buchanan',
+            role: 'The Golden Girl',
+            startingCoins: 100,
+            startingWeapons: ['beauty', 'charm', 'wealth'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'superficial',
+            quotes: [
+              "I\'m p-paralyzed with happiness.",
+              "I hope she\'ll be a fool—that\'s the best thing a girl can be in this world, a beautiful little fool.",
+              "I\'m going to fix everything just the way it was before.",
+              "Oh, you want too much! I love you now—isn\'t that enough?",
+              "I did love him once—but I loved you too."
+            ],
+            description: 'Gatsby\'s lost love who is torn between her past with Gatsby and her present with Tom.'
+          },
+          {
+            name: 'Jordan Baker',
+            role: 'The Professional Golfer',
+            startingCoins: 70,
+            startingWeapons: ['independence', 'skill'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'independent',
+            quotes: [
+              "I\'m five years too old to lie to myself and call it honor.",
+              "I hate careless people. That\'s why I like you.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'The independent golfer who becomes Nick\'s love interest and provides insight into the social world.'
+          },
+          {
+            name: 'Meyer Wolfsheim',
+            role: 'The Gangster',
+            startingCoins: 90,
+            startingWeapons: ['money', 'connections'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'shady',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'The mysterious gangster who helped Gatsby make his fortune through questionable means.'
+          },
+          {
+            name: 'George Wilson',
+            role: 'The Mechanic',
+            startingCoins: 40,
+            startingWeapons: ['honesty', 'love'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'simple',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'The honest mechanic who owns the garage in the Valley of Ashes and loves his wife Myrtle.'
+          },
+          {
+            name: 'Myrtle Wilson',
+            role: 'The Mistress',
+            startingCoins: 50,
+            startingWeapons: ['ambition', 'desire'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'ambitious',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'George\'s wife who becomes Tom\'s mistress and dreams of escaping the Valley of Ashes.'
+          },
+          {
+            name: 'The Party Guests',
+            role: 'The Revelers',
+            startingCoins: 30,
+            startingWeapons: ['celebration', 'music'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'festive',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'The countless guests who attend Gatsby\'s parties but know nothing about the man himself.'
+          },
+          {
+            name: 'The Green Light',
+            role: 'The Symbol',
+            startingCoins: 60,
+            startingWeapons: ['hope', 'dreams'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'symbolic',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'The green light at the end of Daisy\'s dock that represents Gatsby\'s hopes and dreams.'
+          },
+          {
+            name: 'The Past',
+            role: 'The Memory',
+            startingCoins: 80,
+            startingWeapons: ['nostalgia', 'regret'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'nostalgic',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'The idealized past that Gatsby tries to recreate and that ultimately destroys him.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Dreamer', startingCoins: 25, startingWeapons: ['hope'], startingMercenaries: 0, startingCastles: 0, personality: 'hopeful', quotes: ['We dream!', 'We hope!', 'We believe!'] },
+          { name: 'Romantic', startingCoins: 30, startingWeapons: ['love'], startingMercenaries: 0, startingCastles: 0, personality: 'romantic', quotes: ['We love!', 'We feel!', 'We care!'] },
+          { name: 'Party Guest', startingCoins: 20, startingWeapons: ['celebration'], startingMercenaries: 0, startingCastles: 0, personality: 'festive', quotes: ['We party!', 'We dance!', 'We celebrate!'] }
+        ]
+      },
+      reality: {
+        name: 'Forces of Reality',
+        color: '#dc2626', // Red
+        description: 'Those who represent the harsh truth, corruption, and the failure of the American Dream',
+        territories: [
+          { name: 'Tom\'s Mansion', cost: 25, description: 'The established wealth of old money and privilege' },
+          { name: 'East Egg', cost: 22, description: 'Where the old aristocracy lives and rules' },
+          { name: 'The Valley of Ashes', cost: 20, description: 'The desolate wasteland of broken dreams' },
+          { name: 'The Garage', cost: 18, description: 'Where George Wilson works and dreams die' },
+          { name: 'The Apartment', cost: 15, description: 'Where Tom and Myrtle meet in secret' },
+          { name: 'The Plaza Hotel', cost: 16, description: 'Where the confrontation exposes the truth' },
+          { name: 'The Road', cost: 12, description: 'Where the accident that changes everything occurs' },
+          { name: 'The Hospital', cost: 10, description: 'Where Myrtle is taken after the accident' },
+          { name: 'The Morgue', cost: 8, description: 'Where Gatsby\'s body lies after his death' },
+          { name: 'The Cemetery', cost: 6, description: 'Where Gatsby is buried alone' },
+          { name: 'The Bank', cost: 14, description: 'Where money rules and dreams are bought' },
+          { name: 'The Court', cost: 9, description: 'Where justice is perverted by wealth' },
+          { name: 'The Police Station', cost: 7, description: 'Where the truth is covered up' },
+          { name: 'The Newspaper', cost: 5, description: 'Where the story is told and forgotten' },
+          { name: 'The Office', cost: 4, description: 'Where business is conducted and lives are destroyed' },
+          { name: 'The Street', cost: 3, description: 'Where the accident happens and dreams end' },
+          { name: 'The Bridge', cost: 2, description: 'Where the past and present meet' },
+          { name: 'The Wall', cost: 1, description: 'Where the truth is hidden' },
+          { name: 'The Door', cost: 11, description: 'Where the truth is revealed' },
+          { name: 'The Window', cost: 13, description: 'Where the truth is witnessed' }
+        ],
+        characters: [
+          {
+            name: 'Tom Buchanan',
+            role: 'The Antagonist',
+            startingCoins: 130,
+            startingWeapons: ['wealth', 'power', 'privilege'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'arrogant',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'Daisy\'s husband who represents old money, privilege, and the corruption of the American Dream.'
+          },
+          {
+            name: 'The Valley of Ashes',
+            role: 'The Wasteland',
+            startingCoins: 100,
+            startingWeapons: ['despair', 'poverty'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'despairing',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'The desolate wasteland between the city and the suburbs where dreams go to die.'
+          },
+          {
+            name: 'The Accident',
+            role: 'The Tragedy',
+            startingCoins: 90,
+            startingWeapons: ['death', 'destruction'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'destructive',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'The tragic accident that destroys Myrtle and sets in motion the events that lead to Gatsby\'s death.'
+          },
+          {
+            name: 'The Truth',
+            role: 'The Reality',
+            startingCoins: 110,
+            startingWeapons: ['revelation', 'exposure'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'harsh',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'The harsh reality that destroys Gatsby\'s dreams and exposes the corruption of the American Dream.'
+          },
+          {
+            name: 'The Past',
+            role: 'The Unchangeable',
+            startingCoins: 95,
+            startingWeapons: ['immutability', 'regret'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'unyielding',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'The unchangeable past that cannot be recreated and that ultimately destroys Gatsby.'
+          },
+          {
+            name: 'The Death',
+            role: 'The End',
+            startingCoins: 85,
+            startingWeapons: ['finality', 'destruction'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'final',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'The death that ends Gatsby\'s dreams and marks the end of the American Dream.'
+          },
+          {
+            name: 'The Corruption',
+            role: 'The Decay',
+            startingCoins: 80,
+            startingWeapons: ['decay', 'corruption'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'corrupting',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'The corruption that pervades the world of wealth and privilege and destroys innocence.'
+          },
+          {
+            name: 'The Betrayal',
+            role: 'The Treachery',
+            startingCoins: 75,
+            startingWeapons: ['betrayal', 'treachery'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'treacherous',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'The betrayal that destroys trust and love and leads to tragedy.'
+          },
+          {
+            name: 'The Illusion',
+            role: 'The False Dream',
+            startingCoins: 70,
+            startingWeapons: ['deception', 'falsehood'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'deceptive',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'The false dream that promises happiness but delivers only disappointment and death.'
+          },
+          {
+            name: 'The End',
+            role: 'The Conclusion',
+            startingCoins: 65,
+            startingWeapons: ['finality', 'conclusion'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'conclusive',
+            quotes: [
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before.",
+              "I\'m going to fix everything just the way it was before."
+            ],
+            description: 'The inevitable end that comes to all dreams and all lives.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Reality Check', startingCoins: 25, startingWeapons: ['truth'], startingMercenaries: 0, startingCastles: 0, personality: 'harsh', quotes: ['We face reality!', 'We tell the truth!', 'We accept facts!'] },
+          { name: 'Corruption', startingCoins: 30, startingWeapons: ['decay'], startingMercenaries: 0, startingCastles: 0, personality: 'corrupt', quotes: ['We corrupt!', 'We decay!', 'We destroy!'] },
+          { name: 'Death', startingCoins: 35, startingWeapons: ['finality'], startingMercenaries: 0, startingCastles: 0, personality: 'final', quotes: ['We end!', 'We destroy!', 'We kill!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Green Light', cost: 5, description: 'The symbol of hope and dreams across the water' },
+      { name: 'The Garden', cost: 3, description: 'Where Gatsby and Daisy reunite after five years' },
+      { name: 'The Pool', cost: 2, description: 'Where Gatsby meets his tragic end' },
+      { name: 'The Library', cost: 4, description: 'Where Gatsby\'s books reveal his true nature' },
+      { name: 'The Drive', cost: 6, description: 'Where Gatsby and Daisy drive together' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // THE CRUCIBLE SCENARIO
+  theCrucible: {
+    id: 'theCrucible',
+    name: 'The Crucible: Salem Witch Trials (1692)',
+    type: 'literary',
+    description: 'Arthur Miller\'s allegory of McCarthyism through the lens of the Salem witch trials, exploring mass hysteria and the abuse of power.',
+    factions: {
+      truth: {
+        name: 'Defenders of Truth',
+        color: '#1e40af', // Blue
+        description: 'Those who seek to expose the truth and resist the hysteria of the witch trials',
+        territories: [
+          { name: 'Proctor\'s Farm', cost: 25, description: 'John Proctor\'s home and symbol of honest labor' },
+          { name: 'The Meeting House', cost: 22, description: 'Where the trials take place and truth is tested' },
+          { name: 'The Forest', cost: 20, description: 'Where the girls danced and the hysteria began' },
+          { name: 'The Jail', cost: 18, description: 'Where the accused are held and truth is imprisoned' },
+          { name: 'The Gallows', cost: 16, description: 'Where the innocent are executed for refusing to lie' },
+          { name: 'The Church', cost: 15, description: 'Where Reverend Hale tries to find the truth' },
+          { name: 'The Common', cost: 12, description: 'Where the community gathers and rumors spread' },
+          { name: 'The Tavern', cost: 10, description: 'Where people discuss the trials and share information' },
+          { name: 'The Schoolhouse', cost: 8, description: 'Where the children learn and are influenced' },
+          { name: 'The Mill', cost: 6, description: 'Where Proctor works and maintains his integrity' },
+          { name: 'The Field', cost: 4, description: 'Where honest work is done and truth is found' },
+          { name: 'The Well', cost: 3, description: 'Where people gather water and share news' },
+          { name: 'The Path', cost: 2, description: 'Where people walk and think' },
+          { name: 'The Gate', cost: 1, description: 'Where people enter and leave' },
+          { name: 'The Window', cost: 5, description: 'Where people look out and see the truth' },
+          { name: 'The Door', cost: 7, description: 'Where people enter and leave' },
+          { name: 'The Stairs', cost: 9, description: 'Where people go up and down' },
+          { name: 'The Room', cost: 11, description: 'Where private conversations take place' },
+          { name: 'The Hall', cost: 13, description: 'Where people gather and discuss' },
+          { name: 'The Yard', cost: 14, description: 'Where people work and play' }
+        ],
+        characters: [
+          {
+            name: 'John Proctor',
+            role: 'The Tragic Hero',
+            startingCoins: 120,
+            startingWeapons: ['integrity', 'honesty', 'courage'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'principled',
+            quotes: [
+              "Because it is my name! Because I cannot have another in my life!",
+              "I have given you my soul; leave me my name!",
+              "I speak my own sins; I cannot judge another.",
+              "I have known her, sir. I have known her.",
+              "How may I live without my name? I have given you my soul; leave me my name!"
+            ],
+            description: 'The farmer who becomes the central figure in the witch trials, torn between his integrity and his desire to live.'
+          },
+          {
+            name: 'Elizabeth Proctor',
+            role: 'The Loyal Wife',
+            startingCoins: 100,
+            startingWeapons: ['loyalty', 'forgiveness', 'strength'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'forgiving',
+            quotes: [
+              "He have his goodness now. God forbid I take it from him!",
+              "I have read my heart this three month, John.",
+              "I never thought you but a good man, John.",
+              "I have read my heart this three month, John.",
+              "I never thought you but a good man, John."
+            ],
+            description: 'John\'s wife who forgives his adultery and supports him through the trials.'
+          },
+          {
+            name: 'Reverend John Hale',
+            role: 'The Conscientious Minister',
+            startingCoins: 90,
+            startingWeapons: ['knowledge', 'conscience', 'books'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'conscientious',
+            quotes: [
+              "I come to do the Devil\'s work. I come to counsel Christians they should belie themselves.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse."
+            ],
+            description: 'The minister who initially supports the trials but later realizes the truth and tries to save the innocent.'
+          },
+          {
+            name: 'Rebecca Nurse',
+            role: 'The Saintly Elder',
+            startingCoins: 80,
+            startingWeapons: ['wisdom', 'piety', 'peace'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'saintly',
+            quotes: [
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse."
+            ],
+            description: 'The elderly woman who is accused of witchcraft but maintains her innocence and dignity.'
+          },
+          {
+            name: 'Giles Corey',
+            role: 'The Stubborn Farmer',
+            startingCoins: 70,
+            startingWeapons: ['stubbornness', 'truth', 'stones'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'stubborn',
+            quotes: [
+              "More weight!",
+              "More weight!",
+              "More weight!",
+              "More weight!",
+              "More weight!"
+            ],
+            description: 'The farmer who refuses to enter a plea and is pressed to death with stones.'
+          },
+          {
+            name: 'Francis Nurse',
+            role: 'The Respected Citizen',
+            startingCoins: 75,
+            startingWeapons: ['respect', 'influence', 'money'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'respected',
+            quotes: [
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse."
+            ],
+            description: 'Rebecca\'s husband who tries to use his influence to save her and other accused witches.'
+          },
+          {
+            name: 'Mary Warren',
+            role: 'The Conflicted Servant',
+            startingCoins: 50,
+            startingWeapons: ['fear', 'conscience'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'conflicted',
+            quotes: [
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse."
+            ],
+            description: 'Proctor\'s servant who initially joins the accusers but later tries to recant her testimony.'
+          },
+          {
+            name: 'The Truth',
+            role: 'The Reality',
+            startingCoins: 110,
+            startingWeapons: ['revelation', 'clarity'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'revelatory',
+            quotes: [
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse."
+            ],
+            description: 'The truth that eventually emerges and exposes the hysteria for what it is.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Honest Citizen', startingCoins: 30, startingWeapons: ['truth'], startingMercenaries: 0, startingCastles: 0, personality: 'honest', quotes: ['We speak truth!', 'We resist!', 'We stand firm!'] },
+          { name: 'Conscientious Objector', startingCoins: 25, startingWeapons: ['conscience'], startingMercenaries: 0, startingCastles: 0, personality: 'conscientious', quotes: ['We refuse!', 'We resist!', 'We stand up!'] },
+          { name: 'Truth Seeker', startingCoins: 35, startingWeapons: ['investigation'], startingMercenaries: 0, startingCastles: 0, personality: 'investigative', quotes: ['We investigate!', 'We question!', 'We seek!'] }
+        ]
+      },
+      hysteria: {
+        name: 'Forces of Hysteria',
+        color: '#dc2626', // Red
+        description: 'Those who perpetuate the witch hunt, mass hysteria, and abuse of power',
+        territories: [
+          { name: 'The Court', cost: 25, description: 'Where the trials are conducted and justice is perverted' },
+          { name: 'The Prison', cost: 22, description: 'Where the accused are held and tortured' },
+          { name: 'The Gallows', cost: 20, description: 'Where the innocent are executed' },
+          { name: 'The Church', cost: 18, description: 'Where the hysteria is fueled and spread' },
+          { name: 'The Parris House', cost: 16, description: 'Where the hysteria began with the girls' },
+          { name: 'The Putnam House', cost: 15, description: 'Where the accusations are plotted' },
+          { name: 'The Meeting House', cost: 14, description: 'Where the trials take place' },
+          { name: 'The Common', cost: 12, description: 'Where rumors spread and hysteria grows' },
+          { name: 'The Tavern', cost: 10, description: 'Where gossip is shared and fear is spread' },
+          { name: 'The Schoolhouse', cost: 8, description: 'Where children are influenced and corrupted' },
+          { name: 'The Forest', cost: 6, description: 'Where the girls danced and the hysteria began' },
+          { name: 'The Field', cost: 4, description: 'Where the accused are forced to confess' },
+          { name: 'The Well', cost: 3, description: 'Where people gather and spread fear' },
+          { name: 'The Path', cost: 2, description: 'Where people walk in fear' },
+          { name: 'The Gate', cost: 1, description: 'Where people enter in fear' },
+          { name: 'The Window', cost: 5, description: 'Where people watch in fear' },
+          { name: 'The Door', cost: 7, description: 'Where people enter in fear' },
+          { name: 'The Stairs', cost: 9, description: 'Where people go up and down in fear' },
+          { name: 'The Room', cost: 11, description: 'Where private fears are shared' },
+          { name: 'The Hall', cost: 13, description: 'Where people gather in fear' }
+        ],
+        characters: [
+          {
+            name: 'Abigail Williams',
+            role: 'The Accuser',
+            startingCoins: 100,
+            startingWeapons: ['lies', 'manipulation', 'fear'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'manipulative',
+            quotes: [
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse."
+            ],
+            description: 'The young woman who leads the accusations and manipulates the court to her advantage.'
+          },
+          {
+            name: 'Judge Danforth',
+            role: 'The Corrupt Judge',
+            startingCoins: 130,
+            startingWeapons: ['power', 'authority', 'pride'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'arrogant',
+            quotes: [
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse."
+            ],
+            description: 'The deputy governor who presides over the trials and refuses to admit his mistakes.'
+          },
+          {
+            name: 'Reverend Samuel Parris',
+            role: 'The Selfish Minister',
+            startingCoins: 90,
+            startingWeapons: ['religion', 'fear', 'greed'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'selfish',
+            quotes: [
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse."
+            ],
+            description: 'The minister who is more concerned with his reputation than with the truth.'
+          },
+          {
+            name: 'Thomas Putnam',
+            role: 'The Greedy Landowner',
+            startingCoins: 85,
+            startingWeapons: ['greed', 'land', 'money'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'greedy',
+            quotes: [
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse."
+            ],
+            description: 'The wealthy landowner who uses the trials to gain more land and power.'
+          },
+          {
+            name: 'Ann Putnam',
+            role: 'The Grieving Mother',
+            startingCoins: 75,
+            startingWeapons: ['grief', 'anger', 'accusations'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'bitter',
+            quotes: [
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse."
+            ],
+            description: 'Thomas Putnam\'s wife who has lost seven children and seeks someone to blame.'
+          },
+          {
+            name: 'The Girls',
+            role: 'The Accusers',
+            startingCoins: 60,
+            startingWeapons: ['lies', 'hysteria', 'fear'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'hysterical',
+            quotes: [
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse."
+            ],
+            description: 'The group of young women who follow Abigail\'s lead and make false accusations.'
+          },
+          {
+            name: 'The Hysteria',
+            role: 'The Mass Delusion',
+            startingCoins: 110,
+            startingWeapons: ['fear', 'delusion', 'mass psychology'],
+            startingMercenaries: 4,
+            startingCastles: 2,
+            personality: 'delusional',
+            quotes: [
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse."
+            ],
+            description: 'The mass hysteria that grips the community and leads to the witch trials.'
+          },
+          {
+            name: 'The Fear',
+            role: 'The Terror',
+            startingCoins: 95,
+            startingWeapons: ['terror', 'intimidation', 'threats'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'terrifying',
+            quotes: [
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse."
+            ],
+            description: 'The fear that paralyzes the community and prevents people from speaking the truth.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Accuser', startingCoins: 30, startingWeapons: ['lies'], startingMercenaries: 0, startingCastles: 0, personality: 'accusing', quotes: ['We accuse!', 'We blame!', 'We point fingers!'] },
+          { name: 'Hysteric', startingCoins: 25, startingWeapons: ['hysteria'], startingMercenaries: 0, startingCastles: 0, personality: 'hysterical', quotes: ['We panic!', 'We fear!', 'We scream!'] },
+          { name: 'Corrupt Official', startingCoins: 35, startingWeapons: ['power'], startingMercenaries: 0, startingCastles: 0, personality: 'corrupt', quotes: ['We abuse power!', 'We corrupt!', 'We destroy!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Forest', cost: 5, description: 'Where the girls danced and the hysteria began' },
+      { name: 'The Common', cost: 3, description: 'Where the community gathers and rumors spread' },
+      { name: 'The Well', cost: 2, description: 'Where people gather water and share news' },
+      { name: 'The Path', cost: 1, description: 'Where people walk and think' },
+      { name: 'The Field', cost: 4, description: 'Where honest work is done and truth is found' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // THE CRUCIBLE SCENARIO
+  theCrucible: {
+    id: 'theCrucible',
+    name: 'The Crucible: Salem Witch Trials (1692)',
+    type: 'literary',
+    description: 'Arthur Miller\'s allegory of McCarthyism through the lens of the Salem witch trials, exploring mass hysteria and the abuse of power.',
+    factions: {
+      truth: {
+        name: 'Defenders of Truth',
+        color: '#1e40af', // Blue
+        description: 'Those who seek to expose the truth and resist the hysteria of the witch trials',
+        territories: [
+          { name: 'Proctor\'s Farm', cost: 25, description: 'John Proctor\'s home and symbol of honest labor' },
+          { name: 'The Meeting House', cost: 22, description: 'Where the community gathers for worship and trials' },
+          { name: 'Reverend Hale\'s Study', cost: 20, description: 'Where the learned minister studies and questions' },
+          { name: 'The Jail', cost: 18, description: 'Where the accused are held before trial' },
+          { name: 'The Common', cost: 15, description: 'Public space where people gather and discuss' },
+          { name: 'The Tavern', cost: 12, description: 'Where people gather to talk and share news' },
+          { name: 'The Schoolhouse', cost: 10, description: 'Where children learn and where accusations began' },
+          { name: 'The Woods', cost: 8, description: 'Where the girls danced and the hysteria began' },
+          { name: 'The Well', cost: 6, description: 'Where people gather water and share news' },
+          { name: 'The Path', cost: 4, description: 'Where people walk and think' },
+          { name: 'The Field', cost: 3, description: 'Where honest work is done and truth is found' },
+          { name: 'The Garden', cost: 2, description: 'Where people tend to their plants and thoughts' },
+          { name: 'The Porch', cost: 1, description: 'Where people sit and watch the world go by' },
+          { name: 'The Church', cost: 14, description: 'Sacred space where people seek guidance' },
+          { name: 'The Store', cost: 7, description: 'Where people buy goods and share information' },
+          { name: 'The Inn', cost: 9, description: 'Where travelers stay and news spreads' },
+          { name: 'The Mill', cost: 11, description: 'Where grain is ground and people work' },
+          { name: 'The Bridge', cost: 5, description: 'Connection between different parts of town' },
+          { name: 'The Hill', cost: 13, description: 'High ground where people can see far' },
+          { name: 'The Valley', cost: 1, description: 'Low ground where people gather' }
+        ],
+        characters: [
+          {
+            name: 'John Proctor',
+            role: 'The Tragic Hero',
+            startingCoins: 120,
+            startingWeapons: ['integrity', 'honesty', 'courage'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'principled',
+            quotes: [
+              "Because it is my name! Because I cannot have another in my life!",
+              "I have given you my soul; leave me my name!",
+              "I speak my own sins; I cannot judge another.",
+              "I have known her, sir. I have known her.",
+              "How may I live without my name? I have given you my soul; leave me my name!"
+            ],
+            description: 'The farmer who becomes the central figure in the witch trials, torn between his integrity and his desire to live.'
+          },
+          {
+            name: 'Elizabeth Proctor',
+            role: 'The Loyal Wife',
+            startingCoins: 100,
+            startingWeapons: ['loyalty', 'forgiveness', 'strength'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "I have sins of my own to count. It needs a cold wife to prompt lechery.",
+              "I have sins of my own to count. It needs a cold wife to prompt lechery.",
+              "I have sins of my own to count. It needs a cold wife to prompt lechery.",
+              "I have sins of my own to count. It needs a cold wife to prompt lechery.",
+              "I have sins of my own to count. It needs a cold wife to prompt lechery."
+            ],
+            description: 'John Proctor\'s wife who stands by him despite his infidelity and the trials they face.'
+          },
+          {
+            name: 'Reverend John Hale',
+            role: 'The Learned Minister',
+            startingCoins: 110,
+            startingWeapons: ['knowledge', 'books', 'wisdom'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'scholarly',
+            quotes: [
+              "I have come to do the Devil\'s work. I come to counsel Christians they should belie themselves.",
+              "I have come to do the Devil\'s work. I come to counsel Christians they should belie themselves.",
+              "I have come to do the Devil\'s work. I come to counsel Christians they should belie themselves.",
+              "I have come to do the Devil\'s work. I come to counsel Christians they should belie themselves.",
+              "I have come to do the Devil\'s work. I come to counsel Christians they should belie themselves."
+            ],
+            description: 'The learned minister who initially supports the trials but later questions their validity.'
+          },
+          {
+            name: 'Rebecca Nurse',
+            role: 'The Wise Elder',
+            startingCoins: 90,
+            startingWeapons: ['wisdom', 'patience', 'faith'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "Let us go to God for the cause of it. There is prodigious danger in the seeking of loose spirits.",
+              "Let us go to God for the cause of it. There is prodigious danger in the seeking of loose spirits.",
+              "Let us go to God for the cause of it. There is prodigious danger in the seeking of loose spirits.",
+              "Let us go to God for the cause of it. There is prodigious danger in the seeking of loose spirits.",
+              "Let us go to God for the cause of it. There is prodigious danger in the seeking of loose spirits."
+            ],
+            description: 'The elderly woman who represents wisdom and reason in the face of hysteria.'
+          },
+          {
+            name: 'Giles Corey',
+            role: 'The Stubborn Farmer',
+            startingCoins: 85,
+            startingWeapons: ['stubbornness', 'determination', 'truth'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'stubborn',
+            quotes: [
+              "More weight!",
+              "More weight!",
+              "More weight!",
+              "More weight!",
+              "More weight!"
+            ],
+            description: 'The farmer who refuses to plead guilty or innocent, choosing to be pressed to death instead.'
+          },
+          {
+            name: 'Mary Warren',
+            role: 'The Conflicted Servant',
+            startingCoins: 70,
+            startingWeapons: ['fear', 'confusion', 'desperation'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'conflicted',
+            quotes: [
+              "I cannot, I cannot!",
+              "I cannot, I cannot!",
+              "I cannot, I cannot!",
+              "I cannot, I cannot!",
+              "I cannot, I cannot!"
+            ],
+            description: 'The Proctors\' servant who is torn between telling the truth and protecting herself.'
+          },
+          {
+            name: 'Francis Nurse',
+            role: 'The Concerned Citizen',
+            startingCoins: 80,
+            startingWeapons: ['concern', 'action', 'justice'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'concerned',
+            quotes: [
+              "We have proof for your eyes; God forbid you shut them to it.",
+              "We have proof for your eyes; God forbid you shut them to it.",
+              "We have proof for your eyes; God forbid you shut them to it.",
+              "We have proof for your eyes; God forbid you shut them to it.",
+              "We have proof for your eyes; God forbid you shut them to it."
+            ],
+            description: 'Rebecca Nurse\'s husband who tries to defend his wife and expose the truth.'
+          },
+          {
+            name: 'Ezekiel Cheever',
+            role: 'The Court Clerk',
+            startingCoins: 75,
+            startingWeapons: ['records', 'evidence', 'procedure'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'methodical',
+            quotes: [
+              "I am a clerk of the court, sir.",
+              "I am a clerk of the court, sir.",
+              "I am a clerk of the court, sir.",
+              "I am a clerk of the court, sir.",
+              "I am a clerk of the court, sir."
+            ],
+            description: 'The court clerk who records the proceedings and evidence.'
+          },
+          {
+            name: 'Judge Hathorne',
+            role: 'The Stern Judge',
+            startingCoins: 95,
+            startingWeapons: ['authority', 'judgment', 'power'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'stern',
+            quotes: [
+              "You are under arrest in the name of the court!",
+              "You are under arrest in the name of the court!",
+              "You are under arrest in the name of the court!",
+              "You are under arrest in the name of the court!",
+              "You are under arrest in the name of the court!"
+            ],
+            description: 'The judge who presides over the witch trials with stern authority.'
+          },
+          {
+            name: 'Deputy Governor Danforth',
+            role: 'The Final Authority',
+            startingCoins: 105,
+            startingWeapons: ['authority', 'power', 'conviction'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'authoritative',
+            quotes: [
+              "A person is either with this court or he must be counted against it.",
+              "A person is either with this court or he must be counted against it.",
+              "A person is either with this court or he must be counted against it.",
+              "A person is either with this court or he must be counted against it.",
+              "A person is either with this court or he must be counted against it."
+            ],
+            description: 'The highest authority in the court who makes the final decisions about the trials.'
+          },
+          {
+            name: 'Thomas Putnam',
+            role: 'The Greedy Landowner',
+            startingCoins: 90,
+            startingWeapons: ['greed', 'land', 'influence'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'greedy',
+            quotes: [
+              "This man is killing his neighbors for their land!",
+              "This man is killing his neighbors for their land!",
+              "This man is killing his neighbors for their land!",
+              "This man is killing his neighbors for their land!",
+              "This man is killing his neighbors for their land!"
+            ],
+            description: 'The wealthy landowner who uses the trials to gain more land and power.'
+          },
+          {
+            name: 'Ann Putnam',
+            role: 'The Grieving Mother',
+            startingCoins: 85,
+            startingWeapons: ['grief', 'anger', 'accusations'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'grieving',
+            quotes: [
+              "I have lost seven babies in the night!",
+              "I have lost seven babies in the night!",
+              "I have lost seven babies in the night!",
+              "I have lost seven babies in the night!",
+              "I have lost seven babies in the night!"
+            ],
+            description: 'Thomas Putnam\'s wife who has lost many children and seeks someone to blame.'
+          },
+          {
+            name: 'Betty Parris',
+            role: 'The Afflicted Child',
+            startingCoins: 60,
+            startingWeapons: ['fear', 'hysteria', 'innocence'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'frightened',
+            quotes: [
+              "I want my mama!",
+              "I want my mama!",
+              "I want my mama!",
+              "I want my mama!",
+              "I want my mama!"
+            ],
+            description: 'Reverend Parris\'s daughter who falls ill and starts the hysteria.'
+          },
+          {
+            name: 'Tituba',
+            role: 'The Accused Servant',
+            startingCoins: 50,
+            startingWeapons: ['fear', 'confession', 'survival'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'frightened',
+            quotes: [
+              "I don\'t compact with no Devil!",
+              "I don\'t compact with no Devil!",
+              "I don\'t compact with no Devil!",
+              "I don\'t compact with no Devil!",
+              "I don\'t compact with no Devil!"
+            ],
+            description: 'Reverend Parris\'s slave who is accused of witchcraft and forced to confess.'
+          },
+          {
+            name: 'Sarah Good',
+            role: 'The Beggar',
+            startingCoins: 40,
+            startingWeapons: ['desperation', 'survival', 'anger'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'desperate',
+            quotes: [
+              "I am no more a witch than you are a wizard!",
+              "I am no more a witch than you are a wizard!",
+              "I am no more a witch than you are a wizard!",
+              "I am no more a witch than you are a wizard!",
+              "I am no more a witch than you are a wizard!"
+            ],
+            description: 'The poor beggar who is accused of witchcraft and executed.'
+          },
+          {
+            name: 'Sarah Osburn',
+            role: 'The Outcast',
+            startingCoins: 45,
+            startingWeapons: ['isolation', 'fear', 'desperation'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'isolated',
+            quotes: [
+              "I am innocent!",
+              "I am innocent!",
+              "I am innocent!",
+              "I am innocent!",
+              "I am innocent!"
+            ],
+            description: 'The outcast woman who is accused of witchcraft and executed.'
+          },
+          {
+            name: 'Martha Corey',
+            role: 'The Skeptical Wife',
+            startingCoins: 80,
+            startingWeapons: ['skepticism', 'reason', 'courage'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'skeptical',
+            quotes: [
+              "I know not what a witch is.",
+              "I know not what a witch is.",
+              "I know not what a witch is.",
+              "I know not what a witch is.",
+              "I know not what a witch is."
+            ],
+            description: 'Giles Corey\'s wife who questions the validity of the witch trials.'
+          },
+          {
+            name: 'Reverend Samuel Parris',
+            role: 'The Selfish Minister',
+            startingCoins: 100,
+            startingWeapons: ['authority', 'fear', 'self-interest'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'selfish',
+            quotes: [
+              "There is either obedience or the church will burn like Hell is burning!",
+              "There is either obedience or the church will burn like Hell is burning!",
+              "There is either obedience or the church will burn like Hell is burning!",
+              "There is either obedience or the church will burn like Hell is burning!",
+              "There is either obedience or the church will burn like Hell is burning!"
+            ],
+            description: 'The minister who is more concerned with his reputation than the truth.'
+          },
+          {
+            name: 'Mercy Lewis',
+            role: 'The Manipulative Girl',
+            startingCoins: 65,
+            startingWeapons: ['manipulation', 'lies', 'hysteria'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'manipulative',
+            quotes: [
+              "I saw Goody Proctor with the Devil!",
+              "I saw Goody Proctor with the Devil!",
+              "I saw Goody Proctor with the Devil!",
+              "I saw Goody Proctor with the Devil!",
+              "I saw Goody Proctor with the Devil!"
+            ],
+            description: 'One of the girls who accuses others of witchcraft to protect herself.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Honest Citizen', startingCoins: 30, startingWeapons: ['truth'], startingMercenaries: 0, startingCastles: 0, personality: 'honest', quotes: ['We speak truth!', 'We resist!', 'We stand firm!'] },
+          { name: 'Conscientious Objector', startingCoins: 25, startingWeapons: ['conscience'], startingMercenaries: 0, startingCastles: 0, personality: 'conscientious', quotes: ['We refuse!', 'We resist!', 'We stand up!'] },
+          { name: 'Truth Seeker', startingCoins: 35, startingWeapons: ['investigation'], startingMercenaries: 0, startingCastles: 0, personality: 'investigative', quotes: ['We investigate!', 'We question!', 'We seek!'] }
+        ]
+      },
+      hysteria: {
+        name: 'Forces of Hysteria',
+        color: '#dc2626', // Red
+        description: 'Those who perpetuate the witch hunt, mass hysteria, and abuse of power',
+        territories: [
+          { name: 'The Court', cost: 25, description: 'Where the trials are conducted and justice is perverted' },
+          { name: 'The Gallows', cost: 22, description: 'Where the accused are executed' },
+          { name: 'The Dungeon', cost: 20, description: 'Where the accused are tortured and held' },
+          { name: 'The Meeting House', cost: 18, description: 'Where the community gathers for trials' },
+          { name: 'The Common', cost: 15, description: 'Where people gather and hysteria spreads' },
+          { name: 'The Tavern', cost: 12, description: 'Where rumors spread and fear grows' },
+          { name: 'The Schoolhouse', cost: 10, description: 'Where the accusations began' },
+          { name: 'The Woods', cost: 8, description: 'Where the girls danced and the hysteria began' },
+          { name: 'The Well', cost: 6, description: 'Where people gather and spread fear' },
+          { name: 'The Path', cost: 4, description: 'Where people walk and spread rumors' },
+          { name: 'The Field', cost: 3, description: 'Where people work and spread fear' },
+          { name: 'The Garden', cost: 2, description: 'Where people tend to their fears' },
+          { name: 'The Porch', cost: 1, description: 'Where people sit and spread hysteria' },
+          { name: 'The Church', cost: 14, description: 'Where people seek to justify their actions' },
+          { name: 'The Store', cost: 7, description: 'Where people buy goods and spread fear' },
+          { name: 'The Inn', cost: 9, description: 'Where travelers stay and spread hysteria' },
+          { name: 'The Mill', cost: 11, description: 'Where people work and spread fear' },
+          { name: 'The Bridge', cost: 5, description: 'Connection between different parts of town' },
+          { name: 'The Hill', cost: 13, description: 'High ground where people can see far' },
+          { name: 'The Valley', cost: 1, description: 'Low ground where people gather' }
+        ],
+        characters: [
+          {
+            name: 'Abigail Williams',
+            role: 'The Accuser',
+            startingCoins: 100,
+            startingWeapons: ['lies', 'manipulation', 'fear'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'manipulative',
+            quotes: [
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse.",
+              "I have this morning signed away the soul of Rebecca Nurse."
+            ],
+            description: 'The young woman who leads the accusations and manipulates the court to her advantage.'
+          },
+          {
+            name: 'Reverend Samuel Parris',
+            role: 'The Selfish Minister',
+            startingCoins: 100,
+            startingWeapons: ['authority', 'fear', 'self-interest'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'selfish',
+            quotes: [
+              "There is either obedience or the church will burn like Hell is burning!",
+              "There is either obedience or the church will burn like Hell is burning!",
+              "There is either obedience or the church will burn like Hell is burning!",
+              "There is either obedience or the church will burn like Hell is burning!",
+              "There is either obedience or the church will burn like Hell is burning!"
+            ],
+            description: 'The minister who is more concerned with his reputation than the truth.'
+          },
+          {
+            name: 'Judge Hathorne',
+            role: 'The Stern Judge',
+            startingCoins: 95,
+            startingWeapons: ['authority', 'judgment', 'power'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'stern',
+            quotes: [
+              "You are under arrest in the name of the court!",
+              "You are under arrest in the name of the court!",
+              "You are under arrest in the name of the court!",
+              "You are under arrest in the name of the court!",
+              "You are under arrest in the name of the court!"
+            ],
+            description: 'The judge who presides over the witch trials with stern authority.'
+          },
+          {
+            name: 'Deputy Governor Danforth',
+            role: 'The Final Authority',
+            startingCoins: 105,
+            startingWeapons: ['authority', 'power', 'conviction'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'authoritative',
+            quotes: [
+              "A person is either with this court or he must be counted against it.",
+              "A person is either with this court or he must be counted against it.",
+              "A person is either with this court or he must be counted against it.",
+              "A person is either with this court or he must be counted against it.",
+              "A person is either with this court or he must be counted against it."
+            ],
+            description: 'The highest authority in the court who makes the final decisions about the trials.'
+          },
+          {
+            name: 'Thomas Putnam',
+            role: 'The Greedy Landowner',
+            startingCoins: 90,
+            startingWeapons: ['greed', 'land', 'influence'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'greedy',
+            quotes: [
+              "This man is killing his neighbors for their land!",
+              "This man is killing his neighbors for their land!",
+              "This man is killing his neighbors for their land!",
+              "This man is killing his neighbors for their land!",
+              "This man is killing his neighbors for their land!"
+            ],
+            description: 'The wealthy landowner who uses the trials to gain more land and power.'
+          },
+          {
+            name: 'Ann Putnam',
+            role: 'The Grieving Mother',
+            startingCoins: 85,
+            startingWeapons: ['grief', 'anger', 'accusations'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'grieving',
+            quotes: [
+              "I have lost seven babies in the night!",
+              "I have lost seven babies in the night!",
+              "I have lost seven babies in the night!",
+              "I have lost seven babies in the night!",
+              "I have lost seven babies in the night!"
+            ],
+            description: 'Thomas Putnam\'s wife who has lost many children and seeks someone to blame.'
+          },
+          {
+            name: 'Betty Parris',
+            role: 'The Afflicted Child',
+            startingCoins: 60,
+            startingWeapons: ['fear', 'hysteria', 'innocence'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'frightened',
+            quotes: [
+              "I want my mama!",
+              "I want my mama!",
+              "I want my mama!",
+              "I want my mama!",
+              "I want my mama!"
+            ],
+            description: 'Reverend Parris\'s daughter who falls ill and starts the hysteria.'
+          },
+          {
+            name: 'Tituba',
+            role: 'The Accused Servant',
+            startingCoins: 50,
+            startingWeapons: ['fear', 'confession', 'survival'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'frightened',
+            quotes: [
+              "I don\'t compact with no Devil!",
+              "I don\'t compact with no Devil!",
+              "I don\'t compact with no Devil!",
+              "I don\'t compact with no Devil!",
+              "I don\'t compact with no Devil!"
+            ],
+            description: 'Reverend Parris\'s slave who is accused of witchcraft and forced to confess.'
+          },
+          {
+            name: 'Sarah Good',
+            role: 'The Beggar',
+            startingCoins: 40,
+            startingWeapons: ['desperation', 'survival', 'anger'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'desperate',
+            quotes: [
+              "I am no more a witch than you are a wizard!",
+              "I am no more a witch than you are a wizard!",
+              "I am no more a witch than you are a wizard!",
+              "I am no more a witch than you are a wizard!",
+              "I am no more a witch than you are a wizard!"
+            ],
+            description: 'The poor beggar who is accused of witchcraft and executed.'
+          },
+          {
+            name: 'Sarah Osburn',
+            role: 'The Outcast',
+            startingCoins: 45,
+            startingWeapons: ['isolation', 'fear', 'desperation'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'isolated',
+            quotes: [
+              "I am innocent!",
+              "I am innocent!",
+              "I am innocent!",
+              "I am innocent!",
+              "I am innocent!"
+            ],
+            description: 'The outcast woman who is accused of witchcraft and executed.'
+          },
+          {
+            name: 'Martha Corey',
+            role: 'The Skeptical Wife',
+            startingCoins: 80,
+            startingWeapons: ['skepticism', 'reason', 'courage'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'skeptical',
+            quotes: [
+              "I know not what a witch is.",
+              "I know not what a witch is.",
+              "I know not what a witch is.",
+              "I know not what a witch is.",
+              "I know not what a witch is."
+            ],
+            description: 'Giles Corey\'s wife who questions the validity of the witch trials.'
+          },
+          {
+            name: 'Ezekiel Cheever',
+            role: 'The Court Clerk',
+            startingCoins: 75,
+            startingWeapons: ['records', 'evidence', 'procedure'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'methodical',
+            quotes: [
+              "I am a clerk of the court, sir.",
+              "I am a clerk of the court, sir.",
+              "I am a clerk of the court, sir.",
+              "I am a clerk of the court, sir.",
+              "I am a clerk of the court, sir."
+            ],
+            description: 'The court clerk who records the proceedings and evidence.'
+          },
+          {
+            name: 'Mercy Lewis',
+            role: 'The Manipulative Girl',
+            startingCoins: 65,
+            startingWeapons: ['manipulation', 'lies', 'hysteria'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'manipulative',
+            quotes: [
+              "I saw Goody Proctor with the Devil!",
+              "I saw Goody Proctor with the Devil!",
+              "I saw Goody Proctor with the Devil!",
+              "I saw Goody Proctor with the Devil!",
+              "I saw Goody Proctor with the Devil!"
+            ],
+            description: 'One of the girls who accuses others of witchcraft to protect herself.'
+          },
+          {
+            name: 'Susanna Walcott',
+            role: 'The Hysterical Girl',
+            startingCoins: 60,
+            startingWeapons: ['hysteria', 'fear', 'lies'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'hysterical',
+            quotes: [
+              "I saw Goody Osburn with the Devil!",
+              "I saw Goody Osburn with the Devil!",
+              "I saw Goody Osburn with the Devil!",
+              "I saw Goody Osburn with the Devil!",
+              "I saw Goody Osburn with the Devil!"
+            ],
+            description: 'One of the girls who participates in the hysteria and accusations.'
+          },
+          {
+            name: 'Mary Warren',
+            role: 'The Conflicted Servant',
+            startingCoins: 70,
+            startingWeapons: ['fear', 'confusion', 'desperation'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'conflicted',
+            quotes: [
+              "I cannot, I cannot!",
+              "I cannot, I cannot!",
+              "I cannot, I cannot!",
+              "I cannot, I cannot!",
+              "I cannot, I cannot!"
+            ],
+            description: 'The Proctors\' servant who is torn between telling the truth and protecting herself.'
+          },
+          {
+            name: 'Francis Nurse',
+            role: 'The Concerned Citizen',
+            startingCoins: 80,
+            startingWeapons: ['concern', 'action', 'justice'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'concerned',
+            quotes: [
+              "We have proof for your eyes; God forbid you shut them to it.",
+              "We have proof for your eyes; God forbid you shut them to it.",
+              "We have proof for your eyes; God forbid you shut them to it.",
+              "We have proof for your eyes; God forbid you shut them to it.",
+              "We have proof for your eyes; God forbid you shut them to it."
+            ],
+            description: 'Rebecca Nurse\'s husband who tries to defend his wife and expose the truth.'
+          },
+          {
+            name: 'John Proctor',
+            role: 'The Tragic Hero',
+            startingCoins: 120,
+            startingWeapons: ['integrity', 'honesty', 'courage'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'principled',
+            quotes: [
+              "Because it is my name! Because I cannot have another in my life!",
+              "I have given you my soul; leave me my name!",
+              "I speak my own sins; I cannot judge another.",
+              "I have known her, sir. I have known her.",
+              "How may I live without my name? I have given you my soul; leave me my name!"
+            ],
+            description: 'The farmer who becomes the central figure in the witch trials, torn between his integrity and his desire to live.'
+          },
+          {
+            name: 'Elizabeth Proctor',
+            role: 'The Loyal Wife',
+            startingCoins: 100,
+            startingWeapons: ['loyalty', 'forgiveness', 'strength'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "I have sins of my own to count. It needs a cold wife to prompt lechery.",
+              "I have sins of my own to count. It needs a cold wife to prompt lechery.",
+              "I have sins of my own to count. It needs a cold wife to prompt lechery.",
+              "I have sins of my own to count. It needs a cold wife to prompt lechery.",
+              "I have sins of my own to count. It needs a cold wife to prompt lechery."
+            ],
+            description: 'John Proctor\'s wife who stands by him despite his infidelity and the trials they face.'
+          },
+          {
+            name: 'Reverend John Hale',
+            role: 'The Learned Minister',
+            startingCoins: 110,
+            startingWeapons: ['knowledge', 'books', 'wisdom'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'scholarly',
+            quotes: [
+              "I have come to do the Devil\'s work. I come to counsel Christians they should belie themselves.",
+              "I have come to do the Devil\'s work. I come to counsel Christians they should belie themselves.",
+              "I have come to do the Devil\'s work. I come to counsel Christians they should belie themselves.",
+              "I have come to do the Devil\'s work. I come to counsel Christians they should belie themselves.",
+              "I have come to do the Devil\'s work. I come to counsel Christians they should belie themselves."
+            ],
+            description: 'The learned minister who initially supports the trials but later questions their validity.'
+          },
+          {
+            name: 'Rebecca Nurse',
+            role: 'The Wise Elder',
+            startingCoins: 90,
+            startingWeapons: ['wisdom', 'patience', 'faith'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "Let us go to God for the cause of it. There is prodigious danger in the seeking of loose spirits.",
+              "Let us go to God for the cause of it. There is prodigious danger in the seeking of loose spirits.",
+              "Let us go to God for the cause of it. There is prodigious danger in the seeking of loose spirits.",
+              "Let us go to God for the cause of it. There is prodigious danger in the seeking of loose spirits.",
+              "Let us go to God for the cause of it. There is prodigious danger in the seeking of loose spirits."
+            ],
+            description: 'The elderly woman who represents wisdom and reason in the face of hysteria.'
+          },
+          {
+            name: 'Giles Corey',
+            role: 'The Stubborn Farmer',
+            startingCoins: 85,
+            startingWeapons: ['stubbornness', 'determination', 'truth'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'stubborn',
+            quotes: [
+              "More weight!",
+              "More weight!",
+              "More weight!",
+              "More weight!",
+              "More weight!"
+            ],
+            description: 'The farmer who refuses to plead guilty or innocent, choosing to be pressed to death instead.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Accuser', startingCoins: 30, startingWeapons: ['lies'], startingMercenaries: 0, startingCastles: 0, personality: 'accusing', quotes: ['We accuse!', 'We blame!', 'We point fingers!'] },
+          { name: 'Hysteric', startingCoins: 25, startingWeapons: ['hysteria'], startingMercenaries: 0, startingCastles: 0, personality: 'hysterical', quotes: ['We panic!', 'We fear!', 'We scream!'] },
+          { name: 'Corrupt Official', startingCoins: 35, startingWeapons: ['power'], startingMercenaries: 0, startingCastles: 0, personality: 'corrupt', quotes: ['We abuse power!', 'We corrupt!', 'We destroy!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Forest', cost: 5, description: 'Where the girls danced and the hysteria began' },
+      { name: 'The Common', cost: 3, description: 'Where the community gathers and rumors spread' },
+      { name: 'The Well', cost: 2, description: 'Where people gather water and share news' },
+      { name: 'The Path', cost: 1, description: 'Where people walk and think' },
+      { name: 'The Field', cost: 4, description: 'Where honest work is done and truth is found' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // FAHRENHEIT 451 SCENARIO
+  fahrenheit451: {
+    id: 'fahrenheit451',
+    name: 'Fahrenheit 451: The Future of Censorship (1953)',
+    type: 'literary',
+    description: 'Ray Bradbury\'s dystopian vision of a future where books are banned and firemen burn them, exploring themes of censorship, knowledge, and freedom.',
+    factions: {
+      knowledge: {
+        name: 'Defenders of Knowledge',
+        color: '#1e40af', // Blue
+        description: 'Those who preserve books, knowledge, and intellectual freedom in a world of censorship',
+        territories: [
+          { name: 'Montag\'s House', cost: 25, description: 'Guy Montag\'s home where he hides books' },
+          { name: 'The Library', cost: 22, description: 'Secret repository of preserved books' },
+          { name: 'Faber\'s Apartment', cost: 20, description: 'Where the retired professor teaches Montag' },
+          { name: 'The River', cost: 18, description: 'Escape route and symbol of freedom' },
+          { name: 'The Forest', cost: 15, description: 'Where the book people live and preserve knowledge' },
+          { name: 'The Railroad Tracks', cost: 12, description: 'Path to freedom and the book people' },
+          { name: 'The University', cost: 10, description: 'Where knowledge was once taught' },
+          { name: 'The Book Store', cost: 8, description: 'Where books were once sold' },
+          { name: 'The Museum', cost: 6, description: 'Where artifacts of the past are preserved' },
+          { name: 'The Park', cost: 4, description: 'Where people once gathered to read' },
+          { name: 'The Cafe', cost: 3, description: 'Where intellectuals once discussed ideas' },
+          { name: 'The Theater', cost: 2, description: 'Where stories were once performed' },
+          { name: 'The Gallery', cost: 1, description: 'Where art was once displayed' },
+          { name: 'The School', cost: 14, description: 'Where children once learned to read' },
+          { name: 'The Church', cost: 7, description: 'Where people once gathered for reflection' },
+          { name: 'The Hospital', cost: 9, description: 'Where people once sought healing' },
+          { name: 'The Bank', cost: 11, description: 'Where people once stored their wealth' },
+          { name: 'The Bridge', cost: 5, description: 'Connection between different parts of the city' },
+          { name: 'The Hill', cost: 13, description: 'High ground where people can see far' },
+          { name: 'The Valley', cost: 1, description: 'Low ground where people gather' }
+        ],
+        characters: [
+          {
+            name: 'Guy Montag',
+            role: 'The Fireman Who Questions',
+            startingCoins: 120,
+            startingWeapons: ['books', 'questions', 'courage'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'questioning',
+            quotes: [
+              "There must be something in books, things we can\'t imagine, to make a woman stay in a burning house.",
+              "We need not to be let alone. We need to be really bothered once in a while.",
+              "I don\'t know anything anymore.",
+              "I\'m not thinking. I\'m just doing like I\'m told.",
+              "We have everything we need to be happy, but we aren\'t happy. Something\'s missing."
+            ],
+            description: 'The fireman who begins to question the system and secretly collects books.'
+          },
+          {
+            name: 'Clarisse McClellan',
+            role: 'The Free Spirit',
+            startingCoins: 100,
+            startingWeapons: ['curiosity', 'questions', 'innocence'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'curious',
+            quotes: [
+              "Are you happy?",
+              "Are you happy?",
+              "Are you happy?",
+              "Are you happy?",
+              "Are you happy?"
+            ],
+            description: 'The young woman who questions Montag about his happiness and opens his eyes to the world.'
+          },
+          {
+            name: 'Professor Faber',
+            role: 'The Wise Teacher',
+            startingCoins: 110,
+            startingWeapons: ['knowledge', 'books', 'wisdom'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "The books are to remind us what asses and fools we are.",
+              "The books are to remind us what asses and fools we are.",
+              "The books are to remind us what asses and fools we are.",
+              "The books are to remind us what asses and fools we are.",
+              "The books are to remind us what asses and fools we are."
+            ],
+            description: 'The retired professor who teaches Montag about the importance of books and knowledge.'
+          },
+          {
+            name: 'Mildred Montag',
+            role: 'The Conformist',
+            startingCoins: 90,
+            startingWeapons: ['conformity', 'television', 'pills'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'conformist',
+            quotes: [
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore."
+            ],
+            description: 'Montag\'s wife who is completely absorbed in the world of television and conformity.'
+          },
+          {
+            name: 'Granger',
+            role: 'The Book People Leader',
+            startingCoins: 105,
+            startingWeapons: ['memory', 'books', 'leadership'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'leader',
+            quotes: [
+              "We\'re going to build a mirror factory first and put out nothing but mirrors for the next year and take a long look in them.",
+              "We\'re going to build a mirror factory first and put out nothing but mirrors for the next year and take a long look in them.",
+              "We\'re going to build a mirror factory first and put out nothing but mirrors for the next year and take a long look in them.",
+              "We\'re going to build a mirror factory first and put out nothing but mirrors for the next year and take a long look in them.",
+              "We\'re going to build a mirror factory first and put out nothing but mirrors for the next year and take a long look in them."
+            ],
+            description: 'The leader of the book people who preserve knowledge through memory.'
+          },
+          {
+            name: 'Beatty',
+            role: 'The Fire Chief',
+            startingCoins: 95,
+            startingWeapons: ['authority', 'fire', 'conformity'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'authoritarian',
+            quotes: [
+              "A book is a loaded gun in the house next door.",
+              "A book is a loaded gun in the house next door.",
+              "A book is a loaded gun in the house next door.",
+              "A book is a loaded gun in the house next door.",
+              "A book is a loaded gun in the house next door."
+            ],
+            description: 'The fire chief who enforces the book burning laws and tries to convert Montag back.'
+          },
+          {
+            name: 'Mrs. Phelps',
+            role: 'The Conformist Friend',
+            startingCoins: 80,
+            startingWeapons: ['conformity', 'television', 'ignorance'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'conformist',
+            quotes: [
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore."
+            ],
+            description: 'Mildred\'s friend who represents the conformist society.'
+          },
+          {
+            name: 'Mrs. Bowles',
+            role: 'The Conformist Friend',
+            startingCoins: 85,
+            startingWeapons: ['conformity', 'television', 'ignorance'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'conformist',
+            quotes: [
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore."
+            ],
+            description: 'Mildred\'s friend who represents the conformist society.'
+          },
+          {
+            name: 'The Mechanical Hound',
+            role: 'The Enforcer',
+            startingCoins: 100,
+            startingWeapons: ['tracking', 'violence', 'obedience'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'mechanical',
+            quotes: [
+              "Tracking. Tracking. Tracking.",
+              "Tracking. Tracking. Tracking.",
+              "Tracking. Tracking. Tracking.",
+              "Tracking. Tracking. Tracking.",
+              "Tracking. Tracking. Tracking."
+            ],
+            description: 'The mechanical hound that tracks down and eliminates those who possess books.'
+          },
+          {
+            name: 'The Book People',
+            role: 'The Memory Keepers',
+            startingCoins: 90,
+            startingWeapons: ['memory', 'books', 'knowledge'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'preserver',
+            quotes: [
+              "We are the book people.",
+              "We are the book people.",
+              "We are the book people.",
+              "We are the book people.",
+              "We are the book people."
+            ],
+            description: 'The group of people who preserve books by memorizing them.'
+          },
+          {
+            name: 'The Old Woman',
+            role: 'The Martyr',
+            startingCoins: 70,
+            startingWeapons: ['books', 'courage', 'sacrifice'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'martyr',
+            quotes: [
+              "I want to stay here.",
+              "I want to stay here.",
+              "I want to stay here.",
+              "I want to stay here.",
+              "I want to stay here."
+            ],
+            description: 'The old woman who chooses to die with her books rather than live without them.'
+          },
+          {
+            name: 'The Firemen',
+            role: 'The Enforcers',
+            startingCoins: 85,
+            startingWeapons: ['fire', 'authority', 'violence'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'enforcer',
+            quotes: [
+              "We burn books.",
+              "We burn books.",
+              "We burn books.",
+              "We burn books.",
+              "We burn books."
+            ],
+            description: 'The firemen who burn books and enforce the censorship laws.'
+          },
+          {
+            name: 'The Television Characters',
+            role: 'The Distractions',
+            startingCoins: 75,
+            startingWeapons: ['distraction', 'entertainment', 'conformity'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'distracting',
+            quotes: [
+              "Watch the show!",
+              "Watch the show!",
+              "Watch the show!",
+              "Watch the show!",
+              "Watch the show!"
+            ],
+            description: 'The characters from the television shows that distract people from thinking.'
+          },
+          {
+            name: 'The Censorship Officials',
+            role: 'The Controllers',
+            startingCoins: 95,
+            startingWeapons: ['authority', 'censorship', 'control'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'controlling',
+            quotes: [
+              "Books are dangerous.",
+              "Books are dangerous.",
+              "Books are dangerous.",
+              "Books are dangerous.",
+              "Books are dangerous."
+            ],
+            description: 'The officials who enforce the censorship laws and control information.'
+          },
+          {
+            name: 'The Intellectuals',
+            role: 'The Thinkers',
+            startingCoins: 90,
+            startingWeapons: ['thought', 'knowledge', 'questions'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'intellectual',
+            quotes: [
+              "We must think.",
+              "We must think.",
+              "We must think.",
+              "We must think.",
+              "We must think."
+            ],
+            description: 'The intellectuals who preserve knowledge and encourage critical thinking.'
+          },
+          {
+            name: 'The Rebels',
+            role: 'The Freedom Fighters',
+            startingCoins: 85,
+            startingWeapons: ['rebellion', 'freedom', 'courage'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'rebellious',
+            quotes: [
+              "We must resist!",
+              "We must resist!",
+              "We must resist!",
+              "We must resist!",
+              "We must resist!"
+            ],
+            description: 'The rebels who fight against the censorship system.'
+          },
+          {
+            name: 'The Conformists',
+            role: 'The Followers',
+            startingCoins: 80,
+            startingWeapons: ['conformity', 'obedience', 'ignorance'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'conformist',
+            quotes: [
+              "We follow orders.",
+              "We follow orders.",
+              "We follow orders.",
+              "We follow orders.",
+              "We follow orders."
+            ],
+            description: 'The conformists who follow the system without question.'
+          },
+          {
+            name: 'The Survivors',
+            role: 'The Escaped',
+            startingCoins: 90,
+            startingWeapons: ['survival', 'knowledge', 'hope'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'survivor',
+            quotes: [
+              "We will survive.",
+              "We will survive.",
+              "We will survive.",
+              "We will survive.",
+              "We will survive."
+            ],
+            description: 'The survivors who have escaped the city and preserve knowledge.'
+          },
+          {
+            name: 'The Future Generations',
+            role: 'The Hope',
+            startingCoins: 85,
+            startingWeapons: ['hope', 'knowledge', 'future'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'hopeful',
+            quotes: [
+              "We will rebuild.",
+              "We will rebuild.",
+              "We will rebuild.",
+              "We will rebuild.",
+              "We will rebuild."
+            ],
+            description: 'The future generations who will rebuild society with knowledge and freedom.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Book Lover', startingCoins: 30, startingWeapons: ['books'], startingMercenaries: 0, startingCastles: 0, personality: 'lover', quotes: ['We love books!', 'We preserve knowledge!', 'We resist!'] },
+          { name: 'Thinker', startingCoins: 25, startingWeapons: ['thought'], startingMercenaries: 0, startingCastles: 0, personality: 'thinker', quotes: ['We think!', 'We question!', 'We learn!'] },
+          { name: 'Freedom Fighter', startingCoins: 35, startingWeapons: ['freedom'], startingMercenaries: 0, startingCastles: 0, personality: 'fighter', quotes: ['We fight!', 'We resist!', 'We win!'] }
+        ]
+      },
+      censorship: {
+        name: 'Forces of Censorship',
+        color: '#dc2626', // Red
+        description: 'Those who enforce censorship, burn books, and control information to maintain power',
+        territories: [
+          { name: 'The Fire Station', cost: 25, description: 'Where the firemen plan their book burning raids' },
+          { name: 'The Television Studio', cost: 22, description: 'Where mindless entertainment is produced' },
+          { name: 'The Censorship Office', cost: 20, description: 'Where information is controlled and filtered' },
+          { name: 'The Prison', cost: 18, description: 'Where those who possess books are held' },
+          { name: 'The Factory', cost: 15, description: 'Where conformity is manufactured' },
+          { name: 'The School', cost: 12, description: 'Where children are taught to conform' },
+          { name: 'The Hospital', cost: 10, description: 'Where independent thought is treated as illness' },
+          { name: 'The Church', cost: 8, description: 'Where people are taught to obey' },
+          { name: 'The Bank', cost: 6, description: 'Where wealth is controlled' },
+          { name: 'The Store', cost: 4, description: 'Where only approved goods are sold' },
+          { name: 'The Park', cost: 3, description: 'Where people are monitored' },
+          { name: 'The Street', cost: 2, description: 'Where people walk in lines' },
+          { name: 'The House', cost: 1, description: 'Where people live in isolation' },
+          { name: 'The Office', cost: 14, description: 'Where work is controlled' },
+          { name: 'The Restaurant', cost: 7, description: 'Where people eat without thinking' },
+          { name: 'The Theater', cost: 9, description: 'Where only approved shows are performed' },
+          { name: 'The Museum', cost: 11, description: 'Where only approved history is shown' },
+          { name: 'The Bridge', cost: 5, description: 'Connection between different parts of the city' },
+          { name: 'The Hill', cost: 13, description: 'High ground where people can be watched' },
+          { name: 'The Valley', cost: 1, description: 'Low ground where people gather' }
+        ],
+        characters: [
+          {
+            name: 'Captain Beatty',
+            role: 'The Fire Chief',
+            startingCoins: 105,
+            startingWeapons: ['authority', 'fire', 'conformity'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'authoritarian',
+            quotes: [
+              "A book is a loaded gun in the house next door.",
+              "A book is a loaded gun in the house next door.",
+              "A book is a loaded gun in the house next door.",
+              "A book is a loaded gun in the house next door.",
+              "A book is a loaded gun in the house next door."
+            ],
+            description: 'The fire chief who enforces the book burning laws and tries to convert Montag back.'
+          },
+          {
+            name: 'Mildred Montag',
+            role: 'The Conformist',
+            startingCoins: 90,
+            startingWeapons: ['conformity', 'television', 'pills'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'conformist',
+            quotes: [
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore."
+            ],
+            description: 'Montag\'s wife who is completely absorbed in the world of television and conformity.'
+          },
+          {
+            name: 'The Mechanical Hound',
+            role: 'The Enforcer',
+            startingCoins: 100,
+            startingWeapons: ['tracking', 'violence', 'obedience'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'mechanical',
+            quotes: [
+              "Tracking. Tracking. Tracking.",
+              "Tracking. Tracking. Tracking.",
+              "Tracking. Tracking. Tracking.",
+              "Tracking. Tracking. Tracking.",
+              "Tracking. Tracking. Tracking."
+            ],
+            description: 'The mechanical hound that tracks down and eliminates those who possess books.'
+          },
+          {
+            name: 'Mrs. Phelps',
+            role: 'The Conformist Friend',
+            startingCoins: 80,
+            startingWeapons: ['conformity', 'television', 'ignorance'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'conformist',
+            quotes: [
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore."
+            ],
+            description: 'Mildred\'s friend who represents the conformist society.'
+          },
+          {
+            name: 'Mrs. Bowles',
+            role: 'The Conformist Friend',
+            startingCoins: 85,
+            startingWeapons: ['conformity', 'television', 'ignorance'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'conformist',
+            quotes: [
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore.",
+              "I don\'t know anything anymore."
+            ],
+            description: 'Mildred\'s friend who represents the conformist society.'
+          },
+          {
+            name: 'The Firemen',
+            role: 'The Enforcers',
+            startingCoins: 85,
+            startingWeapons: ['fire', 'authority', 'violence'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'enforcer',
+            quotes: [
+              "We burn books.",
+              "We burn books.",
+              "We burn books.",
+              "We burn books.",
+              "We burn books."
+            ],
+            description: 'The firemen who burn books and enforce the censorship laws.'
+          },
+          {
+            name: 'The Television Characters',
+            role: 'The Distractions',
+            startingCoins: 75,
+            startingWeapons: ['distraction', 'entertainment', 'conformity'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'distracting',
+            quotes: [
+              "Watch the show!",
+              "Watch the show!",
+              "Watch the show!",
+              "Watch the show!",
+              "Watch the show!"
+            ],
+            description: 'The characters from the television shows that distract people from thinking.'
+          },
+          {
+            name: 'The Censorship Officials',
+            role: 'The Controllers',
+            startingCoins: 95,
+            startingWeapons: ['authority', 'censorship', 'control'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'controlling',
+            quotes: [
+              "Books are dangerous.",
+              "Books are dangerous.",
+              "Books are dangerous.",
+              "Books are dangerous.",
+              "Books are dangerous."
+            ],
+            description: 'The officials who enforce the censorship laws and control information.'
+          },
+          {
+            name: 'The Conformists',
+            role: 'The Followers',
+            startingCoins: 80,
+            startingWeapons: ['conformity', 'obedience', 'ignorance'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'conformist',
+            quotes: [
+              "We follow orders.",
+              "We follow orders.",
+              "We follow orders.",
+              "We follow orders.",
+              "We follow orders."
+            ],
+            description: 'The conformists who follow the system without question.'
+          },
+          {
+            name: 'The Surveillance Officers',
+            role: 'The Watchers',
+            startingCoins: 90,
+            startingWeapons: ['surveillance', 'control', 'fear'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'watching',
+            quotes: [
+              "We are watching.",
+              "We are watching.",
+              "We are watching.",
+              "We are watching.",
+              "We are watching."
+            ],
+            description: 'The officers who monitor the population for signs of independent thought.'
+          },
+          {
+            name: 'The Propaganda Makers',
+            role: 'The Manipulators',
+            startingCoins: 85,
+            startingWeapons: ['propaganda', 'lies', 'manipulation'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'manipulative',
+            quotes: [
+              "We control the message.",
+              "We control the message.",
+              "We control the message.",
+              "We control the message.",
+              "We control the message."
+            ],
+            description: 'The people who create propaganda to control public opinion.'
+          },
+          {
+            name: 'The Thought Police',
+            role: 'The Enforcers',
+            startingCoins: 95,
+            startingWeapons: ['violence', 'fear', 'control'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'violent',
+            quotes: [
+              "We eliminate thought.",
+              "We eliminate thought.",
+              "We eliminate thought.",
+              "We eliminate thought.",
+              "We eliminate thought."
+            ],
+            description: 'The police who eliminate those who think independently.'
+          },
+          {
+            name: 'The Mind Controllers',
+            role: 'The Manipulators',
+            startingCoins: 90,
+            startingWeapons: ['control', 'manipulation', 'fear'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'controlling',
+            quotes: [
+              "We control minds.",
+              "We control minds.",
+              "We control minds.",
+              "We control minds.",
+              "We control minds."
+            ],
+            description: 'The people who control minds through fear and manipulation.'
+          },
+          {
+            name: 'The Information Controllers',
+            role: 'The Gatekeepers',
+            startingCoins: 85,
+            startingWeapons: ['censorship', 'control', 'fear'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'controlling',
+            quotes: [
+              "We control information.",
+              "We control information.",
+              "We control information.",
+              "We control information.",
+              "We control information."
+            ],
+            description: 'The people who control what information the public can access.'
+          },
+          {
+            name: 'The Entertainment Producers',
+            role: 'The Distractors',
+            startingCoins: 80,
+            startingWeapons: ['distraction', 'entertainment', 'conformity'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'distracting',
+            quotes: [
+              "We distract the masses.",
+              "We distract the masses.",
+              "We distract the masses.",
+              "We distract the masses.",
+              "We distract the masses."
+            ],
+            description: 'The people who produce mindless entertainment to distract from thinking.'
+          },
+          {
+            name: 'The Conformity Enforcers',
+            role: 'The Enforcers',
+            startingCoins: 85,
+            startingWeapons: ['conformity', 'violence', 'fear'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'enforcing',
+            quotes: [
+              "We enforce conformity.",
+              "We enforce conformity.",
+              "We enforce conformity.",
+              "We enforce conformity.",
+              "We enforce conformity."
+            ],
+            description: 'The people who enforce conformity through violence and fear.'
+          },
+          {
+            name: 'The Ignorance Promoters',
+            role: 'The Stupidifiers',
+            startingCoins: 80,
+            startingWeapons: ['ignorance', 'stupidity', 'conformity'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'stupidifying',
+            quotes: [
+              "We promote ignorance.",
+              "We promote ignorance.",
+              "We promote ignorance.",
+              "We promote ignorance.",
+              "We promote ignorance."
+            ],
+            description: 'The people who promote ignorance and discourage learning.'
+          },
+          {
+            name: 'The Fear Mongers',
+            role: 'The Terrorizers',
+            startingCoins: 90,
+            startingWeapons: ['fear', 'terror', 'control'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'terrifying',
+            quotes: [
+              "We spread fear.",
+              "We spread fear.",
+              "We spread fear.",
+              "We spread fear.",
+              "We spread fear."
+            ],
+            description: 'The people who spread fear to control the population.'
+          },
+          {
+            name: 'The System Defenders',
+            role: 'The Protectors',
+            startingCoins: 95,
+            startingWeapons: ['authority', 'power', 'control'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'defending',
+            quotes: [
+              "We defend the system.",
+              "We defend the system.",
+              "We defend the system.",
+              "We defend the system.",
+              "We defend the system."
+            ],
+            description: 'The people who defend the censorship system at all costs.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Conformist', startingCoins: 30, startingWeapons: ['conformity'], startingMercenaries: 0, startingCastles: 0, personality: 'conformist', quotes: ['We conform!', 'We obey!', 'We follow!'] },
+          { name: 'Enforcer', startingCoins: 25, startingWeapons: ['violence'], startingMercenaries: 0, startingCastles: 0, personality: 'enforcing', quotes: ['We enforce!', 'We control!', 'We dominate!'] },
+          { name: 'Controller', startingCoins: 35, startingWeapons: ['control'], startingMercenaries: 0, startingCastles: 0, personality: 'controlling', quotes: ['We control!', 'We dominate!', 'We rule!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The River', cost: 5, description: 'The escape route to freedom and the book people' },
+      { name: 'The Forest', cost: 3, description: 'Where the book people live and preserve knowledge' },
+      { name: 'The Railroad Tracks', cost: 2, description: 'Path to freedom and the book people' },
+      { name: 'The Bridge', cost: 1, description: 'Connection between different parts of the city' },
+      { name: 'The Hill', cost: 4, description: 'High ground where people can see far' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // BEOWULF SCENARIO
+  beowulf: {
+    id: 'beowulf',
+    name: 'Beowulf: The Epic of the Geatish Hero (8th century)',
+    type: 'literary',
+    description: 'The Old English epic poem about the legendary Geatish hero Beowulf and his battles against monsters, exploring themes of heroism, loyalty, and the struggle between good and evil.',
+    factions: {
+      heroism: {
+        name: 'Forces of Heroism',
+        color: '#1e40af', // Blue
+        description: 'Those who embody courage, honor, and heroic virtues in the face of monstrous evil',
+        territories: [
+          { name: 'Heorot Hall', cost: 25, description: 'The great mead hall where Beowulf defeats Grendel' },
+          { name: 'Beowulf\'s Ship', cost: 22, description: 'The vessel that brings Beowulf to Denmark' },
+          { name: 'The Throne Room', cost: 20, description: 'Where King Hrothgar rules and Beowulf is honored' },
+          { name: 'The Armory', cost: 18, description: 'Where weapons and armor are stored' },
+          { name: 'The Training Grounds', cost: 15, description: 'Where warriors practice their skills' },
+          { name: 'The Feasting Hall', cost: 12, description: 'Where heroes gather to celebrate' },
+          { name: 'The Watchtower', cost: 10, description: 'Where guards keep watch for danger' },
+          { name: 'The Stables', cost: 8, description: 'Where horses are kept for battle' },
+          { name: 'The Forge', cost: 6, description: 'Where weapons and armor are crafted' },
+          { name: 'The Barracks', cost: 4, description: 'Where warriors rest and prepare' },
+          { name: 'The Courtyard', cost: 3, description: 'Where warriors gather and train' },
+          { name: 'The Gate', cost: 2, description: 'The entrance to the stronghold' },
+          { name: 'The Wall', cost: 1, description: 'The defensive barrier around the settlement' },
+          { name: 'The Chapel', cost: 14, description: 'Where warriors pray for victory' },
+          { name: 'The Library', cost: 7, description: 'Where ancient knowledge is preserved' },
+          { name: 'The Garden', cost: 9, description: 'Where herbs for healing are grown' },
+          { name: 'The Well', cost: 11, description: 'Where fresh water is drawn' },
+          { name: 'The Bridge', cost: 5, description: 'Connection between different parts of the settlement' },
+          { name: 'The Hill', cost: 13, description: 'High ground where warriors can see far' },
+          { name: 'The Valley', cost: 1, description: 'Low ground where people gather' }
+        ],
+        characters: [
+          {
+            name: 'Beowulf',
+            role: 'The Geatish Hero',
+            startingCoins: 130,
+            startingWeapons: ['sword', 'strength', 'courage'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'heroic',
+            quotes: [
+              "I will show the Geats what I can do, or die in the attempt.",
+              "I will show the Geats what I can do, or die in the attempt.",
+              "I will show the Geats what I can do, or die in the attempt.",
+              "I will show the Geats what I can do, or die in the attempt.",
+              "I will show the Geats what I can do, or die in the attempt."
+            ],
+            description: 'The legendary Geatish hero who comes to Denmark to help King Hrothgar defeat the monster Grendel.'
+          },
+          {
+            name: 'King Hrothgar',
+            role: 'The Danish King',
+            startingCoins: 120,
+            startingWeapons: ['crown', 'authority', 'wisdom'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'wise',
+            quotes: [
+              "I have heard of your fame, Beowulf.",
+              "I have heard of your fame, Beowulf.",
+              "I have heard of your fame, Beowulf.",
+              "I have heard of your fame, Beowulf.",
+              "I have heard of your fame, Beowulf."
+            ],
+            description: 'The wise and generous Danish king who rules from Heorot and seeks help against Grendel.'
+          },
+          {
+            name: 'Wiglaf',
+            role: 'The Loyal Warrior',
+            startingCoins: 100,
+            startingWeapons: ['loyalty', 'sword', 'courage'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "I will stand by you, my lord.",
+              "I will stand by you, my lord.",
+              "I will stand by you, my lord.",
+              "I will stand by you, my lord.",
+              "I will stand by you, my lord."
+            ],
+            description: 'Beowulf\'s loyal warrior who stands by him in his final battle against the dragon.'
+          },
+          {
+            name: 'Unferth',
+            role: 'The Challenger',
+            startingCoins: 90,
+            startingWeapons: ['words', 'doubt', 'challenge'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'challenging',
+            quotes: [
+              "Are you the Beowulf who lost a swimming contest?",
+              "Are you the Beowulf who lost a swimming contest?",
+              "Are you the Beowulf who lost a swimming contest?",
+              "Are you the Beowulf who lost a swimming contest?",
+              "Are you the Beowulf who lost a swimming contest?"
+            ],
+            description: 'The Danish warrior who challenges Beowulf\'s reputation but later lends him his sword.'
+          },
+          {
+            name: 'Queen Wealhtheow',
+            role: 'The Gracious Queen',
+            startingCoins: 95,
+            startingWeapons: ['grace', 'wisdom', 'hospitality'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'gracious',
+            quotes: [
+              "Welcome, Beowulf, to our hall.",
+              "Welcome, Beowulf, to our hall.",
+              "Welcome, Beowulf, to our hall.",
+              "Welcome, Beowulf, to our hall.",
+              "Welcome, Beowulf, to our hall."
+            ],
+            description: 'King Hrothgar\'s gracious queen who welcomes Beowulf and serves the mead.'
+          },
+          {
+            name: 'Hrothgar\'s Warriors',
+            role: 'The Danish Guard',
+            startingCoins: 80,
+            startingWeapons: ['spears', 'shields', 'loyalty'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "We serve our king!",
+              "We serve our king!",
+              "We serve our king!",
+              "We serve our king!",
+              "We serve our king!"
+            ],
+            description: 'The loyal Danish warriors who serve King Hrothgar and defend Heorot.'
+          },
+          {
+            name: 'The Geatish Warriors',
+            role: 'Beowulf\'s Companions',
+            startingCoins: 85,
+            startingWeapons: ['swords', 'axes', 'loyalty'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "We follow Beowulf!",
+              "We follow Beowulf!",
+              "We follow Beowulf!",
+              "We follow Beowulf!",
+              "We follow Beowulf!"
+            ],
+            description: 'Beowulf\'s loyal Geatish warriors who accompany him on his quests.'
+          },
+          {
+            name: 'The Bard',
+            role: 'The Storyteller',
+            startingCoins: 75,
+            startingWeapons: ['words', 'stories', 'inspiration'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'inspiring',
+            quotes: [
+              "Let me tell you of great deeds!",
+              "Let me tell you of great deeds!",
+              "Let me tell you of great deeds!",
+              "Let me tell you of great deeds!",
+              "Let me tell you of great deeds!"
+            ],
+            description: 'The bard who tells stories of heroic deeds and inspires the warriors.'
+          },
+          {
+            name: 'The Healer',
+            role: 'The Wise Woman',
+            startingCoins: 70,
+            startingWeapons: ['herbs', 'healing', 'wisdom'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'healing',
+            quotes: [
+              "I will heal your wounds.",
+              "I will heal your wounds.",
+              "I will heal your wounds.",
+              "I will heal your wounds.",
+              "I will heal your wounds."
+            ],
+            description: 'The wise woman who heals the wounded warriors with herbs and knowledge.'
+          },
+          {
+            name: 'The Smith',
+            role: 'The Weapon Maker',
+            startingCoins: 80,
+            startingWeapons: ['hammer', 'forge', 'craftsmanship'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'skilled',
+            quotes: [
+              "I forge the finest weapons!",
+              "I forge the finest weapons!",
+              "I forge the finest weapons!",
+              "I forge the finest weapons!",
+              "I forge the finest weapons!"
+            ],
+            description: 'The skilled smith who forges weapons and armor for the warriors.'
+          },
+          {
+            name: 'The Scout',
+            role: 'The Watcher',
+            startingCoins: 75,
+            startingWeapons: ['bow', 'stealth', 'information'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'watchful',
+            quotes: [
+              "I watch for danger!",
+              "I watch for danger!",
+              "I watch for danger!",
+              "I watch for danger!",
+              "I watch for danger!"
+            ],
+            description: 'The scout who watches for danger and reports to the warriors.'
+          },
+          {
+            name: 'The Priest',
+            role: 'The Spiritual Guide',
+            startingCoins: 70,
+            startingWeapons: ['prayer', 'blessing', 'faith'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'spiritual',
+            quotes: [
+              "May the gods protect you!",
+              "May the gods protect you!",
+              "May the gods protect you!",
+              "May the gods protect you!",
+              "May the gods protect you!"
+            ],
+            description: 'The priest who prays for the warriors and blesses their weapons.'
+          },
+          {
+            name: 'The Messenger',
+            role: 'The Communicator',
+            startingCoins: 65,
+            startingWeapons: ['words', 'speed', 'reliability'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'reliable',
+            quotes: [
+              "I carry important messages!",
+              "I carry important messages!",
+              "I carry important messages!",
+              "I carry important messages!",
+              "I carry important messages!"
+            ],
+            description: 'The messenger who carries important messages between settlements.'
+          },
+          {
+            name: 'The Cook',
+            role: 'The Feeder',
+            startingCoins: 60,
+            startingWeapons: ['food', 'hospitality', 'nourishment'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'nurturing',
+            quotes: [
+              "I feed the warriors!",
+              "I feed the warriors!",
+              "I feed the warriors!",
+              "I feed the warriors!",
+              "I feed the warriors!"
+            ],
+            description: 'The cook who prepares food for the warriors and keeps them strong.'
+          },
+          {
+            name: 'The Stable Master',
+            role: 'The Horse Keeper',
+            startingCoins: 65,
+            startingWeapons: ['horses', 'care', 'mobility'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'caring',
+            quotes: [
+              "I care for the horses!",
+              "I care for the horses!",
+              "I care for the horses!",
+              "I care for the horses!",
+              "I care for the horses!"
+            ],
+            description: 'The stable master who cares for the horses and provides mobility for the warriors.'
+          },
+          {
+            name: 'The Guard Captain',
+            role: 'The Defender',
+            startingCoins: 85,
+            startingWeapons: ['spear', 'shield', 'leadership'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'defensive',
+            quotes: [
+              "I defend the settlement!",
+              "I defend the settlement!",
+              "I defend the settlement!",
+              "I defend the settlement!",
+              "I defend the settlement!"
+            ],
+            description: 'The guard captain who leads the defense of the settlement.'
+          },
+          {
+            name: 'The Elder',
+            role: 'The Wise One',
+            startingCoins: 80,
+            startingWeapons: ['wisdom', 'advice', 'experience'],
+            startingMercenaries: 0,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "I offer wise counsel!",
+              "I offer wise counsel!",
+              "I offer wise counsel!",
+              "I offer wise counsel!",
+              "I offer wise counsel!"
+            ],
+            description: 'The elder who offers wise counsel and guidance to the warriors.'
+          },
+          {
+            name: 'The Young Warrior',
+            role: 'The Eager Fighter',
+            startingCoins: 70,
+            startingWeapons: ['youth', 'energy', 'enthusiasm'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'eager',
+            quotes: [
+              "I am ready to fight!",
+              "I am ready to fight!",
+              "I am ready to fight!",
+              "I am ready to fight!",
+              "I am ready to fight!"
+            ],
+            description: 'The young warrior who is eager to prove himself in battle.'
+          },
+          {
+            name: 'The Veteran',
+            role: 'The Experienced Fighter',
+            startingCoins: 90,
+            startingWeapons: ['experience', 'skill', 'wisdom'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'experienced',
+            quotes: [
+              "I have seen many battles!",
+              "I have seen many battles!",
+              "I have seen many battles!",
+              "I have seen many battles!",
+              "I have seen many battles!"
+            ],
+            description: 'The veteran warrior who has survived many battles and offers experience to others.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Warrior', startingCoins: 30, startingWeapons: ['sword'], startingMercenaries: 0, startingCastles: 0, personality: 'brave', quotes: ['We fight!', 'We defend!', 'We win!'] },
+          { name: 'Guard', startingCoins: 25, startingWeapons: ['spear'], startingMercenaries: 0, startingCastles: 0, personality: 'protective', quotes: ['We protect!', 'We guard!', 'We defend!'] },
+          { name: 'Hero', startingCoins: 35, startingWeapons: ['courage'], startingMercenaries: 0, startingCastles: 0, personality: 'heroic', quotes: ['We are heroes!', 'We are brave!', 'We are strong!'] }
+        ]
+      },
+      evil: {
+        name: 'Forces of Evil',
+        color: '#dc2626', // Red
+        description: 'The monstrous creatures and dark forces that threaten the world of men',
+        territories: [
+          { name: 'Grendel\'s Lair', cost: 25, description: 'The dark cave where Grendel dwells' },
+          { name: 'The Mere', cost: 22, description: 'The deep, dark lake where Grendel\'s mother lives' },
+          { name: 'The Dragon\'s Cave', cost: 20, description: 'The treasure-filled cave of the dragon' },
+          { name: 'The Dark Forest', cost: 18, description: 'The shadowy woods where monsters lurk' },
+          { name: 'The Swamp', cost: 15, description: 'The treacherous marsh where evil creatures hide' },
+          { name: 'The Ruins', cost: 12, description: 'The abandoned settlement where monsters gather' },
+          { name: 'The Crypt', cost: 10, description: 'The underground chamber where the dead rest' },
+          { name: 'The Altar', cost: 8, description: 'The dark altar where evil rituals are performed' },
+          { name: 'The Pit', cost: 6, description: 'The deep hole where prisoners are thrown' },
+          { name: 'The Tower', cost: 4, description: 'The dark tower where evil plans are made' },
+          { name: 'The Dungeon', cost: 3, description: 'The underground prison where victims are held' },
+          { name: 'The Throne', cost: 2, description: 'The dark throne where evil rules' },
+          { name: 'The Gate', cost: 1, description: 'The entrance to the realm of evil' },
+          { name: 'The Chamber', cost: 14, description: 'The dark chamber where evil plots are hatched' },
+          { name: 'The Hall', cost: 7, description: 'The great hall where evil feasts are held' },
+          { name: 'The Library', cost: 9, description: 'The dark library where forbidden knowledge is kept' },
+          { name: 'The Laboratory', cost: 11, description: 'The dark laboratory where evil experiments are conducted' },
+          { name: 'The Bridge', cost: 5, description: 'Connection between different parts of the realm' },
+          { name: 'The Hill', cost: 13, description: 'High ground where evil can see far' },
+          { name: 'The Valley', cost: 1, description: 'Low ground where evil gathers' }
+        ],
+        characters: [
+          {
+            name: 'Grendel',
+            role: 'The Monster',
+            startingCoins: 120,
+            startingWeapons: ['claws', 'strength', 'rage'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'monstrous',
+            quotes: [
+              "I will devour you all!",
+              "I will devour you all!",
+              "I will devour you all!",
+              "I will devour you all!",
+              "I will devour you all!"
+            ],
+            description: 'The monstrous creature who terrorizes Heorot and kills the Danish warriors.'
+          },
+          {
+            name: 'Grendel\'s Mother',
+            role: 'The Avenger',
+            startingCoins: 110,
+            startingWeapons: ['claws', 'magic', 'vengeance'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'vengeful',
+            quotes: [
+              "You killed my son!",
+              "You killed my son!",
+              "You killed my son!",
+              "You killed my son!",
+              "You killed my son!"
+            ],
+            description: 'Grendel\'s mother who seeks revenge for her son\'s death and lives in the mere.'
+          },
+          {
+            name: 'The Dragon',
+            role: 'The Ancient Evil',
+            startingCoins: 130,
+            startingWeapons: ['fire', 'claws', 'treasure'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'ancient',
+            quotes: [
+              "I am the ancient one!",
+              "I am the ancient one!",
+              "I am the ancient one!",
+              "I am the ancient one!",
+              "I am the ancient one!"
+            ],
+            description: 'The ancient dragon who guards a treasure hoard and terrorizes the Geats.'
+          },
+          {
+            name: 'The Dark Sorcerer',
+            role: 'The Magic User',
+            startingCoins: 100,
+            startingWeapons: ['magic', 'curses', 'darkness'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'sorcerous',
+            quotes: [
+              "I command the dark forces!",
+              "I command the dark forces!",
+              "I command the dark forces!",
+              "I command the dark forces!",
+              "I command the dark forces!"
+            ],
+            description: 'The dark sorcerer who uses forbidden magic to serve evil.'
+          },
+          {
+            name: 'The Shadow Beasts',
+            role: 'The Dark Creatures',
+            startingCoins: 85,
+            startingWeapons: ['shadows', 'stealth', 'fear'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'shadowy',
+            quotes: [
+              "We lurk in the shadows!",
+              "We lurk in the shadows!",
+              "We lurk in the shadows!",
+              "We lurk in the shadows!",
+              "We lurk in the shadows!"
+            ],
+            description: 'The shadowy creatures that serve the forces of evil.'
+          },
+          {
+            name: 'The Undead Warriors',
+            role: 'The Risen Dead',
+            startingCoins: 90,
+            startingWeapons: ['decay', 'fear', 'immortality'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'undead',
+            quotes: [
+              "We cannot die!",
+              "We cannot die!",
+              "We cannot die!",
+              "We cannot die!",
+              "We cannot die!"
+            ],
+            description: 'The undead warriors who serve evil and cannot be killed by normal means.'
+          },
+          {
+            name: 'The Dark Priests',
+            role: 'The Evil Clergy',
+            startingCoins: 80,
+            startingWeapons: ['curses', 'dark magic', 'corruption'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'corrupt',
+            quotes: [
+              "We serve the dark gods!",
+              "We serve the dark gods!",
+              "We serve the dark gods!",
+              "We serve the dark gods!",
+              "We serve the dark gods!"
+            ],
+            description: 'The dark priests who serve evil gods and corrupt the innocent.'
+          },
+          {
+            name: 'The Demon Spawn',
+            role: 'The Hellish Creatures',
+            startingCoins: 75,
+            startingWeapons: ['hellfire', 'claws', 'terror'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'demonic',
+            quotes: [
+              "We come from hell!",
+              "We come from hell!",
+              "We come from hell!",
+              "We come from hell!",
+              "We come from hell!"
+            ],
+            description: 'The demonic creatures that serve the forces of evil.'
+          },
+          {
+            name: 'The Corrupted Warriors',
+            role: 'The Fallen Heroes',
+            startingCoins: 85,
+            startingWeapons: ['corruption', 'darkness', 'betrayal'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'corrupted',
+            quotes: [
+              "We have fallen to darkness!",
+              "We have fallen to darkness!",
+              "We have fallen to darkness!",
+              "We have fallen to darkness!",
+              "We have fallen to darkness!"
+            ],
+            description: 'The warriors who have fallen to evil and now serve the dark forces.'
+          },
+          {
+            name: 'The Dark Minions',
+            role: 'The Servants of Evil',
+            startingCoins: 70,
+            startingWeapons: ['servitude', 'fear', 'obedience'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'servile',
+            quotes: [
+              "We serve our dark masters!",
+              "We serve our dark masters!",
+              "We serve our dark masters!",
+              "We serve our dark masters!",
+              "We serve our dark masters!"
+            ],
+            description: 'The minions who serve the forces of evil without question.'
+          },
+          {
+            name: 'The Cursed Spirits',
+            role: 'The Restless Dead',
+            startingCoins: 75,
+            startingWeapons: ['curses', 'fear', 'vengeance'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cursed',
+            quotes: [
+              "We seek vengeance!",
+              "We seek vengeance!",
+              "We seek vengeance!",
+              "We seek vengeance!",
+              "We seek vengeance!"
+            ],
+            description: 'The cursed spirits who seek vengeance against the living.'
+          },
+          {
+            name: 'The Dark Beasts',
+            role: 'The Monstrous Creatures',
+            startingCoins: 80,
+            startingWeapons: ['claws', 'fangs', 'terror'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'beastly',
+            quotes: [
+              "We are the beasts of darkness!",
+              "We are the beasts of darkness!",
+              "We are the beasts of darkness!",
+              "We are the beasts of darkness!",
+              "We are the beasts of darkness!"
+            ],
+            description: 'The monstrous beasts that serve the forces of evil.'
+          },
+          {
+            name: 'The Shadow Warriors',
+            role: 'The Dark Fighters',
+            startingCoins: 85,
+            startingWeapons: ['darkness', 'stealth', 'violence'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'shadowy',
+            quotes: [
+              "We fight in the shadows!",
+              "We fight in the shadows!",
+              "We fight in the shadows!",
+              "We fight in the shadows!",
+              "We fight in the shadows!"
+            ],
+            description: 'The shadow warriors who fight for the forces of evil.'
+          },
+          {
+            name: 'The Dark Lords',
+            role: 'The Evil Rulers',
+            startingCoins: 95,
+            startingWeapons: ['power', 'darkness', 'tyranny'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'tyrannical',
+            quotes: [
+              "We rule with darkness!",
+              "We rule with darkness!",
+              "We rule with darkness!",
+              "We rule with darkness!",
+              "We rule with darkness!"
+            ],
+            description: 'The dark lords who rule over the forces of evil.'
+          },
+          {
+            name: 'The Corrupted Priests',
+            role: 'The Fallen Clergy',
+            startingCoins: 80,
+            startingWeapons: ['corruption', 'dark magic', 'betrayal'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'corrupted',
+            quotes: [
+              "We have betrayed the light!",
+              "We have betrayed the light!",
+              "We have betrayed the light!",
+              "We have betrayed the light!",
+              "We have betrayed the light!"
+            ],
+            description: 'The priests who have fallen to evil and now serve the dark forces.'
+          },
+          {
+            name: 'The Dark Knights',
+            role: 'The Fallen Warriors',
+            startingCoins: 90,
+            startingWeapons: ['darkness', 'corruption', 'betrayal'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'fallen',
+            quotes: [
+              "We have fallen to darkness!",
+              "We have fallen to darkness!",
+              "We have fallen to darkness!",
+              "We have fallen to darkness!",
+              "We have fallen to darkness!"
+            ],
+            description: 'The knights who have fallen to evil and now serve the dark forces.'
+          },
+          {
+            name: 'The Shadow Mages',
+            role: 'The Dark Wizards',
+            startingCoins: 85,
+            startingWeapons: ['dark magic', 'curses', 'corruption'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'sorcerous',
+            quotes: [
+              "We command the dark arts!",
+              "We command the dark arts!",
+              "We command the dark arts!",
+              "We command the dark arts!",
+              "We command the dark arts!"
+            ],
+            description: 'The dark wizards who use forbidden magic to serve evil.'
+          },
+          {
+            name: 'The Corrupted Beasts',
+            role: 'The Tainted Creatures',
+            startingCoins: 75,
+            startingWeapons: ['corruption', 'darkness', 'violence'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'tainted',
+            quotes: [
+              "We are tainted by darkness!",
+              "We are tainted by darkness!",
+              "We are tainted by darkness!",
+              "We are tainted by darkness!",
+              "We are tainted by darkness!"
+            ],
+            description: 'The creatures that have been corrupted by evil and now serve the dark forces.'
+          },
+          {
+            name: 'The Dark Guardians',
+            role: 'The Evil Protectors',
+            startingCoins: 90,
+            startingWeapons: ['darkness', 'protection', 'loyalty'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'protective',
+            quotes: [
+              "We protect the dark!",
+              "We protect the dark!",
+              "We protect the dark!",
+              "We protect the dark!",
+              "We protect the dark!"
+            ],
+            description: 'The guardians who protect the forces of evil and their dark realm.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Monster', startingCoins: 30, startingWeapons: ['claws'], startingMercenaries: 0, startingCastles: 0, personality: 'monstrous', quotes: ['We are monsters!', 'We devour!', 'We destroy!'] },
+          { name: 'Dark Warrior', startingCoins: 25, startingWeapons: ['darkness'], startingMercenaries: 0, startingCastles: 0, personality: 'dark', quotes: ['We serve darkness!', 'We fight!', 'We conquer!'] },
+          { name: 'Evil Servant', startingCoins: 35, startingWeapons: ['evil'], startingMercenaries: 0, startingCastles: 0, personality: 'servile', quotes: ['We serve evil!', 'We obey!', 'We destroy!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Mead Hall', cost: 5, description: 'The great hall where heroes gather to feast and celebrate' },
+      { name: 'The Treasure Chamber', cost: 3, description: 'Where the dragon\'s hoard is kept' },
+      { name: 'The Sacred Grove', cost: 2, description: 'Where the gods are worshipped and heroes are blessed' },
+      { name: 'The Battlefield', cost: 1, description: 'Where great battles are fought and heroes are made' },
+      { name: 'The Hero\'s Grave', cost: 4, description: 'Where fallen heroes are buried and remembered' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // A FAREWELL TO ARMS SCENARIO
+  aFarewellToArms: {
+    id: 'aFarewellToArms',
+    name: 'A Farewell to Arms: The Great War (1917-1918)',
+    type: 'literary',
+    description: 'Ernest Hemingway\'s novel about an American ambulance driver in the Italian army during World War I, exploring themes of love, war, and loss.',
+    factions: {
+      love: {
+        name: 'Forces of Love',
+        color: '#1e40af', // Blue
+        description: 'Those who seek love, peace, and human connection in the midst of war',
+        territories: [
+          { name: 'The Hospital', cost: 25, description: 'Where Catherine works and where love blossoms' },
+          { name: 'The Hotel Room', cost: 22, description: 'Where Frederic and Catherine find refuge' },
+          { name: 'The Cafe', cost: 20, description: 'Where people gather to escape the war' },
+          { name: 'The Church', cost: 18, description: 'Where people seek solace and peace' },
+          { name: 'The Garden', cost: 15, description: 'Where love and beauty can still be found' },
+          { name: 'The Library', cost: 12, description: 'Where people seek knowledge and escape' },
+          { name: 'The Theater', cost: 10, description: 'Where people find entertainment and joy' },
+          { name: 'The Park', cost: 8, description: 'Where people can walk and talk in peace' },
+          { name: 'The Restaurant', cost: 6, description: 'Where people gather to eat and talk' },
+          { name: 'The Bookstore', cost: 4, description: 'Where people seek knowledge and escape' },
+          { name: 'The Art Gallery', cost: 3, description: 'Where beauty and culture are preserved' },
+          { name: 'The Music Hall', cost: 2, description: 'Where people find joy in music' },
+          { name: 'The Bridge', cost: 1, description: 'Connection between different parts of the city' },
+          { name: 'The School', cost: 14, description: 'Where children learn and hope for the future' },
+          { name: 'The Museum', cost: 7, description: 'Where history and culture are preserved' },
+          { name: 'The Market', cost: 9, description: 'Where people gather and trade' },
+          { name: 'The Square', cost: 11, description: 'Where people gather and celebrate' },
+          { name: 'The Hill', cost: 5, description: 'High ground where people can see far' },
+          { name: 'The Valley', cost: 13, description: 'Low ground where people gather' },
+          { name: 'The River', cost: 1, description: 'Where people find peace and reflection' }
+        ],
+        characters: [
+          {
+            name: 'Frederic Henry',
+            role: 'The American Ambulance Driver',
+            startingCoins: 120,
+            startingWeapons: ['ambulance', 'compassion', 'love'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'romantic',
+            quotes: [
+              "I was always embarrassed by the words sacred, glorious, and sacrifice.",
+              "I was always embarrassed by the words sacred, glorious, and sacrifice.",
+              "I was always embarrassed by the words sacred, glorious, and sacrifice.",
+              "I was always embarrassed by the words sacred, glorious, and sacrifice.",
+              "I was always embarrassed by the words sacred, glorious, and sacrifice."
+            ],
+            description: 'The American ambulance driver who falls in love with Catherine Barkley and seeks to escape the war.'
+          },
+          {
+            name: 'Catherine Barkley',
+            role: 'The English Nurse',
+            startingCoins: 110,
+            startingWeapons: ['nursing', 'love', 'courage'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loving',
+            quotes: [
+              "I want what you want. There isn\'t any me any more.",
+              "I want what you want. There isn\'t any me any more.",
+              "I want what you want. There isn\'t any me any more.",
+              "I want what you want. There isn\'t any me any more.",
+              "I want what you want. There isn\'t any me any more."
+            ],
+            description: 'The English nurse who falls in love with Frederic and dreams of a life together.'
+          },
+          {
+            name: 'Rinaldi',
+            role: 'The Italian Surgeon',
+            startingCoins: 100,
+            startingWeapons: ['surgery', 'friendship', 'wine'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "You are my best friend and my war brother.",
+              "You are my best friend and my war brother.",
+              "You are my best friend and my war brother.",
+              "You are my best friend and my war brother.",
+              "You are my best friend and my war brother."
+            ],
+            description: 'Frederic\'s Italian friend and fellow officer who provides medical care and friendship.'
+          },
+          {
+            name: 'The Priest',
+            role: 'The Spiritual Guide',
+            startingCoins: 90,
+            startingWeapons: ['faith', 'comfort', 'wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'spiritual',
+            quotes: [
+              "I pray for you all.",
+              "I pray for you all.",
+              "I pray for you all.",
+              "I pray for you all.",
+              "I pray for you all."
+            ],
+            description: 'The priest who provides spiritual guidance and comfort to the soldiers.'
+          },
+          {
+            name: 'The Count Greffi',
+            role: 'The Wise Elder',
+            startingCoins: 95,
+            startingWeapons: ['wisdom', 'experience', 'peace'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "I am an old man and I know many things.",
+              "I am an old man and I know many things.",
+              "I am an old man and I know many things.",
+              "I am an old man and I know many things.",
+              "I am an old man and I know many things."
+            ],
+            description: 'The wise old count who offers guidance and perspective on life and war.'
+          },
+          {
+            name: 'The Barman',
+            role: 'The Provider',
+            startingCoins: 80,
+            startingWeapons: ['hospitality', 'wine', 'comfort'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'hospitable',
+            quotes: [
+              "I provide comfort to all.",
+              "I provide comfort to all.",
+              "I provide comfort to all.",
+              "I provide comfort to all.",
+              "I provide comfort to all."
+            ],
+            description: 'The barman who provides wine and comfort to the soldiers and civilians.'
+          },
+          {
+            name: 'The Cook',
+            role: 'The Nourisher',
+            startingCoins: 75,
+            startingWeapons: ['food', 'comfort', 'nourishment'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'nurturing',
+            quotes: [
+              "I feed the hungry.",
+              "I feed the hungry.",
+              "I feed the hungry.",
+              "I feed the hungry.",
+              "I feed the hungry."
+            ],
+            description: 'The cook who provides food and nourishment to the people.'
+          },
+          {
+            name: 'The Musician',
+            role: 'The Entertainer',
+            startingCoins: 70,
+            startingWeapons: ['music', 'joy', 'entertainment'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'artistic',
+            quotes: [
+              "I bring joy through music.",
+              "I bring joy through music.",
+              "I bring joy through music.",
+              "I bring joy through music.",
+              "I bring joy through music."
+            ],
+            description: 'The musician who brings joy and entertainment to the people.'
+          },
+          {
+            name: 'The Artist',
+            role: 'The Creator',
+            startingCoins: 75,
+            startingWeapons: ['art', 'beauty', 'creativity'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'creative',
+            quotes: [
+              "I create beauty in the world.",
+              "I create beauty in the world.",
+              "I create beauty in the world.",
+              "I create beauty in the world.",
+              "I create beauty in the world."
+            ],
+            description: 'The artist who creates beauty and art in the midst of war.'
+          },
+          {
+            name: 'The Teacher',
+            role: 'The Educator',
+            startingCoins: 80,
+            startingWeapons: ['knowledge', 'education', 'hope'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'educational',
+            quotes: [
+              "I teach the children.",
+              "I teach the children.",
+              "I teach the children.",
+              "I teach the children.",
+              "I teach the children."
+            ],
+            description: 'The teacher who educates children and provides hope for the future.'
+          },
+          {
+            name: 'The Librarian',
+            role: 'The Keeper of Knowledge',
+            startingCoins: 70,
+            startingWeapons: ['books', 'knowledge', 'wisdom'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'scholarly',
+            quotes: [
+              "I preserve knowledge for all.",
+              "I preserve knowledge for all.",
+              "I preserve knowledge for all.",
+              "I preserve knowledge for all.",
+              "I preserve knowledge for all."
+            ],
+            description: 'The librarian who preserves knowledge and provides access to books.'
+          },
+          {
+            name: 'The Gardener',
+            role: 'The Cultivator',
+            startingCoins: 65,
+            startingWeapons: ['plants', 'beauty', 'growth'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'cultivating',
+            quotes: [
+              "I grow beauty in the world.",
+              "I grow beauty in the world.",
+              "I grow beauty in the world.",
+              "I grow beauty in the world.",
+              "I grow beauty in the world."
+            ],
+            description: 'The gardener who cultivates beauty and growth in the world.'
+          },
+          {
+            name: 'The Healer',
+            role: 'The Restorer',
+            startingCoins: 85,
+            startingWeapons: ['healing', 'medicine', 'compassion'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'healing',
+            quotes: [
+              "I heal the wounded.",
+              "I heal the wounded.",
+              "I heal the wounded.",
+              "I heal the wounded.",
+              "I heal the wounded."
+            ],
+            description: 'The healer who provides medical care and healing to the people.'
+          },
+          {
+            name: 'The Peacemaker',
+            role: 'The Mediator',
+            startingCoins: 90,
+            startingWeapons: ['peace', 'diplomacy', 'understanding'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'peaceful',
+            quotes: [
+              "I work for peace.",
+              "I work for peace.",
+              "I work for peace.",
+              "I work for peace.",
+              "I work for peace."
+            ],
+            description: 'The peacemaker who works to bring peace and understanding.'
+          },
+          {
+            name: 'The Lover',
+            role: 'The Romantic',
+            startingCoins: 80,
+            startingWeapons: ['love', 'romance', 'passion'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'romantic',
+            quotes: [
+              "I believe in love.",
+              "I believe in love.",
+              "I believe in love.",
+              "I believe in love.",
+              "I believe in love."
+            ],
+            description: 'The romantic who believes in love and romance.'
+          },
+          {
+            name: 'The Dreamer',
+            role: 'The Idealist',
+            startingCoins: 75,
+            startingWeapons: ['dreams', 'ideals', 'hope'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'idealistic',
+            quotes: [
+              "I dream of a better world.",
+              "I dream of a better world.",
+              "I dream of a better world.",
+              "I dream of a better world.",
+              "I dream of a better world."
+            ],
+            description: 'The dreamer who dreams of a better world and future.'
+          },
+          {
+            name: 'The Friend',
+            role: 'The Companion',
+            startingCoins: 70,
+            startingWeapons: ['friendship', 'loyalty', 'support'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "I am your friend.",
+              "I am your friend.",
+              "I am your friend.",
+              "I am your friend.",
+              "I am your friend."
+            ],
+            description: 'The friend who provides loyalty and support to others.'
+          },
+          {
+            name: 'The Survivor',
+            role: 'The Resilient',
+            startingCoins: 85,
+            startingWeapons: ['resilience', 'strength', 'survival'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'resilient',
+            quotes: [
+              "I survive and help others survive.",
+              "I survive and help others survive.",
+              "I survive and help others survive.",
+              "I survive and help others survive.",
+              "I survive and help others survive."
+            ],
+            description: 'The survivor who has endured hardship and helps others survive.'
+          },
+          {
+            name: 'The Hope',
+            role: 'The Optimist',
+            startingCoins: 80,
+            startingWeapons: ['hope', 'optimism', 'faith'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'optimistic',
+            quotes: [
+              "I believe in hope.",
+              "I believe in hope.",
+              "I believe in hope.",
+              "I believe in hope.",
+              "I believe in hope."
+            ],
+            description: 'The optimist who believes in hope and a better future.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Lover', startingCoins: 30, startingWeapons: ['love'], startingMercenaries: 0, startingCastles: 0, personality: 'loving', quotes: ['We love!', 'We care!', 'We connect!'] },
+          { name: 'Peacemaker', startingCoins: 25, startingWeapons: ['peace'], startingMercenaries: 0, startingCastles: 0, personality: 'peaceful', quotes: ['We make peace!', 'We heal!', 'We unite!'] },
+          { name: 'Dreamer', startingCoins: 35, startingWeapons: ['dreams'], startingMercenaries: 0, startingCastles: 0, personality: 'dreamy', quotes: ['We dream!', 'We hope!', 'We believe!'] }
+        ]
+      },
+      war: {
+        name: 'Forces of War',
+        color: '#dc2626', // Red
+        description: 'The destructive forces of war, violence, and death that threaten love and peace',
+        territories: [
+          { name: 'The Front Lines', cost: 25, description: 'Where the fighting is fiercest and death is constant' },
+          { name: 'The Trench', cost: 22, description: 'Where soldiers hide and wait for death' },
+          { name: 'The Battlefield', cost: 20, description: 'Where men die in the mud and blood' },
+          { name: 'The Command Post', cost: 18, description: 'Where orders are given that send men to die' },
+          { name: 'The Ammunition Depot', cost: 15, description: 'Where weapons and explosives are stored' },
+          { name: 'The Field Hospital', cost: 12, description: 'Where the wounded are brought to die' },
+          { name: 'The Prison', cost: 10, description: 'Where deserters and traitors are held' },
+          { name: 'The Execution Ground', cost: 8, description: 'Where deserters are shot' },
+          { name: 'The Graveyard', cost: 6, description: 'Where the dead are buried' },
+          { name: 'The Ruins', cost: 4, description: 'Where buildings are destroyed by war' },
+          { name: 'The Crater', cost: 3, description: 'Where bombs have exploded' },
+          { name: 'The Barbed Wire', cost: 2, description: 'Where men are trapped and killed' },
+          { name: 'The No Man\'s Land', cost: 1, description: 'Where no one can survive' },
+          { name: 'The Bunker', cost: 14, description: 'Where soldiers hide from death' },
+          { name: 'The Observation Post', cost: 7, description: 'Where death is watched and planned' },
+          { name: 'The Supply Depot', cost: 9, description: 'Where war materials are stored' },
+          { name: 'The Training Ground', cost: 11, description: 'Where men are trained to kill' },
+          { name: 'The Bridge', cost: 5, description: 'Connection between different parts of the war' },
+          { name: 'The Hill', cost: 13, description: 'High ground where death can be seen far' },
+          { name: 'The Valley', cost: 1, description: 'Low ground where death gathers' }
+        ],
+        characters: [
+          {
+            name: 'The General',
+            role: 'The Commander',
+            startingCoins: 120,
+            startingWeapons: ['orders', 'authority', 'death'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'authoritarian',
+            quotes: [
+              "Send more men to the front!",
+              "Send more men to the front!",
+              "Send more men to the front!",
+              "Send more men to the front!",
+              "Send more men to the front!"
+            ],
+            description: 'The general who gives orders that send men to their deaths.'
+          },
+          {
+            name: 'The Sergeant',
+            role: 'The Enforcer',
+            startingCoins: 100,
+            startingWeapons: ['discipline', 'violence', 'obedience'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'harsh',
+            quotes: [
+              "Follow orders or die!",
+              "Follow orders or die!",
+              "Follow orders or die!",
+              "Follow orders or die!",
+              "Follow orders or die!"
+            ],
+            description: 'The sergeant who enforces discipline and obedience through violence.'
+          },
+          {
+            name: 'The Executioner',
+            role: 'The Killer',
+            startingCoins: 95,
+            startingWeapons: ['death', 'violence', 'fear'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'violent',
+            quotes: [
+              "I kill deserters!",
+              "I kill deserters!",
+              "I kill deserters!",
+              "I kill deserters!",
+              "I kill deserters!"
+            ],
+            description: 'The executioner who kills deserters and traitors.'
+          },
+          {
+            name: 'The War Profiteer',
+            role: 'The Exploiter',
+            startingCoins: 110,
+            startingWeapons: ['greed', 'exploitation', 'corruption'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'greedy',
+            quotes: [
+              "War is good for business!",
+              "War is good for business!",
+              "War is good for business!",
+              "War is good for business!",
+              "War is good for business!"
+            ],
+            description: 'The profiteer who makes money from the suffering and death of war.'
+          },
+          {
+            name: 'The Propagandist',
+            role: 'The Manipulator',
+            startingCoins: 90,
+            startingWeapons: ['lies', 'propaganda', 'manipulation'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'manipulative',
+            quotes: [
+              "War is glorious and necessary!",
+              "War is glorious and necessary!",
+              "War is glorious and necessary!",
+              "War is glorious and necessary!",
+              "War is glorious and necessary!"
+            ],
+            description: 'The propagandist who spreads lies and manipulation to justify war.'
+          },
+          {
+            name: 'The War Correspondent',
+            role: 'The Observer',
+            startingCoins: 85,
+            startingWeapons: ['words', 'observation', 'exploitation'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'exploitative',
+            quotes: [
+              "I report on the war!",
+              "I report on the war!",
+              "I report on the war!",
+              "I report on the war!",
+              "I report on the war!"
+            ],
+            description: 'The war correspondent who reports on the war and exploits the suffering.'
+          },
+          {
+            name: 'The Arms Dealer',
+            role: 'The Merchant of Death',
+            startingCoins: 105,
+            startingWeapons: ['weapons', 'greed', 'death'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'greedy',
+            quotes: [
+              "I sell weapons to both sides!",
+              "I sell weapons to both sides!",
+              "I sell weapons to both sides!",
+              "I sell weapons to both sides!",
+              "I sell weapons to both sides!"
+            ],
+            description: 'The arms dealer who sells weapons to both sides of the war.'
+          },
+          {
+            name: 'The War Minister',
+            role: 'The Politician',
+            startingCoins: 115,
+            startingWeapons: ['power', 'politics', 'manipulation'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'political',
+            quotes: [
+              "War is necessary for victory!",
+              "War is necessary for victory!",
+              "War is necessary for victory!",
+              "War is necessary for victory!",
+              "War is necessary for victory!"
+            ],
+            description: 'The war minister who makes political decisions that prolong the war.'
+          },
+          {
+            name: 'The Military Police',
+            role: 'The Enforcers',
+            startingCoins: 90,
+            startingWeapons: ['authority', 'violence', 'fear'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'authoritarian',
+            quotes: [
+              "We enforce military law!",
+              "We enforce military law!",
+              "We enforce military law!",
+              "We enforce military law!",
+              "We enforce military law!"
+            ],
+            description: 'The military police who enforce military law and discipline.'
+          },
+          {
+            name: 'The War Machine',
+            role: 'The System',
+            startingCoins: 100,
+            startingWeapons: ['system', 'efficiency', 'death'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'mechanical',
+            quotes: [
+              "The war machine grinds on!",
+              "The war machine grinds on!",
+              "The war machine grinds on!",
+              "The war machine grinds on!",
+              "The war machine grinds on!"
+            ],
+            description: 'The war machine that grinds on relentlessly, consuming lives.'
+          },
+          {
+            name: 'The Death Dealer',
+            role: 'The Killer',
+            startingCoins: 95,
+            startingWeapons: ['death', 'violence', 'destruction'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'destructive',
+            quotes: [
+              "I deal in death!",
+              "I deal in death!",
+              "I deal in death!",
+              "I deal in death!",
+              "I deal in death!"
+            ],
+            description: 'The death dealer who specializes in killing and destruction.'
+          },
+          {
+            name: 'The War Lord',
+            role: 'The Tyrant',
+            startingCoins: 110,
+            startingWeapons: ['tyranny', 'power', 'oppression'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'tyrannical',
+            quotes: [
+              "I rule through war!",
+              "I rule through war!",
+              "I rule through war!",
+              "I rule through war!",
+              "I rule through war!"
+            ],
+            description: 'The war lord who rules through war and oppression.'
+          },
+          {
+            name: 'The War Criminal',
+            role: 'The Monster',
+            startingCoins: 100,
+            startingWeapons: ['atrocities', 'violence', 'evil'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'monstrous',
+            quotes: [
+              "I commit war crimes!",
+              "I commit war crimes!",
+              "I commit war crimes!",
+              "I commit war crimes!",
+              "I commit war crimes!"
+            ],
+            description: 'The war criminal who commits atrocities and war crimes.'
+          },
+          {
+            name: 'The War Profiteer',
+            role: 'The Exploiter',
+            startingCoins: 105,
+            startingWeapons: ['greed', 'exploitation', 'corruption'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'greedy',
+            quotes: [
+              "I profit from war!",
+              "I profit from war!",
+              "I profit from war!",
+              "I profit from war!",
+              "I profit from war!"
+            ],
+            description: 'The profiteer who profits from the suffering and death of war.'
+          },
+          {
+            name: 'The War Machine',
+            role: 'The System',
+            startingCoins: 100,
+            startingWeapons: ['system', 'efficiency', 'death'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'mechanical',
+            quotes: [
+              "The war machine grinds on!",
+              "The war machine grinds on!",
+              "The war machine grinds on!",
+              "The war machine grinds on!",
+              "The war machine grinds on!"
+            ],
+            description: 'The war machine that grinds on relentlessly, consuming lives.'
+          },
+          {
+            name: 'The War Propagandist',
+            role: 'The Manipulator',
+            startingCoins: 90,
+            startingWeapons: ['lies', 'propaganda', 'manipulation'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'manipulative',
+            quotes: [
+              "War is glorious and necessary!",
+              "War is glorious and necessary!",
+              "War is glorious and necessary!",
+              "War is glorious and necessary!",
+              "War is glorious and necessary!"
+            ],
+            description: 'The propagandist who spreads lies and manipulation to justify war.'
+          },
+          {
+            name: 'The War Correspondent',
+            role: 'The Observer',
+            startingCoins: 85,
+            startingWeapons: ['words', 'observation', 'exploitation'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'exploitative',
+            quotes: [
+              "I report on the war!",
+              "I report on the war!",
+              "I report on the war!",
+              "I report on the war!",
+              "I report on the war!"
+            ],
+            description: 'The war correspondent who reports on the war and exploits the suffering.'
+          },
+          {
+            name: 'The War Minister',
+            role: 'The Politician',
+            startingCoins: 115,
+            startingWeapons: ['power', 'politics', 'manipulation'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'political',
+            quotes: [
+              "War is necessary for victory!",
+              "War is necessary for victory!",
+              "War is necessary for victory!",
+              "War is necessary for victory!",
+              "War is necessary for victory!"
+            ],
+            description: 'The war minister who makes political decisions that prolong the war.'
+          },
+          {
+            name: 'The War Machine',
+            role: 'The System',
+            startingCoins: 100,
+            startingWeapons: ['system', 'efficiency', 'death'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'mechanical',
+            quotes: [
+              "The war machine grinds on!",
+              "The war machine grinds on!",
+              "The war machine grinds on!",
+              "The war machine grinds on!",
+              "The war machine grinds on!"
+            ],
+            description: 'The war machine that grinds on relentlessly, consuming lives.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Soldier', startingCoins: 30, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'militaristic', quotes: ['We fight!', 'We kill!', 'We die!'] },
+          { name: 'Officer', startingCoins: 25, startingWeapons: ['authority'], startingMercenaries: 0, startingCastles: 0, personality: 'authoritarian', quotes: ['We command!', 'We order!', 'We control!'] },
+          { name: 'Warrior', startingCoins: 35, startingWeapons: ['violence'], startingMercenaries: 0, startingCastles: 0, personality: 'violent', quotes: ['We destroy!', 'We kill!', 'We conquer!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Neutral Zone', cost: 5, description: 'The area between the lines where no one can survive' },
+      { name: 'The Refugee Camp', cost: 3, description: 'Where people flee to escape the war' },
+      { name: 'The Border', cost: 2, description: 'The line between war and peace' },
+      { name: 'The Safe House', cost: 1, description: 'Where people hide from the war' },
+      { name: 'The Escape Route', cost: 4, description: 'The path to freedom and safety' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // CANTERBURY TALES SCENARIO
+  canterburyTales: {
+    id: 'canterburyTales',
+    name: 'Canterbury Tales: The Pilgrimage (14th century)',
+    type: 'literary',
+    description: 'Geoffrey Chaucer\'s collection of stories told by pilgrims on their way to Canterbury, exploring themes of medieval society, morality, and human nature.',
+    factions: {
+      virtue: {
+        name: 'Forces of Virtue',
+        color: '#1e40af', // Blue
+        description: 'Those who embody moral virtue, piety, and good character in medieval society',
+        territories: [
+          { name: 'Canterbury Cathedral', cost: 25, description: 'The holy destination where the pilgrims journey' },
+          { name: 'The Tabard Inn', cost: 22, description: 'Where the pilgrims gather to begin their journey' },
+          { name: 'The Prioress\'s Convent', cost: 20, description: 'Where the Prioress lives and serves God' },
+          { name: 'The Parson\'s Church', cost: 18, description: 'Where the Parson preaches and serves his flock' },
+          { name: 'The Knight\'s Manor', cost: 15, description: 'Where the Knight lives and practices chivalry' },
+          { name: 'The Plowman\'s Field', cost: 12, description: 'Where the Plowman works the land honestly' },
+          { name: 'The Clerk\'s Study', cost: 10, description: 'Where the Clerk studies and seeks knowledge' },
+          { name: 'The Franklin\'s Hall', cost: 8, description: 'Where the Franklin hosts and shows hospitality' },
+          { name: 'The Miller\'s Mill', cost: 6, description: 'Where the Miller grinds grain honestly' },
+          { name: 'The Reeve\'s Office', cost: 4, description: 'Where the Reeve manages the estate fairly' }
+        ],
+        characters: [
+          {
+            name: 'The Knight',
+            role: 'The Chivalrous Warrior',
+            startingCoins: 130,
+            startingWeapons: ['sword', 'honor', 'chivalry'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'noble',
+            quotes: [
+              "He never yet a vileinye ne sayde in al his lyf unto no maner wight.",
+              "He was a verray, parfit gentil knyght.",
+              "Ful worthy was he in his lordes werre.",
+              "And thereto hadde he riden, no man ferre.",
+              "As wel in cristendom as in hethenesse."
+            ],
+            description: 'The noble knight who embodies chivalry and honor in all his deeds.'
+          },
+          {
+            name: 'The Parson',
+            role: 'The Virtuous Cleric',
+            startingCoins: 120,
+            startingWeapons: ['bible', 'virtue', 'piety'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'virtuous',
+            quotes: [
+              "He was a shepherde and noght a mercenarie.",
+              "He was a shepherde and noght a mercenarie.",
+              "He was a shepherde and noght a mercenarie.",
+              "He was a shepherde and noght a mercenarie.",
+              "He was a shepherde and noght a mercenarie."
+            ],
+            description: 'The virtuous parson who serves his flock with devotion and piety.'
+          },
+          {
+            name: 'The Plowman',
+            role: 'The Honest Worker',
+            startingCoins: 100,
+            startingWeapons: ['plow', 'honesty', 'labor'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'honest',
+            quotes: [
+              "He was a trewe swynkere and a good.",
+              "He was a trewe swynkere and a good.",
+              "He was a trewe swynkere and a good.",
+              "He was a trewe swynkere and a good.",
+              "He was a trewe swynkere and a good."
+            ],
+            description: 'The honest plowman who works the land with integrity and virtue.'
+          },
+          {
+            name: 'The Clerk',
+            role: 'The Scholar',
+            startingCoins: 110,
+            startingWeapons: ['books', 'knowledge', 'wisdom'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'scholarly',
+            quotes: [
+              "Gladly wolde he lerne and gladly teche.",
+              "Gladly wolde he lerne and gladly teche.",
+              "Gladly wolde he lerne and gladly teche.",
+              "Gladly wolde he lerne and gladly teche.",
+              "Gladly wolde he lerne and gladly teche."
+            ],
+            description: 'The scholarly clerk who seeks knowledge and teaches others.'
+          },
+          {
+            name: 'The Franklin',
+            role: 'The Generous Host',
+            startingCoins: 105,
+            startingWeapons: ['hospitality', 'generosity', 'wealth'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'generous',
+            quotes: [
+              "It snewed in his hous of mete and drynke.",
+              "It snewed in his hous of mete and drynke.",
+              "It snewed in his hous of mete and drynke.",
+              "It snewed in his hous of mete and drynke.",
+              "It snewed in his hous of mete and drynke."
+            ],
+            description: 'The generous franklin who shows hospitality to all who visit.'
+          },
+          {
+            name: 'The Prioress',
+            role: 'The Devout Nun',
+            startingCoins: 95,
+            startingWeapons: ['prayer', 'devotion', 'piety'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'devout',
+            quotes: [
+              "She was so charitable and so pitous.",
+              "She was so charitable and so pitous.",
+              "She was so charitable and so pitous.",
+              "She was so charitable and so pitous.",
+              "She was so charitable and so pitous."
+            ],
+            description: 'The devout prioress who serves God with charity and compassion.'
+          },
+          {
+            name: 'The Host',
+            role: 'The Jovial Innkeeper',
+            startingCoins: 90,
+            startingWeapons: ['hospitality', 'joviality', 'leadership'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'jovial',
+            quotes: [
+              "Now herkneth, if yow leste, for I wol telle.",
+              "Now herkneth, if yow leste, for I wol telle.",
+              "Now herkneth, if yow leste, for I wol telle.",
+              "Now herkneth, if yow leste, for I wol telle.",
+              "Now herkneth, if yow leste, for I wol telle."
+            ],
+            description: 'The jovial host who leads the pilgrimage and tells stories.'
+          },
+          {
+            name: 'The Squire',
+            role: 'The Young Knight',
+            startingCoins: 85,
+            startingWeapons: ['sword', 'youth', 'chivalry'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'youthful',
+            quotes: [
+              "He was as fressh as is the month of May.",
+              "He was as fressh as is the month of May.",
+              "He was as fressh as is the month of May.",
+              "He was as fressh as is the month of May.",
+              "He was as fressh as is the month of May."
+            ],
+            description: 'The young squire who learns chivalry and serves his father.'
+          },
+          {
+            name: 'The Yeoman',
+            role: 'The Loyal Servant',
+            startingCoins: 80,
+            startingWeapons: ['bow', 'loyalty', 'service'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "He was a proper forester, I gesse.",
+              "He was a proper forester, I gesse.",
+              "He was a proper forester, I gesse.",
+              "He was a proper forester, I gesse.",
+              "He was a proper forester, I gesse."
+            ],
+            description: 'The loyal yeoman who serves the knight and squire faithfully.'
+          },
+          {
+            name: 'The Doctor',
+            role: 'The Healer',
+            startingCoins: 100,
+            startingWeapons: ['medicine', 'knowledge', 'healing'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'healing',
+            quotes: [
+              "He was a verray, parfit praktisour.",
+              "He was a verray, parfit praktisour.",
+              "He was a verray, parfit praktisour.",
+              "He was a verray, parfit praktisour.",
+              "He was a verray, parfit praktisour."
+            ],
+            description: 'The skilled doctor who heals the sick with knowledge and medicine.'
+          },
+          {
+            name: 'The Merchant',
+            role: 'The Trader',
+            startingCoins: 95,
+            startingWeapons: ['trade', 'wealth', 'business'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'businesslike',
+            quotes: [
+              "He was a worthy man withal.",
+              "He was a worthy man withal.",
+              "He was a worthy man withal.",
+              "He was a worthy man withal.",
+              "He was a worthy man withal."
+            ],
+            description: 'The worthy merchant who trades honestly and builds wealth.'
+          },
+          {
+            name: 'The Shipman',
+            role: 'The Sailor',
+            startingCoins: 90,
+            startingWeapons: ['ship', 'courage', 'adventure'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'adventurous',
+            quotes: [
+              "He was a good felawe.",
+              "He was a good felawe.",
+              "He was a good felawe.",
+              "He was a good felawe.",
+              "He was a good felawe."
+            ],
+            description: 'The brave shipman who sails the seas and trades goods.'
+          },
+          {
+            name: 'The Cook',
+            role: 'The Chef',
+            startingCoins: 75,
+            startingWeapons: ['cooking', 'skill', 'nourishment'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'skilled',
+            quotes: [
+              "He koude rooste, and sethe, and broille, and frye.",
+              "He koude rooste, and sethe, and broille, and frye.",
+              "He koude rooste, and sethe, and broille, and frye.",
+              "He koude rooste, and sethe, and broille, and frye.",
+              "He koude rooste, and sethe, and broille, and frye."
+            ],
+            description: 'The skilled cook who prepares delicious food for the pilgrims.'
+          },
+          {
+            name: 'The Reeve',
+            role: 'The Estate Manager',
+            startingCoins: 85,
+            startingWeapons: ['management', 'efficiency', 'order'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'efficient',
+            quotes: [
+              "He was a sclendre colerik man.",
+              "He was a sclendre colerik man.",
+              "He was a sclendre colerik man.",
+              "He was a sclendre colerik man.",
+              "He was a sclendre colerik man."
+            ],
+            description: 'The efficient reeve who manages the estate with skill and order.'
+          },
+          {
+            name: 'The Summoner',
+            role: 'The Court Official',
+            startingCoins: 80,
+            startingWeapons: ['authority', 'justice', 'law'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'authoritative',
+            quotes: [
+              "He was a gentil harlot and a kynde.",
+              "He was a gentil harlot and a kynde.",
+              "He was a gentil harlot and a kynde.",
+              "He was a gentil harlot and a kynde.",
+              "He was a gentil harlot and a kynde."
+            ],
+            description: 'The court official who serves justice and maintains order.'
+          },
+          {
+            name: 'The Pardoner',
+            role: 'The Forgiver',
+            startingCoins: 85,
+            startingWeapons: ['forgiveness', 'mercy', 'redemption'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'merciful',
+            quotes: [
+              "He was a gentil pardoner.",
+              "He was a gentil pardoner.",
+              "He was a gentil pardoner.",
+              "He was a gentil pardoner.",
+              "He was a gentil pardoner."
+            ],
+            description: 'The gentle pardoner who offers forgiveness and redemption.'
+          },
+          {
+            name: 'The Wife of Bath',
+            role: 'The Experienced Woman',
+            startingCoins: 90,
+            startingWeapons: ['experience', 'wisdom', 'independence'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'experienced',
+            quotes: [
+              "She was a worthy womman al hir lyve.",
+              "She was a worthy womman al hir lyve.",
+              "She was a worthy womman al hir lyve.",
+              "She was a worthy womman al hir lyve.",
+              "She was a worthy womman al hir lyve."
+            ],
+            description: 'The experienced wife who has lived through many marriages and tells her tales.'
+          },
+          {
+            name: 'The Miller',
+            role: 'The Grain Grinder',
+            startingCoins: 75,
+            startingWeapons: ['mill', 'strength', 'honesty'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'honest',
+            quotes: [
+              "He was a stout carl for the nones.",
+              "He was a stout carl for the nones.",
+              "He was a stout carl for the nones.",
+              "He was a stout carl for the nones.",
+              "He was a stout carl for the nones."
+            ],
+            description: 'The honest miller who grinds grain and tells his tales.'
+          },
+          {
+            name: 'The Nun\'s Priest',
+            role: 'The Religious Teacher',
+            startingCoins: 80,
+            startingWeapons: ['teaching', 'piety', 'wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'pious',
+            quotes: [
+              "He was a gentil man and a good.",
+              "He was a gentil man and a good.",
+              "He was a gentil man and a good.",
+              "He was a gentil man and a good.",
+              "He was a gentil man and a good."
+            ],
+            description: 'The gentle priest who teaches and serves the nuns.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Pilgrim', startingCoins: 30, startingWeapons: ['faith'], startingMercenaries: 0, startingCastles: 0, personality: 'faithful', quotes: ['We journey!', 'We seek!', 'We believe!'] },
+          { name: 'Tale Teller', startingCoins: 25, startingWeapons: ['stories'], startingMercenaries: 0, startingCastles: 0, personality: 'storytelling', quotes: ['We tell tales!', 'We entertain!', 'We teach!'] },
+          { name: 'Virtuous', startingCoins: 35, startingWeapons: ['virtue'], startingMercenaries: 0, startingCastles: 0, personality: 'virtuous', quotes: ['We are good!', 'We are pure!', 'We are holy!'] }
+        ]
+      },
+      vice: {
+        name: 'Forces of Vice',
+        color: '#dc2626', // Red
+        description: 'Those who embody moral corruption, greed, and sinful behavior in medieval society',
+        territories: [
+          { name: 'The Tavern', cost: 25, description: 'Where vice and corruption gather' },
+          { name: 'The Brothel', cost: 22, description: 'Where lust and sin are practiced' },
+          { name: 'The Gambling Den', cost: 20, description: 'Where greed and avarice rule' },
+          { name: 'The Thieves\' Guild', cost: 18, description: 'Where theft and crime are planned' },
+          { name: 'The Drunkard\'s Alley', cost: 15, description: 'Where gluttony and drunkenness reign' },
+          { name: 'The Swindler\'s Market', cost: 12, description: 'Where fraud and deception are practiced' },
+          { name: 'The Corrupt Court', cost: 10, description: 'Where justice is perverted' },
+          { name: 'The False Church', cost: 8, description: 'Where religion is corrupted' },
+          { name: 'The Greedy Merchant\'s Shop', cost: 6, description: 'Where avarice and exploitation rule' },
+          { name: 'The Liar\'s Den', cost: 4, description: 'Where falsehoods are spread' },
+          { name: 'The Envious Man\'s House', cost: 3, description: 'Where jealousy and resentment fester' },
+          { name: 'The Wrathful Man\'s Hall', cost: 2, description: 'Where anger and violence reign' },
+          { name: 'The Slothful Man\'s Bed', cost: 1, description: 'Where laziness and apathy rule' },
+          { name: 'The Proud Man\'s Tower', cost: 14, description: 'Where pride and arrogance reign' },
+          { name: 'The Glutton\'s Table', cost: 7, description: 'Where excess and indulgence rule' },
+          { name: 'The Lustful Man\'s Chamber', cost: 9, description: 'Where desire and passion corrupt' },
+          { name: 'The Avaricious Man\'s Vault', cost: 11, description: 'Where greed and hoarding rule' },
+          { name: 'The Envious Man\'s Garden', cost: 5, description: 'Where jealousy grows like weeds' },
+          { name: 'The Wrathful Man\'s Arena', cost: 13, description: 'Where violence and anger are unleashed' },
+          { name: 'The Slothful Man\'s Couch', cost: 1, description: 'Where laziness and inaction rule' }
+        ],
+        characters: [
+          {
+            name: 'The Pardoner',
+            role: 'The Corrupt Cleric',
+            startingCoins: 100,
+            startingWeapons: ['deception', 'greed', 'corruption'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'corrupt',
+            quotes: [
+              "I wol have money, wolle, chese, and whete.",
+              "I wol have money, wolle, chese, and whete.",
+              "I wol have money, wolle, chese, and whete.",
+              "I wol have money, wolle, chese, and whete.",
+              "I wol have money, wolle, chese, and whete."
+            ],
+            description: 'The corrupt pardoner who sells false pardons and exploits the faithful.'
+          },
+          {
+            name: 'The Summoner',
+            role: 'The Corrupt Official',
+            startingCoins: 95,
+            startingWeapons: ['corruption', 'bribery', 'exploitation'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'corrupt',
+            quotes: [
+              "He was a gentil harlot and a kynde.",
+              "He was a gentil harlot and a kynde.",
+              "He was a gentil harlot and a kynde.",
+              "He was a gentil harlot and a kynde.",
+              "He was a gentil harlot and a kynde."
+            ],
+            description: 'The corrupt summoner who takes bribes and exploits the people.'
+          },
+          {
+            name: 'The Miller',
+            role: 'The Thief',
+            startingCoins: 85,
+            startingWeapons: ['theft', 'deception', 'greed'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'thieving',
+            quotes: [
+              "He was a stout carl for the nones.",
+              "He was a stout carl for the nones.",
+              "He was a stout carl for the nones.",
+              "He was a stout carl for the nones.",
+              "He was a stout carl for the nones."
+            ],
+            description: 'The thieving miller who steals grain and cheats his customers.'
+          },
+          {
+            name: 'The Wife of Bath',
+            role: 'The Lustful Woman',
+            startingCoins: 90,
+            startingWeapons: ['lust', 'manipulation', 'deception'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'lustful',
+            quotes: [
+              "She was a worthy womman al hir lyve.",
+              "She was a worthy womman al hir lyve.",
+              "She was a worthy womman al hir lyve.",
+              "She was a worthy womman al hir lyve.",
+              "She was a worthy womman al hir lyve."
+            ],
+            description: 'The lustful wife who has had many husbands and seeks pleasure.'
+          },
+          {
+            name: 'The Friar',
+            role: 'The Corrupt Monk',
+            startingCoins: 95,
+            startingWeapons: ['corruption', 'greed', 'exploitation'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'corrupt',
+            quotes: [
+              "He was a wantowne and a merye.",
+              "He was a wantowne and a merye.",
+              "He was a wantowne and a merye.",
+              "He was a wantowne and a merye.",
+              "He was a wantowne and a merye."
+            ],
+            description: 'The corrupt friar who exploits the poor and lives in luxury.'
+          },
+          {
+            name: 'The Monk',
+            role: 'The Worldly Monk',
+            startingCoins: 90,
+            startingWeapons: ['worldliness', 'greed', 'corruption'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'worldly',
+            quotes: [
+              "He was a lord ful fat and in good poynt.",
+              "He was a lord ful fat and in good poynt.",
+              "He was a lord ful fat and in good poynt.",
+              "He was a lord ful fat and in good poynt.",
+              "He was a lord ful fat and in good poynt."
+            ],
+            description: 'The worldly monk who lives in luxury and ignores his vows.'
+          },
+          {
+            name: 'The Merchant',
+            role: 'The Greedy Trader',
+            startingCoins: 100,
+            startingWeapons: ['greed', 'exploitation', 'deception'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'greedy',
+            quotes: [
+              "He was a worthy man withal.",
+              "He was a worthy man withal.",
+              "He was a worthy man withal.",
+              "He was a worthy man withal.",
+              "He was a worthy man withal."
+            ],
+            description: 'The greedy merchant who exploits others for profit.'
+          },
+          {
+            name: 'The Shipman',
+            role: 'The Pirate',
+            startingCoins: 95,
+            startingWeapons: ['piracy', 'violence', 'theft'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'violent',
+            quotes: [
+              "He was a good felawe.",
+              "He was a good felawe.",
+              "He was a good felawe.",
+              "He was a good felawe.",
+              "He was a good felawe."
+            ],
+            description: 'The pirate shipman who steals and plunders on the seas.'
+          },
+          {
+            name: 'The Cook',
+            role: 'The Corrupt Chef',
+            startingCoins: 80,
+            startingWeapons: ['corruption', 'deception', 'greed'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'corrupt',
+            quotes: [
+              "He koude rooste, and sethe, and broille, and frye.",
+              "He koude rooste, and sethe, and broille, and frye.",
+              "He koude rooste, and sethe, and broille, and frye.",
+              "He koude rooste, and sethe, and broille, and frye.",
+              "He koude rooste, and sethe, and broille, and frye."
+            ],
+            description: 'The corrupt cook who serves spoiled food and cheats customers.'
+          },
+          {
+            name: 'The Reeve',
+            role: 'The Corrupt Manager',
+            startingCoins: 90,
+            startingWeapons: ['corruption', 'theft', 'exploitation'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'corrupt',
+            quotes: [
+              "He was a sclendre colerik man.",
+              "He was a sclendre colerik man.",
+              "He was a sclendre colerik man.",
+              "He was a sclendre colerik man.",
+              "He was a sclendre colerik man."
+            ],
+            description: 'The corrupt reeve who steals from the estate and exploits workers.'
+          },
+          {
+            name: 'The Summoner',
+            role: 'The Corrupt Court Official',
+            startingCoins: 85,
+            startingWeapons: ['corruption', 'bribery', 'exploitation'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'corrupt',
+            quotes: [
+              "He was a gentil harlot and a kynde.",
+              "He was a gentil harlot and a kynde.",
+              "He was a gentil harlot and a kynde.",
+              "He was a gentil harlot and a kynde.",
+              "He was a gentil harlot and a kynde."
+            ],
+            description: 'The corrupt summoner who takes bribes and perverts justice.'
+          },
+          {
+            name: 'The Pardoner',
+            role: 'The False Forgiver',
+            startingCoins: 90,
+            startingWeapons: ['deception', 'greed', 'falsehood'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'deceptive',
+            quotes: [
+              "He was a gentil pardoner.",
+              "He was a gentil pardoner.",
+              "He was a gentil pardoner.",
+              "He was a gentil pardoner.",
+              "He was a gentil pardoner."
+            ],
+            description: 'The false pardoner who sells fake pardons and exploits the faithful.'
+          },
+          {
+            name: 'The Wife of Bath',
+            role: 'The Manipulative Woman',
+            startingCoins: 95,
+            startingWeapons: ['manipulation', 'deception', 'lust'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'manipulative',
+            quotes: [
+              "She was a worthy womman al hir lyve.",
+              "She was a worthy womman al hir lyve.",
+              "She was a worthy womman al hir lyve.",
+              "She was a worthy womman al hir lyve.",
+              "She was a worthy womman al hir lyve."
+            ],
+            description: 'The manipulative wife who uses her charms to control men.'
+          },
+          {
+            name: 'The Miller',
+            role: 'The Cheating Miller',
+            startingCoins: 80,
+            startingWeapons: ['cheating', 'theft', 'deception'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cheating',
+            quotes: [
+              "He was a stout carl for the nones.",
+              "He was a stout carl for the nones.",
+              "He was a stout carl for the nones.",
+              "He was a stout carl for the nones.",
+              "He was a stout carl for the nones."
+            ],
+            description: 'The cheating miller who steals grain and cheats his customers.'
+          },
+          {
+            name: 'The Friar',
+            role: 'The Corrupt Friar',
+            startingCoins: 90,
+            startingWeapons: ['corruption', 'greed', 'exploitation'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'corrupt',
+            quotes: [
+              "He was a wantowne and a merye.",
+              "He was a wantowne and a merye.",
+              "He was a wantowne and a merye.",
+              "He was a wantowne and a merye.",
+              "He was a wantowne and a merye."
+            ],
+            description: 'The corrupt friar who exploits the poor and lives in luxury.'
+          },
+          {
+            name: 'The Monk',
+            role: 'The Worldly Monk',
+            startingCoins: 85,
+            startingWeapons: ['worldliness', 'greed', 'corruption'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'worldly',
+            quotes: [
+              "He was a lord ful fat and in good poynt.",
+              "He was a lord ful fat and in good poynt.",
+              "He was a lord ful fat and in good poynt.",
+              "He was a lord ful fat and in good poynt.",
+              "He was a lord ful fat and in good poynt."
+            ],
+            description: 'The worldly monk who lives in luxury and ignores his vows.'
+          },
+          {
+            name: 'The Merchant',
+            role: 'The Exploitative Trader',
+            startingCoins: 95,
+            startingWeapons: ['exploitation', 'greed', 'deception'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'exploitative',
+            quotes: [
+              "He was a worthy man withal.",
+              "He was a worthy man withal.",
+              "He was a worthy man withal.",
+              "He was a worthy man withal.",
+              "He was a worthy man withal."
+            ],
+            description: 'The exploitative merchant who cheats customers and exploits workers.'
+          },
+          {
+            name: 'The Shipman',
+            role: 'The Violent Sailor',
+            startingCoins: 90,
+            startingWeapons: ['violence', 'piracy', 'theft'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'violent',
+            quotes: [
+              "He was a good felawe.",
+              "He was a good felawe.",
+              "He was a good felawe.",
+              "He was a good felawe.",
+              "He was a good felawe."
+            ],
+            description: 'The violent shipman who plunders and terrorizes on the seas.'
+          },
+          {
+            name: 'The Cook',
+            role: 'The Deceptive Chef',
+            startingCoins: 75,
+            startingWeapons: ['deception', 'corruption', 'greed'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'deceptive',
+            quotes: [
+              "He koude rooste, and sethe, and broille, and frye.",
+              "He koude rooste, and sethe, and broille, and frye.",
+              "He koude rooste, and sethe, and broille, and frye.",
+              "He koude rooste, and sethe, and broille, and frye.",
+              "He koude rooste, and sethe, and broille, and frye."
+            ],
+            description: 'The deceptive cook who serves spoiled food and cheats customers.'
+          },
+          {
+            name: 'The Reeve',
+            role: 'The Thieving Manager',
+            startingCoins: 85,
+            startingWeapons: ['theft', 'corruption', 'exploitation'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'thieving',
+            quotes: [
+              "He was a sclendre colerik man.",
+              "He was a sclendre colerik man.",
+              "He was a sclendre colerik man.",
+              "He was a sclendre colerik man.",
+              "He was a sclendre colerik man."
+            ],
+            description: 'The thieving reeve who steals from the estate and exploits workers.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Sinner', startingCoins: 30, startingWeapons: ['sin'], startingMercenaries: 0, startingCastles: 0, personality: 'sinful', quotes: ['We sin!', 'We corrupt!', 'We destroy!'] },
+          { name: 'Corrupt', startingCoins: 25, startingWeapons: ['corruption'], startingMercenaries: 0, startingCastles: 0, personality: 'corrupt', quotes: ['We corrupt!', 'We exploit!', 'We cheat!'] },
+          { name: 'Vicious', startingCoins: 35, startingWeapons: ['vice'], startingMercenaries: 0, startingCastles: 0, personality: 'vicious', quotes: ['We are evil!', 'We are wicked!', 'We are vile!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Pilgrimage Road', cost: 5, description: 'The path to Canterbury where all pilgrims travel' },
+      { name: 'The Inn', cost: 3, description: 'Where pilgrims rest and tell their tales' },
+      { name: 'The Market', cost: 2, description: 'Where goods are traded and stories are shared' },
+      { name: 'The Church', cost: 1, description: 'Where pilgrims pray and seek forgiveness' },
+      { name: 'The Crossroads', cost: 4, description: 'Where paths meet and decisions are made' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // DON QUIXOTE SCENARIO
+  donQuixote: {
+    id: 'donQuixote',
+    name: 'Don Quixote: The Knight of the Woeful Countenance (1605)',
+    type: 'literary',
+    description: 'Miguel de Cervantes\' masterpiece about the delusional knight Don Quixote and his faithful squire Sancho Panza, exploring themes of idealism, reality, and the power of imagination.',
+    factions: {
+      idealism: {
+        name: 'Forces of Idealism',
+        color: '#1e40af', // Blue
+        description: 'Those who embody noble ideals, chivalry, and the power of imagination to transform reality',
+        territories: [
+          { name: 'La Mancha', cost: 25, description: 'Don Quixote\'s homeland and the starting point of his adventures' },
+          { name: 'The Windmill', cost: 22, description: 'Where Don Quixote battles the giants of his imagination' },
+          { name: 'Dulcinea\'s Village', cost: 20, description: 'Where Don Quixote\'s beloved Dulcinea lives' },
+          { name: 'The Inn', cost: 18, description: 'Where Don Quixote is knighted and begins his quest' },
+          { name: 'The Road', cost: 15, description: 'The path of adventure and chivalry' },
+          { name: 'The Castle', cost: 12, description: 'Where Don Quixote seeks shelter and honor' },
+          { name: 'The Forest', cost: 10, description: 'Where Don Quixote finds peace and reflection' },
+          { name: 'The Village', cost: 8, description: 'Where Don Quixote helps the oppressed' },
+          { name: 'The Bridge', cost: 6, description: 'Where Don Quixote crosses into new adventures' },
+          { name: 'The Field', cost: 4, description: 'Where Don Quixote practices his knightly skills' },
+          { name: 'The Hill', cost: 3, description: 'Where Don Quixote can see far and plan his quests' },
+          { name: 'The Valley', cost: 2, description: 'Where Don Quixote finds beauty and inspiration' },
+          { name: 'The Path', cost: 1, description: 'Where Don Quixote walks and dreams' },
+          { name: 'The Church', cost: 14, description: 'Where Don Quixote prays for guidance' },
+          { name: 'The Market', cost: 7, description: 'Where Don Quixote sees the people he must protect' },
+          { name: 'The Tavern', cost: 9, description: 'Where Don Quixote hears tales of adventure' },
+          { name: 'The Stable', cost: 11, description: 'Where Don Quixote\'s horse Rocinante is kept' },
+          { name: 'The Garden', cost: 5, description: 'Where Don Quixote finds beauty and peace' },
+          { name: 'The Tower', cost: 13, description: 'Where Don Quixote can see the world below' },
+          { name: 'The Crossroads', cost: 1, description: 'Where Don Quixote must choose his path' }
+        ],
+        characters: [
+          {
+            name: 'Don Quixote',
+            role: 'The Knight of the Woeful Countenance',
+            startingCoins: 130,
+            startingWeapons: ['sword', 'idealism', 'chivalry'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'idealistic',
+            quotes: [
+              "I know who I am, and who I may be, if I choose.",
+              "I know who I am, and who I may be, if I choose.",
+              "I know who I am, and who I may be, if I choose.",
+              "I know who I am, and who I may be, if I choose.",
+              "I know who I am, and who I may be, if I choose."
+            ],
+            description: 'The delusional knight who sees the world through the lens of chivalric romance and noble ideals.'
+          },
+          {
+            name: 'Sancho Panza',
+            role: 'The Faithful Squire',
+            startingCoins: 100,
+            startingWeapons: ['loyalty', 'wisdom', 'practicality'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "I am Sancho Panza, and I am what I am.",
+              "I am Sancho Panza, and I am what I am.",
+              "I am Sancho Panza, and I am what I am.",
+              "I am Sancho Panza, and I am what I am.",
+              "I am Sancho Panza, and I am what I am."
+            ],
+            description: 'Don Quixote\'s faithful squire who balances idealism with practical wisdom.'
+          },
+          {
+            name: 'Dulcinea del Toboso',
+            role: 'The Idealized Lady',
+            startingCoins: 120,
+            startingWeapons: ['beauty', 'inspiration', 'love'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'inspiring',
+            quotes: [
+              "She is the most beautiful woman in the world.",
+              "She is the most beautiful woman in the world.",
+              "She is the most beautiful woman in the world.",
+              "She is the most beautiful woman in the world.",
+              "She is the most beautiful woman in the world."
+            ],
+            description: 'Don Quixote\'s idealized lady love who inspires his noble deeds.'
+          },
+          {
+            name: 'Rocinante',
+            role: 'The Noble Steed',
+            startingCoins: 90,
+            startingWeapons: ['loyalty', 'endurance', 'nobility'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'noble',
+            quotes: [
+              "He is the finest horse in all of La Mancha.",
+              "He is the finest horse in all of La Mancha.",
+              "He is the finest horse in all of La Mancha.",
+              "He is the finest horse in all of La Mancha.",
+              "He is the finest horse in all of La Mancha."
+            ],
+            description: 'Don Quixote\'s faithful horse who carries him on his adventures.'
+          },
+          {
+            name: 'The Innkeeper',
+            role: 'The Reluctant Host',
+            startingCoins: 85,
+            startingWeapons: ['hospitality', 'patience', 'wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'patient',
+            quotes: [
+              "I will help you in your quest, noble knight.",
+              "I will help you in your quest, noble knight.",
+              "I will help you in your quest, noble knight.",
+              "I will help you in your quest, noble knight.",
+              "I will help you in your quest, noble knight."
+            ],
+            description: 'The innkeeper who reluctantly helps Don Quixote in his quest.'
+          },
+          {
+            name: 'The Barber',
+            role: 'The Practical Friend',
+            startingCoins: 80,
+            startingWeapons: ['practicality', 'wisdom', 'friendship'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'practical',
+            quotes: [
+              "You must be practical, Don Quixote.",
+              "You must be practical, Don Quixote.",
+              "You must be practical, Don Quixote.",
+              "You must be practical, Don Quixote.",
+              "You must be practical, Don Quixote."
+            ],
+            description: 'Don Quixote\'s practical friend who tries to bring him back to reality.'
+          },
+          {
+            name: 'The Priest',
+            role: 'The Spiritual Guide',
+            startingCoins: 95,
+            startingWeapons: ['faith', 'wisdom', 'guidance'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "Faith and reason must work together.",
+              "Faith and reason must work together.",
+              "Faith and reason must work together.",
+              "Faith and reason must work together.",
+              "Faith and reason must work together."
+            ],
+            description: 'The priest who provides spiritual guidance and wisdom.'
+          },
+          {
+            name: 'The Student',
+            role: 'The Young Idealist',
+            startingCoins: 75,
+            startingWeapons: ['youth', 'idealism', 'learning'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'idealistic',
+            quotes: [
+              "I believe in the power of dreams!",
+              "I believe in the power of dreams!",
+              "I believe in the power of dreams!",
+              "I believe in the power of dreams!",
+              "I believe in the power of dreams!"
+            ],
+            description: 'The young student who shares Don Quixote\'s idealism and dreams.'
+          },
+          {
+            name: 'The Shepherd',
+            role: 'The Simple Soul',
+            startingCoins: 70,
+            startingWeapons: ['simplicity', 'honesty', 'kindness'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'simple',
+            quotes: [
+              "I am a simple man, but I understand kindness.",
+              "I am a simple man, but I understand kindness.",
+              "I am a simple man, but I understand kindness.",
+              "I am a simple man, but I understand kindness.",
+              "I am a simple man, but I understand kindness."
+            ],
+            description: 'The simple shepherd who shows kindness and understanding.'
+          },
+          {
+            name: 'The Knight of the Mirrors',
+            role: 'The Challenger',
+            startingCoins: 100,
+            startingWeapons: ['challenge', 'honor', 'dueling'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'challenging',
+            quotes: [
+              "I challenge you to a duel, Don Quixote!",
+              "I challenge you to a duel, Don Quixote!",
+              "I challenge you to a duel, Don Quixote!",
+              "I challenge you to a duel, Don Quixote!",
+              "I challenge you to a duel, Don Quixote!"
+            ],
+            description: 'The knight who challenges Don Quixote to prove his worth.'
+          },
+          {
+            name: 'The Duke and Duchess',
+            role: 'The Noble Patrons',
+            startingCoins: 110,
+            startingWeapons: ['nobility', 'patronage', 'power'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'noble',
+            quotes: [
+              "We will help you in your quest, noble knight.",
+              "We will help you in your quest, noble knight.",
+              "We will help you in your quest, noble knight.",
+              "We will help you in your quest, noble knight.",
+              "We will help you in your quest, noble knight."
+            ],
+            description: 'The noble couple who become Don Quixote\'s patrons and supporters.'
+          },
+          {
+            name: 'The Captive',
+            role: 'The Freed Prisoner',
+            startingCoins: 85,
+            startingWeapons: ['freedom', 'gratitude', 'courage'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'grateful',
+            quotes: [
+              "I owe my freedom to you, noble knight.",
+              "I owe my freedom to you, noble knight.",
+              "I owe my freedom to you, noble knight.",
+              "I owe my freedom to you, noble knight.",
+              "I owe my freedom to you, noble knight."
+            ],
+            description: 'The captive who is freed by Don Quixote and becomes his ally.'
+          },
+          {
+            name: 'The Goatherd',
+            role: 'The Simple Helper',
+            startingCoins: 65,
+            startingWeapons: ['helpfulness', 'simplicity', 'kindness'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'helpful',
+            quotes: [
+              "I will help you in any way I can.",
+              "I will help you in any way I can.",
+              "I will help you in any way I can.",
+              "I will help you in any way I can.",
+              "I will help you in any way I can."
+            ],
+            description: 'The simple goatherd who offers help and kindness to Don Quixote.'
+          },
+          {
+            name: 'The Knight of the White Moon',
+            role: 'The Final Challenger',
+            startingCoins: 105,
+            startingWeapons: ['challenge', 'honor', 'dueling'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'challenging',
+            quotes: [
+              "I challenge you to your final duel!",
+              "I challenge you to your final duel!",
+              "I challenge you to your final duel!",
+              "I challenge you to your final duel!",
+              "I challenge you to your final duel!"
+            ],
+            description: 'The knight who challenges Don Quixote to his final duel.'
+          },
+          {
+            name: 'The Scholar',
+            role: 'The Wise Teacher',
+            startingCoins: 90,
+            startingWeapons: ['knowledge', 'wisdom', 'teaching'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "Knowledge is the greatest weapon.",
+              "Knowledge is the greatest weapon.",
+              "Knowledge is the greatest weapon.",
+              "Knowledge is the greatest weapon.",
+              "Knowledge is the greatest weapon."
+            ],
+            description: 'The scholar who teaches Don Quixote about the world and its ways.'
+          },
+          {
+            name: 'The Farmer',
+            role: 'The Hardworking Man',
+            startingCoins: 75,
+            startingWeapons: ['hard work', 'honesty', 'perseverance'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'hardworking',
+            quotes: [
+              "Hard work is the key to success.",
+              "Hard work is the key to success.",
+              "Hard work is the key to success.",
+              "Hard work is the key to success.",
+              "Hard work is the key to success."
+            ],
+            description: 'The hardworking farmer who shows Don Quixote the value of honest labor.'
+          },
+          {
+            name: 'The Merchant',
+            role: 'The Practical Trader',
+            startingCoins: 85,
+            startingWeapons: ['trade', 'practicality', 'business'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'practical',
+            quotes: [
+              "Business is business, and dreams are dreams.",
+              "Business is business, and dreams are dreams.",
+              "Business is business, and dreams are dreams.",
+              "Business is business, and dreams are dreams.",
+              "Business is business, and dreams are dreams."
+            ],
+            description: 'The practical merchant who tries to teach Don Quixote about reality.'
+          },
+          {
+            name: 'The Knight Errant',
+            role: 'The Fellow Adventurer',
+            startingCoins: 95,
+            startingWeapons: ['adventure', 'chivalry', 'honor'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'adventurous',
+            quotes: [
+              "We are brothers in arms!",
+              "We are brothers in arms!",
+              "We are brothers in arms!",
+              "We are brothers in arms!",
+              "We are brothers in arms!"
+            ],
+            description: 'The fellow knight errant who shares Don Quixote\'s ideals and adventures.'
+          },
+          {
+            name: 'The Dreamer',
+            role: 'The Visionary',
+            startingCoins: 80,
+            startingWeapons: ['dreams', 'vision', 'imagination'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'visionary',
+            quotes: [
+              "Dreams can change the world!",
+              "Dreams can change the world!",
+              "Dreams can change the world!",
+              "Dreams can change the world!",
+              "Dreams can change the world!"
+            ],
+            description: 'The dreamer who believes in the power of imagination and dreams.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Idealist', startingCoins: 30, startingWeapons: ['ideals'], startingMercenaries: 0, startingCastles: 0, personality: 'idealistic', quotes: ['We dream!', 'We believe!', 'We hope!'] },
+          { name: 'Dreamer', startingCoins: 25, startingWeapons: ['dreams'], startingMercenaries: 0, startingCastles: 0, personality: 'dreaming', quotes: ['We imagine!', 'We create!', 'We inspire!'] },
+          { name: 'Noble', startingCoins: 35, startingWeapons: ['nobility'], startingMercenaries: 0, startingCastles: 0, personality: 'noble', quotes: ['We are noble!', 'We are pure!', 'We are good!'] }
+        ]
+      },
+      reality: {
+        name: 'Forces of Reality',
+        color: '#dc2626', // Red
+        description: 'Those who represent the harsh realities of life, practicality, and the limitations of idealism',
+        territories: [
+          { name: 'The Marketplace', cost: 25, description: 'Where harsh economic realities rule' },
+          { name: 'The Prison', cost: 22, description: 'Where the consequences of idealism are faced' },
+          { name: 'The Hospital', cost: 20, description: 'Where the wounds of reality are treated' },
+          { name: 'The Court', cost: 18, description: 'Where justice is meted out harshly' },
+          { name: 'The Tavern', cost: 15, description: 'Where people drown their sorrows in reality' },
+          { name: 'The Workshop', cost: 12, description: 'Where hard work and practicality rule' },
+          { name: 'The Field', cost: 10, description: 'Where the harshness of nature is felt' },
+          { name: 'The Road', cost: 8, description: 'Where the difficulties of travel are experienced' },
+          { name: 'The Inn', cost: 6, description: 'Where people must pay for their dreams' },
+          { name: 'The Village', cost: 4, description: 'Where the harshness of village life is felt' },
+          { name: 'The Forest', cost: 3, description: 'Where the dangers of nature lurk' },
+          { name: 'The Hill', cost: 2, description: 'Where the difficulties of climbing are felt' },
+          { name: 'The Valley', cost: 1, description: 'Where the low points of life are experienced' },
+          { name: 'The Church', cost: 14, description: 'Where the harshness of religious doctrine is felt' },
+          { name: 'The School', cost: 7, description: 'Where the difficulties of learning are faced' },
+          { name: 'The Stable', cost: 9, description: 'Where the harshness of animal care is felt' },
+          { name: 'The Garden', cost: 11, description: 'Where the difficulties of cultivation are faced' },
+          { name: 'The Bridge', cost: 5, description: 'Where the dangers of crossing are felt' },
+          { name: 'The Tower', cost: 13, description: 'Where the isolation of reality is felt' },
+          { name: 'The Crossroads', cost: 1, description: 'Where the difficult choices of life must be made' }
+        ],
+        characters: [
+          {
+            name: 'The Innkeeper',
+            role: 'The Harsh Reality',
+            startingCoins: 100,
+            startingWeapons: ['harshness', 'reality', 'practicality'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'harsh',
+            quotes: [
+              "You must pay for your dreams with reality.",
+              "You must pay for your dreams with reality.",
+              "You must pay for your dreams with reality.",
+              "You must pay for your dreams with reality.",
+              "You must pay for your dreams with reality."
+            ],
+            description: 'The innkeeper who represents the harsh realities of life and the need to pay for dreams.'
+          },
+          {
+            name: 'The Barber',
+            role: 'The Practical Realist',
+            startingCoins: 95,
+            startingWeapons: ['practicality', 'reality', 'wisdom'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'practical',
+            quotes: [
+              "You must face reality, Don Quixote.",
+              "You must face reality, Don Quixote.",
+              "You must face reality, Don Quixote.",
+              "You must face reality, Don Quixote.",
+              "You must face reality, Don Quixote."
+            ],
+            description: 'The barber who tries to bring Don Quixote back to reality and practicality.'
+          },
+          {
+            name: 'The Priest',
+            role: 'The Harsh Judge',
+            startingCoins: 90,
+            startingWeapons: ['judgment', 'harshness', 'reality'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'judgmental',
+            quotes: [
+              "You must face the consequences of your actions.",
+              "You must face the consequences of your actions.",
+              "You must face the consequences of your actions.",
+              "You must face the consequences of your actions.",
+              "You must face the consequences of your actions."
+            ],
+            description: 'The priest who judges Don Quixote harshly for his delusions.'
+          },
+          {
+            name: 'The Student',
+            role: 'The Disillusioned Youth',
+            startingCoins: 80,
+            startingWeapons: ['disillusionment', 'cynicism', 'reality'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cynical',
+            quotes: [
+              "Dreams are for children, not adults.",
+              "Dreams are for children, not adults.",
+              "Dreams are for children, not adults.",
+              "Dreams are for children, not adults.",
+              "Dreams are for children, not adults."
+            ],
+            description: 'The disillusioned student who has lost faith in dreams and ideals.'
+          },
+          {
+            name: 'The Shepherd',
+            role: 'The Harsh Worker',
+            startingCoins: 75,
+            startingWeapons: ['harshness', 'reality', 'work'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'harsh',
+            quotes: [
+              "Work is hard, and dreams don\'t feed you.",
+              "Work is hard, and dreams don\'t feed you.",
+              "Work is hard, and dreams don\'t feed you.",
+              "Work is hard, and dreams don\'t feed you.",
+              "Work is hard, and dreams don\'t feed you."
+            ],
+            description: 'The harsh shepherd who represents the difficult realities of work and survival.'
+          },
+          {
+            name: 'The Knight of the Mirrors',
+            role: 'The Harsh Challenger',
+            startingCoins: 105,
+            startingWeapons: ['harshness', 'reality', 'challenge'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'harsh',
+            quotes: [
+              "I will show you the harsh reality of your delusions!",
+              "I will show you the harsh reality of your delusions!",
+              "I will show you the harsh reality of your delusions!",
+              "I will show you the harsh reality of your delusions!",
+              "I will show you the harsh reality of your delusions!"
+            ],
+            description: 'The knight who challenges Don Quixote with harsh reality and truth.'
+          },
+          {
+            name: 'The Duke and Duchess',
+            role: 'The Cruel Patrons',
+            startingCoins: 110,
+            startingWeapons: ['cruelty', 'manipulation', 'power'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'cruel',
+            quotes: [
+              "We will use you for our entertainment.",
+              "We will use you for our entertainment.",
+              "We will use you for our entertainment.",
+              "We will use you for our entertainment.",
+              "We will use you for our entertainment."
+            ],
+            description: 'The cruel noble couple who manipulate Don Quixote for their own amusement.'
+          },
+          {
+            name: 'The Captive',
+            role: 'The Broken Prisoner',
+            startingCoins: 85,
+            startingWeapons: ['brokenness', 'despair', 'reality'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'broken',
+            quotes: [
+              "Reality has broken my spirit.",
+              "Reality has broken my spirit.",
+              "Reality has broken my spirit.",
+              "Reality has broken my spirit.",
+              "Reality has broken my spirit."
+            ],
+            description: 'The broken captive who has been crushed by the harsh realities of life.'
+          },
+          {
+            name: 'The Goatherd',
+            role: 'The Harsh Worker',
+            startingCoins: 70,
+            startingWeapons: ['harshness', 'reality', 'work'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'harsh',
+            quotes: [
+              "Life is hard, and dreams won\'t help you.",
+              "Life is hard, and dreams won\'t help you.",
+              "Life is hard, and dreams won\'t help you.",
+              "Life is hard, and dreams won\'t help you.",
+              "Life is hard, and dreams won\'t help you."
+            ],
+            description: 'The harsh goatherd who represents the difficult realities of work and survival.'
+          },
+          {
+            name: 'The Knight of the White Moon',
+            role: 'The Final Reality',
+            startingCoins: 100,
+            startingWeapons: ['reality', 'harshness', 'truth'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'harsh',
+            quotes: [
+              "I will show you the final truth of reality!",
+              "I will show you the final truth of reality!",
+              "I will show you the final truth of reality!",
+              "I will show you the final truth of reality!",
+              "I will show you the final truth of reality!"
+            ],
+            description: 'The knight who represents the final, harsh reality that Don Quixote must face.'
+          },
+          {
+            name: 'The Scholar',
+            role: 'The Harsh Teacher',
+            startingCoins: 90,
+            startingWeapons: ['harshness', 'reality', 'truth'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'harsh',
+            quotes: [
+              "Knowledge is harsh, but it is the truth.",
+              "Knowledge is harsh, but it is the truth.",
+              "Knowledge is harsh, but it is the truth.",
+              "Knowledge is harsh, but it is the truth.",
+              "Knowledge is harsh, but it is the truth."
+            ],
+            description: 'The harsh scholar who teaches Don Quixote about the harsh realities of the world.'
+          },
+          {
+            name: 'The Farmer',
+            role: 'The Harsh Worker',
+            startingCoins: 80,
+            startingWeapons: ['harshness', 'reality', 'work'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'harsh',
+            quotes: [
+              "Work is harsh, but it is necessary.",
+              "Work is harsh, but it is necessary.",
+              "Work is harsh, but it is necessary.",
+              "Work is harsh, but it is necessary.",
+              "Work is harsh, but it is necessary."
+            ],
+            description: 'The harsh farmer who represents the difficult realities of work and survival.'
+          },
+          {
+            name: 'The Merchant',
+            role: 'The Harsh Trader',
+            startingCoins: 85,
+            startingWeapons: ['harshness', 'reality', 'business'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'harsh',
+            quotes: [
+              "Business is harsh, but it is reality.",
+              "Business is harsh, but it is reality.",
+              "Business is harsh, but it is reality.",
+              "Business is harsh, but it is reality.",
+              "Business is harsh, but it is reality."
+            ],
+            description: 'The harsh merchant who represents the difficult realities of business and trade.'
+          },
+          {
+            name: 'The Knight Errant',
+            role: 'The Harsh Adventurer',
+            startingCoins: 95,
+            startingWeapons: ['harshness', 'reality', 'adventure'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'harsh',
+            quotes: [
+              "Adventure is harsh, but it is reality.",
+              "Adventure is harsh, but it is reality.",
+              "Adventure is harsh, but it is reality.",
+              "Adventure is harsh, but it is reality.",
+              "Adventure is harsh, but it is reality."
+            ],
+            description: 'The harsh knight errant who represents the difficult realities of adventure and chivalry.'
+          },
+          {
+            name: 'The Dreamer',
+            role: 'The Broken Dreamer',
+            startingCoins: 75,
+            startingWeapons: ['brokenness', 'despair', 'reality'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'broken',
+            quotes: [
+              "Dreams are broken by reality.",
+              "Dreams are broken by reality.",
+              "Dreams are broken by reality.",
+              "Dreams are broken by reality.",
+              "Dreams are broken by reality."
+            ],
+            description: 'The broken dreamer who has been crushed by the harsh realities of life.'
+          },
+          {
+            name: 'The Realist',
+            role: 'The Harsh Realist',
+            startingCoins: 90,
+            startingWeapons: ['harshness', 'reality', 'truth'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'harsh',
+            quotes: [
+              "Reality is harsh, but it is the truth.",
+              "Reality is harsh, but it is the truth.",
+              "Reality is harsh, but it is the truth.",
+              "Reality is harsh, but it is the truth.",
+              "Reality is harsh, but it is the truth."
+            ],
+            description: 'The harsh realist who represents the difficult realities of life and truth.'
+          },
+          {
+            name: 'The Cynic',
+            role: 'The Harsh Cynic',
+            startingCoins: 85,
+            startingWeapons: ['cynicism', 'harshness', 'reality'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cynical',
+            quotes: [
+              "Cynicism is the only truth.",
+              "Cynicism is the only truth.",
+              "Cynicism is the only truth.",
+              "Cynicism is the only truth.",
+              "Cynicism is the only truth."
+            ],
+            description: 'The harsh cynic who represents the difficult realities of life and truth.'
+          },
+          {
+            name: 'The Pessimist',
+            role: 'The Harsh Pessimist',
+            startingCoins: 80,
+            startingWeapons: ['pessimism', 'harshness', 'reality'],
+            startingMercenaries: 0,
+            startingCastles: 0,
+            personality: 'pessimistic',
+            quotes: [
+              "Pessimism is the only reality.",
+              "Pessimism is the only reality.",
+              "Pessimism is the only reality.",
+              "Pessimism is the only reality.",
+              "Pessimism is the only reality."
+            ],
+            description: 'The harsh pessimist who represents the difficult realities of life and truth.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Realist', startingCoins: 30, startingWeapons: ['reality'], startingMercenaries: 0, startingCastles: 0, personality: 'realistic', quotes: ['We face reality!', 'We are practical!', 'We are harsh!'] },
+          { name: 'Cynic', startingCoins: 25, startingWeapons: ['cynicism'], startingMercenaries: 0, startingCastles: 0, personality: 'cynical', quotes: ['We are cynical!', 'We are harsh!', 'We are cruel!'] },
+          { name: 'Pessimist', startingCoins: 35, startingWeapons: ['pessimism'], startingMercenaries: 0, startingCastles: 0, personality: 'pessimistic', quotes: ['We are pessimistic!', 'We are harsh!', 'We are cruel!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Road to Adventure', cost: 5, description: 'The path where idealism and reality meet' },
+      { name: 'The Inn of Dreams', cost: 3, description: 'Where dreams and reality collide' },
+      { name: 'The Market of Truth', cost: 2, description: 'Where the truth of both sides is revealed' },
+      { name: 'The Church of Hope', cost: 1, description: 'Where hope and despair meet' },
+      { name: 'The Crossroads of Choice', cost: 4, description: 'Where one must choose between idealism and reality' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // LE MORTE D'ARTHUR SCENARIO
+  leMorteDArthur: {
+    id: 'leMorteDArthur',
+    name: 'Le Morte d\'Arthur: The Death of King Arthur (1485)',
+    type: 'literary',
+    description: 'Sir Thomas Malory\'s compilation of Arthurian legends, chronicling the rise and fall of King Arthur and the Knights of the Round Table, exploring themes of chivalry, honor, and the tragic fall of Camelot.',
+    factions: {
+      chivalry: {
+        name: 'Forces of Chivalry',
+        color: '#1e40af', // Blue
+        description: 'Those who embody the noble ideals of chivalry, honor, and the code of the Round Table',
+        territories: [
+          { name: 'Camelot', cost: 25, description: 'The legendary castle and seat of King Arthur\'s power' },
+          { name: 'The Round Table', cost: 22, description: 'Where the knights gather in equality and brotherhood' },
+          { name: 'The Chapel', cost: 20, description: 'Where the knights pray and seek spiritual guidance' },
+          { name: 'The Armory', cost: 18, description: 'Where weapons and armor are stored and maintained' },
+          { name: 'The Training Grounds', cost: 15, description: 'Where knights practice their skills and combat' },
+          { name: 'The Great Hall', cost: 12, description: 'Where feasts and celebrations are held' },
+          { name: 'The Throne Room', cost: 10, description: 'Where King Arthur holds court and makes decisions' },
+          { name: 'The Library', cost: 8, description: 'Where ancient knowledge and wisdom are preserved' },
+          { name: 'The Garden', cost: 6, description: 'Where peace and beauty can be found' },
+          { name: 'The Stables', cost: 4, description: 'Where the knights\' horses are kept' },
+          { name: 'The Gate', cost: 3, description: 'The entrance to the castle and its protection' },
+          { name: 'The Tower', cost: 2, description: 'Where the castle\'s defenders keep watch' },
+          { name: 'The Courtyard', cost: 1, description: 'Where the knights gather and socialize' },
+          { name: 'The Chapel of the Holy Grail', cost: 14, description: 'Where the sacred quest for the Grail begins' },
+          { name: 'The Tournament Grounds', cost: 7, description: 'Where knights compete in jousting and combat' },
+          { name: 'The Council Chamber', cost: 9, description: 'Where important decisions are made' },
+          { name: 'The Guest Quarters', cost: 11, description: 'Where visiting knights and nobles stay' },
+          { name: 'The Bridge', cost: 5, description: 'Connection between different parts of the castle' },
+          { name: 'The Hill', cost: 13, description: 'High ground where the castle can be defended' },
+          { name: 'The Valley', cost: 1, description: 'Low ground where the castle is protected' }
+        ],
+        characters: [
+          {
+            name: 'King Arthur',
+            role: 'The Once and Future King',
+            startingCoins: 140,
+            startingWeapons: ['Excalibur', 'honor', 'leadership'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'noble',
+            quotes: [
+              "I am Arthur, King of the Britons.",
+              "I am Arthur, King of the Britons.",
+              "I am Arthur, King of the Britons.",
+              "I am Arthur, King of the Britons.",
+              "I am Arthur, King of the Britons."
+            ],
+            description: 'The legendary king who unites Britain and establishes the code of chivalry.'
+          },
+          {
+            name: 'Sir Lancelot',
+            role: 'The Greatest Knight',
+            startingCoins: 130,
+            startingWeapons: ['sword', 'honor', 'love'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'noble',
+            quotes: [
+              "I am Lancelot, the greatest knight in all the world.",
+              "I am Lancelot, the greatest knight in all the world.",
+              "I am Lancelot, the greatest knight in all the world.",
+              "I am Lancelot, the greatest knight in all the world.",
+              "I am Lancelot, the greatest knight in all the world."
+            ],
+            description: 'The greatest knight of the Round Table, torn between love and duty.'
+          },
+          {
+            name: 'Sir Galahad',
+            role: 'The Pure Knight',
+            startingCoins: 125,
+            startingWeapons: ['purity', 'faith', 'honor'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'pure',
+            quotes: [
+              "I am Galahad, the purest knight in all the world.",
+              "I am Galahad, the purest knight in all the world.",
+              "I am Galahad, the purest knight in all the world.",
+              "I am Galahad, the purest knight in all the world.",
+              "I am Galahad, the purest knight in all the world."
+            ],
+            description: 'The purest knight who achieves the quest for the Holy Grail.'
+          },
+          {
+            name: 'Sir Gawain',
+            role: 'The Loyal Knight',
+            startingCoins: 120,
+            startingWeapons: ['loyalty', 'honor', 'courage'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'loyal',
+            quotes: [
+              "I am Gawain, the most loyal knight in all the world.",
+              "I am Gawain, the most loyal knight in all the world.",
+              "I am Gawain, the most loyal knight in all the world.",
+              "I am Gawain, the most loyal knight in all the world.",
+              "I am Gawain, the most loyal knight in all the world."
+            ],
+            description: 'The loyal knight who serves King Arthur with unwavering devotion.'
+          },
+          {
+            name: 'Sir Percival',
+            role: 'The Questing Knight',
+            startingCoins: 115,
+            startingWeapons: ['questing', 'honor', 'faith'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'questing',
+            quotes: [
+              "I am Percival, the questing knight.",
+              "I am Percival, the questing knight.",
+              "I am Percival, the questing knight.",
+              "I am Percival, the questing knight.",
+              "I am Percival, the questing knight."
+            ],
+            description: 'The questing knight who seeks the Holy Grail with pure heart.'
+          },
+          {
+            name: 'Sir Bors',
+            role: 'The Wise Knight',
+            startingCoins: 110,
+            startingWeapons: ['wisdom', 'honor', 'counsel'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'wise',
+            quotes: [
+              "I am Bors, the wise knight.",
+              "I am Bors, the wise knight.",
+              "I am Bors, the wise knight.",
+              "I am Bors, the wise knight.",
+              "I am Bors, the wise knight."
+            ],
+            description: 'The wise knight who provides counsel and guidance to the Round Table.'
+          },
+          {
+            name: 'Sir Kay',
+            role: 'The Seneschal',
+            startingCoins: 105,
+            startingWeapons: ['duty', 'honor', 'service'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'dutiful',
+            quotes: [
+              "I am Kay, the seneschal of Camelot.",
+              "I am Kay, the seneschal of Camelot.",
+              "I am Kay, the seneschal of Camelot.",
+              "I am Kay, the seneschal of Camelot.",
+              "I am Kay, the seneschal of Camelot."
+            ],
+            description: 'The seneschal who manages the affairs of Camelot with dedication.'
+          },
+          {
+            name: 'Sir Bedivere',
+            role: 'The Faithful Knight',
+            startingCoins: 100,
+            startingWeapons: ['faithfulness', 'honor', 'loyalty'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'faithful',
+            quotes: [
+              "I am Bedivere, the faithful knight.",
+              "I am Bedivere, the faithful knight.",
+              "I am Bedivere, the faithful knight.",
+              "I am Bedivere, the faithful knight.",
+              "I am Bedivere, the faithful knight."
+            ],
+            description: 'The faithful knight who serves King Arthur until the very end.'
+          },
+          {
+            name: 'Sir Gareth',
+            role: 'The Young Knight',
+            startingCoins: 95,
+            startingWeapons: ['youth', 'honor', 'courage'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'youthful',
+            quotes: [
+              "I am Gareth, the young knight.",
+              "I am Gareth, the young knight.",
+              "I am Gareth, the young knight.",
+              "I am Gareth, the young knight.",
+              "I am Gareth, the young knight."
+            ],
+            description: 'The young knight who proves his worth through noble deeds.'
+          },
+          {
+            name: 'Sir Gaheris',
+            role: 'The Brave Knight',
+            startingCoins: 90,
+            startingWeapons: ['bravery', 'honor', 'courage'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'brave',
+            quotes: [
+              "I am Gaheris, the brave knight.",
+              "I am Gaheris, the brave knight.",
+              "I am Gaheris, the brave knight.",
+              "I am Gaheris, the brave knight.",
+              "I am Gaheris, the brave knight."
+            ],
+            description: 'The brave knight who faces danger with courage and honor.'
+          },
+          {
+            name: 'Sir Agravain',
+            role: 'The Proud Knight',
+            startingCoins: 85,
+            startingWeapons: ['pride', 'honor', 'courage'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'proud',
+            quotes: [
+              "I am Agravain, the proud knight.",
+              "I am Agravain, the proud knight.",
+              "I am Agravain, the proud knight.",
+              "I am Agravain, the proud knight.",
+              "I am Agravain, the proud knight."
+            ],
+            description: 'The proud knight who serves with honor and dignity.'
+          },
+          {
+            name: 'Sir Mordred',
+            role: 'The Traitor Knight',
+            startingCoins: 100,
+            startingWeapons: ['treachery', 'ambition', 'power'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'treacherous',
+            quotes: [
+              "I am Mordred, the traitor knight.",
+              "I am Mordred, the traitor knight.",
+              "I am Mordred, the traitor knight.",
+              "I am Mordred, the traitor knight.",
+              "I am Mordred, the traitor knight."
+            ],
+            description: 'The traitor knight who brings about the fall of Camelot.'
+          },
+          {
+            name: 'Queen Guinevere',
+            role: 'The Beautiful Queen',
+            startingCoins: 120,
+            startingWeapons: ['beauty', 'love', 'grace'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'beautiful',
+            quotes: [
+              "I am Guinevere, the beautiful queen.",
+              "I am Guinevere, the beautiful queen.",
+              "I am Guinevere, the beautiful queen.",
+              "I am Guinevere, the beautiful queen.",
+              "I am Guinevere, the beautiful queen."
+            ],
+            description: 'The beautiful queen who is loved by both Arthur and Lancelot.'
+          },
+          {
+            name: 'Merlin',
+            role: 'The Wise Wizard',
+            startingCoins: 130,
+            startingWeapons: ['magic', 'wisdom', 'prophecy'],
+            startingMercenaries: 3,
+            startingCastles: 3,
+            personality: 'wise',
+            quotes: [
+              "I am Merlin, the wise wizard.",
+              "I am Merlin, the wise wizard.",
+              "I am Merlin, the wise wizard.",
+              "I am Merlin, the wise wizard.",
+              "I am Merlin, the wise wizard."
+            ],
+            description: 'The wise wizard who guides and counsels King Arthur.'
+          },
+          {
+            name: 'Sir Tristram',
+            role: 'The Lover Knight',
+            startingCoins: 110,
+            startingWeapons: ['love', 'honor', 'courage'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'loving',
+            quotes: [
+              "I am Tristram, the lover knight.",
+              "I am Tristram, the lover knight.",
+              "I am Tristram, the lover knight.",
+              "I am Tristram, the lover knight.",
+              "I am Tristram, the lover knight."
+            ],
+            description: 'The lover knight who is torn between love and duty.'
+          },
+          {
+            name: 'Sir Lamorak',
+            role: 'The Strong Knight',
+            startingCoins: 105,
+            startingWeapons: ['strength', 'honor', 'courage'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'strong',
+            quotes: [
+              "I am Lamorak, the strong knight.",
+              "I am Lamorak, the strong knight.",
+              "I am Lamorak, the strong knight.",
+              "I am Lamorak, the strong knight.",
+              "I am Lamorak, the strong knight."
+            ],
+            description: 'The strong knight who serves with honor and strength.'
+          },
+          {
+            name: 'Sir Palomides',
+            role: 'The Saracen Knight',
+            startingCoins: 100,
+            startingWeapons: ['honor', 'courage', 'faith'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'honorable',
+            quotes: [
+              "I am Palomides, the Saracen knight.",
+              "I am Palomides, the Saracen knight.",
+              "I am Palomides, the Saracen knight.",
+              "I am Palomides, the Saracen knight.",
+              "I am Palomides, the Saracen knight."
+            ],
+            description: 'The Saracen knight who converts to Christianity and serves with honor.'
+          },
+          {
+            name: 'Sir Dinadan',
+            role: 'The Jester Knight',
+            startingCoins: 90,
+            startingWeapons: ['humor', 'honor', 'wit'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'humorous',
+            quotes: [
+              "I am Dinadan, the jester knight.",
+              "I am Dinadan, the jester knight.",
+              "I am Dinadan, the jester knight.",
+              "I am Dinadan, the jester knight.",
+              "I am Dinadan, the jester knight."
+            ],
+            description: 'The jester knight who brings humor and wit to the Round Table.'
+          },
+          {
+            name: 'Sir Lucan',
+            role: 'The Butler Knight',
+            startingCoins: 85,
+            startingWeapons: ['service', 'honor', 'duty'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'serving',
+            quotes: [
+              "I am Lucan, the butler knight.",
+              "I am Lucan, the butler knight.",
+              "I am Lucan, the butler knight.",
+              "I am Lucan, the butler knight.",
+              "I am Lucan, the butler knight."
+            ],
+            description: 'The butler knight who serves King Arthur with dedication.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Knight', startingCoins: 30, startingWeapons: ['honor'], startingMercenaries: 0, startingCastles: 0, personality: 'honorable', quotes: ['We serve!', 'We protect!', 'We honor!'] },
+          { name: 'Squire', startingCoins: 25, startingWeapons: ['service'], startingMercenaries: 0, startingCastles: 0, personality: 'serving', quotes: ['We serve!', 'We learn!', 'We grow!'] },
+          { name: 'Noble', startingCoins: 35, startingWeapons: ['nobility'], startingMercenaries: 0, startingCastles: 0, personality: 'noble', quotes: ['We are noble!', 'We are pure!', 'We are good!'] }
+        ]
+      },
+      treachery: {
+        name: 'Forces of Treachery',
+        color: '#dc2626', // Red
+        description: 'Those who embody betrayal, ambition, and the forces that bring about the fall of Camelot',
+        territories: [
+          { name: 'The Dark Tower', cost: 25, description: 'Where the forces of evil plot and scheme' },
+          { name: 'The Treacherous Court', cost: 22, description: 'Where betrayal and ambition rule' },
+          { name: 'The Prison', cost: 20, description: 'Where the innocent are held captive' },
+          { name: 'The Dungeon', cost: 18, description: 'Where the enemies of the realm are tortured' },
+          { name: 'The Throne of Treachery', cost: 15, description: 'Where the usurper sits in power' },
+          { name: 'The Hall of Lies', cost: 12, description: 'Where falsehoods and deceptions are spread' },
+          { name: 'The Chamber of Secrets', cost: 10, description: 'Where dark plots are hatched' },
+          { name: 'The Tower of Betrayal', cost: 8, description: 'Where the traitors gather' },
+          { name: 'The Dungeon of Despair', cost: 6, description: 'Where hope is crushed' },
+          { name: 'The Hall of Sorrow', cost: 4, description: 'Where the consequences of betrayal are felt' },
+          { name: 'The Chamber of Darkness', cost: 3, description: 'Where evil deeds are planned' },
+          { name: 'The Tower of Doom', cost: 2, description: 'Where the final destruction is planned' },
+          { name: 'The Hall of Death', cost: 1, description: 'Where the fallen are mourned' },
+          { name: 'The Throne of Power', cost: 14, description: 'Where the ambitious seek to rule' },
+          { name: 'The Hall of Ambition', cost: 7, description: 'Where the greedy gather' },
+          { name: 'The Chamber of Greed', cost: 9, description: 'Where wealth and power are sought' },
+          { name: 'The Tower of Pride', cost: 11, description: 'Where the arrogant rule' },
+          { name: 'The Hall of Envy', cost: 5, description: 'Where jealousy and resentment fester' },
+          { name: 'The Chamber of Wrath', cost: 13, description: 'Where anger and violence reign' },
+          { name: 'The Tower of Sloth', cost: 1, description: 'Where laziness and apathy rule' }
+        ],
+        characters: [
+          {
+            name: 'Mordred',
+            role: 'The Traitor Prince',
+            startingCoins: 130,
+            startingWeapons: ['treachery', 'ambition', 'power'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'treacherous',
+            quotes: [
+              "I am Mordred, the traitor prince.",
+              "I am Mordred, the traitor prince.",
+              "I am Mordred, the traitor prince.",
+              "I am Mordred, the traitor prince.",
+              "I am Mordred, the traitor prince."
+            ],
+            description: 'The traitor prince who brings about the fall of Camelot and the death of Arthur.'
+          },
+          {
+            name: 'Morgan le Fay',
+            role: 'The Sorceress',
+            startingCoins: 125,
+            startingWeapons: ['magic', 'treachery', 'ambition'],
+            startingMercenaries: 3,
+            startingCastles: 3,
+            personality: 'treacherous',
+            quotes: [
+              "I am Morgan le Fay, the sorceress.",
+              "I am Morgan le Fay, the sorceress.",
+              "I am Morgan le Fay, the sorceress.",
+              "I am Morgan le Fay, the sorceress.",
+              "I am Morgan le Fay, the sorceress."
+            ],
+            description: 'The sorceress who plots against Arthur and uses magic for evil purposes.'
+          },
+          {
+            name: 'Sir Agravain',
+            role: 'The Betrayer',
+            startingCoins: 110,
+            startingWeapons: ['betrayal', 'ambition', 'treachery'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'treacherous',
+            quotes: [
+              "I am Agravain, the betrayer.",
+              "I am Agravain, the betrayer.",
+              "I am Agravain, the betrayer.",
+              "I am Agravain, the betrayer.",
+              "I am Agravain, the betrayer."
+            ],
+            description: 'The knight who betrays Lancelot and Guinevere, leading to the fall of Camelot.'
+          },
+          {
+            name: 'Sir Gaheris',
+            role: 'The Traitor Knight',
+            startingCoins: 105,
+            startingWeapons: ['treachery', 'ambition', 'betrayal'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'treacherous',
+            quotes: [
+              "I am Gaheris, the traitor knight.",
+              "I am Gaheris, the traitor knight.",
+              "I am Gaheris, the traitor knight.",
+              "I am Gaheris, the traitor knight.",
+              "I am Gaheris, the traitor knight."
+            ],
+            description: 'The knight who betrays his brothers and joins the forces of treachery.'
+          },
+          {
+            name: 'Sir Gareth',
+            role: 'The Betrayed Knight',
+            startingCoins: 100,
+            startingWeapons: ['betrayal', 'sorrow', 'despair'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'betrayed',
+            quotes: [
+              "I am Gareth, the betrayed knight.",
+              "I am Gareth, the betrayed knight.",
+              "I am Gareth, the betrayed knight.",
+              "I am Gareth, the betrayed knight.",
+              "I am Gareth, the betrayed knight."
+            ],
+            description: 'The knight who is betrayed by his own brothers and turns to treachery.'
+          },
+          {
+            name: 'Sir Lamorak',
+            role: 'The Fallen Knight',
+            startingCoins: 95,
+            startingWeapons: ['fall', 'despair', 'treachery'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'fallen',
+            quotes: [
+              "I am Lamorak, the fallen knight.",
+              "I am Lamorak, the fallen knight.",
+              "I am Lamorak, the fallen knight.",
+              "I am Lamorak, the fallen knight.",
+              "I am Lamorak, the fallen knight."
+            ],
+            description: 'The knight who falls from grace and joins the forces of treachery.'
+          },
+          {
+            name: 'Sir Palomides',
+            role: 'The Corrupted Knight',
+            startingCoins: 90,
+            startingWeapons: ['corruption', 'treachery', 'ambition'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'corrupted',
+            quotes: [
+              "I am Palomides, the corrupted knight.",
+              "I am Palomides, the corrupted knight.",
+              "I am Palomides, the corrupted knight.",
+              "I am Palomides, the corrupted knight.",
+              "I am Palomides, the corrupted knight."
+            ],
+            description: 'The knight who is corrupted by ambition and joins the forces of treachery.'
+          },
+          {
+            name: 'Sir Dinadan',
+            role: 'The Cynical Knight',
+            startingCoins: 85,
+            startingWeapons: ['cynicism', 'treachery', 'despair'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'cynical',
+            quotes: [
+              "I am Dinadan, the cynical knight.",
+              "I am Dinadan, the cynical knight.",
+              "I am Dinadan, the cynical knight.",
+              "I am Dinadan, the cynical knight.",
+              "I am Dinadan, the cynical knight."
+            ],
+            description: 'The knight who becomes cynical and joins the forces of treachery.'
+          },
+          {
+            name: 'Sir Lucan',
+            role: 'The Broken Knight',
+            startingCoins: 80,
+            startingWeapons: ['brokenness', 'despair', 'treachery'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'broken',
+            quotes: [
+              "I am Lucan, the broken knight.",
+              "I am Lucan, the broken knight.",
+              "I am Lucan, the broken knight.",
+              "I am Lucan, the broken knight.",
+              "I am Lucan, the broken knight."
+            ],
+            description: 'The knight who is broken by the fall of Camelot and joins the forces of treachery.'
+          },
+          {
+            name: 'The Dark Knight',
+            role: 'The Shadow Warrior',
+            startingCoins: 120,
+            startingWeapons: ['darkness', 'treachery', 'power'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'dark',
+            quotes: [
+              "I am the Dark Knight, the shadow warrior.",
+              "I am the Dark Knight, the shadow warrior.",
+              "I am the Dark Knight, the shadow warrior.",
+              "I am the Dark Knight, the shadow warrior.",
+              "I am the Dark Knight, the shadow warrior."
+            ],
+            description: 'The dark knight who serves the forces of treachery and evil.'
+          },
+          {
+            name: 'The Traitor Lord',
+            role: 'The Betrayer',
+            startingCoins: 115,
+            startingWeapons: ['betrayal', 'ambition', 'power'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'treacherous',
+            quotes: [
+              "I am the Traitor Lord, the betrayer.",
+              "I am the Traitor Lord, the betrayer.",
+              "I am the Traitor Lord, the betrayer.",
+              "I am the Traitor Lord, the betrayer.",
+              "I am the Traitor Lord, the betrayer."
+            ],
+            description: 'The traitor lord who leads the forces of treachery and betrayal.'
+          },
+          {
+            name: 'The Usurper',
+            role: 'The Power Seeker',
+            startingCoins: 110,
+            startingWeapons: ['ambition', 'power', 'treachery'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'ambitious',
+            quotes: [
+              "I am the Usurper, the power seeker.",
+              "I am the Usurper, the power seeker.",
+              "I am the Usurper, the power seeker.",
+              "I am the Usurper, the power seeker.",
+              "I am the Usurper, the power seeker."
+            ],
+            description: 'The usurper who seeks to take the throne from Arthur.'
+          },
+          {
+            name: 'The Corrupt Noble',
+            role: 'The Greedy Lord',
+            startingCoins: 105,
+            startingWeapons: ['greed', 'corruption', 'treachery'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'greedy',
+            quotes: [
+              "I am the Corrupt Noble, the greedy lord.",
+              "I am the Corrupt Noble, the greedy lord.",
+              "I am the Corrupt Noble, the greedy lord.",
+              "I am the Corrupt Noble, the greedy lord.",
+              "I am the Corrupt Noble, the greedy lord."
+            ],
+            description: 'The corrupt noble who seeks wealth and power through treachery.'
+          },
+          {
+            name: 'The False Prophet',
+            role: 'The Deceiver',
+            startingCoins: 100,
+            startingWeapons: ['deception', 'lies', 'treachery'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'deceptive',
+            quotes: [
+              "I am the False Prophet, the deceiver.",
+              "I am the False Prophet, the deceiver.",
+              "I am the False Prophet, the deceiver.",
+              "I am the False Prophet, the deceiver.",
+              "I am the False Prophet, the deceiver."
+            ],
+            description: 'The false prophet who deceives and leads others astray.'
+          },
+          {
+            name: 'The Dark Sorcerer',
+            role: 'The Evil Wizard',
+            startingCoins: 115,
+            startingWeapons: ['dark magic', 'treachery', 'evil'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'evil',
+            quotes: [
+              "I am the Dark Sorcerer, the evil wizard.",
+              "I am the Dark Sorcerer, the evil wizard.",
+              "I am the Dark Sorcerer, the evil wizard.",
+              "I am the Dark Sorcerer, the evil wizard.",
+              "I am the Dark Sorcerer, the evil wizard."
+            ],
+            description: 'The dark sorcerer who uses magic for evil purposes.'
+          },
+          {
+            name: 'The Traitorous Knight',
+            role: 'The Betrayer',
+            startingCoins: 95,
+            startingWeapons: ['betrayal', 'treachery', 'ambition'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'treacherous',
+            quotes: [
+              "I am the Traitorous Knight, the betrayer.",
+              "I am the Traitorous Knight, the betrayer.",
+              "I am the Traitorous Knight, the betrayer.",
+              "I am the Traitorous Knight, the betrayer.",
+              "I am the Traitorous Knight, the betrayer."
+            ],
+            description: 'The traitorous knight who betrays his oath and joins the forces of treachery.'
+          },
+          {
+            name: 'The Fallen Noble',
+            role: 'The Corrupted Lord',
+            startingCoins: 90,
+            startingWeapons: ['corruption', 'greed', 'treachery'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'corrupted',
+            quotes: [
+              "I am the Fallen Noble, the corrupted lord.",
+              "I am the Fallen Noble, the corrupted lord.",
+              "I am the Fallen Noble, the corrupted lord.",
+              "I am the Fallen Noble, the corrupted lord.",
+              "I am the Fallen Noble, the corrupted lord."
+            ],
+            description: 'The fallen noble who has been corrupted by power and greed.'
+          },
+          {
+            name: 'The Dark Servant',
+            role: 'The Evil Minion',
+            startingCoins: 80,
+            startingWeapons: ['evil', 'servitude', 'treachery'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'evil',
+            quotes: [
+              "I am the Dark Servant, the evil minion.",
+              "I am the Dark Servant, the evil minion.",
+              "I am the Dark Servant, the evil minion.",
+              "I am the Dark Servant, the evil minion.",
+              "I am the Dark Servant, the evil minion."
+            ],
+            description: 'The dark servant who serves the forces of evil and treachery.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Traitor', startingCoins: 30, startingWeapons: ['treachery'], startingMercenaries: 0, startingCastles: 0, personality: 'treacherous', quotes: ['We betray!', 'We deceive!', 'We destroy!'] },
+          { name: 'Betrayer', startingCoins: 25, startingWeapons: ['betrayal'], startingMercenaries: 0, startingCastles: 0, personality: 'betraying', quotes: ['We betray!', 'We lie!', 'We cheat!'] },
+          { name: 'Corrupt', startingCoins: 35, startingWeapons: ['corruption'], startingMercenaries: 0, startingCastles: 0, personality: 'corrupt', quotes: ['We corrupt!', 'We exploit!', 'We destroy!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Battlefield', cost: 5, description: 'Where the final battle between good and evil is fought' },
+      { name: 'The Grail Chapel', cost: 3, description: 'Where the Holy Grail is sought and found' },
+      { name: 'The Lake', cost: 2, description: 'Where Excalibur is returned to the Lady of the Lake' },
+      { name: 'The Forest', cost: 1, description: 'Where the knights seek refuge and peace' },
+      { name: 'The Crossroads', cost: 4, description: 'Where the paths of destiny meet' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // POKEMON SCENARIO
+  pokemon: {
+    id: 'pokemon',
+    name: 'Pokemon: The Ultimate Battle (1996-present)',
+    type: 'gaming',
+    description: 'The world of Pokemon where trainers catch, train, and battle with creatures in their quest to become the very best.',
+    factions: {
+      fire: {
+        name: 'Fire Type Trainers',
+        color: '#dc2626', // Red
+        description: 'Trainers who specialize in Fire-type Pokemon, known for their passion and determination',
+        territories: [
+          { name: 'Cinnabar Island', cost: 25, description: 'Volcanic island home to the Fire-type gym and Pokemon Lab' },
+          { name: 'Mt. Chimney', cost: 22, description: 'Active volcano where Fire-type Pokemon thrive' },
+          { name: 'Lavaridge Town', cost: 20, description: 'Hot springs town with Fire-type gym and healing center' },
+          { name: 'Stark Mountain', cost: 18, description: 'Mountain peak where legendary Fire Pokemon reside' },
+          { name: 'Victory Road', cost: 15, description: 'Challenging path where Fire trainers prove their strength' },
+          { name: 'Pokemon League', cost: 12, description: 'Ultimate destination for Fire-type champions' },
+          { name: 'Volcano Valley', cost: 10, description: 'Training ground for Fire-type Pokemon' },
+          { name: 'Flame Forest', cost: 8, description: 'Forest where Fire Pokemon practice their moves' },
+          { name: 'Heat Desert', cost: 6, description: 'Desert where Fire Pokemon learn to endure' },
+          { name: 'Ember Cave', cost: 4, description: 'Cave where Fire Pokemon are born and trained' }
+        ],
+        characters: [
+          {
+            name: 'Ash Ketchum',
+            role: 'The Pokemon Trainer',
+            startingCoins: 140,
+            startingWeapons: ['Pikachu', 'Charizard', 'Sceptile'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'determined',
+            quotes: [
+              "I want to be the very best, like no one ever was.",
+              "To catch them is my real test, to train them is my cause.",
+              "I will travel across the land, searching far and wide.",
+              "Each Pokemon to understand the power that's inside.",
+              "Pokemon! Gotta catch 'em all!"
+            ],
+            description: 'The main character of Pokemon who dreams of becoming a Pokemon Master.'
+          },
+          {
+            name: 'Blaine',
+            role: 'The Fire Gym Leader',
+            startingCoins: 120,
+            startingWeapons: ['Arcanine', 'Magmar', 'Rapidash'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'passionate',
+            quotes: [
+              "Fire is the ultimate test of a trainer's spirit!",
+              "My Pokemon are burning with passion!",
+              "Feel the heat of my Fire-type Pokemon!",
+              "In the flames, we find our true strength!",
+              "Fire never goes out in the heart of a true trainer!"
+            ],
+            description: 'The Fire-type gym leader who tests trainers with his powerful Fire Pokemon.'
+          },
+          {
+            name: 'Flannery',
+            role: 'The Hot-Headed Leader',
+            startingCoins: 110,
+            startingWeapons: ['Torkoal', 'Camerupt', 'Slugma'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'hotheaded',
+            quotes: [
+              "I'm Flannery, and I use Fire-type Pokemon!",
+              "My Pokemon are hot, hot, HOT!",
+              "I'll show you the power of Fire!",
+              "Don't underestimate my Fire Pokemon!",
+              "The heat is on! Let's battle!"
+            ],
+            description: 'The young Fire-type gym leader who brings intense heat to every battle.'
+          },
+          {
+            name: 'Charmander',
+            role: 'The Fire Starter',
+            startingCoins: 100,
+            startingWeapons: ['Ember', 'Scratch', 'Growl'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "Charmander!",
+              "Char! Char!",
+              "Charmander! Char!",
+              "Char! Charmander!",
+              "Charmander! Char! Char!"
+            ],
+            description: 'The Fire-type starter Pokemon known for its loyalty and determination.'
+          },
+          {
+            name: 'Charizard',
+            role: 'The Flame Pokemon',
+            startingCoins: 130,
+            startingWeapons: ['Flamethrower', 'Dragon Claw', 'Wing Attack'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'proud',
+            quotes: [
+              "Charizard!",
+              "Char! Charizard!",
+              "Charizard! Char!",
+              "Char! Char! Charizard!",
+              "Charizard! Char! Char!"
+            ],
+            description: 'The powerful Fire/Flying-type Pokemon that soars through the skies with burning wings.'
+          },
+          {
+            name: 'Arcanine',
+            role: 'The Legendary Pokemon',
+            startingCoins: 125,
+            startingWeapons: ['Flamethrower', 'Extreme Speed', 'Crunch'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'noble',
+            quotes: [
+              "Arcanine!",
+              "Arc! Arcanine!",
+              "Arcanine! Arc!",
+              "Arc! Arc! Arcanine!",
+              "Arcanine! Arc! Arc!"
+            ],
+            description: 'The legendary Fire-type Pokemon known for its speed and loyalty.'
+          },
+          {
+            name: 'Magmar',
+            role: 'The Spitfire Pokemon',
+            startingCoins: 115,
+            startingWeapons: ['Flamethrower', 'Fire Punch', 'Confuse Ray'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'aggressive',
+            quotes: [
+              "Magmar!",
+              "Mag! Magmar!",
+              "Magmar! Mag!",
+              "Mag! Mag! Magmar!",
+              "Magmar! Mag! Mag!"
+            ],
+            description: 'The Fire-type Pokemon that breathes flames and loves to battle.'
+          },
+          {
+            name: 'Rapidash',
+            role: 'The Fire Horse',
+            startingCoins: 105,
+            startingWeapons: ['Flamethrower', 'Stomp', 'Agility'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'wild',
+            quotes: [
+              "Rapidash!",
+              "Rapid! Rapidash!",
+              "Rapidash! Rapid!",
+              "Rapid! Rapid! Rapidash!",
+              "Rapidash! Rapid! Rapid!"
+            ],
+            description: 'The Fire-type Pokemon that gallops at incredible speeds with a mane of flames.'
+          },
+          {
+            name: 'Ninetales',
+            role: 'The Fox Pokemon',
+            startingCoins: 120,
+            startingWeapons: ['Flamethrower', 'Confuse Ray', 'Will-O-Wisp'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'mystical',
+            quotes: [
+              "Ninetales!",
+              "Nine! Ninetales!",
+              "Ninetales! Nine!",
+              "Nine! Nine! Ninetales!",
+              "Ninetales! Nine! Nine!"
+            ],
+            description: 'The mystical Fire-type Pokemon with nine tails and supernatural powers.'
+          },
+          {
+            name: 'Pikachu',
+            role: 'The Mouse Pokemon',
+            startingCoins: 130,
+            startingWeapons: ['Thunderbolt', 'Quick Attack', 'Iron Tail'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'loyal',
+            quotes: [
+              "Pika pika!",
+              "Pikachu!",
+              "Pika! Pikachu!",
+              "Pikachu! Pika!",
+              "Pika pika pika!"
+            ],
+            description: 'The most popular Pokemon and Ash\'s best friend, known for its electric attacks.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Fire Trainer', startingCoins: 30, startingWeapons: ['Fire Stone'], startingMercenaries: 0, startingCastles: 0, personality: 'passionate', quotes: ['Burn bright!', 'Feel the heat!', 'Fire power!'] },
+          { name: 'Flame Keeper', startingCoins: 25, startingWeapons: ['Flame'], startingMercenaries: 0, startingCastles: 0, personality: 'dedicated', quotes: ['Keep the fire burning!', 'Tend the flames!', 'Fire never dies!'] },
+          { name: 'Heat Warrior', startingCoins: 35, startingWeapons: ['Heat'], startingMercenaries: 0, startingCastles: 0, personality: 'fierce', quotes: ['Bring the heat!', 'Feel the burn!', 'Fire and fury!'] }
+        ]
+      },
+      water: {
+        name: 'Water Type Trainers',
+        color: '#1e40af', // Blue
+        description: 'Trainers who specialize in Water-type Pokemon, known for their calm and adaptability',
+        territories: [
+          { name: 'Cerulean City', cost: 25, description: 'City of water where the Water-type gym is located' },
+          { name: 'Sootopolis City', cost: 22, description: 'City built in a volcanic crater filled with water' },
+          { name: 'Pacifidlog Town', cost: 20, description: 'Floating town where Water Pokemon are abundant' },
+          { name: 'Lake of Rage', cost: 18, description: 'Mysterious lake where rare Water Pokemon appear' },
+          { name: 'Seafoam Islands', cost: 15, description: 'Islands where Water Pokemon train and evolve' },
+          { name: 'Whirl Islands', cost: 12, description: 'Dangerous whirlpools where Water Pokemon test their strength' },
+          { name: 'Ocean Depths', cost: 10, description: 'Deep ocean where legendary Water Pokemon dwell' },
+          { name: 'River Rapids', cost: 8, description: 'Fast-flowing river where Water Pokemon practice' },
+          { name: 'Coral Reef', cost: 6, description: 'Colorful reef where Water Pokemon live in harmony' },
+          { name: 'Waterfall Cave', cost: 4, description: 'Cave behind a waterfall where Water Pokemon hide' }
+        ],
+        characters: [
+          {
+            name: 'Misty',
+            role: 'The Water Gym Leader',
+            startingCoins: 120,
+            startingWeapons: ['Starmie', 'Golduck', 'Psyduck'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'spirited',
+            quotes: [
+              "I'm Misty, and I'm the world's greatest Water Pokemon trainer!",
+              "My Water Pokemon are the best!",
+              "Don't underestimate the power of Water!",
+              "I'll show you what Water Pokemon can do!",
+              "Water is life, and my Pokemon are full of life!"
+            ],
+            description: 'The Water-type gym leader who loves Water Pokemon and hates Bug types.'
+          },
+          {
+            name: 'Gary Oak',
+            role: 'The Rival Trainer',
+            startingCoins: 130,
+            startingWeapons: ['Blastoise', 'Arcanine', 'Alakazam'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'competitive',
+            quotes: [
+              "Smell ya later!",
+              "I'm going to be the best Pokemon trainer!",
+              "You're not ready for me yet!",
+              "My Pokemon are superior to yours!",
+              "I'll show you what a real trainer looks like!"
+            ],
+            description: 'Ash\'s rival and grandson of Professor Oak, known for his competitive spirit.'
+          },
+          {
+            name: 'Squirtle',
+            role: 'The Water Starter',
+            startingCoins: 100,
+            startingWeapons: ['Water Gun', 'Tackle', 'Tail Whip'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'friendly',
+            quotes: [
+              "Squirtle!",
+              "Squirt! Squirtle!",
+              "Squirtle! Squirt!",
+              "Squirt! Squirt! Squirtle!",
+              "Squirtle! Squirt! Squirt!"
+            ],
+            description: 'The Water-type starter Pokemon known for its friendly nature and strong shell.'
+          },
+          {
+            name: 'Blastoise',
+            role: 'The Shellfish Pokemon',
+            startingCoins: 130,
+            startingWeapons: ['Hydro Pump', 'Skull Bash', 'Rapid Spin'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'protective',
+            quotes: [
+              "Blastoise!",
+              "Blast! Blastoise!",
+              "Blastoise! Blast!",
+              "Blast! Blast! Blastoise!",
+              "Blastoise! Blast! Blast!"
+            ],
+            description: 'The powerful Water-type Pokemon with cannons on its shell that can shoot water.'
+          },
+          {
+            name: 'Gyarados',
+            role: 'The Atrocious Pokemon',
+            startingCoins: 125,
+            startingWeapons: ['Hydro Pump', 'Dragon Rage', 'Hyper Beam'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'fierce',
+            quotes: [
+              "Gyarados!",
+              "Gyar! Gyarados!",
+              "Gyarados! Gyar!",
+              "Gyar! Gyar! Gyarados!",
+              "Gyarados! Gyar! Gyar!"
+            ],
+            description: 'The powerful Water/Flying-type Pokemon that was once a weak Magikarp.'
+          },
+          {
+            name: 'Lapras',
+            role: 'The Transport Pokemon',
+            startingCoins: 115,
+            startingWeapons: ['Surf', 'Ice Beam', 'Sing'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'gentle',
+            quotes: [
+              "Lapras!",
+              "Lap! Lapras!",
+              "Lapras! Lap!",
+              "Lap! Lap! Lapras!",
+              "Lapras! Lap! Lap!"
+            ],
+            description: 'The gentle Water/Ice-type Pokemon that ferries people across water.'
+          },
+          {
+            name: 'Vaporeon',
+            role: 'The Bubble Jet Pokemon',
+            startingCoins: 105,
+            startingWeapons: ['Water Gun', 'Aurora Beam', 'Quick Attack'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "Vaporeon!",
+              "Vap! Vaporeon!",
+              "Vaporeon! Vap!",
+              "Vap! Vap! Vaporeon!",
+              "Vaporeon! Vap! Vap!"
+            ],
+            description: 'The Water-type Eeveelution that can dissolve into water molecules.'
+          },
+          {
+            name: 'Starmie',
+            role: 'The Mysterious Pokemon',
+            startingCoins: 110,
+            startingWeapons: ['Water Gun', 'Psychic', 'Recover'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'mysterious',
+            quotes: [
+              "Starmie!",
+              "Star! Starmie!",
+              "Starmie! Star!",
+              "Star! Star! Starmie!",
+              "Starmie! Star! Star!"
+            ],
+            description: 'The Water/Psychic-type Pokemon with a mysterious gem at its core.'
+          },
+          {
+            name: 'Poliwrath',
+            role: 'The Tadpole Pokemon',
+            startingCoins: 115,
+            startingWeapons: ['Water Gun', 'Double Slap', 'Body Slam'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'strong',
+            quotes: [
+              "Poliwrath!",
+              "Poli! Poliwrath!",
+              "Poliwrath! Poli!",
+              "Poli! Poli! Poliwrath!",
+              "Poliwrath! Poli! Poli!"
+            ],
+            description: 'The Water/Fighting-type Pokemon known for its incredible strength.'
+          },
+          {
+            name: 'Professor Oak',
+            role: 'The Pokemon Professor',
+            startingCoins: 125,
+            startingWeapons: ['Pokemon knowledge', 'research'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'wise',
+            quotes: [
+              "Welcome to the world of Pokemon!",
+              "There are 150 Pokemon in the world.",
+              "Pokemon are creatures that inhabit this world.",
+              "Trainers catch Pokemon and battle with them.",
+              "The journey to become a Pokemon Master begins now!"
+            ],
+            description: 'The famous Pokemon Professor who gives trainers their first Pokemon.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Water Trainer', startingCoins: 30, startingWeapons: ['Water Stone'], startingMercenaries: 0, startingCastles: 0, personality: 'calm', quotes: ['Flow like water!', 'Adapt and overcome!', 'Water power!'] },
+          { name: 'Wave Rider', startingCoins: 25, startingWeapons: ['Wave'], startingMercenaries: 0, startingCastles: 0, personality: 'fluid', quotes: ['Ride the waves!', 'Go with the flow!', 'Water is life!'] },
+          { name: 'Ocean Guardian', startingCoins: 35, startingWeapons: ['Ocean'], startingMercenaries: 0, startingCastles: 0, personality: 'protective', quotes: ['Protect the seas!', 'Guard the depths!', 'Ocean power!'] }
+        ]
+      },
+      grass: {
+        name: 'Grass Type Trainers',
+        color: '#16a34a', // Green
+        description: 'Trainers who specialize in Grass-type Pokemon, known for their connection to nature and growth',
+        territories: [
+          { name: 'Celadon City', cost: 25, description: 'City where the Grass-type gym and Pokemon Center are located' },
+          { name: 'Eterna Forest', cost: 22, description: 'Ancient forest where Grass Pokemon have lived for centuries' },
+          { name: 'Petalburg Woods', cost: 20, description: 'Woods where Grass Pokemon train and evolve' },
+          { name: 'Ilex Forest', cost: 18, description: 'Sacred forest where rare Grass Pokemon are protected' },
+          { name: 'Viridian Forest', cost: 15, description: 'Dense forest where Grass Pokemon are abundant' },
+          { name: 'Flower Paradise', cost: 12, description: 'Beautiful meadow where Grass Pokemon bloom' },
+          { name: 'Tree of Life', cost: 10, description: 'Ancient tree where Grass Pokemon gather for wisdom' },
+          { name: 'Mossy Cave', cost: 8, description: 'Cave where Grass Pokemon grow in the darkness' },
+          { name: 'Sunny Meadow', cost: 6, description: 'Open field where Grass Pokemon bask in sunlight' },
+          { name: 'Seed Garden', cost: 4, description: 'Garden where Grass Pokemon seeds are planted' }
+        ],
+        characters: [
+          {
+            name: 'Erika',
+            role: 'The Grass Gym Leader',
+            startingCoins: 120,
+            startingWeapons: ['Vileplume', 'Victreebel', 'Tangela'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'gentle',
+            quotes: [
+              "I'm Erika, and I love Grass Pokemon!",
+              "Grass Pokemon are so gentle and beautiful.",
+              "Nature's power flows through my Pokemon.",
+              "In the forest, we find peace and strength.",
+              "Grass Pokemon teach us to grow and flourish."
+            ],
+            description: 'The gentle Grass-type gym leader who loves nature and Grass Pokemon.'
+          },
+          {
+            name: 'Gardenia',
+            role: 'The Nature Lover',
+            startingCoins: 110,
+            startingWeapons: ['Roserade', 'Cherrim', 'Wormadam'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'nurturing',
+            quotes: [
+              "Grass Pokemon are the heart of nature!",
+              "I nurture my Pokemon like I nurture my garden.",
+              "Every Grass Pokemon is a beautiful flower.",
+              "Nature provides everything we need.",
+              "In the garden, we find harmony and balance."
+            ],
+            description: 'The nurturing Grass-type trainer who treats Pokemon like her garden.'
+          },
+          {
+            name: 'Bulbasaur',
+            role: 'The Grass Starter',
+            startingCoins: 100,
+            startingWeapons: ['Vine Whip', 'Tackle', 'Growl'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'friendly',
+            quotes: [
+              "Bulbasaur!",
+              "Bulba! Bulbasaur!",
+              "Bulbasaur! Bulba!",
+              "Bulba! Bulba! Bulbasaur!",
+              "Bulbasaur! Bulba! Bulba!"
+            ],
+            description: 'The Grass/Poison-type starter Pokemon known for its friendly nature and seed on its back.'
+          },
+          {
+            name: 'Venusaur',
+            role: 'The Seed Pokemon',
+            startingCoins: 130,
+            startingWeapons: ['Solar Beam', 'Razor Leaf', 'Earthquake'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'majestic',
+            quotes: [
+              "Venusaur!",
+              "Ven! Venusaur!",
+              "Venusaur! Ven!",
+              "Ven! Ven! Venusaur!",
+              "Venusaur! Ven! Ven!"
+            ],
+            description: 'The powerful Grass/Poison-type Pokemon with a large flower on its back.'
+          },
+          {
+            name: 'Sceptile',
+            role: 'The Forest Pokemon',
+            startingCoins: 125,
+            startingWeapons: ['Leaf Blade', 'Dragon Claw', 'Quick Attack'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'agile',
+            quotes: [
+              "Sceptile!",
+              "Scep! Sceptile!",
+              "Sceptile! Scep!",
+              "Scep! Scep! Sceptile!",
+              "Sceptile! Scep! Scep!"
+            ],
+            description: 'The fast Grass-type Pokemon that can run through forests at incredible speed.'
+          },
+          {
+            name: 'Leafeon',
+            role: 'The Verdant Pokemon',
+            startingCoins: 105,
+            startingWeapons: ['Razor Leaf', 'Quick Attack', 'Synthesis'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'peaceful',
+            quotes: [
+              "Leafeon!",
+              "Leaf! Leafeon!",
+              "Leafeon! Leaf!",
+              "Leaf! Leaf! Leafeon!",
+              "Leafeon! Leaf! Leaf!"
+            ],
+            description: 'The Grass-type Eeveelution that lives in harmony with nature.'
+          },
+          {
+            name: 'Tropius',
+            role: 'The Fruit Pokemon',
+            startingCoins: 115,
+            startingWeapons: ['Solar Beam', 'Fly', 'Sweet Scent'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'generous',
+            quotes: [
+              "Tropius!",
+              "Trop! Tropius!",
+              "Tropius! Trop!",
+              "Trop! Trop! Tropius!",
+              "Tropius! Trop! Trop!"
+            ],
+            description: 'The Grass/Flying-type Pokemon that grows fruit on its neck for others to eat.'
+          },
+          {
+            name: 'Roserade',
+            role: 'The Bouquet Pokemon',
+            startingCoins: 110,
+            startingWeapons: ['Petal Dance', 'Poison Sting', 'Sweet Scent'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'elegant',
+            quotes: [
+              "Roserade!",
+              "Rose! Roserade!",
+              "Roserade! Rose!",
+              "Rose! Rose! Roserade!",
+              "Roserade! Rose! Rose!"
+            ],
+            description: 'The elegant Grass/Poison-type Pokemon that carries bouquets of flowers.'
+          },
+          {
+            name: 'Venusaur',
+            role: 'The Seed Pokemon',
+            startingCoins: 130,
+            startingWeapons: ['Solar Beam', 'Earthquake', 'Sludge Bomb'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'powerful',
+            quotes: [
+              "Venusaur!",
+              "Venu! Venusaur!",
+              "Venusaur! Venu!",
+              "Venu! Venu! Venusaur!",
+              "Venusaur! Venu! Venu!"
+            ],
+            description: 'The powerful Grass/Poison-type Pokemon and final evolution of Bulbasaur.'
+          },
+          {
+            name: 'Sceptile',
+            role: 'The Forest Pokemon',
+            startingCoins: 125,
+            startingWeapons: ['Leaf Blade', 'Dragon Claw', 'Earthquake'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'agile',
+            quotes: [
+              "Sceptile!",
+              "Scep! Sceptile!",
+              "Sceptile! Scep!",
+              "Scep! Scep! Sceptile!",
+              "Sceptile! Scep! Scep!"
+            ],
+            description: 'The agile Grass-type Pokemon and final evolution of Treecko.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Grass Trainer', startingCoins: 30, startingWeapons: ['Leaf Stone'], startingMercenaries: 0, startingCastles: 0, personality: 'natural', quotes: ['Grow strong!', 'Nature\'s power!', 'Grass power!'] },
+          { name: 'Forest Keeper', startingCoins: 25, startingWeapons: ['Forest'], startingMercenaries: 0, startingCastles: 0, personality: 'protective', quotes: ['Protect the forest!', 'Guard nature!', 'Forest power!'] },
+          { name: 'Garden Master', startingCoins: 35, startingWeapons: ['Garden'], startingMercenaries: 0, startingCastles: 0, personality: 'nurturing', quotes: ['Nurture growth!', 'Tend the garden!', 'Growth power!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Pokemon Center', cost: 5, description: 'Where all Pokemon can heal and rest' },
+      { name: 'Pokemon Lab', cost: 3, description: 'Where Pokemon research and evolution studies happen' },
+      { name: 'Pokemon League', cost: 2, description: 'Where the ultimate Pokemon battles take place' },
+      { name: 'Safari Zone', cost: 1, description: 'Where rare Pokemon can be found and caught' },
+      { name: 'Victory Road', cost: 4, description: 'The final challenge before becoming a Pokemon Master' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // GAME OF THRONES SCENARIO
+  gameOfThrones: {
+    id: 'gameOfThrones',
+    name: 'Game of Thrones: A Song of Ice and Fire (1996-2019)',
+    type: 'literary',
+    description: 'The epic fantasy world of Westeros where noble houses battle for the Iron Throne, exploring themes of power, honor, and the cost of ambition.',
+    factions: {
+      stark: {
+        name: 'House Stark',
+        color: '#1e40af', // Blue
+        description: 'The noble house of the North, known for their honor, loyalty, and connection to the old gods',
+        territories: [
+          { name: 'Winterfell', cost: 25, description: 'The ancestral seat of House Stark and capital of the North' },
+          { name: 'The Wall', cost: 22, description: 'Massive ice barrier protecting the realm from the North' },
+          { name: 'Castle Black', cost: 20, description: 'Headquarters of the Night\'s Watch' },
+          { name: 'Deepwood Motte', cost: 18, description: 'Forest stronghold of House Glover' },
+          { name: 'Bear Island', cost: 15, description: 'Island home of House Mormont' },
+          { name: 'The Dreadfort', cost: 12, description: 'Former seat of House Bolton' },
+          { name: 'White Harbor', cost: 10, description: 'Major port city of the North' },
+          { name: 'The Wolfswood', cost: 8, description: 'Ancient forest where direwolves roam' },
+          { name: 'The Gift', cost: 6, description: 'Land given to the Night\'s Watch' },
+          { name: 'The New Gift', cost: 4, description: 'Additional land for the Night\'s Watch' }
+        ],
+        characters: [
+          {
+            name: 'Eddard Stark',
+            role: 'Lord of Winterfell',
+            startingCoins: 140,
+            startingWeapons: ['Ice', 'honor', 'justice'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'honorable',
+            quotes: [
+              "Winter is coming.",
+              "The man who passes the sentence should swing the sword.",
+              "When the snows fall and the white winds blow, the lone wolf dies, but the pack survives.",
+              "A ruler who hides behind paid executioners soon forgets what death is.",
+              "The North remembers."
+            ],
+            description: 'The honorable Lord of Winterfell who values justice and family above all else.'
+          },
+          {
+            name: 'Robb Stark',
+            role: 'The Young Wolf',
+            startingCoins: 130,
+            startingWeapons: ['sword', 'tactics', 'leadership'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'brave',
+            quotes: [
+              "I am Robb Stark, the King in the North!",
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "I will kill every Targaryen I can get my hands on.",
+              "Winter is coming, and the dead come with it.",
+              "The lone wolf dies, but the pack survives."
+            ],
+            description: 'The young King in the North who led his people in rebellion against the Iron Throne.'
+          },
+          {
+            name: 'Jon Snow',
+            role: 'The Bastard of Winterfell',
+            startingCoins: 125,
+            startingWeapons: ['Longclaw', 'loyalty', 'duty'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'dutiful',
+            quotes: [
+              "I am the shield that guards the realms of men.",
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "I am not a Stark, but I am a man of the Night\'s Watch.",
+              "Winter is coming, and the dead come with it.",
+              "The lone wolf dies, but the pack survives."
+            ],
+            description: 'The bastard son of Eddard Stark who joined the Night\'s Watch and became Lord Commander.'
+          },
+          {
+            name: 'Arya Stark',
+            role: 'The Faceless Assassin',
+            startingCoins: 120,
+            startingWeapons: ['Needle', 'stealth', 'vengeance'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'fierce',
+            quotes: [
+              "A girl is Arya Stark of Winterfell, and I\'m going home.",
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "I am not a lady, I am a wolf.",
+              "Winter is coming, and the dead come with it.",
+              "The lone wolf dies, but the pack survives."
+            ],
+            description: 'The fierce Stark daughter who became a skilled warrior and assassin.'
+          },
+          {
+            name: 'Sansa Stark',
+            role: 'The Lady of Winterfell',
+            startingCoins: 115,
+            startingWeapons: ['diplomacy', 'patience', 'wisdom'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'wise',
+            quotes: [
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "I am Sansa Stark of Winterfell, and I am going home.",
+              "Winter is coming, and the dead come with it.",
+              "The lone wolf dies, but the pack survives.",
+              "I am not a little bird anymore."
+            ],
+            description: 'The wise Stark daughter who learned to play the game of thrones.'
+          },
+          {
+            name: 'Bran Stark',
+            role: 'The Three-Eyed Raven',
+            startingCoins: 110,
+            startingWeapons: ['greensight', 'knowledge', 'prophecy'],
+            startingMercenaries: 2,
+            startingCastles: 2,
+            personality: 'mystical',
+            quotes: [
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "I am the Three-Eyed Raven.",
+              "Winter is coming, and the dead come with it.",
+              "The lone wolf dies, but the pack survives.",
+              "I am not Bran Stark anymore."
+            ],
+            description: 'The mystical Stark son who became the Three-Eyed Raven and keeper of all knowledge.'
+          },
+          {
+            name: 'Rickon Stark',
+            role: 'The Youngest Wolf',
+            startingCoins: 100,
+            startingWeapons: ['youth', 'innocence', 'hope'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'innocent',
+            quotes: [
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "I am Rickon Stark of Winterfell.",
+              "Winter is coming, and the dead come with it.",
+              "The lone wolf dies, but the pack survives.",
+              "I want to go home."
+            ],
+            description: 'The youngest Stark son who represents the innocence and hope of the family.'
+          },
+          {
+            name: 'Catelyn Stark',
+            role: 'The Lady of Winterfell',
+            startingCoins: 105,
+            startingWeapons: ['motherhood', 'protection', 'love'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'protective',
+            quotes: [
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "I am Catelyn Stark of Winterfell.",
+              "Winter is coming, and the dead come with it.",
+              "The lone wolf dies, but the pack survives.",
+              "I will protect my children."
+            ],
+            description: 'The protective Stark matriarch who would do anything for her family.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Northern Lord', startingCoins: 30, startingWeapons: ['sword'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['The North remembers!', 'Winter is coming!', 'For the Starks!'] },
+          { name: 'Night\'s Watch', startingCoins: 25, startingWeapons: ['spear'], startingMercenaries: 0, startingCastles: 0, personality: 'dutiful', quotes: ['I am the shield!', 'Guard the realm!', 'For the Watch!'] },
+          { name: 'Direwolf', startingCoins: 35, startingWeapons: ['claws'], startingMercenaries: 0, startingCastles: 0, personality: 'fierce', quotes: ['Howl!', 'Protect the pack!', 'Winter is coming!'] }
+        ]
+      },
+      lannister: {
+        name: 'House Lannister',
+        color: '#dc2626', // Red
+        description: 'The wealthy house of the West, known for their gold, cunning, and family motto "A Lannister always pays his debts"',
+        territories: [
+          { name: 'Casterly Rock', cost: 25, description: 'The ancestral seat of House Lannister and source of their gold' },
+          { name: 'King\'s Landing', cost: 22, description: 'Capital of the Seven Kingdoms and seat of the Iron Throne' },
+          { name: 'Lannisport', cost: 20, description: 'Major port city and center of Lannister trade' },
+          { name: 'The Westerlands', cost: 18, description: 'Rich lands controlled by House Lannister' },
+          { name: 'Golden Tooth', cost: 15, description: 'Strategic fortress guarding the Westerlands' },
+          { name: 'The Red Keep', cost: 12, description: 'Royal palace in King\'s Landing' },
+          { name: 'The Gold Road', cost: 10, description: 'Major trade route connecting the West to the capital' },
+          { name: 'The Lion\'s Mouth', cost: 8, description: 'Natural harbor of Casterly Rock' },
+          { name: 'The Golden Gallery', cost: 6, description: 'Luxurious chambers of Casterly Rock' },
+          { name: 'The Lannister Mines', cost: 4, description: 'Source of the family\'s vast wealth' }
+        ],
+        characters: [
+          {
+            name: 'Tywin Lannister',
+            role: 'Lord of Casterly Rock',
+            startingCoins: 140,
+            startingWeapons: ['gold', 'cunning', 'power'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'calculating',
+            quotes: [
+              "A Lannister always pays his debts.",
+              "The lion does not concern himself with the opinion of sheep.",
+              "What is dead may never die, but rises again, harder and stronger.",
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "Winter is coming, and the dead come with it."
+            ],
+            description: 'The calculating patriarch of House Lannister who values power and family legacy above all.'
+          },
+          {
+            name: 'Cersei Lannister',
+            role: 'Queen of the Seven Kingdoms',
+            startingCoins: 135,
+            startingWeapons: ['cunning', 'ambition', 'ruthlessness'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'ambitious',
+            quotes: [
+              "When you play the game of thrones, you win or you die.",
+              "A Lannister always pays his debts.",
+              "The lion does not concern himself with the opinion of sheep.",
+              "Power is power.",
+              "I am the queen of the Seven Kingdoms."
+            ],
+            description: 'The ambitious Lannister queen who will do anything to maintain her power.'
+          },
+          {
+            name: 'Jaime Lannister',
+            role: 'The Kingslayer',
+            startingCoins: 130,
+            startingWeapons: ['sword', 'honor', 'redemption'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'complex',
+            quotes: [
+              "A Lannister always pays his debts.",
+              "The lion does not concern himself with the opinion of sheep.",
+              "I am Jaime Lannister, and I am the Kingslayer.",
+              "The things I do for love.",
+              "I am not the man I used to be."
+            ],
+            description: 'The complex Lannister knight who struggles with honor and redemption.'
+          },
+          {
+            name: 'Tyrion Lannister',
+            role: 'The Imp',
+            startingCoins: 125,
+            startingWeapons: ['wit', 'intelligence', 'cunning'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'clever',
+            quotes: [
+              "A Lannister always pays his debts.",
+              "The lion does not concern himself with the opinion of sheep.",
+              "I am Tyrion Lannister, and I am the Imp.",
+              "I drink and I know things.",
+              "I am not a monster, I am a Lannister."
+            ],
+            description: 'The clever Lannister dwarf who uses his wit and intelligence to survive.'
+          },
+          {
+            name: 'Joffrey Baratheon',
+            role: 'The Boy King',
+            startingCoins: 120,
+            startingWeapons: ['cruelty', 'arrogance', 'power'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'cruel',
+            quotes: [
+              "I am the king!",
+              "A Lannister always pays his debts.",
+              "The lion does not concern himself with the opinion of sheep.",
+              "I am not a monster, I am the king.",
+              "I will not be mocked!"
+            ],
+            description: 'The cruel young king who inherited the worst traits of both his parents.'
+          },
+          {
+            name: 'Tommen Baratheon',
+            role: 'The Young King',
+            startingCoins: 115,
+            startingWeapons: ['innocence', 'kindness', 'weakness'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'gentle',
+            quotes: [
+              "I am the king!",
+              "A Lannister always pays his debts.",
+              "The lion does not concern himself with the opinion of sheep.",
+              "I am not a monster, I am the king.",
+              "I want to be a good king."
+            ],
+            description: 'The gentle young king who was too kind for the cruel game of thrones.'
+          },
+          {
+            name: 'Myrcella Baratheon',
+            role: 'The Princess',
+            startingCoins: 110,
+            startingWeapons: ['beauty', 'innocence', 'grace'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'innocent',
+            quotes: [
+              "I am Myrcella Baratheon.",
+              "A Lannister always pays his debts.",
+              "The lion does not concern himself with the opinion of sheep.",
+              "I am not a monster, I am a princess.",
+              "I want to go home."
+            ],
+            description: 'The innocent Lannister princess who was caught in the game of thrones.'
+          },
+          {
+            name: 'Kevan Lannister',
+            role: 'The Loyal Brother',
+            startingCoins: 105,
+            startingWeapons: ['loyalty', 'duty', 'honor'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "A Lannister always pays his debts.",
+              "The lion does not concern himself with the opinion of sheep.",
+              "I am Kevan Lannister, and I serve my family.",
+              "I am not a monster, I am a Lannister.",
+              "I will do my duty."
+            ],
+            description: 'The loyal Lannister brother who serves his family with honor and duty.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Lannister Guard', startingCoins: 30, startingWeapons: ['sword'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['A Lannister always pays!', 'For the gold!', 'Lannister pride!'] },
+          { name: 'Gold Miner', startingCoins: 25, startingWeapons: ['pickaxe'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking', quotes: ['Mine the gold!', 'Wealth and power!', 'Gold is power!'] },
+          { name: 'Lion Warrior', startingCoins: 35, startingWeapons: ['claws'], startingMercenaries: 0, startingCastles: 0, personality: 'fierce', quotes: ['Roar!', 'Lion pride!', 'We are lions!'] }
+        ]
+      },
+      targaryen: {
+        name: 'House Targaryen',
+        color: '#7c2d12', // Brown
+        description: 'The ancient house of dragonlords, known for their dragons, silver hair, and claim to the Iron Throne',
+        territories: [
+          { name: 'Dragonstone', cost: 25, description: 'The ancestral seat of House Targaryen and their dragons' },
+          { name: 'Valyria', cost: 22, description: 'The ancient homeland of the dragonlords' },
+          { name: 'Dragon\'s Bay', cost: 20, description: 'Bay where dragons once roamed freely' },
+          { name: 'The Red Waste', cost: 18, description: 'Desert where Daenerys began her journey' },
+          { name: 'Meereen', cost: 15, description: 'Great city where Daenerys ruled as queen' },
+          { name: 'Astapor', cost: 12, description: 'City of the Unsullied and slave trade' },
+          { name: 'Yunkai', cost: 10, description: 'City of pleasure and wealth' },
+          { name: 'The Dothraki Sea', cost: 8, description: 'Vast grasslands where the Dothraki roam' },
+          { name: 'Vaes Dothrak', cost: 6, description: 'Sacred city of the Dothraki' },
+          { name: 'The Shadow Lands', cost: 4, description: 'Mysterious lands beyond the known world' }
+        ],
+        characters: [
+          {
+            name: 'Daenerys Targaryen',
+            role: 'The Mother of Dragons',
+            startingCoins: 140,
+            startingWeapons: ['dragons', 'fire', 'liberation'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'determined',
+            quotes: [
+              "I am Daenerys Stormborn of House Targaryen, the First of Her Name.",
+              "I am the Mother of Dragons, and I will take what is mine with fire and blood.",
+              "I will break the wheel.",
+              "I am not a monster, I am the queen.",
+              "Dracarys!"
+            ],
+            description: 'The determined Targaryen queen who seeks to reclaim the Iron Throne with her dragons.'
+          },
+          {
+            name: 'Viserys Targaryen',
+            role: 'The Beggar King',
+            startingCoins: 120,
+            startingWeapons: ['arrogance', 'entitlement', 'weakness'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'arrogant',
+            quotes: [
+              "I am Viserys Targaryen, the rightful king of the Seven Kingdoms.",
+              "I am the dragon, and I will take what is mine with fire and blood.",
+              "I am not a monster, I am the king.",
+              "I will have my crown.",
+              "I am the dragon!"
+            ],
+            description: 'The arrogant Targaryen prince who believed he was entitled to the Iron Throne.'
+          },
+          {
+            name: 'Rhaegar Targaryen',
+            role: 'The Last Dragon',
+            startingCoins: 135,
+            startingWeapons: ['honor', 'prophecy', 'love'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'noble',
+            quotes: [
+              "I am Rhaegar Targaryen, the Last Dragon.",
+              "I am the dragon, and I will take what is mine with fire and blood.",
+              "I am not a monster, I am the prince.",
+              "I will have my crown.",
+              "I am the dragon!"
+            ],
+            description: 'The noble Targaryen prince who was known for his honor and love of music.'
+          },
+          {
+            name: 'Aerys Targaryen',
+            role: 'The Mad King',
+            startingCoins: 130,
+            startingWeapons: ['madness', 'fire', 'destruction'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'mad',
+            quotes: [
+              "I am Aerys Targaryen, the Mad King.",
+              "I am the dragon, and I will take what is mine with fire and blood.",
+              "I am not a monster, I am the king.",
+              "I will have my crown.",
+              "I am the dragon!"
+            ],
+            description: 'The mad Targaryen king whose cruelty led to the downfall of his house.'
+          },
+          {
+            name: 'Aemon Targaryen',
+            role: 'The Maester',
+            startingCoins: 125,
+            startingWeapons: ['wisdom', 'knowledge', 'prophecy'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'wise',
+            quotes: [
+              "I am Aemon Targaryen, the Maester.",
+              "I am the dragon, and I will take what is mine with fire and blood.",
+              "I am not a monster, I am the maester.",
+              "I will have my crown.",
+              "I am the dragon!"
+            ],
+            description: 'The wise Targaryen maester who served the Night\'s Watch with honor.'
+          },
+          {
+            name: 'Rhaenys Targaryen',
+            role: 'The Princess',
+            startingCoins: 120,
+            startingWeapons: ['dragons', 'fire', 'royalty'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'royal',
+            quotes: [
+              "I am Rhaenys Targaryen, the Princess.",
+              "I am the dragon, and I will take what is mine with fire and blood.",
+              "I am not a monster, I am the princess.",
+              "I will have my crown.",
+              "I am the dragon!"
+            ],
+            description: 'The royal Targaryen princess who was killed during Robert\'s Rebellion.'
+          },
+          {
+            name: 'Aegon Targaryen',
+            role: 'The Young Dragon',
+            startingCoins: 115,
+            startingWeapons: ['youth', 'potential', 'destiny'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'young',
+            quotes: [
+              "I am Aegon Targaryen, the Young Dragon.",
+              "I am the dragon, and I will take what is mine with fire and blood.",
+              "I am not a monster, I am the prince.",
+              "I will have my crown.",
+              "I am the dragon!"
+            ],
+            description: 'The young Targaryen prince who represents the future of the house.'
+          },
+          {
+            name: 'Rhaella Targaryen',
+            role: 'The Queen Mother',
+            startingCoins: 105,
+            startingWeapons: ['motherhood', 'protection', 'love'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'protective',
+            quotes: [
+              "I am Rhaella Targaryen, the Queen Mother.",
+              "I am the dragon, and I will take what is mine with fire and blood.",
+              "I am not a monster, I am the queen.",
+              "I will have my crown.",
+              "I am the dragon!"
+            ],
+            description: 'The protective Targaryen queen mother who suffered under her husband\'s cruelty.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Dragon Rider', startingCoins: 30, startingWeapons: ['dragon'], startingMercenaries: 0, startingCastles: 0, personality: 'fierce', quotes: ['Dracarys!', 'Fire and blood!', 'We are dragons!'] },
+          { name: 'Unsullied', startingCoins: 25, startingWeapons: ['spear'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['We serve!', 'For the queen!', 'Valar morghulis!'] },
+          { name: 'Dothraki', startingCoins: 35, startingWeapons: ['arakh'], startingMercenaries: 0, startingCastles: 0, personality: 'fierce', quotes: ['Blood of my blood!', 'Ride!', 'We are warriors!'] }
+        ]
+      },
+      nightsWatch: {
+        name: 'The Night\'s Watch',
+        color: '#374151', // Gray
+        description: 'The ancient order that guards the realm from the threats beyond the Wall',
+        territories: [
+          { name: 'The Wall', cost: 25, description: 'Massive ice barrier protecting the realm from the North' },
+          { name: 'Castle Black', cost: 22, description: 'Headquarters of the Night\'s Watch' },
+          { name: 'Eastwatch-by-the-Sea', cost: 20, description: 'Easternmost castle on the Wall' },
+          { name: 'Shadow Tower', cost: 18, description: 'Westernmost castle on the Wall' },
+          { name: 'The Gift', cost: 15, description: 'Land given to the Night\'s Watch for farming' },
+          { name: 'The New Gift', cost: 12, description: 'Additional land for the Night\'s Watch' },
+          { name: 'Mole\'s Town', cost: 10, description: 'Underground town near Castle Black' },
+          { name: 'The Haunted Forest', cost: 8, description: 'Forest beyond the Wall where wildlings hide' },
+          { name: 'The Fist of the First Men', cost: 6, description: 'Ancient hill where the First Men made their stand' },
+          { name: 'Craster\'s Keep', cost: 4, description: 'Wildling settlement beyond the Wall' }
+        ],
+        characters: [
+          {
+            name: 'Jeor Mormont',
+            role: 'Lord Commander',
+            startingCoins: 140,
+            startingWeapons: ['Longclaw', 'honor', 'duty'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'honorable',
+            quotes: [
+              "I am the shield that guards the realms of men.",
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "Winter is coming, and the dead come with it.",
+              "The lone wolf dies, but the pack survives.",
+              "I am not a monster, I am the Lord Commander."
+            ],
+            description: 'The honorable Lord Commander of the Night\'s Watch who leads with wisdom and courage.'
+          },
+          {
+            name: 'Alliser Thorne',
+            role: 'Master-at-Arms',
+            startingCoins: 120,
+            startingWeapons: ['sword', 'discipline', 'harshness'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'harsh',
+            quotes: [
+              "I am the shield that guards the realms of men.",
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "Winter is coming, and the dead come with it.",
+              "The lone wolf dies, but the pack survives.",
+              "I am not a monster, I am the Master-at-Arms."
+            ],
+            description: 'The harsh Master-at-Arms who trains new recruits with strict discipline.'
+          },
+          {
+            name: 'Samwell Tarly',
+            role: 'The Slayer',
+            startingCoins: 110,
+            startingWeapons: ['knowledge', 'courage', 'loyalty'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'brave',
+            quotes: [
+              "I am the shield that guards the realms of men.",
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "Winter is coming, and the dead come with it.",
+              "The lone wolf dies, but the pack survives.",
+              "I am not a monster, I am Samwell Tarly."
+            ],
+            description: 'The brave Night\'s Watch brother who proves that courage comes in all sizes.'
+          },
+          {
+            name: 'Grenn',
+            role: 'The Giant Slayer',
+            startingCoins: 105,
+            startingWeapons: ['sword', 'loyalty', 'courage'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "I am the shield that guards the realms of men.",
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "Winter is coming, and the dead come with it.",
+              "The lone wolf dies, but the pack survives.",
+              "I am not a monster, I am Grenn."
+            ],
+            description: 'The loyal Night\'s Watch brother who stands by his friends in battle.'
+          },
+          {
+            name: 'Pyp',
+            role: 'The Jester',
+            startingCoins: 100,
+            startingWeapons: ['wit', 'humor', 'loyalty'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'humorous',
+            quotes: [
+              "I am the shield that guards the realms of men.",
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "Winter is coming, and the dead come with it.",
+              "The lone wolf dies, but the pack survives.",
+              "I am not a monster, I am Pyp."
+            ],
+            description: 'The humorous Night\'s Watch brother who brings levity to the dark times.'
+          },
+          {
+            name: 'Eddison Tollett',
+            role: 'Dolorous Edd',
+            startingCoins: 95,
+            startingWeapons: ['pessimism', 'loyalty', 'courage'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'pessimistic',
+            quotes: [
+              "I am the shield that guards the realms of men.",
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "Winter is coming, and the dead come with it.",
+              "The lone wolf dies, but the pack survives.",
+              "I am not a monster, I am Dolorous Edd."
+            ],
+            description: 'The pessimistic Night\'s Watch brother who always expects the worst.'
+          },
+          {
+            name: 'Qhorin Halfhand',
+            role: 'The Ranger',
+            startingCoins: 125,
+            startingWeapons: ['sword', 'stealth', 'honor'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'honorable',
+            quotes: [
+              "I am the shield that guards the realms of men.",
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "Winter is coming, and the dead come with it.",
+              "The lone wolf dies, but the pack survives.",
+              "I am not a monster, I am Qhorin Halfhand."
+            ],
+            description: 'The honorable Night\'s Watch ranger who leads dangerous missions beyond the Wall.'
+          },
+          {
+            name: 'Benjen Stark',
+            role: 'The First Ranger',
+            startingCoins: 130,
+            startingWeapons: ['sword', 'honor', 'duty'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'honorable',
+            quotes: [
+              "I am the shield that guards the realms of men.",
+              "The North remembers, and the mummer\'s farce is almost done.",
+              "Winter is coming, and the dead come with it.",
+              "The lone wolf dies, but the pack survives.",
+              "I am not a monster, I am Benjen Stark."
+            ],
+            description: 'The honorable First Ranger who disappeared beyond the Wall on a mission.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Night\'s Watch Brother', startingCoins: 30, startingWeapons: ['sword'], startingMercenaries: 0, startingCastles: 0, personality: 'dutiful', quotes: ['I am the shield!', 'Guard the realm!', 'For the Watch!'] },
+          { name: 'Ranger', startingCoins: 25, startingWeapons: ['bow'], startingMercenaries: 0, startingCastles: 0, personality: 'brave', quotes: ['Beyond the Wall!', 'We are rangers!', 'For the Watch!'] },
+          { name: 'Builder', startingCoins: 35, startingWeapons: ['hammer'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking', quotes: ['Build the Wall!', 'We are builders!', 'For the Watch!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Iron Throne', cost: 5, description: 'The ultimate prize that all houses fight for' },
+      { name: 'The Great Sept', cost: 3, description: 'Center of the Faith of the Seven' },
+      { name: 'The Small Council', cost: 2, description: 'Where the realm\'s decisions are made' },
+      { name: 'The Citadel', cost: 1, description: 'Where maesters study and learn' },
+      { name: 'The Eyrie', cost: 4, description: 'The impregnable castle of the Vale' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // AVATAR: THE LAST AIRBENDER SCENARIO
+  avatar: {
+    id: 'avatar',
+    name: 'Avatar: The Last Airbender (2005-2008)',
+    type: 'literary',
+    description: 'The world of Avatar where benders control the four elements and the Avatar maintains balance between the nations.',
+    factions: {
+      waterTribe: {
+        name: 'Water Tribe',
+        color: '#1e40af', // Blue
+        description: 'The waterbending nation known for their adaptability, healing, and connection to the moon and ocean',
+        territories: [
+          { name: 'Northern Water Tribe', cost: 25, description: 'The capital of the Water Tribe and center of waterbending' },
+          { name: 'Southern Water Tribe', cost: 22, description: 'The smaller Water Tribe settlement in the South Pole' },
+          { name: 'Spirit Oasis', cost: 20, description: 'Sacred place where the Moon and Ocean spirits reside' },
+          { name: 'Katara\'s Village', cost: 18, description: 'Small village where Katara and Sokka grew up' },
+          { name: 'The Swamp', cost: 15, description: 'Mysterious swamp where waterbenders learn to bend plant water' },
+          { name: 'Foggy Swamp Tribe', cost: 12, description: 'Hidden tribe of waterbenders in the swamp' },
+          { name: 'Ice Floes', cost: 10, description: 'Floating ice where waterbenders practice their art' },
+          { name: 'Glacier Caves', cost: 8, description: 'Ancient caves where waterbending techniques are taught' },
+          { name: 'Tide Pools', cost: 6, description: 'Small pools where young waterbenders learn' },
+          { name: 'The Bay', cost: 4, description: 'Harbor where Water Tribe ships dock' }
+        ],
+        characters: [
+          {
+            name: 'Katara',
+            role: 'The Waterbending Master',
+            startingCoins: 130,
+            startingWeapons: ['waterbending', 'healing', 'spirit water'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'caring',
+            quotes: [
+              "I will never, ever turn my back on people who need me.",
+              "I\'m not a quitter!",
+              "The way of water is the way of healing.",
+              "I\'m going to be the best waterbender in the world!",
+              "Water is the element of change."
+            ],
+            description: 'The determined waterbender who becomes a master and healer.'
+          },
+          {
+            name: 'Sokka',
+            role: 'The Warrior',
+            startingCoins: 120,
+            startingWeapons: ['boomerang', 'sword', 'strategy'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'strategic',
+            quotes: [
+              "I\'m just a guy with a boomerang.",
+              "I\'m not a bender, but I\'m still useful.",
+              "I\'m the meat and sarcasm guy.",
+              "I\'m going to be a great warrior!",
+              "I\'m the leader of this group!"
+            ],
+            description: 'The non-bending warrior who uses strategy and weapons to fight.'
+          },
+          {
+            name: 'Yue',
+            role: 'The Moon Spirit',
+            startingCoins: 125,
+            startingWeapons: ['spirit power', 'moon energy', 'sacrifice'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'noble',
+            quotes: [
+              "I am the Moon Spirit now.",
+              "I will always be with you.",
+              "The moon is my spirit.",
+              "I must do what is right.",
+              "I am part of the ocean now."
+            ],
+            description: 'The princess who became the Moon Spirit to save her people.'
+          },
+          {
+            name: 'Pakku',
+            role: 'The Waterbending Master',
+            startingCoins: 115,
+            startingWeapons: ['icebending', 'tradition', 'discipline'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'traditional',
+            quotes: [
+              "Waterbending is not just about power.",
+              "Tradition is important.",
+              "I will teach you the old ways.",
+              "Respect your elders.",
+              "The way of water is the way of life."
+            ],
+            description: 'The traditional waterbending master who teaches the old ways.'
+          },
+          {
+            name: 'Hama',
+            role: 'The Bloodbender',
+            startingCoins: 110,
+            startingWeapons: ['bloodbending', 'darkness', 'revenge'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'dark',
+            quotes: [
+              "Bloodbending is the most powerful form of waterbending.",
+              "I will teach you the dark arts.",
+              "Revenge is sweet.",
+              "I have been waiting for this moment.",
+              "The full moon gives me power."
+            ],
+            description: 'The dark waterbender who teaches the forbidden art of bloodbending.'
+          },
+          {
+            name: 'Huu',
+            role: 'The Plantbender',
+            startingCoins: 105,
+            startingWeapons: ['plantbending', 'nature', 'wisdom'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "All life is connected.",
+              "The swamp teaches us many things.",
+              "Water is in all living things.",
+              "I am the swamp.",
+              "Nature is our greatest teacher."
+            ],
+            description: 'The wise waterbender who can bend the water in plants.'
+          },
+          {
+            name: 'Kya',
+            role: 'The Healer',
+            startingCoins: 100,
+            startingWeapons: ['healing', 'compassion', 'love'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'healing',
+            quotes: [
+              "Healing is the greatest gift.",
+              "I will help those in need.",
+              "Water is life.",
+              "I am a healer.",
+              "Compassion is strength."
+            ],
+            description: 'The gentle waterbender who specializes in healing.'
+          },
+          {
+            name: 'Bato',
+            role: 'The Warrior',
+            startingCoins: 95,
+            startingWeapons: ['spear', 'honor', 'loyalty'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "I will fight for my people.",
+              "Honor above all.",
+              "I am a warrior of the Water Tribe.",
+              "I will protect my home.",
+              "Loyalty is everything."
+            ],
+            description: 'The loyal Water Tribe warrior who fights for his people.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Waterbender', startingCoins: 30, startingWeapons: ['water'], startingMercenaries: 0, startingCastles: 0, personality: 'adaptable', quotes: ['Flow like water!', 'Adapt and overcome!', 'Water is life!'] },
+          { name: 'Healer', startingCoins: 25, startingWeapons: ['healing'], startingMercenaries: 0, startingCastles: 0, personality: 'caring', quotes: ['Heal the wounded!', 'Help others!', 'Compassion!'] },
+          { name: 'Warrior', startingCoins: 35, startingWeapons: ['spear'], startingMercenaries: 0, startingCastles: 0, personality: 'brave', quotes: ['Fight for honor!', 'Protect the tribe!', 'Warrior spirit!'] }
+        ]
+      },
+      earthKingdom: {
+        name: 'Earth Kingdom',
+        color: '#16a34a', // Green
+        description: 'The earthbending nation known for their strength, endurance, and connection to the land',
+        territories: [
+          { name: 'Ba Sing Se', cost: 25, description: 'The massive capital city of the Earth Kingdom' },
+          { name: 'Omashu', cost: 22, description: 'The second largest city, known for its mail system' },
+          { name: 'Kyoshi Island', cost: 20, description: 'Island home of Avatar Kyoshi and the Kyoshi Warriors' },
+          { name: 'The Serpent\'s Pass', cost: 18, description: 'Dangerous mountain pass through the Earth Kingdom' },
+          { name: 'The Great Divide', cost: 15, description: 'Massive canyon that divides the Earth Kingdom' },
+          { name: 'The Si Wong Desert', cost: 12, description: 'Vast desert where sandbenders live' },
+          { name: 'The Foggy Swamp', cost: 10, description: 'Mysterious swamp in the Earth Kingdom' },
+          { name: 'The Cave of Two Lovers', cost: 8, description: 'Sacred cave where lovers go to prove their love' },
+          { name: 'The Earth Rumble Arena', cost: 6, description: 'Underground fighting arena for earthbenders' },
+          { name: 'The Earth Kingdom Villages', cost: 4, description: 'Small farming villages throughout the kingdom' }
+        ],
+        characters: [
+          {
+            name: 'Toph Beifong',
+            role: 'The Blind Bandit',
+            startingCoins: 140,
+            startingWeapons: ['earthbending', 'metalbending', 'seismic sense'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'tough',
+            quotes: [
+              "I am the greatest earthbender in the world!",
+              "I\'m not helpless!",
+              "I can see with my feet.",
+              "I don\'t need to see to know you\'re an idiot.",
+              "I\'m the Blind Bandit!"
+            ],
+            description: 'The blind earthbending prodigy who invents metalbending.'
+          },
+          {
+            name: 'King Bumi',
+            role: 'The Mad Genius',
+            startingCoins: 135,
+            startingWeapons: ['earthbending', 'wisdom', 'madness'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'eccentric',
+            quotes: [
+              "I am a mad genius!",
+              "The key to earthbending is jing.",
+              "I have been waiting for this moment.",
+              "I am the king of Omashu!",
+              "Sometimes the best way to solve a problem is to think like a mad genius."
+            ],
+            description: 'The eccentric king of Omashu and powerful earthbender.'
+          },
+          {
+            name: 'Long Feng',
+            role: 'The Grand Secretariat',
+            startingCoins: 125,
+            startingWeapons: ['earthbending', 'deception', 'control'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'manipulative',
+            quotes: [
+              "There is no war in Ba Sing Se.",
+              "I control everything in this city.",
+              "The Dai Li serve me.",
+              "I will not be defeated.",
+              "I am the true power in Ba Sing Se."
+            ],
+            description: 'The manipulative leader of the Dai Li who controls Ba Sing Se.'
+          },
+          {
+            name: 'Haru',
+            role: 'The Earthbender',
+            startingCoins: 110,
+            startingWeapons: ['earthbending', 'coal', 'determination'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'determined',
+            quotes: [
+              "I will not let them take my bending away.",
+              "I am an earthbender!",
+              "I will fight for my people.",
+              "I will not give up.",
+              "I am stronger than they think."
+            ],
+            description: 'The determined earthbender who fights against Fire Nation oppression.'
+          },
+          {
+            name: 'The Boulder',
+            role: 'The Earth Rumble Champion',
+            startingCoins: 105,
+            startingWeapons: ['earthbending', 'strength', 'showmanship'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'boastful',
+            quotes: [
+              "The Boulder is ready to rumble!",
+              "I am the greatest earthbender!",
+              "The Boulder will crush you!",
+              "I am the champion!",
+              "The Boulder is unstoppable!"
+            ],
+            description: 'The boastful earthbending champion of the Earth Rumble.'
+          },
+          {
+            name: 'Xin Fu',
+            role: 'The Earthbending Master',
+            startingCoins: 100,
+            startingWeapons: ['earthbending', 'discipline', 'teaching'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'strict',
+            quotes: [
+              "Earthbending requires discipline.",
+              "I will teach you the proper way.",
+              "Respect the earth.",
+              "I am your master.",
+              "Learn from the earth itself."
+            ],
+            description: 'The strict earthbending master who teaches discipline.'
+          },
+          {
+            name: 'Suki',
+            role: 'The Kyoshi Warrior',
+            startingCoins: 95,
+            startingWeapons: ['fans', 'martial arts', 'honor'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'honorable',
+            quotes: [
+              "I am a Kyoshi Warrior.",
+              "Honor above all.",
+              "I will protect my people.",
+              "I am not afraid of you.",
+              "I fight for what is right."
+            ],
+            description: 'The honorable Kyoshi Warrior who fights with fans and martial arts.'
+          },
+          {
+            name: 'Ty Lee',
+            role: 'The Acrobat',
+            startingCoins: 90,
+            startingWeapons: ['chi blocking', 'acrobatics', 'agility'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cheerful',
+            quotes: [
+              "I\'m so excited!",
+              "I love to help people!",
+              "I\'m really good at chi blocking!",
+              "I\'m not a bender, but I\'m still useful!",
+              "I\'m going to be the best acrobat ever!"
+            ],
+            description: 'The cheerful acrobat who can block chi and disable benders.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Earthbender', startingCoins: 30, startingWeapons: ['earth'], startingMercenaries: 0, startingCastles: 0, personality: 'strong', quotes: ['Stand your ground!', 'Be like the earth!', 'Earth power!'] },
+          { name: 'Farmer', startingCoins: 25, startingWeapons: ['hoe'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking', quotes: ['Work the land!', 'Grow food!', 'Earth provides!'] },
+          { name: 'Warrior', startingCoins: 35, startingWeapons: ['spear'], startingMercenaries: 0, startingCastles: 0, personality: 'brave', quotes: ['Fight for the kingdom!', 'Protect the land!', 'Earth Kingdom!'] }
+        ]
+      },
+      fireNation: {
+        name: 'Fire Nation',
+        color: '#dc2626', // Red
+        description: 'The firebending nation known for their power, ambition, and military might',
+        territories: [
+          { name: 'Fire Nation Capital', cost: 25, description: 'The capital city and seat of the Fire Lord' },
+          { name: 'Caldera', cost: 22, description: 'The volcanic crater where the capital is built' },
+          { name: 'Ember Island', cost: 20, description: 'Resort island where the Fire Lord vacations' },
+          { name: 'The Boiling Rock', cost: 18, description: 'Maximum security prison on a volcanic island' },
+          { name: 'Fire Nation Colonies', cost: 15, description: 'Conquered territories in the Earth Kingdom' },
+          { name: 'The Fire Temple', cost: 12, description: 'Sacred temple where firebenders train' },
+          { name: 'The Fire Nation Navy', cost: 10, description: 'Fleet of warships that patrol the seas' },
+          { name: 'The Fire Nation Army', cost: 8, description: 'Ground forces that conquer other nations' },
+          { name: 'The Fire Nation Factories', cost: 6, description: 'Industrial centers that build weapons' },
+          { name: 'The Fire Nation Villages', cost: 4, description: 'Small towns throughout the Fire Nation' }
+        ],
+        characters: [
+          {
+            name: 'Zuko',
+            role: 'The Banished Prince',
+            startingCoins: 130,
+            startingWeapons: ['firebending', 'honor', 'redemption'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'honorable',
+            quotes: [
+              "I must capture the Avatar to restore my honor.",
+              "I am not a monster.",
+              "I will find my own way.",
+              "I am the prince of the Fire Nation.",
+              "I will restore my honor."
+            ],
+            description: 'The banished prince who seeks to restore his honor and find redemption.'
+          },
+          {
+            name: 'Azula',
+            role: 'The Firebending Prodigy',
+            startingCoins: 140,
+            startingWeapons: ['firebending', 'lightning', 'manipulation'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'manipulative',
+            quotes: [
+              "I am a people person.",
+              "I am the greatest firebender in the world.",
+              "I will be the Fire Lord.",
+              "I am not a monster, I am the Fire Lord.",
+              "I will rule the world."
+            ],
+            description: 'The manipulative firebending prodigy who seeks to rule the world.'
+          },
+          {
+            name: 'Fire Lord Ozai',
+            role: 'The Phoenix King',
+            startingCoins: 145,
+            startingWeapons: ['firebending', 'lightning', 'power'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'tyrannical',
+            quotes: [
+              "I am the Fire Lord.",
+              "I will burn the world to the ground.",
+              "I am the Phoenix King.",
+              "I will rule everything.",
+              "I am the most powerful firebender in the world."
+            ],
+            description: 'The tyrannical Fire Lord who seeks to conquer the world.'
+          },
+          {
+            name: 'Iroh',
+            role: 'The Dragon of the West',
+            startingCoins: 135,
+            startingWeapons: ['firebending', 'wisdom', 'tea'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'wise',
+            quotes: [
+              "Sharing tea with a fascinating stranger is one of life\'s true delights.",
+              "I am the Dragon of the West.",
+              "I have learned from the dragons.",
+              "I will teach you the true way of firebending.",
+              "I am not a monster, I am a teacher."
+            ],
+            description: 'The wise firebending master who teaches the true way of firebending.'
+          },
+          {
+            name: 'Mai',
+            role: 'The Knife Thrower',
+            startingCoins: 110,
+            startingWeapons: ['knives', 'boredom', 'loyalty'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'bored',
+            quotes: [
+              "I\'m so bored.",
+              "I don\'t care about anything.",
+              "I\'m really good at throwing knives.",
+              "I\'m not impressed.",
+              "I\'m going to throw knives at you."
+            ],
+            description: 'The bored knife thrower who is Azula\'s best friend.'
+          },
+          {
+            name: 'Ty Lee',
+            role: 'The Acrobat',
+            startingCoins: 105,
+            startingWeapons: ['chi blocking', 'acrobatics', 'cheerfulness'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'cheerful',
+            quotes: [
+              "I\'m so excited!",
+              "I love to help people!",
+              "I\'m really good at chi blocking!",
+              "I\'m not a bender, but I\'m still useful!",
+              "I\'m going to be the best acrobat ever!"
+            ],
+            description: 'The cheerful acrobat who can block chi and disable benders.'
+          },
+          {
+            name: 'Zhao',
+            role: 'The Admiral',
+            startingCoins: 120,
+            startingWeapons: ['firebending', 'ambition', 'navy'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'ambitious',
+            quotes: [
+              "I will capture the Avatar.",
+              "I am the greatest admiral in the Fire Nation.",
+              "I will be the Fire Lord.",
+              "I will not be defeated.",
+              "I am the master of the seas."
+            ],
+            description: 'The ambitious Fire Nation admiral who seeks to capture the Avatar.'
+          },
+          {
+            name: 'Jeong Jeong',
+            role: 'The Deserter',
+            startingCoins: 115,
+            startingWeapons: ['firebending', 'wisdom', 'regret'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'regretful',
+            quotes: [
+              "I have seen what firebending can do.",
+              "I will not teach you firebending.",
+              "I am a deserter.",
+              "I have learned from my mistakes.",
+              "I will not be part of this war."
+            ],
+            description: 'The regretful firebending master who deserted the Fire Nation.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Firebender', startingCoins: 30, startingWeapons: ['fire'], startingMercenaries: 0, startingCastles: 0, personality: 'powerful', quotes: ['Feel the power!', 'Fire and fury!', 'Fire Nation!'] },
+          { name: 'Soldier', startingCoins: 25, startingWeapons: ['spear'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['For the Fire Lord!', 'Conquer all!', 'Fire Nation!'] },
+          { name: 'Noble', startingCoins: 35, startingWeapons: ['sword'], startingMercenaries: 0, startingCastles: 0, personality: 'proud', quotes: ['We are superior!', 'Rule the world!', 'Fire Nation!'] }
+        ]
+      },
+      airNomads: {
+        name: 'Air Nomads',
+        color: '#f59e0b', // Amber
+        description: 'The airbending nation known for their freedom, spirituality, and connection to the wind',
+        territories: [
+          { name: 'Northern Air Temple', cost: 25, description: 'The northern air temple where Aang was raised' },
+          { name: 'Southern Air Temple', cost: 22, description: 'The southern air temple, now in ruins' },
+          { name: 'Eastern Air Temple', cost: 20, description: 'The eastern air temple, home to the nuns' },
+          { name: 'Western Air Temple', cost: 18, description: 'The western air temple, built upside down' },
+          { name: 'The Spirit World', cost: 15, description: 'Mystical realm where spirits reside' },
+          { name: 'The Sky Bison Herds', cost: 12, description: 'Flying bison that the Air Nomads ride' },
+          { name: 'The Air Nomad Villages', cost: 10, description: 'Small villages where airbenders live' },
+          { name: 'The Meditation Gardens', cost: 8, description: 'Peaceful gardens for meditation and training' },
+          { name: 'The Wind Caves', cost: 6, description: 'Caves where airbenders learn to control the wind' },
+          { name: 'The Cloud Sanctuary', cost: 4, description: 'Floating sanctuary in the clouds' }
+        ],
+        characters: [
+          {
+            name: 'Aang',
+            role: 'The Avatar',
+            startingCoins: 150,
+            startingWeapons: ['airbending', 'avatar state', 'spirituality'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'peaceful',
+            quotes: [
+              "I\'m the Avatar, and I\'m going to save the world.",
+              "I don\'t want to hurt anyone.",
+              "I will master all four elements.",
+              "I am the bridge between the spirit world and the human world.",
+              "I will bring balance to the world."
+            ],
+            description: 'The last airbender and Avatar who must master all four elements.'
+          },
+          {
+            name: 'Gyatso',
+            role: 'The Airbending Master',
+            startingCoins: 140,
+            startingWeapons: ['airbending', 'wisdom', 'peace'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'wise',
+            quotes: [
+              "The key to airbending is jing.",
+              "I will teach you the way of air.",
+              "Peace is the greatest strength.",
+              "I am your teacher.",
+              "The air nomads are peaceful people."
+            ],
+            description: 'The wise airbending master who taught Aang.'
+          },
+          {
+            name: 'Yangchen',
+            role: 'The Previous Avatar',
+            startingCoins: 145,
+            startingWeapons: ['airbending', 'avatar state', 'wisdom'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'wise',
+            quotes: [
+              "I am the Avatar before you.",
+              "I will guide you on your journey.",
+              "The Avatar must maintain balance.",
+              "I have learned many things.",
+              "I will help you master the elements."
+            ],
+            description: 'The previous Avatar who guides Aang on his journey.'
+          },
+          {
+            name: 'Monk Gyatso',
+            role: 'The Peaceful Monk',
+            startingCoins: 130,
+            startingWeapons: ['airbending', 'meditation', 'peace'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'peaceful',
+            quotes: [
+              "Peace is the way of the air nomads.",
+              "I will teach you meditation.",
+              "The air nomads are peaceful people.",
+              "I will help you find inner peace.",
+              "Meditation is the key to airbending."
+            ],
+            description: 'The peaceful monk who teaches meditation and airbending.'
+          },
+          {
+            name: 'Appa',
+            role: 'The Sky Bison',
+            startingCoins: 120,
+            startingWeapons: ['flight', 'strength', 'loyalty'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'loyal',
+            quotes: [
+              "Moo!",
+              "Moo moo!",
+              "Moo moo moo!",
+              "Moo moo moo moo!",
+              "Moo moo moo moo moo!"
+            ],
+            description: 'Aang\'s loyal sky bison companion.'
+          },
+          {
+            name: 'Momo',
+            role: 'The Flying Lemur',
+            startingCoins: 100,
+            startingWeapons: ['flight', 'agility', 'cuteness'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'playful',
+            quotes: [
+              "Chirp!",
+              "Chirp chirp!",
+              "Chirp chirp chirp!",
+              "Chirp chirp chirp chirp!",
+              "Chirp chirp chirp chirp chirp!"
+            ],
+            description: 'Aang\'s playful flying lemur companion.'
+          },
+          {
+            name: 'The Air Nomad Nuns',
+            role: 'The Spiritual Leaders',
+            startingCoins: 110,
+            startingWeapons: ['airbending', 'spirituality', 'wisdom'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'spiritual',
+            quotes: [
+              "We are the spiritual leaders of the air nomads.",
+              "Spirituality is the key to airbending.",
+              "We will teach you the way of peace.",
+              "The air nomads are spiritual people.",
+              "We will help you find enlightenment."
+            ],
+            description: 'The spiritual leaders of the air nomads who teach enlightenment.'
+          },
+          {
+            name: 'The Air Nomad Children',
+            role: 'The Young Airbenders',
+            startingCoins: 90,
+            startingWeapons: ['airbending', 'innocence', 'playfulness'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'innocent',
+            quotes: [
+              "We are learning to airbend!",
+              "We want to be like Aang!",
+              "We love to play!",
+              "We are the future of the air nomads!",
+              "We will bring peace to the world!"
+            ],
+            description: 'The young airbenders who represent the future of the air nomads.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Airbender', startingCoins: 30, startingWeapons: ['air'], startingMercenaries: 0, startingCastles: 0, personality: 'free', quotes: ['Be free!', 'Flow like air!', 'Air nomads!'] },
+          { name: 'Monk', startingCoins: 25, startingWeapons: ['meditation'], startingMercenaries: 0, startingCastles: 0, personality: 'peaceful', quotes: ['Find peace!', 'Meditate!', 'Inner peace!'] },
+          { name: 'Spirit', startingCoins: 35, startingWeapons: ['spirit'], startingMercenaries: 0, startingCastles: 0, personality: 'mystical', quotes: ['Spirit world!', 'Balance!', 'Harmony!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Spirit World', cost: 5, description: 'Mystical realm where all spirits reside' },
+      { name: 'The Avatar State', cost: 3, description: 'The ultimate power of the Avatar' },
+      { name: 'The Four Elements', cost: 2, description: 'The balance of water, earth, fire, and air' },
+      { name: 'The Harmonic Convergence', cost: 1, description: 'The alignment of the planets and spirits' },
+      { name: 'The Avatar Cycle', cost: 4, description: 'The eternal cycle of the Avatar' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // GREEK MYTHOLOGY SCENARIO
+  greekMythology: {
+    id: 'greekMythology',
+    name: 'Greek Mythology: The Age of Heroes (Ancient Greece)',
+    type: 'literary',
+    description: 'The epic world of Greek mythology where gods, titans, and mortals clash in legendary battles for power and glory.',
+    factions: {
+      olympians: {
+        name: 'The Olympians',
+        color: '#1e40af', // Blue
+        description: 'The twelve Olympian gods who rule from Mount Olympus, known for their power, wisdom, and divine authority',
+        territories: [
+          { name: 'Mount Olympus', cost: 25, description: 'The sacred mountain where the Olympian gods reside' },
+          { name: 'The Pantheon', cost: 22, description: 'The great temple where the gods gather to make decisions' },
+          { name: 'Zeus\'s Throne Room', cost: 20, description: 'The magnificent hall where Zeus rules as king of the gods' },
+          { name: 'Hera\'s Palace', cost: 18, description: 'The beautiful palace of the queen of the gods' },
+          { name: 'Athena\'s Temple', cost: 15, description: 'The sacred temple of wisdom and warfare' },
+          { name: 'Apollo\'s Sun Chariot', cost: 12, description: 'The golden chariot that carries the sun across the sky' },
+          { name: 'Artemis\'s Forest', cost: 10, description: 'The wild forest where the goddess of the hunt roams' },
+          { name: 'Poseidon\'s Underwater Palace', cost: 8, description: 'The magnificent palace beneath the waves' },
+          { name: 'Hades\'s Dark Realm', cost: 6, description: 'The shadowy realm of the underworld' },
+          { name: 'The Divine Gardens', cost: 4, description: 'The heavenly gardens where the gods relax' }
+        ],
+        characters: [
+          {
+            name: 'Zeus',
+            role: 'King of the Gods',
+            startingCoins: 150,
+            startingWeapons: ['thunderbolt', 'lightning', 'divine power'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'majestic',
+            quotes: [
+              "I am Zeus, king of the gods and ruler of Olympus!",
+              "My thunderbolt strikes down all who oppose me!",
+              "I am the father of gods and men!",
+              "No mortal can challenge the power of Zeus!",
+              "I will maintain order in the cosmos!"
+            ],
+            description: 'The mighty king of the gods who wields the thunderbolt and rules from Mount Olympus.'
+          },
+          {
+            name: 'Hera',
+            role: 'Queen of the Gods',
+            startingCoins: 140,
+            startingWeapons: ['divine authority', 'marriage bonds', 'peacock feathers'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'regal',
+            quotes: [
+              "I am Hera, queen of the gods and goddess of marriage!",
+              "I will protect the sacred bonds of marriage!",
+              "No one shall disrespect the queen of Olympus!",
+              "I am the guardian of family and home!",
+              "My peacock feathers are more beautiful than any jewel!"
+            ],
+            description: 'The regal queen of the gods who protects marriage and family bonds.'
+          },
+          {
+            name: 'Athena',
+            role: 'Goddess of Wisdom',
+            startingCoins: 145,
+            startingWeapons: ['wisdom', 'strategy', 'olive branch'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'wise',
+            quotes: [
+              "I am Athena, goddess of wisdom and warfare!",
+              "Wisdom is the greatest weapon of all!",
+              "I will guide mortals to victory through strategy!",
+              "The olive tree is my gift to humanity!",
+              "I am the patron of heroes and warriors!"
+            ],
+            description: 'The wise goddess of wisdom and warfare who guides heroes and protects cities.'
+          },
+          {
+            name: 'Apollo',
+            role: 'God of the Sun',
+            startingCoins: 135,
+            startingWeapons: ['sun chariot', 'golden bow', 'healing arts'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'radiant',
+            quotes: [
+              "I am Apollo, god of the sun, music, and healing!",
+              "My golden chariot brings light to the world!",
+              "I am the master of the bow and the lyre!",
+              "I will heal the wounded and inspire the poets!",
+              "The sun rises and sets by my command!"
+            ],
+            description: 'The radiant god of the sun who brings light, music, and healing to the world.'
+          },
+          {
+            name: 'Artemis',
+            role: 'Goddess of the Hunt',
+            startingCoins: 130,
+            startingWeapons: ['silver bow', 'hunting skills', 'moonlight'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'wild',
+            quotes: [
+              "I am Artemis, goddess of the hunt and the moon!",
+              "I roam the wild forests with my silver bow!",
+              "I am the protector of young women and wild animals!",
+              "The moonlight is my domain!",
+              "I will hunt down those who harm the innocent!"
+            ],
+            description: 'The wild goddess of the hunt who protects young women and wild animals.'
+          },
+          {
+            name: 'Poseidon',
+            role: 'God of the Sea',
+            startingCoins: 140,
+            startingWeapons: ['trident', 'sea storms', 'earthquakes'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'tempestuous',
+            quotes: [
+              "I am Poseidon, god of the sea and earthquakes!",
+              "My trident controls the waves and the earth!",
+              "I am the master of all waters!",
+              "The sea obeys my every command!",
+              "I will shake the earth with my power!"
+            ],
+            description: 'The tempestuous god of the sea who controls the waves and causes earthquakes.'
+          },
+          {
+            name: 'Hades',
+            role: 'God of the Underworld',
+            startingCoins: 135,
+            startingWeapons: ['helm of darkness', 'souls', 'underworld'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'solemn',
+            quotes: [
+              "I am Hades, god of the underworld and the dead!",
+              "I rule over the realm of the dead!",
+              "My helm makes me invisible to all!",
+              "I am the judge of souls!",
+              "The underworld is my domain!"
+            ],
+            description: 'The solemn god of the underworld who rules over the realm of the dead.'
+          },
+          {
+            name: 'Aphrodite',
+            role: 'Goddess of Love',
+            startingCoins: 125,
+            startingWeapons: ['love', 'beauty', 'golden girdle'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'alluring',
+            quotes: [
+              "I am Aphrodite, goddess of love and beauty!",
+              "Love is the most powerful force in the universe!",
+              "I will make all fall in love with my beauty!",
+              "My golden girdle makes me irresistible!",
+              "I am the most beautiful of all the goddesses!"
+            ],
+            description: 'The alluring goddess of love and beauty who can make anyone fall in love.'
+          },
+          {
+            name: 'Hermes',
+            role: 'Messenger of the Gods',
+            startingCoins: 120,
+            startingWeapons: ['winged sandals', 'caduceus', 'speed'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'swift',
+            quotes: [
+              "I am Hermes, messenger of the gods!",
+              "I am the swiftest of all the gods!",
+              "I will deliver messages across the cosmos!",
+              "My winged sandals carry me faster than the wind!",
+              "I am the guide of souls to the underworld!"
+            ],
+            description: 'The swift messenger god who travels between heaven and earth.'
+          },
+          {
+            name: 'Hephaestus',
+            role: 'God of Fire and Forge',
+            startingCoins: 130,
+            startingWeapons: ['hammer', 'anvil', 'fire'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'skilled',
+            quotes: [
+              "I am Hephaestus, god of fire and forge!",
+              "I will forge the greatest weapons for the gods!",
+              "My hammer creates masterpieces from metal!",
+              "I am the most skilled craftsman in the cosmos!",
+              "Fire and metal obey my command!"
+            ],
+            description: 'The skilled god of fire and forge who creates weapons for the gods.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Olympian', startingCoins: 30, startingWeapons: ['divine power'], startingMercenaries: 0, startingCastles: 0, personality: 'divine', quotes: ['We are gods!', 'Divine power!', 'Olympus!'] },
+          { name: 'Divine Servant', startingCoins: 25, startingWeapons: ['blessing'], startingMercenaries: 0, startingCastles: 0, personality: 'devoted', quotes: ['Serve the gods!', 'Divine will!', 'Olympus!'] },
+          { name: 'Celestial Being', startingCoins: 35, startingWeapons: ['celestial'], startingMercenaries: 0, startingCastles: 0, personality: 'ethereal', quotes: ['Heavenly power!', 'Divine realm!', 'Olympus!'] }
+        ]
+      },
+      titans: {
+        name: 'The Titans',
+        color: '#dc2626', // Red
+        description: 'The ancient titans who ruled before the Olympians, known for their raw power, primal strength, and rebellion',
+        territories: [
+          { name: 'Mount Othrys', cost: 25, description: 'The ancient mountain where the titans once ruled' },
+          { name: 'Tartarus', cost: 22, description: 'The deepest pit where the titans are imprisoned' },
+          { name: 'The Primordial Chaos', cost: 20, description: 'The formless void from which all creation emerged' },
+          { name: 'Cronus\'s Throne', cost: 18, description: 'The ancient throne of the titan king' },
+          { name: 'The Titan War Battlefield', cost: 15, description: 'Where the great war between titans and gods was fought' },
+          { name: 'The Primordial Waters', cost: 12, description: 'The ancient waters that existed before creation' },
+          { name: 'The Earth\'s Core', cost: 10, description: 'The molten center where titanic power resides' },
+          { name: 'The Ancient Forests', cost: 8, description: 'The primeval forests that existed before civilization' },
+          { name: 'The Storm Peaks', cost: 6, description: 'The highest mountains where titans once dwelled' },
+          { name: 'The Abyss', cost: 4, description: 'The bottomless pit of ancient power' }
+        ],
+        characters: [
+          {
+            name: 'Cronus',
+            role: 'King of the Titans',
+            startingCoins: 150,
+            startingWeapons: ['scythe', 'time', 'titanic power'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'tyrannical',
+            quotes: [
+              "I am Cronus, king of the titans and master of time!",
+              "I devoured my own children to maintain my power!",
+              "I am the lord of the golden age!",
+              "No god can challenge the power of the titans!",
+              "I will reclaim my throne from the Olympians!"
+            ],
+            description: 'The tyrannical king of the titans who devoured his children to maintain power.'
+          },
+          {
+            name: 'Rhea',
+            role: 'Queen of the Titans',
+            startingCoins: 140,
+            startingWeapons: ['motherhood', 'protection', 'titanic love'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'protective',
+            quotes: [
+              "I am Rhea, queen of the titans and mother of the gods!",
+              "I will protect my children from their father!",
+              "I am the mother of all creation!",
+              "My love is stronger than any titan!",
+              "I will save my children from Cronus!"
+            ],
+            description: 'The protective queen of the titans who saved her children from Cronus.'
+          },
+          {
+            name: 'Atlas',
+            role: 'The World Bearer',
+            startingCoins: 145,
+            startingWeapons: ['incredible strength', 'sky', 'endurance'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'enduring',
+            quotes: [
+              "I am Atlas, the titan who holds up the sky!",
+              "My strength is greater than any god!",
+              "I will hold up the heavens forever!",
+              "I am the strongest of all the titans!",
+              "The sky rests upon my shoulders!"
+            ],
+            description: 'The incredibly strong titan who holds up the sky on his shoulders.'
+          },
+          {
+            name: 'Prometheus',
+            role: 'The Fire Bringer',
+            startingCoins: 135,
+            startingWeapons: ['fire', 'intelligence', 'rebellion'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'rebellious',
+            quotes: [
+              "I am Prometheus, the titan who brought fire to mortals!",
+              "I will defy the gods to help humanity!",
+              "Fire is the greatest gift I can give!",
+              "I am the champion of mortals!",
+              "I will suffer for the sake of humanity!"
+            ],
+            description: 'The rebellious titan who brought fire to mortals and defied the gods.'
+          },
+          {
+            name: 'Epimetheus',
+            role: 'The Afterthought',
+            startingCoins: 120,
+            startingWeapons: ['hindsight', 'regret', 'titanic power'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'regretful',
+            quotes: [
+              "I am Epimetheus, the titan of afterthought!",
+              "I always think too late!",
+              "I regret my mistakes!",
+              "I am the brother of Prometheus!",
+              "I will learn from my errors!"
+            ],
+            description: 'The regretful titan who always thinks after acting.'
+          },
+          {
+            name: 'Oceanus',
+            role: 'The World Ocean',
+            startingCoins: 130,
+            startingWeapons: ['ocean currents', 'primordial waters', 'titanic waves'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'ancient',
+            quotes: [
+              "I am Oceanus, the titan of the world ocean!",
+              "I am the source of all waters!",
+              "My currents flow around the entire world!",
+              "I am older than the gods themselves!",
+              "The ocean is my domain!"
+            ],
+            description: 'The ancient titan who personifies the world ocean.'
+          },
+          {
+            name: 'Hyperion',
+            role: 'The Light Bringer',
+            startingCoins: 125,
+            startingWeapons: ['sunlight', 'radiance', 'titanic light'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'radiant',
+            quotes: [
+              "I am Hyperion, the titan of light!",
+              "I am the father of the sun!",
+              "My light illuminates the cosmos!",
+              "I am the source of all radiance!",
+              "Light is my greatest power!"
+            ],
+            description: 'The radiant titan who is the father of the sun and source of light.'
+          },
+          {
+            name: 'Themis',
+            role: 'The Divine Law',
+            startingCoins: 115,
+            startingWeapons: ['justice', 'divine law', 'prophecy'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'just',
+            quotes: [
+              "I am Themis, the titan of divine law!",
+              "I am the source of all justice!",
+              "I will maintain order in the cosmos!",
+              "I am the mother of the fates!",
+              "Justice is my greatest gift!"
+            ],
+            description: 'The just titan who represents divine law and justice.'
+          },
+          {
+            name: 'Mnemosyne',
+            role: 'The Titan of Memory',
+            startingCoins: 110,
+            startingWeapons: ['memory', 'knowledge', 'wisdom'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "I am Mnemosyne, the titan of memory!",
+              "I am the source of all knowledge!",
+              "I will preserve the memories of the cosmos!",
+              "I am the mother of the muses!",
+              "Memory is the foundation of wisdom!"
+            ],
+            description: 'The wise titan who represents memory and is the mother of the muses.'
+          },
+          {
+            name: 'Phoebe',
+            role: 'The Titan of Brightness',
+            startingCoins: 105,
+            startingWeapons: ['brightness', 'radiance', 'light'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'radiant',
+            quotes: [
+              "I am Phoebe, the titan of brightness!",
+              "I am the source of all radiance!",
+              "I will illuminate the darkest corners!",
+              "I am the grandmother of Apollo and Artemis!",
+              "Brightness is my greatest gift!"
+            ],
+            description: 'The radiant titan who represents brightness and is the grandmother of Apollo and Artemis.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Titan', startingCoins: 30, startingWeapons: ['titanic power'], startingMercenaries: 0, startingCastles: 0, personality: 'ancient', quotes: ['We are titans!', 'Primordial power!', 'Titanic strength!'] },
+          { name: 'Primordial Being', startingCoins: 25, startingWeapons: ['chaos'], startingMercenaries: 0, startingCastles: 0, personality: 'primal', quotes: ['We are ancient!', 'Primordial chaos!', 'Titanic power!'] },
+          { name: 'Rebel', startingCoins: 35, startingWeapons: ['rebellion'], startingMercenaries: 0, startingCastles: 0, personality: 'defiant', quotes: ['We rebel!', 'Down with the gods!', 'Titanic rebellion!'] }
+        ]
+      },
+      mortals: {
+        name: 'The Mortals',
+        color: '#16a34a', // Green
+        description: 'The brave mortals and heroes who challenge the gods and titans, known for their courage, cunning, and determination',
+        territories: [
+          { name: 'Thebes', cost: 25, description: 'The great city of heroes and kings' },
+          { name: 'Athens', cost: 22, description: 'The city of wisdom and democracy' },
+          { name: 'Sparta', cost: 20, description: 'The city of warriors and discipline' },
+          { name: 'Troy', cost: 18, description: 'The legendary city of the Trojan War' },
+          { name: 'Mycenae', cost: 15, description: 'The ancient city of Agamemnon' },
+          { name: 'The Hero\'s Path', cost: 12, description: 'The road where heroes travel on their quests' },
+          { name: 'The Oracle of Delphi', cost: 10, description: 'The sacred site where mortals seek divine guidance' },
+          { name: 'The Fields of Elysium', cost: 8, description: 'The paradise where heroic mortals go after death' },
+          { name: 'The Mortal Villages', cost: 6, description: 'The small towns where ordinary mortals live' },
+          { name: 'The Battlefields', cost: 4, description: 'Where mortals prove their courage in battle' }
+        ],
+        characters: [
+          {
+            name: 'Hercules',
+            role: 'The Greatest Hero',
+            startingCoins: 150,
+            startingWeapons: ['club', 'lion skin', 'divine strength'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'heroic',
+            quotes: [
+              "I am Hercules, the greatest hero of all time!",
+              "I completed the twelve labors!",
+              "I will protect the innocent from monsters!",
+              "My strength is a gift from the gods!",
+              "I will prove that mortals can be greater than gods!"
+            ],
+            description: 'The greatest hero who completed the twelve labors and became a god.'
+          },
+          {
+            name: 'Achilles',
+            role: 'The Invincible Warrior',
+            startingCoins: 145,
+            startingWeapons: ['spear', 'shield', 'divine armor'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'proud',
+            quotes: [
+              "I am Achilles, the greatest warrior of the Trojan War!",
+              "I am invincible except for my heel!",
+              "I will fight for glory and honor!",
+              "My spear strikes down all enemies!",
+              "I will be remembered forever!"
+            ],
+            description: 'The invincible warrior of the Trojan War, vulnerable only in his heel.'
+          },
+          {
+            name: 'Odysseus',
+            role: 'The Cunning King',
+            startingCoins: 140,
+            startingWeapons: ['cunning', 'bow', 'wisdom'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'clever',
+            quotes: [
+              "I am Odysseus, the cunning king of Ithaca!",
+              "My wit is sharper than any sword!",
+              "I will outsmart any god or monster!",
+              "I am the master of strategy!",
+              "I will return home no matter what!"
+            ],
+            description: 'The cunning king who used his wit to survive the Trojan War and return home.'
+          },
+          {
+            name: 'Perseus',
+            role: 'The Monster Slayer',
+            startingCoins: 135,
+            startingWeapons: ['sword', 'shield', 'winged sandals'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'brave',
+            quotes: [
+              "I am Perseus, the slayer of Medusa!",
+              "I will defeat any monster that threatens mortals!",
+              "My sword is blessed by the gods!",
+              "I am the protector of the innocent!",
+              "I will prove that mortals can defeat monsters!"
+            ],
+            description: 'The brave hero who slayed Medusa and saved Andromeda.'
+          },
+          {
+            name: 'Theseus',
+            role: 'The Labyrinth Hero',
+            startingCoins: 130,
+            startingWeapons: ['sword', 'thread', 'courage'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'determined',
+            quotes: [
+              "I am Theseus, the slayer of the Minotaur!",
+              "I will navigate any labyrinth!",
+              "I am the king of Athens!",
+              "I will protect my people from monsters!",
+              "I will prove that mortals can overcome any challenge!"
+            ],
+            description: 'The determined hero who slayed the Minotaur in the Labyrinth.'
+          },
+          {
+            name: 'Jason',
+            role: 'The Argonaut Leader',
+            startingCoins: 125,
+            startingWeapons: ['sword', 'leadership', 'golden fleece'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'charismatic',
+            quotes: [
+              "I am Jason, leader of the Argonauts!",
+              "I will lead my crew to victory!",
+              "I am the seeker of the Golden Fleece!",
+              "I will prove that mortals can achieve the impossible!",
+              "I will bring glory to my people!"
+            ],
+            description: 'The charismatic leader of the Argonauts who sought the Golden Fleece.'
+          },
+          {
+            name: 'Atalanta',
+            role: 'The Swift Huntress',
+            startingCoins: 120,
+            startingWeapons: ['bow', 'speed', 'hunting skills'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'independent',
+            quotes: [
+              "I am Atalanta, the swiftest huntress!",
+              "I will outrun any man or beast!",
+              "I am the equal of any male hero!",
+              "I will prove that women can be great heroes!",
+              "I will never be caught by anyone!"
+            ],
+            description: 'The independent huntress who was as fast as any male hero.'
+          },
+          {
+            name: 'Medusa',
+            role: 'The Gorgon',
+            startingCoins: 125,
+            startingWeapons: ['petrifying gaze', 'snakes', 'stone'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'monstrous',
+            quotes: [
+              "I am Medusa, the gorgon!",
+              "I will turn all who look at me to stone!",
+              "I am the most feared monster!",
+              "I will petrify my enemies!",
+              "My gaze is death!"
+            ],
+            description: 'The monstrous gorgon whose gaze turns people to stone.'
+          },
+          {
+            name: 'Bellerophon',
+            role: 'The Pegasus Rider',
+            startingCoins: 130,
+            startingWeapons: ['spear', 'Pegasus', 'courage'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'brave',
+            quotes: [
+              "I am Bellerophon, rider of Pegasus!",
+              "I will slay the Chimera!",
+              "I am the greatest hero!",
+              "I will ride the winged horse!",
+              "I will achieve the impossible!"
+            ],
+            description: 'The brave hero who rode Pegasus and slew the Chimera.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Hero', startingCoins: 30, startingWeapons: ['sword'], startingMercenaries: 0, startingCastles: 0, personality: 'brave', quotes: ['We are heroes!', 'Courage!', 'Glory!'] },
+          { name: 'Warrior', startingCoins: 25, startingWeapons: ['spear'], startingMercenaries: 0, startingCastles: 0, personality: 'fierce', quotes: ['We fight!', 'Victory!', 'Honor!'] },
+          { name: 'Citizen', startingCoins: 35, startingWeapons: ['determination'], startingMercenaries: 0, startingCastles: 0, personality: 'determined', quotes: ['We survive!', 'We endure!', 'We triumph!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Fates', cost: 5, description: 'The three goddesses who control destiny' },
+      { name: 'The Muses', cost: 3, description: 'The nine goddesses who inspire art and knowledge' },
+      { name: 'The Graces', cost: 2, description: 'The three goddesses of beauty and charm' },
+      { name: 'The Furies', cost: 1, description: 'The three goddesses of vengeance' },
+      { name: 'The Oracle', cost: 4, description: 'The divine source of prophecy and wisdom' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // HUNGER GAMES SCENARIO
+  hungerGames: {
+    id: 'hungerGames',
+    name: 'The Hunger Games: May the Odds Be Ever in Your Favor (2008-2010)',
+    type: 'literary',
+    description: 'The dystopian world of Panem where 24 tributes fight to the death in the annual Hunger Games, exploring themes of survival, rebellion, and the cost of entertainment.',
+    factions: {
+      careerDistricts: {
+        name: 'Career Districts (1-4)',
+        color: '#dc2626', // Red
+        description: 'The wealthy districts that train their tributes from birth, known for their strength, skill, and ruthless determination',
+        territories: [
+          { name: 'District 1 - Luxury', cost: 25, description: 'The luxury district that produces jewelry and fine goods' },
+          { name: 'District 2 - Masonry', cost: 22, description: 'The masonry district that builds the Capitol\'s structures' },
+          { name: 'District 3 - Technology', cost: 20, description: 'The technology district that creates electronic devices' },
+          { name: 'District 4 - Fishing', cost: 18, description: 'The fishing district that provides seafood to Panem' },
+          { name: 'Career Training Centers', cost: 15, description: 'Where career tributes train from childhood' },
+          { name: 'The Career Academy', cost: 12, description: 'Elite training facility for future tributes' },
+          { name: 'Weapon Training Grounds', cost: 10, description: 'Where careers learn to master all weapons' },
+          { name: 'Combat Arenas', cost: 8, description: 'Practice arenas for hand-to-hand combat' },
+          { name: 'Strategy Rooms', cost: 6, description: 'Where careers plan their Hunger Games tactics' },
+          { name: 'Victory Villages', cost: 4, description: 'Luxurious homes for previous victors' }
+        ],
+        characters: [
+          {
+            name: 'Cato',
+            role: 'The Career Leader',
+            startingCoins: 140,
+            startingWeapons: ['sword', 'spear', 'combat skills'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'ruthless',
+            quotes: [
+              "I am Cato, and I will win the Hunger Games!",
+              "I have trained my whole life for this moment!",
+              "I will kill every tribute in the arena!",
+              "I am the strongest tribute here!",
+              "Victory is mine!"
+            ],
+            description: 'The ruthless career tribute from District 2 who leads the career pack.'
+          },
+          {
+            name: 'Clove',
+            role: 'The Knife Thrower',
+            startingCoins: 135,
+            startingWeapons: ['throwing knives', 'precision', 'agility'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'deadly',
+            quotes: [
+              "I am Clove, and I never miss my target!",
+              "My knives are faster than any arrow!",
+              "I will cut down every tribute!",
+              "I am the deadliest tribute in the arena!",
+              "My aim is perfect!"
+            ],
+            description: 'The deadly career tribute who never misses with her throwing knives.'
+          },
+          {
+            name: 'Glimmer',
+            role: 'The Beauty',
+            startingCoins: 130,
+            startingWeapons: ['bow', 'beauty', 'charm'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'vain',
+            quotes: [
+              "I am Glimmer, the most beautiful tribute!",
+              "My beauty will be my weapon!",
+              "I will charm my way to victory!",
+              "I am the prettiest tribute here!",
+              "Beauty is power!"
+            ],
+            description: 'The vain career tribute who uses her beauty as a weapon.'
+          },
+          {
+            name: 'Marvel',
+            role: 'The Spear Master',
+            startingCoins: 125,
+            startingWeapons: ['spear', 'strength', 'endurance'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'brutal',
+            quotes: [
+              "I am Marvel, master of the spear!",
+              "My spear will pierce every heart!",
+              "I will show no mercy!",
+              "I am the strongest tribute!",
+              "Victory through strength!"
+            ],
+            description: 'The brutal career tribute who masters the spear and shows no mercy.'
+          },
+          {
+            name: 'Brutus',
+            role: 'The Veteran',
+            startingCoins: 145,
+            startingWeapons: ['experience', 'mace', 'wisdom'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'experienced',
+            quotes: [
+              "I am Brutus, and I have won before!",
+              "Experience is the greatest weapon!",
+              "I know every trick in the arena!",
+              "I will win again!",
+              "Age brings wisdom and power!"
+            ],
+            description: 'The experienced career tribute who has won the Hunger Games before.'
+          },
+          {
+            name: 'Enobaria',
+            role: 'The Tooth Sharpener',
+            startingCoins: 140,
+            startingWeapons: ['sharpened teeth', 'claws', 'ferocity'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'feral',
+            quotes: [
+              "I am Enobaria, and I sharpen my teeth!",
+              "My teeth are sharper than any blade!",
+              "I will tear my enemies apart!",
+              "I am the most ferocious tribute!",
+              "Fear my bite!"
+            ],
+            description: 'The feral career tribute who sharpens her teeth to be more deadly.'
+          },
+          {
+            name: 'Cashmere',
+            role: 'The Glamour',
+            startingCoins: 135,
+            startingWeapons: ['sword', 'grace', 'elegance'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'elegant',
+            quotes: [
+              "I am Cashmere, and I fight with grace!",
+              "Elegance is my weapon!",
+              "I will dance my way to victory!",
+              "I am the most graceful tribute!",
+              "Beauty and death combined!"
+            ],
+            description: 'The elegant career tribute who fights with grace and beauty.'
+          },
+          {
+            name: 'Gloss',
+            role: 'The Perfectionist',
+            startingCoins: 130,
+            startingWeapons: ['sword', 'precision', 'perfection'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'perfectionist',
+            quotes: [
+              "I am Gloss, and I fight perfectly!",
+              "Perfection is my only standard!",
+              "I will execute every move flawlessly!",
+              "I am the most precise tribute!",
+              "Flawless victory!"
+            ],
+            description: 'The perfectionist career tribute who executes every move flawlessly.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Career Tribute', startingCoins: 30, startingWeapons: ['sword'], startingMercenaries: 0, startingCastles: 0, personality: 'ruthless', quotes: ['We are careers!', 'Victory!', 'Strength!'] },
+          { name: 'Trained Fighter', startingCoins: 25, startingWeapons: ['spear'], startingMercenaries: 0, startingCastles: 0, personality: 'skilled', quotes: ['We are trained!', 'Skill!', 'Power!'] },
+          { name: 'Elite Warrior', startingCoins: 35, startingWeapons: ['bow'], startingMercenaries: 0, startingCastles: 0, personality: 'elite', quotes: ['We are elite!', 'Elite!', 'Superior!'] }
+        ]
+      },
+      midTierDistricts: {
+        name: 'Mid-Tier Districts (5-8)',
+        color: '#f59e0b', // Amber
+        description: 'The middle-class districts that provide essential services, known for their resourcefulness and determination',
+        territories: [
+          { name: 'District 5 - Power', cost: 25, description: 'The power district that generates electricity for Panem' },
+          { name: 'District 6 - Transportation', cost: 22, description: 'The transportation district that maintains the trains' },
+          { name: 'District 7 - Lumber', cost: 20, description: 'The lumber district that provides wood and paper' },
+          { name: 'District 8 - Textiles', cost: 18, description: 'The textile district that produces clothing' },
+          { name: 'The Factory Floors', cost: 15, description: 'Where mid-tier tributes work before the Games' },
+          { name: 'The Worker Quarters', cost: 12, description: 'Housing for the working class' },
+          { name: 'The Union Halls', cost: 10, description: 'Where workers organize and plan' },
+          { name: 'The Training Grounds', cost: 8, description: 'Basic training facilities for tributes' },
+          { name: 'The Resource Depots', cost: 6, description: 'Storage for essential supplies' },
+          { name: 'The Worker Cafeterias', cost: 4, description: 'Where workers eat and gather' }
+        ],
+        characters: [
+          {
+            name: 'Foxface',
+            role: 'The Cunning Survivor',
+            startingCoins: 130,
+            startingWeapons: ['cunning', 'stealth', 'intelligence'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'cunning',
+            quotes: [
+              "I am Foxface, and I will outsmart everyone!",
+              "My intelligence is my greatest weapon!",
+              "I will survive through cunning!",
+              "I am the smartest tribute here!",
+              "Brains over brawn!"
+            ],
+            description: 'The cunning tribute who survives through intelligence and stealth.'
+          },
+          {
+            name: 'Thresh',
+            role: 'The Strong Silent',
+            startingCoins: 135,
+            startingWeapons: ['scythe', 'strength', 'silence'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'stoic',
+            quotes: [
+              "I am Thresh, and I speak through action!",
+              "My strength will carry me to victory!",
+              "I will let my scythe do the talking!",
+              "I am the strongest tribute!",
+              "Actions speak louder than words!"
+            ],
+            description: 'The stoic tribute who lets his actions speak for him.'
+          },
+          {
+            name: 'Johanna Mason',
+            role: 'The Victor',
+            startingCoins: 140,
+            startingWeapons: ['axe', 'experience', 'rebellion'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'rebellious',
+            quotes: [
+              "I am Johanna Mason, and I have won before!",
+              "I will not be controlled by the Capitol!",
+              "My axe will cut through any obstacle!",
+              "I am the most rebellious tribute!",
+              "Freedom or death!"
+            ],
+            description: 'The rebellious victor who defies the Capitol and fights for freedom.'
+          },
+          {
+            name: 'Wiress',
+            role: 'The Tick Tock',
+            startingCoins: 120,
+            startingWeapons: ['intelligence', 'patterns', 'knowledge'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'eccentric',
+            quotes: [
+              "I am Wiress, and I see the patterns!",
+              "Tick tock, tick tock!",
+              "I will solve the arena\'s secrets!",
+              "I am the smartest tribute!",
+              "Patterns reveal the truth!"
+            ],
+            description: 'The eccentric tribute who sees patterns others miss.'
+          },
+          {
+            name: 'Beetee',
+            role: 'The Tech Genius',
+            startingCoins: 125,
+            startingWeapons: ['technology', 'wires', 'intelligence'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'brilliant',
+            quotes: [
+              "I am Beetee, and I am a tech genius!",
+              "Technology is my weapon!",
+              "I will wire the arena to my advantage!",
+              "I am the most brilliant tribute!",
+              "Science will save me!"
+            ],
+            description: 'The brilliant tribute who uses technology as his weapon.'
+          },
+          {
+            name: 'Mags',
+            role: 'The Elder',
+            startingCoins: 115,
+            startingWeapons: ['wisdom', 'experience', 'compassion'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "I am Mags, and I have seen it all!",
+              "Wisdom is my greatest strength!",
+              "I will guide the young tributes!",
+              "I am the wisest tribute!",
+              "Age brings wisdom!"
+            ],
+            description: 'The wise elder tribute who guides and protects the young.'
+          },
+          {
+            name: 'Finnick Odair',
+            role: 'The Charmer',
+            startingCoins: 145,
+            startingWeapons: ['trident', 'charm', 'charisma'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'charismatic',
+            quotes: [
+              "I am Finnick Odair, and I charm everyone!",
+              "My trident is my weapon!",
+              "I will charm my way to victory!",
+              "I am the most charismatic tribute!",
+              "Charm is power!"
+            ],
+            description: 'The charismatic victor who uses charm and his trident to win.'
+          },
+          {
+            name: 'Annie Cresta',
+            role: 'The Survivor',
+            startingCoins: 110,
+            startingWeapons: ['swimming', 'endurance', 'determination'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "I am Annie Cresta, and I will survive!",
+              "I will swim to safety!",
+              "I am determined to live!",
+              "I am the most determined tribute!",
+              "Survival is everything!"
+            ],
+            description: 'The determined tribute who survives through swimming and endurance.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Worker', startingCoins: 30, startingWeapons: ['tool'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking', quotes: ['We work!', 'Hard work!', 'Determination!'] },
+          { name: 'Survivor', startingCoins: 25, startingWeapons: ['resourcefulness'], startingMercenaries: 0, startingCastles: 0, personality: 'resourceful', quotes: ['We survive!', 'Resourceful!', 'Adapt!'] },
+          { name: 'Fighter', startingCoins: 35, startingWeapons: ['determination'], startingMercenaries: 0, startingCastles: 0, personality: 'determined', quotes: ['We fight!', 'Determined!', 'Never give up!'] }
+        ]
+      },
+      outerDistricts: {
+        name: 'Outer Districts (9-12)',
+        color: '#16a34a', // Green
+        description: 'The poor outer districts that struggle to survive, known for their resilience, resourcefulness, and hidden strength',
+        territories: [
+          { name: 'District 9 - Grain', cost: 25, description: 'The grain district that produces food for Panem' },
+          { name: 'District 10 - Livestock', cost: 22, description: 'The livestock district that raises animals for food' },
+          { name: 'District 11 - Agriculture', cost: 20, description: 'The agriculture district that grows crops' },
+          { name: 'District 12 - Coal', cost: 18, description: 'The coal district that mines fuel for Panem' },
+          { name: 'The Seam', cost: 15, description: 'The poorest area where miners live' },
+          { name: 'The Hob', cost: 12, description: 'The black market where goods are traded' },
+          { name: 'The Meadow', cost: 10, description: 'The forbidden area beyond the fence' },
+          { name: 'The Coal Mines', cost: 8, description: 'The dangerous mines where coal is extracted' },
+          { name: 'The Worker Shacks', cost: 6, description: 'The small homes of the working poor' },
+          { name: 'The Fence', cost: 4, description: 'The electrified barrier that keeps people in' }
+        ],
+        characters: [
+          {
+            name: 'Katniss Everdeen',
+            role: 'The Girl on Fire',
+            startingCoins: 150,
+            startingWeapons: ['bow', 'arrows', 'rebellion'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'rebellious',
+            quotes: [
+              "I am Katniss Everdeen, and I volunteer as tribute!",
+              "I will protect my sister at all costs!",
+              "I am the girl on fire!",
+              "I will not be a piece in their game!",
+              "I will start a revolution!"
+            ],
+            description: 'The rebellious tribute who volunteers to save her sister and starts a revolution.'
+          },
+          {
+            name: 'Peeta Mellark',
+            role: 'The Boy with the Bread',
+            startingCoins: 130,
+            startingWeapons: ['strength', 'camouflage', 'love'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'loving',
+            quotes: [
+              "I am Peeta Mellark, and I love Katniss!",
+              "I will protect Katniss with my life!",
+              "I am the boy with the bread!",
+              "I will not kill anyone!",
+              "Love is my greatest strength!"
+            ],
+            description: 'The loving tribute who loves Katniss and refuses to kill anyone.'
+          },
+          {
+            name: 'Rue',
+            role: 'The Mockingjay',
+            startingCoins: 120,
+            startingWeapons: ['agility', 'tree climbing', 'innocence'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'innocent',
+            quotes: [
+              "I am Rue, and I am like a mockingjay!",
+              "I will climb trees to safety!",
+              "I am the most innocent tribute!",
+              "I will help Katniss!",
+              "Innocence is my strength!"
+            ],
+            description: 'The innocent tribute who is like a mockingjay and helps Katniss.'
+          },
+          {
+            name: 'Thresh',
+            role: 'The Silent Giant',
+            startingCoins: 135,
+            startingWeapons: ['scythe', 'strength', 'silence'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'stoic',
+            quotes: [
+              "I am Thresh, and I speak through action!",
+              "My strength will carry me to victory!",
+              "I will let my scythe do the talking!",
+              "I am the strongest tribute!",
+              "Actions speak louder than words!"
+            ],
+            description: 'The stoic tribute who lets his actions speak for him.'
+          },
+          {
+            name: 'Chaff',
+            role: 'The One-Armed Warrior',
+            startingCoins: 125,
+            startingWeapons: ['sword', 'determination', 'courage'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'courageous',
+            quotes: [
+              "I am Chaff, and I fight with one arm!",
+              "I will not let my disability stop me!",
+              "I am the most courageous tribute!",
+              "I will fight for freedom!",
+              "Courage overcomes all obstacles!"
+            ],
+            description: 'The courageous tribute who fights with one arm and never gives up.'
+          },
+          {
+            name: 'Seeder',
+            role: 'The Seed Keeper',
+            startingCoins: 115,
+            startingWeapons: ['seeds', 'knowledge', 'wisdom'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "I am Seeder, and I keep the seeds!",
+              "I will plant the seeds of rebellion!",
+              "I am the wisest tribute!",
+              "I will preserve life!",
+              "Seeds are the future!"
+            ],
+            description: 'The wise tribute who keeps seeds and plants the seeds of rebellion.'
+          },
+          {
+            name: 'Haymitch Abernathy',
+            role: 'The Drunk Mentor',
+            startingCoins: 140,
+            startingWeapons: ['experience', 'wisdom', 'alcohol'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'cynical',
+            quotes: [
+              "I am Haymitch Abernathy, and I am drunk!",
+              "I will mentor the tributes!",
+              "I am the most cynical tribute!",
+              "I will survive through drinking!",
+              "Cynicism is my shield!"
+            ],
+            description: 'The cynical mentor who is always drunk but helps the tributes survive.'
+          },
+          {
+            name: 'Effie Trinket',
+            role: 'The Capitol Escort',
+            startingCoins: 110,
+            startingWeapons: ['enthusiasm', 'optimism', 'hope'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'optimistic',
+            quotes: [
+              "I am Effie Trinket, and I am enthusiastic!",
+              "May the odds be ever in your favor!",
+              "I am the most optimistic tribute!",
+              "I will bring hope to the tributes!",
+              "Optimism is my weapon!"
+            ],
+            description: 'The optimistic Capitol escort who brings hope and enthusiasm.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Miner', startingCoins: 30, startingWeapons: ['pickaxe'], startingMercenaries: 0, startingCastles: 0, personality: 'hardy', quotes: ['We mine!', 'Hard work!', 'Resilience!'] },
+          { name: 'Farmer', startingCoins: 25, startingWeapons: ['hoe'], startingMercenaries: 0, startingCastles: 0, personality: 'resourceful', quotes: ['We farm!', 'Resourceful!', 'Survival!'] },
+          { name: 'Rebel', startingCoins: 35, startingWeapons: ['determination'], startingMercenaries: 0, startingCastles: 0, personality: 'rebellious', quotes: ['We rebel!', 'Freedom!', 'Revolution!'] }
+        ]
+      },
+      capitol: {
+        name: 'The Capitol',
+        color: '#7c2d12', // Brown
+        description: 'The wealthy Capitol that controls all of Panem, known for their luxury, cruelty, and absolute power',
+        territories: [
+          { name: 'The Capitol City', cost: 25, description: 'The magnificent capital city of Panem' },
+          { name: 'President Snow\'s Mansion', cost: 22, description: 'The luxurious home of the tyrannical president' },
+          { name: 'The Hunger Games Arena', cost: 20, description: 'The deadly arena where tributes fight to the death' },
+          { name: 'The Training Center', cost: 18, description: 'Where tributes train before the Games' },
+          { name: 'The Tribute Center', cost: 15, description: 'Where tributes are housed before the Games' },
+          { name: 'The Capitol Gardens', cost: 12, description: 'Beautiful gardens where Capitol citizens relax' },
+          { name: 'The Luxury Apartments', cost: 10, description: 'Opulent homes for Capitol citizens' },
+          { name: 'The Shopping Districts', cost: 8, description: 'High-end stores and boutiques' },
+          { name: 'The Entertainment Venues', cost: 6, description: 'Theaters and clubs for Capitol entertainment' },
+          { name: 'The Peacekeeper Headquarters', cost: 4, description: 'Where the Capitol\'s enforcers are based' }
+        ],
+        characters: [
+          {
+            name: 'President Snow',
+            role: 'The Tyrant',
+            startingCoins: 150,
+            startingWeapons: ['power', 'control', 'white roses'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'tyrannical',
+            quotes: [
+              "I am President Snow, and I control all of Panem!",
+              "I will crush any rebellion!",
+              "I am the absolute ruler!",
+              "I will maintain order through fear!",
+              "Power is everything!"
+            ],
+            description: 'The tyrannical president who rules Panem with an iron fist.'
+          },
+          {
+            name: 'Caesar Flickerman',
+            role: 'The Master of Ceremonies',
+            startingCoins: 140,
+            startingWeapons: ['charisma', 'showmanship', 'entertainment'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'charismatic',
+            quotes: [
+              "I am Caesar Flickerman, and I am the master of ceremonies!",
+              "I will make the Hunger Games entertaining!",
+              "I am the most charismatic host!",
+              "I will bring drama to the Games!",
+              "Entertainment is power!"
+            ],
+            description: 'The charismatic host who makes the Hunger Games entertaining for Capitol citizens.'
+          },
+          {
+            name: 'Plutarch Heavensbee',
+            role: 'The Gamemaker',
+            startingCoins: 145,
+            startingWeapons: ['intelligence', 'strategy', 'manipulation'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'manipulative',
+            quotes: [
+              "I am Plutarch Heavensbee, and I am the gamemaker!",
+              "I will design the perfect arena!",
+              "I am the master of manipulation!",
+              "I will control every aspect of the Games!",
+              "Strategy is my weapon!"
+            ],
+            description: 'The manipulative gamemaker who designs the Hunger Games arena.'
+          },
+          {
+            name: 'Effie Trinket',
+            role: 'The Capitol Escort',
+            startingCoins: 130,
+            startingWeapons: ['enthusiasm', 'optimism', 'hope'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'optimistic',
+            quotes: [
+              "I am Effie Trinket, and I am enthusiastic!",
+              "May the odds be ever in your favor!",
+              "I am the most optimistic escort!",
+              "I will bring hope to the tributes!",
+              "Optimism is my weapon!"
+            ],
+            description: 'The optimistic Capitol escort who brings hope and enthusiasm.'
+          },
+          {
+            name: 'Cinna',
+            role: 'The Stylist',
+            startingCoins: 125,
+            startingWeapons: ['creativity', 'style', 'rebellion'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'creative',
+            quotes: [
+              "I am Cinna, and I am a stylist!",
+              "I will make the tributes look amazing!",
+              "I am the most creative stylist!",
+              "I will use fashion as rebellion!",
+              "Creativity is my weapon!"
+            ],
+            description: 'The creative stylist who uses fashion as a form of rebellion.'
+          },
+          {
+            name: 'Portia',
+            role: 'The Designer',
+            startingCoins: 120,
+            startingWeapons: ['design', 'elegance', 'beauty'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'elegant',
+            quotes: [
+              "I am Portia, and I am a designer!",
+              "I will create beautiful costumes!",
+              "I am the most elegant designer!",
+              "I will make beauty from chaos!",
+              "Elegance is my weapon!"
+            ],
+            description: 'The elegant designer who creates beautiful costumes for the tributes.'
+          },
+          {
+            name: 'Seneca Crane',
+            role: 'The Head Gamemaker',
+            startingCoins: 135,
+            startingWeapons: ['authority', 'control', 'cruelty'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'cruel',
+            quotes: [
+              "I am Seneca Crane, and I am the head gamemaker!",
+              "I will create the most exciting Games!",
+              "I am the most cruel gamemaker!",
+              "I will control every moment!",
+              "Cruelty is entertainment!"
+            ],
+            description: 'The cruel head gamemaker who creates the most exciting Hunger Games.'
+          },
+          {
+            name: 'Tigris',
+            role: 'The Stylist',
+            startingCoins: 115,
+            startingWeapons: ['beauty', 'style', 'transformation'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'transformed',
+            quotes: [
+              "I am Tigris, and I am a stylist!",
+              "I will transform the tributes!",
+              "I am the most transformed stylist!",
+              "I will create beauty from ugliness!",
+              "Transformation is my weapon!"
+            ],
+            description: 'The transformed stylist who creates beauty through transformation.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Capitol Citizen', startingCoins: 30, startingWeapons: ['luxury'], startingMercenaries: 0, startingCastles: 0, personality: 'luxurious', quotes: ['We are Capitol!', 'Luxury!', 'Power!'] },
+          { name: 'Peacekeeper', startingCoins: 25, startingWeapons: ['weapon'], startingMercenaries: 0, startingCastles: 0, personality: 'enforcing', quotes: ['We enforce!', 'Order!', 'Control!'] },
+          { name: 'Elite', startingCoins: 35, startingWeapons: ['privilege'], startingMercenaries: 0, startingCastles: 0, personality: 'privileged', quotes: ['We are elite!', 'Privilege!', 'Superior!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Cornucopia', cost: 5, description: 'The center of the arena where tributes start' },
+      { name: 'The Sponsors', cost: 3, description: 'Capitol citizens who send gifts to tributes' },
+      { name: 'The Cameras', cost: 2, description: 'Hidden cameras that broadcast the Games' },
+      { name: 'The Mutations', cost: 1, description: 'Genetically modified creatures in the arena' },
+      { name: 'The Victory Tour', cost: 4, description: 'The winner\'s tour of all districts' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // DISNEY VS PIXAR SCENARIO
+  disneyVsPixar: {
+    id: 'disneyVsPixar',
+    name: 'Disney vs Pixar: The Ultimate Animation Showdown (1923-present)',
+    type: 'gaming',
+    description: 'The epic battle between Disney\'s classic animated films and Pixar\'s innovative computer-animated masterpieces, exploring themes of tradition vs innovation, magic vs technology, and the evolution of animation.',
+    factions: {
+      disney: {
+        name: 'Disney Animation Studios',
+        color: '#1e40af', // Blue
+        description: 'The legendary animation studio that created the golden age of hand-drawn animation, known for their timeless classics, magical storytelling, and beloved characters',
+        territories: [
+          { name: 'The Magic Kingdom', cost: 25, description: 'The iconic Disney theme park and headquarters of magic' },
+          { name: 'The Animation Building', cost: 22, description: 'Where Disney\'s classic animated films are created' },
+          { name: 'The Enchanted Forest', cost: 20, description: 'The magical realm where Disney princesses live' },
+          { name: 'The Castle', cost: 18, description: 'The iconic Disney castle that represents all dreams' },
+          { name: 'The Fairy Tale Village', cost: 15, description: 'Where classic fairy tale characters reside' },
+          { name: 'The Musical Theater', cost: 12, description: 'Where Disney\'s famous musical numbers are performed' },
+          { name: 'The Art Gallery', cost: 10, description: 'Where Disney\'s beautiful hand-drawn art is displayed' },
+          { name: 'The Story Room', cost: 8, description: 'Where Disney\'s timeless stories are crafted' },
+          { name: 'The Character Workshop', cost: 6, description: 'Where beloved Disney characters are designed' },
+          { name: 'The Dream Factory', cost: 4, description: 'Where Disney dreams are made into reality' }
+        ],
+        characters: [
+          {
+            name: 'Mickey Mouse',
+            role: 'The Icon',
+            startingCoins: 150,
+            startingWeapons: ['magic', 'optimism', 'whistle'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'cheerful',
+            quotes: [
+              "Hi there! I\'m Mickey Mouse!",
+              "Oh boy! This is going to be fun!",
+              "I\'m the leader of the Disney gang!",
+              "Let\'s make some magic happen!",
+              "Hot dog! We\'re going to win!"
+            ],
+            description: 'The cheerful leader of Disney who brings magic and optimism to everything.'
+          },
+          {
+            name: 'Snow White',
+            role: 'The First Princess',
+            startingCoins: 140,
+            startingWeapons: ['singing', 'kindness', 'dwarfs'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'gentle',
+            quotes: [
+              "I am Snow White, the fairest of them all!",
+              "I will sing my way to victory!",
+              "My seven dwarfs will help me!",
+              "I am the first Disney princess!",
+              "Kindness is my greatest strength!"
+            ],
+            description: 'The gentle first Disney princess who sings and brings kindness to all.'
+          },
+          {
+            name: 'Simba',
+            role: 'The Lion King',
+            startingCoins: 145,
+            startingWeapons: ['roar', 'courage', 'pride'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'noble',
+            quotes: [
+              "I am Simba, the Lion King!",
+              "I will roar with all my might!",
+              "I am the king of the Pride Lands!",
+              "I will remember who I am!",
+              "Hakuna matata! It means no worries!"
+            ],
+            description: 'The noble lion king who learns to embrace his destiny and lead with courage.'
+          },
+          {
+            name: 'Elsa',
+            role: 'The Ice Queen',
+            startingCoins: 140,
+            startingWeapons: ['ice powers', 'magic', 'snow'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'mysterious',
+            quotes: [
+              "I am Elsa, the Ice Queen!",
+              "Let it go! Let it go!",
+              "I will freeze everything in my path!",
+              "I am the queen of ice and snow!",
+              "The cold never bothered me anyway!"
+            ],
+            description: 'The mysterious ice queen who learns to control her powers and embrace her true self.'
+          },
+          {
+            name: 'Ariel',
+            role: 'The Little Mermaid',
+            startingCoins: 135,
+            startingWeapons: ['voice', 'determination', 'underwater'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'curious',
+            quotes: [
+              "I am Ariel, the little mermaid!",
+              "I want to be part of your world!",
+              "I will sing my way to victory!",
+              "I am the most curious mermaid!",
+              "I will make my dreams come true!"
+            ],
+            description: 'The curious little mermaid who dreams of being part of the human world.'
+          },
+          {
+            name: 'Aladdin',
+            role: 'The Street Rat',
+            startingCoins: 130,
+            startingWeapons: ['genie', 'street smarts', 'carpet'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'clever',
+            quotes: [
+              "I am Aladdin, the street rat!",
+              "I will make a wish with my genie!",
+              "I am the cleverest thief in Agrabah!",
+              "I will show you a whole new world!",
+              "I will prove I\'m not just a street rat!"
+            ],
+            description: 'The clever street rat who uses his wits and genie to achieve his dreams.'
+          },
+          {
+            name: 'Belle',
+            role: 'The Bookworm',
+            startingCoins: 125,
+            startingWeapons: ['books', 'intelligence', 'beauty'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'intelligent',
+            quotes: [
+              "I am Belle, and I love to read!",
+              "I will use my intelligence to win!",
+              "I am the most intelligent princess!",
+              "I will find beauty in everything!",
+              "I will not be afraid of the beast!"
+            ],
+            description: 'The intelligent bookworm who finds beauty in everything and everyone.'
+          },
+          {
+            name: 'Moana',
+            role: 'The Wayfinder',
+            startingCoins: 120,
+            startingWeapons: ['ocean', 'courage', 'wayfinding'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'adventurous',
+            quotes: [
+              "I am Moana, and I am a wayfinder!",
+              "I will sail across the ocean!",
+              "I am the most adventurous princess!",
+              "I will save my people!",
+              "I will find my way!"
+            ],
+            description: 'The adventurous wayfinder who sails across the ocean to save her people.'
+          },
+          {
+            name: 'Minnie Mouse',
+            role: 'The Icon',
+            startingCoins: 140,
+            startingWeapons: ['magic', 'charm', 'bow'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'charming',
+            quotes: [
+              "Hi there! I'm Minnie Mouse!",
+              "Oh my! This is going to be delightful!",
+              "I'm Mickey's sweetheart!",
+              "Let's make some magic together!",
+              "Oh boy! We're going to have fun!"
+            ],
+            description: 'The charming partner of Mickey Mouse who brings sweetness and magic.'
+          },
+          {
+            name: 'Donald Duck',
+            role: 'The Icon',
+            startingCoins: 135,
+            startingWeapons: ['temper', 'quack', 'determination'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'temperamental',
+            quotes: [
+              "I'm Donald Duck, and I'm angry!",
+              "Quack! Quack! Quack!",
+              "I will not be defeated!",
+              "I am the most determined duck!",
+              "Quack! Quack! Quack!"
+            ],
+            description: 'The temperamental duck who is Mickey\'s best friend despite his short temper.'
+          },
+          {
+            name: 'Goofy',
+            role: 'The Icon',
+            startingCoins: 130,
+            startingWeapons: ['goofiness', 'loyalty', 'laughter'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'goofy',
+            quotes: [
+              "I'm Goofy, and I'm goofy!",
+              "Gawrsh! This is going to be fun!",
+              "I will make everyone laugh!",
+              "I am the goofiest character!",
+              "Gawrsh! We're going to win!"
+            ],
+            description: 'The goofy dog who is Mickey\'s loyal friend and brings laughter to everything.'
+          },
+          {
+            name: 'Simba',
+            role: 'The Lion King',
+            startingCoins: 145,
+            startingWeapons: ['roar', 'courage', 'royalty'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'noble',
+            quotes: [
+              "I am Simba, the Lion King!",
+              "I will remember who I am!",
+              "I am the king of the Pride Lands!",
+              "I will protect my kingdom!",
+              "Hakuna matata!"
+            ],
+            description: 'The noble lion king who learns to embrace his destiny and protect his kingdom.'
+          },
+          {
+            name: 'Elsa',
+            role: 'The Ice Queen',
+            startingCoins: 145,
+            startingWeapons: ['ice magic', 'snow', 'frozen powers'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'mysterious',
+            quotes: [
+              "I am Elsa, the Ice Queen!",
+              "Let it go! Let it go!",
+              "I will embrace my powers!",
+              "I am the most powerful queen!",
+              "The cold never bothered me anyway!"
+            ],
+            description: 'The mysterious ice queen who learns to control her magical powers.'
+          },
+          {
+            name: 'Anna',
+            role: 'The Princess',
+            startingCoins: 135,
+            startingWeapons: ['love', 'optimism', 'sisterly bond'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'optimistic',
+            quotes: [
+              "I am Anna, and I love my sister!",
+              "I will save Elsa!",
+              "I am the most optimistic princess!",
+              "I will show that love conquers all!",
+              "I will never give up on family!"
+            ],
+            description: 'The optimistic princess who shows that love conquers all.'
+          },
+          {
+            name: 'Ariel',
+            role: 'The Little Mermaid',
+            startingCoins: 130,
+            startingWeapons: ['voice', 'determination', 'dreams'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'dreamy',
+            quotes: [
+              "I am Ariel, the little mermaid!",
+              "I will be part of your world!",
+              "I am the most dreamy princess!",
+              "I will follow my dreams!",
+              "I will not be silenced!"
+            ],
+            description: 'The dreamy mermaid who follows her heart and dreams.'
+          },
+          {
+            name: 'Aladdin',
+            role: 'The Street Rat',
+            startingCoins: 125,
+            startingWeapons: ['street smarts', 'charm', 'genie'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'charming',
+            quotes: [
+              "I am Aladdin, the street rat!",
+              "I will show them a whole new world!",
+              "I am the most charming hero!",
+              "I will prove that anyone can be a prince!",
+              "I will make my wishes come true!"
+            ],
+            description: 'The charming street rat who proves that anyone can be a prince.'
+          },
+          {
+            name: 'Mulan',
+            role: 'The Warrior',
+            startingCoins: 140,
+            startingWeapons: ['sword', 'courage', 'honor'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'brave',
+            quotes: [
+              "I am Mulan, and I will bring honor to us all!",
+              "I will fight for my family!",
+              "I am the bravest warrior!",
+              "I will prove that women can be heroes!",
+              "I will not give up!"
+            ],
+            description: 'The brave warrior who proves that women can be heroes.'
+          },
+          {
+            name: 'Tinker Bell',
+            role: 'The Fairy',
+            startingCoins: 135,
+            startingWeapons: ['fairy dust', 'magic', 'flight'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'spunky',
+            quotes: [
+              "I am Tinker Bell, and I'm a fairy!",
+              "I will sprinkle fairy dust!",
+              "I am the most spunky fairy!",
+              "I will help Peter Pan!",
+              "I will not be ignored!"
+            ],
+            description: 'The spunky fairy who helps Peter Pan and brings magic to Neverland.'
+          },
+          {
+            name: 'Stitch',
+            role: 'The Alien',
+            startingCoins: 140,
+            startingWeapons: ['super strength', 'alien tech', 'chaos'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'chaotic',
+            quotes: [
+              "I am Stitch, and I'm an alien!",
+              "I will cause chaos!",
+              "I am the most chaotic alien!",
+              "I will protect my family!",
+              "I will not be destructive!"
+            ],
+            description: 'The chaotic alien who learns about family and love.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Disney Princess', startingCoins: 30, startingWeapons: ['magic'], startingMercenaries: 0, startingCastles: 0, personality: 'magical', quotes: ['We are magical!', 'Dreams come true!', 'Disney magic!'] },
+          { name: 'Disney Prince', startingCoins: 25, startingWeapons: ['sword'], startingMercenaries: 0, startingCastles: 0, personality: 'heroic', quotes: ['We are heroic!', 'True love!', 'Disney heroes!'] },
+          { name: 'Disney Sidekick', startingCoins: 35, startingWeapons: ['comedy'], startingMercenaries: 0, startingCastles: 0, personality: 'funny', quotes: ['We are funny!', 'Laughter!', 'Disney fun!'] }
+        ]
+      },
+      pixar: {
+        name: 'Pixar Animation Studios',
+        color: '#dc2626', // Red
+        description: 'The innovative animation studio that revolutionized computer animation, known for their cutting-edge technology, emotional storytelling, and beloved characters',
+        territories: [
+          { name: 'The Pixar Campus', cost: 25, description: 'The innovative headquarters where Pixar magic is created' },
+          { name: 'The Render Farm', cost: 22, description: 'The powerful computers that render Pixar\'s films' },
+          { name: 'The Story Lab', cost: 20, description: 'Where Pixar\'s emotional stories are crafted' },
+          { name: 'The Character Design Studio', cost: 18, description: 'Where Pixar\'s iconic characters are designed' },
+          { name: 'The Animation Floor', cost: 15, description: 'Where animators bring characters to life' },
+          { name: 'The Sound Stage', cost: 12, description: 'Where Pixar\'s amazing soundtracks are recorded' },
+          { name: 'The Technology Lab', cost: 10, description: 'Where cutting-edge animation technology is developed' },
+          { name: 'The Art Department', cost: 8, description: 'Where Pixar\'s stunning visuals are created' },
+          { name: 'The Screening Room', cost: 6, description: 'Where Pixar films are previewed and refined' },
+          { name: 'The Toy Box', cost: 4, description: 'Where all the toys and characters come to life' }
+        ],
+        characters: [
+          {
+            name: 'Buzz Lightyear',
+            role: 'The Space Ranger',
+            startingCoins: 150,
+            startingWeapons: ['laser', 'wings', 'space ranger training'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'heroic',
+            quotes: [
+              "I am Buzz Lightyear, space ranger!",
+              "To infinity and beyond!",
+              "I will protect the galaxy!",
+              "I am the greatest space ranger!",
+              "I will not give up, no matter what!"
+            ],
+            description: 'The heroic space ranger who believes he can fly and protect the galaxy.'
+          },
+          {
+            name: 'Woody',
+            role: 'The Sheriff',
+            startingCoins: 145,
+            startingWeapons: ['lasso', 'leadership', 'loyalty'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'loyal',
+            quotes: [
+              "I am Woody, the sheriff!",
+              "I will lead my friends to victory!",
+              "I am the most loyal toy!",
+              "I will never abandon my friends!",
+              "There\'s a snake in my boot!"
+            ],
+            description: 'The loyal sheriff who leads his friends and never abandons them.'
+          },
+          {
+            name: 'Nemo',
+            role: 'The Little Fish',
+            startingCoins: 130,
+            startingWeapons: ['swimming', 'courage', 'lucky fin'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'brave',
+            quotes: [
+              "I am Nemo, and I am a little fish!",
+              "I will swim to victory!",
+              "I am the bravest little fish!",
+              "I will find my way home!",
+              "I will not let my lucky fin stop me!"
+            ],
+            description: 'The brave little fish who overcomes his disability and finds his way home.'
+          },
+          {
+            name: 'Sulley',
+            role: 'The Monster',
+            startingCoins: 140,
+            startingWeapons: ['roar', 'scare power', 'friendship'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'gentle',
+            quotes: [
+              "I am Sulley, and I am a monster!",
+              "I will scare my way to victory!",
+              "I am the scariest monster!",
+              "I will protect my friends!",
+              "I will not let anyone hurt my friends!"
+            ],
+            description: 'The gentle monster who learns that friendship is more important than scaring.'
+          },
+          {
+            name: 'Mike Wazowski',
+            role: 'The One-Eyed Monster',
+            startingCoins: 125,
+            startingWeapons: ['comedy', 'energy', 'optimism'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'energetic',
+            quotes: [
+              "I am Mike Wazowski, and I am a monster!",
+              "I will make everyone laugh!",
+              "I am the most energetic monster!",
+              "I will bring joy to everyone!",
+              "I will not let my one eye stop me!"
+            ],
+            description: 'The energetic one-eyed monster who brings joy and laughter to everyone.'
+          },
+          {
+            name: 'Wall-E',
+            role: 'The Robot',
+            startingCoins: 135,
+            startingWeapons: ['compacting', 'determination', 'love'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'determined',
+            quotes: [
+              "I am Wall-E, and I am a robot!",
+              "I will clean up the world!",
+              "I am the most determined robot!",
+              "I will find love!",
+              "I will not give up on my mission!"
+            ],
+            description: 'The determined robot who cleans up the world and finds love.'
+          },
+          {
+            name: 'EVE',
+            role: 'The Probe',
+            startingCoins: 130,
+            startingWeapons: ['laser', 'scanning', 'protection'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'protective',
+            quotes: [
+              "I am EVE, and I am a probe!",
+              "I will protect the plant!",
+              "I am the most protective probe!",
+              "I will scan for life!",
+              "I will not let anyone harm the plant!"
+            ],
+            description: 'The protective probe who scans for life and protects the plant.'
+          },
+          {
+            name: 'Dory',
+            role: 'The Forgetful Fish',
+            startingCoins: 120,
+            startingWeapons: ['swimming', 'optimism', 'memory'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'optimistic',
+            quotes: [
+              "I am Dory, and I forget things!",
+              "I will swim to victory!",
+              "I am the most optimistic fish!",
+              "I will keep swimming!",
+              "Just keep swimming, just keep swimming!"
+            ],
+            description: 'The optimistic fish who forgets things but never gives up.'
+          },
+          {
+            name: 'Lightning McQueen',
+            role: 'The Race Car',
+            startingCoins: 145,
+            startingWeapons: ['speed', 'racing skills', 'determination'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'competitive',
+            quotes: [
+              "I am Lightning McQueen, and I'm fast!",
+              "I will race to victory!",
+              "I am the fastest race car!",
+              "I will win the Piston Cup!",
+              "I will not give up!"
+            ],
+            description: 'The competitive race car who learns that winning isn\'t everything.'
+          },
+          {
+            name: 'Mater',
+            role: 'The Tow Truck',
+            startingCoins: 125,
+            startingWeapons: ['tow cable', 'rust', 'friendship'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'rusty',
+            quotes: [
+              "I am Mater, and I'm rusty!",
+              "I will tow my friends to victory!",
+              "I am the rustiest tow truck!",
+              "I will help Lightning McQueen!",
+              "I will not give up!"
+            ],
+            description: 'The rusty tow truck who is Lightning McQueen\'s best friend.'
+          },
+          {
+            name: 'Sulley',
+            role: 'The Monster',
+            startingCoins: 140,
+            startingWeapons: ['roar', 'fur', 'scare power'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'gentle',
+            quotes: [
+              "I am Sulley, and I'm a monster!",
+              "I will scare my way to victory!",
+              "I am the most gentle monster!",
+              "I will protect Boo!",
+              "I will not be scary!"
+            ],
+            description: 'The gentle monster who learns that laughter is more powerful than fear.'
+          },
+          {
+            name: 'Mike Wazowski',
+            role: 'The One-Eyed Monster',
+            startingCoins: 130,
+            startingWeapons: ['eye', 'sarcasm', 'wit'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'sarcastic',
+            quotes: [
+              "I am Mike Wazowski, and I have one eye!",
+              "I will scare with my wit!",
+              "I am the most sarcastic monster!",
+              "I will help Sulley!",
+              "I will not be underestimated!"
+            ],
+            description: 'The sarcastic one-eyed monster who is Sulley\'s best friend.'
+          },
+          {
+            name: 'Nemo',
+            role: 'The Clownfish',
+            startingCoins: 115,
+            startingWeapons: ['lucky fin', 'courage', 'determination'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "I am Nemo, and I have a lucky fin!",
+              "I will swim to victory!",
+              "I am the bravest clownfish!",
+              "I will find my dad!",
+              "I will not be afraid!"
+            ],
+            description: 'The brave clownfish who learns to be independent despite his lucky fin.'
+          },
+          {
+            name: 'Wall-E',
+            role: 'The Robot',
+            startingCoins: 135,
+            startingWeapons: ['compactor', 'love', 'determination'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'loving',
+            quotes: [
+              "I am Wall-E, and I'm a robot!",
+              "I will clean the Earth!",
+              "I am the most loving robot!",
+              "I will protect EVE!",
+              "I will not give up!"
+            ],
+            description: 'The loving robot who learns about love and saves the Earth.'
+          },
+          {
+            name: 'EVE',
+            role: 'The Probe',
+            startingCoins: 140,
+            startingWeapons: ['laser', 'flight', 'scanning'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'protective',
+            quotes: [
+              "I am EVE, and I'm a probe!",
+              "I will scan for life!",
+              "I am the most protective probe!",
+              "I will protect Wall-E!",
+              "I will not fail my mission!"
+            ],
+            description: 'The protective probe who learns to love and protect Wall-E.'
+          },
+          {
+            name: 'Remy',
+            role: 'The Rat Chef',
+            startingCoins: 130,
+            startingWeapons: ['sense of smell', 'cooking skills', 'determination'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'passionate',
+            quotes: [
+              "I am Remy, and I'm a rat chef!",
+              "I will cook the greatest meals!",
+              "I am the most passionate chef!",
+              "I will prove that anyone can cook!",
+              "I will not give up on my dreams!"
+            ],
+            description: 'The passionate rat who proves that anyone can cook.'
+          },
+          {
+            name: 'Merida',
+            role: 'The Archer',
+            startingCoins: 135,
+            startingWeapons: ['bow', 'arrows', 'independence'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'independent',
+            quotes: [
+              "I am Merida, and I'm an archer!",
+              "I will shoot my way to victory!",
+              "I am the most independent princess!",
+              "I will change my fate!",
+              "I will not be forced into marriage!"
+            ],
+            description: 'The independent archer who learns to change her fate.'
+          },
+          {
+            name: 'Joy',
+            role: 'The Emotion',
+            startingCoins: 140,
+            startingWeapons: ['happiness', 'optimism', 'energy'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'joyful',
+            quotes: [
+              "I am Joy, and I bring happiness!",
+              "I will make everyone happy!",
+              "I am the most joyful emotion!",
+              "I will protect Riley's happiness!",
+              "I will not let sadness win!"
+            ],
+            description: 'The joyful emotion who learns that sadness is also important.'
+          },
+          {
+            name: 'Sadness',
+            role: 'The Emotion',
+            startingCoins: 125,
+            startingWeapons: ['sadness', 'empathy', 'understanding'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'empathetic',
+            quotes: [
+              "I am Sadness, and I bring sadness!",
+              "I will help others understand!",
+              "I am the most empathetic emotion!",
+              "I will help Riley process her feelings!",
+              "I will not be ignored!"
+            ],
+            description: 'The empathetic emotion who learns that sadness is important for healing.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Pixar Character', startingCoins: 30, startingWeapons: ['technology'], startingMercenaries: 0, startingCastles: 0, personality: 'innovative', quotes: ['We are innovative!', 'Technology!', 'Pixar magic!'] },
+          { name: 'Toy', startingCoins: 25, startingWeapons: ['playfulness'], startingMercenaries: 0, startingCastles: 0, personality: 'playful', quotes: ['We are toys!', 'Play!', 'Fun!'] },
+          { name: 'Monster', startingCoins: 35, startingWeapons: ['scare'], startingMercenaries: 0, startingCastles: 0, personality: 'scary', quotes: ['We are monsters!', 'Scare!', 'Fear!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Academy Awards', cost: 5, description: 'Where the best animated films are honored' },
+      { name: 'The Animation Museum', cost: 3, description: 'Where the history of animation is preserved' },
+      { name: 'The Voice Acting Studio', cost: 2, description: 'Where characters get their voices' },
+      { name: 'The Music Studio', cost: 1, description: 'Where memorable soundtracks are created' },
+      { name: 'The Box Office', cost: 4, description: 'Where animated films compete for audiences' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // SUPER MARIO SCENARIO
+  superMario: {
+    id: 'superMario',
+    name: 'Super Mario: The Ultimate Mushroom Kingdom Battle (1985-present)',
+    type: 'gaming',
+    description: 'The colorful world of Super Mario where heroes and villains clash in the ultimate battle for the Mushroom Kingdom, exploring themes of adventure, friendship, and the eternal struggle between good and evil.',
+    factions: {
+      mariosHeroes: {
+        name: 'Mario\'s Heroes',
+        color: '#1e40af', // Blue
+        description: 'The brave heroes who protect the Mushroom Kingdom, known for their courage, determination, and unwavering commitment to justice',
+        territories: [
+          { name: 'Mushroom Kingdom', cost: 25, description: 'The peaceful kingdom ruled by Princess Peach' },
+          { name: 'Princess Peach\'s Castle', cost: 22, description: 'The magnificent castle where Princess Peach resides' },
+          { name: 'Toad Town', cost: 20, description: 'The bustling town where Toads live and work' },
+          { name: 'Mario\'s House', cost: 18, description: 'The cozy home where Mario and Luigi live' },
+          { name: 'The Mushroom Fields', cost: 15, description: 'Where power-ups and mushrooms grow' },
+          { name: 'The Pipe System', cost: 12, description: 'The underground network of warp pipes' },
+          { name: 'The Star Road', cost: 10, description: 'The magical pathway to the stars' },
+          { name: 'The Rainbow Bridge', cost: 8, description: 'The beautiful bridge connecting kingdoms' },
+          { name: 'The Power-Up Factory', cost: 6, description: 'Where magical power-ups are created' },
+          { name: 'The Hero\'s Training Ground', cost: 4, description: 'Where heroes practice their skills' }
+        ],
+        characters: [
+          {
+            name: 'Mario',
+            role: 'The Hero',
+            startingCoins: 150,
+            startingWeapons: ['jump', 'fireball', 'courage'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'heroic',
+            quotes: [
+              "It\'s-a me, Mario!",
+              "Let\'s-a go!",
+              "I will save Princess Peach!",
+              "I am the greatest plumber in the world!",
+              "Mama mia! Here we go!"
+            ],
+            description: 'The heroic plumber who saves Princess Peach and protects the Mushroom Kingdom.'
+          },
+          {
+            name: 'Luigi',
+            role: 'The Green Machine',
+            startingCoins: 140,
+            startingWeapons: ['jump', 'thunder', 'brotherly love'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'loyal',
+            quotes: [
+              "I\'m Luigi, and I\'m-a number one!",
+              "I will help my brother Mario!",
+              "I am the green machine!",
+              "I will not let my brother down!",
+              "Mama mia! I\'m scared!"
+            ],
+            description: 'The loyal brother who supports Mario and overcomes his fears.'
+          },
+          {
+            name: 'Princess Peach',
+            role: 'The Princess',
+            startingCoins: 145,
+            startingWeapons: ['magic', 'royalty', 'kindness'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'gracious',
+            quotes: [
+              "I am Princess Peach, ruler of the Mushroom Kingdom!",
+              "I will protect my kingdom!",
+              "I am the most gracious princess!",
+              "I will help my friends!",
+              "Thank you, Mario!"
+            ],
+            description: 'The gracious princess who rules the Mushroom Kingdom with kindness.'
+          },
+          {
+            name: 'Toad',
+            role: 'The Mushroom Retainer',
+            startingCoins: 120,
+            startingWeapons: ['mushroom', 'loyalty', 'courage'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "I am Toad, and I serve Princess Peach!",
+              "I will protect the princess!",
+              "I am the most loyal retainer!",
+              "I will help Mario save the day!",
+              "Thank you, Mario!"
+            ],
+            description: 'The loyal mushroom retainer who serves Princess Peach faithfully.'
+          },
+          {
+            name: 'Yoshi',
+            role: 'The Dinosaur',
+            startingCoins: 135,
+            startingWeapons: ['tongue', 'eggs', 'friendship'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'friendly',
+            quotes: [
+              "I am Yoshi, and I am a dinosaur!",
+              "I will help Mario on his adventure!",
+              "I am the most friendly dinosaur!",
+              "I will eat everything in my path!",
+              "Yoshi! Yoshi!"
+            ],
+            description: 'The friendly dinosaur who helps Mario on his adventures.'
+          },
+          {
+            name: 'Princess Daisy',
+            role: 'The Sporty Princess',
+            startingCoins: 130,
+            startingWeapons: ['sports', 'energy', 'determination'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'energetic',
+            quotes: [
+              "I am Princess Daisy, and I love sports!",
+              "I will win every competition!",
+              "I am the most energetic princess!",
+              "I will show everyone my skills!",
+              "Let\'s play some sports!"
+            ],
+            description: 'The energetic princess who loves sports and competition.'
+          },
+          {
+            name: 'Rosalina',
+            role: 'The Cosmic Princess',
+            startingCoins: 140,
+            startingWeapons: ['cosmic power', 'stars', 'wisdom'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'wise',
+            quotes: [
+              "I am Rosalina, the cosmic princess!",
+              "I will protect the cosmos!",
+              "I am the wisest princess!",
+              "I will guide the stars!",
+              "The cosmos is my domain!"
+            ],
+            description: 'The wise cosmic princess who protects the stars and cosmos.'
+          },
+          {
+            name: 'Captain Toad',
+            role: 'The Adventurer',
+            startingCoins: 125,
+            startingWeapons: ['backpack', 'courage', 'adventure'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'adventurous',
+            quotes: [
+              "I am Captain Toad, and I love adventure!",
+              "I will explore every corner of the world!",
+              "I am the most adventurous Toad!",
+              "I will find all the treasures!",
+              "Adventure awaits!"
+            ],
+            description: 'The adventurous Toad who loves exploring and finding treasures.'
+          },
+          {
+            name: 'Yoshi',
+            role: 'The Dinosaur',
+            startingCoins: 130,
+            startingWeapons: ['tongue', 'eggs', 'flutter jump'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'friendly',
+            quotes: [
+              "Yoshi! Yoshi!",
+              "I will help Mario!",
+              "I am the best dinosaur!",
+              "I will eat everything!",
+              "Yoshi! Yoshi! Yoshi!"
+            ],
+            description: 'The friendly dinosaur who helps Mario on his adventures.'
+          },
+          {
+            name: 'Donkey Kong',
+            role: 'The Ape King',
+            startingCoins: 135,
+            startingWeapons: ['strength', 'bananas', 'barrel'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'strong',
+            quotes: [
+              "I am Donkey Kong, the king!",
+              "I will protect my bananas!",
+              "I am the strongest ape!",
+              "I will help Mario!",
+              "Ook! Ook! Ook!"
+            ],
+            description: 'The powerful ape king who protects his banana hoard.'
+          },
+          {
+            name: 'Wario',
+            role: 'The Anti-Hero',
+            startingCoins: 125,
+            startingWeapons: ['strength', 'greed', 'garlic'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'greedy',
+            quotes: [
+              "I am Wario, and I want money!",
+              "I will get rich!",
+              "I am the strongest!",
+              "I will help Mario for money!",
+              "Wah! Wah! Wah!"
+            ],
+            description: 'The greedy anti-hero who loves money and garlic.'
+          },
+          {
+            name: 'Waluigi',
+            role: 'The Tall Anti-Hero',
+            startingCoins: 120,
+            startingWeapons: ['tennis racket', 'mischief', 'height'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'mischievous',
+            quotes: [
+              "I am Waluigi, and I am tall!",
+              "I will cause mischief!",
+              "I am the tallest!",
+              "I will help Mario for fun!",
+              "Wah! Wah! Wah!"
+            ],
+            description: 'The mischievous tall anti-hero who loves causing trouble.'
+          },
+          {
+            name: 'Toadette',
+            role: 'The Pink Mushroom',
+            startingCoins: 115,
+            startingWeapons: ['mushroom', 'cuteness', 'helpfulness'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'cute',
+            quotes: [
+              "I am Toadette, and I am cute!",
+              "I will help everyone!",
+              "I am the cutest mushroom!",
+              "I will help Mario save the day!",
+              "Thank you, Mario!"
+            ],
+            description: 'The cute pink mushroom who loves helping others.'
+          },
+          {
+            name: 'Birdo',
+            role: 'The Pink Dinosaur',
+            startingCoins: 120,
+            startingWeapons: ['eggs', 'cuteness', 'pink power'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'cute',
+            quotes: [
+              "I am Birdo, and I am cute!",
+              "I will lay eggs!",
+              "I am the cutest dinosaur!",
+              "I will help Mario!",
+              "Birdo! Birdo! Birdo!"
+            ],
+            description: 'The cute pink dinosaur who lays eggs.'
+          },
+          {
+            name: 'Daisy',
+            role: 'The Sporty Princess',
+            startingCoins: 130,
+            startingWeapons: ['tennis racket', 'sports', 'energy'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'energetic',
+            quotes: [
+              "I am Daisy, and I love sports!",
+              "I will play tennis!",
+              "I am the sportiest princess!",
+              "I will help Mario win!",
+              "Let's play!"
+            ],
+            description: 'The energetic sporty princess who loves playing games.'
+          },
+          {
+            name: 'Geno',
+            role: 'The Star Spirit',
+            startingCoins: 135,
+            startingWeapons: ['star magic', 'wisdom', 'cosmic power'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'wise',
+            quotes: [
+              "I am Geno, the star spirit!",
+              "I will protect the stars!",
+              "I am the wisest spirit!",
+              "I will help Mario save the world!",
+              "The stars will guide us!"
+            ],
+            description: 'The wise star spirit who protects the cosmos.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Hero', startingCoins: 30, startingWeapons: ['courage'], startingMercenaries: 0, startingCastles: 0, personality: 'brave', quotes: ['We are heroes!', 'Courage!', 'Justice!'] },
+          { name: 'Toad', startingCoins: 25, startingWeapons: ['mushroom'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['We are loyal!', 'Service!', 'Duty!'] },
+          { name: 'Princess', startingCoins: 35, startingWeapons: ['magic'], startingMercenaries: 0, startingCastles: 0, personality: 'gracious', quotes: ['We are royal!', 'Grace!', 'Nobility!'] }
+        ]
+      },
+      bowsersMinions: {
+        name: 'Bowser\'s Minions',
+        color: '#dc2626', // Red
+        description: 'The evil forces led by Bowser, known for their villainy, cunning, and determination to conquer the Mushroom Kingdom',
+        territories: [
+          { name: 'Bowser\'s Castle', cost: 25, description: 'The dark castle where Bowser rules with an iron fist' },
+          { name: 'The Koopa Kingdom', cost: 22, description: 'The kingdom of the Koopa Troopas' },
+          { name: 'The Dark Land', cost: 20, description: 'The shadowy realm where evil creatures dwell' },
+          { name: 'The Lava Pits', cost: 18, description: 'The molten pits where Bowser\'s minions train' },
+          { name: 'The Airship Fleet', cost: 15, description: 'Bowser\'s flying armada of airships' },
+          { name: 'The Underground Fortress', cost: 12, description: 'The hidden fortress beneath the surface' },
+          { name: 'The Magma Caverns', cost: 10, description: 'The fiery caves where evil magic is practiced' },
+          { name: 'The Shadow Realm', cost: 8, description: 'The dark dimension where shadows rule' },
+          { name: 'The Evil Laboratory', cost: 6, description: 'Where Bowser creates his evil inventions' },
+          { name: 'The Minion Barracks', cost: 4, description: 'Where Bowser\'s minions rest and train' }
+        ],
+        characters: [
+          {
+            name: 'Bowser',
+            role: 'The King of Koopas',
+            startingCoins: 150,
+            startingWeapons: ['fire breath', 'shell', 'evil power'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'tyrannical',
+            quotes: [
+              "I am Bowser, King of the Koopas!",
+              "I will conquer the Mushroom Kingdom!",
+              "I am the most powerful villain!",
+              "I will make Princess Peach my queen!",
+              "No one can stop me!"
+            ],
+            description: 'The tyrannical king of the Koopas who seeks to conquer the Mushroom Kingdom.'
+          },
+          {
+            name: 'Bowser Jr.',
+            role: 'The Prince',
+            startingCoins: 140,
+            startingWeapons: ['paintbrush', 'cunning', 'youth'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'mischievous',
+            quotes: [
+              "I am Bowser Jr., and I am the prince!",
+              "I will help my dad conquer everything!",
+              "I am the most mischievous prince!",
+              "I will paint the world in my colors!",
+              "I will be the greatest villain ever!"
+            ],
+            description: 'The mischievous prince who helps his father Bowser in his evil schemes.'
+          },
+          {
+            name: 'Kamek',
+            role: 'The Magikoopa',
+            startingCoins: 135,
+            startingWeapons: ['magic', 'spells', 'wisdom'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'cunning',
+            quotes: [
+              "I am Kamek, the most powerful Magikoopa!",
+              "I will use my magic to help Bowser!",
+              "I am the most cunning wizard!",
+              "I will cast spells on everyone!",
+              "Magic is my greatest weapon!"
+            ],
+            description: 'The cunning Magikoopa who uses magic to help Bowser in his schemes.'
+          },
+          {
+            name: 'Goomba',
+            role: 'The Foot Soldier',
+            startingCoins: 100,
+            startingWeapons: ['stomp', 'numbers', 'loyalty'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "I am Goomba, and I serve Bowser!",
+              "I will stomp on Mario!",
+              "I am the most loyal minion!",
+              "I will follow Bowser anywhere!",
+              "We are many, we are strong!"
+            ],
+            description: 'The loyal foot soldier who serves Bowser with unwavering devotion.'
+          },
+          {
+            name: 'Koopa Troopa',
+            role: 'The Shell Warrior',
+            startingCoins: 110,
+            startingWeapons: ['shell', 'speed', 'determination'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "I am Koopa Troopa, and I am a warrior!",
+              "I will use my shell to fight!",
+              "I am the most determined warrior!",
+              "I will not give up!",
+              "My shell is my weapon!"
+            ],
+            description: 'The determined shell warrior who fights for Bowser with his shell.'
+          },
+          {
+            name: 'Hammer Bro',
+            role: 'The Hammer Thrower',
+            startingCoins: 120,
+            startingWeapons: ['hammer', 'strength', 'accuracy'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'aggressive',
+            quotes: [
+              "I am Hammer Bro, and I throw hammers!",
+              "I will hammer Mario into the ground!",
+              "I am the most aggressive warrior!",
+              "I will not miss my target!",
+              "My hammer is my weapon!"
+            ],
+            description: 'The aggressive hammer thrower who attacks with deadly accuracy.'
+          },
+          {
+            name: 'Boo',
+            role: 'The Ghost',
+            startingCoins: 115,
+            startingWeapons: ['invisibility', 'fear', 'mischief'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'mischievous',
+            quotes: [
+              "I am Boo, and I am a ghost!",
+              "I will scare everyone!",
+              "I am the most mischievous ghost!",
+              "I will play tricks on everyone!",
+              "Boo! Boo! Boo!"
+            ],
+            description: 'The mischievous ghost who plays tricks and scares everyone.'
+          },
+          {
+            name: 'Dry Bones',
+            role: 'The Skeleton',
+            startingCoins: 105,
+            startingWeapons: ['bones', 'undead', 'persistence'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'persistent',
+            quotes: [
+              "I am Dry Bones, and I am undead!",
+              "I will never stay down!",
+              "I am the most persistent skeleton!",
+              "I will keep coming back!",
+              "Death cannot stop me!"
+            ],
+            description: 'The persistent skeleton who never stays down and keeps coming back.'
+          },
+          {
+            name: 'Hammer Bro',
+            role: 'The Hammer Warrior',
+            startingCoins: 115,
+            startingWeapons: ['hammer', 'strength', 'skill'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'skilled',
+            quotes: [
+              "I am Hammer Bro, and I throw hammers!",
+              "I will hit Mario with my hammer!",
+              "I am the most skilled warrior!",
+              "I will not miss!",
+              "Hammer time!"
+            ],
+            description: 'The skilled warrior who throws hammers at Mario.'
+          },
+          {
+            name: 'Chain Chomp',
+            role: 'The Angry Dog',
+            startingCoins: 120,
+            startingWeapons: ['chain', 'anger', 'strength'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'angry',
+            quotes: [
+              "I am Chain Chomp, and I am angry!",
+              "I will bite Mario!",
+              "I am the angriest dog!",
+              "I will break my chain!",
+              "Grrr! Grrr! Grrr!"
+            ],
+            description: 'The angry chained dog who wants to bite Mario.'
+          },
+          {
+            name: 'Lakitu',
+            role: 'The Cloud Rider',
+            startingCoins: 115,
+            startingWeapons: ['cloud', 'spiny eggs', 'flying'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'mischievous',
+            quotes: [
+              "I am Lakitu, and I ride clouds!",
+              "I will drop Spiny eggs on Mario!",
+              "I am the most mischievous rider!",
+              "I will stay in the sky!",
+              "Cloud power!"
+            ],
+            description: 'The mischievous cloud rider who drops Spiny eggs on Mario.'
+          },
+          {
+            name: 'Shy Guy',
+            role: 'The Masked Minion',
+            startingCoins: 105,
+            startingWeapons: ['mask', 'mystery', 'loyalty'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'mysterious',
+            quotes: [
+              "I am Shy Guy, and I wear a mask!",
+              "I will serve Bowser!",
+              "I am the most mysterious minion!",
+              "I will not show my face!",
+              "Mask power!"
+            ],
+            description: 'The mysterious masked minion who serves Bowser.'
+          },
+          {
+            name: 'Piranha Plant',
+            role: 'The Plant Monster',
+            startingCoins: 110,
+            startingWeapons: ['bite', 'plant powers', 'patience'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'patient',
+            quotes: [
+              "I am Piranha Plant, and I bite!",
+              "I will wait for Mario!",
+              "I am the most patient plant!",
+              "I will bite when he comes close!",
+              "Plant power!"
+            ],
+            description: 'The patient plant monster who waits to bite Mario.'
+          },
+          {
+            name: 'Thwomp',
+            role: 'The Crushing Block',
+            startingCoins: 120,
+            startingWeapons: ['crush', 'weight', 'gravity'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'heavy',
+            quotes: [
+              "I am Thwomp, and I crush!",
+              "I will fall on Mario!",
+              "I am the heaviest block!",
+              "I will crush everything!",
+              "Crush power!"
+            ],
+            description: 'The heavy crushing block that falls on Mario.'
+          },
+          {
+            name: 'Bullet Bill',
+            role: 'The Flying Bullet',
+            startingCoins: 115,
+            startingWeapons: ['speed', 'flight', 'explosion'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'fast',
+            quotes: [
+              "I am Bullet Bill, and I fly fast!",
+              "I will chase Mario!",
+              "I am the fastest bullet!",
+              "I will not stop!",
+              "Speed power!"
+            ],
+            description: 'The fast flying bullet that chases Mario.'
+          },
+          {
+            name: 'Bob-omb',
+            role: 'The Walking Bomb',
+            startingCoins: 110,
+            startingWeapons: ['explosion', 'fuse', 'destruction'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'explosive',
+            quotes: [
+              "I am Bob-omb, and I explode!",
+              "I will blow up Mario!",
+              "I am the most explosive bomb!",
+              "I will destroy everything!",
+              "Boom power!"
+            ],
+            description: 'The explosive walking bomb that wants to blow up Mario.'
+          },
+          {
+            name: 'King Boo',
+            role: 'The Ghost King',
+            startingCoins: 125,
+            startingWeapons: ['crown', 'ghostly powers', 'royalty'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'royal',
+            quotes: [
+              "I am King Boo, and I am the king!",
+              "I will rule the ghost world!",
+              "I am the most royal ghost!",
+              "I will command all Boos!",
+              "Royal power!"
+            ],
+            description: 'The royal ghost king who commands all other Boos.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Koopa', startingCoins: 30, startingWeapons: ['shell'], startingMercenaries: 0, startingCastles: 0, personality: 'evil', quotes: ['We are evil!', 'Conquer!', 'Bowser!'] },
+          { name: 'Minion', startingCoins: 25, startingWeapons: ['loyalty'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['We serve!', 'Loyalty!', 'Bowser!'] },
+          { name: 'Villain', startingCoins: 35, startingWeapons: ['evil'], startingMercenaries: 0, startingCastles: 0, personality: 'villainous', quotes: ['We are villains!', 'Evil!', 'Conquer!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Power-Up Factory', cost: 5, description: 'Where magical power-ups are created' },
+      { name: 'The Warp Pipes', cost: 3, description: 'The network of pipes that connect all worlds' },
+      { name: 'The Star Road', cost: 2, description: 'The magical pathway to the stars' },
+      { name: 'The Coin Heaven', cost: 1, description: 'Where all the coins are stored' },
+      { name: 'The 1-Up Mushroom', cost: 4, description: 'The magical mushroom that gives extra lives' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // MONSTER WARS SCENARIO
+  monsterWars: {
+    id: 'monsterWars',
+    name: 'Monster Wars: Classic Monsters Battle (1818-present)',
+    type: 'literary',
+    description: 'The epic battle between the most iconic monsters from classic literature and folklore, where Frankenstein\'s creatures clash with Dracula\'s supernatural hordes in a struggle for dominance over the night.',
+    factions: {
+      frankensteinsMonsters: {
+        name: 'Frankenstein\'s Monsters',
+        color: '#16a34a', // Green
+        description: 'The tragic creatures and misunderstood monsters, known for their strength, intelligence, and deep longing for acceptance and love',
+        territories: [
+          { name: 'The Laboratory', cost: 25, description: 'Dr. Frankenstein\'s secret laboratory where monsters are created' },
+          { name: 'The Arctic Wasteland', cost: 22, description: 'The frozen wilderness where the monster seeks refuge' },
+          { name: 'The Village of Ingolstadt', cost: 20, description: 'The university town where Victor Frankenstein studied' },
+          { name: 'The Monster\'s Cave', cost: 18, description: 'The hidden cave where the monster hides from humanity' },
+          { name: 'The De Lacey Cottage', cost: 15, description: 'Where the monster learned to speak and read' },
+          { name: 'The Swiss Alps', cost: 12, description: 'The majestic mountains where the monster roams' },
+          { name: 'The Graveyard', cost: 10, description: 'Where body parts are gathered for creation' },
+          { name: 'The Lightning Tower', cost: 8, description: 'Where the spark of life is given to the monster' },
+          { name: 'The Monster\'s Lair', cost: 6, description: 'The dark sanctuary where the monster plots' },
+          { name: 'The Creation Chamber', cost: 4, description: 'Where new monsters are brought to life' }
+        ],
+        characters: [
+          {
+            name: 'The Monster',
+            role: 'The Creature',
+            startingCoins: 150,
+            startingWeapons: ['superhuman strength', 'intelligence', 'tragedy'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'tragic',
+            quotes: [
+              "I am the monster, and I am alone in the world!",
+              "I will make my creator pay for abandoning me!",
+              "I am more intelligent than any human!",
+              "I will find someone who will love me!",
+              "I am the most tragic of all creatures!"
+            ],
+            description: 'The tragic creature created by Dr. Frankenstein who seeks love and acceptance.'
+          },
+          {
+            name: 'The Mummy',
+            role: 'The Ancient Pharaoh',
+            startingCoins: 145,
+            startingWeapons: ['ancient curses', 'bandages', 'immortality'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'majestic',
+            quotes: [
+              "I am the Mummy, ancient pharaoh of Egypt!",
+              "I will curse all who disturb my tomb!",
+              "I am the most ancient of monsters!",
+              "I will reclaim my stolen treasures!",
+              "I am eternal, I am immortal!"
+            ],
+            description: 'The ancient Egyptian pharaoh who rises from the dead to seek revenge.'
+          },
+          {
+            name: 'The Wolf Man',
+            role: 'The Cursed Beast',
+            startingCoins: 140,
+            startingWeapons: ['werewolf transformation', 'claws', 'moonlight'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'tormented',
+            quotes: [
+              "I am the Wolf Man, cursed by the moon!",
+              "I will hunt under the full moon!",
+              "I am the most tormented of beasts!",
+              "I will find a cure for my curse!",
+              "I am human by day, wolf by night!"
+            ],
+            description: 'The tormented man cursed to transform into a werewolf under the full moon.'
+          },
+          {
+            name: 'The Invisible Man',
+            role: 'The Mad Scientist',
+            startingCoins: 135,
+            startingWeapons: ['invisibility', 'madness', 'science'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'mad',
+            quotes: [
+              "I am the Invisible Man, unseen by all!",
+              "I will use my invisibility for power!",
+              "I am the maddest of scientists!",
+              "I will make all fear the unseen!",
+              "I am invisible, I am invincible!"
+            ],
+            description: 'The mad scientist who discovered invisibility but lost his sanity in the process.'
+          },
+          {
+            name: 'The Bride of Frankenstein',
+            role: 'The Companion',
+            startingCoins: 130,
+            startingWeapons: ['beauty', 'tragedy', 'rejection'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'tragic',
+            quotes: [
+              "I am the Bride, and I am beautiful!",
+              "I will not be rejected again!",
+              "I am the most tragic of brides!",
+              "I will find my own way!",
+              "I will not be a monster!"
+            ],
+            description: 'The tragic bride who rejects the monster and seeks her own path.'
+          },
+          {
+            name: 'The Creature from the Black Lagoon',
+            role: 'The Gill-Man',
+            startingCoins: 125,
+            startingWeapons: ['underwater strength', 'gills', 'swimming'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'lonely',
+            quotes: [
+              "I am the Gill-Man, ruler of the deep!",
+              "I will protect my lagoon!",
+              "I am the loneliest of creatures!",
+              "I will find love in the depths!",
+              "I am master of the underwater world!"
+            ],
+            description: 'The lonely creature from the depths who seeks companionship.'
+          },
+          {
+            name: 'The Phantom of the Opera',
+            role: 'The Masked Genius',
+            startingCoins: 120,
+            startingWeapons: ['musical genius', 'mask', 'underground lair'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'romantic',
+            quotes: [
+              "I am the Phantom, master of music!",
+              "I will make Christine love me!",
+              "I am the most romantic of monsters!",
+              "I will compose the greatest opera!",
+              "I am the angel of music!"
+            ],
+            description: 'The romantic genius who lives beneath the opera house and seeks love.'
+          },
+          {
+            name: 'Dracula',
+            role: 'The Vampire Lord',
+            startingCoins: 150,
+            startingWeapons: ['vampiric powers', 'hypnosis', 'shapeshifting'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'aristocratic',
+            quotes: [
+              "I am Dracula, lord of the undead!",
+              "I will rule the night forever!",
+              "I am the most powerful vampire!",
+              "I will make all bow before me!",
+              "I am the master of darkness!"
+            ],
+            description: 'The aristocratic vampire lord who rules the night and seeks to spread his curse.'
+          },
+          {
+            name: 'Van Helsing',
+            role: 'The Vampire Hunter',
+            startingCoins: 145,
+            startingWeapons: ['holy water', 'cross', 'knowledge'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'determined',
+            quotes: [
+              "I am Van Helsing, the vampire hunter!",
+              "I will destroy all vampires!",
+              "I am the most determined hunter!",
+              "I will protect the innocent!",
+              "I will not rest until evil is destroyed!"
+            ],
+            description: 'The determined vampire hunter who seeks to destroy Dracula and protect the innocent.'
+          },
+          {
+            name: 'Mina Harker',
+            role: 'The Victim',
+            startingCoins: 130,
+            startingWeapons: ['purity', 'love', 'determination'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'pure',
+            quotes: [
+              "I am Mina Harker, and I will not be corrupted!",
+              "I will resist the vampire\'s curse!",
+              "I am the purest of women!",
+              "I will help destroy Dracula!",
+              "I will not become a monster!"
+            ],
+            description: 'The pure woman who becomes Dracula\'s victim but helps destroy him.'
+          },
+          {
+            name: 'Jonathan Harker',
+            role: 'The Victim',
+            startingCoins: 125,
+            startingWeapons: ['courage', 'love', 'determination'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'brave',
+            quotes: [
+              "I am Jonathan Harker, and I will not give up!",
+              "I will escape from Dracula\'s castle!",
+              "I am the bravest of men!",
+              "I will protect my wife!",
+              "I will not be broken!"
+            ],
+            description: 'The brave man who becomes Dracula\'s prisoner but escapes to help destroy him.'
+          },
+          {
+            name: 'Renfield',
+            role: 'The Servant',
+            startingCoins: 115,
+            startingWeapons: ['insanity', 'loyalty', 'flies'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'insane',
+            quotes: [
+              "I am Renfield, and I serve my master!",
+              "I will eat flies for my master!",
+              "I am the most loyal servant!",
+              "I will do whatever is asked!",
+              "I will not fail my master!"
+            ],
+            description: 'The insane servant who serves Dracula and eats flies for him.'
+          },
+          {
+            name: 'Lucy Westenra',
+            role: 'The Victim',
+            startingCoins: 120,
+            startingWeapons: ['beauty', 'innocence', 'vulnerability'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'innocent',
+            quotes: [
+              "I am Lucy Westenra, and I\'m innocent!",
+              "I will not be corrupted!",
+              "I am the most innocent woman!",
+              "I will resist the vampire\'s curse!",
+              "I will not become a monster!"
+            ],
+            description: 'The innocent woman who becomes Dracula\'s first victim and is turned into a vampire.'
+          },
+          {
+            name: 'The Wolf Man',
+            role: 'The Werewolf',
+            startingCoins: 135,
+            startingWeapons: ['lycanthropy', 'claws', 'strength'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'tragic',
+            quotes: [
+              "I am the Wolf Man, and I\'m cursed!",
+              "I will transform under the full moon!",
+              "I am the most tragic of monsters!",
+              "I will not harm the innocent!",
+              "I will find a cure!"
+            ],
+            description: 'The tragic werewolf who transforms under the full moon and seeks a cure.'
+          },
+          {
+            name: 'The Hunchback of Notre Dame',
+            role: 'The Bell Ringer',
+            startingCoins: 115,
+            startingWeapons: ['strength', 'kindness', 'bells'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'kind',
+            quotes: [
+              "I am Quasimodo, the bell ringer!",
+              "I will protect Esmeralda!",
+              "I am the kindest of monsters!",
+              "I will ring the bells for freedom!",
+              "I am the guardian of Notre Dame!"
+            ],
+            description: 'The kind-hearted bell ringer who protects the innocent.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Monster', startingCoins: 30, startingWeapons: ['strength'], startingMercenaries: 0, startingCastles: 0, personality: 'tragic', quotes: ['We are monsters!', 'Tragedy!', 'Rejection!'] },
+          { name: 'Scientist', startingCoins: 25, startingWeapons: ['knowledge'], startingMercenaries: 0, startingCastles: 0, personality: 'tormented', quotes: ['We are scientists!', 'Knowledge!', 'Guilt!'] },
+          { name: 'Victim', startingCoins: 35, startingWeapons: ['innocence'], startingMercenaries: 0, startingCastles: 0, personality: 'innocent', quotes: ['We are victims!', 'Innocence!', 'Sacrifice!'] }
+        ]
+      },
+      draculasVampires: {
+        name: 'Dracula\'s Supernatural Hordes',
+        color: '#dc2626', // Red
+        description: 'The ancient supernatural creatures led by Count Dracula, known for their immortality, supernatural powers, and insatiable thirst for blood and souls',
+        territories: [
+          { name: 'Castle Dracula', cost: 25, description: 'The ancient castle where Count Dracula rules' },
+          { name: 'Transylvania', cost: 22, description: 'The dark land where supernatural creatures have ruled for centuries' },
+          { name: 'The Crypt', cost: 20, description: 'The underground chamber where Dracula sleeps' },
+          { name: 'The Blood Chapel', cost: 18, description: 'The sacred place where supernatural creatures worship' },
+          { name: 'The Vampire\'s Lair', cost: 15, description: 'The hidden lair where supernatural creatures gather' },
+          { name: 'The Moonlight Garden', cost: 12, description: 'Where supernatural creatures walk in the pale moonlight' },
+          { name: 'The Coffin Chamber', cost: 10, description: 'Where supernatural creatures rest during the day' },
+          { name: 'The Blood Fountain', cost: 8, description: 'The eternal source of supernatural power' },
+          { name: 'The Shadow Realm', cost: 6, description: 'The dark dimension where supernatural creatures dwell' },
+          { name: 'The Eternal Night', cost: 4, description: 'The endless darkness that supernatural creatures love' }
+        ],
+        characters: [
+          {
+            name: 'Count Dracula',
+            role: 'The Vampire King',
+            startingCoins: 150,
+            startingWeapons: ['immortality', 'supernatural powers', 'hypnosis'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'majestic',
+            quotes: [
+              "I am Count Dracula, the vampire king!",
+              "I will rule the night forever!",
+              "I am the most powerful vampire!",
+              "I will make all bow before me!",
+              "I am eternal, I am immortal!"
+            ],
+            description: 'The majestic vampire king who rules the night with supernatural powers.'
+          },
+          {
+            name: 'The Wicked Witch of the West',
+            role: 'The Sorceress',
+            startingCoins: 145,
+            startingWeapons: ['magic', 'flying monkeys', 'curses'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'wicked',
+            quotes: [
+              "I am the Wicked Witch, ruler of the West!",
+              "I will make all fear my magic!",
+              "I am the most wicked of witches!",
+              "I will get those ruby slippers!",
+              "I am the most powerful sorceress!"
+            ],
+            description: 'The wicked sorceress who rules the western lands with dark magic.'
+          },
+          {
+            name: 'The Headless Horseman',
+            role: 'The Spectral Rider',
+            startingCoins: 140,
+            startingWeapons: ['pumpkin head', 'horse', 'fear'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'terrifying',
+            quotes: [
+              "I am the Headless Horseman, rider of the night!",
+              "I will haunt Sleepy Hollow forever!",
+              "I am the most terrifying specter!",
+              "I will chase all who dare enter!",
+              "I am the ghost of the battlefield!"
+            ],
+            description: 'The terrifying spectral rider who haunts Sleepy Hollow.'
+          },
+          {
+            name: 'Victor Frankenstein',
+            role: 'The Creator',
+            startingCoins: 145,
+            startingWeapons: ['scientific knowledge', 'ambition', 'guilt'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'ambitious',
+            quotes: [
+              "I am Victor Frankenstein, the creator!",
+              "I will unlock the secrets of life!",
+              "I am the most ambitious scientist!",
+              "I will create life from death!",
+              "I will not be stopped!"
+            ],
+            description: 'The ambitious scientist who creates life but abandons his creation.'
+          },
+          {
+            name: 'Igor',
+            role: 'The Assistant',
+            startingCoins: 120,
+            startingWeapons: ['loyalty', 'hunchback', 'servitude'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "I am Igor, and I serve my master!",
+              "I will help create monsters!",
+              "I am the most loyal assistant!",
+              "I will do whatever is asked!",
+              "I will not fail my master!"
+            ],
+            description: 'The loyal hunchbacked assistant who helps create monsters.'
+          },
+          {
+            name: 'Elizabeth',
+            role: 'The Bride',
+            startingCoins: 130,
+            startingWeapons: ['beauty', 'innocence', 'love'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'innocent',
+            quotes: [
+              "I am Elizabeth, and I love Victor!",
+              "I will be the perfect bride!",
+              "I am the most innocent woman!",
+              "I will bring happiness to Victor!",
+              "I will not be afraid!"
+            ],
+            description: 'The innocent bride who becomes a victim of the monster\'s revenge.'
+          },
+          {
+            name: 'The Bride of Frankenstein',
+            role: 'The Created Bride',
+            startingCoins: 135,
+            startingWeapons: ['beauty', 'strength', 'independence'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'independent',
+            quotes: [
+              "I am the Bride of Frankenstein!",
+              "I will not be controlled!",
+              "I am the most independent bride!",
+              "I will choose my own destiny!",
+              "I will not be a slave!"
+            ],
+            description: 'The independent bride who refuses to be controlled by anyone.'
+          },
+          {
+            name: 'Dr. Pretorius',
+            role: 'The Mad Scientist',
+            startingCoins: 140,
+            startingWeapons: ['scientific knowledge', 'madness', 'ambition'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'mad',
+            quotes: [
+              "I am Dr. Pretorius, the mad scientist!",
+              "I will create the perfect race!",
+              "I am the maddest scientist!",
+              "I will not be stopped by morality!",
+              "I will achieve godlike power!"
+            ],
+            description: 'The mad scientist who helps create the bride and seeks godlike power.'
+          },
+          {
+            name: 'Fritz',
+            role: 'The Assistant',
+            startingCoins: 115,
+            startingWeapons: ['loyalty', 'fear', 'servitude'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'fearful',
+            quotes: [
+              "I am Fritz, and I'm afraid!",
+              "I will help my master!",
+              "I am the most fearful assistant!",
+              "I will do what I'm told!",
+              "I will not disobey!"
+            ],
+            description: 'The fearful assistant who helps with the monster\'s creation.'
+          },
+          {
+            name: 'Waldman',
+            role: 'The Professor',
+            startingCoins: 125,
+            startingWeapons: ['knowledge', 'wisdom', 'teaching'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "I am Waldman, the professor!",
+              "I will teach the secrets of life!",
+              "I am the wisest professor!",
+              "I will guide my students!",
+              "I will not be corrupted!"
+            ],
+            description: 'The wise professor who teaches Victor about the secrets of life.'
+          },
+          {
+            name: 'The Wicked Stepmother',
+            role: 'The Evil Queen',
+            startingCoins: 135,
+            startingWeapons: ['magic mirror', 'poison', 'jealousy'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'jealous',
+            quotes: [
+              "I am the Evil Queen, fairest of all!",
+              "I will destroy Snow White!",
+              "I am the most jealous of queens!",
+              "I will be the fairest in the land!",
+              "I am the most powerful sorceress!"
+            ],
+            description: 'The jealous queen who uses dark magic to maintain her beauty.'
+          },
+          {
+            name: 'The Big Bad Wolf',
+            role: 'The Predator',
+            startingCoins: 130,
+            startingWeapons: ['sharp teeth', 'cunning', 'disguise'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'cunning',
+            quotes: [
+              "I am the Big Bad Wolf, hunter of the forest!",
+              "I will huff and puff and blow houses down!",
+              "I am the most cunning of predators!",
+              "I will catch Little Red Riding Hood!",
+              "I am the master of disguise!"
+            ],
+            description: 'The cunning predator who hunts in the forest with clever disguises.'
+          },
+          {
+            name: 'The Wicked Witch of the East',
+            role: 'The Crushed Sorceress',
+            startingCoins: 125,
+            startingWeapons: ['ruby slippers', 'magic', 'vengeance'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'vengeful',
+            quotes: [
+              "I am the Wicked Witch of the East!",
+              "I will get my ruby slippers back!",
+              "I am the most vengeful of witches!",
+              "I will crush Dorothy and her friends!",
+              "I am the most powerful sorceress!"
+            ],
+            description: 'The vengeful witch who seeks to reclaim her stolen ruby slippers.'
+          },
+          {
+            name: 'The Jabberwocky',
+            role: 'The Nonsense Monster',
+            startingCoins: 120,
+            startingWeapons: ['nonsense', 'confusion', 'chaos'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'chaotic',
+            quotes: [
+              "I am the Jabberwocky, creature of nonsense!",
+              "I will confuse all who encounter me!",
+              "I am the most chaotic of monsters!",
+              "I will spread nonsense everywhere!",
+              "I am the master of confusion!"
+            ],
+            description: 'The chaotic creature from Wonderland who spreads nonsense and confusion.'
+          },
+          {
+            name: 'The Wicked Witch of the North',
+            role: 'The Ice Sorceress',
+            startingCoins: 115,
+            startingWeapons: ['ice magic', 'cold', 'winter'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cold',
+            quotes: [
+              "I am the Wicked Witch of the North!",
+              "I will freeze all who oppose me!",
+              "I am the coldest of witches!",
+              "I will bring eternal winter!",
+              "I am the mistress of ice and snow!"
+            ],
+            description: 'The cold-hearted witch who rules the frozen northern lands.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Vampire', startingCoins: 30, startingWeapons: ['fangs'], startingMercenaries: 0, startingCastles: 0, personality: 'majestic', quotes: ['We are vampires!', 'Immortality!', 'The night!'] },
+          { name: 'Witch', startingCoins: 25, startingWeapons: ['magic'], startingMercenaries: 0, startingCastles: 0, personality: 'wicked', quotes: ['We are witches!', 'Magic!', 'Power!'] },
+          { name: 'Hunter', startingCoins: 35, startingWeapons: ['holy water'], startingMercenaries: 0, startingCastles: 0, personality: 'determined', quotes: ['We hunt!', 'Destruction!', 'Justice!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Graveyard', cost: 5, description: 'Where the dead rest and monsters rise' },
+      { name: 'The Full Moon', cost: 3, description: 'The celestial body that gives monsters power' },
+      { name: 'The Thunderstorm', cost: 2, description: 'The electrical storm that brings life to monsters' },
+      { name: 'The Blood Moon', cost: 1, description: 'The red moon that empowers vampires' },
+      { name: 'The Eternal Night', cost: 4, description: 'The endless darkness where monsters rule' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // ROMAN MYTHOLOGY SCENARIO
+  romanMythology: {
+    id: 'romanMythology',
+    name: 'Roman Mythology: The Eternal City\'s Pantheon (753 BC-476 AD)',
+    type: 'mythology',
+    description: 'The epic world of Roman mythology where gods, heroes, and legendary figures clash in the eternal struggle for power and glory in the ancient Roman Empire.',
+    factions: {
+      olympians: {
+        name: 'The Olympian Gods',
+        color: '#1e40af', // Blue
+        description: 'The supreme gods of Mount Olympus, known for their power, wisdom, and divine authority over the heavens and earth',
+        territories: [
+          { name: 'Mount Olympus', cost: 25, description: 'The sacred mountain where the gods reside' },
+          { name: 'The Temple of Jupiter', cost: 22, description: 'The grand temple dedicated to the king of gods' },
+          { name: 'The Forum Romanum', cost: 20, description: 'The heart of Roman political and religious life' },
+          { name: 'The Capitoline Hill', cost: 18, description: 'The sacred hill where Jupiter\'s temple stands' },
+          { name: 'The Palatine Hill', cost: 15, description: 'The hill where the imperial palace was built' },
+          { name: 'The Aventine Hill', cost: 12, description: 'The hill sacred to Ceres and Liber' },
+          { name: 'The Quirinal Hill', cost: 10, description: 'The hill sacred to Quirinus' },
+          { name: 'The Caelian Hill', cost: 8, description: 'The hill sacred to Mars' },
+          { name: 'The Esquiline Hill', cost: 6, description: 'The hill sacred to Diana' },
+          { name: 'The Viminal Hill', cost: 4, description: 'The hill sacred to Vesta' }
+        ],
+        characters: [
+          {
+            name: 'Jupiter',
+            role: 'The King of Gods',
+            startingCoins: 150,
+            startingWeapons: ['thunderbolt', 'eagle', 'divine authority'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'majestic',
+            quotes: [
+              "I am Jupiter, king of all gods!",
+              "I will rule the heavens and earth!",
+              "I am the most powerful of all gods!",
+              "I will strike down all who oppose me!",
+              "I am the father of gods and men!"
+            ],
+            description: 'The majestic king of the Roman pantheon who rules with divine authority.'
+          },
+          {
+            name: 'Juno',
+            role: 'The Queen of Gods',
+            startingCoins: 145,
+            startingWeapons: ['peacock', 'marriage', 'divine power'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'regal',
+            quotes: [
+              "I am Juno, queen of all gods!",
+              "I will protect all women and marriage!",
+              "I am the most regal of all goddesses!",
+              "I will defend the sanctity of marriage!",
+              "I am the protector of all women!"
+            ],
+            description: 'The regal queen of the Roman pantheon who protects women and marriage.'
+          },
+          {
+            name: 'Neptune',
+            role: 'The God of the Sea',
+            startingCoins: 140,
+            startingWeapons: ['trident', 'horses', 'earthquakes'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'powerful',
+            quotes: [
+              "I am Neptune, god of the sea!",
+              "I will rule all the oceans!",
+              "I am the most powerful of sea gods!",
+              "I will cause earthquakes with my trident!",
+              "I am the master of all waters!"
+            ],
+            description: 'The powerful god of the sea who rules all oceans and causes earthquakes.'
+          },
+          {
+            name: 'Minerva',
+            role: 'The Goddess of Wisdom',
+            startingCoins: 135,
+            startingWeapons: ['owl', 'wisdom', 'strategy'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'wise',
+            quotes: [
+              "I am Minerva, goddess of wisdom!",
+              "I will guide all who seek knowledge!",
+              "I am the wisest of all goddesses!",
+              "I will teach strategy and warfare!",
+              "I am the patron of all learning!"
+            ],
+            description: 'The wise goddess of wisdom who guides all who seek knowledge.'
+          },
+          {
+            name: 'Apollo',
+            role: 'The God of the Sun',
+            startingCoins: 130,
+            startingWeapons: ['bow', 'lyre', 'prophecy'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'radiant',
+            quotes: [
+              "I am Apollo, god of the sun!",
+              "I will bring light to all the world!",
+              "I am the most radiant of all gods!",
+              "I will inspire all with music and poetry!",
+              "I am the master of all arts!"
+            ],
+            description: 'The radiant god of the sun who brings light and inspires the arts.'
+          },
+          {
+            name: 'Diana',
+            role: 'The Goddess of the Hunt',
+            startingCoins: 125,
+            startingWeapons: ['bow', 'hunting', 'wilderness'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'wild',
+            quotes: [
+              "I am Diana, goddess of the hunt!",
+              "I will protect all wild animals!",
+              "I am the wildest of all goddesses!",
+              "I will hunt in the deepest forests!",
+              "I am the mistress of all wilderness!"
+            ],
+            description: 'The wild goddess of the hunt who protects all wild animals.'
+          },
+          {
+            name: 'Vulcan',
+            role: 'The God of Fire',
+            startingCoins: 130,
+            startingWeapons: ['hammer', 'forge', 'fire'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'skilled',
+            quotes: [
+              "I am Vulcan, god of fire and forge!",
+              "I will forge the greatest weapons!",
+              "I am the most skilled craftsman!",
+              "I will create masterpieces!",
+              "I am the master of all fire!"
+            ],
+            description: 'The skilled god of fire and forge who creates masterpieces.'
+          },
+          {
+            name: 'Mercury',
+            role: 'The Messenger God',
+            startingCoins: 120,
+            startingWeapons: ['winged sandals', 'caduceus', 'speed'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'swift',
+            quotes: [
+              "I am Mercury, messenger of the gods!",
+              "I will deliver messages with speed!",
+              "I am the swiftest of all gods!",
+              "I will travel between worlds!",
+              "I am the guide of souls!"
+            ],
+            description: 'The swift messenger god who travels between worlds and guides souls.'
+          },
+          {
+            name: 'Mars',
+            role: 'The God of War',
+            startingCoins: 140,
+            startingWeapons: ['spear', 'shield', 'warfare'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'warlike',
+            quotes: [
+              "I am Mars, god of war!",
+              "I will lead all warriors to victory!",
+              "I am the most warlike of all gods!",
+              "I will protect all soldiers in battle!",
+              "I am the father of all Romans!"
+            ],
+            description: 'The warlike god of war who leads warriors to victory.'
+          },
+          {
+            name: 'Venus',
+            role: 'The Goddess of Love',
+            startingCoins: 135,
+            startingWeapons: ['beauty', 'love', 'desire'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'beautiful',
+            quotes: [
+              "I am Venus, goddess of love!",
+              "I will inspire all with beauty!",
+              "I am the most beautiful of all goddesses!",
+              "I will bring love to all hearts!",
+              "I am the mother of all Romans!"
+            ],
+            description: 'The beautiful goddess of love who inspires all with beauty.'
+          }
+        ],
+        generalRoles: [
+          { name: 'God', startingCoins: 30, startingWeapons: ['divine power'], startingMercenaries: 0, startingCastles: 0, personality: 'majestic', quotes: ['We are gods!', 'Divine power!', 'Olympus!'] },
+          { name: 'Goddess', startingCoins: 25, startingWeapons: ['divine grace'], startingMercenaries: 0, startingCastles: 0, personality: 'regal', quotes: ['We are goddesses!', 'Divine grace!', 'Beauty!'] },
+          { name: 'Divine', startingCoins: 35, startingWeapons: ['divine authority'], startingMercenaries: 0, startingCastles: 0, personality: 'powerful', quotes: ['We are divine!', 'Authority!', 'Power!'] }
+        ]
+      },
+      heroes: {
+        name: 'The Roman Heroes',
+        color: '#dc2626', // Red
+        description: 'The legendary heroes and demigods of Rome, known for their courage, strength, and heroic deeds that shaped the destiny of the Eternal City',
+        territories: [
+          { name: 'The Colosseum', cost: 25, description: 'The grand amphitheater where gladiators fought' },
+          { name: 'The Circus Maximus', cost: 22, description: 'The great chariot racing stadium' },
+          { name: 'The Campus Martius', cost: 20, description: 'The field of Mars where soldiers trained' },
+          { name: 'The Appian Way', cost: 18, description: 'The great road that connected Rome to the empire' },
+          { name: 'The Pantheon', cost: 15, description: 'The temple dedicated to all gods' },
+          { name: 'The Baths of Caracalla', cost: 12, description: 'The grand public baths' },
+          { name: 'The Trajan\'s Column', cost: 10, description: 'The monument celebrating Trajan\'s victories' },
+          { name: 'The Arch of Constantine', cost: 8, description: 'The triumphal arch celebrating Constantine\'s victory' },
+          { name: 'The Roman Forum', cost: 6, description: 'The center of Roman public life' },
+          { name: 'The Palatine Palace', cost: 4, description: 'The imperial residence on the Palatine Hill' }
+        ],
+        characters: [
+          {
+            name: 'Romulus',
+            role: 'The Founder of Rome',
+            startingCoins: 150,
+            startingWeapons: ['sword', 'leadership', 'foundation'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'foundational',
+            quotes: [
+              "I am Romulus, founder of Rome!",
+              "I will build the greatest city ever!",
+              "I am the most foundational of all heroes!",
+              "I will establish the Roman people!",
+              "I am the first king of Rome!"
+            ],
+            description: 'The foundational hero who founded Rome and became its first king.'
+          },
+          {
+            name: 'Remus',
+            role: 'The Twin Brother',
+            startingCoins: 145,
+            startingWeapons: ['brotherhood', 'sacrifice', 'destiny'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'sacrificial',
+            quotes: [
+              "I am Remus, twin brother of Romulus!",
+              "I will help my brother build Rome!",
+              "I am the most sacrificial of all heroes!",
+              "I will give my life for Rome!",
+              "I am the twin who made Rome possible!"
+            ],
+            description: 'The sacrificial twin brother who helped Romulus found Rome.'
+          },
+          {
+            name: 'Aeneas',
+            role: 'The Trojan Hero',
+            startingCoins: 140,
+            startingWeapons: ['sword', 'destiny', 'piety'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'pious',
+            quotes: [
+              "I am Aeneas, hero of Troy!",
+              "I will fulfill my destiny in Italy!",
+              "I am the most pious of all heroes!",
+              "I will establish the Roman race!",
+              "I am the ancestor of all Romans!"
+            ],
+            description: 'The pious Trojan hero who fulfilled his destiny by establishing the Roman race.'
+          },
+          {
+            name: 'Horatius',
+            role: 'The Bridge Defender',
+            startingCoins: 135,
+            startingWeapons: ['sword', 'courage', 'defense'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'brave',
+            quotes: [
+              "I am Horatius, defender of the bridge!",
+              "I will hold the bridge against all enemies!",
+              "I am the bravest of all heroes!",
+              "I will defend Rome with my life!",
+              "I am the guardian of the Tiber!"
+            ],
+            description: 'The brave hero who defended the bridge against overwhelming odds.'
+          },
+          {
+            name: 'Scipio Africanus',
+            role: 'The Conqueror of Carthage',
+            startingCoins: 140,
+            startingWeapons: ['strategy', 'leadership', 'victory'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'strategic',
+            quotes: [
+              "I am Scipio, conqueror of Carthage!",
+              "I will defeat Hannibal and save Rome!",
+              "I am the most strategic of all heroes!",
+              "I will bring victory to Rome!",
+              "I am the savior of the Republic!"
+            ],
+            description: 'The strategic hero who defeated Hannibal and saved Rome from Carthage.'
+          },
+          {
+            name: 'Julius Caesar',
+            role: 'The Dictator',
+            startingCoins: 145,
+            startingWeapons: ['sword', 'ambition', 'conquest'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'ambitious',
+            quotes: [
+              "I am Caesar, dictator of Rome!",
+              "I will conquer all of Gaul!",
+              "I am the most ambitious of all heroes!",
+              "I will cross the Rubicon!",
+              "I am the greatest general of Rome!"
+            ],
+            description: 'The ambitious dictator who conquered Gaul and crossed the Rubicon.'
+          },
+          {
+            name: 'Augustus',
+            role: 'The First Emperor',
+            startingCoins: 150,
+            startingWeapons: ['imperial power', 'peace', 'prosperity'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'imperial',
+            quotes: [
+              "I am Augustus, first emperor of Rome!",
+              "I will bring peace and prosperity!",
+              "I am the most imperial of all heroes!",
+              "I will establish the Roman Empire!",
+              "I am the father of the country!"
+            ],
+            description: 'The imperial first emperor who established the Roman Empire.'
+          },
+          {
+            name: 'Constantine',
+            role: 'The Christian Emperor',
+            startingCoins: 145,
+            startingWeapons: ['cross', 'faith', 'conversion'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'faithful',
+            quotes: [
+              "I am Constantine, Christian emperor!",
+              "I will convert Rome to Christianity!",
+              "I am the most faithful of all heroes!",
+              "I will see the cross in the sky!",
+              "I am the defender of the faith!"
+            ],
+            description: 'The faithful emperor who converted Rome to Christianity.'
+          },
+          {
+            name: 'Marcus Aurelius',
+            role: 'The Philosopher Emperor',
+            startingCoins: 140,
+            startingWeapons: ['wisdom', 'stoicism', 'philosophy'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'wise',
+            quotes: [
+              "I am Marcus Aurelius, philosopher emperor!",
+              "I will rule with wisdom and virtue!",
+              "I am the wisest of all emperors!",
+              "I will practice stoicism!",
+              "I am the philosopher king!"
+            ],
+            description: 'The wise emperor who ruled with philosophy and virtue.'
+          },
+          {
+            name: 'Scipio Africanus',
+            role: 'The Conqueror',
+            startingCoins: 135,
+            startingWeapons: ['strategy', 'courage', 'victory'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'strategic',
+            quotes: [
+              "I am Scipio Africanus, the conqueror!",
+              "I will defeat Hannibal!",
+              "I am the most strategic of all generals!",
+              "I will conquer Africa!",
+              "I am the savior of Rome!"
+            ],
+            description: 'The strategic general who defeated Hannibal and conquered Africa.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Hero', startingCoins: 30, startingWeapons: ['courage'], startingMercenaries: 0, startingCastles: 0, personality: 'brave', quotes: ['We are heroes!', 'Courage!', 'Glory!'] },
+          { name: 'General', startingCoins: 25, startingWeapons: ['strategy'], startingMercenaries: 0, startingCastles: 0, personality: 'strategic', quotes: ['We are generals!', 'Strategy!', 'Victory!'] },
+          { name: 'Emperor', startingCoins: 35, startingWeapons: ['imperial power'], startingMercenaries: 0, startingCastles: 0, personality: 'imperial', quotes: ['We are emperors!', 'Power!', 'Empire!'] }
+        ]
+      },
+      mortals: {
+        name: 'The Roman People',
+        color: '#16a34a', // Green
+        description: 'The common people of Rome, known for their resilience, loyalty, and determination to build and defend the greatest empire the world has ever known',
+        territories: [
+          { name: 'The Subura', cost: 25, description: 'The crowded district where common people lived' },
+          { name: 'The Trastevere', cost: 22, description: 'The working-class district across the Tiber' },
+          { name: 'The Aventine Hill', cost: 20, description: 'The hill where plebeians gathered' },
+          { name: 'The Tiber River', cost: 18, description: 'The lifeblood of Rome' },
+          { name: 'The Port of Ostia', cost: 15, description: 'The gateway to the Mediterranean' },
+          { name: 'The Via Appia', cost: 12, description: 'The queen of roads' },
+          { name: 'The Aqueducts', cost: 10, description: 'The engineering marvels that brought water to Rome' },
+          { name: 'The Markets', cost: 8, description: 'Where all goods were bought and sold' },
+          { name: 'The Workshops', cost: 6, description: 'Where craftsmen created their wares' },
+          { name: 'The Taverns', cost: 4, description: 'Where people gathered to eat and drink' }
+        ],
+        characters: [
+          {
+            name: 'Cincinnatus',
+            role: 'The Farmer-Dictator',
+            startingCoins: 140,
+            startingWeapons: ['plow', 'virtue', 'sacrifice'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'virtuous',
+            quotes: [
+              "I am Cincinnatus, farmer and dictator!",
+              "I will serve Rome when called!",
+              "I am the most virtuous of all Romans!",
+              "I will return to my farm after victory!",
+              "I am the model of Roman virtue!"
+            ],
+            description: 'The virtuous farmer who became dictator to save Rome and then returned to his farm.'
+          },
+          {
+            name: 'Lucretia',
+            role: 'The Virtuous Matron',
+            startingCoins: 135,
+            startingWeapons: ['virtue', 'honor', 'sacrifice'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'honorable',
+            quotes: [
+              "I am Lucretia, virtuous matron!",
+              "I will defend my honor with my life!",
+              "I am the most honorable of all women!",
+              "I will inspire the overthrow of tyranny!",
+              "I am the symbol of Roman virtue!"
+            ],
+            description: 'The honorable matron whose virtue inspired the overthrow of the Tarquin kings.'
+          },
+          {
+            name: 'Regulus',
+            role: 'The Honorable General',
+            startingCoins: 130,
+            startingWeapons: ['honor', 'oath', 'sacrifice'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'honorable',
+            quotes: [
+              "I am Regulus, honorable general!",
+              "I will keep my word even in death!",
+              "I am the most honorable of all generals!",
+              "I will return to Carthage as promised!",
+              "I am the model of Roman honor!"
+            ],
+            description: 'The honorable general who kept his word and returned to Carthage to face death.'
+          },
+          {
+            name: 'Cornelia',
+            role: 'The Mother of the Gracchi',
+            startingCoins: 125,
+            startingWeapons: ['motherhood', 'education', 'virtue'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'nurturing',
+            quotes: [
+              "I am Cornelia, mother of the Gracchi!",
+              "I will raise my sons to be great men!",
+              "I am the most nurturing of all mothers!",
+              "I will educate my children in virtue!",
+              "I am the mother of Roman reformers!"
+            ],
+            description: 'The nurturing mother who raised the Gracchi brothers to be great reformers.'
+          },
+          {
+            name: 'Verginia',
+            role: 'The Plebeian Heroine',
+            startingCoins: 120,
+            startingWeapons: ['freedom', 'justice', 'sacrifice'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'just',
+            quotes: [
+              "I am Verginia, plebeian heroine!",
+              "I will fight for freedom and justice!",
+              "I am the most just of all plebeians!",
+              "I will sacrifice myself for the people!",
+              "I am the champion of plebeian rights!"
+            ],
+            description: 'The just plebeian heroine who fought for freedom and justice.'
+          },
+          {
+            name: 'Mucius Scaevola',
+            role: 'The Left-Handed Hero',
+            startingCoins: 115,
+            startingWeapons: ['courage', 'sacrifice', 'determination'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'determined',
+            quotes: [
+              "I am Mucius Scaevola, left-handed hero!",
+              "I will burn my right hand to show my courage!",
+              "I am the most determined of all heroes!",
+              "I will show the enemy Roman courage!",
+              "I am the symbol of Roman determination!"
+            ],
+            description: 'The determined hero who burned his right hand to show his courage.'
+          },
+          {
+            name: 'Cloelia',
+            role: 'The Brave Hostage',
+            startingCoins: 110,
+            startingWeapons: ['courage', 'swimming', 'freedom'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'brave',
+            quotes: [
+              "I am Cloelia, brave hostage!",
+              "I will swim across the Tiber to freedom!",
+              "I am the bravest of all hostages!",
+              "I will lead others to freedom!",
+              "I am the symbol of Roman courage!"
+            ],
+            description: 'The brave hostage who swam across the Tiber to freedom.'
+          },
+          {
+            name: 'Horatius Cocles',
+            role: 'The One-Eyed Hero',
+            startingCoins: 105,
+            startingWeapons: ['courage', 'defense', 'sacrifice'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'heroic',
+            quotes: [
+              "I am Horatius Cocles, one-eyed hero!",
+              "I will defend the bridge alone!",
+              "I am the most heroic of all defenders!",
+              "I will hold the line against all enemies!",
+              "I am the guardian of Rome!"
+            ],
+            description: 'The heroic defender who held the bridge alone against overwhelming odds.'
+          },
+          {
+            name: 'Cicero',
+            role: 'The Orator',
+            startingCoins: 130,
+            startingWeapons: ['eloquence', 'wisdom', 'rhetoric'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'eloquent',
+            quotes: [
+              "I am Cicero, the greatest orator!",
+              "I will speak with eloquence and wisdom!",
+              "I am the most eloquent of all Romans!",
+              "I will defend the Republic with words!",
+              "I am the master of rhetoric!"
+            ],
+            description: 'The eloquent orator who defended the Republic with his words.'
+          },
+          {
+            name: 'Virgil',
+            role: 'The Poet',
+            startingCoins: 125,
+            startingWeapons: ['poetry', 'epic verse', 'inspiration'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'inspired',
+            quotes: [
+              "I am Virgil, the greatest poet!",
+              "I will write the greatest epic!",
+              "I am the most inspired of all poets!",
+              "I will tell the story of Rome!",
+              "I am the master of epic verse!"
+            ],
+            description: 'The inspired poet who wrote the Aeneid and told the story of Rome.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Plebeian', startingCoins: 30, startingWeapons: ['freedom'], startingMercenaries: 0, startingCastles: 0, personality: 'free', quotes: ['We are free!', 'Freedom!', 'Rights!'] },
+          { name: 'Patrician', startingCoins: 25, startingWeapons: ['nobility'], startingMercenaries: 0, startingCastles: 0, personality: 'noble', quotes: ['We are noble!', 'Nobility!', 'Honor!'] },
+          { name: 'Citizen', startingCoins: 35, startingWeapons: ['citizenship'], startingMercenaries: 0, startingCastles: 0, personality: 'proud', quotes: ['We are citizens!', 'Citizenship!', 'Rome!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Tiber River', cost: 5, description: 'The lifeblood of Rome that flows through the city' },
+      { name: 'The Seven Hills', cost: 3, description: 'The seven hills that Rome was built upon' },
+      { name: 'The Eternal City', cost: 2, description: 'The heart of the Roman Empire' },
+      { name: 'The Roman Senate', cost: 1, description: 'Where the fate of Rome was decided' },
+      { name: 'The Roman Legions', cost: 4, description: 'The mighty armies that conquered the known world' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // FORTNITE VS MINECRAFT SCENARIO
+  fortniteVsMinecraft: {
+    id: 'fortniteVsMinecraft',
+    name: 'Fortnite vs Minecraft: The Ultimate Gaming Battle (2009-present)',
+    type: 'gaming',
+    description: 'The epic battle between two of the most popular gaming worlds, where Fortnite\'s battle royale warriors clash with Minecraft\'s builders and adventurers in the ultimate gaming showdown.',
+    factions: {
+      fortnite: {
+        name: 'Fortnite Warriors',
+        color: '#dc2626', // Red
+        description: 'The battle royale warriors of Fortnite, known for their combat skills, building abilities, and survival instincts in the ever-changing storm',
+        territories: [
+          { name: 'Tilted Towers', cost: 25, description: 'The urban battleground where intense fights occur' },
+          { name: 'Pleasant Park', cost: 22, description: 'The suburban neighborhood perfect for looting' },
+          { name: 'Retail Row', cost: 20, description: 'The shopping district with plenty of resources' },
+          { name: 'Salty Springs', cost: 18, description: 'The small town with hidden treasures' },
+          { name: 'Greasy Grove', cost: 15, description: 'The fast food restaurant area' },
+          { name: 'Dusty Depot', cost: 12, description: 'The industrial warehouse district' },
+          { name: 'Anarchy Acres', cost: 10, description: 'The rural farming area' },
+          { name: 'Flush Factory', cost: 8, description: 'The toilet manufacturing facility' },
+          { name: 'Moisty Mire', cost: 6, description: 'The swampy marshland' },
+          { name: 'Lonely Lodge', cost: 4, description: 'The isolated cabin in the woods' }
+        ],
+        characters: [
+          {
+            name: 'Jonesy',
+            role: 'The Default Soldier',
+            startingCoins: 150,
+            startingWeapons: ['assault rifle', 'building', 'survival'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'determined',
+            quotes: [
+              "I am Jonesy, the default soldier!",
+              "I will survive the storm!",
+              "I am the most determined warrior!",
+              "I will build my way to victory!",
+              "I am the ultimate survivor!"
+            ],
+            description: 'The determined default soldier who represents the spirit of Fortnite.'
+          },
+          {
+            name: 'Peely',
+            role: 'The Banana',
+            startingCoins: 140,
+            startingWeapons: ['banana peel', 'humor', 'flexibility'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'playful',
+            quotes: [
+              "I am Peely, the banana!",
+              "I will slip and slide to victory!",
+              "I am the most playful warrior!",
+              "I will make everyone laugh!",
+              "I am the funniest fighter!"
+            ],
+            description: 'The playful banana who brings humor to the battlefield.'
+          },
+          {
+            name: 'Fishstick',
+            role: 'The Fish',
+            startingCoins: 135,
+            startingWeapons: ['fish', 'swimming', 'underwater'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'aquatic',
+            quotes: [
+              "I am Fishstick, the fish!",
+              "I will swim to victory!",
+              "I am the most aquatic warrior!",
+              "I will dive deep for victory!",
+              "I am the master of the water!"
+            ],
+            description: 'The aquatic fish warrior who excels in water-based combat.'
+          },
+          {
+            name: 'Raven',
+            role: 'The Dark Warrior',
+            startingCoins: 145,
+            startingWeapons: ['darkness', 'mystery', 'power'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'mysterious',
+            quotes: [
+              "I am Raven, the dark warrior!",
+              "I will bring darkness to the battlefield!",
+              "I am the most mysterious warrior!",
+              "I will strike from the shadows!",
+              "I am the master of darkness!"
+            ],
+            description: 'The mysterious dark warrior who strikes from the shadows.'
+          },
+          {
+            name: 'Skull Trooper',
+            role: 'The Skeleton',
+            startingCoins: 130,
+            startingWeapons: ['bones', 'fear', 'undead'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'terrifying',
+            quotes: [
+              "I am Skull Trooper, the skeleton!",
+              "I will scare all my enemies!",
+              "I am the most terrifying warrior!",
+              "I will haunt the battlefield!",
+              "I am the undead soldier!"
+            ],
+            description: 'The terrifying skeleton warrior who haunts the battlefield.'
+          },
+          {
+            name: 'Cuddle Team Leader',
+            role: 'The Bear',
+            startingCoins: 125,
+            startingWeapons: ['hugs', 'cuteness', 'teamwork'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'cuddly',
+            quotes: [
+              "I am Cuddle Team Leader, the bear!",
+              "I will hug my way to victory!",
+              "I am the most cuddly warrior!",
+              "I will spread love and hugs!",
+              "I am the cutest fighter!"
+            ],
+            description: 'The cuddly bear warrior who spreads love and hugs.'
+          },
+          {
+            name: 'Drift',
+            role: 'The Rift Walker',
+            startingCoins: 140,
+            startingWeapons: ['rift', 'teleportation', 'dimensions'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'dimensional',
+            quotes: [
+              "I am Drift, the rift walker!",
+              "I will walk between dimensions!",
+              "I am the most dimensional warrior!",
+              "I will teleport to victory!",
+              "I am the master of rifts!"
+            ],
+            description: 'The dimensional warrior who can walk between rifts.'
+          },
+          {
+            name: 'Brite Bomber',
+            role: 'The Bright Warrior',
+            startingCoins: 120,
+            startingWeapons: ['brightness', 'explosions', 'color'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'bright',
+            quotes: [
+              "I am Brite Bomber, the bright warrior!",
+              "I will brighten the battlefield!",
+              "I am the brightest warrior!",
+              "I will explode with color!",
+              "I am the most colorful fighter!"
+            ],
+            description: 'The bright warrior who brings color and explosions to the battlefield.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Soldier', startingCoins: 30, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'determined', quotes: ['We are soldiers!', 'Combat!', 'Victory!'] },
+          { name: 'Builder', startingCoins: 25, startingWeapons: ['materials'], startingMercenaries: 0, startingCastles: 0, personality: 'constructive', quotes: ['We build!', 'Construction!', 'Fortress!'] },
+          { name: 'Survivor', startingCoins: 35, startingWeapons: ['survival'], startingMercenaries: 0, startingCastles: 0, personality: 'resilient', quotes: ['We survive!', 'Endurance!', 'Storm!'] }
+        ]
+      },
+      minecraft: {
+        name: 'Minecraft Builders',
+        color: '#16a34a', // Green
+        description: 'The creative builders and adventurers of Minecraft, known for their construction skills, resource gathering, and exploration of infinite worlds',
+        territories: [
+          { name: 'The Overworld', cost: 25, description: 'The main dimension where players spawn and build' },
+          { name: 'The Nether', cost: 22, description: 'The hellish dimension filled with dangerous creatures' },
+          { name: 'The End', cost: 20, description: 'The mysterious dimension where the Ender Dragon resides' },
+          { name: 'The Village', cost: 18, description: 'The peaceful settlement where villagers live' },
+          { name: 'The Stronghold', cost: 15, description: 'The underground fortress with the End Portal' },
+          { name: 'The Ocean Monument', cost: 12, description: 'The underwater temple guarded by guardians' },
+          { name: 'The Woodland Mansion', cost: 10, description: 'The rare mansion in dark oak forests' },
+          { name: 'The Desert Temple', cost: 8, description: 'The ancient pyramid in the desert' },
+          { name: 'The Jungle Temple', cost: 6, description: 'The hidden temple in the jungle' },
+          { name: 'The Mineshaft', cost: 4, description: 'The abandoned underground railway system' }
+        ],
+        characters: [
+          {
+            name: 'Steve',
+            role: 'The Default Player',
+            startingCoins: 150,
+            startingWeapons: ['pickaxe', 'sword', 'crafting'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'creative',
+            quotes: [
+              "I am Steve, the default player!",
+              "I will build the greatest creations!",
+              "I am the most creative builder!",
+              "I will craft my way to victory!",
+              "I am the master of Minecraft!"
+            ],
+            description: 'The creative default player who represents the spirit of Minecraft.'
+          },
+          {
+            name: 'Alex',
+            role: 'The Female Player',
+            startingCoins: 145,
+            startingWeapons: ['axe', 'bow', 'adventure'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'adventurous',
+            quotes: [
+              "I am Alex, the female player!",
+              "I will explore every corner of the world!",
+              "I am the most adventurous explorer!",
+              "I will discover all the secrets!",
+              "I am the queen of adventure!"
+            ],
+            description: 'The adventurous female player who loves to explore and discover.'
+          },
+          {
+            name: 'Herobrine',
+            role: 'The Legendary Entity',
+            startingCoins: 140,
+            startingWeapons: ['mystery', 'power', 'legend'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'legendary',
+            quotes: [
+              "I am Herobrine, the legendary entity!",
+              "I will haunt the world of Minecraft!",
+              "I am the most legendary of all!",
+              "I will appear when least expected!",
+              "I am the myth of Minecraft!"
+            ],
+            description: 'The legendary entity who haunts the world of Minecraft.'
+          },
+          {
+            name: 'The Ender Dragon',
+            role: 'The Final Boss',
+            startingCoins: 150,
+            startingWeapons: ['fire breath', 'flight', 'end crystals'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'powerful',
+            quotes: [
+              "I am the Ender Dragon, final boss!",
+              "I will guard the End dimension!",
+              "I am the most powerful creature!",
+              "I will defeat all who challenge me!",
+              "I am the ruler of the End!"
+            ],
+            description: 'The powerful final boss who guards the End dimension.'
+          },
+          {
+            name: 'The Wither',
+            role: 'The Flying Boss',
+            startingCoins: 145,
+            startingWeapons: ['wither skulls', 'flight', 'decay'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'destructive',
+            quotes: [
+              "I am the Wither, flying boss!",
+              "I will destroy everything in my path!",
+              "I am the most destructive boss!",
+              "I will wither all who oppose me!",
+              "I am the bringer of decay!"
+            ],
+            description: 'The destructive flying boss who brings decay and destruction.'
+          },
+          {
+            name: 'The Iron Golem',
+            role: 'The Village Protector',
+            startingCoins: 130,
+            startingWeapons: ['iron fists', 'protection', 'strength'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'protective',
+            quotes: [
+              "I am the Iron Golem, village protector!",
+              "I will protect all villagers!",
+              "I am the most protective guardian!",
+              "I will defend the innocent!",
+              "I am the guardian of peace!"
+            ],
+            description: 'The protective iron golem who guards villages and villagers.'
+          },
+          {
+            name: 'The Creeper',
+            role: 'The Explosive Mob',
+            startingCoins: 120,
+            startingWeapons: ['explosion', 'stealth', 'surprise'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'explosive',
+            quotes: [
+              "I am the Creeper, explosive mob!",
+              "I will explode when least expected!",
+              "I am the most explosive creature!",
+              "I will surprise all my enemies!",
+              "I am the master of explosions!"
+            ],
+            description: 'The explosive mob who surprises players with sudden explosions.'
+          },
+          {
+            name: 'The Enderman',
+            role: 'The Teleporting Mob',
+            startingCoins: 125,
+            startingWeapons: ['teleportation', 'blocks', 'mystery'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'mysterious',
+            quotes: [
+              "I am the Enderman, teleporting mob!",
+              "I will teleport around the world!",
+              "I am the most mysterious creature!",
+              "I will move blocks mysteriously!",
+              "I am the master of teleportation!"
+            ],
+            description: 'The mysterious teleporting mob who moves blocks and teleports around.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Builder', startingCoins: 30, startingWeapons: ['blocks'], startingMercenaries: 0, startingCastles: 0, personality: 'creative', quotes: ['We build!', 'Construction!', 'Creativity!'] },
+          { name: 'Miner', startingCoins: 25, startingWeapons: ['pickaxe'], startingMercenaries: 0, startingCastles: 0, personality: 'industrious', quotes: ['We mine!', 'Resources!', 'Ores!'] },
+          { name: 'Explorer', startingCoins: 35, startingWeapons: ['map'], startingMercenaries: 0, startingCastles: 0, personality: 'curious', quotes: ['We explore!', 'Discovery!', 'Adventure!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Storm', cost: 5, description: 'The ever-shrinking storm that forces players together' },
+      { name: 'The Battle Bus', cost: 3, description: 'The flying bus that drops players onto the island' },
+      { name: 'The Supply Drops', cost: 2, description: 'The airdrops that contain valuable loot' },
+      { name: 'The Vault', cost: 1, description: 'The secret vault containing powerful weapons' },
+      { name: 'The Creative Mode', cost: 4, description: 'The unlimited building mode where anything is possible' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // NBA LEGENDS SCENARIO
+  nbaLegends: {
+    id: 'nbaLegends',
+    name: 'NBA Legends: The Greatest of All Time (1946-present)',
+    type: 'sports',
+    description: 'The epic battle between the greatest basketball players in NBA history, where legends from different eras clash in the ultimate showdown for basketball supremacy.',
+    factions: {
+      classicLegends: {
+        name: 'Classic Legends',
+        color: '#1e40af', // Blue
+        description: 'The pioneers and legends of the early NBA, known for their fundamental skills, leadership, and the foundation they built for modern basketball',
+        territories: [
+          { name: 'The Boston Garden', cost: 25, description: 'The historic home of the Celtics dynasty' },
+          { name: 'The Forum', cost: 22, description: 'The legendary arena where Showtime Lakers played' },
+          { name: 'Madison Square Garden', cost: 20, description: 'The world\'s most famous arena' },
+          { name: 'The Spectrum', cost: 18, description: 'The home of the Philadelphia 76ers' },
+          { name: 'The Omni', cost: 15, description: 'The Atlanta Hawks\' historic arena' },
+          { name: 'The Coliseum', cost: 12, description: 'The Los Angeles Lakers\' original home' },
+          { name: 'The Palace', cost: 10, description: 'The Detroit Pistons\' championship arena' },
+          { name: 'The Summit', cost: 8, description: 'The Houston Rockets\' historic home' },
+          { name: 'The Capital Centre', cost: 6, description: 'The Washington Bullets\' arena' },
+          { name: 'The Checkerdome', cost: 4, description: 'The St. Louis Hawks\' home court' }
+        ],
+        characters: [
+          {
+            name: 'Bill Russell',
+            role: 'The Defensive King',
+            startingCoins: 150,
+            startingWeapons: ['defense', 'rebounding', 'leadership'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'dominant',
+            quotes: [
+              "I am Bill Russell, the defensive king!",
+              "I will block every shot!",
+              "I am the most dominant defender!",
+              "I will lead my team to victory!",
+              "I am the greatest winner in NBA history!"
+            ],
+            description: 'The dominant defensive center who won 11 championships with the Celtics.'
+          },
+          {
+            name: 'Wilt Chamberlain',
+            role: 'The Scoring Machine',
+            startingCoins: 145,
+            startingWeapons: ['scoring', 'athleticism', 'records'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'unstoppable',
+            quotes: [
+              "I am Wilt Chamberlain, the scoring machine!",
+              "I will score 100 points in a game!",
+              "I am the most unstoppable scorer!",
+              "I will break every record!",
+              "I am the most dominant offensive force!"
+            ],
+            description: 'The unstoppable scoring machine who holds the single-game scoring record.'
+          },
+          {
+            name: 'Magic Johnson',
+            role: 'The Showtime Leader',
+            startingCoins: 140,
+            startingWeapons: ['passing', 'showmanship', 'leadership'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'charismatic',
+            quotes: [
+              "I am Magic Johnson, the Showtime leader!",
+              "I will make Showtime magic!",
+              "I am the most charismatic player!",
+              "I will lead Showtime to victory!",
+              "I am the master of the fast break!"
+            ],
+            description: 'The charismatic leader who brought Showtime to the Lakers.'
+          },
+          {
+            name: 'Larry Bird',
+            role: 'The Hick from French Lick',
+            startingCoins: 135,
+            startingWeapons: ['shooting', 'fundamentals', 'competitiveness'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'competitive',
+            quotes: [
+              "I am Larry Bird, the Hick from French Lick!",
+              "I will shoot lights out!",
+              "I am the most competitive player!",
+              "I will outwork everyone!",
+              "I am the greatest shooter ever!"
+            ],
+            description: 'The competitive forward who mastered the fundamentals of basketball.'
+          },
+          {
+            name: 'Kareem Abdul-Jabbar',
+            role: 'The Skyhook Master',
+            startingCoins: 140,
+            startingWeapons: ['skyhook', 'scoring', 'longevity'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'graceful',
+            quotes: [
+              "I am Kareem Abdul-Jabbar, the skyhook master!",
+              "I will perfect the skyhook!",
+              "I am the most graceful scorer!",
+              "I will score for 20 years!",
+              "I am the all-time leading scorer!"
+            ],
+            description: 'The graceful center who perfected the skyhook and became the all-time leading scorer.'
+          },
+          {
+            name: 'Julius Erving',
+            role: 'Dr. J',
+            startingCoins: 130,
+            startingWeapons: ['dunking', 'athleticism', 'style'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'stylish',
+            quotes: [
+              "I am Dr. J, the dunking doctor!",
+              "I will dunk with style!",
+              "I am the most stylish player!",
+              "I will revolutionize dunking!",
+              "I am the father of modern dunking!"
+            ],
+            description: 'The stylish forward who revolutionized dunking and brought flair to the NBA.'
+          },
+          {
+            name: 'Oscar Robertson',
+            role: 'The Big O',
+            startingCoins: 125,
+            startingWeapons: ['triple-double', 'versatility', 'consistency'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'versatile',
+            quotes: [
+              "I am Oscar Robertson, the Big O!",
+              "I will average a triple-double!",
+              "I am the most versatile player!",
+              "I will do everything on the court!",
+              "I am the master of all skills!"
+            ],
+            description: 'The versatile guard who averaged a triple-double for an entire season.'
+          },
+          {
+            name: 'Jerry West',
+            role: 'The Logo',
+            startingCoins: 120,
+            startingWeapons: ['clutch', 'shooting', 'determination'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'clutch',
+            quotes: [
+              "I am Jerry West, the Logo!",
+              "I will make clutch shots!",
+              "I am the most clutch player!",
+              "I will never give up!",
+              "I am the symbol of determination!"
+            ],
+            description: 'The clutch guard who became the NBA logo and never gave up.'
+          },
+          {
+            name: 'Elgin Baylor',
+            role: 'The First High-Flyer',
+            startingCoins: 115,
+            startingWeapons: ['athleticism', 'scoring', 'innovation'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'innovative',
+            quotes: [
+              "I am Elgin Baylor, the first high-flyer!",
+              "I will fly through the air!",
+              "I am the most innovative player!",
+              "I will revolutionize the game!",
+              "I am the original high-flyer!"
+            ],
+            description: 'The innovative forward who was the first high-flying player in NBA history.'
+          },
+          {
+            name: 'Bob Cousy',
+            role: 'The Houdini of the Hardwood',
+            startingCoins: 110,
+            startingWeapons: ['ball-handling', 'passing', 'showmanship'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'showman',
+            quotes: [
+              "I am Bob Cousy, the Houdini of the hardwood!",
+              "I will handle the ball like magic!",
+              "I am the most showman player!",
+              "I will pass with flair!",
+              "I am the original showman!"
+            ],
+            description: 'The showman guard who was the original ball-handling magician.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Pioneer', startingCoins: 30, startingWeapons: ['fundamentals'], startingMercenaries: 0, startingCastles: 0, personality: 'foundational', quotes: ['We are pioneers!', 'Fundamentals!', 'Foundation!'] },
+          { name: 'Legend', startingCoins: 25, startingWeapons: ['legacy'], startingMercenaries: 0, startingCastles: 0, personality: 'legendary', quotes: ['We are legends!', 'Legacy!', 'History!'] },
+          { name: 'Champion', startingCoins: 35, startingWeapons: ['championship'], startingMercenaries: 0, startingCastles: 0, personality: 'winning', quotes: ['We are champions!', 'Victory!', 'Titles!'] }
+        ]
+      },
+      modernLegends: {
+        name: 'Modern Legends',
+        color: '#dc2626', // Red
+        description: 'The superstars of the modern NBA era, known for their athleticism, skill, and global impact on the game of basketball',
+        territories: [
+          { name: 'The Staples Center', cost: 25, description: 'The home of the Lakers and Clippers' },
+          { name: 'The United Center', cost: 22, description: 'The Chicago Bulls\' championship arena' },
+          { name: 'The American Airlines Arena', cost: 20, description: 'The Miami Heat\'s home court' },
+          { name: 'The AT&T Center', cost: 18, description: 'The San Antonio Spurs\' arena' },
+          { name: 'The Oracle Arena', cost: 15, description: 'The Golden State Warriors\' home' },
+          { name: 'The TD Garden', cost: 12, description: 'The Boston Celtics\' modern home' },
+          { name: 'The Barclays Center', cost: 10, description: 'The Brooklyn Nets\' arena' },
+          { name: 'The Wells Fargo Center', cost: 8, description: 'The Philadelphia 76ers\' home' },
+          { name: 'The Chesapeake Energy Arena', cost: 6, description: 'The Oklahoma City Thunder\'s home' },
+          { name: 'The Moda Center', cost: 4, description: 'The Portland Trail Blazers\' arena' }
+        ],
+        characters: [
+          {
+            name: 'Michael Jordan',
+            role: 'His Airness',
+            startingCoins: 150,
+            startingWeapons: ['scoring', 'competitiveness', 'clutch'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'competitive',
+            quotes: [
+              "I am Michael Jordan, His Airness!",
+              "I will fly through the air!",
+              "I am the most competitive player!",
+              "I will win six championships!",
+              "I am the greatest of all time!"
+            ],
+            description: 'The competitive guard who became the greatest of all time with six championships.'
+          },
+          {
+            name: 'LeBron James',
+            role: 'The King',
+            startingCoins: 145,
+            startingWeapons: ['versatility', 'leadership', 'athleticism'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'kingly',
+            quotes: [
+              "I am LeBron James, the King!",
+              "I will rule the court!",
+              "I am the most versatile player!",
+              "I will lead my team to victory!",
+              "I am the king of basketball!"
+            ],
+            description: 'The kingly forward who combines size, skill, and leadership like no other.'
+          },
+          {
+            name: 'Kobe Bryant',
+            role: 'The Black Mamba',
+            startingCoins: 140,
+            startingWeapons: ['scoring', 'work ethic', 'determination'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'relentless',
+            quotes: [
+              "I am Kobe Bryant, the Black Mamba!",
+              "I will strike with precision!",
+              "I am the most relentless scorer!",
+              "I will work harder than anyone!",
+              "I am the Mamba mentality!"
+            ],
+            description: 'The relentless scorer who embodied the Mamba mentality and work ethic.'
+          },
+          {
+            name: 'Shaquille O\'Neal',
+            role: 'The Diesel',
+            startingCoins: 135,
+            startingWeapons: ['power', 'size', 'dominance'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'dominant',
+            quotes: [
+              "I am Shaquille O\'Neal, the Diesel!",
+              "I will dominate the paint!",
+              "I am the most dominant big man!",
+              "I will overpower everyone!",
+              "I am the most powerful player!"
+            ],
+            description: 'The dominant center who overpowered opponents with his size and strength.'
+          },
+          {
+            name: 'Tim Duncan',
+            role: 'The Big Fundamental',
+            startingCoins: 130,
+            startingWeapons: ['fundamentals', 'consistency', 'leadership'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'fundamental',
+            quotes: [
+              "I am Tim Duncan, the Big Fundamental!",
+              "I will master the fundamentals!",
+              "I am the most fundamental player!",
+              "I will be consistent every game!",
+              "I am the master of basics!"
+            ],
+            description: 'The fundamental forward who mastered the basics and led the Spurs to five championships.'
+          },
+          {
+            name: 'Kevin Durant',
+            role: 'The Slim Reaper',
+            startingCoins: 125,
+            startingWeapons: ['scoring', 'length', 'versatility'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'smooth',
+            quotes: [
+              "I am Kevin Durant, the Slim Reaper!",
+              "I will score with ease!",
+              "I am the smoothest scorer!",
+              "I will use my length advantage!",
+              "I am the most unstoppable scorer!"
+            ],
+            description: 'The smooth forward who combines length and skill to score effortlessly.'
+          },
+          {
+            name: 'Stephen Curry',
+            role: 'The Baby-Faced Assassin',
+            startingCoins: 120,
+            startingWeapons: ['shooting', 'range', 'revolution'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'revolutionary',
+            quotes: [
+              "I am Stephen Curry, the Baby-Faced Assassin!",
+              "I will revolutionize shooting!",
+              "I am the most revolutionary shooter!",
+              "I will shoot from anywhere!",
+              "I am the greatest shooter ever!"
+            ],
+            description: 'The revolutionary guard who changed the game with his long-range shooting.'
+          },
+          {
+            name: 'Dwyane Wade',
+            role: 'Flash',
+            startingCoins: 115,
+            startingWeapons: ['speed', 'finishing', 'clutch'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'flashy',
+            quotes: [
+              "I am Dwyane Wade, Flash!",
+              "I will flash to the basket!",
+              "I am the flashiest finisher!",
+              "I will make clutch plays!",
+              "I am the master of the drive!"
+            ],
+            description: 'The flashy guard who mastered the art of driving to the basket.'
+          },
+          {
+            name: 'Kevin Durant',
+            role: 'The Slim Reaper',
+            startingCoins: 110,
+            startingWeapons: ['scoring', 'length', 'versatility'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'lethal',
+            quotes: [
+              "I am Kevin Durant, the Slim Reaper!",
+              "I will score from anywhere!",
+              "I am the most lethal scorer!",
+              "I will reap victories!",
+              "I am unguardable!"
+            ],
+            description: 'The lethal scorer who can score from anywhere on the court.'
+          },
+          {
+            name: 'Chris Paul',
+            role: 'The Point God',
+            startingCoins: 105,
+            startingWeapons: ['passing', 'leadership', 'basketball IQ'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'cerebral',
+            quotes: [
+              "I am Chris Paul, the Point God!",
+              "I will orchestrate the offense!",
+              "I am the most cerebral player!",
+              "I will make everyone better!",
+              "I am the master of the game!"
+            ],
+            description: 'The cerebral point guard who orchestrates the offense like a maestro.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Superstar', startingCoins: 30, startingWeapons: ['stardom'], startingMercenaries: 0, startingCastles: 0, personality: 'stellar', quotes: ['We are superstars!', 'Stardom!', 'Fame!'] },
+          { name: 'Athlete', startingCoins: 25, startingWeapons: ['athleticism'], startingMercenaries: 0, startingCastles: 0, personality: 'athletic', quotes: ['We are athletes!', 'Athleticism!', 'Speed!'] },
+          { name: 'Leader', startingCoins: 35, startingWeapons: ['leadership'], startingMercenaries: 0, startingCastles: 0, personality: 'leading', quotes: ['We are leaders!', 'Leadership!', 'Guidance!'] }
+        ]
+      },
+      internationalLegends: {
+        name: 'International Legends',
+        color: '#16a34a', // Green
+        description: 'The global superstars who brought international flair to the NBA, known for their unique skills, cultural impact, and the globalization of basketball',
+        territories: [
+          { name: 'The Air Canada Centre', cost: 25, description: 'The Toronto Raptors\' home court' },
+          { name: 'The American Airlines Center', cost: 22, description: 'The Dallas Mavericks\' arena' },
+          { name: 'The Pepsi Center', cost: 20, description: 'The Denver Nuggets\' home' },
+          { name: 'The Vivint Smart Home Arena', cost: 18, description: 'The Utah Jazz\'s arena' },
+          { name: 'The FedExForum', cost: 15, description: 'The Memphis Grizzlies\' home' },
+          { name: 'The Smoothie King Center', cost: 12, description: 'The New Orleans Pelicans\' arena' },
+          { name: 'The Target Center', cost: 10, description: 'The Minnesota Timberwolves\' home' },
+          { name: 'The Amway Center', cost: 8, description: 'The Orlando Magic\'s arena' },
+          { name: 'The Spectrum Center', cost: 6, description: 'The Charlotte Hornets\' home' },
+          { name: 'The Talking Stick Resort Arena', cost: 4, description: 'The Phoenix Suns\' arena' }
+        ],
+        characters: [
+          {
+            name: 'Dirk Nowitzki',
+            role: 'The German Wunderkind',
+            startingCoins: 145,
+            startingWeapons: ['shooting', 'fadeaway', 'loyalty'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'loyal',
+            quotes: [
+              "I am Dirk Nowitzki, the German Wunderkind!",
+              "I will perfect the fadeaway!",
+              "I am the most loyal player!",
+              "I will bring a championship to Dallas!",
+              "I am the greatest European player!"
+            ],
+            description: 'The loyal forward who brought European flair and a championship to Dallas.'
+          },
+          {
+            name: 'Yao Ming',
+            role: 'The Great Wall',
+            startingCoins: 140,
+            startingWeapons: ['height', 'skill', 'diplomacy'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'diplomatic',
+            quotes: [
+              "I am Yao Ming, the Great Wall!",
+              "I will bridge East and West!",
+              "I am the most diplomatic player!",
+              "I will bring China to the NBA!",
+              "I am the ambassador of basketball!"
+            ],
+            description: 'The diplomatic center who bridged China and the NBA with his skill and personality.'
+          },
+          {
+            name: 'Manu Ginobili',
+            role: 'The Argentine Magician',
+            startingCoins: 135,
+            startingWeapons: ['creativity', 'passing', 'flair'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'creative',
+            quotes: [
+              "I am Manu Ginobili, the Argentine Magician!",
+              "I will create magic on the court!",
+              "I am the most creative player!",
+              "I will bring South American flair!",
+              "I am the master of creativity!"
+            ],
+            description: 'The creative guard who brought South American flair and creativity to the NBA.'
+          },
+          {
+            name: 'Tony Parker',
+            role: 'The French Point Guard',
+            startingCoins: 130,
+            startingWeapons: ['speed', 'finishing', 'leadership'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'speedy',
+            quotes: [
+              "I am Tony Parker, the French Point Guard!",
+              "I will speed past everyone!",
+              "I am the speediest point guard!",
+              "I will lead with French flair!",
+              "I am the master of speed!"
+            ],
+            description: 'The speedy point guard who brought French flair and speed to the NBA.'
+          },
+          {
+            name: 'Pau Gasol',
+            role: 'The Spanish Tower',
+            startingCoins: 125,
+            startingWeapons: ['skill', 'passing', 'versatility'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'skilled',
+            quotes: [
+              "I am Pau Gasol, the Spanish Tower!",
+              "I will tower over everyone!",
+              "I am the most skilled big man!",
+              "I will bring Spanish skill!",
+              "I am the master of big man skills!"
+            ],
+            description: 'The skilled center who brought European big man skills to the NBA.'
+          },
+          {
+            name: 'Giannis Antetokounmpo',
+            role: 'The Greek Freak',
+            startingCoins: 140,
+            startingWeapons: ['athleticism', 'length', 'versatility'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'freakish',
+            quotes: [
+              "I am Giannis Antetokounmpo, the Greek Freak!",
+              "I will freak out my opponents!",
+              "I am the most freakish athlete!",
+              "I will dominate with my length!",
+              "I am the most unique player!"
+            ],
+            description: 'The freakish forward who combines length, athleticism, and skill like no other.'
+          },
+          {
+            name: 'Luka Doncic',
+            role: 'The Slovenian Sensation',
+            startingCoins: 135,
+            startingWeapons: ['skill', 'vision', 'clutch'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'sensational',
+            quotes: [
+              "I am Luka Doncic, the Slovenian Sensation!",
+              "I will create sensational plays!",
+              "I am the most sensational player!",
+              "I will bring European skill!",
+              "I am the master of court vision!"
+            ],
+            description: 'The sensational guard who brings European skill and court vision to the NBA.'
+          },
+          {
+            name: 'Nikola Jokic',
+            role: 'The Joker',
+            startingCoins: 130,
+            startingWeapons: ['passing', 'skill', 'humor'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'jovial',
+            quotes: [
+              "I am Nikola Jokic, the Joker!",
+              "I will joke my way to victory!",
+              "I am the most jovial player!",
+              "I will pass like a point guard!",
+              "I am the funniest big man!"
+            ],
+            description: 'The jovial center who passes like a point guard and brings humor to the game.'
+          },
+          {
+            name: 'Luka Doncic',
+            role: 'The Wonder Kid',
+            startingCoins: 125,
+            startingWeapons: ['basketball IQ', 'triple-doubles', 'clutch'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'prodigious',
+            quotes: [
+              "I am Luka Doncic, the wonder kid!",
+              "I will amaze everyone!",
+              "I am the most prodigious talent!",
+              "I will get triple-doubles!",
+              "I am the future of basketball!"
+            ],
+            description: 'The prodigious young talent who amazes with his basketball IQ and skill.'
+          },
+          {
+            name: 'Giannis Antetokounmpo',
+            role: 'The Greek Freak',
+            startingCoins: 120,
+            startingWeapons: ['length', 'athleticism', 'freakishness'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'freakish',
+            quotes: [
+              "I am Giannis Antetokounmpo, the Greek Freak!",
+              "I will freak out my opponents!",
+              "I am the most freakish athlete!",
+              "I will dominate with length!",
+              "I am a freak of nature!"
+            ],
+            description: 'The freakish athlete who dominates with his unique combination of size and skill.'
+          }
+        ],
+        generalRoles: [
+          { name: 'International', startingCoins: 30, startingWeapons: ['global'], startingMercenaries: 0, startingCastles: 0, personality: 'global', quotes: ['We are global!', 'International!', 'World!'] },
+          { name: 'European', startingCoins: 25, startingWeapons: ['skill'], startingMercenaries: 0, startingCastles: 0, personality: 'skilled', quotes: ['We are skilled!', 'European!', 'Technique!'] },
+          { name: 'Ambassador', startingCoins: 35, startingWeapons: ['diplomacy'], startingMercenaries: 0, startingCastles: 0, personality: 'diplomatic', quotes: ['We are ambassadors!', 'Diplomacy!', 'Bridge!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The NBA Finals', cost: 5, description: 'The ultimate championship series' },
+      { name: 'The All-Star Game', cost: 3, description: 'Where the best players showcase their skills' },
+      { name: 'The Draft', cost: 2, description: 'Where new talent enters the league' },
+      { name: 'The Hall of Fame', cost: 1, description: 'Where legends are immortalized' },
+      { name: 'The Olympics', cost: 4, description: 'Where international stars represent their countries' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // NFL LEGENDS SCENARIO
+  nflLegends: {
+    id: 'nflLegends',
+    name: 'NFL Legends: The Gridiron Greats (1920-present)',
+    type: 'sports',
+    description: 'The epic battle between the greatest football players in NFL history, where legends from different positions and eras clash in the ultimate showdown for gridiron supremacy.',
+    factions: {
+      offensiveLegends: {
+        name: 'Offensive Legends',
+        color: '#dc2626', // Red
+        description: 'The greatest offensive players in NFL history, known for their scoring ability, leadership, and the excitement they brought to the game',
+        territories: [
+          { name: 'Lambeau Field', cost: 25, description: 'The frozen tundra where legends are made' },
+          { name: 'Arrowhead Stadium', cost: 22, description: 'The loudest stadium in the NFL' },
+          { name: 'Heinz Field', cost: 20, description: 'The home of the Pittsburgh Steelers' },
+          { name: 'Gillette Stadium', cost: 18, description: 'The New England Patriots\' fortress' },
+          { name: 'CenturyLink Field', cost: 15, description: 'The Seattle Seahawks\' home' },
+          { name: 'Mercedes-Benz Stadium', cost: 12, description: 'The Atlanta Falcons\' modern home' },
+          { name: 'Bank of America Stadium', cost: 10, description: 'The Carolina Panthers\' home' },
+          { name: 'Raymond James Stadium', cost: 8, description: 'The Tampa Bay Buccaneers\' home' },
+          { name: 'Hard Rock Stadium', cost: 6, description: 'The Miami Dolphins\' home' },
+          { name: 'TIAA Bank Field', cost: 4, description: 'The Jacksonville Jaguars\' home' }
+        ],
+        characters: [
+          {
+            name: 'Tom Brady',
+            role: 'The GOAT',
+            startingCoins: 150,
+            startingWeapons: ['accuracy', 'leadership', 'clutch'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'legendary',
+            quotes: [
+              "I am Tom Brady, the GOAT!",
+              "I will lead my team to victory!",
+              "I am the most legendary quarterback!",
+              "I will win seven Super Bowls!",
+              "I am the greatest of all time!"
+            ],
+            description: 'The legendary quarterback who became the greatest of all time with seven Super Bowl victories.'
+          },
+          {
+            name: 'Jerry Rice',
+            role: 'The Greatest Receiver',
+            startingCoins: 145,
+            startingWeapons: ['hands', 'routes', 'records'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'precise',
+            quotes: [
+              "I am Jerry Rice, the greatest receiver!",
+              "I will catch every pass!",
+              "I am the most precise receiver!",
+              "I will break every receiving record!",
+              "I am the master of the route!"
+            ],
+            description: 'The precise receiver who holds every major receiving record in NFL history.'
+          },
+          {
+            name: 'Jim Brown',
+            role: 'The Running Back King',
+            startingCoins: 140,
+            startingWeapons: ['power', 'speed', 'dominance'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'dominant',
+            quotes: [
+              "I am Jim Brown, the running back king!",
+              "I will dominate every defense!",
+              "I am the most dominant runner!",
+              "I will power through every tackle!",
+              "I am the king of the ground game!"
+            ],
+            description: 'The dominant running back who revolutionized the position with his power and speed.'
+          },
+          {
+            name: 'Peyton Manning',
+            role: 'The Sheriff',
+            startingCoins: 135,
+            startingWeapons: ['intelligence', 'audibles', 'precision'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'intelligent',
+            quotes: [
+              "I am Peyton Manning, the Sheriff!",
+              "I will outsmart every defense!",
+              "I am the most intelligent quarterback!",
+              "I will audible to victory!",
+              "I am the master of the offense!"
+            ],
+            description: 'The intelligent quarterback who mastered the art of reading defenses and calling audibles.'
+          },
+          {
+            name: 'Barry Sanders',
+            role: 'The Elusive Runner',
+            startingCoins: 130,
+            startingWeapons: ['elusiveness', 'cuts', 'vision'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'elusive',
+            quotes: [
+              "I am Barry Sanders, the elusive runner!",
+              "I will make defenders miss!",
+              "I am the most elusive runner!",
+              "I will cut through every defense!",
+              "I am the master of the juke!"
+            ],
+            description: 'The elusive running back who made defenders miss with his incredible cuts and vision.'
+          },
+          {
+            name: 'Randy Moss',
+            role: 'The Freak',
+            startingCoins: 125,
+            startingWeapons: ['speed', 'height', 'deep threat'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'explosive',
+            quotes: [
+              "I am Randy Moss, the Freak!",
+              "I will catch deep bombs!",
+              "I am the most explosive receiver!",
+              "I will outrun every defender!",
+              "I am the master of the deep ball!"
+            ],
+            description: 'The explosive receiver who revolutionized the deep passing game with his speed and height.'
+          },
+          {
+            name: 'Dan Marino',
+            role: 'The Gunslinger',
+            startingCoins: 120,
+            startingWeapons: ['arm strength', 'quick release', 'accuracy'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'gunslinger',
+            quotes: [
+              "I am Dan Marino, the Gunslinger!",
+              "I will sling the ball downfield!",
+              "I am the most gunslinging quarterback!",
+              "I will throw with perfect accuracy!",
+              "I am the master of the quick release!"
+            ],
+            description: 'The gunslinging quarterback who revolutionized the passing game with his quick release.'
+          },
+          {
+            name: 'Walter Payton',
+            role: 'Sweetness',
+            startingCoins: 115,
+            startingWeapons: ['versatility', 'toughness', 'heart'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'sweet',
+            quotes: [
+              "I am Walter Payton, Sweetness!",
+              "I will run with sweetness and power!",
+              "I am the sweetest runner!",
+              "I will never give up!",
+              "I am the master of heart!"
+            ],
+            description: 'The sweet running back who combined toughness and heart to become one of the greatest.'
+          },
+          {
+            name: 'Barry Sanders',
+            role: 'The Lion',
+            startingCoins: 110,
+            startingWeapons: ['elusiveness', 'vision', 'cuts'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'elusive',
+            quotes: [
+              "I am Barry Sanders, the Lion!",
+              "I will elude every defender!",
+              "I am the most elusive runner!",
+              "I will make impossible cuts!",
+              "I am the master of escape!"
+            ],
+            description: 'The elusive running back who made impossible cuts and eluded defenders with ease.'
+          },
+          {
+            name: 'Randy Moss',
+            role: 'The Freak',
+            startingCoins: 105,
+            startingWeapons: ['speed', 'height', 'leaping'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'freakish',
+            quotes: [
+              "I am Randy Moss, the Freak!",
+              "I will leap over defenders!",
+              "I am the most freakish receiver!",
+              "I will catch impossible passes!",
+              "I am the master of the deep ball!"
+            ],
+            description: 'The freakish receiver who could leap over defenders and catch impossible passes.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Quarterback', startingCoins: 30, startingWeapons: ['arm'], startingMercenaries: 0, startingCastles: 0, personality: 'leading', quotes: ['We are quarterbacks!', 'Leadership!', 'Command!'] },
+          { name: 'Receiver', startingCoins: 25, startingWeapons: ['hands'], startingMercenaries: 0, startingCastles: 0, personality: 'catching', quotes: ['We catch!', 'Hands!', 'Routes!'] },
+          { name: 'Runner', startingCoins: 35, startingWeapons: ['legs'], startingMercenaries: 0, startingCastles: 0, personality: 'running', quotes: ['We run!', 'Speed!', 'Power!'] }
+        ]
+      },
+      defensiveLegends: {
+        name: 'Defensive Legends',
+        color: '#1e40af', // Blue
+        description: 'The greatest defensive players in NFL history, known for their toughness, intimidation, and the ability to shut down opposing offenses',
+        territories: [
+          { name: 'Soldier Field', cost: 25, description: 'The historic home of the Chicago Bears' },
+          { name: 'FirstEnergy Stadium', cost: 22, description: 'The Cleveland Browns\' home' },
+          { name: 'M&T Bank Stadium', cost: 20, description: 'The Baltimore Ravens\' home' },
+          { name: 'Paul Brown Stadium', cost: 18, description: 'The Cincinnati Bengals\' home' },
+          { name: 'Lucas Oil Stadium', cost: 15, description: 'The Indianapolis Colts\' home' },
+          { name: 'Nissan Stadium', cost: 12, description: 'The Tennessee Titans\' home' },
+          { name: 'NRG Stadium', cost: 10, description: 'The Houston Texans\' home' },
+          { name: 'AT&T Stadium', cost: 8, description: 'The Dallas Cowboys\' home' },
+          { name: 'Lincoln Financial Field', cost: 6, description: 'The Philadelphia Eagles\' home' },
+          { name: 'MetLife Stadium', cost: 4, description: 'The New York Giants\' home' }
+        ],
+        characters: [
+          {
+            name: 'Lawrence Taylor',
+            role: 'LT',
+            startingCoins: 150,
+            startingWeapons: ['speed', 'power', 'intimidation'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'intimidating',
+            quotes: [
+              "I am Lawrence Taylor, LT!",
+              "I will terrorize every quarterback!",
+              "I am the most intimidating defender!",
+              "I will sack everyone!",
+              "I am the master of destruction!"
+            ],
+            description: 'The intimidating linebacker who revolutionized the pass rush and terrorized quarterbacks.'
+          },
+          {
+            name: 'Reggie White',
+            role: 'The Minister of Defense',
+            startingCoins: 145,
+            startingWeapons: ['power', 'technique', 'faith'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'powerful',
+            quotes: [
+              "I am Reggie White, the Minister of Defense!",
+              "I will minister to every offense!",
+              "I am the most powerful defender!",
+              "I will dominate every blocker!",
+              "I am the master of power!"
+            ],
+            description: 'The powerful defensive end who combined strength and technique to dominate offensive lines.'
+          },
+          {
+            name: 'Dick Butkus',
+            role: 'The Monster',
+            startingCoins: 140,
+            startingWeapons: ['toughness', 'hitting', 'intimidation'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'monstrous',
+            quotes: [
+              "I am Dick Butkus, the Monster!",
+              "I will hit like a monster!",
+              "I am the most monstrous hitter!",
+              "I will intimidate every runner!",
+              "I am the master of destruction!"
+            ],
+            description: 'The monstrous linebacker who defined toughness and intimidation in the NFL.'
+          },
+          {
+            name: 'Deion Sanders',
+            role: 'Prime Time',
+            startingCoins: 135,
+            startingWeapons: ['speed', 'coverage', 'swagger'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'flashy',
+            quotes: [
+              "I am Deion Sanders, Prime Time!",
+              "I will shut down every receiver!",
+              "I am the flashiest defender!",
+              "I will cover like no other!",
+              "I am the master of swagger!"
+            ],
+            description: 'The flashy cornerback who shut down receivers with his speed and swagger.'
+          },
+          {
+            name: 'Ray Lewis',
+            role: 'The General',
+            startingCoins: 140,
+            startingWeapons: ['leadership', 'hitting', 'passion'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'passionate',
+            quotes: [
+              "I am Ray Lewis, the General!",
+              "I will lead my defense!",
+              "I am the most passionate leader!",
+              "I will hit with passion!",
+              "I am the master of leadership!"
+            ],
+            description: 'The passionate linebacker who led his defense with intensity and leadership.'
+          },
+          {
+            name: 'Ronnie Lott',
+            role: 'The Hitman',
+            startingCoins: 130,
+            startingWeapons: ['hitting', 'versatility', 'toughness'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'tough',
+            quotes: [
+              "I am Ronnie Lott, the Hitman!",
+              "I will hit like a hitman!",
+              "I am the toughest defender!",
+              "I will play every position!",
+              "I am the master of versatility!"
+            ],
+            description: 'The tough safety who could play any position in the secondary with devastating hits.'
+          },
+          {
+            name: 'Mean Joe Greene',
+            role: 'The Steel Curtain',
+            startingCoins: 125,
+            startingWeapons: ['strength', 'intimidation', 'dominance'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'mean',
+            quotes: [
+              "I am Mean Joe Greene, the Steel Curtain!",
+              "I will be mean to every offense!",
+              "I am the meanest defender!",
+              "I will dominate every play!",
+              "I am the master of intimidation!"
+            ],
+            description: 'The mean defensive tackle who anchored the Steel Curtain defense.'
+          },
+          {
+            name: 'Ed Reed',
+            role: 'The Ball Hawk',
+            startingCoins: 120,
+            startingWeapons: ['instincts', 'ball skills', 'intelligence'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'instinctive',
+            quotes: [
+              "I am Ed Reed, the Ball Hawk!",
+              "I will hawk every ball!",
+              "I am the most instinctive defender!",
+              "I will intercept everything!",
+              "I am the master of instincts!"
+            ],
+            description: 'The instinctive safety who had an uncanny ability to intercept passes.'
+          },
+          {
+            name: 'Charles Woodson',
+            role: 'The Versatile Defender',
+            startingCoins: 115,
+            startingWeapons: ['versatility', 'ball skills', 'leadership'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'versatile',
+            quotes: [
+              "I am Charles Woodson, versatile defender!",
+              "I will play everywhere!",
+              "I am the most versatile defender!",
+              "I will excel at every position!",
+              "I am the master of versatility!"
+            ],
+            description: 'The versatile defender who excelled at cornerback and safety.'
+          },
+          {
+            name: 'Bruce Smith',
+            role: 'The Sack Master',
+            startingCoins: 110,
+            startingWeapons: ['pass rush', 'sacks', 'power'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'dominant',
+            quotes: [
+              "I am Bruce Smith, the sack master!",
+              "I will sack every quarterback!",
+              "I am the most dominant pass rusher!",
+              "I will terrorize the pocket!",
+              "I am the master of sacks!"
+            ],
+            description: 'The dominant pass rusher who holds the all-time sack record.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Linebacker', startingCoins: 30, startingWeapons: ['hitting'], startingMercenaries: 0, startingCastles: 0, personality: 'tough', quotes: ['We hit!', 'Toughness!', 'Power!'] },
+          { name: 'Defensive End', startingCoins: 25, startingWeapons: ['pass rush'], startingMercenaries: 0, startingCastles: 0, personality: 'aggressive', quotes: ['We rush!', 'Aggression!', 'Sacks!'] },
+          { name: 'Defensive Back', startingCoins: 35, startingWeapons: ['coverage'], startingMercenaries: 0, startingCastles: 0, personality: 'quick', quotes: ['We cover!', 'Speed!', 'Interceptions!'] }
+        ]
+      },
+      specialTeamsLegends: {
+        name: 'Special Teams Legends',
+        color: '#16a34a', // Green
+        description: 'The greatest special teams players in NFL history, known for their precision, clutch performances, and the ability to change games with one play',
+        territories: [
+          { name: 'Ford Field', cost: 25, description: 'The Detroit Lions\' home' },
+          { name: 'U.S. Bank Stadium', cost: 22, description: 'The Minnesota Vikings\' home' },
+          { name: 'Lambeau Field', cost: 20, description: 'The Green Bay Packers\' frozen tundra' },
+          { name: 'Soldier Field', cost: 18, description: 'The Chicago Bears\' historic home' },
+          { name: 'Arrowhead Stadium', cost: 15, description: 'The Kansas City Chiefs\' loud home' },
+          { name: 'Empower Field at Mile High', cost: 12, description: 'The Denver Broncos\' high altitude home' },
+          { name: 'State Farm Stadium', cost: 10, description: 'The Arizona Cardinals\' home' },
+          { name: 'SoFi Stadium', cost: 8, description: 'The Los Angeles Rams\' home' },
+          { name: 'Levi\'s Stadium', cost: 6, description: 'The San Francisco 49ers\' home' },
+          { name: 'Lumen Field', cost: 4, description: 'The Seattle Seahawks\' home' }
+        ],
+        characters: [
+          {
+            name: 'Adam Vinatieri',
+            role: 'The Clutch Kicker',
+            startingCoins: 145,
+            startingWeapons: ['accuracy', 'clutch', 'consistency'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'clutch',
+            quotes: [
+              "I am Adam Vinatieri, the clutch kicker!",
+              "I will make every clutch kick!",
+              "I am the most clutch kicker!",
+              "I will win every game!",
+              "I am the master of pressure!"
+            ],
+            description: 'The clutch kicker who made the most important kicks in NFL history.'
+          },
+          {
+            name: 'Ray Guy',
+            role: 'The Punting Legend',
+            startingCoins: 140,
+            startingWeapons: ['distance', 'hang time', 'precision'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'precise',
+            quotes: [
+              "I am Ray Guy, the punting legend!",
+              "I will punt with precision!",
+              "I am the most precise punter!",
+              "I will flip the field!",
+              "I am the master of punting!"
+            ],
+            description: 'The precise punter who revolutionized the position with his distance and hang time.'
+          },
+          {
+            name: 'Devin Hester',
+            role: 'The Return Specialist',
+            startingCoins: 135,
+            startingWeapons: ['speed', 'elusiveness', 'vision'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'explosive',
+            quotes: [
+              "I am Devin Hester, the return specialist!",
+              "I will return every kick!",
+              "I am the most explosive returner!",
+              "I will score on every return!",
+              "I am the master of returns!"
+            ],
+            description: 'The explosive return specialist who scored more return touchdowns than anyone in NFL history.'
+          },
+          {
+            name: 'Steve Tasker',
+            role: 'The Special Teams Ace',
+            startingCoins: 130,
+            startingWeapons: ['coverage', 'blocking', 'versatility'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'versatile',
+            quotes: [
+              "I am Steve Tasker, the special teams ace!",
+              "I will ace every special teams play!",
+              "I am the most versatile special teamer!",
+              "I will cover every kick!",
+              "I am the master of special teams!"
+            ],
+            description: 'The versatile special teams ace who dominated coverage and blocking units.'
+          },
+          {
+            name: 'Josh Cribbs',
+            role: 'The Return King',
+            startingCoins: 125,
+            startingWeapons: ['returns', 'speed', 'explosiveness'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'explosive',
+            quotes: [
+              "I am Josh Cribbs, the return king!",
+              "I will reign over all returns!",
+              "I am the most explosive returner!",
+              "I will score on every return!",
+              "I am the king of returns!"
+            ],
+            description: 'The explosive return king who dominated kick and punt returns.'
+          },
+          {
+            name: 'Shane Lechler',
+            role: 'The Punting Machine',
+            startingCoins: 120,
+            startingWeapons: ['distance', 'consistency', 'power'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'consistent',
+            quotes: [
+              "I am Shane Lechler, the punting machine!",
+              "I will punt like a machine!",
+              "I am the most consistent punter!",
+              "I will boot every punt far!",
+              "I am the master of distance!"
+            ],
+            description: 'The consistent punting machine who consistently booted punts with incredible distance.'
+          },
+          {
+            name: 'Brian Mitchell',
+            role: 'The All-Purpose Returner',
+            startingCoins: 115,
+            startingWeapons: ['versatility', 'durability', 'production'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'durable',
+            quotes: [
+              "I am Brian Mitchell, the all-purpose returner!",
+              "I will return everything!",
+              "I am the most durable returner!",
+              "I will produce on every play!",
+              "I am the master of all-purpose!"
+            ],
+            description: 'The durable all-purpose returner who produced consistently throughout his career.'
+          },
+          {
+            name: 'Dante Hall',
+            role: 'The Human Joystick',
+            startingCoins: 110,
+            startingWeapons: ['moves', 'elusiveness', 'creativity'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'creative',
+            quotes: [
+              "I am Dante Hall, the Human Joystick!",
+              "I will move like a joystick!",
+              "I am the most creative returner!",
+              "I will make defenders miss!",
+              "I am the master of moves!"
+            ],
+            description: 'The creative returner who moved like a human joystick with incredible elusiveness.'
+          },
+          {
+            name: 'Josh Cribbs',
+            role: 'The Return Specialist',
+            startingCoins: 105,
+            startingWeapons: ['speed', 'vision', 'returns'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'explosive',
+            quotes: [
+              "I am Josh Cribbs, return specialist!",
+              "I will explode for touchdowns!",
+              "I am the most explosive returner!",
+              "I will take it to the house!",
+              "I am the master of returns!"
+            ],
+            description: 'The explosive return specialist who could take any kick to the house.'
+          },
+          {
+            name: 'Darren Sproles',
+            role: 'The Versatile Weapon',
+            startingCoins: 100,
+            startingWeapons: ['versatility', 'speed', 'receiving'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'versatile',
+            quotes: [
+              "I am Darren Sproles, versatile weapon!",
+              "I will do everything!",
+              "I am the most versatile player!",
+              "I will catch and run!",
+              "I am the master of versatility!"
+            ],
+            description: 'The versatile weapon who could run, catch, and return with equal effectiveness.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Kicker', startingCoins: 30, startingWeapons: ['leg'], startingMercenaries: 0, startingCastles: 0, personality: 'accurate', quotes: ['We kick!', 'Accuracy!', 'Points!'] },
+          { name: 'Punter', startingCoins: 25, startingWeapons: ['leg'], startingMercenaries: 0, startingCastles: 0, personality: 'powerful', quotes: ['We punt!', 'Distance!', 'Field position!'] },
+          { name: 'Returner', startingCoins: 35, startingWeapons: ['speed'], startingMercenaries: 0, startingCastles: 0, personality: 'explosive', quotes: ['We return!', 'Speed!', 'Touchdowns!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Super Bowl', cost: 5, description: 'The ultimate championship game' },
+      { name: 'The Pro Bowl', cost: 3, description: 'Where the best players showcase their skills' },
+      { name: 'The Draft', cost: 2, description: 'Where new talent enters the league' },
+      { name: 'The Hall of Fame', cost: 1, description: 'Where legends are immortalized' },
+      { name: 'The Playoffs', cost: 4, description: 'Where champions are crowned' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // INTERNATIONAL SOCCER LEGENDS SCENARIO
+  soccerLegends: {
+    id: 'soccerLegends',
+    name: 'International Soccer Legends: The Beautiful Game\'s Greatest (1863-present)',
+    type: 'sports',
+    description: 'The epic battle between the greatest soccer players in world history, where legends from different continents and eras clash in the ultimate showdown for football supremacy.',
+    factions: {
+      europeanLegends: {
+        name: 'European Legends',
+        color: '#1e40af', // Blue
+        description: 'The greatest European soccer players, known for their technical skill, tactical intelligence, and the foundation they built for modern football',
+        territories: [
+          { name: 'Wembley Stadium', cost: 25, description: 'The home of English football and the FA Cup' },
+          { name: 'Santiago Bernabéu', cost: 22, description: 'The legendary home of Real Madrid' },
+          { name: 'Camp Nou', cost: 20, description: 'The magnificent home of FC Barcelona' },
+          { name: 'Old Trafford', cost: 18, description: 'The Theatre of Dreams for Manchester United' },
+          { name: 'San Siro', cost: 15, description: 'The historic home of AC Milan and Inter Milan' },
+          { name: 'Allianz Arena', cost: 12, description: 'The modern home of Bayern Munich' },
+          { name: 'Anfield', cost: 10, description: 'The legendary home of Liverpool FC' },
+          { name: 'Stamford Bridge', cost: 8, description: 'The home of Chelsea FC' },
+          { name: 'Emirates Stadium', cost: 6, description: 'The modern home of Arsenal FC' },
+          { name: 'Signal Iduna Park', cost: 4, description: 'The Yellow Wall of Borussia Dortmund' }
+        ],
+        characters: [
+          {
+            name: 'Pelé',
+            role: 'The King of Football',
+            startingCoins: 150,
+            startingWeapons: ['skill', 'goals', 'magic'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'magical',
+            quotes: [
+              "I am Pelé, the King of Football!",
+              "I will score magical goals!",
+              "I am the most magical player!",
+              "I will win three World Cups!",
+              "I am the king of the beautiful game!"
+            ],
+            description: 'The magical Brazilian who became the King of Football with three World Cup victories.'
+          },
+          {
+            name: 'Diego Maradona',
+            role: 'The Hand of God',
+            startingCoins: 145,
+            startingWeapons: ['dribbling', 'creativity', 'passion'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'passionate',
+            quotes: [
+              "I am Diego Maradona, the Hand of God!",
+              "I will dribble past everyone!",
+              "I am the most passionate player!",
+              "I will create magic on the pitch!",
+              "I am the master of dribbling!"
+            ],
+            description: 'The passionate Argentine who created magic with his dribbling and creativity.'
+          },
+          {
+            name: 'Lionel Messi',
+            role: 'The Little Genius',
+            startingCoins: 150,
+            startingWeapons: ['dribbling', 'finishing', 'vision'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'genius',
+            quotes: [
+              "I am Lionel Messi, the Little Genius!",
+              "I will create genius on the pitch!",
+              "I am the most genius player!",
+              "I will score incredible goals!",
+              "I am the master of creativity!"
+            ],
+            description: 'The genius Argentine who combines dribbling, finishing, and vision like no other.'
+          },
+          {
+            name: 'Cristiano Ronaldo',
+            role: 'CR7',
+            startingCoins: 145,
+            startingWeapons: ['athleticism', 'finishing', 'determination'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'determined',
+            quotes: [
+              "I am Cristiano Ronaldo, CR7!",
+              "I will work harder than anyone!",
+              "I am the most determined player!",
+              "I will score with athleticism!",
+              "I am the master of hard work!"
+            ],
+            description: 'The determined Portuguese who combines athleticism and hard work to achieve greatness.'
+          },
+          {
+            name: 'Johan Cruyff',
+            role: 'The Flying Dutchman',
+            startingCoins: 140,
+            startingWeapons: ['total football', 'vision', 'innovation'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'innovative',
+            quotes: [
+              "I am Johan Cruyff, the Flying Dutchman!",
+              "I will revolutionize football!",
+              "I am the most innovative player!",
+              "I will play total football!",
+              "I am the master of innovation!"
+            ],
+            description: 'The innovative Dutchman who revolutionized football with Total Football.'
+          },
+          {
+            name: 'Franz Beckenbauer',
+            role: 'Der Kaiser',
+            startingCoins: 135,
+            startingWeapons: ['elegance', 'leadership', 'versatility'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'elegant',
+            quotes: [
+              "I am Franz Beckenbauer, Der Kaiser!",
+              "I will play with elegance!",
+              "I am the most elegant player!",
+              "I will lead with grace!",
+              "I am the master of elegance!"
+            ],
+            description: 'The elegant German who played with grace and leadership as Der Kaiser.'
+          },
+          {
+            name: 'Michel Platini',
+            role: 'Le Roi',
+            startingCoins: 130,
+            startingWeapons: ['technique', 'passing', 'elegance'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'elegant',
+            quotes: [
+              "I am Michel Platini, Le Roi!",
+              "I will pass with elegance!",
+              "I am the most elegant passer!",
+              "I will play with perfect technique!",
+              "I am the master of passing!"
+            ],
+            description: 'The elegant Frenchman who played with perfect technique and passing.'
+          },
+          {
+            name: 'Zinedine Zidane',
+            role: 'Zizou',
+            startingCoins: 125,
+            startingWeapons: ['technique', 'control', 'elegance'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'elegant',
+            quotes: [
+              "I am Zinedine Zidane, Zizou!",
+              "I will control the ball perfectly!",
+              "I am the most elegant controller!",
+              "I will play with perfect technique!",
+              "I am the master of control!"
+            ],
+            description: 'The elegant Frenchman who controlled the ball with perfect technique and grace.'
+          },
+          {
+            name: 'Paolo Maldini',
+            role: 'The Defensive Master',
+            startingCoins: 120,
+            startingWeapons: ['defense', 'positioning', 'leadership'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'defensive',
+            quotes: [
+              "I am Paolo Maldini, defensive master!",
+              "I will defend with perfection!",
+              "I am the most defensive player!",
+              "I will position myself perfectly!",
+              "I am the master of defense!"
+            ],
+            description: 'The defensive master who played with perfect positioning and leadership.'
+          },
+          {
+            name: 'Gianluigi Buffon',
+            role: 'The Goalkeeper Legend',
+            startingCoins: 115,
+            startingWeapons: ['goalkeeping', 'reflexes', 'leadership'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'reliable',
+            quotes: [
+              "I am Gianluigi Buffon, goalkeeper legend!",
+              "I will save every shot!",
+              "I am the most reliable goalkeeper!",
+              "I will lead from the back!",
+              "I am the master of goalkeeping!"
+            ],
+            description: 'The reliable goalkeeper who saved shots with incredible reflexes and leadership.'
+          }
+        ],
+        generalRoles: [
+          { name: 'European', startingCoins: 30, startingWeapons: ['technique'], startingMercenaries: 0, startingCastles: 0, personality: 'technical', quotes: ['We are technical!', 'Technique!', 'Skill!'] },
+          { name: 'Legend', startingCoins: 25, startingWeapons: ['legacy'], startingMercenaries: 0, startingCastles: 0, personality: 'legendary', quotes: ['We are legends!', 'Legacy!', 'History!'] },
+          { name: 'Master', startingCoins: 35, startingWeapons: ['mastery'], startingMercenaries: 0, startingCastles: 0, personality: 'masterful', quotes: ['We are masters!', 'Mastery!', 'Excellence!'] }
+        ]
+      },
+      southAmericanLegends: {
+        name: 'South American Legends',
+        color: '#dc2626', // Red
+        description: 'The greatest South American soccer players, known for their flair, creativity, and the passion they bring to the beautiful game',
+        territories: [
+          { name: 'Maracanã Stadium', cost: 25, description: 'The legendary home of Brazilian football' },
+          { name: 'La Bombonera', cost: 22, description: 'The passionate home of Boca Juniors' },
+          { name: 'El Monumental', cost: 20, description: 'The historic home of River Plate' },
+          { name: 'Estadio Centenario', cost: 18, description: 'The historic home of Uruguayan football' },
+          { name: 'Estadio Nacional', cost: 15, description: 'The home of Chilean football' },
+          { name: 'Estadio Atanasio Girardot', cost: 12, description: 'The home of Colombian football' },
+          { name: 'Estadio Nacional de Lima', cost: 10, description: 'The home of Peruvian football' },
+          { name: 'Estadio Defensores del Chaco', cost: 8, description: 'The home of Paraguayan football' },
+          { name: 'Estadio Hernando Siles', cost: 6, description: 'The high altitude home of Bolivian football' },
+          { name: 'Estadio Olímpico Atahualpa', cost: 4, description: 'The home of Ecuadorian football' }
+        ],
+        characters: [
+          {
+            name: 'Pelé',
+            role: 'The King of Football',
+            startingCoins: 150,
+            startingWeapons: ['skill', 'goals', 'magic'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'magical',
+            quotes: [
+              "I am Pelé, the King of Football!",
+              "I will score magical goals!",
+              "I am the most magical player!",
+              "I will win three World Cups!",
+              "I am the king of the beautiful game!"
+            ],
+            description: 'The magical Brazilian who became the King of Football with three World Cup victories.'
+          },
+          {
+            name: 'Diego Maradona',
+            role: 'The Hand of God',
+            startingCoins: 145,
+            startingWeapons: ['dribbling', 'creativity', 'passion'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'passionate',
+            quotes: [
+              "I am Diego Maradona, the Hand of God!",
+              "I will dribble past everyone!",
+              "I am the most passionate player!",
+              "I will create magic on the pitch!",
+              "I am the master of dribbling!"
+            ],
+            description: 'The passionate Argentine who created magic with his dribbling and creativity.'
+          },
+          {
+            name: 'Lionel Messi',
+            role: 'The Little Genius',
+            startingCoins: 150,
+            startingWeapons: ['dribbling', 'finishing', 'vision'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'genius',
+            quotes: [
+              "I am Lionel Messi, the Little Genius!",
+              "I will create genius on the pitch!",
+              "I am the most genius player!",
+              "I will score incredible goals!",
+              "I am the master of creativity!"
+            ],
+            description: 'The genius Argentine who combines dribbling, finishing, and vision like no other.'
+          },
+          {
+            name: 'Ronaldinho',
+            role: 'The Magician',
+            startingCoins: 140,
+            startingWeapons: ['skill', 'creativity', 'smile'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'magical',
+            quotes: [
+              "I am Ronaldinho, the Magician!",
+              "I will create magic with my smile!",
+              "I am the most magical player!",
+              "I will play with joy!",
+              "I am the master of joy!"
+            ],
+            description: 'The magical Brazilian who played with joy and created magic with his smile.'
+          },
+          {
+            name: 'Ronaldo',
+            role: 'The Phenomenon',
+            startingCoins: 135,
+            startingWeapons: ['speed', 'finishing', 'power'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'phenomenal',
+            quotes: [
+              "I am Ronaldo, the Phenomenon!",
+              "I will be phenomenal on the pitch!",
+              "I am the most phenomenal player!",
+              "I will score with power!",
+              "I am the master of power!"
+            ],
+            description: 'The phenomenal Brazilian who combined speed, finishing, and power.'
+          },
+          {
+            name: 'Romário',
+            role: 'The Little Genius',
+            startingCoins: 130,
+            startingWeapons: ['finishing', 'positioning', 'instinct'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'instinctive',
+            quotes: [
+              "I am Romário, the Little Genius!",
+              "I will score with instinct!",
+              "I am the most instinctive player!",
+              "I will position perfectly!",
+              "I am the master of positioning!"
+            ],
+            description: 'The instinctive Brazilian who mastered the art of positioning and finishing.'
+          },
+          {
+            name: 'Carlos Valderrama',
+            role: 'El Pibe',
+            startingCoins: 125,
+            startingWeapons: ['passing', 'vision', 'hair'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'creative',
+            quotes: [
+              "I am Carlos Valderrama, El Pibe!",
+              "I will pass with my golden hair!",
+              "I am the most creative passer!",
+              "I will see everything!",
+              "I am the master of vision!"
+            ],
+            description: 'The creative Colombian who passed with vision and his iconic golden hair.'
+          },
+          {
+            name: 'Enzo Francescoli',
+            role: 'El Príncipe',
+            startingCoins: 120,
+            startingWeapons: ['elegance', 'technique', 'leadership'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'elegant',
+            quotes: [
+              "I am Enzo Francescoli, El Príncipe!",
+              "I will play with elegance!",
+              "I am the most elegant player!",
+              "I will lead with grace!",
+              "I am the master of elegance!"
+            ],
+            description: 'The elegant Uruguayan who played with grace and leadership as El Príncipe.'
+          },
+          {
+            name: 'Ronaldinho',
+            role: 'The Magician',
+            startingCoins: 115,
+            startingWeapons: ['magic', 'creativity', 'smile'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'magical',
+            quotes: [
+              "I am Ronaldinho, the magician!",
+              "I will perform magic on the field!",
+              "I am the most magical player!",
+              "I will create impossible plays!",
+              "I am the master of magic!"
+            ],
+            description: 'The magical Brazilian who performed impossible tricks and brought joy to the game.'
+          },
+          {
+            name: 'Roberto Carlos',
+            role: 'The Free Kick Master',
+            startingCoins: 110,
+            startingWeapons: ['free kicks', 'power', 'speed'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'powerful',
+            quotes: [
+              "I am Roberto Carlos, free kick master!",
+              "I will score impossible free kicks!",
+              "I am the most powerful kicker!",
+              "I will bend the ball!",
+              "I am the master of free kicks!"
+            ],
+            description: 'The powerful Brazilian who scored impossible free kicks with incredible curve.'
+          }
+        ],
+        generalRoles: [
+          { name: 'South American', startingCoins: 30, startingWeapons: ['flair'], startingMercenaries: 0, startingCastles: 0, personality: 'flamboyant', quotes: ['We are flamboyant!', 'Flair!', 'Style!'] },
+          { name: 'Creative', startingCoins: 25, startingWeapons: ['creativity'], startingMercenaries: 0, startingCastles: 0, personality: 'creative', quotes: ['We are creative!', 'Creativity!', 'Innovation!'] },
+          { name: 'Passionate', startingCoins: 35, startingWeapons: ['passion'], startingMercenaries: 0, startingCastles: 0, personality: 'passionate', quotes: ['We are passionate!', 'Passion!', 'Heart!'] }
+        ]
+      },
+      africanLegends: {
+        name: 'African Legends',
+        color: '#16a34a', // Green
+        description: 'The greatest African soccer players, known for their athleticism, determination, and the pride they bring to representing their continent',
+        territories: [
+          { name: 'Soccer City', cost: 25, description: 'The iconic home of South African football' },
+          { name: 'Cairo International Stadium', cost: 22, description: 'The home of Egyptian football' },
+          { name: 'Stade des Martyrs', cost: 20, description: 'The home of Congolese football' },
+          { name: 'Stade du 26 Mars', cost: 18, description: 'The home of Malian football' },
+          { name: 'Stade de la Paix', cost: 15, description: 'The home of Ivorian football' },
+          { name: 'Stade Olympique de Radès', cost: 12, description: 'The home of Tunisian football' },
+          { name: 'Stade Mohammed V', cost: 10, description: 'The home of Moroccan football' },
+          { name: 'Stade du 4 Août', cost: 8, description: 'The home of Burkinabé football' },
+          { name: 'Stade de Kégué', cost: 6, description: 'The home of Togolese football' },
+          { name: 'Stade de l\'Amitié', cost: 4, description: 'The home of Senegalese football' }
+        ],
+        characters: [
+          {
+            name: 'Samuel Eto\'o',
+            role: 'The Lion',
+            startingCoins: 145,
+            startingWeapons: ['speed', 'finishing', 'pride'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'proud',
+            quotes: [
+              "I am Samuel Eto\'o, the Lion!",
+              "I will roar with pride!",
+              "I am the most proud player!",
+              "I will represent Africa!",
+              "I am the master of pride!"
+            ],
+            description: 'The proud Cameroonian who roared with pride and represented Africa with excellence.'
+          },
+          {
+            name: 'Didier Drogba',
+            role: 'The Drog',
+            startingCoins: 140,
+            startingWeapons: ['power', 'leadership', 'determination'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'determined',
+            quotes: [
+              "I am Didier Drogba, the Drog!",
+              "I will lead with determination!",
+              "I am the most determined player!",
+              "I will power through everything!",
+              "I am the master of determination!"
+            ],
+            description: 'The determined Ivorian who led with power and determination.'
+          },
+          {
+            name: 'Yaya Touré',
+            role: 'The Colossus',
+            startingCoins: 135,
+            startingWeapons: ['power', 'versatility', 'strength'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'powerful',
+            quotes: [
+              "I am Yaya Touré, the Colossus!",
+              "I will dominate with power!",
+              "I am the most powerful player!",
+              "I will play every position!",
+              "I am the master of versatility!"
+            ],
+            description: 'The powerful Ivorian who dominated with his strength and versatility.'
+          },
+          {
+            name: 'Mohamed Salah',
+            role: 'The Egyptian King',
+            startingCoins: 140,
+            startingWeapons: ['speed', 'finishing', 'determination'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'determined',
+            quotes: [
+              "I am Mohamed Salah, the Egyptian King!",
+              "I will reign with speed!",
+              "I am the most determined king!",
+              "I will score with determination!",
+              "I am the master of speed!"
+            ],
+            description: 'The determined Egyptian who reigns with speed and finishing ability.'
+          },
+          {
+            name: 'Sadio Mané',
+            role: 'The Senegalese Speedster',
+            startingCoins: 130,
+            startingWeapons: ['speed', 'dribbling', 'work rate'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'energetic',
+            quotes: [
+              "I am Sadio Mané, the Senegalese Speedster!",
+              "I will run with energy!",
+              "I am the most energetic player!",
+              "I will work harder than anyone!",
+              "I am the master of work rate!"
+            ],
+            description: 'The energetic Senegalese who runs with incredible speed and work rate.'
+          },
+          {
+            name: 'George Weah',
+            role: 'The Liberian President',
+            startingCoins: 135,
+            startingWeapons: ['speed', 'power', 'leadership'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'presidential',
+            quotes: [
+              "I am George Weah, the Liberian President!",
+              "I will lead like a president!",
+              "I am the most presidential player!",
+              "I will represent my people!",
+              "I am the master of leadership!"
+            ],
+            description: 'The presidential Liberian who led his people both on and off the pitch.'
+          },
+          {
+            name: 'Abedi Pele',
+            role: 'The African Maradona',
+            startingCoins: 125,
+            startingWeapons: ['skill', 'creativity', 'flair'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'creative',
+            quotes: [
+              "I am Abedi Pele, the African Maradona!",
+              "I will create with African flair!",
+              "I am the most creative African!",
+              "I will play with skill!",
+              "I am the master of African flair!"
+            ],
+            description: 'The creative Ghanaian who played with African flair and skill.'
+          },
+          {
+            name: 'Roger Milla',
+            role: 'The Dancing Goal Scorer',
+            startingCoins: 120,
+            startingWeapons: ['celebration', 'finishing', 'joy'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'joyful',
+            quotes: [
+              "I am Roger Milla, the Dancing Goal Scorer!",
+              "I will dance with joy!",
+              "I am the most joyful player!",
+              "I will celebrate every goal!",
+              "I am the master of celebration!"
+            ],
+            description: 'The joyful Cameroonian who celebrated every goal with dance and joy.'
+          },
+          {
+            name: 'Mohamed Salah',
+            role: 'The Egyptian King',
+            startingCoins: 115,
+            startingWeapons: ['speed', 'goals', 'determination'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'determined',
+            quotes: [
+              "I am Mohamed Salah, the Egyptian King!",
+              "I will score with determination!",
+              "I am the most determined player!",
+              "I will represent Egypt!",
+              "I am the master of determination!"
+            ],
+            description: 'The determined Egyptian who represents his country with pride and scores crucial goals.'
+          },
+          {
+            name: 'N\'Golo Kanté',
+            role: 'The Engine',
+            startingCoins: 110,
+            startingWeapons: ['energy', 'tackling', 'humility'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'energetic',
+            quotes: [
+              "I am N\'Golo Kanté, the engine!",
+              "I will run with endless energy!",
+              "I am the most energetic player!",
+              "I will tackle everything!",
+              "I am the master of energy!"
+            ],
+            description: 'The energetic French midfielder who runs with endless energy and tackles everything.'
+          }
+        ],
+        generalRoles: [
+          { name: 'African', startingCoins: 30, startingWeapons: ['pride'], startingMercenaries: 0, startingCastles: 0, personality: 'proud', quotes: ['We are proud!', 'Pride!', 'Africa!'] },
+          { name: 'Athlete', startingCoins: 25, startingWeapons: ['athleticism'], startingMercenaries: 0, startingCastles: 0, personality: 'athletic', quotes: ['We are athletic!', 'Athleticism!', 'Speed!'] },
+          { name: 'Warrior', startingCoins: 35, startingWeapons: ['determination'], startingMercenaries: 0, startingCastles: 0, personality: 'determined', quotes: ['We are warriors!', 'Determination!', 'Fight!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The World Cup', cost: 5, description: 'The ultimate championship tournament' },
+      { name: 'The Champions League', cost: 3, description: 'Where the best clubs compete' },
+      { name: 'The Copa América', cost: 2, description: 'The South American championship' },
+      { name: 'The African Cup of Nations', cost: 1, description: 'The African championship' },
+      { name: 'The European Championship', cost: 4, description: 'The European championship' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // POP MUSIC LEGENDS VS RAP MUSIC LEGENDS SCENARIO
+  musicLegends: {
+    id: 'musicLegends',
+    name: 'Pop vs Rap vs Rock: The Ultimate Music Battle (1950s-present)',
+    type: 'music',
+    description: 'The epic three-way battle between the greatest pop, rap, and rock artists in music history, where legends from different genres clash in the ultimate showdown for musical supremacy.',
+    factions: {
+      popLegends: {
+        name: 'Pop Music Legends',
+        color: '#dc2626', // Red
+        description: 'The greatest pop artists in music history, known for their catchy melodies, universal appeal, and the ability to create timeless hits that transcend generations',
+        territories: [
+          { name: 'Madison Square Garden', cost: 25, description: 'The world\'s most famous concert venue' },
+          { name: 'Hollywood Bowl', cost: 22, description: 'The iconic outdoor amphitheater in Los Angeles' },
+          { name: 'Royal Albert Hall', cost: 20, description: 'The prestigious concert hall in London' },
+          { name: 'Carnegie Hall', cost: 18, description: 'The legendary concert hall in New York' },
+          { name: 'Sydney Opera House', cost: 15, description: 'The iconic performing arts center in Australia' },
+          { name: 'Red Rocks Amphitheatre', cost: 12, description: 'The natural outdoor venue in Colorado' },
+          { name: 'The Apollo Theater', cost: 10, description: 'The historic theater in Harlem' },
+          { name: 'The Fillmore', cost: 8, description: 'The legendary music venue in San Francisco' },
+          { name: 'The Troubadour', cost: 6, description: 'The intimate club in West Hollywood' },
+          { name: 'The Bluebird Cafe', cost: 4, description: 'The famous songwriter venue in Nashville' }
+        ],
+        characters: [
+          {
+            name: 'Michael Jackson',
+            role: 'The King of Pop',
+            startingCoins: 150,
+            startingWeapons: ['dance', 'showmanship', 'innovation'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'innovative',
+            quotes: [
+              "I am Michael Jackson, the King of Pop!",
+              "I will revolutionize music and dance!",
+              "I am the most innovative performer!",
+              "I will create the greatest show!",
+              "I am the king of entertainment!"
+            ],
+            description: 'The innovative King of Pop who revolutionized music and dance with his showmanship.'
+          },
+          {
+            name: 'Madonna',
+            role: 'The Material Girl',
+            startingCoins: 145,
+            startingWeapons: ['reinvention', 'controversy', 'empowerment'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'empowering',
+            quotes: [
+              "I am Madonna, the Material Girl!",
+              "I will empower all women!",
+              "I am the most empowering artist!",
+              "I will reinvent myself constantly!",
+              "I am the queen of reinvention!"
+            ],
+            description: 'The empowering Material Girl who constantly reinvented herself and empowered women.'
+          },
+          {
+            name: 'Elvis Presley',
+            role: 'The King of Rock and Roll',
+            startingCoins: 140,
+            startingWeapons: ['charisma', 'voice', 'swagger'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'charismatic',
+            quotes: [
+              "I am Elvis Presley, the King of Rock and Roll!",
+              "I will rock and roll forever!",
+              "I am the most charismatic performer!",
+              "I will shake, rattle, and roll!",
+              "I am the king of rock and roll!"
+            ],
+            description: 'The charismatic King of Rock and Roll who brought rock and roll to the mainstream.'
+          },
+          {
+            name: 'The Beatles',
+            role: 'The Fab Four',
+            startingCoins: 150,
+            startingWeapons: ['harmony', 'songwriting', 'innovation'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'revolutionary',
+            quotes: [
+              "We are The Beatles, the Fab Four!",
+              "We will revolutionize music!",
+              "We are the most revolutionary band!",
+              "We will write the greatest songs!",
+              "We are the masters of harmony!"
+            ],
+            description: 'The revolutionary Fab Four who revolutionized music with their songwriting and innovation.'
+          },
+          {
+            name: 'Prince',
+            role: 'The Purple One',
+            startingCoins: 145,
+            startingWeapons: ['musicianship', 'style', 'mystique'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'mysterious',
+            quotes: [
+              "I am Prince, the Purple One!",
+              "I will play every instrument!",
+              "I am the most mysterious artist!",
+              "I will create purple magic!",
+              "I am the master of musicianship!"
+            ],
+            description: 'The mysterious Purple One who mastered every instrument and created purple magic.'
+          },
+          {
+            name: 'Whitney Houston',
+            role: 'The Voice',
+            startingCoins: 140,
+            startingWeapons: ['voice', 'emotion', 'power'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'powerful',
+            quotes: [
+              "I am Whitney Houston, the Voice!",
+              "I will sing with power and emotion!",
+              "I am the most powerful singer!",
+              "I will touch every heart!",
+              "I am the master of the voice!"
+            ],
+            description: 'The powerful Voice who sang with incredible power and emotion.'
+          },
+          {
+            name: 'Beyoncé',
+            role: 'Queen Bey',
+            startingCoins: 145,
+            startingWeapons: ['performance', 'empowerment', 'perfectionism'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'perfectionist',
+            quotes: [
+              "I am Beyoncé, Queen Bey!",
+              "I will perform with perfection!",
+              "I am the most perfectionist artist!",
+              "I will empower everyone!",
+              "I am the queen of performance!"
+            ],
+            description: 'The perfectionist Queen Bey who performs with perfection and empowers everyone.'
+          },
+          {
+            name: 'Taylor Swift',
+            role: 'The Storyteller',
+            startingCoins: 135,
+            startingWeapons: ['songwriting', 'storytelling', 'evolution'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'evolving',
+            quotes: [
+              "I am Taylor Swift, the Storyteller!",
+              "I will tell stories through music!",
+              "I am the most evolving artist!",
+              "I will write from the heart!",
+              "I am the master of storytelling!"
+            ],
+            description: 'The evolving Storyteller who tells stories through music and writes from the heart.'
+          },
+          {
+            name: 'Elton John',
+            role: 'Rocket Man',
+            startingCoins: 130,
+            startingWeapons: ['piano', 'showmanship', 'versatility'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'flamboyant',
+            quotes: [
+              "I am Elton John, Rocket Man!",
+              "I will rocket to the stars!",
+              "I am the most flamboyant performer!",
+              "I will play the piano with flair!",
+              "I am the master of showmanship!"
+            ],
+            description: 'The flamboyant Rocket Man who plays piano with flair and showmanship.'
+          },
+          {
+            name: 'Stevie Wonder',
+            role: 'Musical Genius',
+            startingCoins: 125,
+            startingWeapons: ['harmonica', 'soul', 'innovation'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'genius',
+            quotes: [
+              "I am Stevie Wonder, Musical Genius!",
+              "I will create musical genius!",
+              "I am the most genius musician!",
+              "I will play with soul!",
+              "I am the master of innovation!"
+            ],
+            description: 'The genius musician who creates soulful music with incredible innovation.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Pop Star', startingCoins: 30, startingWeapons: ['melody'], startingMercenaries: 0, startingCastles: 0, personality: 'catchy', quotes: ['We are catchy!', 'Melody!', 'Hits!'] },
+          { name: 'Performer', startingCoins: 25, startingWeapons: ['showmanship'], startingMercenaries: 0, startingCastles: 0, personality: 'showy', quotes: ['We perform!', 'Showmanship!', 'Entertainment!'] },
+          { name: 'Icon', startingCoins: 35, startingWeapons: ['iconic'], startingMercenaries: 0, startingCastles: 0, personality: 'iconic', quotes: ['We are icons!', 'Iconic!', 'Legendary!'] }
+        ]
+      },
+      rapLegends: {
+        name: 'Rap Music Legends',
+        color: '#16a34a', // Green
+        description: 'The greatest rap artists in music history, known for their lyrical skill, storytelling ability, and the cultural impact they have had on society',
+        territories: [
+          { name: 'The Apollo Theater', cost: 25, description: 'The historic theater where rap legends were born' },
+          { name: 'The Fillmore', cost: 22, description: 'The legendary music venue in San Francisco' },
+          { name: 'The Troubadour', cost: 20, description: 'The intimate club in West Hollywood' },
+          { name: 'The Bluebird Cafe', cost: 18, description: 'The famous songwriter venue in Nashville' },
+          { name: 'The Roxy', cost: 15, description: 'The iconic club on the Sunset Strip' },
+          { name: 'The Whisky a Go Go', cost: 12, description: 'The legendary rock club in West Hollywood' },
+          { name: 'The Viper Room', cost: 10, description: 'The famous club on the Sunset Strip' },
+          { name: 'The Troubadour', cost: 8, description: 'The intimate club in West Hollywood' },
+          { name: 'The Bluebird Cafe', cost: 6, description: 'The famous songwriter venue in Nashville' },
+          { name: 'The Roxy', cost: 4, description: 'The iconic club on the Sunset Strip' }
+        ],
+        characters: [
+          {
+            name: 'Tupac Shakur',
+            role: '2Pac',
+            startingCoins: 150,
+            startingWeapons: ['lyrics', 'passion', 'poetry'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'passionate',
+            quotes: [
+              "I am Tupac Shakur, 2Pac!",
+              "I will rap with passion and poetry!",
+              "I am the most passionate rapper!",
+              "I will speak for the people!",
+              "I am the master of lyrics!"
+            ],
+            description: 'The passionate 2Pac who rapped with passion and poetry for the people.'
+          },
+          {
+            name: 'The Notorious B.I.G.',
+            role: 'Biggie',
+            startingCoins: 145,
+            startingWeapons: ['flow', 'storytelling', 'charisma'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'charismatic',
+            quotes: [
+              "I am The Notorious B.I.G., Biggie!",
+              "I will flow with charisma!",
+              "I am the most charismatic rapper!",
+              "I will tell stories through rap!",
+              "I am the master of flow!"
+            ],
+            description: 'The charismatic Biggie who flowed with charisma and told stories through rap.'
+          },
+          {
+            name: 'Jay-Z',
+            role: 'Hov',
+            startingCoins: 150,
+            startingWeapons: ['business', 'lyrics', 'empire'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'entrepreneurial',
+            quotes: [
+              "I am Jay-Z, Hov!",
+              "I will build a rap empire!",
+              "I am the most entrepreneurial rapper!",
+              "I will rap about success!",
+              "I am the master of business!"
+            ],
+            description: 'The entrepreneurial Hov who built a rap empire and rapped about success.'
+          },
+          {
+            name: 'Eminem',
+            role: 'Slim Shady',
+            startingCoins: 145,
+            startingWeapons: ['wordplay', 'controversy', 'skill'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'controversial',
+            quotes: [
+              "I am Eminem, Slim Shady!",
+              "I will rap with controversial wordplay!",
+              "I am the most controversial rapper!",
+              "I will shock everyone!",
+              "I am the master of wordplay!"
+            ],
+            description: 'The controversial Slim Shady who rapped with controversial wordplay and shocked everyone.'
+          },
+          {
+            name: 'Nas',
+            role: 'Nasty Nas',
+            startingCoins: 140,
+            startingWeapons: ['storytelling', 'intelligence', 'poetry'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'intelligent',
+            quotes: [
+              "I am Nas, Nasty Nas!",
+              "I will rap with intelligence!",
+              "I am the most intelligent rapper!",
+              "I will tell stories with poetry!",
+              "I am the master of storytelling!"
+            ],
+            description: 'The intelligent Nasty Nas who rapped with intelligence and told stories with poetry.'
+          },
+          {
+            name: 'Kendrick Lamar',
+            role: 'Kung Fu Kenny',
+            startingCoins: 140,
+            startingWeapons: ['consciousness', 'artistry', 'message'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'conscious',
+            quotes: [
+              "I am Kendrick Lamar, Kung Fu Kenny!",
+              "I will rap with consciousness!",
+              "I am the most conscious rapper!",
+              "I will deliver important messages!",
+              "I am the master of consciousness!"
+            ],
+            description: 'The conscious Kung Fu Kenny who rapped with consciousness and delivered important messages.'
+          },
+          {
+            name: 'Drake',
+            role: 'Drizzy',
+            startingCoins: 135,
+            startingWeapons: ['versatility', 'melody', 'emotion'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'versatile',
+            quotes: [
+              "I am Drake, Drizzy!",
+              "I will rap with versatility!",
+              "I am the most versatile rapper!",
+              "I will blend rap and melody!",
+              "I am the master of versatility!"
+            ],
+            description: 'The versatile Drizzy who rapped with versatility and blended rap and melody.'
+          },
+          {
+            name: 'Kanye West',
+            role: 'Ye',
+            startingCoins: 140,
+            startingWeapons: ['innovation', 'production', 'genius'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'innovative',
+            quotes: [
+              "I am Kanye West, Ye!",
+              "I will innovate rap production!",
+              "I am the most innovative rapper!",
+              "I will push boundaries!",
+              "I am the master of innovation!"
+            ],
+            description: 'The innovative Ye who innovated rap production and pushed boundaries.'
+          },
+          {
+            name: 'Lil Wayne',
+            role: 'Weezy',
+            startingCoins: 135,
+            startingWeapons: ['wordplay', 'metaphors', 'freestyle'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'clever',
+            quotes: [
+              "I am Lil Wayne, Weezy!",
+              "I will rap with clever wordplay!",
+              "I am the most clever rapper!",
+              "I will use amazing metaphors!",
+              "I am the master of wordplay!"
+            ],
+            description: 'The clever Weezy who rapped with incredible wordplay and metaphors.'
+          },
+          {
+            name: 'Nicki Minaj',
+            role: 'Queen Barbz',
+            startingCoins: 130,
+            startingWeapons: ['versatility', 'personality', 'flow'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'versatile',
+            quotes: [
+              "I am Nicki Minaj, Queen Barbz!",
+              "I will rap with versatility!",
+              "I am the most versatile female rapper!",
+              "I will show my personality!",
+              "I am the queen of rap!"
+            ],
+            description: 'The versatile Queen Barbz who rapped with incredible versatility and personality.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Rapper', startingCoins: 30, startingWeapons: ['lyrics'], startingMercenaries: 0, startingCastles: 0, personality: 'lyrical', quotes: ['We are lyrical!', 'Lyrics!', 'Rhymes!'] },
+          { name: 'MC', startingCoins: 25, startingWeapons: ['flow'], startingMercenaries: 0, startingCastles: 0, personality: 'flowing', quotes: ['We flow!', 'Flow!', 'Rhythm!'] },
+          { name: 'Legend', startingCoins: 35, startingWeapons: ['legacy'], startingMercenaries: 0, startingCastles: 0, personality: 'legendary', quotes: ['We are legends!', 'Legacy!', 'History!'] }
+        ]
+      },
+      rockLegends: {
+        name: 'Rock Music Legends',
+        color: '#f59e0b', // Orange
+        description: 'The greatest rock artists in music history, known for their powerful performances, rebellious spirit, and the ability to create anthems that define generations',
+        territories: [
+          { name: 'Woodstock', cost: 25, description: 'The legendary music festival that defined a generation' },
+          { name: 'The Fillmore East', cost: 22, description: 'The iconic rock venue in New York' },
+          { name: 'The Whisky a Go Go', cost: 20, description: 'The legendary rock club in West Hollywood' },
+          { name: 'The Roxy', cost: 18, description: 'The iconic club on the Sunset Strip' },
+          { name: 'CBGB', cost: 15, description: 'The birthplace of punk rock' },
+          { name: 'The Troubadour', cost: 12, description: 'The intimate club where legends were born' },
+          { name: 'The Rainbow Bar & Grill', cost: 10, description: 'The rock star hangout in Hollywood' },
+          { name: 'The Viper Room', cost: 8, description: 'The legendary club on Sunset Boulevard' },
+          { name: 'The Whisky', cost: 6, description: 'The rock institution in West Hollywood' },
+          { name: 'The Roxy Theatre', cost: 4, description: 'The historic venue on Sunset Strip' }
+        ],
+        characters: [
+          {
+            name: 'Elvis Presley',
+            role: 'The King of Rock',
+            startingCoins: 150,
+            startingWeapons: ['charisma', 'dance', 'innovation'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'charismatic',
+            quotes: [
+              "I am Elvis Presley, the King of Rock!",
+              "I will rock the world!",
+              "I am the most charismatic performer!",
+              "I will shake, rattle and roll!",
+              "I am the king of rock and roll!"
+            ],
+            description: 'The charismatic King of Rock who revolutionized music with his charisma and dance moves.'
+          },
+          {
+            name: 'The Beatles',
+            role: 'The Fab Four',
+            startingCoins: 145,
+            startingWeapons: ['harmony', 'innovation', 'songwriting'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'innovative',
+            quotes: [
+              "We are The Beatles, the Fab Four!",
+              "We will revolutionize music!",
+              "We are the most innovative band!",
+              "We will change the world!",
+              "We are the greatest band ever!"
+            ],
+            description: 'The innovative Fab Four who revolutionized music with their harmony and songwriting.'
+          },
+          {
+            name: 'Led Zeppelin',
+            role: 'The Stairway to Heaven',
+            startingCoins: 140,
+            startingWeapons: ['power', 'mysticism', 'riffing'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'powerful',
+            quotes: [
+              "We are Led Zeppelin, Stairway to Heaven!",
+              "We will rock with power!",
+              "We are the most powerful band!",
+              "We will create epic riffs!",
+              "We are the masters of rock!"
+            ],
+            description: 'The powerful band who created epic riffs and mystical rock anthems.'
+          },
+          {
+            name: 'Queen',
+            role: 'Bohemian Rhapsody',
+            startingCoins: 135,
+            startingWeapons: ['theatricality', 'versatility', 'showmanship'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'theatrical',
+            quotes: [
+              "We are Queen, Bohemian Rhapsody!",
+              "We will perform with theatricality!",
+              "We are the most theatrical band!",
+              "We will rock the opera!",
+              "We are the champions!"
+            ],
+            description: 'The theatrical band who combined rock with opera and created epic anthems.'
+          },
+          {
+            name: 'Pink Floyd',
+            role: 'Dark Side of the Moon',
+            startingCoins: 130,
+            startingWeapons: ['psychedelia', 'concept albums', 'atmosphere'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'psychedelic',
+            quotes: [
+              "We are Pink Floyd, Dark Side of the Moon!",
+              "We will create psychedelic soundscapes!",
+              "We are the most psychedelic band!",
+              "We will explore the dark side!",
+              "We are the masters of atmosphere!"
+            ],
+            description: 'The psychedelic band who created atmospheric concept albums and soundscapes.'
+          },
+          {
+            name: 'The Rolling Stones',
+            role: 'Satisfaction',
+            startingCoins: 125,
+            startingWeapons: ['attitude', 'swagger', 'endurance'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'rebellious',
+            quotes: [
+              "We are The Rolling Stones, Satisfaction!",
+              "We will rock with attitude!",
+              "We are the most rebellious band!",
+              "We will get no satisfaction!",
+              "We are the bad boys of rock!"
+            ],
+            description: 'The rebellious band who defined rock attitude and swagger for generations.'
+          },
+          {
+            name: 'AC/DC',
+            role: 'Thunderstruck',
+            startingCoins: 120,
+            startingWeapons: ['power chords', 'energy', 'simplicity'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'energetic',
+            quotes: [
+              "We are AC/DC, Thunderstruck!",
+              "We will rock with energy!",
+              "We are the most energetic band!",
+              "We will thunderstruck!",
+              "We are the masters of power chords!"
+            ],
+            description: 'The energetic band who mastered power chords and created thunderous rock anthems.'
+          },
+          {
+            name: 'Guns N\' Roses',
+            role: 'Welcome to the Jungle',
+            startingCoins: 115,
+            startingWeapons: ['attitude', 'raw power', 'rebellion'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'raw',
+            quotes: [
+              "We are Guns N\' Roses, Welcome to the Jungle!",
+              "We will rock with raw power!",
+              "We are the most raw band!",
+              "We will welcome you to the jungle!",
+              "We are the masters of attitude!"
+            ],
+            description: 'The raw band who brought attitude and rebellion to rock music.'
+          },
+          {
+            name: 'Metallica',
+            role: 'Master of Puppets',
+            startingCoins: 110,
+            startingWeapons: ['metal', 'speed', 'precision'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'metallic',
+            quotes: [
+              "We are Metallica, Master of Puppets!",
+              "We will master metal!",
+              "We are the most metallic band!",
+              "We will master the puppets!",
+              "We are the masters of metal!"
+            ],
+            description: 'The metallic band who mastered heavy metal and created epic thrash anthems.'
+          },
+          {
+            name: 'Nirvana',
+            role: 'Smells Like Teen Spirit',
+            startingCoins: 105,
+            startingWeapons: ['grunge', 'authenticity', 'rebellion'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'authentic',
+            quotes: [
+              "We are Nirvana, Smells Like Teen Spirit!",
+              "We will rock with authenticity!",
+              "We are the most authentic band!",
+              "We will smell like teen spirit!",
+              "We are the masters of grunge!"
+            ],
+            description: 'The authentic band who defined grunge and brought alternative rock to the mainstream.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Rock Star', startingCoins: 30, startingWeapons: ['attitude'], startingMercenaries: 0, startingCastles: 0, personality: 'rebellious', quotes: ['We are rock stars!', 'Attitude!', 'Rebellion!'] },
+          { name: 'Guitarist', startingCoins: 25, startingWeapons: ['riffs'], startingMercenaries: 0, startingCastles: 0, personality: 'powerful', quotes: ['We are guitarists!', 'Riffs!', 'Power!'] },
+          { name: 'Frontman', startingCoins: 35, startingWeapons: ['charisma'], startingMercenaries: 0, startingCastles: 0, personality: 'charismatic', quotes: ['We are frontmen!', 'Charisma!', 'Leadership!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Grammy Awards', cost: 5, description: 'The ultimate music awards ceremony' },
+      { name: 'The Billboard Charts', cost: 3, description: 'Where the biggest hits are measured' },
+      { name: 'The Recording Studio', cost: 2, description: 'Where magic is created' },
+      { name: 'The Music Video', cost: 1, description: 'Where visuals meet music' },
+      { name: 'The Concert Tour', cost: 4, description: 'Where artists connect with fans' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // PERCY JACKSON SCENARIO
+  percyJackson: {
+    id: 'percyJackson',
+    name: 'Percy Jackson: The Olympian Demigods (2005-present)',
+    type: 'literary',
+    description: 'The epic world of Percy Jackson where demigods from different Olympian parents clash in the ultimate battle for Camp Half-Blood and the fate of the modern world.',
+    factions: {
+      zeusChildren: {
+        name: 'Children of Zeus',
+        color: '#1e40af', // Blue
+        description: 'The powerful children of Zeus, known for their lightning powers, leadership abilities, and their connection to the sky and storms',
+        territories: [
+          { name: 'Mount Olympus', cost: 25, description: 'The sacred mountain where the gods reside' },
+          { name: 'The Sky Palace', cost: 22, description: 'Zeus\' magnificent palace in the clouds' },
+          { name: 'The Thunder Dome', cost: 20, description: 'Where lightning powers are tested' },
+          { name: 'The Storm Center', cost: 18, description: 'The heart of all weather magic' },
+          { name: 'The Eagle\'s Nest', cost: 15, description: 'Where Zeus\' sacred eagles roost' },
+          { name: 'The Lightning Forge', cost: 12, description: 'Where lightning bolts are crafted' },
+          { name: 'The Cloud Gardens', cost: 10, description: 'Beautiful gardens in the sky' },
+          { name: 'The Wind Tunnels', cost: 8, description: 'Where powerful winds are channeled' },
+          { name: 'The Sky Bridge', cost: 6, description: 'The connection between earth and sky' },
+          { name: 'The Thunder Temple', cost: 4, description: 'The sacred temple of thunder' }
+        ],
+        characters: [
+          {
+            name: 'Thalia Grace',
+            role: 'The Daughter of Zeus',
+            startingCoins: 150,
+            startingWeapons: ['lightning', 'leadership', 'storm'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'powerful',
+            quotes: [
+              "I am Thalia Grace, daughter of Zeus!",
+              "I will command the storms!",
+              "I am the most powerful daughter of Zeus!",
+              "I will lead with lightning!",
+              "I am the master of storms!"
+            ],
+            description: 'The powerful daughter of Zeus who commands storms and leads with lightning.'
+          },
+          {
+            name: 'Jason Grace',
+            role: 'The Son of Jupiter',
+            startingCoins: 145,
+            startingWeapons: ['lightning', 'sword', 'leadership'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'noble',
+            quotes: [
+              "I am Jason Grace, son of Jupiter!",
+              "I will lead with honor!",
+              "I am the most noble son of Jupiter!",
+              "I will fight with lightning!",
+              "I am the master of honor!"
+            ],
+            description: 'The noble son of Jupiter who leads with honor and fights with lightning.'
+          },
+          {
+            name: 'Bianca di Angelo',
+            role: 'The Daughter of Hades',
+            startingCoins: 140,
+            startingWeapons: ['shadow', 'death', 'mystery'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'mysterious',
+            quotes: [
+              "I am Bianca di Angelo, daughter of Hades!",
+              "I will command the shadows!",
+              "I am the most mysterious daughter of Hades!",
+              "I will walk in darkness!",
+              "I am the master of shadows!"
+            ],
+            description: 'The mysterious daughter of Hades who commands shadows and walks in darkness.'
+          },
+          {
+            name: 'Nico di Angelo',
+            role: 'The Son of Hades',
+            startingCoins: 135,
+            startingWeapons: ['shadow', 'death', 'underworld'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'dark',
+            quotes: [
+              "I am Nico di Angelo, son of Hades!",
+              "I will command the underworld!",
+              "I am the darkest son of Hades!",
+              "I will bring death!",
+              "I am the master of the underworld!"
+            ],
+            description: 'The dark son of Hades who commands the underworld and brings death.'
+          },
+          {
+            name: 'Clarisse La Rue',
+            role: 'The Daughter of Ares',
+            startingCoins: 130,
+            startingWeapons: ['war', 'strength', 'anger'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'warlike',
+            quotes: [
+              "I am Clarisse La Rue, daughter of Ares!",
+              "I will wage war!",
+              "I am the most warlike daughter of Ares!",
+              "I will fight with strength!",
+              "I am the master of war!"
+            ],
+            description: 'The warlike daughter of Ares who wages war and fights with strength.'
+          },
+          {
+            name: 'Silena Beauregard',
+            role: 'The Daughter of Aphrodite',
+            startingCoins: 125,
+            startingWeapons: ['beauty', 'love', 'charm'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'beautiful',
+            quotes: [
+              "I am Silena Beauregard, daughter of Aphrodite!",
+              "I will spread love and beauty!",
+              "I am the most beautiful daughter of Aphrodite!",
+              "I will charm everyone!",
+              "I am the master of beauty!"
+            ],
+            description: 'The beautiful daughter of Aphrodite who spreads love and beauty.'
+          },
+          {
+            name: 'Luke Castellan',
+            role: 'The Son of Hermes',
+            startingCoins: 120,
+            startingWeapons: ['speed', 'trickery', 'betrayal'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'tricky',
+            quotes: [
+              "I am Luke Castellan, son of Hermes!",
+              "I will trick everyone!",
+              "I am the trickiest son of Hermes!",
+              "I will move with speed!",
+              "I am the master of trickery!"
+            ],
+            description: 'The tricky son of Hermes who tricks everyone and moves with speed.'
+          },
+          {
+            name: 'Annabeth Chase',
+            role: 'The Daughter of Athena',
+            startingCoins: 115,
+            startingWeapons: ['wisdom', 'strategy', 'intelligence'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'wise',
+            quotes: [
+              "I am Annabeth Chase, daughter of Athena!",
+              "I will strategize with wisdom!",
+              "I am the wisest daughter of Athena!",
+              "I will outthink everyone!",
+              "I am the master of wisdom!"
+            ],
+            description: 'The wise daughter of Athena who strategizes with wisdom and outthinks everyone.'
+          },
+          {
+            name: 'Grover Underwood',
+            role: 'The Satyr',
+            startingCoins: 110,
+            startingWeapons: ['nature magic', 'empathy', 'loyalty'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'loyal',
+            quotes: [
+              "I am Grover Underwood, the satyr!",
+              "I will protect nature!",
+              "I am the most loyal satyr!",
+              "I will feel everyone's emotions!",
+              "I am the master of nature magic!"
+            ],
+            description: 'The loyal satyr who protects nature and feels everyone\'s emotions.'
+          },
+          {
+            name: 'Clarisse La Rue',
+            role: 'The Daughter of Ares',
+            startingCoins: 105,
+            startingWeapons: ['combat', 'strength', 'aggression'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'aggressive',
+            quotes: [
+              "I am Clarisse La Rue, daughter of Ares!",
+              "I will fight with aggression!",
+              "I am the most aggressive daughter of Ares!",
+              "I will show my strength!",
+              "I am the master of combat!"
+            ],
+            description: 'The aggressive daughter of Ares who fights with strength and combat skills.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Demigod', startingCoins: 30, startingWeapons: ['divine power'], startingMercenaries: 0, startingCastles: 0, personality: 'divine', quotes: ['We are demigods!', 'Divine power!', 'Olympus!'] },
+          { name: 'Hero', startingCoins: 25, startingWeapons: ['heroism'], startingMercenaries: 0, startingCastles: 0, personality: 'heroic', quotes: ['We are heroes!', 'Heroism!', 'Glory!'] },
+          { name: 'Champion', startingCoins: 35, startingWeapons: ['championship'], startingMercenaries: 0, startingCastles: 0, personality: 'champion', quotes: ['We are champions!', 'Championship!', 'Victory!'] }
+        ]
+      },
+      poseidonChildren: {
+        name: 'Children of Poseidon',
+        color: '#16a34a', // Green
+        description: 'The powerful children of Poseidon, known for their water powers, connection to the sea, and their ability to control the oceans',
+        territories: [
+          { name: 'The Sea Palace', cost: 25, description: 'Poseidon\'s magnificent underwater palace' },
+          { name: 'The Ocean Depths', cost: 22, description: 'The deepest parts of the ocean' },
+          { name: 'The Coral Gardens', cost: 20, description: 'Beautiful underwater gardens' },
+          { name: 'The Tidal Pools', cost: 18, description: 'Where the tides are controlled' },
+          { name: 'The Seaweed Forest', cost: 15, description: 'A vast underwater forest' },
+          { name: 'The Whale Song Chamber', cost: 12, description: 'Where whales sing their songs' },
+          { name: 'The Tsunami Center', cost: 10, description: 'Where tsunamis are created' },
+          { name: 'The Mermaid Cove', cost: 8, description: 'A hidden cove for sea creatures' },
+          { name: 'The Sea Cave', cost: 6, description: 'A mysterious underwater cave' },
+          { name: 'The Beach House', cost: 4, description: 'A cozy house by the sea' }
+        ],
+        characters: [
+          {
+            name: 'Percy Jackson',
+            role: 'The Son of Poseidon',
+            startingCoins: 150,
+            startingWeapons: ['water', 'sword', 'heroism'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'heroic',
+            quotes: [
+              "I am Percy Jackson, son of Poseidon!",
+              "I will control the seas!",
+              "I am the most heroic son of Poseidon!",
+              "I will fight with water!",
+              "I am the master of the seas!"
+            ],
+            description: 'The heroic son of Poseidon who controls the seas and fights with water.'
+          },
+          {
+            name: 'Tyson',
+            role: 'The Cyclops',
+            startingCoins: 145,
+            startingWeapons: ['strength', 'loyalty', 'cyclops'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'loyal',
+            quotes: [
+              "I am Tyson, the Cyclops!",
+              "I will be loyal to my friends!",
+              "I am the most loyal Cyclops!",
+              "I will protect everyone!",
+              "I am the master of loyalty!"
+            ],
+            description: 'The loyal Cyclops who protects everyone and is loyal to his friends.'
+          },
+          {
+            name: 'Grover Underwood',
+            role: 'The Satyr',
+            startingCoins: 140,
+            startingWeapons: ['nature', 'music', 'friendship'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'friendly',
+            quotes: [
+              "I am Grover Underwood, the Satyr!",
+              "I will protect nature!",
+              "I am the most friendly Satyr!",
+              "I will play music!",
+              "I am the master of friendship!"
+            ],
+            description: 'The friendly Satyr who protects nature and plays music.'
+          },
+          {
+            name: 'Rachel Elizabeth Dare',
+            role: 'The Oracle',
+            startingCoins: 135,
+            startingWeapons: ['prophecy', 'vision', 'oracle'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'prophetic',
+            quotes: [
+              "I am Rachel Elizabeth Dare, the Oracle!",
+              "I will see the future!",
+              "I am the most prophetic Oracle!",
+              "I will deliver prophecies!",
+              "I am the master of prophecy!"
+            ],
+            description: 'The prophetic Oracle who sees the future and delivers prophecies.'
+          },
+          {
+            name: 'Beckendorf',
+            role: 'The Son of Hephaestus',
+            startingCoins: 130,
+            startingWeapons: ['fire', 'crafting', 'explosions'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'crafty',
+            quotes: [
+              "I am Beckendorf, son of Hephaestus!",
+              "I will craft with fire!",
+              "I am the craftiest son of Hephaestus!",
+              "I will create explosions!",
+              "I am the master of crafting!"
+            ],
+            description: 'The crafty son of Hephaestus who crafts with fire and creates explosions.'
+          },
+          {
+            name: 'Charles Beckendorf',
+            role: 'The Son of Hephaestus',
+            startingCoins: 125,
+            startingWeapons: ['fire', 'crafting', 'weapons'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'crafty',
+            quotes: [
+              "I am Charles Beckendorf, son of Hephaestus!",
+              "I will forge weapons!",
+              "I am the craftiest son of Hephaestus!",
+              "I will work with fire!",
+              "I am the master of forging!"
+            ],
+            description: 'The crafty son of Hephaestus who forges weapons and works with fire.'
+          },
+          {
+            name: 'Lee Fletcher',
+            role: 'The Son of Apollo',
+            startingCoins: 120,
+            startingWeapons: ['archery', 'healing', 'music'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'healing',
+            quotes: [
+              "I am Lee Fletcher, son of Apollo!",
+              "I will heal with music!",
+              "I am the most healing son of Apollo!",
+              "I will shoot with precision!",
+              "I am the master of healing!"
+            ],
+            description: 'The healing son of Apollo who heals with music and shoots with precision.'
+          },
+          {
+            name: 'Michael Yew',
+            role: 'The Son of Apollo',
+            startingCoins: 115,
+            startingWeapons: ['archery', 'healing', 'light'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'healing',
+            quotes: [
+              "I am Michael Yew, son of Apollo!",
+              "I will bring light!",
+              "I am the most healing son of Apollo!",
+              "I will heal everyone!",
+              "I am the master of light!"
+            ],
+            description: 'The healing son of Apollo who brings light and heals everyone.'
+          },
+          {
+            name: 'Rachel Elizabeth Dare',
+            role: 'The Oracle',
+            startingCoins: 110,
+            startingWeapons: ['prophecy', 'vision', 'oracle'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'prophetic',
+            quotes: [
+              "I am Rachel Elizabeth Dare, the Oracle!",
+              "I will see the future!",
+              "I am the most prophetic oracle!",
+              "I will deliver prophecies!",
+              "I am the master of vision!"
+            ],
+            description: 'The prophetic Oracle who sees the future and delivers prophecies.'
+          },
+          {
+            name: 'Will Solace',
+            role: 'The Son of Apollo',
+            startingCoins: 105,
+            startingWeapons: ['healing', 'archery', 'music'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'healing',
+            quotes: [
+              "I am Will Solace, son of Apollo!",
+              "I will heal with music!",
+              "I am the most healing son of Apollo!",
+              "I will shoot with precision!",
+              "I am the master of healing!"
+            ],
+            description: 'The healing son of Apollo who heals with music and shoots with precision.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Demigod', startingCoins: 30, startingWeapons: ['divine power'], startingMercenaries: 0, startingCastles: 0, personality: 'divine', quotes: ['We are demigods!', 'Divine power!', 'Olympus!'] },
+          { name: 'Hero', startingCoins: 25, startingWeapons: ['heroism'], startingMercenaries: 0, startingCastles: 0, personality: 'heroic', quotes: ['We are heroes!', 'Heroism!', 'Glory!'] },
+          { name: 'Champion', startingCoins: 35, startingWeapons: ['championship'], startingMercenaries: 0, startingCastles: 0, personality: 'champion', quotes: ['We are champions!', 'Championship!', 'Victory!'] }
+        ]
+      },
+      campHalfBlood: {
+        name: 'Camp Half-Blood',
+        color: '#dc2626', // Red
+        description: 'The safe haven for all demigods, known for its training facilities, magical boundaries, and the sense of community it provides for children of all gods',
+        territories: [
+          { name: 'The Big House', cost: 25, description: 'The central building where Chiron lives' },
+          { name: 'The Dining Pavilion', cost: 22, description: 'Where demigods gather to eat' },
+          { name: 'The Amphitheater', cost: 20, description: 'Where performances and meetings are held' },
+          { name: 'The Forge', cost: 18, description: 'Where weapons are crafted' },
+          { name: 'The Stables', cost: 15, description: 'Where the pegasi are kept' },
+          { name: 'The Archery Range', cost: 12, description: 'Where archery skills are practiced' },
+          { name: 'The Sword Fighting Arena', cost: 10, description: 'Where sword skills are honed' },
+          { name: 'The Climbing Wall', cost: 8, description: 'The dangerous climbing wall with lava' },
+          { name: 'The Canoe Lake', cost: 6, description: 'The peaceful lake for canoeing' },
+          { name: 'The Camp Store', cost: 4, description: 'Where campers buy supplies' }
+        ],
+        characters: [
+          {
+            name: 'Chiron',
+            role: 'The Centaur',
+            startingCoins: 150,
+            startingWeapons: ['wisdom', 'teaching', 'centaur'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'wise',
+            quotes: [
+              "I am Chiron, the Centaur!",
+              "I will teach all demigods!",
+              "I am the wisest Centaur!",
+              "I will guide the heroes!",
+              "I am the master of teaching!"
+            ],
+            description: 'The wise Centaur who teaches all demigods and guides the heroes.'
+          },
+          {
+            name: 'Dionysus',
+            role: 'The God of Wine',
+            startingCoins: 145,
+            startingWeapons: ['wine', 'madness', 'parties'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'mad',
+            quotes: [
+              "I am Dionysus, god of wine!",
+              "I will bring madness and parties!",
+              "I am the maddest god of wine!",
+              "I will drink wine!",
+              "I am the master of madness!"
+            ],
+            description: 'The mad god of wine who brings madness and parties.'
+          },
+          {
+            name: 'Mr. D',
+            role: 'The Camp Director',
+            startingCoins: 140,
+            startingWeapons: ['authority', 'wine', 'grumpiness'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'grumpy',
+            quotes: [
+              "I am Mr. D, the camp director!",
+              "I will be grumpy!",
+              "I am the grumpiest camp director!",
+              "I will drink wine!",
+              "I am the master of grumpiness!"
+            ],
+            description: 'The grumpy camp director who drinks wine and is always grumpy.'
+          },
+          {
+            name: 'Argus',
+            role: 'The Security Guard',
+            startingCoins: 135,
+            startingWeapons: ['eyes', 'security', 'vigilance'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'vigilant',
+            quotes: [
+              "I am Argus, the security guard!",
+              "I will watch with all my eyes!",
+              "I am the most vigilant security guard!",
+              "I will protect the camp!",
+              "I am the master of vigilance!"
+            ],
+            description: 'The vigilant security guard who watches with all his eyes and protects the camp.'
+          },
+          {
+            name: 'The Stoll Brothers',
+            role: 'The Sons of Hermes',
+            startingCoins: 130,
+            startingWeapons: ['trickery', 'speed', 'mischief'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'mischievous',
+            quotes: [
+              "We are the Stoll Brothers, sons of Hermes!",
+              "We will cause mischief!",
+              "We are the most mischievous sons of Hermes!",
+              "We will trick everyone!",
+              "We are the masters of mischief!"
+            ],
+            description: 'The mischievous sons of Hermes who cause mischief and trick everyone.'
+          },
+          {
+            name: 'Katie Gardner',
+            role: 'The Daughter of Demeter',
+            startingCoins: 125,
+            startingWeapons: ['nature', 'plants', 'growth'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'natural',
+            quotes: [
+              "I am Katie Gardner, daughter of Demeter!",
+              "I will grow plants!",
+              "I am the most natural daughter of Demeter!",
+              "I will protect nature!",
+              "I am the master of growth!"
+            ],
+            description: 'The natural daughter of Demeter who grows plants and protects nature.'
+          },
+          {
+            name: 'Travis Stoll',
+            role: 'The Son of Hermes',
+            startingCoins: 120,
+            startingWeapons: ['trickery', 'speed', 'stealing'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'tricky',
+            quotes: [
+              "I am Travis Stoll, son of Hermes!",
+              "I will steal everything!",
+              "I am the trickiest son of Hermes!",
+              "I will move with speed!",
+              "I am the master of stealing!"
+            ],
+            description: 'The tricky son of Hermes who steals everything and moves with speed.'
+          },
+          {
+            name: 'Connor Stoll',
+            role: 'The Son of Hermes',
+            startingCoins: 115,
+            startingWeapons: ['trickery', 'speed', 'pranks'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'tricky',
+            quotes: [
+              "I am Connor Stoll, son of Hermes!",
+              "I will pull pranks!",
+              "I am the trickiest son of Hermes!",
+              "I will trick everyone!",
+              "I am the master of pranks!"
+            ],
+            description: 'The tricky son of Hermes who pulls pranks and tricks everyone.'
+          },
+          {
+            name: 'Travis Stoll',
+            role: 'The Son of Hermes',
+            startingCoins: 110,
+            startingWeapons: ['trickery', 'speed', 'pranks'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'tricky',
+            quotes: [
+              "I am Travis Stoll, son of Hermes!",
+              "I will pull pranks!",
+              "I am the trickiest son of Hermes!",
+              "I will trick everyone!",
+              "I am the master of pranks!"
+            ],
+            description: 'The tricky son of Hermes who pulls pranks and tricks everyone.'
+          },
+          {
+            name: 'Dakota',
+            role: 'The Son of Bacchus',
+            startingCoins: 105,
+            startingWeapons: ['wine', 'party', 'celebration'],
+            startingMercenaries: 1,
+            startingCastles: 0,
+            personality: 'festive',
+            quotes: [
+              "I am Dakota, son of Bacchus!",
+              "I will party with wine!",
+              "I am the most festive son of Bacchus!",
+              "I will celebrate everything!",
+              "I am the master of wine!"
+            ],
+            description: 'The festive son of Bacchus who parties with wine and celebrates everything.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Demigod', startingCoins: 30, startingWeapons: ['divine power'], startingMercenaries: 0, startingCastles: 0, personality: 'divine', quotes: ['We are demigods!', 'Divine power!', 'Olympus!'] },
+          { name: 'Hero', startingCoins: 25, startingWeapons: ['heroism'], startingMercenaries: 0, startingCastles: 0, personality: 'heroic', quotes: ['We are heroes!', 'Heroism!', 'Glory!'] },
+          { name: 'Champion', startingCoins: 35, startingWeapons: ['championship'], startingMercenaries: 0, startingCastles: 0, personality: 'champion', quotes: ['We are champions!', 'Championship!', 'Victory!'] }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Prophecy', cost: 5, description: 'The ancient prophecy that guides all demigods' },
+      { name: 'The Golden Fleece', cost: 3, description: 'The magical fleece that protects the camp' },
+      { name: 'The Labyrinth', cost: 2, description: 'The ancient maze beneath the earth' },
+      { name: 'The Underworld', cost: 1, description: 'The realm of the dead' },
+      { name: 'The Sea of Monsters', cost: 4, description: 'The dangerous sea filled with monsters' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  }
+};
+
+// EVENT CARDS SYSTEM
+const EVENT_CARDS = {
+  historical: {
+    americanRevolution: [
+      {
+        id: 'boston_tea_party',
+        name: 'Boston Tea Party',
+        description: 'Colonists dump tea into Boston Harbor in protest of British taxes',
+        effects: {
+          patriots: { coins: 20, morale: 15 },
+          british: { coins: -10, morale: -10 }
+        },
+        duration: 3
+      },
+      {
+        id: 'winter_at_valley_forge',
+        name: 'Winter at Valley Forge',
+        description: 'Harsh winter conditions test the Continental Army\'s resolve',
+        effects: {
+          patriots: { coins: -15, morale: -5, training: 10 },
+          british: { coins: 5, morale: 5 }
+        },
+        duration: 2
+      },
+      {
+        id: 'french_alliance',
+        name: 'French Alliance',
+        description: 'France officially joins the war on the side of the Patriots',
+        effects: {
+          patriots: { coins: 30, morale: 20, weapons: 5 },
+          british: { coins: -20, morale: -15 }
+        },
+        duration: 4
+      }
+    ],
+    worldWar1: [
+      {
+        id: 'trench_warfare',
+        name: 'Trench Warfare',
+        description: 'Both sides dig in for a brutal war of attrition',
+        effects: {
+          allies: { coins: -10, morale: -5, defense: 15 },
+          central: { coins: -10, morale: -5, defense: 15 }
+        },
+        duration: 3
+      },
+      {
+        id: 'spanish_flu',
+        name: 'Spanish Flu Pandemic',
+        description: 'A deadly influenza pandemic sweeps across the world',
+        effects: {
+          allies: { coins: -20, morale: -10, mercenaries: -2 },
+          central: { coins: -20, morale: -10, mercenaries: -2 }
+        },
+        duration: 2
+      },
+      {
+        id: 'russian_revolution',
+        name: 'Russian Revolution',
+        description: 'Russia withdraws from the war due to internal revolution',
+        effects: {
+          allies: { coins: -15, morale: -10 },
+          central: { coins: 25, morale: 15, weapons: 3 }
+        },
+        duration: 3
+      }
+    ],
+    worldWar2: [
+      {
+        id: 'pearl_harbor',
+        name: 'Pearl Harbor Attack',
+        description: 'Japan attacks the US Pacific Fleet, bringing America into the war',
+        effects: {
+          allies: { coins: 40, morale: 20, weapons: 8 },
+          axis: { coins: -20, morale: -10 }
+        },
+        duration: 4
+      },
+      {
+        id: 'd_day',
+        name: 'D-Day Invasion',
+        description: 'Allied forces launch the largest amphibious invasion in history',
+        effects: {
+          allies: { coins: 30, morale: 25, weapons: 6 },
+          axis: { coins: -25, morale: -20 }
+        },
+        duration: 3
+      },
+      {
+        id: 'atomic_bomb',
+        name: 'Atomic Bomb',
+        description: 'The first atomic weapons are used, changing warfare forever',
+        effects: {
+          allies: { coins: 50, morale: 30, weapons: 10 },
+          axis: { coins: -40, morale: -30, mercenaries: -5 }
+        },
+        duration: 2
+      }
+    ]
+  },
+  literary: {
+    toKillAMockingbird: [
+      {
+        id: 'trial_begins',
+        name: 'Tom Robinson Trial Begins',
+        description: 'The trial that will test Maycomb\'s conscience begins',
+        effects: {
+          justice: { coins: 15, morale: 10 },
+          prejudice: { coins: -10, morale: -5 }
+        },
+        duration: 2
+      },
+      {
+        id: 'mob_scene',
+        name: 'Lynch Mob Scene',
+        description: 'A mob attempts to lynch Tom Robinson before the trial',
+        effects: {
+          justice: { coins: -5, morale: -10 },
+          prejudice: { coins: 10, morale: 5 }
+        },
+        duration: 1
+      },
+      {
+        id: 'verdict',
+        name: 'Guilty Verdict',
+        description: 'Despite the evidence, Tom Robinson is found guilty',
+        effects: {
+          justice: { coins: -20, morale: -25 },
+          prejudice: { coins: 15, morale: 10 }
+        },
+        duration: 2
+      }
+    ],
+    hamlet: [
+      {
+        id: 'ghost_appears',
+        name: 'Ghost of King Hamlet Appears',
+        description: 'The murdered king\'s ghost reveals the truth about his death',
+        effects: {
+          justice: { coins: 20, morale: 15, weapons: 3 },
+          corruption: { coins: -15, morale: -10 }
+        },
+        duration: 2
+      },
+      {
+        id: 'play_within_play',
+        name: 'The Mousetrap',
+        description: 'Hamlet\'s play catches the conscience of the king',
+        effects: {
+          justice: { coins: 25, morale: 20 },
+          corruption: { coins: -20, morale: -15 }
+        },
+        duration: 1
+      },
+      {
+        id: 'final_duel',
+        name: 'Final Duel',
+        description: 'The tragic final confrontation that ends in death',
+        effects: {
+          justice: { coins: -30, morale: -20, mercenaries: -2 },
+          corruption: { coins: -25, morale: -15, mercenaries: -1 }
+        },
+        duration: 1
+      }
+    ],
+    theGreatGatsby: [
+      {
+        id: 'gatsby_party',
+        name: 'Gatsby\'s Legendary Party',
+        description: 'One of Gatsby\'s extravagant parties draws the attention of the entire city',
+        effects: {
+          dreamers: { coins: 30, morale: 20 },
+          reality: { coins: -10, morale: -5 }
+        },
+        duration: 2
+      },
+      {
+        id: 'daisy_reunion',
+        name: 'Gatsby and Daisy Reunite',
+        description: 'After five years, Gatsby finally meets Daisy again',
+        effects: {
+          dreamers: { coins: 40, morale: 30, weapons: 5 },
+          reality: { coins: -20, morale: -10 }
+        },
+        duration: 3
+      },
+      {
+        id: 'tragic_accident',
+        name: 'Tragic Car Accident',
+        description: 'Myrtle Wilson is killed in a hit-and-run accident',
+        effects: {
+          dreamers: { coins: -25, morale: -20 },
+          reality: { coins: 15, morale: 10 }
+        },
+        duration: 2
+      }
+    ],
+    theCrucible: [
+      {
+        id: 'witch_hunt_begins',
+        name: 'Witch Hunt Begins',
+        description: 'The first accusations of witchcraft spread through Salem',
+        effects: {
+          truth: { coins: -15, morale: -20 },
+          hysteria: { coins: 20, morale: 15 }
+        },
+        duration: 2
+      },
+      {
+        id: 'proctor_confession',
+        name: 'Proctor\'s Confession',
+        description: 'John Proctor confesses to adultery to save his wife',
+        effects: {
+          truth: { coins: -10, morale: -5 },
+          hysteria: { coins: 10, morale: 5 }
+        },
+        duration: 1
+      },
+      {
+        id: 'mass_execution',
+        name: 'Mass Execution',
+        description: 'The innocent are executed for refusing to confess to witchcraft',
+        effects: {
+          truth: { coins: -30, morale: -25, mercenaries: -3 },
+          hysteria: { coins: 25, morale: 20 }
+        },
+        duration: 2
+      }
+    ],
+    theCrucible: [
+      {
+        id: 'witch_hunt_begins',
+        name: 'Witch Hunt Begins',
+        description: 'The first accusations of witchcraft spread through Salem',
+        effects: {
+          truth: { coins: -15, morale: -20 },
+          hysteria: { coins: 20, morale: 15 }
+        },
+        duration: 2
+      },
+      {
+        id: 'proctor_confession',
+        name: 'Proctor\'s Confession',
+        description: 'John Proctor confesses to adultery to save his wife',
+        effects: {
+          truth: { coins: 10, morale: 5 },
+          hysteria: { coins: -10, morale: -5 }
+        },
+        duration: 1
+      },
+      {
+        id: 'giles_corey_death',
+        name: 'Giles Corey\'s Death',
+        description: 'Giles Corey is pressed to death for refusing to plead',
+        effects: {
+          truth: { coins: 15, morale: 10, weapons: 2 },
+          hysteria: { coins: -15, morale: -10 }
+        },
+        duration: 2
+      },
+      {
+        id: 'rebecca_nurse_execution',
+        name: 'Rebecca Nurse Execution',
+        description: 'The beloved Rebecca Nurse is executed as a witch',
+        effects: {
+          truth: { coins: -20, morale: -25 },
+          hysteria: { coins: 25, morale: 20 }
+        },
+        duration: 2
+      },
+      {
+        id: 'hale_realization',
+        name: 'Hale\'s Realization',
+        description: 'Reverend Hale realizes the trials are a fraud',
+        effects: {
+          truth: { coins: 20, morale: 15, weapons: 3 },
+          hysteria: { coins: -20, morale: -15 }
+        },
+        duration: 2
+      },
+      {
+        id: 'mary_warren_testimony',
+        name: 'Mary Warren\'s Testimony',
+        description: 'Mary Warren tries to recant her accusations',
+        effects: {
+          truth: { coins: 10, morale: 5 },
+          hysteria: { coins: -10, morale: -5 }
+        },
+        duration: 1
+      },
+      {
+        id: 'proctor_execution',
+        name: 'Proctor\'s Execution',
+        description: 'John Proctor is executed for refusing to confess',
+        effects: {
+          truth: { coins: -25, morale: -30 },
+          hysteria: { coins: 30, morale: 25 }
+        },
+        duration: 3
+      },
+      {
+        id: 'court_disbanded',
+        name: 'Court Disbanded',
+        description: 'The witch trials are finally stopped',
+        effects: {
+          truth: { coins: 30, morale: 25, weapons: 5 },
+          hysteria: { coins: -30, morale: -25 }
+        },
+        duration: 4
+      }
+    ],
+    fahrenheit451: [
+      {
+        id: 'book_burning_begins',
+        name: 'Book Burning Begins',
+        description: 'The government begins systematic burning of all books',
+        effects: {
+          knowledge: { coins: -20, morale: -25 },
+          censorship: { coins: 25, morale: 20 }
+        },
+        duration: 2
+      },
+      {
+        id: 'montag_questions',
+        name: 'Montag Questions',
+        description: 'Guy Montag begins to question the system and collect books',
+        effects: {
+          knowledge: { coins: 15, morale: 10, weapons: 2 },
+          censorship: { coins: -15, morale: -10 }
+        },
+        duration: 2
+      },
+      {
+        id: 'clarisse_disappears',
+        name: 'Clarisse Disappears',
+        description: 'Clarisse McClellan disappears, possibly killed for her independent thinking',
+        effects: {
+          knowledge: { coins: -15, morale: -20 },
+          censorship: { coins: 20, morale: 15 }
+        },
+        duration: 2
+      },
+      {
+        id: 'old_woman_burns',
+        name: 'Old Woman Burns',
+        description: 'An old woman chooses to die with her books rather than live without them',
+        effects: {
+          knowledge: { coins: 20, morale: 15, weapons: 3 },
+          censorship: { coins: -20, morale: -15 }
+        },
+        duration: 2
+      },
+      {
+        id: 'mechanical_hound_hunt',
+        name: 'Mechanical Hound Hunt',
+        description: 'The mechanical hound is sent to track down Montag',
+        effects: {
+          knowledge: { coins: -25, morale: -20 },
+          censorship: { coins: 25, morale: 20 }
+        },
+        duration: 2
+      },
+      {
+        id: 'faber_teaches',
+        name: 'Faber Teaches',
+        description: 'Professor Faber teaches Montag about the importance of books',
+        effects: {
+          knowledge: { coins: 20, morale: 15, weapons: 3 },
+          censorship: { coins: -20, morale: -15 }
+        },
+        duration: 2
+      },
+      {
+        id: 'book_people_found',
+        name: 'Book People Found',
+        description: 'Montag discovers the book people who preserve knowledge through memory',
+        effects: {
+          knowledge: { coins: 30, morale: 25, weapons: 5 },
+          censorship: { coins: -30, morale: -25 }
+        },
+        duration: 3
+      },
+      {
+        id: 'city_destroyed',
+        name: 'City Destroyed',
+        description: 'The city is destroyed in a nuclear war, but the book people survive',
+        effects: {
+          knowledge: { coins: 40, morale: 30, weapons: 8 },
+          censorship: { coins: -40, morale: -30 }
+        },
+        duration: 4
+      }
+    ],
+    beowulf: [
+      {
+        id: 'grendel_attacks',
+        name: 'Grendel Attacks',
+        description: 'The monster Grendel begins terrorizing Heorot Hall',
+        effects: {
+          heroism: { coins: -20, morale: -25 },
+          evil: { coins: 25, morale: 20 }
+        },
+        duration: 2
+      },
+      {
+        id: 'beowulf_arrives',
+        name: 'Beowulf Arrives',
+        description: 'The Geatish hero Beowulf arrives to help King Hrothgar',
+        effects: {
+          heroism: { coins: 20, morale: 15, weapons: 3 },
+          evil: { coins: -20, morale: -15 }
+        },
+        duration: 2
+      },
+      {
+        id: 'grendel_defeated',
+        name: 'Grendel Defeated',
+        description: 'Beowulf defeats Grendel in single combat',
+        effects: {
+          heroism: { coins: 30, morale: 25, weapons: 5 },
+          evil: { coins: -30, morale: -25 }
+        },
+        duration: 3
+      },
+      {
+        id: 'grendels_mother_seeks_revenge',
+        name: 'Grendel\'s Mother Seeks Revenge',
+        description: 'Grendel\'s mother attacks Heorot to avenge her son',
+        effects: {
+          heroism: { coins: -25, morale: -20 },
+          evil: { coins: 25, morale: 20 }
+        },
+        duration: 2
+      },
+      {
+        id: 'beowulf_dives_into_mere',
+        name: 'Beowulf Dives into Mere',
+        description: 'Beowulf dives into the mere to fight Grendel\'s mother',
+        effects: {
+          heroism: { coins: 20, morale: 15, weapons: 3 },
+          evil: { coins: -20, morale: -15 }
+        },
+        duration: 2
+      },
+      {
+        id: 'grendels_mother_defeated',
+        name: 'Grendel\'s Mother Defeated',
+        description: 'Beowulf defeats Grendel\'s mother and returns victorious',
+        effects: {
+          heroism: { coins: 35, morale: 30, weapons: 6 },
+          evil: { coins: -35, morale: -30 }
+        },
+        duration: 3
+      },
+      {
+        id: 'dragon_awakens',
+        name: 'Dragon Awakens',
+        description: 'The ancient dragon awakens and begins terrorizing the Geats',
+        effects: {
+          heroism: { coins: -30, morale: -25 },
+          evil: { coins: 30, morale: 25 }
+        },
+        duration: 2
+      },
+      {
+        id: 'beowulf_final_battle',
+        name: 'Beowulf\'s Final Battle',
+        description: 'Beowulf faces the dragon in his final battle',
+        effects: {
+          heroism: { coins: 40, morale: 35, weapons: 8 },
+          evil: { coins: -40, morale: -35 }
+        },
+        duration: 4
+      }
+    ],
+    aFarewellToArms: [
+      {
+        id: 'war_begins',
+        name: 'War Begins',
+        description: 'The Great War begins and Frederic joins the Italian ambulance service',
+        effects: {
+          love: { coins: -20, morale: -25 },
+          war: { coins: 25, morale: 20 }
+        },
+        duration: 2
+      },
+      {
+        id: 'frederic_meets_catherine',
+        name: 'Frederic Meets Catherine',
+        description: 'Frederic meets Catherine Barkley and falls in love',
+        effects: {
+          love: { coins: 20, morale: 15, weapons: 2 },
+          war: { coins: -20, morale: -15 }
+        },
+        duration: 2
+      },
+      {
+        id: 'frederic_wounded',
+        name: 'Frederic Wounded',
+        description: 'Frederic is wounded in battle and sent to the hospital',
+        effects: {
+          love: { coins: 15, morale: 10, weapons: 1 },
+          war: { coins: -15, morale: -10 }
+        },
+        duration: 2
+      },
+      {
+        id: 'catherine_pregnant',
+        name: 'Catherine Pregnant',
+        description: 'Catherine becomes pregnant and they plan their future together',
+        effects: {
+          love: { coins: 25, morale: 20, weapons: 3 },
+          war: { coins: -25, morale: -20 }
+        },
+        duration: 3
+      },
+      {
+        id: 'frederic_deserts',
+        name: 'Frederic Deserts',
+        description: 'Frederic deserts the army to be with Catherine',
+        effects: {
+          love: { coins: 30, morale: 25, weapons: 4 },
+          war: { coins: -30, morale: -25 }
+        },
+        duration: 3
+      },
+      {
+        id: 'escape_to_switzerland',
+        name: 'Escape to Switzerland',
+        description: 'Frederic and Catherine escape to Switzerland to start a new life',
+        effects: {
+          love: { coins: 35, morale: 30, weapons: 5 },
+          war: { coins: -35, morale: -30 }
+        },
+        duration: 4
+      },
+      {
+        id: 'catherine_dies',
+        name: 'Catherine Dies',
+        description: 'Catherine dies in childbirth, leaving Frederic alone',
+        effects: {
+          love: { coins: -40, morale: -35 },
+          war: { coins: 40, morale: 35 }
+        },
+        duration: 4
+      },
+      {
+        id: 'war_ends',
+        name: 'War Ends',
+        description: 'The war finally ends, but the damage is done',
+        effects: {
+          love: { coins: 20, morale: 15, weapons: 3 },
+          war: { coins: -20, morale: -15 }
+        },
+        duration: 3
+      }
+    ]
+  }
+};
 
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { SCENARIOS, AI_PERSONALITIES };
+  module.exports = { SCENARIOS, AI_PERSONALITIES, EVENT_CARDS };
 }
