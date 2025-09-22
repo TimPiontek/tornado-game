@@ -551,10 +551,44 @@
   function formatMoney(n){ return Math.round(n); }
 
   // === LOAD ROSTERS ===
-  function loadRosters(selectNewest=false) {
+  async function loadRosters(selectNewest=false) {
     try {
+      // Load from localStorage first
       const saved = localStorage.getItem('tornadoRosters');
       state.rosters = saved ? JSON.parse(saved) : [];
+      
+      // Load from Supabase if logged in
+      if (state.session && !state.offlineMode) {
+        try {
+          const { data, error } = await supabase
+            .from('rosters')
+            .select('*')
+            .eq('teacher_id', state.session.user.id)
+            .order('last_modified', { ascending: false });
+          
+          if (error) {
+            console.error('Error loading rosters from Supabase:', error);
+          } else if (data && data.length > 0) {
+            // Merge Supabase rosters with local ones
+            const supabaseRosters = data.map(row => ({
+              id: row.id,
+              name: row.name,
+              ...row.data,
+              lastModified: row.last_modified
+            }));
+            
+            // Replace local rosters with Supabase ones (they're more up-to-date)
+            state.rosters = supabaseRosters;
+            
+            // Update localStorage with the latest data
+            localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+            
+            console.log('Loaded rosters from Supabase:', supabaseRosters.length);
+          }
+        } catch (error) {
+          console.error('Error loading from Supabase:', error);
+        }
+      }
       
       // Check for quick roster (guest mode)
       const quickRoster = localStorage.getItem('quickRoster');
@@ -2038,7 +2072,7 @@
   el("#saveRosterBtn").onclick = () => {
     saveCurrentRoster();
   };
-
+  
   // Quick roster button functionality
   el("#createQuickRosterBtn").onclick = () => {
     createDefaultRoster();
@@ -2049,7 +2083,7 @@
     createRandomTeams();
   };
   
-  function saveCurrentRoster() {
+  async function saveCurrentRoster() {
     if (!state.currentRoster || !state.currentRosterId) {
       alert('No roster selected to save.');
       return;
@@ -2076,6 +2110,7 @@
         truces: state.truces || []
       },
       scenario: state.scenario, // Save scenario data including character assignments
+      victoryGoals: state.victoryGoals, // Save victory goals
       lastModified: new Date().toISOString()
     };
     
@@ -2087,7 +2122,30 @@
       // Save to localStorage
       localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
       
-      alert(`Roster "${state.currentRoster.name}" saved successfully!`);
+      // Save to Supabase if logged in
+      if (state.session && !state.offlineMode) {
+        try {
+          const { error } = await supabase.from('rosters').upsert({
+            id: state.currentRosterId,
+            teacher_id: state.session.user.id,
+            name: state.currentRoster.name,
+            data: updatedRoster,
+            last_modified: new Date().toISOString()
+          });
+          
+          if (error) {
+            console.error('Error saving to Supabase:', error);
+            alert(`Saved locally, but failed to save to cloud: ${error.message}`);
+          } else {
+            alert(`Roster "${state.currentRoster.name}" saved successfully to cloud!`);
+          }
+        } catch (error) {
+          console.error('Error saving to Supabase:', error);
+          alert(`Saved locally, but failed to save to cloud: ${error.message}`);
+        }
+      } else {
+        alert(`Roster "${state.currentRoster.name}" saved locally!`);
+      }
     }
   }
   
@@ -2347,31 +2405,31 @@
           
           // Second check: Are they from the same faction? (for manual role assignments)
           if (state.scenario.manualRoleAssignments) {
-            const attackerCharacter = state.scenario.manualRoleAssignments[selectedStudent.gsId];
-            const defenderCharacter = state.scenario.manualRoleAssignments[defender.gsId];
-            
-            // Check if they're teammates
-            let attackerFaction = null;
-            let defenderFaction = null;
-            
-            Object.entries(state.scenario.factions).forEach(([factionId, faction]) => {
-              if (faction.characters) {
-                faction.characters.forEach(char => {
-                  if (char.name === attackerCharacter) attackerFaction = factionId;
-                  if (char.name === defenderCharacter) defenderFaction = factionId;
-                });
-              }
-              if (faction.generalRoles) {
-                faction.generalRoles.forEach(role => {
-                  if (role.name === attackerCharacter) attackerFaction = factionId;
-                  if (role.name === defenderCharacter) defenderFaction = factionId;
-                });
-              }
-            });
-            
-            if (attackerFaction && defenderFaction && attackerFaction === defenderFaction) {
-              alert(`Cannot attack teammate! ${defender.name} (${defenderCharacter}) is on your side. You can only attack enemies from other factions.`);
-              return;
+          const attackerCharacter = state.scenario.manualRoleAssignments[selectedStudent.gsId];
+          const defenderCharacter = state.scenario.manualRoleAssignments[defender.gsId];
+          
+          // Check if they're teammates
+          let attackerFaction = null;
+          let defenderFaction = null;
+          
+          Object.entries(state.scenario.factions).forEach(([factionId, faction]) => {
+            if (faction.characters) {
+              faction.characters.forEach(char => {
+                if (char.name === attackerCharacter) attackerFaction = factionId;
+                if (char.name === defenderCharacter) defenderFaction = factionId;
+              });
+            }
+            if (faction.generalRoles) {
+              faction.generalRoles.forEach(role => {
+                if (role.name === attackerCharacter) attackerFaction = factionId;
+                if (role.name === defenderCharacter) defenderFaction = factionId;
+              });
+            }
+          });
+          
+          if (attackerFaction && defenderFaction && attackerFaction === defenderFaction) {
+            alert(`Cannot attack teammate! ${defender.name} (${defenderCharacter}) is on your side. You can only attack enemies from other factions.`);
+            return;
             }
           }
         }
@@ -2658,7 +2716,7 @@
   }
 
   // === AUTO-SAVE SYSTEM ===
-  function autoSaveWarPoints() {
+  async function autoSaveWarPoints() {
     if (!state.currentRoster || !state.currentRosterId) return;
     
     try {
@@ -2680,6 +2738,7 @@
           truces: state.truces || []
         },
         scenario: state.scenario, // Save scenario data including character assignments
+        victoryGoals: state.victoryGoals, // Save victory goals
         lastModified: new Date().toISOString()
       };
       
@@ -2690,6 +2749,22 @@
         
         // Save to localStorage
         localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+        
+        // Save to Supabase if logged in (silently, no alerts)
+        if (state.session && !state.offlineMode) {
+          try {
+            await supabase.from('rosters').upsert({
+              id: state.currentRosterId,
+              teacher_id: state.session.user.id,
+              name: state.currentRoster.name,
+              data: updatedRoster,
+              last_modified: new Date().toISOString()
+            });
+            console.log('Auto-saved war points to Supabase');
+          } catch (error) {
+            console.error('Error auto-saving to Supabase:', error);
+          }
+        }
         
         console.log('Auto-saved war points to roster');
       }
@@ -3628,28 +3703,33 @@
   }
 
   // initial load
-  const loadedFromRosterPage = checkForRosterFromRosterPage();
-  if (!loadedFromRosterPage) {
-    loadRosters(true);
-    
-    // If no rosters exist, create a default one
-    if (state.rosters.length === 0) {
-      createDefaultRoster();
+  async function initializeApp() {
+    const loadedFromRosterPage = checkForRosterFromRosterPage();
+    if (!loadedFromRosterPage) {
+      await loadRosters(true);
+      
+      // If no rosters exist, create a default one
+      if (state.rosters.length === 0) {
+        createDefaultRoster();
+      }
     }
   }
+  
+  // Start the app
+  initializeApp();
 
   // Listen for roster updates from student war game
-  window.addEventListener('storage', function(e) {
+  window.addEventListener('storage', async function(e) {
     if (e.key === 'tornadoRosters' || e.key === 'rosterUpdateTrigger') {
       // Reload rosters when they're updated
-      loadRosters(true);
+      await loadRosters(true);
     }
   });
 
   // Listen for custom roster update events
-  window.addEventListener('rosterUpdated', function(e) {
+  window.addEventListener('rosterUpdated', async function(e) {
     console.log('Roster updated from another tab:', e.detail);
-    loadRosters(true);
+    await loadRosters(true);
   });
 
   // Listen for truce updates from other tabs
