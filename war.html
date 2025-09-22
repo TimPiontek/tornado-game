@@ -397,6 +397,17 @@
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
 
+  // === ECONOMY PROFILE (editable / scenario-overridable) ===
+  const ECONOMY = {
+    mercCost: 15,
+    castleL1: 75,
+    castleL2: 150,
+    castleL3: 300,
+    weapons: { spear: 40, crossbow: 80, catapult: 140 },
+    victoryBonus: 100,
+    centerPremium: 30
+  };
+
   // === STATE ===
   const state = {
     session: null,
@@ -408,8 +419,8 @@
     selectedGsId: null,
     truces: [],
     colors: new Map(),
-    costs: { land: 20, castleL1: 75, castleL2: 150, castleL3: 300 },
-    weaponCosts: { spear: 40, crossbow: 80, catapult: 140 },
+    costs: { land: 20, castleL1: ECONOMY.castleL1, castleL2: ECONOMY.castleL2, castleL3: ECONOMY.castleL3 },
+    weaponCosts: { ...ECONOMY.weapons },
     offlineMode: false, // Start in online mode, can switch to offline
     teams: [],
     teamMode: false,
@@ -2052,7 +2063,7 @@
   function awardVictoryPoints(winnerName, mode) {
     if (!state.currentRoster) return;
     
-    const victoryBonus = 100; // Balanced bonus for winning
+    const victoryBonus = ECONOMY.victoryBonus; // Balanced bonus for winning
     
     if (mode === 'team') {
       // Award points to all team members
@@ -3578,7 +3589,7 @@
           } else {
             // Fallback for generic weapons
         const weaponNames = { spear: 'Spear', crossbow: 'Crossbow', catapult: 'Catapult' };
-        const weaponCosts = { spear: 40, crossbow: 80, catapult: 140 };
+        const weaponCosts = ECONOMY.weapons;
             weaponName = weaponNames[weapon] || weapon;
             weaponCost = weaponCosts[weapon] + ' pts';
           }
@@ -3828,8 +3839,8 @@
       defenderSpellCost += spellCost;
     });
     
-    let attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost + attackerAllyCost + attackerSpellCost;
-    let defenderCost = currentBattle.defenderMercs * 10 + defenderWeaponCost + defenderAllyCost + defenderSpellCost +
+    let attackerCost = currentBattle.attackerMercs * ECONOMY.mercCost + attackerWeaponCost + attackerAllyCost + attackerSpellCost;
+    let defenderCost = currentBattle.defenderMercs * ECONOMY.mercCost + defenderWeaponCost + defenderAllyCost + defenderSpellCost +
       (currentBattle.defenderBattleCastle === 1 ? 50 : 
        currentBattle.defenderBattleCastle === 2 ? 100 : 
        currentBattle.defenderBattleCastle === 3 ? 200 : 0);
@@ -4116,8 +4127,8 @@
       defenderSpellCost += spellCost;
     });
     
-    let attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost + attackerAllyCost + attackerSpellCost;
-    let defenderCost = currentBattle.defenderMercs * 10 + defenderWeaponCost + defenderAllyCost + defenderSpellCost +
+    let attackerCost = currentBattle.attackerMercs * ECONOMY.mercCost + attackerWeaponCost + attackerAllyCost + attackerSpellCost;
+    let defenderCost = currentBattle.defenderMercs * ECONOMY.mercCost + defenderWeaponCost + defenderAllyCost + defenderSpellCost +
       (currentBattle.defenderBattleCastle === 1 ? 50 : 
        currentBattle.defenderBattleCastle === 2 ? 100 : 
        currentBattle.defenderBattleCastle === 3 ? 200 : 0);
@@ -4364,8 +4375,8 @@
       defenderSpellCost += spellCost;
     });
     
-    const attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost + attackerAllyCost + attackerSpellCost;
-    const defenderCost = currentBattle.defenderMercs * 10 + defenderWeaponCost + defenderAllyCost + defenderSpellCost +
+    const attackerCost = currentBattle.attackerMercs * ECONOMY.mercCost + attackerWeaponCost + attackerAllyCost + attackerSpellCost;
+    const defenderCost = currentBattle.defenderMercs * ECONOMY.mercCost + defenderWeaponCost + defenderAllyCost + defenderSpellCost +
       (currentBattle.defenderBattleCastle === 1 ? 50 : 
        currentBattle.defenderBattleCastle === 2 ? 100 : 
        currentBattle.defenderBattleCastle === 3 ? 200 : 0);
@@ -4379,8 +4390,8 @@
     
     if (areInTruce) {
       // Truce resource sharing - weapons and mercenaries are free, only share money costs
-      const attackerMoneyCost = currentBattle.attackerMercs * 10; // Only mercenary money cost
-      const defenderMoneyCost = currentBattle.defenderMercs * 10 + 
+      const attackerMoneyCost = currentBattle.attackerMercs * ECONOMY.mercCost; // Only mercenary money cost
+      const defenderMoneyCost = currentBattle.defenderMercs * ECONOMY.mercCost +
         (currentBattle.defenderBattleCastle === 1 ? 50 : 
          currentBattle.defenderBattleCastle === 2 ? 100 : 
          currentBattle.defenderBattleCastle === 3 ? 200 : 0); // Only mercenary and castle money costs
