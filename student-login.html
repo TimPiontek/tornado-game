@@ -1202,7 +1202,7 @@
                         <div class="feature-card">
                             <h4>📊 Leaderboard</h4>
                             <p>See your ranking in the class</p>
-                            <button class="btn btn-small" onclick="viewLeaderboard()">View Rankings</button>
+                    <button class="btn btn-small" onclick="viewLeaderboard()">View Rankings</button>
                         </div>
                         
                         <div class="feature-card">
@@ -1413,7 +1413,14 @@
 
         // === CLASS FEATURE FUNCTIONS ===
         function viewLeaderboard() {
-            alert('📊 Leaderboard feature coming soon!\n\nThis will show your ranking in the class based on points earned.');
+            // Load career points from localStorage (fallback) and show top 5
+            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            const ranked = students
+                .map(s => ({ name: s.username, career: s.careerPoints || s.totalPoints || 0 }))
+                .sort((a,b) => b.career - a.career)
+                .slice(0, 5);
+            const lines = ranked.length ? ranked.map((r,i)=> `${i+1}. ${r.name} — ${r.career} pts`).join('\n') : 'No data yet.';
+            alert(`📊 Leaderboard (Career Points)\n\n${lines}`);
         }
 
         function viewTornadoWar() {

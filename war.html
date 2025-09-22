@@ -85,6 +85,10 @@
         <button class="pill" id="createQuickRosterBtn" style="background: #f59e0b; color: white; flex: 1;">Quick Roster</button>
         <button class="pill" id="createTeamsBtn" style="background: #8b5cf6; color: white; flex: 1;">Create Teams</button>
       </div>
+      <div style="margin-top: 8px; display: flex; gap: 8px;">
+        <button class="pill" id="resetEarnedGameBtn" title="Reset earned points for this game only" style="background: #334155; color: white; flex: 1;">Reset Earned (Game)</button>
+        <button class="pill" id="resetEarnedRosterBtn" title="Reset earned points saved on this roster" style="background: #0ea5e9; color: white; flex: 1;">Reset Earned (Roster)</button>
+      </div>
     </div>
 
     <div class="section">
@@ -2267,6 +2271,15 @@
         student.earnedPoints = (student.earnedPoints || 0) + amount;
         student.balance = (student.startingPoints || 0) + (student.earnedPoints || 0);
         console.log(`${actionText}: ${student.name} now has ${student.balance} points (earned=${student.earnedPoints}, starting=${student.startingPoints})`);
+        // Persist career points locally and best-effort Supabase
+        try {
+          const lsStudents = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+          const idx = lsStudents.findIndex(s => s.username === student.name);
+          if (idx >= 0) {
+            lsStudents[idx].careerPoints = (lsStudents[idx].careerPoints || 0) + amount;
+            localStorage.setItem('tornadoStudents', JSON.stringify(lsStudents));
+          }
+        } catch (e) { /* ignore */ }
       }
     });
     
@@ -2880,6 +2893,53 @@
     }
     showTeacherTruceModal();
   };
+
+  // === Reset Earned Points Controls ===
+  const resetEarnedGameBtn = document.getElementById('resetEarnedGameBtn');
+  if (resetEarnedGameBtn) {
+    resetEarnedGameBtn.onclick = () => {
+      if (!state.roster || state.roster.length === 0) return;
+      if (!confirm('Reset earned points for this game? This will keep character starting points and clear awarded/earned points.')) return;
+      state.roster.forEach(s => {
+        s.earnedPoints = 0;
+        s.balance = (s.startingPoints || 0);
+      });
+      renderRoster();
+      autoSaveWarPoints();
+      alert('Earned points reset for this game.');
+    };
+  }
+
+  const resetEarnedRosterBtn = document.getElementById('resetEarnedRosterBtn');
+  if (resetEarnedRosterBtn) {
+    resetEarnedRosterBtn.onclick = () => {
+      if (!state.currentRoster) return;
+      if (!confirm('Reset earned points on this roster? This updates the saved roster so future games start with earned=0 but keep starting points.')) return;
+      // Update in-memory
+      state.roster.forEach(s => {
+        s.earnedPoints = 0;
+        s.balance = (s.startingPoints || 0);
+      });
+      // Update saved roster object
+      if (state.currentRoster.roster) {
+        state.currentRoster.roster = state.currentRoster.roster.map(r => ({
+          ...r,
+          earnedPoints: 0,
+          startingPoints: r.startingPoints || r.points || 0,
+          points: r.startingPoints || r.points || 0
+        }));
+      }
+      // Persist
+      const idx = state.rosters.findIndex(r => r.id === state.currentRosterId);
+      if (idx >= 0) {
+        state.rosters[idx] = state.currentRoster;
+        localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+      }
+      autoSaveWarPoints();
+      renderRoster();
+      alert('Roster earned points reset.');
+    };
+  }
 
   el("#btnReset").onclick = () => {
     if (!state.currentRoster) {
