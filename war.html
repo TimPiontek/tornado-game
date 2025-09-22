@@ -78,7 +78,6 @@
     <div class="section">
       <div class="title">Roster</div>
       <select id="rosterList"></select>
-      <div id="teamScoreboards" style="margin-bottom: 1rem;"></div>
       <div class="minor" id="victory"></div>
       <div style="margin-top: 8px; display: flex; gap: 8px;">
         <button class="pill" id="loadRosterBtn" style="background: #6f5c91; color: white; flex: 1;">Manage Rosters</button>
@@ -139,6 +138,7 @@
   <!-- RIGHT: map -->
   <div class="panel">
     <div class="title">Map</div>
+    <div id="teamScoreboards" style="margin-bottom: 1rem;"></div>
     <div id="board">
       <div id="grid"></div>
     </div>
@@ -1670,58 +1670,43 @@
       };
     });
     
-    // Create scoreboard HTML
-    let scoreboardHTML = '<div style="margin-bottom: 1rem;"><h4 style="margin: 0 0 0.5rem 0; color: #1e293b;">🏆 Team Scoreboards</h4>';
+    // Create compact horizontal scoreboard HTML
+    let scoreboardHTML = '<div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">';
     
     Object.entries(teamStats).forEach(([teamId, stats]) => {
-      const isWinning = stats.territoryPercentage >= 50; // Simple winning condition
-      const victoryGoal = state.victoryGoals?.[teamId] || 50; // Default 50% goal
+      const isWinning = stats.territoryPercentage >= 50;
       
       scoreboardHTML += `
         <div style="
           background: ${stats.teamColor}20;
           border: 2px solid ${stats.teamColor};
-          border-radius: 8px;
-          padding: 0.75rem;
-          margin-bottom: 0.5rem;
-          ${isWinning ? 'box-shadow: 0 0 10px ' + stats.teamColor + '40;' : ''}
+          border-radius: 6px;
+          padding: 0.5rem;
+          min-width: 200px;
+          flex: 1;
+          ${isWinning ? 'box-shadow: 0 0 8px ' + stats.teamColor + '40;' : ''}
         ">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <h5 style="margin: 0; color: ${stats.teamColor}; font-weight: bold;">${stats.teamName}</h5>
-            <div style="display: flex; gap: 0.5rem; align-items: center;">
-              <input type="number" 
-                     id="victoryGoal_${teamId}" 
-                     value="${victoryGoal}" 
-                     min="10" 
-                     max="90" 
-                     style="width: 50px; padding: 2px; border: 1px solid #d1d5db; border-radius: 4px; text-align: center;"
-                     onchange="updateVictoryGoal('${teamId}', this.value)">
-              <span style="font-size: 0.8rem; color: #6b7280;">%</span>
-            </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+            <h6 style="margin: 0; color: ${stats.teamColor}; font-weight: bold; font-size: 0.9rem;">${stats.teamName}</h6>
+            <span style="font-size: 0.8rem; color: #6b7280;">${stats.territoryPercentage.toFixed(1)}%</span>
           </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.9rem;">
-            <div>Territories: <strong>${stats.tilesOwned}/${totalTiles}</strong></div>
-            <div>Castles: <strong>${stats.castles}</strong></div>
-            <div>Percentage: <strong>${stats.territoryPercentage.toFixed(1)}%</strong></div>
-            <div>Students: <strong>${stats.students.length}</strong></div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem;">
+            <span>Territories: <strong>${stats.tilesOwned}/${totalTiles}</strong></span>
+            <span>Castles: <strong>${stats.castles}</strong></span>
+            <span>Students: <strong>${stats.students.length}</strong></span>
           </div>
-          <div style="margin-top: 0.5rem;">
+          <div style="
+            background: #e5e7eb;
+            border-radius: 3px;
+            height: 6px;
+            overflow: hidden;
+          ">
             <div style="
-              background: #e5e7eb;
-              border-radius: 4px;
-              height: 8px;
-              overflow: hidden;
-            ">
-              <div style="
-                background: ${stats.teamColor};
-                height: 100%;
-                width: ${Math.min(100, stats.territoryPercentage)}%;
-                transition: width 0.3s ease;
-              "></div>
-            </div>
-            <div style="font-size: 0.8rem; color: #6b7280; margin-top: 0.25rem;">
-              ${stats.territoryPercentage >= victoryGoal ? '🎉 VICTORY!' : `${victoryGoal - stats.territoryPercentage.toFixed(1)}% to victory`}
-            </div>
+              background: ${stats.teamColor};
+              height: 100%;
+              width: ${Math.min(100, stats.territoryPercentage)}%;
+              transition: width 0.3s ease;
+            "></div>
           </div>
         </div>
       `;
@@ -1731,22 +1716,6 @@
     scoreboardsEl.innerHTML = scoreboardHTML;
   }
   
-  function updateVictoryGoal(teamId, newGoal) {
-    if (!state.victoryGoals) {
-      state.victoryGoals = {};
-    }
-    state.victoryGoals[teamId] = parseInt(newGoal);
-    
-    // Save the updated goals
-    if (state.currentRoster) {
-      state.currentRoster.victoryGoals = state.victoryGoals;
-      saveCurrentRoster();
-    }
-    
-    // Update display
-    updateTeamScoreboards();
-    checkVictoryCondition();
-  }
   
   function checkVictoryCondition() {
     if (!state.roster || !state.board || !state.board.tiles) return;
