@@ -2840,6 +2840,291 @@
   // === FIGHT SCREEN FUNCTIONALITY ===
   let currentBattle = null;
   
+  // Function to get scenario-specific battle items
+  function getScenarioBattleItems(scenario) {
+    if (!scenario) {
+      // Default battle items for no scenario
+      return {
+        weapons: [
+          { id: 'spear', name: 'Spear', cost: 30, power: 15, icon: '🗡️' },
+          { id: 'crossbow', name: 'Crossbow', cost: 60, power: 20, icon: '🏹' },
+          { id: 'catapult', name: 'Catapult', cost: 100, power: 30, icon: '🏰' }
+        ],
+        castles: [
+          { id: 'wooden', name: 'Wooden Keep', cost: 50, power: 75, icon: '🏠' },
+          { id: 'stone', name: 'Stone Fortress', cost: 100, power: 150, icon: '🏰' },
+          { id: 'iron', name: 'Iron Citadel', cost: 200, power: 300, icon: '🏯' }
+        ]
+      };
+    }
+
+    // Scenario-specific battle items
+    switch (scenario.id) {
+      case 'harryPotter':
+        return {
+          weapons: [
+            { id: 'wand', name: 'Wand', cost: 30, power: 15, icon: '🪄' },
+            { id: 'invisibility_cloak', name: 'Cloak of Invisibility', cost: 60, power: 20, icon: '👻' },
+            { id: 'felix_felicis', name: 'Felix Felicis', cost: 100, power: 30, icon: '🍀' }
+          ],
+          castles: [
+            { id: 'wooden', name: 'Magical Hut', cost: 50, power: 75, icon: '🏠' },
+            { id: 'stone', name: 'Wizard Tower', cost: 100, power: 150, icon: '🏰' },
+            { id: 'iron', name: 'Hogwarts Castle', cost: 200, power: 300, icon: '🏯' }
+          ]
+        };
+
+      case 'americanRevolution':
+        return {
+          weapons: [
+            { id: 'musket', name: 'Musket', cost: 30, power: 15, icon: '🔫' },
+            { id: 'cannon', name: 'Cannon', cost: 60, power: 20, icon: '💣' },
+            { id: 'naval_ship', name: 'Naval Ship', cost: 100, power: 30, icon: '🚢' }
+          ],
+          castles: [
+            { id: 'wooden', name: 'Colonial Fort', cost: 50, power: 75, icon: '🏠' },
+            { id: 'stone', name: 'Revolutionary Stronghold', cost: 100, power: 150, icon: '🏰' },
+            { id: 'iron', name: 'Independence Fortress', cost: 200, power: 300, icon: '🏯' }
+          ]
+        };
+
+      case 'worldWar2':
+        return {
+          weapons: [
+            { id: 'rifle', name: 'Rifle', cost: 30, power: 15, icon: '🔫' },
+            { id: 'tank', name: 'Tank', cost: 60, power: 20, icon: '🚗' },
+            { id: 'bomber', name: 'Bomber', cost: 100, power: 30, icon: '✈️' }
+          ],
+          castles: [
+            { id: 'wooden', name: 'Bunker', cost: 50, power: 75, icon: '🏠' },
+            { id: 'stone', name: 'Military Base', cost: 100, power: 150, icon: '🏰' },
+            { id: 'iron', name: 'Fortress', cost: 200, power: 300, icon: '🏯' }
+          ]
+        };
+
+      case 'starWars':
+        return {
+          weapons: [
+            { id: 'blaster', name: 'Blaster', cost: 30, power: 15, icon: '🔫' },
+            { id: 'lightsaber', name: 'Lightsaber', cost: 60, power: 20, icon: '⚔️' },
+            { id: 'death_star', name: 'Death Star', cost: 100, power: 30, icon: '🌍' }
+          ],
+          castles: [
+            { id: 'wooden', name: 'Rebel Base', cost: 50, power: 75, icon: '🏠' },
+            { id: 'stone', name: 'Imperial Outpost', cost: 100, power: 150, icon: '🏰' },
+            { id: 'iron', name: 'Death Star', cost: 200, power: 300, icon: '🏯' }
+          ]
+        };
+
+      case 'avengers':
+        return {
+          weapons: [
+            { id: 'shield', name: 'Vibranium Shield', cost: 30, power: 15, icon: '🛡️' },
+            { id: 'hammer', name: 'Mjolnir', cost: 60, power: 20, icon: '🔨' },
+            { id: 'infinity_gauntlet', name: 'Infinity Gauntlet', cost: 100, power: 30, icon: '👊' }
+          ],
+          castles: [
+            { id: 'wooden', name: 'Avengers Safe House', cost: 50, power: 75, icon: '🏠' },
+            { id: 'stone', name: 'Avengers Tower', cost: 100, power: 150, icon: '🏰' },
+            { id: 'iron', name: 'Avengers Compound', cost: 200, power: 300, icon: '🏯' }
+          ]
+        };
+
+      case 'theIliad':
+        return {
+          weapons: [
+            { id: 'spear', name: 'Greek Spear', cost: 30, power: 15, icon: '🗡️' },
+            { id: 'bow', name: 'Apollo\'s Bow', cost: 60, power: 20, icon: '🏹' },
+            { id: 'chariot', name: 'War Chariot', cost: 100, power: 30, icon: '🏺' }
+          ],
+          castles: [
+            { id: 'wooden', name: 'Greek Camp', cost: 50, power: 75, icon: '🏠' },
+            { id: 'stone', name: 'Troy Walls', cost: 100, power: 150, icon: '🏰' },
+            { id: 'iron', name: 'Troy Citadel', cost: 200, power: 300, icon: '🏯' }
+          ]
+        };
+
+      case 'civilWar':
+        return {
+          weapons: [
+            { id: 'rifle', name: 'Civil War Rifle', cost: 30, power: 15, icon: '🔫' },
+            { id: 'cannon', name: 'Field Cannon', cost: 60, power: 20, icon: '💣' },
+            { id: 'ironclad', name: 'Ironclad Ship', cost: 100, power: 30, icon: '🚢' }
+          ],
+          castles: [
+            { id: 'wooden', name: 'Union Camp', cost: 50, power: 75, icon: '🏠' },
+            { id: 'stone', name: 'Confederate Fort', cost: 100, power: 150, icon: '🏰' },
+            { id: 'iron', name: 'Fort Sumter', cost: 200, power: 300, icon: '🏯' }
+          ]
+        };
+
+      case 'juliusCaesar':
+        return {
+          weapons: [
+            { id: 'gladius', name: 'Gladius', cost: 30, power: 15, icon: '🗡️' },
+            { id: 'pilum', name: 'Pilum', cost: 60, power: 20, icon: '🏹' },
+            { id: 'ballista', name: 'Ballista', cost: 100, power: 30, icon: '🏰' }
+          ],
+          castles: [
+            { id: 'wooden', name: 'Roman Camp', cost: 50, power: 75, icon: '🏠' },
+            { id: 'stone', name: 'Roman Fort', cost: 100, power: 150, icon: '🏰' },
+            { id: 'iron', name: 'Roman Citadel', cost: 200, power: 300, icon: '🏯' }
+          ]
+        };
+
+      case 'animalFarm':
+        return {
+          weapons: [
+            { id: 'pitchfork', name: 'Pitchfork', cost: 30, power: 15, icon: '🗡️' },
+            { id: 'scythe', name: 'Scythe', cost: 60, power: 20, icon: '🏹' },
+            { id: 'windmill', name: 'Windmill', cost: 100, power: 30, icon: '🏰' }
+          ],
+          castles: [
+            { id: 'wooden', name: 'Animal Barn', cost: 50, power: 75, icon: '🏠' },
+            { id: 'stone', name: 'Farm House', cost: 100, power: 150, icon: '🏰' },
+            { id: 'iron', name: 'Command Center', cost: 200, power: 300, icon: '🏯' }
+          ]
+        };
+
+      case 'romeoAndJuliet':
+        return {
+          weapons: [
+            { id: 'rapier', name: 'Rapier', cost: 30, power: 15, icon: '🗡️' },
+            { id: 'crossbow', name: 'Crossbow', cost: 60, power: 20, icon: '🏹' },
+            { id: 'cannon', name: 'Cannon', cost: 100, power: 30, icon: '🏰' }
+          ],
+          castles: [
+            { id: 'wooden', name: 'Montague Manor', cost: 50, power: 75, icon: '🏠' },
+            { id: 'stone', name: 'Capulet Palace', cost: 100, power: 150, icon: '🏰' },
+            { id: 'iron', name: 'Verona Castle', cost: 200, power: 300, icon: '🏯' }
+          ]
+        };
+
+      case 'lordOfTheRings':
+        return {
+          weapons: [
+            { id: 'sword', name: 'Elven Sword', cost: 30, power: 15, icon: '🗡️' },
+            { id: 'bow', name: 'Elven Bow', cost: 60, power: 20, icon: '🏹' },
+            { id: 'ring', name: 'One Ring', cost: 100, power: 30, icon: '💍' }
+          ],
+          castles: [
+            { id: 'wooden', name: 'Hobbit Hole', cost: 50, power: 75, icon: '🏠' },
+            { id: 'stone', name: 'Minas Tirith', cost: 100, power: 150, icon: '🏰' },
+            { id: 'iron', name: 'Barad-dûr', cost: 200, power: 300, icon: '🏯' }
+          ]
+        };
+
+      default:
+        // Fallback to default items
+        return {
+          weapons: [
+            { id: 'spear', name: 'Spear', cost: 30, power: 15, icon: '🗡️' },
+            { id: 'crossbow', name: 'Crossbow', cost: 60, power: 20, icon: '🏹' },
+            { id: 'catapult', name: 'Catapult', cost: 100, power: 30, icon: '🏰' }
+          ],
+          castles: [
+            { id: 'wooden', name: 'Wooden Keep', cost: 50, power: 75, icon: '🏠' },
+            { id: 'stone', name: 'Stone Fortress', cost: 100, power: 150, icon: '🏰' },
+            { id: 'iron', name: 'Iron Citadel', cost: 200, power: 300, icon: '🏯' }
+          ]
+        };
+    }
+  }
+  
+  // Function to add character starting weapons to battle screen
+  function addCharacterStartingWeapons(student, isAttacker) {
+    if (!student.weapons || student.weapons.length === 0) return;
+    
+    const weaponListId = isAttacker ? 'attackerWeaponList' : 'defenderWeaponList';
+    const weaponList = document.getElementById(weaponListId);
+    
+    // Clear existing character weapons
+    const existingCharacterWeapons = weaponList.querySelectorAll('.character-weapon');
+    existingCharacterWeapons.forEach(weapon => weapon.remove());
+    
+    // Add character's starting weapons
+    student.weapons.forEach(weapon => {
+      const weaponElement = document.createElement('div');
+      weaponElement.className = 'character-weapon';
+      weaponElement.style.cssText = `
+        background: #374151;
+        padding: 8px;
+        border-radius: 6px;
+        margin: 4px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 2px solid #10b981;
+      `;
+      
+      // Get weapon icon and power based on weapon name
+      const weaponData = getWeaponData(weapon);
+      
+      weaponElement.innerHTML = `
+        <span>${weaponData.icon} ${weapon} (Starting Weapon)</span>
+        <button onclick="addCharacterWeapon('${weapon}', ${isAttacker})" 
+                style="background: #10b981; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;">
+          Use (Free)
+        </button>
+      `;
+      
+      weaponList.appendChild(weaponElement);
+    });
+  }
+  
+  // Function to get weapon data for character starting weapons
+  function getWeaponData(weaponName) {
+    const weaponMap = {
+      'elder wand': { icon: '🪄', power: 25 },
+      'time turner': { icon: '⏰', power: 20 },
+      'horcruxes': { icon: '💀', power: 30 },
+      'slytherin ring': { icon: '💍', power: 20 },
+      'slytherin necklace': { icon: '📿', power: 20 },
+      'musket': { icon: '🔫', power: 15 },
+      'cannon': { icon: '💣', power: 20 },
+      'naval ship': { icon: '🚢', power: 30 },
+      'rifle': { icon: '🔫', power: 15 },
+      'tank': { icon: '🚗', power: 20 },
+      'bomber': { icon: '✈️', power: 30 },
+      'blaster': { icon: '🔫', power: 15 },
+      'lightsaber': { icon: '⚔️', power: 20 },
+      'death star': { icon: '🌍', power: 30 },
+      'vibranium shield': { icon: '🛡️', power: 15 },
+      'mjolnir': { icon: '🔨', power: 20 },
+      'infinity gauntlet': { icon: '👊', power: 30 },
+      'greek spear': { icon: '🗡️', power: 15 },
+      'apollo\'s bow': { icon: '🏹', power: 20 },
+      'war chariot': { icon: '🏺', power: 30 },
+      'civil war rifle': { icon: '🔫', power: 15 },
+      'field cannon': { icon: '💣', power: 20 },
+      'ironclad ship': { icon: '🚢', power: 30 },
+      'gladius': { icon: '🗡️', power: 15 },
+      'pilum': { icon: '🏹', power: 20 },
+      'ballista': { icon: '🏰', power: 30 },
+      'pitchfork': { icon: '🗡️', power: 15 },
+      'scythe': { icon: '🏹', power: 20 },
+      'windmill': { icon: '🏰', power: 30 },
+      'rapier': { icon: '🗡️', power: 15 },
+      'crossbow': { icon: '🏹', power: 20 },
+      'cannon': { icon: '🏰', power: 30 },
+      'elven sword': { icon: '🗡️', power: 15 },
+      'elven bow': { icon: '🏹', power: 20 },
+      'one ring': { icon: '💍', power: 30 }
+    };
+    
+    return weaponMap[weaponName.toLowerCase()] || { icon: '⚔️', power: 15 };
+  }
+  
+  // Function to add character weapon to battle
+  function addCharacterWeapon(weaponName, isAttacker) {
+    if (!currentBattle) return;
+    
+    const weaponArray = isAttacker ? currentBattle.attackerWeapons : currentBattle.defenderWeapons;
+    weaponArray.push(weaponName.toLowerCase());
+    updateWeaponDisplay(isAttacker);
+    updateBattleSummary();
+  }
+  
   function showFightScreen(attackerId, defenderId, tile) {
     const attacker = state.roster.find(r => r.gsId === attackerId);
     const defender = state.roster.find(r => r.gsId === defenderId);
@@ -2857,6 +3142,62 @@
       defenderCastle: tile.castle_level || null, // Pre-built castle from tile
       defenderBattleCastle: null // Battle-screen castle
     };
+    
+    // Get scenario-specific battle items
+    const battleItems = getScenarioBattleItems(state.scenario);
+    
+    // Update weapon buttons dynamically
+    const attackerWeaponButtons = [
+      document.getElementById('attackerSpear'),
+      document.getElementById('attackerCrossbow'),
+      document.getElementById('attackerCatapult')
+    ];
+    
+    const defenderWeaponButtons = [
+      document.getElementById('defenderSpear'),
+      document.getElementById('defenderCrossbow'),
+      document.getElementById('defenderCatapult')
+    ];
+    
+    const defenderCastleButtons = [
+      document.getElementById('defenderCastle1'),
+      document.getElementById('defenderCastle2'),
+      document.getElementById('defenderCastle3')
+    ];
+    
+    // Update attacker weapon buttons
+    battleItems.weapons.forEach((weapon, index) => {
+      if (attackerWeaponButtons[index]) {
+        attackerWeaponButtons[index].textContent = `${weapon.icon} ${weapon.name} (${weapon.cost} pts)`;
+        attackerWeaponButtons[index].setAttribute('data-weapon-id', weapon.id);
+        attackerWeaponButtons[index].setAttribute('data-weapon-cost', weapon.cost);
+        attackerWeaponButtons[index].setAttribute('data-weapon-power', weapon.power);
+      }
+    });
+    
+    // Update defender weapon buttons
+    battleItems.weapons.forEach((weapon, index) => {
+      if (defenderWeaponButtons[index]) {
+        defenderWeaponButtons[index].textContent = `${weapon.icon} ${weapon.name} (${weapon.cost} pts)`;
+        defenderWeaponButtons[index].setAttribute('data-weapon-id', weapon.id);
+        defenderWeaponButtons[index].setAttribute('data-weapon-cost', weapon.cost);
+        defenderWeaponButtons[index].setAttribute('data-weapon-power', weapon.power);
+      }
+    });
+    
+    // Update defender castle buttons
+    battleItems.castles.forEach((castle, index) => {
+      if (defenderCastleButtons[index]) {
+        defenderCastleButtons[index].textContent = `${castle.icon} ${castle.name} (${castle.cost} pts)`;
+        defenderCastleButtons[index].setAttribute('data-castle-id', castle.id);
+        defenderCastleButtons[index].setAttribute('data-castle-cost', castle.cost);
+        defenderCastleButtons[index].setAttribute('data-castle-power', castle.power);
+      }
+    });
+    
+    // Add character starting weapons as available options
+    addCharacterStartingWeapons(attacker, true); // true for attacker
+    addCharacterStartingWeapons(defender, false); // false for defender
     
     // Check if students are in a truce
     const areInTruce = state.truces.some(truce => 
@@ -2959,11 +3300,20 @@
     // Calculate attacker power with new system
     const attackerBasePower = currentBattle.attackerMercs * 15; // Increased from 10
     
-    // Calculate weapon power from multiple weapons
+    // Calculate weapon power from multiple weapons - dynamic based on scenario
     let attackerWeaponPower = 0;
     currentBattle.attackerWeapons.forEach(weapon => {
-      const weaponPower = weapon === 'spear' ? 15 : 
-                         weapon === 'crossbow' ? 20 : 30; // Base power per weapon
+      // Check if it's a character starting weapon first
+      const weaponData = getWeaponData(weapon);
+      let weaponPower = weaponData.power;
+      
+      // If not a character weapon, get power from button data attributes
+      if (weaponPower === 15 && !weaponData.icon.includes('⚔️')) {
+        const weaponButton = document.querySelector(`[data-weapon-id="${weapon}"]`);
+        weaponPower = weaponButton ? parseInt(weaponButton.getAttribute('data-weapon-power')) || 15 : 
+                     (weapon === 'spear' ? 15 : weapon === 'crossbow' ? 20 : 30);
+      }
+      
       attackerWeaponPower += weaponPower;
     });
     
@@ -2979,11 +3329,20 @@
     // Calculate defender power with new system
     const defenderBasePower = currentBattle.defenderMercs * 15; // Increased from 10
     
-    // Calculate weapon power from multiple weapons
+    // Calculate weapon power from multiple weapons - dynamic based on scenario
     let defenderWeaponPower = 0;
     currentBattle.defenderWeapons.forEach(weapon => {
-      const weaponPower = weapon === 'spear' ? 15 : 
-                         weapon === 'crossbow' ? 20 : 30; // Base power per weapon
+      // Check if it's a character starting weapon first
+      const weaponData = getWeaponData(weapon);
+      let weaponPower = weaponData.power;
+      
+      // If not a character weapon, get power from button data attributes
+      if (weaponPower === 15 && !weaponData.icon.includes('⚔️')) {
+        const weaponButton = document.querySelector(`[data-weapon-id="${weapon}"]`);
+        weaponPower = weaponButton ? parseInt(weaponButton.getAttribute('data-weapon-power')) || 15 : 
+                     (weapon === 'spear' ? 15 : weapon === 'crossbow' ? 20 : 30);
+      }
+      
       defenderWeaponPower += weaponPower;
     });
     
@@ -3016,16 +3375,34 @@
     // Calculate costs
     let attackerWeaponCost = 0;
     currentBattle.attackerWeapons.forEach(weapon => {
-      attackerWeaponCost += weapon === 'spear' ? 30 : 
-                           weapon === 'crossbow' ? 60 : 
-                           weapon === 'catapult' ? 100 : 0;
+      // Character starting weapons are free
+      const weaponData = getWeaponData(weapon);
+      let weaponCost = 0;
+      
+      // If not a character weapon, get cost from button data attributes
+      if (weaponData.icon.includes('⚔️') && weaponData.power === 15) {
+        const weaponButton = document.querySelector(`[data-weapon-id="${weapon}"]`);
+        weaponCost = weaponButton ? parseInt(weaponButton.getAttribute('data-weapon-cost')) || 30 : 
+                    (weapon === 'spear' ? 30 : weapon === 'crossbow' ? 60 : weapon === 'catapult' ? 100 : 0);
+      }
+      
+      attackerWeaponCost += weaponCost;
     });
     
     let defenderWeaponCost = 0;
     currentBattle.defenderWeapons.forEach(weapon => {
-      defenderWeaponCost += weapon === 'spear' ? 30 : 
-                           weapon === 'crossbow' ? 60 : 
-                           weapon === 'catapult' ? 100 : 0;
+      // Character starting weapons are free
+      const weaponData = getWeaponData(weapon);
+      let weaponCost = 0;
+      
+      // If not a character weapon, get cost from button data attributes
+      if (weaponData.icon.includes('⚔️') && weaponData.power === 15) {
+        const weaponButton = document.querySelector(`[data-weapon-id="${weapon}"]`);
+        weaponCost = weaponButton ? parseInt(weaponButton.getAttribute('data-weapon-cost')) || 30 : 
+                    (weapon === 'spear' ? 30 : weapon === 'crossbow' ? 60 : weapon === 'catapult' ? 100 : 0);
+      }
+      
+      defenderWeaponCost += weaponCost;
     });
     
     let attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost;
@@ -3124,30 +3501,36 @@
     }
   };
   
-  // Attacker weapons
+  // Attacker weapons - dynamic based on scenario
   document.getElementById('attackerSpear').onclick = () => {
-    addWeapon('spear', true);
+    const weaponId = document.getElementById('attackerSpear').getAttribute('data-weapon-id') || 'spear';
+    addWeapon(weaponId, true);
   };
   
   document.getElementById('attackerCrossbow').onclick = () => {
-    addWeapon('crossbow', true);
+    const weaponId = document.getElementById('attackerCrossbow').getAttribute('data-weapon-id') || 'crossbow';
+    addWeapon(weaponId, true);
   };
   
   document.getElementById('attackerCatapult').onclick = () => {
-    addWeapon('catapult', true);
+    const weaponId = document.getElementById('attackerCatapult').getAttribute('data-weapon-id') || 'catapult';
+    addWeapon(weaponId, true);
   };
   
-  // Defender weapons
+  // Defender weapons - dynamic based on scenario
   document.getElementById('defenderSpear').onclick = () => {
-    addWeapon('spear', false);
+    const weaponId = document.getElementById('defenderSpear').getAttribute('data-weapon-id') || 'spear';
+    addWeapon(weaponId, false);
   };
   
   document.getElementById('defenderCrossbow').onclick = () => {
-    addWeapon('crossbow', false);
+    const weaponId = document.getElementById('defenderCrossbow').getAttribute('data-weapon-id') || 'crossbow';
+    addWeapon(weaponId, false);
   };
   
   document.getElementById('defenderCatapult').onclick = () => {
-    addWeapon('catapult', false);
+    const weaponId = document.getElementById('defenderCatapult').getAttribute('data-weapon-id') || 'catapult';
+    addWeapon(weaponId, false);
   };
   
   document.getElementById('removeDefenderCastle').onclick = () => {
@@ -3182,16 +3565,34 @@
     // Calculate weapon costs for multiple weapons
     let attackerWeaponCost = 0;
     currentBattle.attackerWeapons.forEach(weapon => {
-      attackerWeaponCost += weapon === 'spear' ? 30 : 
-                           weapon === 'crossbow' ? 60 : 
-                           weapon === 'catapult' ? 100 : 0;
+      // Character starting weapons are free
+      const weaponData = getWeaponData(weapon);
+      let weaponCost = 0;
+      
+      // If not a character weapon, get cost from button data attributes
+      if (weaponData.icon.includes('⚔️') && weaponData.power === 15) {
+        const weaponButton = document.querySelector(`[data-weapon-id="${weapon}"]`);
+        weaponCost = weaponButton ? parseInt(weaponButton.getAttribute('data-weapon-cost')) || 30 : 
+                    (weapon === 'spear' ? 30 : weapon === 'crossbow' ? 60 : weapon === 'catapult' ? 100 : 0);
+      }
+      
+      attackerWeaponCost += weaponCost;
     });
     
     let defenderWeaponCost = 0;
     currentBattle.defenderWeapons.forEach(weapon => {
-      defenderWeaponCost += weapon === 'spear' ? 30 : 
-                           weapon === 'crossbow' ? 60 : 
-                           weapon === 'catapult' ? 100 : 0;
+      // Character starting weapons are free
+      const weaponData = getWeaponData(weapon);
+      let weaponCost = 0;
+      
+      // If not a character weapon, get cost from button data attributes
+      if (weaponData.icon.includes('⚔️') && weaponData.power === 15) {
+        const weaponButton = document.querySelector(`[data-weapon-id="${weapon}"]`);
+        weaponCost = weaponButton ? parseInt(weaponButton.getAttribute('data-weapon-cost')) || 30 : 
+                    (weapon === 'spear' ? 30 : weapon === 'crossbow' ? 60 : weapon === 'catapult' ? 100 : 0);
+      }
+      
+      defenderWeaponCost += weaponCost;
     });
     
     let attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost;
@@ -3376,16 +3777,34 @@
     // Calculate costs
     let attackerWeaponCost = 0;
     currentBattle.attackerWeapons.forEach(weapon => {
-      attackerWeaponCost += weapon === 'spear' ? 30 : 
-                           weapon === 'crossbow' ? 60 : 
-                           weapon === 'catapult' ? 100 : 0;
+      // Character starting weapons are free
+      const weaponData = getWeaponData(weapon);
+      let weaponCost = 0;
+      
+      // If not a character weapon, get cost from button data attributes
+      if (weaponData.icon.includes('⚔️') && weaponData.power === 15) {
+        const weaponButton = document.querySelector(`[data-weapon-id="${weapon}"]`);
+        weaponCost = weaponButton ? parseInt(weaponButton.getAttribute('data-weapon-cost')) || 30 : 
+                    (weapon === 'spear' ? 30 : weapon === 'crossbow' ? 60 : weapon === 'catapult' ? 100 : 0);
+      }
+      
+      attackerWeaponCost += weaponCost;
     });
     
     let defenderWeaponCost = 0;
     currentBattle.defenderWeapons.forEach(weapon => {
-      defenderWeaponCost += weapon === 'spear' ? 30 : 
-                           weapon === 'crossbow' ? 60 : 
-                           weapon === 'catapult' ? 100 : 0;
+      // Character starting weapons are free
+      const weaponData = getWeaponData(weapon);
+      let weaponCost = 0;
+      
+      // If not a character weapon, get cost from button data attributes
+      if (weaponData.icon.includes('⚔️') && weaponData.power === 15) {
+        const weaponButton = document.querySelector(`[data-weapon-id="${weapon}"]`);
+        weaponCost = weaponButton ? parseInt(weaponButton.getAttribute('data-weapon-cost')) || 30 : 
+                    (weapon === 'spear' ? 30 : weapon === 'crossbow' ? 60 : weapon === 'catapult' ? 100 : 0);
+      }
+      
+      defenderWeaponCost += weaponCost;
     });
     
     const attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost;
