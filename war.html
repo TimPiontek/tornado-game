@@ -685,8 +685,10 @@
         gsId: student.id || `student_${i}`,
         name: student.name,
         tilesOwned: existingStudent?.tilesOwned || 0,
-        startPoints: existingStudent?.startPoints || 10,
-        balance: existingStudent?.balance || student.points || 10, // Use saved points or default (10 coins for mercenary)
+        // Split starting vs earned points
+        startingPoints: existingStudent?.startingPoints ?? existingStudent?.startPoints ?? 10,
+        earnedPoints: existingStudent?.earnedPoints ?? 0,
+        balance: (existingStudent?.startingPoints ?? existingStudent?.startPoints ?? 10) + (existingStudent?.earnedPoints ?? 0),
         teamId: existingStudent?.teamId || null,
         teamName: existingStudent?.teamName || null,
         teamColor: existingStudent?.teamColor || null,
@@ -937,7 +939,9 @@
       student.characterFaction = character.factionName;
       
       // Apply character starting resources
-      student.balance = character.startingCoins || student.balance || 10;
+      student.startingPoints = character.startingCoins || student.startingPoints || 10;
+      student.earnedPoints = student.earnedPoints || 0;
+      student.balance = (student.startingPoints || 0) + (student.earnedPoints || 0);
       student.weapons = character.startingWeapons || [];
       student.mercenaries = character.startingMercenaries || 0;
       student.startingCastles = character.startingCastles || 0;
@@ -2173,7 +2177,10 @@
       roster: state.roster.map(student => ({
         id: student.gsId,
         name: student.name,
-        points: student.balance, // Save current balance as points
+        // Persist split points
+        startingPoints: student.startingPoints || 0,
+        earnedPoints: student.earnedPoints || 0,
+        points: (student.startingPoints || 0) + (student.earnedPoints || 0),
         tilesOwned: student.tilesOwned,
         teamId: student.teamId,
         teamName: student.teamName,
@@ -2256,8 +2263,10 @@
     students.forEach(studentData => {
       const student = state.roster.find(s => s.gsId === studentData.gsId);
       if (student) {
-        student.balance += amount;
-        console.log(`${actionText}: ${student.name} now has ${student.balance} points`);
+        // Awarded/earned points should increment earnedPoints only
+        student.earnedPoints = (student.earnedPoints || 0) + amount;
+        student.balance = (student.startingPoints || 0) + (student.earnedPoints || 0);
+        console.log(`${actionText}: ${student.name} now has ${student.balance} points (earned=${student.earnedPoints}, starting=${student.startingPoints})`);
       }
     });
     
@@ -2801,7 +2810,10 @@
         roster: state.roster.map(student => ({
           id: student.gsId,
           name: student.name,
-          points: student.balance, // Save current balance as points
+          // Persist split points
+          startingPoints: student.startingPoints || 0,
+          earnedPoints: student.earnedPoints || 0,
+          points: (student.startingPoints || 0) + (student.earnedPoints || 0),
           tilesOwned: student.tilesOwned,
           teamId: student.teamId,
           teamName: student.teamName,
