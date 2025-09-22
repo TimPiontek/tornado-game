@@ -11619,6 +11619,480 @@ const SCENARIOS = {
     ]
   },
 
+  worldWar1: {
+    id: 'worldWar1',
+    name: 'World War 1',
+    type: 'historical',
+    description: 'The Great War between the Allied Powers and Central Powers.',
+    factions: {
+      alliedPowers: {
+        name: 'Allied Powers',
+        color: '#2ecc71', // Green
+        description: 'The Allied Powers including Britain, France, Russia, and later the US',
+        territories: [
+          { name: 'Western Front', cost: 100, description: 'Main battlefront in France and Belgium' },
+          { name: 'Eastern Front', cost: 95, description: 'Battlefront between Russia and Central Powers' },
+          { name: 'Gallipoli', cost: 90, description: 'Strategic peninsula in Turkey' },
+          { name: 'Mesopotamia', cost: 85, description: 'Middle Eastern theater of war' },
+          { name: 'Palestine', cost: 80, description: 'Middle Eastern campaign' },
+          { name: 'Italian Front', cost: 75, description: 'Alpine warfare between Italy and Austria' },
+          { name: 'Balkan Front', cost: 70, description: 'Southeastern European theater' },
+          { name: 'African Colonies', cost: 65, description: 'Colonial warfare in Africa' },
+          { name: 'Naval Blockade', cost: 60, description: 'British naval blockade of Germany' },
+          { name: 'Home Front', cost: 55, description: 'Civilian support and production' }
+        ],
+        characters: [
+          {
+            name: 'Woodrow Wilson',
+            role: 'US President',
+            startingCoins: 150,
+            startingWeapons: ['Fourteen Points', 'US Army'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'idealistic',
+            quotes: [
+              "The world must be made safe for democracy.",
+              "Peace without victory.",
+              "We shall fight for the things we have always carried nearest our hearts.",
+              "The right is more precious than peace.",
+              "America is privileged to spend her blood and her might."
+            ],
+            description: 'US President who led America into the war and proposed the League of Nations.'
+          },
+          {
+            name: 'David Lloyd George',
+            role: 'British Prime Minister',
+            startingCoins: 145,
+            startingWeapons: ['Royal Navy', 'British Army'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'determined',
+            quotes: [
+              "We shall fight on the beaches, we shall fight on the landing grounds.",
+              "The war to end all wars.",
+              "Britain will never surrender.",
+              "We must win this war for civilization.",
+              "The British Empire stands united."
+            ],
+            description: 'British Prime Minister who led Britain through the Great War.'
+          },
+          {
+            name: 'Georges Clemenceau',
+            role: 'French Prime Minister',
+            startingCoins: 140,
+            startingWeapons: ['French Army', 'Trenches'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'fierce',
+            quotes: [
+              "I wage war!",
+              "France will never be defeated.",
+              "We fight for our homeland.",
+              "The Tiger of France will prevail.",
+              "Victory or death!"
+            ],
+            description: 'French Prime Minister known as the Tiger for his fierce determination.'
+          },
+          {
+            name: 'Nicholas II',
+            role: 'Tsar of Russia',
+            startingCoins: 135,
+            startingWeapons: ['Russian Army', 'Cossacks'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'autocratic',
+            quotes: [
+              "I am the Tsar of all Russia.",
+              "The Russian Empire will triumph.",
+              "We fight for Mother Russia.",
+              "God is with us.",
+              "Victory will be ours."
+            ],
+            description: 'Last Tsar of Russia who led the country into war.'
+          },
+          {
+            name: 'Vittorio Orlando',
+            role: 'Italian Prime Minister',
+            startingCoins: 130,
+            startingWeapons: ['Italian Army', 'Alpine Troops'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'nationalistic',
+            quotes: [
+              "Italy will reclaim her rightful territories.",
+              "We fight for Italian unification.",
+              "The Italian Army will prevail.",
+              "Victory for Italy!",
+              "We shall not be denied."
+            ],
+            description: 'Italian Prime Minister who led Italy into the war.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Allied Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'brave' },
+          { name: 'Allied Officer', startingCoins: 40, startingWeapons: ['Rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'leadership' },
+          { name: 'Allied Commander', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'strategic' }
+        ]
+      },
+      centralPowers: {
+        name: 'Central Powers',
+        color: '#e74c3c', // Red
+        description: 'The Central Powers including Germany, Austria-Hungary, and the Ottoman Empire',
+        territories: [
+          { name: 'Western Front', cost: 100, description: 'Main battlefront against France and Britain' },
+          { name: 'Eastern Front', cost: 95, description: 'Battlefront against Russia' },
+          { name: 'Balkan Front', cost: 90, description: 'Southeastern European theater' },
+          { name: 'Middle East', cost: 85, description: 'Ottoman territories in the Middle East' },
+          { name: 'Italian Front', cost: 80, description: 'Alpine warfare against Italy' },
+          { name: 'African Colonies', cost: 75, description: 'German colonies in Africa' },
+          { name: 'Naval Warfare', cost: 70, description: 'U-boat warfare and naval battles' },
+          { name: 'Home Front', cost: 65, description: 'Civilian support and production' },
+          { name: 'Austrian Empire', cost: 60, description: 'Austro-Hungarian territories' },
+          { name: 'Ottoman Empire', cost: 55, description: 'Turkish territories and defenses' }
+        ],
+        characters: [
+          {
+            name: 'Kaiser Wilhelm II',
+            role: 'German Emperor',
+            startingCoins: 150,
+            startingWeapons: ['German Army', 'U-boats'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'militaristic',
+            quotes: [
+              "Germany will rule the world!",
+              "We fight for German supremacy.",
+              "The German Army is invincible.",
+              "Victory will be ours!",
+              "Deutschland über alles!"
+            ],
+            description: 'German Emperor who led Germany into the Great War.'
+          },
+          {
+            name: 'Franz Joseph I',
+            role: 'Emperor of Austria-Hungary',
+            startingCoins: 145,
+            startingWeapons: ['Austro-Hungarian Army', 'Cavalry'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'imperial',
+            quotes: [
+              "The Austro-Hungarian Empire will prevail.",
+              "We fight for our empire.",
+              "The Habsburg dynasty endures.",
+              "Victory for Austria-Hungary!",
+              "We shall not be defeated."
+            ],
+            description: 'Emperor of Austria-Hungary who declared war on Serbia.'
+          },
+          {
+            name: 'Enver Pasha',
+            role: 'Ottoman War Minister',
+            startingCoins: 140,
+            startingWeapons: ['Ottoman Army', 'Camel Corps'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'ambitious',
+            quotes: [
+              "The Ottoman Empire will be restored.",
+              "We fight for Turkish independence.",
+              "The Young Turks will prevail.",
+              "Victory for the Ottomans!",
+              "We shall reclaim our glory."
+            ],
+            description: 'Ottoman War Minister who led Turkey into the war.'
+          },
+          {
+            name: 'Paul von Hindenburg',
+            role: 'German Field Marshal',
+            startingCoins: 135,
+            startingWeapons: ['German Army', 'Artillery'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'strategic',
+            quotes: [
+              "The German Army will triumph.",
+              "We fight with German precision.",
+              "Victory through superior tactics.",
+              "The German way of war.",
+              "We shall not be denied."
+            ],
+            description: 'German Field Marshal who led the German Army.'
+          },
+          {
+            name: 'Erich Ludendorff',
+            role: 'German General',
+            startingCoins: 130,
+            startingWeapons: ['German Army', 'Machine Guns'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'aggressive',
+            quotes: [
+              "We must win this war!",
+              "The German Army is unstoppable.",
+              "Victory through superior firepower.",
+              "We fight for German honor.",
+              "The German way will prevail."
+            ],
+            description: 'German General who planned major offensives.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Central Powers Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'loyal' },
+          { name: 'Central Powers Officer', startingCoins: 40, startingWeapons: ['Rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'disciplined' },
+          { name: 'Central Powers Commander', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'militaristic' }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Neutral Nations', cost: 90, description: 'Countries that remained neutral, very high strategic value' },
+      { name: 'International Waters', cost: 85, description: 'Oceanic trade routes and naval warfare, high strategic value' },
+      { name: 'Colonial Territories', cost: 80, description: 'Overseas colonies and resources, high strategic value' },
+      { name: 'Diplomatic Corps', cost: 75, description: 'International diplomacy and negotiations, medium strategic value' },
+      { name: 'War Industries', cost: 70, description: 'Military production and supply chains, medium strategic value' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  worldWar2: {
+    id: 'worldWar2',
+    name: 'World War 2',
+    type: 'historical',
+    description: 'The Second World War between the Allies and Axis powers.',
+    factions: {
+      allies: {
+        name: 'Allied Powers',
+        color: '#2ecc71', // Green
+        description: 'The Allied Powers including Britain, US, Soviet Union, and others',
+        territories: [
+          { name: 'Western Front', cost: 100, description: 'Battlefront in Western Europe' },
+          { name: 'Eastern Front', cost: 95, description: 'Massive battlefront in Eastern Europe' },
+          { name: 'Pacific Theater', cost: 90, description: 'Naval and island warfare in the Pacific' },
+          { name: 'North Africa', cost: 85, description: 'Desert warfare in North Africa' },
+          { name: 'Italian Campaign', cost: 80, description: 'Allied invasion of Italy' },
+          { name: 'Burma Campaign', cost: 75, description: 'Warfare in Southeast Asia' },
+          { name: 'Atlantic Ocean', cost: 70, description: 'Naval warfare and convoy battles' },
+          { name: 'Home Front', cost: 65, description: 'Civilian support and production' },
+          { name: 'Resistance Movements', cost: 60, description: 'Underground resistance networks' },
+          { name: 'Strategic Bombing', cost: 55, description: 'Air warfare and bombing campaigns' }
+        ],
+        characters: [
+          {
+            name: 'Winston Churchill',
+            role: 'British Prime Minister',
+            startingCoins: 150,
+            startingWeapons: ['Royal Navy', 'RAF'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'defiant',
+            quotes: [
+              "We shall never surrender!",
+              "Never in the field of human conflict was so much owed by so many to so few.",
+              "We will fight them on the beaches.",
+              "Blood, toil, tears and sweat.",
+              "Victory at all costs!"
+            ],
+            description: 'British Prime Minister who led Britain through the darkest hours.'
+          },
+          {
+            name: 'Franklin D. Roosevelt',
+            role: 'US President',
+            startingCoins: 145,
+            startingWeapons: ['US Army', 'US Navy'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'determined',
+            quotes: [
+              "A date which will live in infamy.",
+              "We have nothing to fear but fear itself.",
+              "The only thing we have to fear is fear itself.",
+              "We must be the great arsenal of democracy.",
+              "Victory will be ours!"
+            ],
+            description: 'US President who led America through the war.'
+          },
+          {
+            name: 'Joseph Stalin',
+            role: 'Soviet Leader',
+            startingCoins: 140,
+            startingWeapons: ['Red Army', 'T-34 Tanks'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'ruthless',
+            quotes: [
+              "The Red Army will crush the fascists!",
+              "We fight for Mother Russia.",
+              "Victory will be ours!",
+              "The Soviet Union will prevail.",
+              "We shall not be defeated."
+            ],
+            description: 'Soviet leader who led the USSR through the war.'
+          },
+          {
+            name: 'Charles de Gaulle',
+            role: 'Free French Leader',
+            startingCoins: 135,
+            startingWeapons: ['Free French Forces', 'Resistance'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'proud',
+            quotes: [
+              "France has lost a battle, but France has not lost the war.",
+              "We fight for French honor.",
+              "The Free French will prevail.",
+              "Victory for France!",
+              "We shall reclaim our homeland."
+            ],
+            description: 'Leader of the Free French forces.'
+          },
+          {
+            name: 'Dwight D. Eisenhower',
+            role: 'Supreme Allied Commander',
+            startingCoins: 130,
+            startingWeapons: ['Allied Forces', 'Strategic Planning'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'strategic',
+            quotes: [
+              "We will accept nothing less than full victory.",
+              "The Allied forces will triumph.",
+              "We fight for freedom.",
+              "Victory through unity.",
+              "We shall not be denied."
+            ],
+            description: 'Supreme Allied Commander in Europe.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Allied Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'brave' },
+          { name: 'Allied Officer', startingCoins: 40, startingWeapons: ['Rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'leadership' },
+          { name: 'Allied Commander', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'strategic' }
+        ]
+      },
+      axis: {
+        name: 'Axis Powers',
+        color: '#e74c3c', // Red
+        description: 'The Axis Powers including Germany, Japan, and Italy',
+        territories: [
+          { name: 'Western Front', cost: 100, description: 'Battlefront against Britain and later US' },
+          { name: 'Eastern Front', cost: 95, description: 'Massive battlefront against the Soviet Union' },
+          { name: 'Pacific Theater', cost: 90, description: 'Naval and island warfare in the Pacific' },
+          { name: 'North Africa', cost: 85, description: 'Desert warfare in North Africa' },
+          { name: 'Balkan Campaign', cost: 80, description: 'Warfare in the Balkans' },
+          { name: 'Burma Campaign', cost: 75, description: 'Warfare in Southeast Asia' },
+          { name: 'Atlantic Ocean', cost: 70, description: 'U-boat warfare and naval battles' },
+          { name: 'Home Front', cost: 65, description: 'Civilian support and production' },
+          { name: 'Occupied Territories', cost: 60, description: 'Conquered lands and resources' },
+          { name: 'Strategic Bombing', cost: 55, description: 'Air warfare and bombing campaigns' }
+        ],
+        characters: [
+          {
+            name: 'Adolf Hitler',
+            role: 'German Führer',
+            startingCoins: 150,
+            startingWeapons: ['Wehrmacht', 'Luftwaffe'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'fanatical',
+            quotes: [
+              "Germany will rule the world!",
+              "We fight for German supremacy.",
+              "The Third Reich will last a thousand years.",
+              "Victory will be ours!",
+              "Deutschland über alles!"
+            ],
+            description: 'German Führer who led Germany into the Second World War.'
+          },
+          {
+            name: 'Hirohito',
+            role: 'Japanese Emperor',
+            startingCoins: 145,
+            startingWeapons: ['Imperial Japanese Army', 'Imperial Japanese Navy'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'imperial',
+            quotes: [
+              "The Japanese Empire will prevail.",
+              "We fight for the Emperor.",
+              "Victory for Japan!",
+              "The Rising Sun will triumph.",
+              "We shall not be defeated."
+            ],
+            description: 'Japanese Emperor during the war.'
+          },
+          {
+            name: 'Benito Mussolini',
+            role: 'Italian Duce',
+            startingCoins: 140,
+            startingWeapons: ['Italian Army', 'Regia Marina'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'authoritarian',
+            quotes: [
+              "The Italian Empire will be restored.",
+              "We fight for Italian glory.",
+              "Victory for Italy!",
+              "The Roman Empire will rise again.",
+              "We shall reclaim our heritage."
+            ],
+            description: 'Italian dictator who led Italy into the war.'
+          },
+          {
+            name: 'Erwin Rommel',
+            role: 'Desert Fox',
+            startingCoins: 135,
+            startingWeapons: ['Afrika Korps', 'Panzer Divisions'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'tactical',
+            quotes: [
+              "The Afrika Korps will triumph.",
+              "We fight with German precision.",
+              "Victory through superior tactics.",
+              "The Desert Fox will prevail.",
+              "We shall not be denied."
+            ],
+            description: 'German Field Marshal known as the Desert Fox.'
+          },
+          {
+            name: 'Isoroku Yamamoto',
+            role: 'Japanese Admiral',
+            startingCoins: 130,
+            startingWeapons: ['Imperial Japanese Navy', 'Aircraft Carriers'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'strategic',
+            quotes: [
+              "The Imperial Navy will triumph.",
+              "We fight for Japanese honor.",
+              "Victory through naval supremacy.",
+              "The Rising Sun will prevail.",
+              "We shall rule the seas."
+            ],
+            description: 'Japanese Admiral who planned the attack on Pearl Harbor.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Axis Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'loyal' },
+          { name: 'Axis Officer', startingCoins: 40, startingWeapons: ['Rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'disciplined' },
+          { name: 'Axis Commander', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'militaristic' }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Neutral Nations', cost: 90, description: 'Countries that remained neutral, very high strategic value' },
+      { name: 'International Waters', cost: 85, description: 'Oceanic trade routes and naval warfare, high strategic value' },
+      { name: 'Colonial Territories', cost: 80, description: 'Overseas colonies and resources, high strategic value' },
+      { name: 'Diplomatic Corps', cost: 75, description: 'International diplomacy and negotiations, medium strategic value' },
+      { name: 'War Industries', cost: 70, description: 'Military production and supply chains, medium strategic value' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
   spanishCivilWar: {
     id: 'spanishCivilWar',
     name: 'Spanish Civil War',
