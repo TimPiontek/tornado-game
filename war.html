@@ -365,23 +365,7 @@
         <div style="font-size: 18px; font-weight: bold; margin: 15px 0; padding: 10px; border-radius: 8px; background: var(--panel);">
           <span id="victoryOdds">Victory Odds: 50%</span>
         </div>
-        <div class="minor" style="margin-top: 10px;">
-          <strong>How items affect power:</strong><br>
-          • Mercenaries: +15 power each<br>
-          • Spear: +50% power multiplier<br>
-          • Crossbow: +100% power multiplier<br>
-          • Catapult: +200% power multiplier<br>
-          • Pre-built Castle L1: +150 power (2x bonus)<br>
-          • Pre-built Castle L2: +300 power (2x bonus)<br>
-          • Pre-built Castle L3: +600 power (2x bonus)<br>
-          • Battle Castle L1: +75 power<br>
-          • Battle Castle L2: +150 power<br>
-          • Battle Castle L3: +300 power<br>
-          <strong>Combo Bonuses:</strong><br>
-          • 2+ items: +10% total power<br>
-          • 3+ items: +25% total power<br>
-          • 4+ items: +50% total power
-        </div>
+        <div class="minor" style="margin-top: 10px;" id="powerLegend"></div>
       </div>
       <button class="pill" id="simulateWar" style="background: #dc2626; color: white; font-size: 18px; padding: 15px 30px;">⚔️ SIMULATE WAR</button>
     </div>
@@ -3448,6 +3432,30 @@
     if (aSpells) aSpells.style.display = showSpells ? '' : 'none';
     if (dAllies) dAllies.style.display = showAllies ? '' : 'none';
     if (dSpells) dSpells.style.display = showSpells ? '' : 'none';
+
+    // Update power legend to reflect scenario items
+    const legend = document.getElementById('powerLegend');
+    if (legend) {
+      const w = (battleItems.weapons || []).map(w => w.name);
+      const c = (battleItems.castles || []).map(c => c.name);
+      legend.innerHTML = `
+        <strong>How items affect power:</strong><br>
+        • Mercenaries: +15 power each<br>
+        ${w[0] ? `• ${w[0]}: +50% power multiplier<br>` : ''}
+        ${w[1] ? `• ${w[1]}: +100% power multiplier<br>` : ''}
+        ${w[2] ? `• ${w[2]}: +200% power multiplier<br>` : ''}
+        • Pre-built Castle L1: +150 power (2x bonus)<br>
+        • Pre-built Castle L2: +300 power (2x bonus)<br>
+        • Pre-built Castle L3: +600 power (2x bonus)<br>
+        ${c[0] ? `• ${c[0]}: +75 power<br>` : ''}
+        ${c[1] ? `• ${c[1]}: +150 power<br>` : ''}
+        ${c[2] ? `• ${c[2]}: +300 power<br>` : ''}
+        <strong>Combo Bonuses:</strong><br>
+        • 2+ items: +10% total power<br>
+        • 3+ items: +25% total power<br>
+        • 4+ items: +50% total power
+      `;
+    }
 
     // Update attacker weapon buttons
     (battleItems.weapons && battleItems.weapons.length ? battleItems.weapons : [
