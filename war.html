@@ -3352,7 +3352,7 @@
     console.log('Battle screen scenario:', scenario);
     console.log('Battle items:', battleItems);
     
-    // Update weapon buttons dynamically
+    // Update weapon buttons dynamically (use scenario items if present; otherwise economy defaults)
     const attackerWeaponButtons = [
       document.getElementById('attackerSpear'),
       document.getElementById('attackerCrossbow'),
@@ -3372,7 +3372,11 @@
     ];
     
     // Update attacker weapon buttons
-    battleItems.weapons.forEach((weapon, index) => {
+    (battleItems.weapons && battleItems.weapons.length ? battleItems.weapons : [
+      { id: 'spear', name: 'Spear', cost: getActiveEconomy().weapons.spear, power: 15, icon: '🗡️' },
+      { id: 'crossbow', name: 'Crossbow', cost: getActiveEconomy().weapons.crossbow, power: 30, icon: '🏹' },
+      { id: 'catapult', name: 'Catapult', cost: getActiveEconomy().weapons.catapult, power: 60, icon: '🎯' }
+    ]).forEach((weapon, index) => {
       if (attackerWeaponButtons[index]) {
         attackerWeaponButtons[index].textContent = `${weapon.icon} ${weapon.name} (${weapon.cost} pts)`;
         attackerWeaponButtons[index].setAttribute('data-weapon-id', weapon.id);
@@ -3382,7 +3386,11 @@
     });
     
     // Update defender weapon buttons
-    battleItems.weapons.forEach((weapon, index) => {
+    (battleItems.weapons && battleItems.weapons.length ? battleItems.weapons : [
+      { id: 'spear', name: 'Spear', cost: getActiveEconomy().weapons.spear, power: 15, icon: '🗡️' },
+      { id: 'crossbow', name: 'Crossbow', cost: getActiveEconomy().weapons.crossbow, power: 30, icon: '🏹' },
+      { id: 'catapult', name: 'Catapult', cost: getActiveEconomy().weapons.catapult, power: 60, icon: '🎯' }
+    ]).forEach((weapon, index) => {
       if (defenderWeaponButtons[index]) {
         defenderWeaponButtons[index].textContent = `${weapon.icon} ${weapon.name} (${weapon.cost} pts)`;
         defenderWeaponButtons[index].setAttribute('data-weapon-id', weapon.id);
