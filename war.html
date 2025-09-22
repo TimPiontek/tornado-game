@@ -269,7 +269,7 @@
           <div class="minor">Selected: <span id="attackerWeapons">None</span></div>
           <div id="attackerWeaponList" style="margin-top: 8px;"></div>
         </div>
-        <div class="section">
+        <div class="section" id="attackerAlliesSection">
           <div class="title">Magical Allies</div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <button class="pill" id="attackerPhoenix" style="background: #f59e0b;">Phoenix (150 pts)</button>
@@ -279,7 +279,7 @@
           <div class="minor">Selected: <span id="attackerAllies">None</span></div>
           <div id="attackerAlliesList" style="margin-top: 8px;"></div>
         </div>
-        <div class="section">
+        <div class="section" id="attackerSpellsSection">
           <div class="title">Special Spells</div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <button class="pill" id="attackerExpelliarmus" style="background: #7c3aed;">Expelliarmus (80 pts)</button>
@@ -317,7 +317,7 @@
           <div class="minor">Selected: <span id="defenderWeapons">None</span></div>
           <div id="defenderWeaponList" style="margin-top: 8px;"></div>
         </div>
-        <div class="section">
+        <div class="section" id="defenderAlliesSection">
           <div class="title">Magical Allies</div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <button class="pill" id="defenderPhoenix" style="background: #f59e0b;">Phoenix (150 pts)</button>
@@ -327,7 +327,7 @@
           <div class="minor">Selected: <span id="defenderAllies">None</span></div>
           <div id="defenderAlliesList" style="margin-top: 8px;"></div>
         </div>
-        <div class="section">
+        <div class="section" id="defenderSpellsSection">
           <div class="title">Special Spells</div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <button class="pill" id="defenderExpelliarmus" style="background: #7c3aed;">Expelliarmus (80 pts)</button>
@@ -3395,6 +3395,18 @@
     if (defenderCastleButtons[1]) defenderCastleButtons[1].textContent = `Stone Fortress (${getActiveEconomy().castleL2} pts)`;
     if (defenderCastleButtons[2]) defenderCastleButtons[2].textContent = `Iron Citadel (${getActiveEconomy().castleL3} pts)`;
     
+    // Toggle allies/spells visibility by scenario
+    const showAllies = Array.isArray(battleItems.allies) && battleItems.allies.length > 0;
+    const showSpells = Array.isArray(battleItems.spells) && battleItems.spells.length > 0;
+    const aAllies = document.getElementById('attackerAlliesSection');
+    const aSpells = document.getElementById('attackerSpellsSection');
+    const dAllies = document.getElementById('defenderAlliesSection');
+    const dSpells = document.getElementById('defenderSpellsSection');
+    if (aAllies) aAllies.style.display = showAllies ? '' : 'none';
+    if (aSpells) aSpells.style.display = showSpells ? '' : 'none';
+    if (dAllies) dAllies.style.display = showAllies ? '' : 'none';
+    if (dSpells) dSpells.style.display = showSpells ? '' : 'none';
+
     // Update attacker weapon buttons
     (battleItems.weapons && battleItems.weapons.length ? battleItems.weapons : [
       { id: 'spear', name: 'Spear', cost: getActiveEconomy().weapons.spear, power: 15, icon: '🗡️' },
