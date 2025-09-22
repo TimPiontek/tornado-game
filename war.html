@@ -407,9 +407,10 @@
     victoryBonus: 100,
     centerPremium: 30
   };
-
+  // Active economy is stored separately to avoid referencing state before init
+  let __activeEconomy = ECONOMY;
   function getActiveEconomy(){
-    return state.economy || ECONOMY;
+    return __activeEconomy || ECONOMY;
   }
   function applyEconomyToUI(){
     const eco = getActiveEconomy();
@@ -430,8 +431,8 @@
     selectedGsId: null,
     truces: [],
     colors: new Map(),
-    costs: { land: 20, castleL1: getActiveEconomy().castleL1, castleL2: getActiveEconomy().castleL2, castleL3: getActiveEconomy().castleL3 },
-    weaponCosts: { ...getActiveEconomy().weapons },
+    costs: { land: 20, castleL1: ECONOMY.castleL1, castleL2: ECONOMY.castleL2, castleL3: ECONOMY.castleL3 },
+    weaponCosts: { ...ECONOMY.weapons },
     offlineMode: false, // Start in online mode, can switch to offline
     teams: [],
     teamMode: false,
@@ -1050,6 +1051,8 @@
       // Tech pricier weapons
       state.economy.weapons = { spear: 50, crossbow: 90, catapult: 160 };
     }
+    // Sync active economy reference used before state exists
+    __activeEconomy = state.economy;
     applyEconomyToUI();
     
     // Auto-assign characters if random assignment and no manual assignments
