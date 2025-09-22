@@ -13595,6 +13595,4346 @@ const SCENARIOS = {
     randomAssignment: true,
     manualRoleAssignments: false,
     aiAssignments: false
+  },
+
+  // POKEMON SCENARIO
+  pokemon: {
+    id: 'pokemon',
+    name: 'Pokemon: Gotta Catch \'Em All',
+    type: 'gaming',
+    description: 'The ultimate battle between Fire, Water, and Grass type Pokemon trainers.',
+    factions: {
+      fire: {
+        name: 'Fire Type Trainers',
+        color: '#e74c3c', // Red
+        description: 'Trainers who specialize in Fire-type Pokemon',
+        territories: [
+          { name: 'Volcano Island', cost: 100, description: 'Active volcano and Fire Pokemon sanctuary' },
+          { name: 'Lava Caves', cost: 95, description: 'Underground lava chambers and training grounds' },
+          { name: 'Fire Gym', cost: 90, description: 'Official Fire-type Pokemon gym' },
+          { name: 'Desert Oasis', cost: 85, description: 'Hot desert with Fire Pokemon habitats' },
+          { name: 'Sunny Meadows', cost: 80, description: 'Open grasslands perfect for Fire training' },
+          { name: 'Hot Springs', cost: 75, description: 'Natural hot springs and healing center' },
+          { name: 'Fire Temple', cost: 70, description: 'Ancient temple dedicated to Fire Pokemon' },
+          { name: 'Charcoal Forest', cost: 65, description: 'Burnt forest with Fire Pokemon' },
+          { name: 'Ember Valley', cost: 60, description: 'Valley with constant ember activity' },
+          { name: 'Flame Tower', cost: 55, description: 'Tall tower with eternal flame' }
+        ],
+        characters: [
+          {
+            name: 'Charizard',
+            role: 'Fire Dragon',
+            startingCoins: 150,
+            startingWeapons: ['Flamethrower', 'Dragon Claw'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'powerful',
+            quotes: [
+              "I am Charizard, the Fire Dragon!",
+              "I will burn everything in my path!",
+              "I am the most powerful Fire Pokemon!",
+              "I will dominate with fire!",
+              "I am the king of Fire types!"
+            ],
+            description: 'The powerful Fire Dragon Pokemon who rules the skies.'
+          },
+          {
+            name: 'Arcanine',
+            role: 'Legendary Fire Dog',
+            startingCoins: 140,
+            startingWeapons: ['Fire Fang', 'Flame Wheel'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'loyal',
+            quotes: [
+              "I am Arcanine, the Legendary Fire Dog!",
+              "I will run faster than the wind!",
+              "I am the most loyal Fire Pokemon!",
+              "I will protect my trainer!",
+              "I am the legendary guardian!"
+            ],
+            description: 'The loyal Legendary Fire Dog who protects its trainer.'
+          },
+          {
+            name: 'Ninetales',
+            role: 'Mystical Fire Fox',
+            startingCoins: 135,
+            startingWeapons: ['Fire Blast', 'Will-O-Wisp'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'mystical',
+            quotes: [
+              "I am Ninetales, the Mystical Fire Fox!",
+              "I will cast fire spells!",
+              "I am the most mystical Fire Pokemon!",
+              "I will bewitch with flames!",
+              "I am the nine-tailed fox!"
+            ],
+            description: 'The mystical Fire Fox with nine tails and magical powers.'
+          },
+          {
+            name: 'Rapidash',
+            role: 'Fire Horse',
+            startingCoins: 130,
+            startingWeapons: ['Fire Spin', 'Stomp'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'fast',
+            quotes: [
+              "I am Rapidash, the Fire Horse!",
+              "I will gallop with flames!",
+              "I am the fastest Fire Pokemon!",
+              "I will race across the battlefield!",
+              "I am the blazing steed!"
+            ],
+            description: 'The fast Fire Horse who gallops with flames.'
+          },
+          {
+            name: 'Magmar',
+            role: 'Fire Duck',
+            startingCoins: 125,
+            startingWeapons: ['Fire Punch', 'Smog'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'aggressive',
+            quotes: [
+              "I am Magmar, the Fire Duck!",
+              "I will punch with fire!",
+              "I am the most aggressive Fire Pokemon!",
+              "I will fight with flames!",
+              "I am the fire-breathing duck!"
+            ],
+            description: 'The aggressive Fire Duck who fights with flaming punches.'
+          },
+          {
+            name: 'Flareon',
+            role: 'Fire Evolution',
+            startingCoins: 120,
+            startingWeapons: ['Fire Fang', 'Quick Attack'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'evolved',
+            quotes: [
+              "I am Flareon, the Fire Evolution!",
+              "I will evolve with fire!",
+              "I am the most evolved Fire Pokemon!",
+              "I will adapt with flames!",
+              "I am the evolved fire type!"
+            ],
+            description: 'The evolved Fire Pokemon who adapts with flames.'
+          },
+          {
+            name: 'Moltres',
+            role: 'Legendary Fire Bird',
+            startingCoins: 145,
+            startingWeapons: ['Sky Attack', 'Fire Blast'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'legendary',
+            quotes: [
+              "I am Moltres, the Legendary Fire Bird!",
+              "I will soar with fire!",
+              "I am the most legendary Fire Pokemon!",
+              "I will fly with flames!",
+              "I am the legendary fire bird!"
+            ],
+            description: 'The legendary Fire Bird who soars through the skies.'
+          },
+          {
+            name: 'Entei',
+            role: 'Legendary Fire Lion',
+            startingCoins: 145,
+            startingWeapons: ['Sacred Fire', 'Roar'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'noble',
+            quotes: [
+              "I am Entei, the Legendary Fire Lion!",
+              "I will roar with fire!",
+              "I am the most noble Fire Pokemon!",
+              "I will lead with flames!",
+              "I am the legendary fire lion!"
+            ],
+            description: 'The noble Legendary Fire Lion who leads with sacred fire.'
+          },
+          {
+            name: 'Ho-Oh',
+            role: 'Rainbow Fire Bird',
+            startingCoins: 150,
+            startingWeapons: ['Sacred Fire', 'Rainbow Wing'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'divine',
+            quotes: [
+              "I am Ho-Oh, the Rainbow Fire Bird!",
+              "I will shine with rainbow fire!",
+              "I am the most divine Fire Pokemon!",
+              "I will bless with flames!",
+              "I am the divine rainbow bird!"
+            ],
+            description: 'The divine Rainbow Fire Bird who blesses with sacred flames.'
+          },
+          {
+            name: 'Groudon',
+            role: 'Legendary Ground Fire',
+            startingCoins: 150,
+            startingWeapons: ['Earthquake', 'Fire Blast'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'primordial',
+            quotes: [
+              "I am Groudon, the Legendary Ground Fire!",
+              "I will shake the earth with fire!",
+              "I am the most primordial Fire Pokemon!",
+              "I will create with flames!",
+              "I am the primordial earth fire!"
+            ],
+            description: 'The primordial Legendary who creates land with fire.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Fire Trainer', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'passionate' },
+          { name: 'Fire Gym Leader', startingCoins: 40, startingWeapons: ['Fire Stone'], startingMercenaries: 0, startingCastles: 0, personality: 'determined' },
+          { name: 'Fire Elite', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'elite' }
+        ]
+      },
+      water: {
+        name: 'Water Type Trainers',
+        color: '#3498db', // Blue
+        description: 'Trainers who specialize in Water-type Pokemon',
+        territories: [
+          { name: 'Ocean Depths', cost: 100, description: 'Deep ocean trenches and Water Pokemon sanctuary' },
+          { name: 'Coral Reef', cost: 95, description: 'Beautiful coral formations and training grounds' },
+          { name: 'Water Gym', cost: 90, description: 'Official Water-type Pokemon gym' },
+          { name: 'Frozen Lake', cost: 85, description: 'Ice-covered lake with Water Pokemon' },
+          { name: 'Waterfall Cave', cost: 80, description: 'Hidden cave behind massive waterfall' },
+          { name: 'Hot Springs', cost: 75, description: 'Natural hot springs and healing center' },
+          { name: 'Water Temple', cost: 70, description: 'Ancient temple dedicated to Water Pokemon' },
+          { name: 'Misty Forest', cost: 65, description: 'Foggy forest with Water Pokemon' },
+          { name: 'Tidal Pool', cost: 60, description: 'Rock pools filled with Water Pokemon' },
+          { name: 'Aqua Tower', cost: 55, description: 'Tall tower with flowing water' }
+        ],
+        characters: [
+          {
+            name: 'Blastoise',
+            role: 'Water Cannon',
+            startingCoins: 150,
+            startingWeapons: ['Hydro Pump', 'Water Gun'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'defensive',
+            quotes: [
+              "I am Blastoise, the Water Cannon!",
+              "I will douse all fires!",
+              "I am the most defensive Water Pokemon!",
+              "I will protect with water!",
+              "I am the shield of Water types!"
+            ],
+            description: 'The defensive Water Cannon Pokemon who protects allies.'
+          },
+          {
+            name: 'Gyarados',
+            role: 'Water Dragon',
+            startingCoins: 145,
+            startingWeapons: ['Hydro Pump', 'Dragon Rage'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'fierce',
+            quotes: [
+              "I am Gyarados, the Water Dragon!",
+              "I will rage with water!",
+              "I am the most fierce Water Pokemon!",
+              "I will destroy with waves!",
+              "I am the fierce water dragon!"
+            ],
+            description: 'The fierce Water Dragon who rages with powerful waves.'
+          },
+          {
+            name: 'Lapras',
+            role: 'Water Transport',
+            startingCoins: 140,
+            startingWeapons: ['Surf', 'Ice Beam'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'gentle',
+            quotes: [
+              "I am Lapras, the Water Transport!",
+              "I will carry with water!",
+              "I am the most gentle Water Pokemon!",
+              "I will ferry with waves!",
+              "I am the gentle water carrier!"
+            ],
+            description: 'The gentle Water Transport who carries passengers safely.'
+          },
+          {
+            name: 'Vaporeon',
+            role: 'Water Evolution',
+            startingCoins: 135,
+            startingWeapons: ['Water Gun', 'Quick Attack'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'evolved',
+            quotes: [
+              "I am Vaporeon, the Water Evolution!",
+              "I will evolve with water!",
+              "I am the most evolved Water Pokemon!",
+              "I will adapt with waves!",
+              "I am the evolved water type!"
+            ],
+            description: 'The evolved Water Pokemon who adapts with waves.'
+          },
+          {
+            name: 'Starmie',
+            role: 'Water Star',
+            startingCoins: 130,
+            startingWeapons: ['Water Gun', 'Psychic'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'mystical',
+            quotes: [
+              "I am Starmie, the Water Star!",
+              "I will shine with water!",
+              "I am the most mystical Water Pokemon!",
+              "I will glow with waves!",
+              "I am the mystical water star!"
+            ],
+            description: 'The mystical Water Star who glows with psychic water power.'
+          },
+          {
+            name: 'Poliwrath',
+            role: 'Water Fighter',
+            startingCoins: 125,
+            startingWeapons: ['Water Gun', 'Submission'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'strong',
+            quotes: [
+              "I am Poliwrath, the Water Fighter!",
+              "I will fight with water!",
+              "I am the strongest Water Pokemon!",
+              "I will battle with waves!",
+              "I am the strong water fighter!"
+            ],
+            description: 'The strong Water Fighter who battles with powerful water moves.'
+          },
+          {
+            name: 'Articuno',
+            role: 'Legendary Ice Bird',
+            startingCoins: 145,
+            startingWeapons: ['Ice Beam', 'Blizzard'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'legendary',
+            quotes: [
+              "I am Articuno, the Legendary Ice Bird!",
+              "I will freeze with water!",
+              "I am the most legendary Water Pokemon!",
+              "I will chill with ice!",
+              "I am the legendary ice bird!"
+            ],
+            description: 'The legendary Ice Bird who freezes everything with ice.'
+          },
+          {
+            name: 'Suicune',
+            role: 'Legendary Water Dog',
+            startingCoins: 145,
+            startingWeapons: ['Hydro Pump', 'Aurora Beam'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'pure',
+            quotes: [
+              "I am Suicune, the Legendary Water Dog!",
+              "I will purify with water!",
+              "I am the purest Water Pokemon!",
+              "I will cleanse with waves!",
+              "I am the pure water dog!"
+            ],
+            description: 'The pure Legendary Water Dog who purifies water.'
+          },
+          {
+            name: 'Kyogre',
+            role: 'Legendary Sea God',
+            startingCoins: 150,
+            startingWeapons: ['Water Spout', 'Thunder'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'divine',
+            quotes: [
+              "I am Kyogre, the Legendary Sea God!",
+              "I will flood with water!",
+              "I am the most divine Water Pokemon!",
+              "I will create oceans!",
+              "I am the divine sea god!"
+            ],
+            description: 'The divine Legendary Sea God who creates oceans.'
+          },
+          {
+            name: 'Manaphy',
+            role: 'Sea Prince',
+            startingCoins: 140,
+            startingWeapons: ['Water Pulse', 'Heart Swap'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'royal',
+            quotes: [
+              "I am Manaphy, the Sea Prince!",
+              "I will rule with water!",
+              "I am the most royal Water Pokemon!",
+              "I will command with waves!",
+              "I am the royal sea prince!"
+            ],
+            description: 'The royal Sea Prince who commands the oceans.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Water Trainer', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'calm' },
+          { name: 'Water Gym Leader', startingCoins: 40, startingWeapons: ['Water Stone'], startingMercenaries: 0, startingCastles: 0, personality: 'serene' },
+          { name: 'Water Elite', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'elite' }
+        ]
+      },
+      grass: {
+        name: 'Grass Type Trainers',
+        color: '#2ecc71', // Green
+        description: 'Trainers who specialize in Grass-type Pokemon',
+        territories: [
+          { name: 'Forest Sanctuary', cost: 100, description: 'Ancient forest and Grass Pokemon sanctuary' },
+          { name: 'Flower Fields', cost: 95, description: 'Beautiful flower meadows and training grounds' },
+          { name: 'Grass Gym', cost: 90, description: 'Official Grass-type Pokemon gym' },
+          { name: 'Bamboo Grove', cost: 85, description: 'Dense bamboo forest with Grass Pokemon' },
+          { name: 'Herb Garden', cost: 80, description: 'Medicinal herb garden and healing center' },
+          { name: 'Tree Village', cost: 75, description: 'Village built in giant trees' },
+          { name: 'Grass Temple', cost: 70, description: 'Ancient temple dedicated to Grass Pokemon' },
+          { name: 'Mossy Caves', cost: 65, description: 'Caves covered in moss and Grass Pokemon' },
+          { name: 'Seed Valley', cost: 60, description: 'Valley where seeds grow into Pokemon' },
+          { name: 'Nature Tower', cost: 55, description: 'Tall tower covered in vines' }
+        ],
+        characters: [
+          {
+            name: 'Venusaur',
+            role: 'Grass Giant',
+            startingCoins: 150,
+            startingWeapons: ['Solar Beam', 'Vine Whip'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'wise',
+            quotes: [
+              "I am Venusaur, the Grass Giant!",
+              "I will grow and flourish!",
+              "I am the most wise Grass Pokemon!",
+              "I will nurture with nature!",
+              "I am the guardian of Grass types!"
+            ],
+            description: 'The wise Grass Giant Pokemon who nurtures the land.'
+          },
+          {
+            name: 'Sceptile',
+            role: 'Grass Lizard',
+            startingCoins: 145,
+            startingWeapons: ['Leaf Blade', 'Quick Attack'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'agile',
+            quotes: [
+              "I am Sceptile, the Grass Lizard!",
+              "I will slash with leaves!",
+              "I am the most agile Grass Pokemon!",
+              "I will strike with nature!",
+              "I am the agile grass lizard!"
+            ],
+            description: 'The agile Grass Lizard who strikes with leaf blades.'
+          },
+          {
+            name: 'Torterra',
+            role: 'Grass Turtle',
+            startingCoins: 140,
+            startingWeapons: ['Earthquake', 'Wood Hammer'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'steady',
+            quotes: [
+              "I am Torterra, the Grass Turtle!",
+              "I will stand firm with nature!",
+              "I am the steadiest Grass Pokemon!",
+              "I will endure with earth!",
+              "I am the steady grass turtle!"
+            ],
+            description: 'The steady Grass Turtle who stands firm with earth and nature.'
+          },
+          {
+            name: 'Leafeon',
+            role: 'Grass Evolution',
+            startingCoins: 135,
+            startingWeapons: ['Leaf Blade', 'Quick Attack'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'evolved',
+            quotes: [
+              "I am Leafeon, the Grass Evolution!",
+              "I will evolve with grass!",
+              "I am the most evolved Grass Pokemon!",
+              "I will adapt with nature!",
+              "I am the evolved grass type!"
+            ],
+            description: 'The evolved Grass Pokemon who adapts with nature.'
+          },
+          {
+            name: 'Roserade',
+            role: 'Grass Rose',
+            startingCoins: 130,
+            startingWeapons: ['Petal Dance', 'Poison Sting'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'elegant',
+            quotes: [
+              "I am Roserade, the Grass Rose!",
+              "I will dance with petals!",
+              "I am the most elegant Grass Pokemon!",
+              "I will charm with nature!",
+              "I am the elegant grass rose!"
+            ],
+            description: 'The elegant Grass Rose who dances with beautiful petals.'
+          },
+          {
+            name: 'Breloom',
+            role: 'Grass Fighter',
+            startingCoins: 125,
+            startingWeapons: ['Mach Punch', 'Seed Bomb'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'strong',
+            quotes: [
+              "I am Breloom, the Grass Fighter!",
+              "I will punch with power!",
+              "I am the strongest Grass Pokemon!",
+              "I will fight with nature!",
+              "I am the strong grass fighter!"
+            ],
+            description: 'The strong Grass Fighter who battles with powerful punches.'
+          },
+          {
+            name: 'Celebi',
+            role: 'Time Travel Grass',
+            startingCoins: 145,
+            startingWeapons: ['Psychic', 'Future Sight'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'mystical',
+            quotes: [
+              "I am Celebi, the Time Travel Grass!",
+              "I will travel through time!",
+              "I am the most mystical Grass Pokemon!",
+              "I will see the future!",
+              "I am the mystical time traveler!"
+            ],
+            description: 'The mystical Grass Pokemon who travels through time.'
+          },
+          {
+            name: 'Shaymin',
+            role: 'Gratitude Grass',
+            startingCoins: 140,
+            startingWeapons: ['Seed Flare', 'Aromatherapy'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'grateful',
+            quotes: [
+              "I am Shaymin, the Gratitude Grass!",
+              "I will spread gratitude!",
+              "I am the most grateful Grass Pokemon!",
+              "I will heal with nature!",
+              "I am the grateful grass spirit!"
+            ],
+            description: 'The grateful Grass Pokemon who spreads healing and gratitude.'
+          },
+          {
+            name: 'Virizion',
+            role: 'Grass Justice',
+            startingCoins: 145,
+            startingWeapons: ['Leaf Blade', 'Sacred Sword'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'just',
+            quotes: [
+              "I am Virizion, the Grass Justice!",
+              "I will fight for justice!",
+              "I am the most just Grass Pokemon!",
+              "I will defend with nature!",
+              "I am the just grass warrior!"
+            ],
+            description: 'The just Grass Pokemon who fights for justice with nature.'
+          },
+          {
+            name: 'Kartana',
+            role: 'Grass Sword',
+            startingCoins: 150,
+            startingWeapons: ['Leaf Blade', 'Sacred Sword'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'sharp',
+            quotes: [
+              "I am Kartana, the Grass Sword!",
+              "I will cut with precision!",
+              "I am the sharpest Grass Pokemon!",
+              "I will slice with nature!",
+              "I am the sharp grass sword!"
+            ],
+            description: 'The sharp Grass Sword Pokemon who cuts with precision.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Grass Trainer', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'peaceful' },
+          { name: 'Grass Gym Leader', startingCoins: 40, startingWeapons: ['Leaf Stone'], startingMercenaries: 0, startingCastles: 0, personality: 'wise' },
+          { name: 'Grass Elite', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'elite' }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Pokemon Center', cost: 90, description: 'Healing center for all Pokemon, very high strategic value' },
+      { name: 'Pokemon Mart', cost: 85, description: 'Shop for Pokemon items and supplies, high strategic value' },
+      { name: 'Route 1', cost: 80, description: 'Main road connecting regions, high strategic value' },
+      { name: 'Pokemon Lab', cost: 75, description: 'Research facility for Pokemon studies, medium strategic value' },
+      { name: 'Daycare Center', cost: 70, description: 'Pokemon breeding and care facility, medium strategic value' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // GAME OF THRONES SCENARIO
+  gameOfThrones: {
+    id: 'gameOfThrones',
+    name: 'Game of Thrones: Battle for the Iron Throne',
+    type: 'fantasy',
+    description: 'The ultimate battle for the Iron Throne between the great houses of Westeros.',
+    factions: {
+      stark: {
+        name: 'House Stark',
+        color: '#2c3e50', // Dark Blue
+        description: 'The honorable lords of the North',
+        territories: [
+          { name: 'Winterfell', cost: 100, description: 'Ancient castle and seat of House Stark' },
+          { name: 'The Wall', cost: 95, description: 'Massive ice wall protecting the realm' },
+          { name: 'Castle Black', cost: 90, description: 'Main fortress of the Night\'s Watch' },
+          { name: 'Deepwood Motte', cost: 85, description: 'Forest stronghold of House Glover' },
+          { name: 'Bear Island', cost: 80, description: 'Island fortress of House Mormont' },
+          { name: 'Torrhen\'s Square', cost: 75, description: 'Fortress of House Tallhart' },
+          { name: 'Karhold', cost: 70, description: 'Castle of House Karstark' },
+          { name: 'Last Hearth', cost: 65, description: 'Northernmost castle of House Umber' },
+          { name: 'White Harbor', cost: 60, description: 'Major port city of House Manderly' },
+          { name: 'The Dreadfort', cost: 55, description: 'Former stronghold of House Bolton' }
+        ],
+        characters: [
+          {
+            name: 'Eddard Stark',
+            role: 'Lord of Winterfell',
+            startingCoins: 150,
+            startingWeapons: ['Ice', 'Longsword'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'honorable',
+            quotes: [
+              "Winter is coming.",
+              "The man who passes the sentence should swing the sword.",
+              "When the snows fall and the white winds blow, the lone wolf dies, but the pack survives.",
+              "A ruler who hides behind paid executioners soon forgets what death is.",
+              "The North remembers."
+            ],
+            description: 'The honorable Lord of Winterfell and Warden of the North.'
+          },
+          {
+            name: 'Robb Stark',
+            role: 'King in the North',
+            startingCoins: 145,
+            startingWeapons: ['Grey Wind', 'Sword'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'young',
+            quotes: [
+              "The King in the North!",
+              "I will lead my people to victory.",
+              "The North will never bow to southern kings.",
+              "I am the Stark in Winterfell.",
+              "Winter is coming, and we are ready."
+            ],
+            description: 'The young King in the North who united the northern houses.'
+          },
+          {
+            name: 'Jon Snow',
+            role: 'Lord Commander',
+            startingCoins: 140,
+            startingWeapons: ['Longclaw', 'Dragon Glass'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'bastard',
+            quotes: [
+              "I know nothing.",
+              "The North remembers.",
+              "I am the shield that guards the realms of men.",
+              "Winter is coming.",
+              "The lone wolf dies, but the pack survives."
+            ],
+            description: 'The bastard son who became Lord Commander of the Night\'s Watch.'
+          },
+          {
+            name: 'Sansa Stark',
+            role: 'Lady of Winterfell',
+            startingCoins: 135,
+            startingWeapons: ['Needle', 'Poison'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'clever',
+            quotes: [
+              "I am Sansa Stark of Winterfell.",
+              "The North remembers.",
+              "I learned from the best.",
+              "Winter is coming.",
+              "I am the Stark in Winterfell."
+            ],
+            description: 'The clever Lady of Winterfell who learned from her enemies.'
+          },
+          {
+            name: 'Arya Stark',
+            role: 'Faceless Assassin',
+            startingCoins: 130,
+            startingWeapons: ['Needle', 'Faces'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'vengeful',
+            quotes: [
+              "A girl has no name.",
+              "Valar morghulis.",
+              "The North remembers.",
+              "I am Arya Stark of Winterfell.",
+              "Winter is coming."
+            ],
+            description: 'The vengeful assassin who trained with the Faceless Men.'
+          },
+          {
+            name: 'Bran Stark',
+            role: 'Three-Eyed Raven',
+            startingCoins: 125,
+            startingWeapons: ['Warging', 'Greensight'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'mystical',
+            quotes: [
+              "I am the Three-Eyed Raven.",
+              "The past is already written.",
+              "Winter is coming.",
+              "I can see everything.",
+              "I am Bran Stark of Winterfell."
+            ],
+            description: 'The mystical Three-Eyed Raven who can see through time.'
+          },
+          {
+            name: 'Rickon Stark',
+            role: 'Young Wolf',
+            startingCoins: 120,
+            startingWeapons: ['Bow', 'Direwolf'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'wild',
+            quotes: [
+              "I am Rickon Stark of Winterfell.",
+              "Winter is coming.",
+              "The North remembers.",
+              "I am the Stark in Winterfell.",
+              "I will never forget who I am."
+            ],
+            description: 'The wild young wolf who never forgot his Stark heritage.'
+          },
+          {
+            name: 'Catelyn Stark',
+            role: 'Lady of Winterfell',
+            startingCoins: 130,
+            startingWeapons: ['Dagger', 'Tears'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'protective',
+            quotes: [
+              "The North remembers.",
+              "Family, duty, honor.",
+              "Winter is coming.",
+              "I will protect my children.",
+              "I am Catelyn Stark of Winterfell."
+            ],
+            description: 'The protective Lady of Winterfell who loved her family above all.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Northern Lord', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'loyal' },
+          { name: 'Night\'s Watch Ranger', startingCoins: 40, startingWeapons: ['Sword'], startingMercenaries: 0, startingCastles: 0, personality: 'dutiful' },
+          { name: 'Northern Warrior', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'fierce' }
+        ]
+      },
+      lannister: {
+        name: 'House Lannister',
+        color: '#e74c3c', // Red
+        description: 'The wealthy lords of the Westerlands',
+        territories: [
+          { name: 'Casterly Rock', cost: 100, description: 'Massive castle and seat of House Lannister' },
+          { name: 'Lannisport', cost: 95, description: 'Major port city and trading hub' },
+          { name: 'Golden Tooth', cost: 90, description: 'Fortress guarding the western approach' },
+          { name: 'Ashemark', cost: 85, description: 'Castle of House Marbrand' },
+          { name: 'Crakehall', cost: 80, description: 'Stronghold of House Crakehall' },
+          { name: 'Silverhill', cost: 75, description: 'Castle of House Serrett' },
+          { name: 'Cornfield', cost: 70, description: 'Fortress of House Swyft' },
+          { name: 'The Crag', cost: 65, description: 'Castle of House Westerling' },
+          { name: 'Fair Isle', cost: 60, description: 'Island fortress of House Farman' },
+          { name: 'Banefort', cost: 55, description: 'Castle of House Banefort' }
+        ],
+        characters: [
+          {
+            name: 'Tywin Lannister',
+            role: 'Lord of Casterly Rock',
+            startingCoins: 150,
+            startingWeapons: ['Gold', 'Army'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'ruthless',
+            quotes: [
+              "A Lannister always pays his debts.",
+              "The lion does not concern himself with the opinions of sheep.",
+              "What is dead may never die.",
+              "I will not suffer insults to my house.",
+              "Gold wins wars, not honor."
+            ],
+            description: 'The ruthless Lord of Casterly Rock and Hand of the King.'
+          },
+          {
+            name: 'Cersei Lannister',
+            role: 'Queen Regent',
+            startingCoins: 145,
+            startingWeapons: ['Poison', 'Gold'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'ambitious',
+            quotes: [
+              "When you play the game of thrones, you win or you die.",
+              "I am the queen.",
+              "Power is power.",
+              "I will burn cities to the ground.",
+              "I am Cersei Lannister of Casterly Rock."
+            ],
+            description: 'The ambitious Queen Regent who will stop at nothing for power.'
+          },
+          {
+            name: 'Jaime Lannister',
+            role: 'Kingslayer',
+            startingCoins: 140,
+            startingWeapons: ['Oathkeeper', 'Widow\'s Wail'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'kingslayer',
+            quotes: [
+              "The things I do for love.",
+              "I am Jaime Lannister of Casterly Rock.",
+              "I will fight for my house.",
+              "Honor is a horse.",
+              "I am the Kingslayer."
+            ],
+            description: 'The Kingslayer who killed the Mad King and became the Kingslayer.'
+          },
+          {
+            name: 'Tyrion Lannister',
+            role: 'Hand of the Queen',
+            startingCoins: 135,
+            startingWeapons: ['Wit', 'Crossbow'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'clever',
+            quotes: [
+              "I drink and I know things.",
+              "I am Tyrion Lannister of Casterly Rock.",
+              "I will outsmart my enemies.",
+              "I am the Imp.",
+              "I will prove my worth."
+            ],
+            description: 'The clever Imp who uses his wit to survive and thrive.'
+          },
+          {
+            name: 'Joffrey Baratheon',
+            role: 'King Joffrey',
+            startingCoins: 130,
+            startingWeapons: ['Widow\'s Wail', 'Cruelty'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'cruel',
+            quotes: [
+              "I am the king!",
+              "I will have their heads!",
+              "I am Joffrey Baratheon of King\'s Landing.",
+              "I will make them pay.",
+              "I am the rightful king."
+            ],
+            description: 'The cruel young king who ruled with fear and cruelty.'
+          },
+          {
+            name: 'Myrcella Baratheon',
+            role: 'Princess of Dorne',
+            startingCoins: 125,
+            startingWeapons: ['Beauty', 'Grace'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'innocent',
+            quotes: [
+              "I am Myrcella Baratheon of King\'s Landing.",
+              "I will be a good queen.",
+              "I am the princess.",
+              "I will make my family proud.",
+              "I am Myrcella Lannister of Casterly Rock."
+            ],
+            description: 'The innocent princess who was sent to Dorne as a hostage.'
+          },
+          {
+            name: 'Tommen Baratheon',
+            role: 'King Tommen',
+            startingCoins: 120,
+            startingWeapons: ['Crown', 'Innocence'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'young',
+            quotes: [
+              "I am Tommen Baratheon of King\'s Landing.",
+              "I will be a good king.",
+              "I am the king.",
+              "I will listen to my advisors.",
+              "I am Tommen Lannister of Casterly Rock."
+            ],
+            description: 'The young king who was easily manipulated by his mother.'
+          },
+          {
+            name: 'Kevan Lannister',
+            role: 'Lord of Casterly Rock',
+            startingCoins: 130,
+            startingWeapons: ['Sword', 'Loyalty'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'loyal',
+            quotes: [
+              "I am Kevan Lannister of Casterly Rock.",
+              "I will serve my house.",
+              "I am the loyal brother.",
+              "I will protect my family.",
+              "I am Kevan Lannister."
+            ],
+            description: 'The loyal brother who served his house faithfully.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Lannister Lord', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'wealthy' },
+          { name: 'Golden Company', startingCoins: 40, startingWeapons: ['Sword'], startingMercenaries: 0, startingCastles: 0, personality: 'mercenary' },
+          { name: 'Lannister Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+        ]
+      },
+      targaryen: {
+        name: 'House Targaryen',
+        color: '#f39c12', // Orange
+        description: 'The dragon lords of old Valyria',
+        territories: [
+          { name: 'Dragonstone', cost: 100, description: 'Ancient castle and seat of House Targaryen' },
+          { name: 'Dragon\'s Bay', cost: 95, description: 'Bay where dragons once roamed' },
+          { name: 'Valyria', cost: 90, description: 'Ruined city of the dragon lords' },
+          { name: 'Dragonmont', cost: 85, description: 'Volcanic mountain where dragons nest' },
+          { name: 'Dragon\'s Lair', cost: 80, description: 'Ancient dragon nesting grounds' },
+          { name: 'Dragon\'s Gate', cost: 75, description: 'Fortress guarding dragon territory' },
+          { name: 'Dragon\'s Rest', cost: 70, description: 'Sacred ground where dragons sleep' },
+          { name: 'Dragon\'s Watch', cost: 65, description: 'Tower overlooking dragon lands' },
+          { name: 'Dragon\'s End', cost: 60, description: 'Valley where dragons go to die' },
+          { name: 'Dragon\'s Heart', cost: 55, description: 'Central keep of dragon territory' }
+        ],
+        characters: [
+          {
+            name: 'Daenerys Targaryen',
+            role: 'Mother of Dragons',
+            startingCoins: 150,
+            startingWeapons: ['Dragons', 'Fire'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'dragon',
+            quotes: [
+              "I am Daenerys Stormborn of House Targaryen.",
+              "I will take what is mine with fire and blood.",
+              "I am the Mother of Dragons.",
+              "I will break the wheel.",
+              "Dracarys!"
+            ],
+            description: 'The Mother of Dragons who seeks to reclaim the Iron Throne.'
+          },
+          {
+            name: 'Viserys Targaryen',
+            role: 'The Beggar King',
+            startingCoins: 140,
+            startingWeapons: ['Crown', 'Pride'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'mad',
+            quotes: [
+              "I am Viserys Targaryen of House Targaryen.",
+              "I am the rightful king.",
+              "I will have my crown.",
+              "I am the dragon.",
+              "I will take what is mine."
+            ],
+            description: 'The Beggar King who sought to reclaim his father\'s throne.'
+          },
+          {
+            name: 'Rhaegar Targaryen',
+            role: 'The Last Dragon',
+            startingCoins: 145,
+            startingWeapons: ['Sword', 'Harp'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'melancholy',
+            quotes: [
+              "I am Rhaegar Targaryen of House Targaryen.",
+              "I am the Last Dragon.",
+              "I will fulfill the prophecy.",
+              "I am the prince that was promised.",
+              "I will bring the dawn."
+            ],
+            description: 'The Last Dragon who sought to fulfill an ancient prophecy.'
+          },
+          {
+            name: 'Aerys Targaryen',
+            role: 'The Mad King',
+            startingCoins: 135,
+            startingWeapons: ['Wildfire', 'Madness'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'mad',
+            quotes: [
+              "I am Aerys Targaryen of House Targaryen.",
+              "I am the king.",
+              "I will burn them all.",
+              "I am the dragon.",
+              "I will have their heads."
+            ],
+            description: 'The Mad King who was consumed by paranoia and madness.'
+          },
+          {
+            name: 'Rhaella Targaryen',
+            role: 'Queen of the Seven Kingdoms',
+            startingCoins: 130,
+            startingWeapons: ['Grace', 'Dignity'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'graceful',
+            quotes: [
+              "I am Rhaella Targaryen of House Targaryen.",
+              "I am the queen.",
+              "I will protect my children.",
+              "I am the dragon queen.",
+              "I will maintain my dignity."
+            ],
+            description: 'The graceful Queen of the Seven Kingdoms who suffered greatly.'
+          },
+          {
+            name: 'Rhaenys Targaryen',
+            role: 'The Queen Who Never Was',
+            startingCoins: 125,
+            startingWeapons: ['Crown', 'Pride'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'proud',
+            quotes: [
+              "I am Rhaenys Targaryen of House Targaryen.",
+              "I am the queen who never was.",
+              "I will claim my birthright.",
+              "I am the dragon princess.",
+              "I will prove my worth."
+            ],
+            description: 'The Queen Who Never Was who sought to claim her birthright.'
+          },
+          {
+            name: 'Aegon Targaryen',
+            role: 'The Conqueror',
+            startingCoins: 150,
+            startingWeapons: ['Blackfyre', 'Balerion'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'conqueror',
+            quotes: [
+              "I am Aegon Targaryen of House Targaryen.",
+              "I am the Conqueror.",
+              "I will unite the Seven Kingdoms.",
+              "I am the dragon.",
+              "I will forge a new realm."
+            ],
+            description: 'The Conqueror who united the Seven Kingdoms with fire and blood.'
+          },
+          {
+            name: 'Rhaenyra Targaryen',
+            role: 'The Realm\'s Delight',
+            startingCoins: 140,
+            startingWeapons: ['Syrax', 'Crown'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'ambitious',
+            quotes: [
+              "I am Rhaenyra Targaryen of House Targaryen.",
+              "I am the Realm\'s Delight.",
+              "I will claim my throne.",
+              "I am the dragon princess.",
+              "I will prove I am worthy."
+            ],
+            description: 'The Realm\'s Delight who fought for her right to the throne.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Dragon Rider', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'dragon' },
+          { name: 'Valyrian Lord', startingCoins: 40, startingWeapons: ['Valyrian Steel'], startingMercenaries: 0, startingCastles: 0, personality: 'ancient' },
+          { name: 'Dragon Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+        ]
+      },
+      nightsWatch: {
+        name: 'The Night\'s Watch',
+        color: '#34495e', // Dark Gray
+        description: 'The sworn brothers who guard the realm',
+        territories: [
+          { name: 'Castle Black', cost: 100, description: 'Main fortress of the Night\'s Watch' },
+          { name: 'The Wall', cost: 95, description: 'Massive ice wall protecting the realm' },
+          { name: 'Eastwatch-by-the-Sea', cost: 90, description: 'Easternmost castle on the Wall' },
+          { name: 'Shadow Tower', cost: 85, description: 'Westernmost castle on the Wall' },
+          { name: 'Nightfort', cost: 80, description: 'Ancient castle on the Wall' },
+          { name: 'Deep Lake', cost: 75, description: 'Castle on the Wall' },
+          { name: 'Queensgate', cost: 70, description: 'Castle on the Wall' },
+          { name: 'Oakenshield', cost: 65, description: 'Castle on the Wall' },
+          { name: 'Woodswatch-by-the-Pool', cost: 60, description: 'Castle on the Wall' },
+          { name: 'Sable Hall', cost: 55, description: 'Castle on the Wall' }
+        ],
+        characters: [
+          {
+            name: 'Jeor Mormont',
+            role: 'Lord Commander',
+            startingCoins: 150,
+            startingWeapons: ['Longclaw', 'Honor'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'honorable',
+            quotes: [
+              "I am Jeor Mormont of the Night\'s Watch.",
+              "I am the shield that guards the realms of men.",
+              "I will protect the realm.",
+              "I am the Lord Commander.",
+              "I will serve until my death."
+            ],
+            description: 'The honorable Lord Commander who served the Night\'s Watch faithfully.'
+          },
+          {
+            name: 'Benjen Stark',
+            role: 'First Ranger',
+            startingCoins: 145,
+            startingWeapons: ['Sword', 'Ranger Gear'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'dutiful',
+            quotes: [
+              "I am Benjen Stark of the Night\'s Watch.",
+              "I am the First Ranger.",
+              "I will patrol beyond the Wall.",
+              "I am the shield that guards the realms of men.",
+              "I will serve until my death."
+            ],
+            description: 'The dutiful First Ranger who patrolled beyond the Wall.'
+          },
+          {
+            name: 'Alliser Thorne',
+            role: 'Master-at-Arms',
+            startingCoins: 140,
+            startingWeapons: ['Sword', 'Discipline'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'strict',
+            quotes: [
+              "I am Alliser Thorne of the Night\'s Watch.",
+              "I am the Master-at-Arms.",
+              "I will train the recruits.",
+              "I am the shield that guards the realms of men.",
+              "I will serve until my death."
+            ],
+            description: 'The strict Master-at-Arms who trained new recruits.'
+          },
+          {
+            name: 'Maester Aemon',
+            role: 'Maester of Castle Black',
+            startingCoins: 135,
+            startingWeapons: ['Knowledge', 'Wisdom'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'wise',
+            quotes: [
+              "I am Maester Aemon of the Night\'s Watch.",
+              "I am the Maester of Castle Black.",
+              "I will provide counsel and healing.",
+              "I am the shield that guards the realms of men.",
+              "I will serve until my death."
+            ],
+            description: 'The wise Maester who provided counsel and healing.'
+          },
+          {
+            name: 'Samwell Tarly',
+            role: 'Maester in Training',
+            startingCoins: 130,
+            startingWeapons: ['Books', 'Knowledge'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'scholarly',
+            quotes: [
+              "I am Samwell Tarly of the Night\'s Watch.",
+              "I am the Maester in Training.",
+              "I will learn and serve.",
+              "I am the shield that guards the realms of men.",
+              "I will serve until my death."
+            ],
+            description: 'The scholarly Maester in Training who sought knowledge.'
+          },
+          {
+            name: 'Grenn',
+            role: 'Ranger',
+            startingCoins: 125,
+            startingWeapons: ['Sword', 'Loyalty'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "I am Grenn of the Night\'s Watch.",
+              "I am a Ranger.",
+              "I will patrol beyond the Wall.",
+              "I am the shield that guards the realms of men.",
+              "I will serve until my death."
+            ],
+            description: 'The loyal Ranger who served his brothers faithfully.'
+          },
+          {
+            name: 'Pyp',
+            role: 'Steward',
+            startingCoins: 120,
+            startingWeapons: ['Bow', 'Wit'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'clever',
+            quotes: [
+              "I am Pyp of the Night\'s Watch.",
+              "I am a Steward.",
+              "I will serve the Watch.",
+              "I am the shield that guards the realms of men.",
+              "I will serve until my death."
+            ],
+            description: 'The clever Steward who served the Watch with wit and humor.'
+          },
+          {
+            name: 'Eddison Tollett',
+            role: 'Ranger',
+            startingCoins: 125,
+            startingWeapons: ['Sword', 'Pessimism'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'pessimistic',
+            quotes: [
+              "I am Eddison Tollett of the Night\'s Watch.",
+              "I am a Ranger.",
+              "I will patrol beyond the Wall.",
+              "I am the shield that guards the realms of men.",
+              "I will serve until my death."
+            ],
+            description: 'The pessimistic Ranger who served despite his gloomy outlook.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Night\'s Watch Recruit', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'new' },
+          { name: 'Night\'s Watch Ranger', startingCoins: 40, startingWeapons: ['Sword'], startingMercenaries: 0, startingCastles: 0, personality: 'dutiful' },
+          { name: 'Night\'s Watch Steward', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'servant' }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'King\'s Landing', cost: 90, description: 'Capital city and seat of power, very high strategic value' },
+      { name: 'The Red Keep', cost: 85, description: 'Royal castle and throne room, high strategic value' },
+      { name: 'The Iron Throne', cost: 80, description: 'The ultimate prize and symbol of power, high strategic value' },
+      { name: 'The Great Sept', cost: 75, description: 'Religious center and political hub, medium strategic value' },
+      { name: 'The Dragonpit', cost: 70, description: 'Ancient dragon arena and meeting place, medium strategic value' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // AVATAR: THE LAST AIRBENDER SCENARIO
+  avatar: {
+    id: 'avatar',
+    name: 'Avatar: The Last Airbender',
+    type: 'fantasy',
+    description: 'The epic battle between the four nations in the world of Avatar.',
+    factions: {
+      waterTribe: {
+        name: 'Water Tribe',
+        color: '#3498db', // Blue
+        description: 'The waterbenders of the North and South Poles',
+        territories: [
+          { name: 'Northern Water Tribe', cost: 100, description: 'Capital city of the Water Tribe' },
+          { name: 'Southern Water Tribe', cost: 95, description: 'Southern capital and trading hub' },
+          { name: 'Spirit Oasis', cost: 90, description: 'Sacred oasis with spiritual power' },
+          { name: 'Ice Caves', cost: 85, description: 'Ancient caves with waterbending secrets' },
+          { name: 'Frozen Tundra', cost: 80, description: 'Vast frozen wilderness' },
+          { name: 'Glacier Fields', cost: 75, description: 'Massive ice formations' },
+          { name: 'Aurora Bay', cost: 70, description: 'Bay with beautiful aurora displays' },
+          { name: 'Crystal Caverns', cost: 65, description: 'Caverns filled with ice crystals' },
+          { name: 'Frost Valley', cost: 60, description: 'Valley covered in eternal frost' },
+          { name: 'Moon Temple', cost: 55, description: 'Temple dedicated to the moon spirit' }
+        ],
+        characters: [
+          {
+            name: 'Katara',
+            role: 'Waterbending Master',
+            startingCoins: 150,
+            startingWeapons: ['Water Whip', 'Ice Shards'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'determined',
+            quotes: [
+              "I will never give up without a fight.",
+              "I am Katara of the Water Tribe.",
+              "I will master waterbending.",
+              "I will protect my people.",
+              "I am the last waterbender of the South."
+            ],
+            description: 'The determined waterbending master who never gives up.'
+          },
+          {
+            name: 'Sokka',
+            role: 'Warrior and Strategist',
+            startingCoins: 145,
+            startingWeapons: ['Boomerang', 'Space Sword'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'clever',
+            quotes: [
+              "I am Sokka of the Water Tribe.",
+              "I will lead with strategy.",
+              "I am the warrior of the South.",
+              "I will protect my sister.",
+              "I am the master of the boomerang."
+            ],
+            description: 'The clever warrior and strategist of the Water Tribe.'
+          },
+          {
+            name: 'Pakku',
+            role: 'Waterbending Master',
+            startingCoins: 140,
+            startingWeapons: ['Water Spout', 'Ice Wall'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'traditional',
+            quotes: [
+              "I am Pakku of the Northern Water Tribe.",
+              "I will teach the ancient ways.",
+              "I am the master of waterbending.",
+              "I will preserve our traditions.",
+              "I am the guardian of the North."
+            ],
+            description: 'The traditional waterbending master of the North.'
+          },
+          {
+            name: 'Hama',
+            role: 'Bloodbending Master',
+            startingCoins: 135,
+            startingWeapons: ['Bloodbending', 'Water Control'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'vengeful',
+            quotes: [
+              "I am Hama of the Southern Water Tribe.",
+              "I will teach you bloodbending.",
+              "I am the master of the dark art.",
+              "I will have my revenge.",
+              "I am the last of the South."
+            ],
+            description: 'The vengeful bloodbending master who seeks revenge.'
+          },
+          {
+            name: 'Yue',
+            role: 'Moon Spirit',
+            startingCoins: 130,
+            startingWeapons: ['Spirit Power', 'Moon Energy'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'sacrificial',
+            quotes: [
+              "I am Yue of the Northern Water Tribe.",
+              "I am the moon spirit.",
+              "I will sacrifice for my people.",
+              "I am the princess of the North.",
+              "I will give my life for the world."
+            ],
+            description: 'The sacrificial moon spirit who gave her life for the world.'
+          },
+          {
+            name: 'Hakoda',
+            role: 'Chief of the South',
+            startingCoins: 125,
+            startingWeapons: ['Spear', 'Leadership'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'leadership',
+            quotes: [
+              "I am Hakoda, Chief of the Southern Water Tribe.",
+              "I will lead my people to victory.",
+              "I am the father of Katara and Sokka.",
+              "I will fight for freedom.",
+              "I am the chief of the South."
+            ],
+            description: 'The chief of the Southern Water Tribe and father of Katara and Sokka.'
+          },
+          {
+            name: 'Kanna',
+            role: 'Elder of the South',
+            startingCoins: 120,
+            startingWeapons: ['Wisdom', 'Experience'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "I am Kanna of the Southern Water Tribe.",
+              "I am the grandmother of Katara and Sokka.",
+              "I will share my wisdom.",
+              "I am the elder of the South.",
+              "I will guide my people."
+            ],
+            description: 'The wise elder of the Southern Water Tribe.'
+          },
+          {
+            name: 'Kuruk',
+            role: 'Avatar of Water',
+            startingCoins: 150,
+            startingWeapons: ['Avatar State', 'Waterbending'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'avatar',
+            quotes: [
+              "I am Kuruk, Avatar of Water.",
+              "I will maintain balance.",
+              "I am the bridge between worlds.",
+              "I will protect all nations.",
+              "I am the Avatar."
+            ],
+            description: 'The Avatar of Water who maintained balance in the world.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Water Tribe Warrior', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'loyal' },
+          { name: 'Waterbending Student', startingCoins: 40, startingWeapons: ['Water'], startingMercenaries: 0, startingCastles: 0, personality: 'learning' },
+          { name: 'Water Tribe Elder', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'wise' }
+        ]
+      },
+      earthKingdom: {
+        name: 'Earth Kingdom',
+        color: '#2ecc71', // Green
+        description: 'The earthbenders of the vast Earth Kingdom',
+        territories: [
+          { name: 'Ba Sing Se', cost: 100, description: 'Capital city of the Earth Kingdom' },
+          { name: 'Omashu', cost: 95, description: 'Ancient city of earthbending' },
+          { name: 'Kyoshi Island', cost: 90, description: 'Island home of Avatar Kyoshi' },
+          { name: 'Gaoling', cost: 85, description: 'City of earthbending tournaments' },
+          { name: 'Si Wong Desert', cost: 80, description: 'Vast desert wasteland' },
+          { name: 'Foggy Swamp', cost: 75, description: 'Mysterious swamp with secrets' },
+          { name: 'Crystal Catacombs', cost: 70, description: 'Underground crystal formations' },
+          { name: 'Earth Rumble Arena', cost: 65, description: 'Arena for earthbending competitions' },
+          { name: 'Serpent\'s Pass', cost: 60, description: 'Dangerous mountain pass' },
+          { name: 'Earth Kingdom Palace', cost: 55, description: 'Royal palace of the Earth King' }
+        ],
+        characters: [
+          {
+            name: 'Toph Beifong',
+            role: 'Blind Bandit',
+            startingCoins: 150,
+            startingWeapons: ['Earthbending', 'Seismic Sense'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'rebellious',
+            quotes: [
+              "I am Toph Beifong, the Blind Bandit.",
+              "I will show you what I can do.",
+              "I am the greatest earthbender in the world.",
+              "I will not be underestimated.",
+              "I am the master of earthbending."
+            ],
+            description: 'The rebellious blind earthbending master who invented metalbending.'
+          },
+          {
+            name: 'King Bumi',
+            role: 'Mad Genius',
+            startingCoins: 145,
+            startingWeapons: ['Earthbending', 'Madness'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'mad',
+            quotes: [
+              "I am King Bumi of Omashu.",
+              "I am the mad genius.",
+              "I will test your earthbending.",
+              "I am the king of Omashu.",
+              "I will show you true power."
+            ],
+            description: 'The mad genius king of Omashu who tests earthbenders.'
+          },
+          {
+            name: 'Long Feng',
+            role: 'Grand Secretariat',
+            startingCoins: 140,
+            startingWeapons: ['Earthbending', 'Manipulation'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'manipulative',
+            quotes: [
+              "I am Long Feng, Grand Secretariat of Ba Sing Se.",
+              "I will control the city.",
+              "I am the true power behind the throne.",
+              "I will maintain order.",
+              "I am the secret keeper."
+            ],
+            description: 'The manipulative Grand Secretariat who controls Ba Sing Se.'
+          },
+          {
+            name: 'Haru',
+            role: 'Earthbending Prisoner',
+            startingCoins: 135,
+            startingWeapons: ['Earthbending', 'Determination'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'determined',
+            quotes: [
+              "I am Haru of the Earth Kingdom.",
+              "I will fight for freedom.",
+              "I am an earthbender.",
+              "I will protect my people.",
+              "I will never give up."
+            ],
+            description: 'The determined earthbender who fought for freedom.'
+          },
+          {
+            name: 'The Boulder',
+            role: 'Earth Rumble Champion',
+            startingCoins: 130,
+            startingWeapons: ['Earthbending', 'Strength'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'boastful',
+            quotes: [
+              "I am The Boulder!",
+              "I will crush my enemies.",
+              "I am the champion of Earth Rumble.",
+              "I will show you my power.",
+              "I am The Boulder!"
+            ],
+            description: 'The boastful earthbending champion of Earth Rumble.'
+          },
+          {
+            name: 'Xin Fu',
+            role: 'Earth Rumble Promoter',
+            startingCoins: 125,
+            startingWeapons: ['Earthbending', 'Business'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'greedy',
+            quotes: [
+              "I am Xin Fu, promoter of Earth Rumble.",
+              "I will make money from earthbending.",
+              "I am the business master.",
+              "I will promote the best fights.",
+              "I am the promoter."
+            ],
+            description: 'The greedy promoter of Earth Rumble competitions.'
+          },
+          {
+            name: 'Avatar Kyoshi',
+            role: 'Avatar of Earth',
+            startingCoins: 150,
+            startingWeapons: ['Avatar State', 'Earthbending'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'avatar',
+            quotes: [
+              "I am Avatar Kyoshi of the Earth Kingdom.",
+              "I will maintain balance.",
+              "I am the bridge between worlds.",
+              "I will protect all nations.",
+              "I am the Avatar."
+            ],
+            description: 'The Avatar of Earth who maintained balance in the world.'
+          },
+          {
+            name: 'Earth King',
+            role: 'King of Ba Sing Se',
+            startingCoins: 140,
+            startingWeapons: ['Authority', 'Power'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'naive',
+            quotes: [
+              "I am the Earth King of Ba Sing Se.",
+              "I will rule my kingdom.",
+              "I am the king of the Earth Kingdom.",
+              "I will protect my people.",
+              "I am the Earth King."
+            ],
+            description: 'The naive Earth King who was controlled by Long Feng.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Earth Kingdom Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'loyal' },
+          { name: 'Earthbending Student', startingCoins: 40, startingWeapons: ['Earth'], startingMercenaries: 0, startingCastles: 0, personality: 'learning' },
+          { name: 'Earth Kingdom Noble', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'wealthy' }
+        ]
+      },
+      fireNation: {
+        name: 'Fire Nation',
+        color: '#e74c3c', // Red
+        description: 'The firebenders of the Fire Nation',
+        territories: [
+          { name: 'Fire Nation Capital', cost: 100, description: 'Capital city of the Fire Nation' },
+          { name: 'Ember Island', cost: 95, description: 'Royal vacation island' },
+          { name: 'Fire Nation Academy', cost: 90, description: 'Military academy and training ground' },
+          { name: 'Boiling Rock', cost: 85, description: 'Maximum security prison' },
+          { name: 'Fire Nation Navy Base', cost: 80, description: 'Naval headquarters' },
+          { name: 'Fire Nation Air Temple', cost: 75, description: 'Conquered air temple' },
+          { name: 'Fire Nation Colonies', cost: 70, description: 'Colonized Earth Kingdom territories' },
+          { name: 'Fire Nation Shipyard', cost: 65, description: 'Ship construction facility' },
+          { name: 'Fire Nation Armory', cost: 60, description: 'Weapons and armor storage' },
+          { name: 'Fire Nation Throne Room', cost: 55, description: 'Royal throne room and court' }
+        ],
+        characters: [
+          {
+            name: 'Zuko',
+            role: 'Fire Lord',
+            startingCoins: 150,
+            startingWeapons: ['Firebending', 'Dual Swords'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'honor',
+            quotes: [
+              "I am Zuko, Fire Lord of the Fire Nation.",
+              "I will restore honor to my nation.",
+              "I am the rightful Fire Lord.",
+              "I will bring peace to the world.",
+              "I am the master of firebending."
+            ],
+            description: 'The honorable Fire Lord who seeks to restore peace.'
+          },
+          {
+            name: 'Azula',
+            role: 'Firebending Prodigy',
+            startingCoins: 145,
+            startingWeapons: ['Lightning', 'Firebending'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'cruel',
+            quotes: [
+              "I am Azula, princess of the Fire Nation.",
+              "I will rule with fear.",
+              "I am the firebending prodigy.",
+              "I will have absolute power.",
+              "I am the master of lightning."
+            ],
+            description: 'The cruel firebending prodigy who seeks absolute power.'
+          },
+          {
+            name: 'Fire Lord Ozai',
+            role: 'Phoenix King',
+            startingCoins: 150,
+            startingWeapons: ['Firebending', 'Lightning'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'tyrannical',
+            quotes: [
+              "I am Fire Lord Ozai, the Phoenix King.",
+              "I will conquer the world.",
+              "I am the supreme ruler.",
+              "I will burn everything in my path.",
+              "I am the Phoenix King."
+            ],
+            description: 'The tyrannical Fire Lord who seeks to conquer the world.'
+          },
+          {
+            name: 'Iroh',
+            role: 'Dragon of the West',
+            startingCoins: 140,
+            startingWeapons: ['Firebending', 'Lightning'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'wise',
+            quotes: [
+              "I am Iroh, the Dragon of the West.",
+              "I will teach you firebending.",
+              "I am the wise uncle.",
+              "I will guide you to wisdom.",
+              "I am the Dragon of the West."
+            ],
+            description: 'The wise Dragon of the West who teaches firebending.'
+          },
+          {
+            name: 'Mai',
+            role: 'Knife Thrower',
+            startingCoins: 135,
+            startingWeapons: ['Knives', 'Stealth'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'stoic',
+            quotes: [
+              "I am Mai of the Fire Nation.",
+              "I will throw knives with precision.",
+              "I am the master of knives.",
+              "I will protect those I love.",
+              "I am Mai."
+            ],
+            description: 'The stoic knife thrower who serves the Fire Nation.'
+          },
+          {
+            name: 'Ty Lee',
+            role: 'Acrobat',
+            startingCoins: 130,
+            startingWeapons: ['Chi Blocking', 'Acrobatics'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'cheerful',
+            quotes: [
+              "I am Ty Lee of the Fire Nation.",
+              "I will flip and tumble.",
+              "I am the master of chi blocking.",
+              "I will bring joy to the world.",
+              "I am Ty Lee."
+            ],
+            description: 'The cheerful acrobat who masters chi blocking.'
+          },
+          {
+            name: 'Zhao',
+            role: 'Admiral',
+            startingCoins: 125,
+            startingWeapons: ['Firebending', 'Navy'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'ambitious',
+            quotes: [
+              "I am Admiral Zhao of the Fire Nation Navy.",
+              "I will capture the Avatar.",
+              "I am the master of the navy.",
+              "I will have glory.",
+              "I am Admiral Zhao."
+            ],
+            description: 'The ambitious admiral who seeks to capture the Avatar.'
+          },
+          {
+            name: 'Avatar Roku',
+            role: 'Avatar of Fire',
+            startingCoins: 150,
+            startingWeapons: ['Avatar State', 'Firebending'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'avatar',
+            quotes: [
+              "I am Avatar Roku of the Fire Nation.",
+              "I will maintain balance.",
+              "I am the bridge between worlds.",
+              "I will protect all nations.",
+              "I am the Avatar."
+            ],
+            description: 'The Avatar of Fire who maintained balance in the world.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Fire Nation Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'loyal' },
+          { name: 'Firebending Student', startingCoins: 40, startingWeapons: ['Fire'], startingMercenaries: 0, startingCastles: 0, personality: 'learning' },
+          { name: 'Fire Nation Noble', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'wealthy' }
+        ]
+      },
+      airNomads: {
+        name: 'Air Nomads',
+        color: '#9b59b6', // Purple
+        description: 'The airbenders of the Air Nomads',
+        territories: [
+          { name: 'Northern Air Temple', cost: 100, description: 'Ancient air temple in the north' },
+          { name: 'Southern Air Temple', cost: 95, description: 'Ancient air temple in the south' },
+          { name: 'Eastern Air Temple', cost: 90, description: 'Ancient air temple in the east' },
+          { name: 'Western Air Temple', cost: 85, description: 'Ancient air temple in the west' },
+          { name: 'Air Nomad Sanctuary', cost: 80, description: 'Sacred sanctuary for airbenders' },
+          { name: 'Sky Bison Herd', cost: 75, description: 'Home of the sky bison' },
+          { name: 'Air Nomad Library', cost: 70, description: 'Ancient library of airbending knowledge' },
+          { name: 'Spirit World Portal', cost: 65, description: 'Gateway to the Spirit World' },
+          { name: 'Air Nomad Gardens', cost: 60, description: 'Peaceful gardens and meditation areas' },
+          { name: 'Air Nomad Shrine', cost: 55, description: 'Sacred shrine to the airbending masters' }
+        ],
+        characters: [
+          {
+            name: 'Aang',
+            role: 'Avatar',
+            startingCoins: 150,
+            startingWeapons: ['Avatar State', 'Airbending'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'avatar',
+            quotes: [
+              "I am Aang, the Avatar.",
+              "I will restore balance to the world.",
+              "I am the master of all four elements.",
+              "I will bring peace to all nations.",
+              "I am the last airbender."
+            ],
+            description: 'The Avatar who must master all four elements to restore balance.'
+          },
+          {
+            name: 'Gyatso',
+            role: 'Airbending Master',
+            startingCoins: 145,
+            startingWeapons: ['Airbending', 'Wisdom'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'wise',
+            quotes: [
+              "I am Gyatso, master of airbending.",
+              "I will teach you the ways of air.",
+              "I am the guardian of the air temples.",
+              "I will protect the airbenders.",
+              "I am the master of airbending."
+            ],
+            description: 'The wise airbending master who taught Aang.'
+          },
+          {
+            name: 'Yangchen',
+            role: 'Avatar of Air',
+            startingCoins: 150,
+            startingWeapons: ['Avatar State', 'Airbending'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'avatar',
+            quotes: [
+              "I am Avatar Yangchen of the Air Nomads.",
+              "I will maintain balance.",
+              "I am the bridge between worlds.",
+              "I will protect all nations.",
+              "I am the Avatar."
+            ],
+            description: 'The Avatar of Air who maintained balance in the world.'
+          },
+          {
+            name: 'Tenzin',
+            role: 'Airbending Master',
+            startingCoins: 140,
+            startingWeapons: ['Airbending', 'Leadership'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'serious',
+            quotes: [
+              "I am Tenzin, master of airbending.",
+              "I will teach you the ways of air.",
+              "I am the son of Avatar Aang.",
+              "I will protect the airbenders.",
+              "I am the master of airbending."
+            ],
+            description: 'The serious airbending master and son of Avatar Aang.'
+          },
+          {
+            name: 'Jinora',
+            role: 'Airbending Prodigy',
+            startingCoins: 135,
+            startingWeapons: ['Airbending', 'Spirit Connection'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'spiritual',
+            quotes: [
+              "I am Jinora, airbending prodigy.",
+              "I will master airbending.",
+              "I am the daughter of Tenzin.",
+              "I will connect with the spirits.",
+              "I am the airbending prodigy."
+            ],
+            description: 'The spiritual airbending prodigy and daughter of Tenzin.'
+          },
+          {
+            name: 'Ikki',
+            role: 'Airbending Student',
+            startingCoins: 130,
+            startingWeapons: ['Airbending', 'Enthusiasm'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'energetic',
+            quotes: [
+              "I am Ikki, airbending student.",
+              "I will learn airbending.",
+              "I am the daughter of Tenzin.",
+              "I will be the best airbender.",
+              "I am Ikki."
+            ],
+            description: 'The energetic airbending student and daughter of Tenzin.'
+          },
+          {
+            name: 'Meelo',
+            role: 'Airbending Student',
+            startingCoins: 125,
+            startingWeapons: ['Airbending', 'Playfulness'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'playful',
+            quotes: [
+              "I am Meelo, airbending student.",
+              "I will learn airbending.",
+              "I am the son of Tenzin.",
+              "I will be the best airbender.",
+              "I am Meelo."
+            ],
+            description: 'The playful airbending student and son of Tenzin.'
+          },
+          {
+            name: 'Korra',
+            role: 'Avatar',
+            startingCoins: 150,
+            startingWeapons: ['Avatar State', 'All Elements'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'avatar',
+            quotes: [
+              "I am Korra, the Avatar.",
+              "I will restore balance to the world.",
+              "I am the master of all four elements.",
+              "I will bring peace to all nations.",
+              "I am the Avatar."
+            ],
+            description: 'The Avatar who must master all four elements to restore balance.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Air Nomad Monk', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'peaceful' },
+          { name: 'Airbending Student', startingCoins: 40, startingWeapons: ['Air'], startingMercenaries: 0, startingCastles: 0, personality: 'learning' },
+          { name: 'Air Nomad Elder', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'wise' }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Spirit World', cost: 90, description: 'Mystical realm of spirits, very high strategic value' },
+      { name: 'Avatar State', cost: 85, description: 'Ultimate power of the Avatar, high strategic value' },
+      { name: 'Balance of Elements', cost: 80, description: 'Harmony between all four elements, high strategic value' },
+      { name: 'Spirit Portal', cost: 75, description: 'Gateway between worlds, medium strategic value' },
+      { name: 'Avatar\'s Duty', cost: 70, description: 'Sacred responsibility to maintain balance, medium strategic value' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // GREEK MYTHOLOGY SCENARIO
+  greekMythology: {
+    id: 'greekMythology',
+    name: 'Greek Mythology: Gods vs Titans vs Mortals',
+    type: 'mythology',
+    description: 'The epic battle between the Olympian gods, the ancient Titans, and mortal heroes.',
+    factions: {
+      olympians: {
+        name: 'Olympian Gods',
+        color: '#e74c3c', // Red
+        description: 'The powerful gods who rule from Mount Olympus',
+        territories: [
+          { name: 'Mount Olympus', cost: 100, description: 'Sacred mountain home of the gods' },
+          { name: 'Zeus\' Throne', cost: 95, description: 'Supreme ruler\'s seat of power' },
+          { name: 'Hera\'s Palace', cost: 90, description: 'Queen of the gods\' royal residence' },
+          { name: 'Poseidon\'s Palace', cost: 85, description: 'Underwater palace of the sea god' },
+          { name: 'Hades\' Underworld', cost: 80, description: 'Realm of the dead and underworld' },
+          { name: 'Athena\'s Temple', cost: 75, description: 'Temple of wisdom and warfare' },
+          { name: 'Apollo\'s Sun Chariot', cost: 70, description: 'Chariot that carries the sun' },
+          { name: 'Artemis\' Moon Grove', cost: 65, description: 'Sacred grove of the huntress' },
+          { name: 'Ares\' War Camp', cost: 60, description: 'Military camp of the war god' },
+          { name: 'Aphrodite\'s Garden', cost: 55, description: 'Beautiful garden of love and beauty' }
+        ],
+        characters: [
+          {
+            name: 'Zeus',
+            role: 'King of the Gods',
+            startingCoins: 150,
+            startingWeapons: ['Thunderbolt', 'Lightning'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'powerful',
+            quotes: [
+              "I am Zeus, King of the Gods!",
+              "I will rule with thunder and lightning!",
+              "I am the supreme ruler of Olympus!",
+              "I will strike down my enemies!",
+              "I am the master of the sky!"
+            ],
+            description: 'The powerful King of the Gods who rules from Mount Olympus.'
+          },
+          {
+            name: 'Hera',
+            role: 'Queen of the Gods',
+            startingCoins: 145,
+            startingWeapons: ['Peacock Feathers', 'Royal Authority'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'jealous',
+            quotes: [
+              "I am Hera, Queen of the Gods!",
+              "I will protect my marriage!",
+              "I am the queen of Olympus!",
+              "I will punish those who wrong me!",
+              "I am the goddess of marriage!"
+            ],
+            description: 'The jealous Queen of the Gods who protects marriage.'
+          },
+          {
+            name: 'Poseidon',
+            role: 'God of the Sea',
+            startingCoins: 140,
+            startingWeapons: ['Trident', 'Sea Storms'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'tempestuous',
+            quotes: [
+              "I am Poseidon, God of the Sea!",
+              "I will control the oceans!",
+              "I am the master of the deep!",
+              "I will create tsunamis!",
+              "I am the earth-shaker!"
+            ],
+            description: 'The tempestuous God of the Sea who controls the oceans.'
+          },
+          {
+            name: 'Hades',
+            role: 'God of the Underworld',
+            startingCoins: 135,
+            startingWeapons: ['Helmet of Darkness', 'Cerberus'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'dark',
+            quotes: [
+              "I am Hades, God of the Underworld!",
+              "I will rule the realm of the dead!",
+              "I am the master of the underworld!",
+              "I will judge the souls!",
+              "I am the lord of the dead!"
+            ],
+            description: 'The dark God of the Underworld who rules the realm of the dead.'
+          },
+          {
+            name: 'Athena',
+            role: 'Goddess of Wisdom',
+            startingCoins: 130,
+            startingWeapons: ['Aegis', 'Owl'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'wise',
+            quotes: [
+              "I am Athena, Goddess of Wisdom!",
+              "I will guide with wisdom!",
+              "I am the goddess of strategy!",
+              "I will protect my city!",
+              "I am the wise warrior!"
+            ],
+            description: 'The wise Goddess of Wisdom who guides with strategy.'
+          },
+          {
+            name: 'Apollo',
+            role: 'God of the Sun',
+            startingCoins: 125,
+            startingWeapons: ['Golden Bow', 'Sun Chariot'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'radiant',
+            quotes: [
+              "I am Apollo, God of the Sun!",
+              "I will bring light to the world!",
+              "I am the god of music!",
+              "I will heal with my light!",
+              "I am the radiant sun god!"
+            ],
+            description: 'The radiant God of the Sun who brings light and healing.'
+          },
+          {
+            name: 'Artemis',
+            role: 'Goddess of the Hunt',
+            startingCoins: 120,
+            startingWeapons: ['Silver Bow', 'Hunting Dogs'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'independent',
+            quotes: [
+              "I am Artemis, Goddess of the Hunt!",
+              "I will hunt with precision!",
+              "I am the goddess of the moon!",
+              "I will protect the wild!",
+              "I am the independent huntress!"
+            ],
+            description: 'The independent Goddess of the Hunt who protects the wild.'
+          },
+          {
+            name: 'Ares',
+            role: 'God of War',
+            startingCoins: 125,
+            startingWeapons: ['Spear', 'War Chariot'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'warlike',
+            quotes: [
+              "I am Ares, God of War!",
+              "I will fight with fury!",
+              "I am the god of battle!",
+              "I will bring destruction!",
+              "I am the warlike god!"
+            ],
+            description: 'The warlike God of War who brings destruction and battle.'
+          },
+          {
+            name: 'Aphrodite',
+            role: 'Goddess of Love',
+            startingCoins: 120,
+            startingWeapons: ['Love Arrows', 'Beauty'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'beautiful',
+            quotes: [
+              "I am Aphrodite, Goddess of Love!",
+              "I will spread love and beauty!",
+              "I am the goddess of desire!",
+              "I will enchant with my beauty!",
+              "I am the beautiful goddess!"
+            ],
+            description: 'The beautiful Goddess of Love who spreads love and beauty.'
+          },
+          {
+            name: 'Hermes',
+            role: 'Messenger of the Gods',
+            startingCoins: 115,
+            startingWeapons: ['Winged Sandals', 'Caduceus'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'swift',
+            quotes: [
+              "I am Hermes, Messenger of the Gods!",
+              "I will deliver messages swiftly!",
+              "I am the god of travel!",
+              "I will guide souls to the underworld!",
+              "I am the swift messenger!"
+            ],
+            description: 'The swift Messenger of the Gods who delivers messages.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Olympian God', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'divine' },
+          { name: 'Divine Messenger', startingCoins: 40, startingWeapons: ['Divine Power'], startingMercenaries: 0, startingCastles: 0, personality: 'celestial' },
+          { name: 'Olympian Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+        ]
+      },
+      titans: {
+        name: 'Ancient Titans',
+        color: '#8e44ad', // Purple
+        description: 'The ancient titans who ruled before the gods',
+        territories: [
+          { name: 'Tartarus', cost: 100, description: 'Deep prison where titans are imprisoned' },
+          { name: 'Cronus\' Throne', cost: 95, description: 'Ancient throne of the titan king' },
+          { name: 'Rhea\'s Sanctuary', cost: 90, description: 'Sacred sanctuary of the titan queen' },
+          { name: 'Oceanus\' Depths', cost: 85, description: 'Deep ocean realm of the titan' },
+          { name: 'Hyperion\'s Light', cost: 80, description: 'Realm of the titan of light' },
+          { name: 'Theia\'s Radiance', cost: 75, description: 'Realm of the titan of sight' },
+          { name: 'Coeus\' Intelligence', cost: 70, description: 'Realm of the titan of intellect' },
+          { name: 'Phoebe\'s Prophecy', cost: 65, description: 'Realm of the titan of prophecy' },
+          { name: 'Crius\' Constellations', cost: 60, description: 'Realm of the titan of constellations' },
+          { name: 'Mnemosyne\'s Memory', cost: 55, description: 'Realm of the titan of memory' }
+        ],
+        characters: [
+          {
+            name: 'Cronus',
+            role: 'King of the Titans',
+            startingCoins: 150,
+            startingWeapons: ['Scythe', 'Time Control'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'tyrannical',
+            quotes: [
+              "I am Cronus, King of the Titans!",
+              "I will devour my children!",
+              "I am the master of time!",
+              "I will rule forever!",
+              "I am the titan king!"
+            ],
+            description: 'The tyrannical King of the Titans who devours his children.'
+          },
+          {
+            name: 'Rhea',
+            role: 'Queen of the Titans',
+            startingCoins: 145,
+            startingWeapons: ['Mother\'s Love', 'Protection'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'protective',
+            quotes: [
+              "I am Rhea, Queen of the Titans!",
+              "I will protect my children!",
+              "I am the mother of the gods!",
+              "I will save Zeus!",
+              "I am the protective mother!"
+            ],
+            description: 'The protective Queen of the Titans who saves her children.'
+          },
+          {
+            name: 'Oceanus',
+            role: 'Titan of the Ocean',
+            startingCoins: 140,
+            startingWeapons: ['Ocean Waves', 'Sea Creatures'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'vast',
+            quotes: [
+              "I am Oceanus, Titan of the Ocean!",
+              "I will control the vast seas!",
+              "I am the master of the deep!",
+              "I will flood the world!",
+              "I am the vast ocean titan!"
+            ],
+            description: 'The vast Titan of the Ocean who controls the seas.'
+          },
+          {
+            name: 'Hyperion',
+            role: 'Titan of Light',
+            startingCoins: 135,
+            startingWeapons: ['Solar Rays', 'Light'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'radiant',
+            quotes: [
+              "I am Hyperion, Titan of Light!",
+              "I will shine with brilliance!",
+              "I am the father of the sun!",
+              "I will illuminate the world!",
+              "I am the radiant light titan!"
+            ],
+            description: 'The radiant Titan of Light who illuminates the world.'
+          },
+          {
+            name: 'Theia',
+            role: 'Titan of Sight',
+            startingCoins: 130,
+            startingWeapons: ['Vision', 'Radiance'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'luminous',
+            quotes: [
+              "I am Theia, Titan of Sight!",
+              "I will see all with clarity!",
+              "I am the mother of the moon!",
+              "I will illuminate the darkness!",
+              "I am the luminous sight titan!"
+            ],
+            description: 'The luminous Titan of Sight who sees all with clarity.'
+          },
+          {
+            name: 'Coeus',
+            role: 'Titan of Intellect',
+            startingCoins: 125,
+            startingWeapons: ['Wisdom', 'Knowledge'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "I am Coeus, Titan of Intellect!",
+              "I will think with wisdom!",
+              "I am the father of wisdom!",
+              "I will outsmart my enemies!",
+              "I am the wise intellect titan!"
+            ],
+            description: 'The wise Titan of Intellect who thinks with wisdom.'
+          },
+          {
+            name: 'Phoebe',
+            role: 'Titan of Prophecy',
+            startingCoins: 120,
+            startingWeapons: ['Prophecy', 'Oracle'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'prophetic',
+            quotes: [
+              "I am Phoebe, Titan of Prophecy!",
+              "I will see the future!",
+              "I am the mother of prophecy!",
+              "I will foretell destiny!",
+              "I am the prophetic titan!"
+            ],
+            description: 'The prophetic Titan of Prophecy who sees the future.'
+          },
+          {
+            name: 'Crius',
+            role: 'Titan of Constellations',
+            startingCoins: 115,
+            startingWeapons: ['Stars', 'Constellations'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'stellar',
+            quotes: [
+              "I am Crius, Titan of Constellations!",
+              "I will control the stars!",
+              "I am the father of constellations!",
+              "I will guide with the stars!",
+              "I am the stellar constellation titan!"
+            ],
+            description: 'The stellar Titan of Constellations who controls the stars.'
+          },
+          {
+            name: 'Mnemosyne',
+            role: 'Titan of Memory',
+            startingCoins: 110,
+            startingWeapons: ['Memory', 'Remembrance'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'memorable',
+            quotes: [
+              "I am Mnemosyne, Titan of Memory!",
+              "I will remember all!",
+              "I am the mother of the muses!",
+              "I will preserve knowledge!",
+              "I am the memorable memory titan!"
+            ],
+            description: 'The memorable Titan of Memory who remembers all.'
+          },
+          {
+            name: 'Iapetus',
+            role: 'Titan of Mortality',
+            startingCoins: 105,
+            startingWeapons: ['Mortality', 'Death'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'mortal',
+            quotes: [
+              "I am Iapetus, Titan of Mortality!",
+              "I will bring death to mortals!",
+              "I am the father of mortality!",
+              "I will end life!",
+              "I am the mortal titan!"
+            ],
+            description: 'The mortal Titan of Mortality who brings death to mortals.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Ancient Titan', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'ancient' },
+          { name: 'Titan Warrior', startingCoins: 40, startingWeapons: ['Titan Power'], startingMercenaries: 0, startingCastles: 0, personality: 'powerful' },
+          { name: 'Titan Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+        ]
+      },
+      mortals: {
+        name: 'Mortal Heroes',
+        color: '#f39c12', // Orange
+        description: 'The brave mortal heroes who challenge the gods',
+        territories: [
+          { name: 'Athens', cost: 100, description: 'Great city of wisdom and democracy' },
+          { name: 'Sparta', cost: 95, description: 'Warrior city of strength and discipline' },
+          { name: 'Thebes', cost: 90, description: 'Ancient city of heroes and legends' },
+          { name: 'Corinth', cost: 85, description: 'Wealthy trading city and crossroads' },
+          { name: 'Argos', cost: 80, description: 'Ancient city of kings and heroes' },
+          { name: 'Mycenae', cost: 75, description: 'Fortress city of the Mycenaean kings' },
+          { name: 'Troy', cost: 70, description: 'Legendary city of the Trojan War' },
+          { name: 'Crete', cost: 65, description: 'Island kingdom of the Minoans' },
+          { name: 'Delphi', cost: 60, description: 'Sacred oracle and center of prophecy' },
+          { name: 'Olympia', cost: 55, description: 'Sacred site of the Olympic Games' }
+        ],
+        characters: [
+          {
+            name: 'Hercules',
+            role: 'Greatest Hero',
+            startingCoins: 150,
+            startingWeapons: ['Club', 'Lion Skin'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'heroic',
+            quotes: [
+              "I am Hercules, the greatest hero!",
+              "I will complete the twelve labors!",
+              "I am the son of Zeus!",
+              "I will defeat any monster!",
+              "I am the strongest mortal!"
+            ],
+            description: 'The heroic greatest hero who completed the twelve labors.'
+          },
+          {
+            name: 'Achilles',
+            role: 'Greatest Warrior',
+            startingCoins: 145,
+            startingWeapons: ['Spear', 'Shield'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'invincible',
+            quotes: [
+              "I am Achilles, the greatest warrior!",
+              "I will fight with invincible strength!",
+              "I am the hero of the Trojan War!",
+              "I will never be defeated!",
+              "I am the invincible warrior!"
+            ],
+            description: 'The invincible greatest warrior of the Trojan War.'
+          },
+          {
+            name: 'Odysseus',
+            role: 'Cunning Hero',
+            startingCoins: 140,
+            startingWeapons: ['Bow', 'Cunning'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'clever',
+            quotes: [
+              "I am Odysseus, the cunning hero!",
+              "I will outsmart my enemies!",
+              "I am the master of strategy!",
+              "I will return home!",
+              "I am the clever hero!"
+            ],
+            description: 'The clever cunning hero who outsmarts his enemies.'
+          },
+          {
+            name: 'Perseus',
+            role: 'Dragon Slayer',
+            startingCoins: 135,
+            startingWeapons: ['Sword', 'Medusa\'s Head'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'brave',
+            quotes: [
+              "I am Perseus, the dragon slayer!",
+              "I will slay Medusa!",
+              "I am the son of Zeus!",
+              "I will rescue Andromeda!",
+              "I am the brave hero!"
+            ],
+            description: 'The brave dragon slayer who defeated Medusa.'
+          },
+          {
+            name: 'Theseus',
+            role: 'Minotaur Slayer',
+            startingCoins: 130,
+            startingWeapons: ['Sword', 'Thread'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'determined',
+            quotes: [
+              "I am Theseus, the Minotaur slayer!",
+              "I will defeat the Minotaur!",
+              "I am the king of Athens!",
+              "I will navigate the labyrinth!",
+              "I am the determined hero!"
+            ],
+            description: 'The determined Minotaur slayer who became king of Athens.'
+          },
+          {
+            name: 'Jason',
+            role: 'Argonaut Leader',
+            startingCoins: 125,
+            startingWeapons: ['Sword', 'Golden Fleece'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'adventurous',
+            quotes: [
+              "I am Jason, leader of the Argonauts!",
+              "I will find the Golden Fleece!",
+              "I am the master of the Argo!",
+              "I will lead my crew to victory!",
+              "I am the adventurous hero!"
+            ],
+            description: 'The adventurous leader of the Argonauts who found the Golden Fleece.'
+          },
+          {
+            name: 'Medusa',
+            role: 'Gorgon',
+            startingCoins: 120,
+            startingWeapons: ['Snake Hair', 'Petrifying Gaze'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'monstrous',
+            quotes: [
+              "I am Medusa, the Gorgon!",
+              "I will turn you to stone!",
+              "I am the monster with snake hair!",
+              "I will petrify my enemies!",
+              "I am the monstrous Gorgon!"
+            ],
+            description: 'The monstrous Gorgon who turns enemies to stone.'
+          },
+          {
+            name: 'Bellerophon',
+            role: 'Pegasus Rider',
+            startingCoins: 115,
+            startingWeapons: ['Spear', 'Pegasus'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'flying',
+            quotes: [
+              "I am Bellerophon, rider of Pegasus!",
+              "I will fly with Pegasus!",
+              "I am the master of the winged horse!",
+              "I will defeat the Chimera!",
+              "I am the flying hero!"
+            ],
+            description: 'The flying hero who rides Pegasus and defeats the Chimera.'
+          },
+          {
+            name: 'Atalanta',
+            role: 'Swift Huntress',
+            startingCoins: 110,
+            startingWeapons: ['Bow', 'Speed'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'swift',
+            quotes: [
+              "I am Atalanta, the swift huntress!",
+              "I will run faster than anyone!",
+              "I am the master of the hunt!",
+              "I will outrun my enemies!",
+              "I am the swift huntress!"
+            ],
+            description: 'The swift huntress who runs faster than anyone.'
+          },
+          {
+            name: 'Orpheus',
+            role: 'Master Musician',
+            startingCoins: 105,
+            startingWeapons: ['Lyre', 'Music'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'musical',
+            quotes: [
+              "I am Orpheus, the master musician!",
+              "I will charm with my music!",
+              "I am the greatest musician!",
+              "I will rescue Eurydice!",
+              "I am the musical hero!"
+            ],
+            description: 'The musical master musician who charms with his music.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Mortal Warrior', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'brave' },
+          { name: 'Hero\'s Companion', startingCoins: 40, startingWeapons: ['Sword'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal' },
+          { name: 'Mortal Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'protective' }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Mount Olympus', cost: 90, description: 'Sacred mountain home of the gods, very high strategic value' },
+      { name: 'Oracle of Delphi', cost: 85, description: 'Sacred oracle and center of prophecy, high strategic value' },
+      { name: 'Underworld', cost: 80, description: 'Realm of the dead and Hades, high strategic value' },
+      { name: 'Elysian Fields', cost: 75, description: 'Paradise for heroes, medium strategic value' },
+      { name: 'Tartarus', cost: 70, description: 'Deep prison for titans, medium strategic value' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // HUNGER GAMES SCENARIO
+  hungerGames: {
+    id: 'hungerGames',
+    name: 'Hunger Games: May the Odds Be Ever in Your Favor',
+    type: 'dystopian',
+    description: 'The ultimate battle for survival in the Hunger Games arena.',
+    factions: {
+      careerDistricts: {
+        name: 'Career Districts',
+        color: '#e74c3c', // Red
+        description: 'The wealthy districts that train tributes for the Games',
+        territories: [
+          { name: 'District 1 - Luxury', cost: 100, description: 'Wealthy district specializing in luxury goods' },
+          { name: 'District 2 - Masonry', cost: 95, description: 'District specializing in stonework and masonry' },
+          { name: 'Career Training Center', cost: 90, description: 'Secret training facility for career tributes' },
+          { name: 'Weapon Arsenal', cost: 85, description: 'Stockpile of weapons and combat gear' },
+          { name: 'Strategy Room', cost: 80, description: 'Command center for game strategy' },
+          { name: 'Combat Arena', cost: 75, description: 'Training arena for combat practice' },
+          { name: 'Wealth Vault', cost: 70, description: 'Storage for district wealth and resources' },
+          { name: 'Elite Quarters', cost: 65, description: 'Luxurious living quarters for career tributes' },
+          { name: 'Victory Garden', cost: 60, description: 'Garden celebrating past victories' },
+          { name: 'Honor Hall', cost: 55, description: 'Hall honoring career district heroes' }
+        ],
+        characters: [
+          {
+            name: 'Cato',
+            role: 'Career Tribute',
+            startingCoins: 150,
+            startingWeapons: ['Sword', 'Combat Training'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'aggressive',
+            quotes: [
+              "I am Cato, the career tribute!",
+              "I will win the Hunger Games!",
+              "I am the strongest tribute!",
+              "I will kill everyone!",
+              "I am the career champion!"
+            ],
+            description: 'The aggressive career tribute who trains for the Games.'
+          },
+          {
+            name: 'Clove',
+            role: 'Career Tribute',
+            startingCoins: 145,
+            startingWeapons: ['Throwing Knives', 'Combat Training'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'deadly',
+            quotes: [
+              "I am Clove, the career tribute!",
+              "I will throw knives with precision!",
+              "I am the deadliest tribute!",
+              "I will cut down my enemies!",
+              "I am the career killer!"
+            ],
+            description: 'The deadly career tribute who masters throwing knives.'
+          },
+          {
+            name: 'Marvel',
+            role: 'Career Tribute',
+            startingCoins: 140,
+            startingWeapons: ['Spear', 'Combat Training'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'strong',
+            quotes: [
+              "I am Marvel, the career tribute!",
+              "I will fight with strength!",
+              "I am the strongest tribute!",
+              "I will overpower my enemies!",
+              "I am the career warrior!"
+            ],
+            description: 'The strong career tribute who fights with physical strength.'
+          },
+          {
+            name: 'Glimmer',
+            role: 'Career Tribute',
+            startingCoins: 135,
+            startingWeapons: ['Bow', 'Combat Training'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'beautiful',
+            quotes: [
+              "I am Glimmer, the career tribute!",
+              "I will shoot with beauty!",
+              "I am the most beautiful tribute!",
+              "I will enchant my enemies!",
+              "I am the career beauty!"
+            ],
+            description: 'The beautiful career tribute who fights with grace and beauty.'
+          },
+          {
+            name: 'Brutus',
+            role: 'Career Tribute',
+            startingCoins: 130,
+            startingWeapons: ['Axe', 'Combat Training'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'brutal',
+            quotes: [
+              "I am Brutus, the career tribute!",
+              "I will fight with brutality!",
+              "I am the most brutal tribute!",
+              "I will crush my enemies!",
+              "I am the career brute!"
+            ],
+            description: 'The brutal career tribute who fights with raw power.'
+          },
+          {
+            name: 'Enobaria',
+            role: 'Career Tribute',
+            startingCoins: 125,
+            startingWeapons: ['Teeth', 'Combat Training'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'feral',
+            quotes: [
+              "I am Enobaria, the career tribute!",
+              "I will bite with my teeth!",
+              "I am the most feral tribute!",
+              "I will tear my enemies apart!",
+              "I am the career beast!"
+            ],
+            description: 'The feral career tribute who fights with her teeth.'
+          },
+          {
+            name: 'Cashmere',
+            role: 'Career Tribute',
+            startingCoins: 120,
+            startingWeapons: ['Sword', 'Combat Training'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'elegant',
+            quotes: [
+              "I am Cashmere, the career tribute!",
+              "I will fight with elegance!",
+              "I am the most elegant tribute!",
+              "I will dance with death!",
+              "I am the career dancer!"
+            ],
+            description: 'The elegant career tribute who fights with grace.'
+          },
+          {
+            name: 'Gloss',
+            role: 'Career Tribute',
+            startingCoins: 115,
+            startingWeapons: ['Sword', 'Combat Training'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'smooth',
+            quotes: [
+              "I am Gloss, the career tribute!",
+              "I will fight with smoothness!",
+              "I am the smoothest tribute!",
+              "I will glide through battle!",
+              "I am the career glider!"
+            ],
+            description: 'The smooth career tribute who fights with fluidity.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Career Tribute', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'trained' },
+          { name: 'Career Trainer', startingCoins: 40, startingWeapons: ['Combat Training'], startingMercenaries: 0, startingCastles: 0, personality: 'instructor' },
+          { name: 'Career Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'protective' }
+        ]
+      },
+      midTierDistricts: {
+        name: 'Mid-Tier Districts',
+        color: '#f39c12', // Orange
+        description: 'The middle-class districts with some resources',
+        territories: [
+          { name: 'District 3 - Technology', cost: 100, description: 'District specializing in electronics and technology' },
+          { name: 'District 4 - Fishing', cost: 95, description: 'District specializing in fishing and seafood' },
+          { name: 'District 5 - Power', cost: 90, description: 'District specializing in electrical power' },
+          { name: 'District 6 - Transportation', cost: 85, description: 'District specializing in transportation' },
+          { name: 'District 7 - Lumber', cost: 80, description: 'District specializing in lumber and wood' },
+          { name: 'District 8 - Textiles', cost: 75, description: 'District specializing in textiles and clothing' },
+          { name: 'District 9 - Grain', cost: 70, description: 'District specializing in grain and agriculture' },
+          { name: 'District 10 - Livestock', cost: 65, description: 'District specializing in livestock and meat' },
+          { name: 'District 11 - Agriculture', cost: 60, description: 'District specializing in agriculture and farming' },
+          { name: 'District 12 - Mining', cost: 55, description: 'District specializing in coal mining' }
+        ],
+        characters: [
+          {
+            name: 'Katniss Everdeen',
+            role: 'Girl on Fire',
+            startingCoins: 150,
+            startingWeapons: ['Bow', 'Arrows'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'rebellious',
+            quotes: [
+              "I am Katniss Everdeen, the girl on fire!",
+              "I will volunteer as tribute!",
+              "I am the Mockingjay!",
+              "I will start the revolution!",
+              "I am the girl on fire!"
+            ],
+            description: 'The rebellious girl on fire who becomes the Mockingjay.'
+          },
+          {
+            name: 'Peeta Mellark',
+            role: 'Boy with the Bread',
+            startingCoins: 145,
+            startingWeapons: ['Strength', 'Camouflage'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'kind',
+            quotes: [
+              "I am Peeta Mellark, the boy with the bread!",
+              "I will protect Katniss!",
+              "I am the kind tribute!",
+              "I will camouflage myself!",
+              "I am the boy with the bread!"
+            ],
+            description: 'The kind boy with the bread who protects Katniss.'
+          },
+          {
+            name: 'Finnick Odair',
+            role: 'Golden Boy',
+            startingCoins: 140,
+            startingWeapons: ['Trident', 'Charm'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'charming',
+            quotes: [
+              "I am Finnick Odair, the golden boy!",
+              "I will charm my enemies!",
+              "I am the most charming tribute!",
+              "I will fight with my trident!",
+              "I am the golden boy!"
+            ],
+            description: 'The charming golden boy who fights with his trident.'
+          },
+ {
+            name: 'Johanna Mason',
+            role: 'Tree Hugger',
+            startingCoins: 135,
+            startingWeapons: ['Axe', 'Fury'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'fierce',
+            quotes: [
+              "I am Johanna Mason, the tree hugger!",
+              "I will fight with fury!",
+              "I am the fiercest tribute!",
+              "I will chop down my enemies!",
+              "I am the tree hugger!"
+            ],
+            description: 'The fierce tree hugger who fights with fury.'
+          },
+          {
+            name: 'Beetee',
+            role: 'Wire Master',
+            startingCoins: 130,
+            startingWeapons: ['Wire', 'Intelligence'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'intelligent',
+            quotes: [
+              "I am Beetee, the wire master!",
+              "I will wire my enemies!",
+              "I am the most intelligent tribute!",
+              "I will outsmart my enemies!",
+              "I am the wire master!"
+            ],
+            description: 'The intelligent wire master who outsmarts his enemies.'
+          },
+          {
+            name: 'Wiress',
+            role: 'Tick Tock',
+            startingCoins: 125,
+            startingWeapons: ['Time', 'Patterns'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'observant',
+            quotes: [
+              "I am Wiress, tick tock!",
+              "I will see the patterns!",
+              "I am the most observant tribute!",
+              "I will find the time patterns!",
+              "I am tick tock!"
+            ],
+            description: 'The observant tribute who sees patterns in time.'
+          },
+          {
+            name: 'Mags',
+            role: 'Elder Tribute',
+            startingCoins: 120,
+            startingWeapons: ['Wisdom', 'Experience'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "I am Mags, the elder tribute!",
+              "I will share my wisdom!",
+              "I am the wisest tribute!",
+              "I will guide the young!",
+              "I am the elder tribute!"
+            ],
+            description: 'The wise elder tribute who guides the young.'
+          },
+          {
+            name: 'Thresh',
+            role: 'District 11 Tribute',
+            startingCoins: 115,
+            startingWeapons: ['Scythe', 'Strength'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'strong',
+            quotes: [
+              "I am Thresh, the District 11 tribute!",
+              "I will fight with strength!",
+              "I am the strongest tribute!",
+              "I will harvest my enemies!",
+              "I am the District 11 tribute!"
+            ],
+            description: 'The strong District 11 tribute who fights with his scythe.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Mid-Tier Tribute', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'resourceful' },
+          { name: 'District Worker', startingCoins: 40, startingWeapons: ['Tools'], startingMercenaries: 0, startingCastles: 0, personality: 'skilled' },
+          { name: 'Mid-Tier Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+        ]
+      },
+      outerDistricts: {
+        name: 'Outer Districts',
+        color: '#2ecc71', // Green
+        description: 'The poor outer districts with few resources',
+        territories: [
+          { name: 'District 12 - Coal Mining', cost: 100, description: 'Poor district specializing in coal mining' },
+          { name: 'District 11 - Agriculture', cost: 95, description: 'Poor district specializing in agriculture' },
+          { name: 'District 10 - Livestock', cost: 90, description: 'Poor district specializing in livestock' },
+          { name: 'District 9 - Grain', cost: 85, description: 'Poor district specializing in grain' },
+          { name: 'District 8 - Textiles', cost: 80, description: 'Poor district specializing in textiles' },
+          { name: 'District 7 - Lumber', cost: 75, description: 'Poor district specializing in lumber' },
+          { name: 'District 6 - Transportation', cost: 70, description: 'Poor district specializing in transportation' },
+          { name: 'District 5 - Power', cost: 65, description: 'Poor district specializing in power' },
+          { name: 'District 4 - Fishing', cost: 60, description: 'Poor district specializing in fishing' },
+          { name: 'District 3 - Technology', cost: 55, description: 'Poor district specializing in technology' }
+        ],
+        characters: [
+          {
+            name: 'Rue',
+            role: 'Little Bird',
+            startingCoins: 150,
+            startingWeapons: ['Speed', 'Agility'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'innocent',
+            quotes: [
+              "I am Rue, the little bird!",
+              "I will fly with speed!",
+              "I am the most innocent tribute!",
+              "I will sing my song!",
+              "I am the little bird!"
+            ],
+            description: 'The innocent little bird who sings her song.'
+          },
+          {
+            name: 'Primrose Everdeen',
+            role: 'Little Duck',
+            startingCoins: 145,
+            startingWeapons: ['Healing', 'Compassion'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'compassionate',
+            quotes: [
+              "I am Primrose Everdeen, the little duck!",
+              "I will heal the wounded!",
+              "I am the most compassionate tribute!",
+              "I will care for others!",
+              "I am the little duck!"
+            ],
+            description: 'The compassionate little duck who heals the wounded.'
+          },
+          {
+            name: 'Gale Hawthorne',
+            role: 'Hunter',
+            startingCoins: 140,
+            startingWeapons: ['Bow', 'Traps'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'protective',
+            quotes: [
+              "I am Gale Hawthorne, the hunter!",
+              "I will hunt for my family!",
+              "I am the most protective tribute!",
+              "I will set traps for my enemies!",
+              "I am the hunter!"
+            ],
+            description: 'The protective hunter who sets traps for his enemies.'
+          },
+          {
+            name: 'Haymitch Abernathy',
+            role: 'Drunk Mentor',
+            startingCoins: 135,
+            startingWeapons: ['Wisdom', 'Experience'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'cynical',
+            quotes: [
+              "I am Haymitch Abernathy, the drunk mentor!",
+              "I will mentor with cynicism!",
+              "I am the most cynical tribute!",
+              "I will survive with wisdom!",
+              "I am the drunk mentor!"
+            ],
+            description: 'The cynical drunk mentor who survives with wisdom.'
+          },
+          {
+            name: 'Effie Trinket',
+            role: 'Escort',
+            startingCoins: 130,
+            startingWeapons: ['Charm', 'Etiquette'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'proper',
+            quotes: [
+              "I am Effie Trinket, the escort!",
+              "I will escort with proper etiquette!",
+              "I am the most proper tribute!",
+              "I will charm the Capitol!",
+              "I am the escort!"
+            ],
+            description: 'The proper escort who charms the Capitol.'
+          },
+          {
+            name: 'Cinna',
+            role: 'Stylist',
+            startingCoins: 125,
+            startingWeapons: ['Style', 'Creativity'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'creative',
+            quotes: [
+              "I am Cinna, the stylist!",
+              "I will style with creativity!",
+              "I am the most creative tribute!",
+              "I will design the costumes!",
+              "I am the stylist!"
+            ],
+            description: 'The creative stylist who designs the costumes.'
+          },
+          {
+            name: 'Plutarch Heavensbee',
+            role: 'Game Maker',
+            startingCoins: 120,
+            startingWeapons: ['Strategy', 'Power'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'strategic',
+            quotes: [
+              "I am Plutarch Heavensbee, the game maker!",
+              "I will make the games strategic!",
+              "I am the most strategic tribute!",
+              "I will control the arena!",
+              "I am the game maker!"
+            ],
+            description: 'The strategic game maker who controls the arena.'
+          },
+          {
+            name: 'President Snow',
+            role: 'President',
+            startingCoins: 115,
+            startingWeapons: ['Power', 'Control'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'tyrannical',
+            quotes: [
+              "I am President Snow, the president!",
+              "I will rule with tyranny!",
+              "I am the most tyrannical tribute!",
+              "I will control the districts!",
+              "I am the president!"
+            ],
+            description: 'The tyrannical president who controls the districts.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Outer District Tribute', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'survivor' },
+          { name: 'District Worker', startingCoins: 40, startingWeapons: ['Tools'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking' },
+          { name: 'Outer District Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+        ]
+      },
+      capitol: {
+        name: 'The Capitol',
+        color: '#9b59b6', // Purple
+        description: 'The wealthy Capitol that controls the Games',
+        territories: [
+          { name: 'Capitol City', cost: 100, description: 'Wealthy capital city of Panem' },
+          { name: 'President\'s Mansion', cost: 95, description: 'Luxurious mansion of the president' },
+          { name: 'Game Control Center', cost: 90, description: 'Command center for the Hunger Games' },
+          { name: 'Capitol Arena', cost: 85, description: 'Massive arena for the Hunger Games' },
+          { name: 'Wealth District', cost: 80, description: 'District of the wealthy Capitol citizens' },
+          { name: 'Entertainment District', cost: 75, description: 'District of entertainment and shows' },
+          { name: 'Food District', cost: 70, description: 'District of abundant food and luxury' },
+          { name: 'Fashion District', cost: 65, description: 'District of fashion and style' },
+          { name: 'Technology District', cost: 60, description: 'District of advanced technology' },
+          { name: 'Security District', cost: 55, description: 'District of security and peacekeepers' }
+        ],
+        characters: [
+          {
+            name: 'President Coriolanus Snow',
+            role: 'President of Panem',
+            startingCoins: 150,
+            startingWeapons: ['Power', 'Control'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'tyrannical',
+            quotes: [
+              "I am President Coriolanus Snow!",
+              "I will rule with absolute power!",
+              "I am the supreme ruler of Panem!",
+              "I will crush the rebellion!",
+              "I am the president!"
+            ],
+            description: 'The tyrannical President of Panem who rules with absolute power.'
+          },
+          {
+            name: 'Seneca Crane',
+            role: 'Head Game Maker',
+            startingCoins: 145,
+            startingWeapons: ['Arena Control', 'Strategy'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'manipulative',
+            quotes: [
+              "I am Seneca Crane, Head Game Maker!",
+              "I will control the arena!",
+              "I am the master of the Games!",
+              "I will manipulate the tributes!",
+              "I am the head game maker!"
+            ],
+            description: 'The manipulative Head Game Maker who controls the arena.'
+          },
+          {
+            name: 'Caesar Flickerman',
+            role: 'Talk Show Host',
+            startingCoins: 140,
+            startingWeapons: ['Charm', 'Charisma'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'charismatic',
+            quotes: [
+              "I am Caesar Flickerman, talk show host!",
+              "I will charm the audience!",
+              "I am the most charismatic tribute!",
+              "I will host the interviews!",
+              "I am the talk show host!"
+            ],
+            description: 'The charismatic talk show host who charms the audience.'
+          },
+          {
+            name: 'Claudius Templesmith',
+            role: 'Announcer',
+            startingCoins: 135,
+            startingWeapons: ['Voice', 'Drama'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'dramatic',
+            quotes: [
+              "I am Claudius Templesmith, the announcer!",
+              "I will announce with drama!",
+              "I am the most dramatic tribute!",
+              "I will narrate the Games!",
+              "I am the announcer!"
+            ],
+            description: 'The dramatic announcer who narrates the Games.'
+          },
+          {
+            name: 'Octavia',
+            role: 'Capitol Citizen',
+            startingCoins: 130,
+            startingWeapons: ['Wealth', 'Luxury'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'luxurious',
+            quotes: [
+              "I am Octavia, Capitol citizen!",
+              "I will live in luxury!",
+              "I am the most luxurious tribute!",
+              "I will enjoy the Games!",
+              "I am the Capitol citizen!"
+            ],
+            description: 'The luxurious Capitol citizen who enjoys the Games.'
+          },
+          {
+            name: 'Flavius',
+            role: 'Capitol Citizen',
+            startingCoins: 125,
+            startingWeapons: ['Wealth', 'Style'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'stylish',
+            quotes: [
+              "I am Flavius, Capitol citizen!",
+              "I will live with style!",
+              "I am the most stylish tribute!",
+              "I will enjoy the fashion!",
+              "I am the Capitol citizen!"
+            ],
+            description: 'The stylish Capitol citizen who enjoys fashion.'
+          },
+          {
+            name: 'Venus',
+            role: 'Capitol Citizen',
+            startingCoins: 120,
+            startingWeapons: ['Wealth', 'Beauty'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'beautiful',
+            quotes: [
+              "I am Venus, Capitol citizen!",
+              "I will live with beauty!",
+              "I am the most beautiful tribute!",
+              "I will enjoy the luxury!",
+              "I am the Capitol citizen!"
+            ],
+            description: 'The beautiful Capitol citizen who enjoys luxury.'
+          },
+          {
+            name: 'Tigris',
+            role: 'Capitol Citizen',
+            startingCoins: 115,
+            startingWeapons: ['Wealth', 'Fashion'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'fashionable',
+            quotes: [
+              "I am Tigris, Capitol citizen!",
+              "I will live with fashion!",
+              "I am the most fashionable tribute!",
+              "I will enjoy the style!",
+              "I am the Capitol citizen!"
+            ],
+            description: 'The fashionable Capitol citizen who enjoys style.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Capitol Citizen', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'wealthy' },
+          { name: 'Capitol Official', startingCoins: 40, startingWeapons: ['Authority'], startingMercenaries: 0, startingCastles: 0, personality: 'powerful' },
+          { name: 'Capitol Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Hunger Games Arena', cost: 90, description: 'Massive arena where the Games are held, very high strategic value' },
+      { name: 'Cornucopia', cost: 85, description: 'Central location with weapons and supplies, high strategic value' },
+      { name: 'Sponsor Room', cost: 80, description: 'Room where sponsors send gifts, high strategic value' },
+      { name: 'Training Center', cost: 75, description: 'Center where tributes train before the Games, medium strategic value' },
+      { name: 'Interview Stage', cost: 70, description: 'Stage where tributes are interviewed, medium strategic value' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // DISNEY VS PIXAR SCENARIO
+  disneyVsPixar: {
+    id: 'disneyVsPixar',
+    name: 'Disney Vs Pixar: Animation Studios Battle',
+    type: 'entertainment',
+    description: 'The epic battle between Disney Animation Studios and Pixar Animation Studios.',
+    factions: {
+      disney: {
+        name: 'Disney Animation Studios',
+        color: '#e74c3c', // Red
+        description: 'The classic Disney animation studio with timeless characters',
+        territories: [
+          { name: 'Disney Castle', cost: 100, description: 'Iconic Disney castle and headquarters' },
+          { name: 'Magic Kingdom', cost: 95, description: 'The most magical place on earth' },
+          { name: 'Disney Studios', cost: 90, description: 'Animation studios and production facilities' },
+          { name: 'Disneyland', cost: 85, description: 'The original Disney theme park' },
+          { name: 'Disney World', cost: 80, description: 'The larger Disney theme park complex' },
+          { name: 'Disney Channel', cost: 75, description: 'Television network and broadcasting' },
+          { name: 'Disney Store', cost: 70, description: 'Retail stores and merchandise' },
+          { name: 'Disney Music', cost: 65, description: 'Music production and soundtracks' },
+          { name: 'Disney Publishing', cost: 60, description: 'Books and publishing division' },
+          { name: 'Disney Interactive', cost: 55, description: 'Video games and digital media' }
+        ],
+        characters: [
+          {
+            name: 'Mickey Mouse',
+            role: 'Disney Mascot',
+            startingCoins: 150,
+            startingWeapons: ['Magic', 'Charisma'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'cheerful',
+            quotes: [
+              "Hot dog! Welcome to the Magic Kingdom!",
+              "I'm Mickey Mouse, and I'm here to spread joy!",
+              "Oh boy! Let's make some magic happen!",
+              "A dream is a wish your heart makes!",
+              "It all started with a mouse!"
+            ],
+            description: 'The cheerful Disney mascot who spreads magic and joy.'
+          },
+          {
+            name: 'Minnie Mouse',
+            role: 'Disney Sweetheart',
+            startingCoins: 145,
+            startingWeapons: ['Bow', 'Grace'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'elegant',
+            quotes: [
+              "Oh, Mickey! You're so silly!",
+              "Why, hello there! How delightful!",
+              "A girl can never have too many bows!",
+              "Let's dance the night away!",
+              "I'm Minnie Mouse, and I'm here to spread love!"
+            ],
+            description: 'The elegant Disney sweetheart who charms everyone.'
+          },
+          {
+            name: 'Donald Duck',
+            role: 'Disney Hothead',
+            startingCoins: 140,
+            startingWeapons: ['Temper', 'Quack'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'temperamental',
+            quotes: [
+              "I am Donald Duck, the Disney hothead!",
+              "I will quack with anger!",
+              "I am the most temperamental character!",
+              "I will lose my temper!",
+              "I am the Disney hothead!"
+            ],
+            description: 'The temperamental Disney hothead who loses his temper.'
+          },
+          {
+            name: 'Goofy',
+            role: 'Disney Goofball',
+            startingCoins: 135,
+            startingWeapons: ['Clumsiness', 'Laughter'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'goofy',
+            quotes: [
+              "I am Goofy, the Disney goofball!",
+              "I will make everyone laugh!",
+              "I am the most goofy character!",
+              "I will be clumsy!",
+              "I am the Disney goofball!"
+            ],
+            description: 'The goofy Disney character who makes everyone laugh.'
+          },
+          {
+            name: 'Pluto',
+            role: 'Disney Dog',
+            startingCoins: 130,
+            startingWeapons: ['Loyalty', 'Barking'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'loyal',
+            quotes: [
+              "I am Pluto, the Disney dog!",
+              "I will be loyal to Mickey!",
+              "I am the most loyal character!",
+              "I will bark at enemies!",
+              "I am the Disney dog!"
+            ],
+            description: 'The loyal Disney dog who protects Mickey.'
+          },
+          {
+            name: 'Snow White',
+            role: 'Disney Princess',
+            startingCoins: 125,
+            startingWeapons: ['Beauty', 'Singing'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'beautiful',
+            quotes: [
+              "I am Snow White, the Disney princess!",
+              "I will sing with beauty!",
+              "I am the most beautiful character!",
+              "I will charm with my voice!",
+              "I am the Disney princess!"
+            ],
+            description: 'The beautiful Disney princess who sings with beauty.'
+          },
+          {
+            name: 'Cinderella',
+            role: 'Disney Princess',
+            startingCoins: 120,
+            startingWeapons: ['Kindness', 'Magic'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'kind',
+            quotes: [
+              "I am Cinderella, the Disney princess!",
+              "I will be kind to everyone!",
+              "I am the most kind character!",
+              "I will spread kindness!",
+              "I am the Disney princess!"
+            ],
+            description: 'The kind Disney princess who spreads kindness.'
+          },
+          {
+            name: 'Aurora',
+            role: 'Disney Princess',
+            startingCoins: 115,
+            startingWeapons: ['Sleep', 'Beauty'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'sleepy',
+            quotes: [
+              "I am Aurora, the Disney princess!",
+              "I will sleep with beauty!",
+              "I am the most sleepy character!",
+              "I will rest peacefully!",
+              "I am the Disney princess!"
+            ],
+            description: 'The sleepy Disney princess who rests peacefully.'
+          },
+          {
+            name: 'Ariel',
+            role: 'Disney Princess',
+            startingCoins: 110,
+            startingWeapons: ['Voice', 'Curiosity'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'curious',
+            quotes: [
+              "I am Ariel, the Disney princess!",
+              "I will sing with my voice!",
+              "I am the most curious character!",
+              "I will explore the world!",
+              "I am the Disney princess!"
+            ],
+            description: 'The curious Disney princess who explores the world.'
+          },
+          {
+            name: 'Belle',
+            role: 'Disney Princess',
+            startingCoins: 105,
+            startingWeapons: ['Books', 'Intelligence'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'intelligent',
+            quotes: [
+              "I am Belle, the Disney princess!",
+              "I will read books!",
+              "I am the most intelligent character!",
+              "I will learn new things!",
+              "I am the Disney princess!"
+            ],
+            description: 'The intelligent Disney princess who loves books.'
+          },
+          {
+            name: 'Jasmine',
+            role: 'Disney Princess',
+            startingCoins: 100,
+            startingWeapons: ['Independence', 'Spirit'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'independent',
+            quotes: [
+              "I am Jasmine, the Disney princess!",
+              "I will be independent!",
+              "I am the most independent character!",
+              "I will follow my own path!",
+              "I am the Disney princess!"
+            ],
+            description: 'The independent Disney princess who follows her own path.'
+          },
+          {
+            name: 'Pocahontas',
+            role: 'Disney Princess',
+            startingCoins: 95,
+            startingWeapons: ['Nature', 'Wisdom'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'wise',
+            quotes: [
+              "I am Pocahontas, the Disney princess!",
+              "I will connect with nature!",
+              "I am the most wise character!",
+              "I will share my wisdom!",
+              "I am the Disney princess!"
+            ],
+            description: 'The wise Disney princess who connects with nature.'
+          },
+          {
+            name: 'Mulan',
+            role: 'Disney Princess',
+            startingCoins: 90,
+            startingWeapons: ['Courage', 'Sword'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'brave',
+            quotes: [
+              "I am Mulan, the Disney princess!",
+              "I will fight with courage!",
+              "I am the most brave character!",
+              "I will protect my family!",
+              "I am the Disney princess!"
+            ],
+            description: 'The brave Disney princess who fights with courage.'
+          },
+          {
+            name: 'Tiana',
+            role: 'Disney Princess',
+            startingCoins: 85,
+            startingWeapons: ['Hard Work', 'Dreams'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'hardworking',
+            quotes: [
+              "I am Tiana, the Disney princess!",
+              "I will work hard!",
+              "I am the most hardworking character!",
+              "I will achieve my dreams!",
+              "I am the Disney princess!"
+            ],
+            description: 'The hardworking Disney princess who achieves her dreams.'
+          },
+          {
+            name: 'Rapunzel',
+            role: 'Disney Princess',
+            startingCoins: 80,
+            startingWeapons: ['Hair', 'Magic'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'adventurous',
+            quotes: [
+              "I am Rapunzel, the Disney princess!",
+              "I will use my magic hair!",
+              "I am the most adventurous character!",
+              "I will explore the world!",
+              "I am the Disney princess!"
+            ],
+            description: 'The adventurous Disney princess who uses her magic hair.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Disney Character', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'magical' },
+          { name: 'Disney Animator', startingCoins: 40, startingWeapons: ['Animation'], startingMercenaries: 0, startingCastles: 0, personality: 'creative' },
+          { name: 'Disney Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+        ]
+      },
+      pixar: {
+        name: 'Pixar Animation Studios',
+        color: '#3498db', // Blue
+        description: 'The innovative Pixar animation studio with cutting-edge technology',
+        territories: [
+          { name: 'Pixar Studios', cost: 100, description: 'State-of-the-art animation studios' },
+          { name: 'Pixar Campus', cost: 95, description: 'Innovative campus and creative hub' },
+          { name: 'Pixar Theater', cost: 90, description: 'Private theater for film screenings' },
+          { name: 'Pixar Museum', cost: 85, description: 'Museum showcasing Pixar history' },
+          { name: 'Pixar Store', cost: 80, description: 'Retail store and merchandise' },
+          { name: 'Pixar Games', cost: 75, description: 'Video game development division' },
+          { name: 'Pixar Music', cost: 70, description: 'Music production and soundtracks' },
+          { name: 'Pixar Publishing', cost: 65, description: 'Books and publishing division' },
+          { name: 'Pixar Interactive', cost: 60, description: 'Digital media and interactive content' },
+          { name: 'Pixar Research', cost: 55, description: 'Research and development facility' }
+        ],
+        characters: [
+          {
+            name: 'Woody',
+            role: 'Pixar Sheriff',
+            startingCoins: 150,
+            startingWeapons: ['Lasso', 'Leadership'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'leader',
+            quotes: [
+              "I am Woody, the Pixar sheriff!",
+              "I will lead with loyalty!",
+              "I am the most loyal character!",
+              "I will protect my friends!",
+              "I am the Pixar sheriff!"
+            ],
+            description: 'The loyal Pixar sheriff who leads with loyalty.'
+          },
+          {
+            name: 'Buzz Lightyear',
+            role: 'Pixar Space Ranger',
+            startingCoins: 145,
+            startingWeapons: ['Laser', 'Wings'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'heroic',
+            quotes: [
+              "I am Buzz Lightyear, the Pixar space ranger!",
+              "I will fly to infinity and beyond!",
+              "I am the most heroic character!",
+              "I will save the galaxy!",
+              "I am the Pixar space ranger!"
+            ],
+            description: 'The heroic Pixar space ranger who flies to infinity and beyond.'
+          },
+          {
+            name: 'Nemo',
+            role: 'Pixar Clownfish',
+            startingCoins: 140,
+            startingWeapons: ['Swimming', 'Courage'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'brave',
+            quotes: [
+              "I am Nemo, the Pixar clownfish!",
+              "I will swim with courage!",
+              "I am the most brave character!",
+              "I will find my way home!",
+              "I am the Pixar clownfish!"
+            ],
+            description: 'The brave Pixar clownfish who finds his way home.'
+          },
+          {
+            name: 'Dory',
+            role: 'Pixar Blue Tang',
+            startingCoins: 135,
+            startingWeapons: ['Memory', 'Swimming'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'forgetful',
+            quotes: [
+              "I am Dory, the Pixar blue tang!",
+              "I will just keep swimming!",
+              "I am the most forgetful character!",
+              "I will remember to forget!",
+              "I am the Pixar blue tang!"
+            ],
+            description: 'The forgetful Pixar blue tang who just keeps swimming.'
+          },
+          {
+            name: 'Sulley',
+            role: 'Pixar Monster',
+            startingCoins: 130,
+            startingWeapons: ['Roar', 'Scaring'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'scary',
+            quotes: [
+              "I am Sulley, the Pixar monster!",
+              "I will roar with power!",
+              "I am the most scary character!",
+              "I will scare everyone!",
+              "I am the Pixar monster!"
+            ],
+            description: 'The scary Pixar monster who roars with power.'
+          },
+          {
+            name: 'Mike Wazowski',
+            role: 'Pixar Cyclops',
+            startingCoins: 125,
+            startingWeapons: ['Eye', 'Comedy'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'funny',
+            quotes: [
+              "I am Mike Wazowski, the Pixar cyclops!",
+              "I will make everyone laugh!",
+              "I am the most funny character!",
+              "I will be the comedy relief!",
+              "I am the Pixar cyclops!"
+            ],
+            description: 'The funny Pixar cyclops who makes everyone laugh.'
+          },
+          {
+            name: 'Wall-E',
+            role: 'Pixar Robot',
+            startingCoins: 120,
+            startingWeapons: ['Trash Compacting', 'Love'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loving',
+            quotes: [
+              "I am Wall-E, the Pixar robot!",
+              "I will clean up the earth!",
+              "I am the most loving character!",
+              "I will love EVE!",
+              "I am the Pixar robot!"
+            ],
+            description: 'The loving Pixar robot who cleans up the earth.'
+          },
+          {
+            name: 'EVE',
+            role: 'Pixar Robot',
+            startingCoins: 115,
+            startingWeapons: ['Laser', 'Flying'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'efficient',
+            quotes: [
+              "I am EVE, the Pixar robot!",
+              "I will fly with efficiency!",
+              "I am the most efficient character!",
+              "I will complete my mission!",
+              "I am the Pixar robot!"
+            ],
+            description: 'The efficient Pixar robot who flies with efficiency.'
+          },
+          {
+            name: 'Carl Fredricksen',
+            role: 'Pixar Elder',
+            startingCoins: 110,
+            startingWeapons: ['House', 'Adventure'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'adventurous',
+            quotes: [
+              "I am Carl Fredricksen, the Pixar elder!",
+              "I will fly my house!",
+              "I am the most adventurous character!",
+              "I will go on adventures!",
+              "I am the Pixar elder!"
+            ],
+            description: 'The adventurous Pixar elder who flies his house.'
+          },
+          {
+            name: 'Russell',
+            role: 'Pixar Scout',
+            startingCoins: 105,
+            startingWeapons: ['Backpack', 'Enthusiasm'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'enthusiastic',
+            quotes: [
+              "I am Russell, the Pixar scout!",
+              "I will be enthusiastic!",
+              "I am the most enthusiastic character!",
+              "I will earn my badges!",
+              "I am the Pixar scout!"
+            ],
+            description: 'The enthusiastic Pixar scout who earns his badges.'
+          },
+          {
+            name: 'Lightning McQueen',
+            role: 'Pixar Race Car',
+            startingCoins: 100,
+            startingWeapons: ['Speed', 'Racing'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'fast',
+            quotes: [
+              "I am Lightning McQueen, the Pixar race car!",
+              "I will race with speed!",
+              "I am the most fast character!",
+              "I will win the race!",
+              "I am the Pixar race car!"
+            ],
+            description: 'The fast Pixar race car who races with speed.'
+          },
+          {
+            name: 'Mater',
+            role: 'Pixar Tow Truck',
+            startingCoins: 95,
+            startingWeapons: ['Towing', 'Friendship'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "I am Mater, the Pixar tow truck!",
+              "I will tow with friendship!",
+              "I am the most loyal character!",
+              "I will be Lightning's best friend!",
+              "I am the Pixar tow truck!"
+            ],
+            description: 'The loyal Pixar tow truck who is Lightning\'s best friend.'
+          },
+          {
+            name: 'Remy',
+            role: 'Pixar Rat',
+            startingCoins: 90,
+            startingWeapons: ['Cooking', 'Smell'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'culinary',
+            quotes: [
+              "I am Remy, the Pixar rat!",
+              "I will cook with passion!",
+              "I am the most culinary character!",
+              "I will create masterpieces!",
+              "I am the Pixar rat!"
+            ],
+            description: 'The culinary Pixar rat who cooks with passion.'
+          },
+          {
+            name: 'Merida',
+            role: 'Pixar Princess',
+            startingCoins: 85,
+            startingWeapons: ['Bow', 'Independence'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'independent',
+            quotes: [
+              "I am Merida, the Pixar princess!",
+              "I will shoot with independence!",
+              "I am the most independent character!",
+              "I will follow my own path!",
+              "I am the Pixar princess!"
+            ],
+            description: 'The independent Pixar princess who follows her own path.'
+          },
+          {
+            name: 'Joy',
+            role: 'Pixar Emotion',
+            startingCoins: 80,
+            startingWeapons: ['Happiness', 'Energy'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'joyful',
+            quotes: [
+              "I am Joy, the Pixar emotion!",
+              "I will spread happiness!",
+              "I am the most joyful character!",
+              "I will bring joy to everyone!",
+              "I am the Pixar emotion!"
+            ],
+            description: 'The joyful Pixar emotion who spreads happiness.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Pixar Character', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'innovative' },
+          { name: 'Pixar Animator', startingCoins: 40, startingWeapons: ['Technology'], startingMercenaries: 0, startingCastles: 0, personality: 'creative' },
+          { name: 'Pixar Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Animation Studios', cost: 90, description: 'State-of-the-art animation facilities, very high strategic value' },
+      { name: 'Creative Hub', cost: 85, description: 'Center of creativity and innovation, high strategic value' },
+      { name: 'Film Production', cost: 80, description: 'Film production and distribution, high strategic value' },
+      { name: 'Character Development', cost: 75, description: 'Character design and development, medium strategic value' },
+      { name: 'Storytelling', cost: 70, description: 'Story development and narrative, medium strategic value' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // SUPER MARIO SCENARIO
+  superMario: {
+    id: 'superMario',
+    name: 'Super Mario: Heroes vs Minions',
+    type: 'gaming',
+    description: 'The epic battle between Mario\'s Heroes and Bowser\'s Minions.',
+    factions: {
+      mariosHeroes: {
+        name: 'Mario\'s Heroes',
+        color: '#e74c3c', // Red
+        description: 'The heroic characters who fight for good',
+        territories: [
+          { name: 'Mushroom Kingdom', cost: 100, description: 'Peaceful kingdom ruled by Princess Peach' },
+          { name: 'Peach\'s Castle', cost: 95, description: 'Beautiful castle home of Princess Peach' },
+          { name: 'Toad Town', cost: 90, description: 'Vibrant town populated by Toads' },
+          { name: 'Yoshi\'s Island', cost: 85, description: 'Tropical island home of the Yoshis' },
+          { name: 'Donkey Kong Island', cost: 80, description: 'Jungle island home of Donkey Kong' },
+          { name: 'Luigi\'s Mansion', cost: 75, description: 'Haunted mansion owned by Luigi' },
+          { name: 'Wario\'s Castle', cost: 70, description: 'Gold-plated castle of Wario' },
+          { name: 'Waluigi\'s Pinball', cost: 65, description: 'Pinball machine realm of Waluigi' },
+          { name: 'Toadette\'s House', cost: 60, description: 'Cozy home of Toadette' },
+          { name: 'Birdo\'s Nest', cost: 55, description: 'Nest home of Birdo' }
+        ],
+        characters: [
+          {
+            name: 'Mario',
+            role: 'Super Hero',
+            startingCoins: 150,
+            startingWeapons: ['Fire Flower', 'Super Mushroom'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'heroic',
+            quotes: [
+              "I am Mario, the super hero!",
+              "I will save Princess Peach!",
+              "I am the most heroic character!",
+              "I will jump on enemies!",
+              "I am the super hero!"
+            ],
+            description: 'The heroic super hero who saves Princess Peach.'
+          },
+          {
+            name: 'Luigi',
+            role: 'Green Hero',
+            startingCoins: 145,
+            startingWeapons: ['Poltergust', 'Jump'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'nervous',
+            quotes: [
+              "I am Luigi, the green hero!",
+              "I will be brave!",
+              "I am the most nervous character!",
+              "I will help Mario!",
+              "I am the green hero!"
+            ],
+            description: 'The nervous green hero who helps Mario.'
+          },
+          {
+            name: 'Princess Peach',
+            role: 'Princess',
+            startingCoins: 140,
+            startingWeapons: ['Crown', 'Magic'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'royal',
+            quotes: [
+              "I am Princess Peach, the princess!",
+              "I will rule with grace!",
+              "I am the most royal character!",
+              "I will protect my kingdom!",
+              "I am the princess!"
+            ],
+            description: 'The royal princess who rules with grace.'
+          },
+          {
+            name: 'Toad',
+            role: 'Mushroom Retainer',
+            startingCoins: 135,
+            startingWeapons: ['Mushroom', 'Loyalty'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'loyal',
+            quotes: [
+              "I am Toad, the mushroom retainer!",
+              "I will serve Princess Peach!",
+              "I am the most loyal character!",
+              "I will help my friends!",
+              "I am the mushroom retainer!"
+            ],
+            description: 'The loyal mushroom retainer who serves Princess Peach.'
+          },
+          {
+            name: 'Yoshi',
+            role: 'Dinosaur',
+            startingCoins: 130,
+            startingWeapons: ['Tongue', 'Eggs'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'friendly',
+            quotes: [
+              "I am Yoshi, the dinosaur!",
+              "I will eat enemies!",
+              "I am the most friendly character!",
+              "I will help Mario!",
+              "I am the dinosaur!"
+            ],
+            description: 'The friendly dinosaur who helps Mario.'
+          },
+          {
+            name: 'Donkey Kong',
+            role: 'Gorilla',
+            startingCoins: 125,
+            startingWeapons: ['Strength', 'Barrels'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'strong',
+            quotes: [
+              "I am Donkey Kong, the gorilla!",
+              "I will use my strength!",
+              "I am the strongest character!",
+              "I will throw barrels!",
+              "I am the gorilla!"
+            ],
+            description: 'The strong gorilla who throws barrels.'
+          },
+          {
+            name: 'Wario',
+            role: 'Anti-Hero',
+            startingCoins: 120,
+            startingWeapons: ['Gold', 'Greed'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'greedy',
+            quotes: [
+              "I am Wario, the anti-hero!",
+              "I will collect gold!",
+              "I am the most greedy character!",
+              "I will be rich!",
+              "I am the anti-hero!"
+            ],
+            description: 'The greedy anti-hero who collects gold.'
+          },
+          {
+            name: 'Waluigi',
+            role: 'Anti-Hero',
+            startingCoins: 115,
+            startingWeapons: ['Tennis Racket', 'Mischief'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'mischievous',
+            quotes: [
+              "I am Waluigi, the anti-hero!",
+              "I will cause mischief!",
+              "I am the most mischievous character!",
+              "I will play tennis!",
+              "I am the anti-hero!"
+            ],
+            description: 'The mischievous anti-hero who causes mischief.'
+          },
+          {
+            name: 'Toadette',
+            role: 'Mushroom Retainer',
+            startingCoins: 110,
+            startingWeapons: ['Mushroom', 'Cheerfulness'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'cheerful',
+            quotes: [
+              "I am Toadette, the mushroom retainer!",
+              "I will be cheerful!",
+              "I am the most cheerful character!",
+              "I will help my friends!",
+              "I am the mushroom retainer!"
+            ],
+            description: 'The cheerful mushroom retainer who helps her friends.'
+          },
+          {
+            name: 'Birdo',
+            role: 'Dinosaur',
+            startingCoins: 105,
+            startingWeapons: ['Eggs', 'Cuteness'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'cute',
+            quotes: [
+              "I am Birdo, the dinosaur!",
+              "I will be cute!",
+              "I am the most cute character!",
+              "I will lay eggs!",
+              "I am the dinosaur!"
+            ],
+            description: 'The cute dinosaur who lays eggs.'
+          },
+          {
+            name: 'Daisy',
+            role: 'Princess',
+            startingCoins: 100,
+            startingWeapons: ['Crown', 'Tennis Racket'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'sporty',
+            quotes: [
+              "I am Daisy, the princess!",
+              "I will play tennis!",
+              "I am the most sporty character!",
+              "I will be athletic!",
+              "I am the princess!"
+            ],
+            description: 'The sporty princess who plays tennis.'
+          },
+          {
+            name: 'Geno',
+            role: 'Star Warrior',
+            startingCoins: 95,
+            startingWeapons: ['Star Power', 'Magic'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'mystical',
+            quotes: [
+              "I am Geno, the star warrior!",
+              "I will use star power!",
+              "I am the most mystical character!",
+              "I will fight with magic!",
+              "I am the star warrior!"
+            ],
+            description: 'The mystical star warrior who uses star power.'
+          },
+          {
+            name: 'Rosalina',
+            role: 'Cosmic Princess',
+            startingCoins: 90,
+            startingWeapons: ['Luma', 'Cosmic Power'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'cosmic',
+            quotes: [
+              "I am Rosalina, the cosmic princess!",
+              "I will use cosmic power!",
+              "I am the most cosmic character!",
+              "I will protect the cosmos!",
+              "I am the cosmic princess!"
+            ],
+            description: 'The cosmic princess who protects the cosmos.'
+          },
+          {
+            name: 'Bowser Jr.',
+            role: 'Junior Villain',
+            startingCoins: 85,
+            startingWeapons: ['Paintbrush', 'Mischief'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'mischievous',
+            quotes: [
+              "I am Bowser Jr., the junior villain!",
+              "I will cause mischief!",
+              "I am the most mischievous character!",
+              "I will paint the world!",
+              "I am the junior villain!"
+            ],
+            description: 'The mischievous junior villain who causes mischief.'
+          },
+          {
+            name: 'Koopa Troopa',
+            role: 'Turtle',
+            startingCoins: 80,
+            startingWeapons: ['Shell', 'Speed'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'speedy',
+            quotes: [
+              "I am Koopa Troopa, the turtle!",
+              "I will use my shell!",
+              "I am the most speedy character!",
+              "I will run fast!",
+              "I am the turtle!"
+            ],
+            description: 'The speedy turtle who uses his shell.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Mario Character', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'heroic' },
+          { name: 'Mario Hero', startingCoins: 40, startingWeapons: ['Power-Up'], startingMercenaries: 0, startingCastles: 0, personality: 'brave' },
+          { name: 'Mario Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+        ]
+      },
+      bowsersMinions: {
+        name: 'Bowser\'s Minions',
+        color: '#8e44ad', // Purple
+        description: 'The villainous characters who serve Bowser',
+        territories: [
+          { name: 'Bowser\'s Castle', cost: 100, description: 'Massive castle fortress of Bowser' },
+          { name: 'Koopa Kingdom', cost: 95, description: 'Dark kingdom ruled by Bowser' },
+          { name: 'Goomba Village', cost: 90, description: 'Village populated by Goombas' },
+          { name: 'Koopa Troopa Town', cost: 85, description: 'Town populated by Koopa Troopas' },
+          { name: 'Hammer Bro Fortress', cost: 80, description: 'Fortress of the Hammer Bros' },
+          { name: 'Chain Chomp Kennel', cost: 75, description: 'Kennel where Chain Chomps are kept' },
+          { name: 'Lakitu Cloud', cost: 70, description: 'Floating cloud home of Lakitu' },
+          { name: 'Shy Guy Hideout', cost: 65, description: 'Secret hideout of the Shy Guys' },
+          { name: 'Piranha Plant Garden', cost: 60, description: 'Garden where Piranha Plants grow' },
+          { name: 'Thwomp Temple', cost: 55, description: 'Ancient temple of the Thwomps' }
+        ],
+        characters: [
+          {
+            name: 'Bowser',
+            role: 'King of Koopas',
+            startingCoins: 150,
+            startingWeapons: ['Fire Breath', 'Shell'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'villainous',
+            quotes: [
+              "I am Bowser, King of Koopas!",
+              "I will kidnap Princess Peach!",
+              "I am the most villainous character!",
+              "I will rule the Mushroom Kingdom!",
+              "I am the King of Koopas!"
+            ],
+            description: 'The villainous King of Koopas who kidnaps Princess Peach.'
+          },
+          {
+            name: 'Kamek',
+            role: 'Magikoopa',
+            startingCoins: 145,
+            startingWeapons: ['Magic', 'Staff'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'magical',
+            quotes: [
+              "I am Kamek, the Magikoopa!",
+              "I will cast magic spells!",
+              "I am the most magical character!",
+              "I will serve Bowser!",
+              "I am the Magikoopa!"
+            ],
+            description: 'The magical Magikoopa who casts magic spells.'
+          },
+          {
+            name: 'Hammer Bro',
+            role: 'Hammer Warrior',
+            startingCoins: 140,
+            startingWeapons: ['Hammer', 'Armor'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'aggressive',
+            quotes: [
+              "I am Hammer Bro, the hammer warrior!",
+              "I will throw hammers!",
+              "I am the most aggressive character!",
+              "I will fight with hammers!",
+              "I am the hammer warrior!"
+            ],
+            description: 'The aggressive hammer warrior who throws hammers.'
+          },
+          {
+            name: 'Chain Chomp',
+            role: 'Metal Ball',
+            startingCoins: 135,
+            startingWeapons: ['Chain', 'Bite'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'ferocious',
+            quotes: [
+              "I am Chain Chomp, the metal ball!",
+              "I will bite with ferocity!",
+              "I am the most ferocious character!",
+              "I will break my chain!",
+              "I am the metal ball!"
+            ],
+            description: 'The ferocious metal ball who bites with ferocity.'
+          },
+          {
+            name: 'Lakitu',
+            role: 'Cloud Rider',
+            startingCoins: 130,
+            startingWeapons: ['Cloud', 'Spiny Eggs'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'mischievous',
+            quotes: [
+              "I am Lakitu, the cloud rider!",
+              "I will ride on clouds!",
+              "I am the most mischievous character!",
+              "I will drop Spiny eggs!",
+              "I am the cloud rider!"
+            ],
+            description: 'The mischievous cloud rider who drops Spiny eggs.'
+          },
+          {
+            name: 'Shy Guy',
+            role: 'Masked Minion',
+            startingCoins: 125,
+            startingWeapons: ['Mask', 'Stealth'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'shy',
+            quotes: [
+              "I am Shy Guy, the masked minion!",
+              "I will hide behind my mask!",
+              "I am the most shy character!",
+              "I will be stealthy!",
+              "I am the masked minion!"
+            ],
+            description: 'The shy masked minion who hides behind his mask.'
+          },
+          {
+            name: 'Piranha Plant',
+            role: 'Carnivorous Plant',
+            startingCoins: 120,
+            startingWeapons: ['Bite', 'Vine'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'hungry',
+            quotes: [
+              "I am Piranha Plant, the carnivorous plant!",
+              "I will bite with hunger!",
+              "I am the most hungry character!",
+              "I will eat everything!",
+              "I am the carnivorous plant!"
+            ],
+            description: 'The hungry carnivorous plant who bites with hunger.'
+          },
+          {
+            name: 'Thwomp',
+            role: 'Crushing Block',
+            startingCoins: 115,
+            startingWeapons: ['Crush', 'Weight'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'heavy',
+            quotes: [
+              "I am Thwomp, the crushing block!",
+              "I will crush with weight!",
+              "I am the heaviest character!",
+              "I will flatten enemies!",
+              "I am the crushing block!"
+            ],
+            description: 'The heavy crushing block who flattens enemies.'
+          },
+          {
+            name: 'Bullet Bill',
+            role: 'Cannonball',
+            startingCoins: 110,
+            startingWeapons: ['Speed', 'Explosion'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'explosive',
+            quotes: [
+              "I am Bullet Bill, the cannonball!",
+              "I will fly with speed!",
+              "I am the most explosive character!",
+              "I will explode on impact!",
+              "I am the cannonball!"
+            ],
+            description: 'The explosive cannonball who flies with speed.'
+          },
+          {
+            name: 'Bob-omb',
+            role: 'Walking Bomb',
+            startingCoins: 105,
+            startingWeapons: ['Explosion', 'Timer'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'explosive',
+            quotes: [
+              "I am Bob-omb, the walking bomb!",
+              "I will explode with a timer!",
+              "I am the most explosive character!",
+              "I will count down to explosion!",
+              "I am the walking bomb!"
+            ],
+            description: 'The explosive walking bomb who counts down to explosion.'
+          },
+          {
+            name: 'King Boo',
+            role: 'Ghost King',
+            startingCoins: 100,
+            startingWeapons: ['Possession', 'Invisibility'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'ghostly',
+            quotes: [
+              "I am King Boo, the ghost king!",
+              "I will possess with ghostly power!",
+              "I am the most ghostly character!",
+              "I will be invisible!",
+              "I am the ghost king!"
+            ],
+            description: 'The ghostly ghost king who possesses with ghostly power.'
+          },
+          {
+            name: 'Dry Bones',
+            role: 'Skeleton Koopa',
+            startingCoins: 95,
+            startingWeapons: ['Bones', 'Reassembly'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'undead',
+            quotes: [
+              "I am Dry Bones, the skeleton Koopa!",
+              "I will reassemble my bones!",
+              "I am the most undead character!",
+              "I will never stay dead!",
+              "I am the skeleton Koopa!"
+            ],
+            description: 'The undead skeleton Koopa who reassembles his bones.'
+          },
+          {
+            name: 'Boo',
+            role: 'Ghost',
+            startingCoins: 90,
+            startingWeapons: ['Possession', 'Invisibility'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'ghostly',
+            quotes: [
+              "I am Boo, the ghost!",
+              "I will possess with ghostly power!",
+              "I am the most ghostly character!",
+              "I will be invisible!",
+              "I am the ghost!"
+            ],
+            description: 'The ghostly ghost who possesses with ghostly power.'
+          },
+          {
+            name: 'Goomba',
+            role: 'Mushroom Minion',
+            startingCoins: 85,
+            startingWeapons: ['Stomp', 'Walking'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'simple',
+            quotes: [
+              "I am Goomba, the mushroom minion!",
+              "I will walk with simplicity!",
+              "I am the most simple character!",
+              "I will be stomped on!",
+              "I am the mushroom minion!"
+            ],
+            description: 'The simple mushroom minion who walks with simplicity.'
+          },
+          {
+            name: 'Koopa Troopa',
+            role: 'Turtle Minion',
+            startingCoins: 80,
+            startingWeapons: ['Shell', 'Speed'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'speedy',
+            quotes: [
+              "I am Koopa Troopa, the turtle minion!",
+              "I will use my shell!",
+              "I am the most speedy character!",
+              "I will run fast!",
+              "I am the turtle minion!"
+            ],
+            description: 'The speedy turtle minion who uses his shell.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Bowser Minion', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'villainous' },
+          { name: 'Koopa Warrior', startingCoins: 40, startingWeapons: ['Shell'], startingMercenaries: 0, startingCastles: 0, personality: 'aggressive' },
+          { name: 'Bowser Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Mushroom Kingdom', cost: 90, description: 'Peaceful kingdom and center of power, very high strategic value' },
+      { name: 'Power-Up Factory', cost: 85, description: 'Factory that produces power-ups, high strategic value' },
+      { name: 'Star Road', cost: 80, description: 'Mystical road connecting worlds, high strategic value' },
+      { name: 'Pipe System', cost: 75, description: 'Underground pipe network, medium strategic value' },
+      { name: 'Coin Heaven', cost: 70, description: 'Heavenly realm of coins, medium strategic value' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
   }
 };
 

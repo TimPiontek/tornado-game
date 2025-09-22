@@ -54,39 +54,139 @@ class GridManager {
 
     generateGrid() {
         this.grid.innerHTML = '';
-        const { gridSize } = this.gameState;
+        const { gridSize, factionCount = 2 } = this.gameState;
         let columns, rows;
 
-        // Explicit grid layouts for each option
-        switch (gridSize) {
-            case 8:
-                columns = 4; rows = 2; break;
-            case 10:
-                columns = 5; rows = 2; break;
-            case 16:
-                columns = 4; rows = 4; break;
-            case 18:
-                columns = Math.ceil(Math.sqrt(gridSize));
-                rows = Math.ceil(gridSize / columns);
-                break;
-            case 20:
-                columns = Math.ceil(Math.sqrt(gridSize));
-                rows = Math.ceil(gridSize / columns);
-                break;
-            default:
-                columns = Math.ceil(Math.sqrt(gridSize));
-                rows = Math.ceil(gridSize / columns);
+        // Multi-faction grid layouts for geometrically appealing designs
+        if (factionCount === 3) {
+            // 3-faction layouts: Triangle/Hexagonal patterns
+            switch (gridSize) {
+                case 12:
+                    columns = 4; rows = 3; break; // 4x3 rectangle
+                case 15:
+                    columns = 5; rows = 3; break; // 5x3 rectangle
+                case 18:
+                    columns = 6; rows = 3; break; // 6x3 rectangle
+                case 21:
+                    columns = 7; rows = 3; break; // 7x3 rectangle
+                case 24:
+                    columns = 6; rows = 4; break; // 6x4 rectangle
+                case 27:
+                    columns = 9; rows = 3; break; // 9x3 rectangle
+                case 30:
+                    columns = 6; rows = 5; break; // 6x5 rectangle
+                default:
+                    columns = Math.ceil(Math.sqrt(gridSize));
+                    rows = Math.ceil(gridSize / columns);
+            }
+        } else if (factionCount === 4) {
+            // 4-faction layouts: Square/Cross patterns
+            switch (gridSize) {
+                case 16:
+                    columns = 4; rows = 4; break; // Perfect 4x4 square
+                case 20:
+                    columns = 5; rows = 4; break; // 5x4 rectangle
+                case 24:
+                    columns = 6; rows = 4; break; // 6x4 rectangle
+                case 28:
+                    columns = 7; rows = 4; break; // 7x4 rectangle
+                case 32:
+                    columns = 8; rows = 4; break; // 8x4 rectangle
+                case 36:
+                    columns = 6; rows = 6; break; // Perfect 6x6 square
+                case 40:
+                    columns = 8; rows = 5; break; // 8x5 rectangle
+                case 44:
+                    columns = 11; rows = 4; break; // 11x4 rectangle
+                case 48:
+                    columns = 8; rows = 6; break; // 8x6 rectangle
+                case 52:
+                    columns = 13; rows = 4; break; // 13x4 rectangle
+                case 56:
+                    columns = 8; rows = 7; break; // 8x7 rectangle
+                case 60:
+                    columns = 10; rows = 6; break; // 10x6 rectangle
+                case 64:
+                    columns = 8; rows = 8; break; // Perfect 8x8 square
+                default:
+                    columns = Math.ceil(Math.sqrt(gridSize));
+                    rows = Math.ceil(gridSize / columns);
+            }
+        } else {
+            // 2-faction layouts (original)
+            switch (gridSize) {
+                case 8:
+                    columns = 4; rows = 2; break;
+                case 10:
+                    columns = 5; rows = 2; break;
+                case 16:
+                    columns = 4; rows = 4; break;
+                case 18:
+                    columns = Math.ceil(Math.sqrt(gridSize));
+                    rows = Math.ceil(gridSize / columns);
+                    break;
+                case 20:
+                    columns = Math.ceil(Math.sqrt(gridSize));
+                    rows = Math.ceil(gridSize / columns);
+                    break;
+                default:
+                    columns = Math.ceil(Math.sqrt(gridSize));
+                    rows = Math.ceil(gridSize / columns);
+            }
         }
 
         this.grid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
         this.grid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+
+        // Add faction-specific styling for multi-faction layouts
+        if (factionCount > 2) {
+            this.grid.classList.add(`faction-${factionCount}`);
+            this.grid.style.gap = '8px'; // Tighter spacing for more territories
+        }
 
         // Create cells
         for (let i = 0; i < gridSize; i++) {
             const button = document.createElement('button');
             button.dataset.index = i;
             button.addEventListener('click', () => this.handleCellClick(button));
+            
+            // Add faction-specific styling based on position
+            if (factionCount > 2) {
+                this.addFactionStyling(button, i, factionCount, columns, rows);
+            }
+            
             this.grid.appendChild(button);
+        }
+    }
+
+    addFactionStyling(button, index, factionCount, columns, rows) {
+        const row = Math.floor(index / columns);
+        const col = index % columns;
+        
+        if (factionCount === 3) {
+            // 3-faction layout: Divide into 3 horizontal sections
+            const sectionHeight = Math.ceil(rows / 3);
+            if (row < sectionHeight) {
+                button.classList.add('faction-1');
+            } else if (row < sectionHeight * 2) {
+                button.classList.add('faction-2');
+            } else {
+                button.classList.add('faction-3');
+            }
+        } else if (factionCount === 4) {
+            // 4-faction layout: Divide into 4 quadrants
+            const midRow = Math.floor(rows / 2);
+            const midCol = Math.floor(columns / 2);
+            
+            if (row < midRow && col < midCol) {
+                button.classList.add('faction-1'); // Top-left
+            } else if (row < midRow && col >= midCol) {
+                button.classList.add('faction-2'); // Top-right
+            } else if (row >= midRow && col < midCol) {
+                button.classList.add('faction-3'); // Bottom-left
+            } else {
+                button.classList.add('faction-4'); // Bottom-right
+            }
         }
     }
 

@@ -442,11 +442,16 @@
     truces: [],
     colors: new Map(),
     costs: { land: 20, castleL1: ECONOMY.castleL1, castleL2: ECONOMY.castleL2, castleL3: ECONOMY.castleL3 },
+    aiStipendInterval: null,
+    aiStipendPaused: false,
     weaponCosts: { ...ECONOMY.weapons },
     offlineMode: false, // Start in online mode, can switch to offline
     teams: [],
     teamMode: false,
-    currentScenario: null
+    currentScenario: null,
+    activeEvents: [], // Array of currently active event cards
+    eventHistory: [], // History of events that have occurred
+    territoryBonuses: new Map() // Map of territory bonuses
   };
 
   // === AUTH (force redirect + ensure_user) ===
@@ -785,7 +790,13 @@
         characterFaction: student.characterFaction || null,
         startingCastles: student.startingCastles || 0,
         weapons: student.weapons || [],
-        mercenaries: student.mercenaries || 0
+        mercenaries: student.mercenaries || 0,
+        purchasedItems: student.purchasedItems || {
+          weapons: [],
+          mercenaries: 0,
+          allies: [],
+          spells: []
+        }
       };
       
       // Assign color to student
@@ -829,6 +840,29 @@
     } else {
       // Clear any existing scenario if roster has no saved scenario
       state.scenario = null;
+    }
+    
+    // Restore AI state and resume ticker if Class vs AI is enabled
+    if (roster.aiConfig?.classVsAI) {
+      console.log('Restoring AI state for Class vs AI mode');
+      if (roster.aiState) {
+        // Resume from saved state
+        state.currentRoster.aiState = roster.aiState;
+      }
+      // Start ticker if not already running
+      if (!state.aiStipendInterval) {
+        startAiStipendTicker();
+      }
+    } else {
+      // Stop ticker if Class vs AI is disabled
+      stopAiStipendTicker();
+    }
+
+    // Restore territory bonuses
+    if (roster.territoryBonuses) {
+      state.territoryBonuses = new Map(roster.territoryBonuses);
+    } else {
+      state.territoryBonuses = new Map();
     }
     
     // Load saved victory goals
@@ -904,6 +938,665 @@
         
         console.log(`Final assignment: ${student.name} -> Team: ${student.teamName} (${student.teamColor})`);
       }
+    });
+  }
+
+  // Class vs AI: auto-assign students to good factions and AI to villain factions
+  function assignClassVsAITeams(scenarioData) {
+    try {
+      const scenario = SCENARIOS[scenarioData.scenarioId];
+      if (!scenario || !scenario.factions) return;
+
+      // Heuristic alignment classifier for factions by name
+      const isBadFactionName = (name) => {
+        if (!name) return false;
+        const n = name.toLowerCase();
+        return (
+          n.includes('villain') ||
+          n.includes('evil') ||
+          n.includes('empire') ||
+          n.includes('sith') ||
+          n.includes('death eater') ||
+          n.includes('first order') ||
+          n.includes('dark') ||
+          n.includes('bad') ||
+          n.includes('antagonist')
+        );
+      };
+
+      const goodCharacters = [];
+      const badCharacters = [];
+
+      Object.values(scenario.factions).forEach((faction) => {
+        const target = isBadFactionName(faction.name) ? badCharacters : goodCharacters;
+        if (Array.isArray(faction.characters)) {
+          faction.characters.forEach((char) => {
+            target.push({
+              name: char.name,
+              role: char.role,
+              factionName: faction.name,
+              factionColor: faction.color
+            });
+          });
+        }
+        if (Array.isArray(faction.generalRoles)) {
+          faction.generalRoles.forEach((role) => {
+            target.push({
+              name: role.name,
+              role: role.name,
+              factionName: faction.name,
+              factionColor: faction.color
+            });
+          });
+        }
+      });
+
+      // Guard: need at least one good character for assignment
+      if (goodCharacters.length === 0) {
+        console.warn('Class vs AI: No good-faction characters found; skipping auto-assign');
+        return;
+      }
+
+      const roleAssignments = {};
+      const aiAssignments = {};
+
+      // Assign each student to a good character (round-robin if we run out)
+      state.roster.forEach((student, idx) => {
+        const pick = goodCharacters[idx % goodCharacters.length];
+        roleAssignments[student.gsId] = pick.name;
+        // Mirror onto student for downstream team assignment
+        student.characterName = pick.name;
+        student.characterFaction = pick.factionName;
+      });
+
+      // Mark all bad characters as AI-controlled
+      badCharacters.forEach((c) => {
+        aiAssignments[c.name] = {
+          studentId: null,
+          studentName: null,
+          roleName: c.name,
+          factionName: c.factionName,
+          isAI: true
+        };
+      });
+
+      // Persist onto scenario/state
+      scenarioData.manualRoleAssignments = roleAssignments;
+      scenarioData.aiAssignments = aiAssignments;
+      if (!state.scenario) state.scenario = {};
+      state.scenario.manualRoleAssignments = roleAssignments;
+      state.scenario.aiAssignments = aiAssignments;
+
+      // Ensure teams reflect factions
+      assignTeamsFromCharacters();
+    } catch (err) {
+      console.error('assignClassVsAITeams error:', err);
+    }
+  }
+
+  // AI Stipend Ticker System
+  // Note: aiStipendInterval and aiStipendPaused are managed globally for simplicity
+  // In a production app, these would be better managed in a state object
+
+  function startAiStipendTicker() {
+    if (state.aiStipendInterval) return; // Already running
+    
+    console.log('Starting AI stipend ticker');
+    state.aiStipendInterval = setInterval(() => {
+      if (state.aiStipendPaused) return; // Paused during battles
+      
+      tickAiStipend();
+    }, 15000); // Every 15 seconds
+  }
+
+  function stopAiStipendTicker() {
+    if (state.aiStipendInterval) {
+      clearInterval(state.aiStipendInterval);
+      state.aiStipendInterval = null;
+      console.log('Stopped AI stipend ticker');
+    }
+  }
+
+  function pauseAiStipendTicker() {
+    state.aiStipendPaused = true;
+    console.log('Paused AI stipend ticker');
+  }
+
+  function resumeAiStipendTicker() {
+    state.aiStipendPaused = false;
+    console.log('Resumed AI stipend ticker');
+  }
+
+  function tickAiStipend() {
+    if (!state.currentRoster?.aiConfig?.classVsAI || !state.scenario?.aiAssignments) return;
+    
+    try {
+    
+    const difficulty = state.currentRoster.aiConfig.difficulty || 'medium';
+    const multipliers = { easy: 0.5, medium: 1.0, hard: 1.5 };
+    const multiplier = multipliers[difficulty] || 1.0;
+    
+    // Calculate class total earned points
+    const classEarnedPoints = state.roster.reduce((sum, student) => sum + (student.earnedPoints || 0), 0);
+    const aiStipend = Math.floor(classEarnedPoints * multiplier);
+    
+    if (aiStipend <= 0) return; // No stipend if class has no earned points
+    
+    // Initialize AI state if needed
+    if (!state.currentRoster.aiState) {
+      state.currentRoster.aiState = {
+        lastTick: Date.now(),
+        rollingDelta: 0,
+        totalStipend: 0
+      };
+    }
+    
+    const aiState = state.currentRoster.aiState;
+    const now = Date.now();
+    const timeDelta = now - (aiState.lastTick || now);
+    aiState.lastTick = now;
+    aiState.rollingDelta = classEarnedPoints;
+    aiState.totalStipend += aiStipend;
+    
+    // Distribute stipend to AI-controlled roles
+    const aiRoles = Object.values(state.scenario.aiAssignments).filter(role => role.isAI);
+    if (aiRoles.length === 0) return;
+    
+    const stipendPerRole = Math.floor(aiStipend / aiRoles.length);
+    const remainder = aiStipend % aiRoles.length;
+    
+    aiRoles.forEach((role, index) => {
+      let roleStipend = stipendPerRole;
+      if (index < remainder) roleStipend += 1; // Distribute remainder
+      
+      // Find or create AI student for this role
+      let aiStudent = state.roster.find(s => s.characterName === role.roleName && s.isAI);
+      if (!aiStudent) {
+        // Create AI student
+        aiStudent = {
+          gsId: `ai_${role.roleName.replace(/\s+/g, '_').toLowerCase()}`,
+          name: `${role.roleName} (AI)`,
+          characterName: role.roleName,
+          characterFaction: role.factionName,
+          isAI: true,
+          startingPoints: 0,
+          earnedPoints: 0,
+          balance: 0,
+          weapons: [],
+          mercenaries: 0,
+          castles: 0,
+          tilesOwned: 0,
+          teamId: null,
+          teamName: null,
+          teamColor: null
+        };
+        state.roster.push(aiStudent);
+      }
+      
+      // Award stipend
+      aiStudent.earnedPoints = (aiStudent.earnedPoints || 0) + roleStipend;
+      aiStudent.balance = (aiStudent.startingPoints || 0) + (aiStudent.earnedPoints || 0);
+    });
+    
+    console.log(`AI stipend tick: ${aiStipend} points distributed (${difficulty} difficulty, ${classEarnedPoints} class earned)`);
+    
+    // Update UI
+    renderRoster();
+    updateTeamScoreboards();
+    
+    // Persist state
+    saveRosterToStorage();
+    } catch (err) {
+      console.error('AI stipend ticker error:', err);
+    }
+  }
+  
+  // Save roster to storage (called by AI ticker and other functions)
+  function saveRosterToStorage() {
+    if (!state.currentRoster || !state.currentRosterId) return;
+    
+    // Update the roster data with current scores
+    const updatedRoster = {
+      ...state.currentRoster,
+      roster: state.roster.map(student => ({
+        id: student.gsId,
+        name: student.name,
+        startingPoints: student.startingPoints || 0,
+        earnedPoints: student.earnedPoints || 0,
+        points: (student.startingPoints || 0) + (student.earnedPoints || 0),
+        tilesOwned: student.tilesOwned,
+        teamId: student.teamId,
+        teamName: student.teamName,
+        teamColor: student.teamColor,
+        characterName: student.characterName,
+        characterRole: student.characterRole,
+        characterFaction: student.characterFaction,
+        isAI: student.isAI || false,
+        purchasedItems: student.purchasedItems || {
+          weapons: [],
+          mercenaries: 0,
+          allies: [],
+          spells: []
+        }
+      })),
+      scenario: state.scenario,
+        aiConfig: state.currentRoster.aiConfig,
+        aiState: state.currentRoster.aiState,
+        territoryBonuses: Array.from(state.territoryBonuses.entries()),
+        lastModified: new Date().toISOString()
+    };
+    
+    // Update in the rosters array
+    const rosterIndex = state.rosters.findIndex(r => r.id === state.currentRosterId);
+    if (rosterIndex >= 0) {
+      state.rosters[rosterIndex] = updatedRoster;
+      state.currentRoster = updatedRoster;
+      
+      // Save to localStorage
+      localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+    }
+  }
+
+  // === EVENT CARDS SYSTEM ===
+  function showEventCardModal() {
+    if (!state.currentScenario) return;
+    
+    const scenarioId = state.currentScenario.scenarioId;
+    const scenarioType = state.currentScenario.scenarioType;
+    
+    // Get available events for this scenario
+    const availableEvents = EVENT_CARDS[scenarioType]?.[scenarioId] || [];
+    if (availableEvents.length === 0) return;
+    
+    const modal = document.createElement('div');
+    modal.id = 'eventCardModal';
+    modal.style.cssText = `
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+      background: rgba(0,0,0,0.8); z-index: 10000; display: flex; 
+      align-items: center; justify-content: center;
+    `;
+    
+    modal.innerHTML = `
+      <div style="background: white; padding: 20px; border-radius: 10px; max-width: 600px; max-height: 80vh; overflow-y: auto;">
+        <h2 style="margin: 0 0 20px 0; color: #1e40af;">🎲 Event Cards</h2>
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; margin-bottom: 10px; font-weight: bold;">Choose an event:</label>
+          <select id="eventSelect" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            <option value="">Select an event...</option>
+            ${availableEvents.map(event => `<option value="${event.id}">${event.name}</option>`).join('')}
+          </select>
+        </div>
+        <div id="eventPreview" style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px; display: none;">
+          <h3 id="eventName" style="margin: 0 0 10px 0; color: #dc2626;"></h3>
+          <p id="eventDescription" style="margin: 0 0 15px 0;"></p>
+          <div id="eventEffects" style="font-size: 14px;"></div>
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button id="randomEventBtn" style="padding: 8px 16px; background: #6b7280; color: white; border: none; border-radius: 4px; cursor: pointer;">Random Event</button>
+          <button id="applyEventBtn" style="padding: 8px 16px; background: #1e40af; color: white; border: none; border-radius: 4px; cursor: pointer;" disabled>Apply Event</button>
+          <button id="closeEventModal" style="padding: 8px 16px; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer;">Close</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    const eventSelect = modal.querySelector('#eventSelect');
+    const eventPreview = modal.querySelector('#eventPreview');
+    const eventName = modal.querySelector('#eventName');
+    const eventDescription = modal.querySelector('#eventDescription');
+    const eventEffects = modal.querySelector('#eventEffects');
+    const randomEventBtn = modal.querySelector('#randomEventBtn');
+    const applyEventBtn = modal.querySelector('#applyEventBtn');
+    const closeEventModal = modal.querySelector('#closeEventModal');
+    
+    let selectedEvent = null;
+    
+    eventSelect.onchange = () => {
+      const eventId = eventSelect.value;
+      if (eventId) {
+        selectedEvent = availableEvents.find(e => e.id === eventId);
+        showEventPreview(selectedEvent);
+        applyEventBtn.disabled = false;
+      } else {
+        eventPreview.style.display = 'none';
+        applyEventBtn.disabled = true;
+      }
+    };
+    
+    randomEventBtn.onclick = () => {
+      const randomEvent = availableEvents[Math.floor(Math.random() * availableEvents.length)];
+      selectedEvent = randomEvent;
+      eventSelect.value = randomEvent.id;
+      showEventPreview(randomEvent);
+      applyEventBtn.disabled = false;
+    };
+    
+    applyEventBtn.onclick = () => {
+      if (selectedEvent) {
+        applyEvent(selectedEvent);
+        closeEventModal.click();
+      }
+    };
+    
+    closeEventModal.onclick = () => {
+      document.body.removeChild(modal);
+    };
+    
+    function showEventPreview(event) {
+      eventName.textContent = event.name;
+      eventDescription.textContent = event.description;
+      
+      let effectsHtml = '<strong>Effects:</strong><br>';
+      Object.entries(event.effects).forEach(([faction, effects]) => {
+        effectsHtml += `<div style="margin: 5px 0;"><strong>${faction}:</strong> `;
+        const effectList = [];
+        if (effects.coins) effectList.push(`${effects.coins > 0 ? '+' : ''}${effects.coins} coins`);
+        if (effects.morale) effectList.push(`${effects.morale > 0 ? '+' : ''}${effects.morale} morale`);
+        if (effects.weapons) effectList.push(`${effects.weapons > 0 ? '+' : ''}${effects.weapons} weapons`);
+        if (effects.mercenaries) effectList.push(`${effects.mercenaries > 0 ? '+' : ''}${effects.mercenaries} mercenaries`);
+        if (effects.defense) effectList.push(`${effects.defense > 0 ? '+' : ''}${effects.defense} defense`);
+        if (effects.training) effectList.push(`${effects.training > 0 ? '+' : ''}${effects.training} training`);
+        effectsHtml += effectList.join(', ') + '</div>';
+      });
+      effectsHtml += `<div style="margin-top: 10px;"><strong>Duration:</strong> ${event.duration} turns</div>`;
+      
+      eventEffects.innerHTML = effectsHtml;
+      eventPreview.style.display = 'block';
+    }
+  }
+  
+  function applyEvent(event) {
+    // Add event to active events
+    const eventWithId = {
+      ...event,
+      id: event.id + '_' + Date.now(),
+      startTurn: getCurrentTurn(),
+      endTurn: getCurrentTurn() + event.duration
+    };
+    
+    state.activeEvents.push(eventWithId);
+    state.eventHistory.push({
+      ...event,
+      appliedAt: new Date().toISOString(),
+      turn: getCurrentTurn()
+    });
+    
+    // Apply immediate effects
+    applyEventEffects(event);
+    
+    // Show notification
+    showEventNotification(event);
+    
+    // Save state
+    saveRosterToStorage();
+    
+    // Update UI
+    renderRoster();
+    updateTeamScoreboards();
+  }
+  
+  function applyEventEffects(event) {
+    Object.entries(event.effects).forEach(([faction, effects]) => {
+      const factionStudents = state.roster.filter(student => 
+        student.characterFaction === faction || 
+        (faction === 'patriots' && student.characterFaction === 'Patriots') ||
+        (faction === 'british' && student.characterFaction === 'British') ||
+        (faction === 'allies' && student.characterFaction === 'Allied Powers') ||
+        (faction === 'central' && student.characterFaction === 'Central Powers') ||
+        (faction === 'axis' && student.characterFaction === 'Axis Powers') ||
+        (faction === 'justice' && student.characterFaction === 'Defenders of Justice') ||
+        (faction === 'prejudice' && student.characterFaction === 'Forces of Prejudice') ||
+        (faction === 'dreamers' && student.characterFaction === 'Dreamers & Romantics') ||
+        (faction === 'reality' && student.characterFaction === 'Forces of Reality') ||
+        (faction === 'truth' && student.characterFaction === 'Defenders of Truth') ||
+        (faction === 'hysteria' && student.characterFaction === 'Forces of Hysteria')
+      );
+      
+      factionStudents.forEach(student => {
+        if (effects.coins) {
+          student.balance = Math.max(0, student.balance + effects.coins);
+          student.earnedPoints = Math.max(0, (student.earnedPoints || 0) + effects.coins);
+        }
+        if (effects.weapons) {
+          if (!student.purchasedItems) student.purchasedItems = { weapons: [], mercenaries: 0, allies: [], spells: [] };
+          for (let i = 0; i < Math.abs(effects.weapons); i++) {
+            if (effects.weapons > 0) {
+              student.purchasedItems.weapons.push('event_weapon');
+            } else {
+              student.purchasedItems.weapons.pop();
+            }
+          }
+        }
+        if (effects.mercenaries) {
+          if (!student.purchasedItems) student.purchasedItems = { weapons: [], mercenaries: 0, allies: [], spells: [] };
+          student.purchasedItems.mercenaries = Math.max(0, (student.purchasedItems.mercenaries || 0) + effects.mercenaries);
+        }
+      });
+    });
+  }
+  
+  function getCurrentTurn() {
+    // Simple turn counter - could be enhanced with actual game turn tracking
+    return Math.floor(Date.now() / 30000); // Approximate turn based on time
+  }
+  
+  function showEventNotification(event) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed; top: 20px; right: 20px; background: #1e40af; color: white; 
+      padding: 15px 20px; border-radius: 8px; z-index: 10001; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3); max-width: 300px;
+    `;
+    notification.innerHTML = `
+      <div style="font-weight: bold; margin-bottom: 5px;">🎲 ${event.name}</div>
+      <div style="font-size: 14px;">${event.description}</div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      if (document.body.contains(notification)) {
+        document.body.removeChild(notification);
+      }
+    }, 5000);
+  }
+  
+  function processActiveEvents() {
+    const currentTurn = getCurrentTurn();
+    const expiredEvents = [];
+    
+    state.activeEvents.forEach(event => {
+      if (currentTurn >= event.endTurn) {
+        expiredEvents.push(event);
+      }
+    });
+    
+    // Remove expired events
+    state.activeEvents = state.activeEvents.filter(event => !expiredEvents.includes(event));
+    
+    // Show expiration notifications
+    expiredEvents.forEach(event => {
+      showEventNotification({
+        name: `${event.name} (Expired)`,
+        description: 'This event has ended.'
+      });
+    });
+  }
+
+  // === TERRITORY BONUSES SYSTEM ===
+  function initializeTerritoryBonuses() {
+    if (!state.currentScenario) return;
+    
+    const scenario = SCENARIOS[state.currentScenario.scenarioId];
+    if (!scenario || !scenario.neutralTerritories) return;
+    
+    // Clear existing bonuses
+    state.territoryBonuses.clear();
+    
+    // Create bonus territories in the middle of the board
+    const centerX = Math.floor(state.board.w / 2);
+    const centerY = Math.floor(state.board.h / 2);
+    
+    scenario.neutralTerritories.forEach((territory, index) => {
+      const bonusId = `bonus_${territory.name.toLowerCase().replace(/\s+/g, '_')}`;
+      const x = centerX + (index % 3) - 1;
+      const y = centerY + Math.floor(index / 3) - 1;
+      
+      // Ensure coordinates are within bounds
+      const finalX = Math.max(0, Math.min(state.board.w - 1, x));
+      const finalY = Math.max(0, Math.min(state.board.h - 1, y));
+      
+      state.territoryBonuses.set(bonusId, {
+        id: bonusId,
+        name: territory.name,
+        description: territory.description,
+        cost: territory.cost,
+        x: finalX,
+        y: finalY,
+        bonusType: getRandomBonusType(),
+        bonusValue: getRandomBonusValue(),
+        controlledBy: null,
+        lastClaimed: null
+      });
+    });
+  }
+  
+  function getRandomBonusType() {
+    const types = ['weapons', 'mercenaries', 'castles', 'coins'];
+    return types[Math.floor(Math.random() * types.length)];
+  }
+  
+  function getRandomBonusValue() {
+    return Math.floor(Math.random() * 3) + 1; // 1-3 bonus value
+  }
+  
+  function claimTerritoryBonus(territoryId, studentId) {
+    const bonus = state.territoryBonuses.get(territoryId);
+    if (!bonus || bonus.controlledBy) return false;
+    
+    const student = state.roster.find(s => s.gsId === studentId);
+    if (!student) return false;
+    
+    // Check if student has enough points to claim
+    if (student.balance < bonus.cost) return false;
+    
+    // Deduct cost
+    student.balance -= bonus.cost;
+    student.earnedPoints = Math.max(0, (student.earnedPoints || 0) - bonus.cost);
+    
+    // Apply bonus
+    applyTerritoryBonus(bonus, student);
+    
+    // Mark as controlled
+    bonus.controlledBy = studentId;
+    bonus.lastClaimed = new Date().toISOString();
+    
+    // Show notification
+    showTerritoryBonusNotification(bonus, student);
+    
+    // Save state
+    saveRosterToStorage();
+    
+    // Update UI
+    renderRoster();
+    updateTeamScoreboards();
+    
+    return true;
+  }
+  
+  function applyTerritoryBonus(bonus, student) {
+    if (!student.purchasedItems) {
+      student.purchasedItems = { weapons: [], mercenaries: 0, allies: [], spells: [] };
+    }
+    
+    switch (bonus.bonusType) {
+      case 'weapons':
+        for (let i = 0; i < bonus.bonusValue; i++) {
+          student.purchasedItems.weapons.push(`bonus_weapon_${bonus.id}`);
+        }
+        break;
+      case 'mercenaries':
+        student.purchasedItems.mercenaries += bonus.bonusValue;
+        break;
+      case 'castles':
+        student.castles = (student.castles || 0) + bonus.bonusValue;
+        break;
+      case 'coins':
+        student.balance += bonus.bonusValue * 10; // 10 coins per bonus value
+        student.earnedPoints = (student.earnedPoints || 0) + (bonus.bonusValue * 10);
+        break;
+    }
+  }
+  
+  function showTerritoryBonusNotification(bonus, student) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed; top: 20px; left: 20px; background: #10b981; color: white; 
+      padding: 15px 20px; border-radius: 8px; z-index: 10001; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3); max-width: 300px;
+    `;
+    notification.innerHTML = `
+      <div style="font-weight: bold; margin-bottom: 5px;">🏰 ${bonus.name} Claimed!</div>
+      <div style="font-size: 14px;">${student.name} gained ${bonus.bonusValue} ${bonus.bonusType}!</div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      if (document.body.contains(notification)) {
+        document.body.removeChild(notification);
+      }
+    }, 4000);
+  }
+  
+  function renderTerritoryBonuses() {
+    // Remove existing bonus indicators
+    document.querySelectorAll('.territory-bonus').forEach(el => el.remove());
+    
+    state.territoryBonuses.forEach(bonus => {
+      if (bonus.controlledBy) return; // Skip controlled territories
+      
+      const indicator = document.createElement('div');
+      indicator.className = 'territory-bonus';
+      indicator.style.cssText = `
+        position: absolute;
+        left: ${bonus.x * 40 + 20}px;
+        top: ${bonus.y * 40 + 20}px;
+        width: 20px;
+        height: 20px;
+        background: #fbbf24;
+        border: 2px solid #f59e0b;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        cursor: pointer;
+        z-index: 1000;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      `;
+      
+      // Set appropriate icon based on bonus type
+      const icons = {
+        weapons: '⚔️',
+        mercenaries: '👥',
+        castles: '🏰',
+        coins: '💰'
+      };
+      indicator.textContent = icons[bonus.bonusType] || '🎁';
+      indicator.title = `${bonus.name}\nCost: ${bonus.cost} points\nBonus: ${bonus.bonusValue} ${bonus.bonusType}`;
+      
+      indicator.onclick = (e) => {
+        e.stopPropagation();
+        if (state.selectedGsId) {
+          claimTerritoryBonus(bonus.id, state.selectedGsId);
+        } else {
+          alert('Please select a student first!');
+        }
+      };
+      
+      document.getElementById('board').appendChild(indicator);
     });
   }
   
@@ -1115,9 +1808,17 @@
     __activeEconomy = state.economy;
     applyEconomyToUI();
     
-    // Auto-assign characters if random assignment and no manual assignments
-    if (scenarioData.randomAssignment && !scenarioData.manualRoleAssignments) {
-      assignRandomCharacters(scenarioData);
+    // Auto-assign characters
+    if (scenarioData.enableAI) {
+      // Class vs AI: only assign if nothing is already assigned (respect manual modal results)
+      if (!scenarioData.manualRoleAssignments) {
+        assignClassVsAITeams(scenarioData);
+      }
+    } else {
+      // Random assignment if requested and no manual assignments
+      if (scenarioData.randomAssignment && !scenarioData.manualRoleAssignments) {
+        assignRandomCharacters(scenarioData);
+      }
     }
     
     // Always assign teams based on character factions
@@ -1129,6 +1830,14 @@
         initializeAIForScenario();
       }, 100);
     }
+    
+    // Start AI stipend ticker if Class vs AI is enabled
+    if (state.currentRoster?.aiConfig?.classVsAI) {
+      startAiStipendTicker();
+    }
+
+    // Initialize territory bonuses
+    initializeTerritoryBonuses();
     
     // Initialize educational content if available
     if (typeof initializeEducationalContent === 'function') {
@@ -1827,6 +2536,9 @@
     }).join('');
     
     console.log('Grid updated with', state.board.tiles.length, 'tiles');
+    
+    // Render territory bonuses
+    renderTerritoryBonuses();
   }
   
   function updateVictoryTarget() {
@@ -2294,6 +3006,8 @@
       },
       scenario: state.scenario, // Save scenario data including character assignments
       victoryGoals: state.victoryGoals, // Save victory goals
+      aiConfig: state.currentRoster.aiConfig, // Save AI configuration
+      aiState: state.currentRoster.aiState, // Save AI state (stipend ticker data)
       lastModified: new Date().toISOString()
     };
     
@@ -2756,9 +3470,11 @@
         <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="5" style="background:#3b82f6; color:white;">+5</button>
         <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="10" style="background:#8b5cf6; color:white;">+10</button>
         <button class="plus" data-gs="${r.gsId}" data-action="subtract" data-amount="1" style="background:#ef4444; color:white;">-1</button>
+        <button class="market-btn" data-gs="${r.gsId}" style="background:#f59e0b; color:white; font-size:10px; padding:2px 6px;" title="Student Market">🛒</button>
+        <button onclick="showEventCardModal()" class="event-btn" style="background:#8b5cf6; color:white; font-size:10px; padding:2px 6px; margin-left:2px;" title="Event Cards">🎲</button>
       `;
       row.onclick = (e) => {
-        if (e.target.classList.contains("plus")) return;
+        if (e.target.classList.contains("plus") || e.target.classList.contains("market-btn")) return;
         state.selectedGsId = r.gsId;
         renderRoster();
         updateGridDisplay(); // Update grid to show attackable territories
@@ -2772,6 +3488,14 @@
           const finalAmount = action === "subtract" ? -amount : amount;
           const actionText = action === "subtract" ? `Quick -${amount}` : `Quick +${amount}`;
           await awardPoints([{ gsId: r.gsId }], finalAmount, actionText);
+        };
+      });
+      
+      // Market button event handler
+      row.querySelectorAll(".market-btn").forEach(button => {
+        button.onclick = (e) => {
+          e.stopPropagation();
+          showStudentMarket(r.gsId);
         };
       });
       rosterEl.appendChild(row);
@@ -3465,6 +4189,21 @@
       defenderBattleCastle: null // Battle-screen castle
     };
     
+    // Add purchased items to battle
+    if (attacker.purchasedItems) {
+      currentBattle.attackerWeapons = [...(attacker.purchasedItems.weapons || [])];
+      currentBattle.attackerMercs = attacker.purchasedItems.mercenaries || 0;
+      currentBattle.attackerAllies = [...(attacker.purchasedItems.allies || [])];
+      currentBattle.attackerSpells = [...(attacker.purchasedItems.spells || [])];
+    }
+    
+    if (defender.purchasedItems) {
+      currentBattle.defenderWeapons = [...(defender.purchasedItems.weapons || [])];
+      currentBattle.defenderMercs = defender.purchasedItems.mercenaries || 0;
+      currentBattle.defenderAllies = [...(defender.purchasedItems.allies || [])];
+      currentBattle.defenderSpells = [...(defender.purchasedItems.spells || [])];
+    }
+    
     // Get scenario-specific battle items
     // Try to get scenario from state.scenario or currentRoster.scenario
     const scenario = state.scenario || (state.currentRoster && state.currentRoster.scenario);
@@ -3700,6 +4439,9 @@
     
     // Show modal
     document.getElementById('fightModal').classList.add('show');
+    
+    // Pause AI stipend ticker during battle
+    pauseAiStipendTicker();
   }
   
   // Helper functions for weapon management
@@ -4090,6 +4832,9 @@
   document.getElementById('fightClose').onclick = () => {
     document.getElementById('fightModal').classList.remove('show');
     currentBattle = null;
+    
+    // Resume AI stipend ticker after battle
+    resumeAiStipendTicker();
   };
   
   // Attacker mercenaries
@@ -4395,6 +5140,9 @@
     
     // Close modal
     document.getElementById('fightModal').classList.remove('show');
+    
+    // Resume AI stipend ticker after battle
+    resumeAiStipendTicker();
     
     // Show battle animation
     showBattleAnimation();
@@ -5505,6 +6253,11 @@
     
     // Update current roster with scenario data
     state.currentRoster.scenario = scenarioData;
+
+    // Persist AI config on roster for Class vs AI
+    if (!state.currentRoster.aiConfig) state.currentRoster.aiConfig = {};
+    state.currentRoster.aiConfig.classVsAI = !!enableAI;
+    state.currentRoster.aiConfig.difficulty = aiDifficulty;
     
     // Close modal
     closeScenarioSelectionModal();
@@ -6694,9 +7447,16 @@
                   transition: all 0.2s ease;
                   border-left: 4px solid ${char.factionColor};
                 " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                  <div style="font-weight: 600; color: #1e293b;">${char.name}</div>
-                  <div style="font-size: 0.875rem; color: #64748b;">${char.role} • ${char.factionName}</div>
-                  <div style="font-size: 0.75rem; color: #94a3b8;">💰${char.startingCoins} • ⚔️${char.startingWeapons.join(', ')} • 🏰${char.startingCastles}</div>
+                  <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+                    <div>
+                      <div style="font-weight: 600; color: #1e293b;">${char.name}</div>
+                      <div style="font-size: 0.875rem; color: #64748b;">${char.role} • ${char.factionName}</div>
+                      <div style="font-size: 0.75rem; color: #94a3b8;">💰${char.startingCoins} • ⚔️${char.startingWeapons.join(', ')} • 🏰${char.startingCastles}</div>
+                    </div>
+                    <label style="display:flex; align-items:center; gap:4px; font-size:12px; color:#334155; user-select:none;">
+                      <input type="checkbox" class="role-ai-toggle" style="margin:0;"> 🤖 AI
+                    </label>
+                  </div>
                 </div>
               `).join('')}
             </div>
@@ -6781,6 +7541,11 @@
         e.preventDefault();
         this.style.backgroundColor = 'white';
         
+        // If this role is flagged as AI, do not allow student drop
+        if (this.dataset.ai === 'true') {
+          return;
+        }
+
         const studentId = e.dataTransfer.getData('text/plain');
         const studentCard = document.querySelector(`[data-student-id="${studentId}"]`);
         
@@ -6811,6 +7576,23 @@
       });
     });
   }
+
+  // Toggle handlers for per-role AI flags
+  document.addEventListener('change', function(e) {
+    if (e.target && e.target.classList && e.target.classList.contains('role-ai-toggle')) {
+      const roleCard = e.target.closest('.role-card');
+      if (!roleCard) return;
+      const isAI = e.target.checked;
+      roleCard.dataset.ai = isAI ? 'true' : 'false';
+
+      // If marking AI, clear any student assignment visual and dataset
+      if (isAI) {
+        const assigned = roleCard.querySelector('.student-assigned');
+        if (assigned) assigned.remove();
+        delete roleCard.dataset.assignedStudent;
+      }
+    }
+  });
   
   function randomizeAllRoles() {
     const students = Array.from(document.querySelectorAll('.student-card')).filter(card => card.draggable);
@@ -6857,15 +7639,34 @@
   function startGameWithManualRoles() {
     // Collect role assignments
     const roleAssignments = {};
+    const aiAssignments = {};
     document.querySelectorAll('.role-card[data-assigned-student]').forEach(roleCard => {
       const studentId = roleCard.dataset.assignedStudent;
       const roleName = roleCard.querySelector('div').textContent;
       roleAssignments[studentId] = roleName;
     });
+
+    // Collect AI flagged roles
+    document.querySelectorAll('.role-card[data-ai="true"]').forEach(roleCard => {
+      const roleName = roleCard.querySelector('div').textContent;
+      const factionLabel = roleCard.querySelector('div + div');
+      const factionText = factionLabel ? factionLabel.textContent : '';
+      const factionName = factionText.includes('•') ? factionText.split('•').pop().trim() : '';
+      aiAssignments[roleName] = {
+        studentId: null,
+        studentName: null,
+        roleName: roleName,
+        factionName: factionName,
+        isAI: true
+      };
+    });
     
     // Update scenario data with manual assignments
     const scenarioData = state.currentRoster.scenario;
     scenarioData.manualRoleAssignments = roleAssignments;
+    if (Object.keys(aiAssignments).length > 0) {
+      scenarioData.aiAssignments = aiAssignments;
+    }
     
     // Initialize scenario
     initializeScenario(scenarioData);
@@ -6878,6 +7679,245 @@
     
     // Show scenario info
     showScenarioInfo(scenarioData);
+  }
+
+  function showStudentMarket(studentGsId) {
+    const student = state.roster.find(s => s.gsId === studentGsId);
+    
+    if (!student) {
+      alert('Student not found!');
+      return;
+    }
+    
+    // Initialize student's purchased items if not exists
+    if (!student.purchasedItems) {
+      student.purchasedItems = {
+        weapons: [],
+        mercenaries: 0,
+        allies: [],
+        spells: []
+      };
+    }
+    
+    const modal = document.createElement('div');
+    modal.id = 'studentMarketModal';
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1005;
+    `;
+    
+    modal.innerHTML = `
+      <div style="
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 800px;
+        width: 95%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      ">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h2 style="margin: 0; color: #1e293b; font-size: 1.5rem;">🛒 Student Market - ${student.name}</h2>
+          <button onclick="closeStudentMarket()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+        </div>
+        
+        <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: 600; color: #1e293b;">💰 Balance: ${formatMoney(student.balance)}</div>
+              <div style="font-size: 0.875rem; color: #64748b;">Character: ${student.characterName || 'None'}</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 0.875rem; color: #64748b;">Current Items:</div>
+              <div style="font-size: 0.75rem; color: #64748b;">
+                ⚔️ ${student.purchasedItems.weapons.length} weapons | 
+                👥 ${student.purchasedItems.mercenaries} mercenaries | 
+                🧙 ${student.purchasedItems.allies.length} allies | 
+                ✨ ${student.purchasedItems.spells.length} spells
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 1.5rem;">
+          <!-- Weapons Section -->
+          <div>
+            <h3 style="margin: 0 0 1rem 0; color: #1e293b;">⚔️ Weapons</h3>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <div class="market-item" data-type="weapon" data-item="spear" data-cost="40" style="
+                background: #f8fafc;
+                border: 1px solid #e2e8f0;
+                border-radius: 6px;
+                padding: 0.75rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+              " onmouseover="this.style.backgroundColor='#f0f9ff'" onmouseout="this.style.backgroundColor='#f8fafc'">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div style="font-weight: 600; color: #1e293b;">Spear</div>
+                    <div style="font-size: 0.75rem; color: #64748b;">+15 attack power</div>
+                  </div>
+                  <div style="font-weight: 600; color: #059669;">40 pts</div>
+                </div>
+              </div>
+              
+              <div class="market-item" data-type="weapon" data-item="crossbow" data-cost="80" style="
+                background: #f8fafc;
+                border: 1px solid #e2e8f0;
+                border-radius: 6px;
+                padding: 0.75rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+              " onmouseover="this.style.backgroundColor='#f0f9ff'" onmouseout="this.style.backgroundColor='#f8fafc'">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div style="font-weight: 600; color: #1e293b;">Crossbow</div>
+                    <div style="font-size: 0.75rem; color: #64748b;">+20 attack power</div>
+                  </div>
+                  <div style="font-weight: 600; color: #059669;">80 pts</div>
+                </div>
+              </div>
+              
+              <div class="market-item" data-type="weapon" data-item="catapult" data-cost="140" style="
+                background: #f8fafc;
+                border: 1px solid #e2e8f0;
+                border-radius: 6px;
+                padding: 0.75rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+              " onmouseover="this.style.backgroundColor='#f0f9ff'" onmouseout="this.style.backgroundColor='#f8fafc'">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div style="font-weight: 600; color: #1e293b;">Catapult</div>
+                    <div style="font-size: 0.75rem; color: #64748b;">+30 attack power</div>
+                  </div>
+                  <div style="font-weight: 600; color: #059669;">140 pts</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Mercenaries & Allies Section -->
+          <div>
+            <h3 style="margin: 0 0 1rem 0; color: #1e293b;">👥 Mercenaries & Allies</h3>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <div class="market-item" data-type="mercenary" data-item="mercenary" data-cost="15" style="
+                background: #f8fafc;
+                border: 1px solid #e2e8f0;
+                border-radius: 6px;
+                padding: 0.75rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+              " onmouseover="this.style.backgroundColor='#f0f9ff'" onmouseout="this.style.backgroundColor='#f8fafc'">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div style="font-weight: 600; color: #1e293b;">Mercenary</div>
+                    <div style="font-size: 0.75rem; color: #64748b;">+10 attack power each</div>
+                  </div>
+                  <div style="font-weight: 600; color: #059669;">15 pts</div>
+                </div>
+              </div>
+              
+              <div class="market-item" data-type="ally" data-item="phoenix" data-cost="150" style="
+                background: #f8fafc;
+                border: 1px solid #e2e8f0;
+                border-radius: 6px;
+                padding: 0.75rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+              " onmouseover="this.style.backgroundColor='#f0f9ff'" onmouseout="this.style.backgroundColor='#f8fafc'">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div style="font-weight: 600; color: #1e293b;">Phoenix</div>
+                    <div style="font-size: 0.75rem; color: #64748b;">Magical ally</div>
+                  </div>
+                  <div style="font-weight: 600; color: #059669;">150 pts</div>
+                </div>
+              </div>
+              
+              <div class="market-item" data-type="ally" data-item="horntail" data-cost="200" style="
+                background: #f8fafc;
+                border: 1px solid #e2e8f0;
+                border-radius: 6px;
+                padding: 0.75rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+              " onmouseover="this.style.backgroundColor='#f0f9ff'" onmouseout="this.style.backgroundColor='#f8fafc'">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div style="font-weight: 600; color: #1e293b;">Hungarian Horntail</div>
+                    <div style="font-size: 0.75rem; color: #64748b;">Powerful dragon ally</div>
+                  </div>
+                  <div style="font-weight: 600; color: #059669;">200 pts</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <button onclick="closeStudentMarket()" style="
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 1rem;
+          ">Close Market</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Add click handlers for market items
+    modal.querySelectorAll('.market-item').forEach(item => {
+      item.onclick = () => {
+        const type = item.dataset.type;
+        const itemName = item.dataset.item;
+        const cost = parseInt(item.dataset.cost);
+        
+        if (student.balance < cost) {
+          alert(`Insufficient funds! Need ${cost} points but have ${student.balance}.`);
+          return;
+        }
+        
+        // Purchase item
+        student.balance -= cost;
+        
+        if (type === 'weapon') {
+          student.purchasedItems.weapons.push(itemName);
+        } else if (type === 'mercenary') {
+          student.purchasedItems.mercenaries += 1;
+        } else if (type === 'ally') {
+          student.purchasedItems.allies.push(itemName);
+        }
+        
+        // Update display
+        renderRoster();
+        closeStudentMarket();
+        showStudentMarket(studentGsId); // Reopen to show updated balance
+        
+        alert(`${student.name} purchased ${itemName} for ${cost} points!`);
+      };
+    });
+  }
+  
+  function closeStudentMarket() {
+    const modal = document.getElementById('studentMarketModal');
+    if (modal) {
+      modal.remove();
+    }
   }
 
   function showTeacherTruceModal() {

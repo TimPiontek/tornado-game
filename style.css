@@ -90,10 +90,185 @@ h3 { margin-bottom:20px; }
 :root {
   --teamA: #e74c3c;
   --teamB: #3498db;
+  --faction1: #e74c3c; /* Red */
+  --faction2: #3498db; /* Blue */
+  --faction3: #f39c12; /* Orange */
+  --faction4: #2ecc71; /* Green */
 }
 #nameA { color: var(--teamA); }
 #annA { color: var(--teamA); }
 #turnDisplay { font-size:1.25rem; }
+
+/* Multi-faction grid layouts */
+.faction-3 {
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.faction-4 {
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 6px;
+}
+
+/* Faction-specific button styling */
+.faction-1 {
+  background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
+  color: white;
+  border: 2px solid #a93226;
+}
+
+.faction-2 {
+  background: linear-gradient(135deg, #3498db, #2980b9) !important;
+  color: white;
+  border: 2px solid #1f618d;
+}
+
+.faction-3 {
+  background: linear-gradient(135deg, #f39c12, #e67e22) !important;
+  color: white;
+  border: 2px solid #d68910;
+}
+
+.faction-4 {
+  background: linear-gradient(135deg, #2ecc71, #27ae60) !important;
+  color: white;
+  border: 2px solid #1e8449;
+}
+
+/* Hover effects for faction buttons */
+.faction-1:hover {
+  background: linear-gradient(135deg, #c0392b, #a93226) !important;
+  transform: scale(1.05);
+}
+
+.faction-2:hover {
+  background: linear-gradient(135deg, #2980b9, #1f618d) !important;
+  transform: scale(1.05);
+}
+
+.faction-3:hover {
+  background: linear-gradient(135deg, #e67e22, #d68910) !important;
+  transform: scale(1.05);
+}
+
+.faction-4:hover {
+  background: linear-gradient(135deg, #27ae60, #1e8449) !important;
+  transform: scale(1.05);
+}
+
+/* Disabled faction buttons */
+.faction-1:disabled {
+  background: #a93226 !important;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.faction-2:disabled {
+  background: #1f618d !important;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.faction-3:disabled {
+  background: #d68910 !important;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.faction-4:disabled {
+  background: #1e8449 !important;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Multi-faction scoreboard */
+.multi-faction-scoreboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.faction-score {
+  background: #fff;
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  border-left: 5px solid;
+}
+
+.faction-score.faction-1 {
+  border-left-color: var(--faction1);
+}
+
+.faction-score.faction-2 {
+  border-left-color: var(--faction2);
+}
+
+.faction-score.faction-3 {
+  border-left-color: var(--faction3);
+}
+
+.faction-score.faction-4 {
+  border-left-color: var(--faction4);
+}
+
+.faction-score h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+}
+
+.faction-score .score {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Responsive design for multi-faction layouts */
+@media (max-width: 768px) {
+  .faction-3 {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 6px;
+  }
+  
+  .faction-4 {
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 4px;
+  }
+  
+  .multi-faction-scoreboard {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .faction-score {
+    padding: 10px 15px;
+  }
+  
+  .faction-score h3 {
+    font-size: 1rem;
+  }
+  
+  .faction-score .score {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .multi-faction-scoreboard {
+    grid-template-columns: 1fr;
+  }
+  
+  .faction-3,
+  .faction-4 {
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 3px;
+  }
+}
 
 /* Library section improvements */
 .library-section {
