@@ -2859,6 +2859,7 @@
     }
 
     // Scenario-specific battle items
+    console.log('Scenario ID:', scenario.id);
     switch (scenario.id) {
       case 'harryPotter':
         return {
@@ -3145,6 +3146,8 @@
     
     // Get scenario-specific battle items
     const battleItems = getScenarioBattleItems(state.scenario);
+    console.log('Battle screen scenario:', state.scenario);
+    console.log('Battle items:', battleItems);
     
     // Update weapon buttons dynamically
     const attackerWeaponButtons = [
@@ -3205,9 +3208,12 @@
       (truce.student1 === defender.gsId && truce.student2 === attacker.gsId)
     );
     
-    // Update modal content
-    document.getElementById('attackerName').textContent = attacker.name;
-    document.getElementById('defenderName').textContent = defender.name;
+    // Update modal content with character names
+    const attackerDisplayName = attacker.characterName ? `${attacker.name} (${attacker.characterName})` : attacker.name;
+    const defenderDisplayName = defender.characterName ? `${defender.name} (${defender.characterName})` : defender.name;
+    
+    document.getElementById('attackerName').textContent = attackerDisplayName;
+    document.getElementById('defenderName').textContent = defenderDisplayName;
     document.getElementById('attackerBalance').textContent = attacker.balance;
     document.getElementById('defenderBalance').textContent = defender.balance;
     
