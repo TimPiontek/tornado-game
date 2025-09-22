@@ -487,7 +487,13 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
+        // Supabase client (best-effort)
+        const sb = window.supabase?.createClient(
+            "https://dmbbsrcwqpmdxqtzvtqj.supabase.co",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w"
+        );
         // === GAME STATE ===
         let currentStudent = null;
         let currentAssignment = null;
@@ -809,15 +815,22 @@
             }
         }
 
-        function awardPointsToStudent(points) {
-            // Update student points in roster
+        async function awardPointsToStudent(points) {
+            // Update student points in roster (earned only)
             const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
             const rosterIndex = rosters.findIndex(r => r.id === currentStudent.rosterId);
             
             if (rosterIndex !== -1) {
                 const studentIndex = rosters[rosterIndex].roster.findIndex(s => s.name === currentStudent.username);
                 if (studentIndex !== -1) {
-                    rosters[rosterIndex].roster[studentIndex].points = (rosters[rosterIndex].roster[studentIndex].points || 0) + points;
+                    const rstu = rosters[rosterIndex].roster[studentIndex];
+                    // Prefer split model if present
+                    if (typeof rstu.startingPoints === 'number') {
+                        rstu.earnedPoints = (rstu.earnedPoints || 0) + points;
+                        rstu.points = (rstu.startingPoints || 0) + (rstu.earnedPoints || 0);
+                    } else {
+                        rstu.points = (rstu.points || 0) + points;
+                    }
                     localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
                 }
             }
@@ -828,10 +841,19 @@
             if (studentIndex !== -1) {
                 students[studentIndex].totalPoints += points;
                 students[studentIndex].assignmentPoints = (students[studentIndex].assignmentPoints || 0) + points;
+                students[studentIndex].careerPoints = (students[studentIndex].careerPoints || 0) + points;
                 localStorage.setItem('tornadoStudents', JSON.stringify(students));
                 localStorage.setItem('currentStudent', JSON.stringify(students[studentIndex]));
                 currentStudent = students[studentIndex];
             }
+
+            // Best-effort Supabase career_points increment
+            try {
+                if (sb && currentStudent && currentStudent.isSupabaseUser && currentStudent.id) {
+                    const { error } = await sb.rpc('increment_career_points', { p_student_id: currentStudent.id, p_delta: points });
+                    if (error) console.warn('increment_career_points error:', error.message);
+                }
+            } catch (e) { console.warn('Supabase RPC exception:', e); }
         }
 
         // === UI UPDATES ===
