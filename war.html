@@ -979,14 +979,37 @@
       return;
     }
     
-    const studentCount = state.roster.length;
-    const w = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
-    const h = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
-    
-    console.log('Calculated board size:', { studentCount, w, h });
-    
-    // Always create fresh tiles for now to ensure proper starting positions
-      console.log('Creating fresh tiles with starting positions');
+    // Try to load saved game state first
+    if (state.currentRoster.gameState && state.currentRoster.gameState.board) {
+      console.log('Loading saved game state');
+      state.board = state.currentRoster.gameState.board;
+      state.truces = state.currentRoster.gameState.truces || [];
+      
+      // Remap old student IDs to current ones
+      if (state.board.tiles) {
+        state.board.tiles.forEach(tile => {
+          if (tile.owner_game_student_id) {
+            const savedStudent = state.currentRoster.roster.find(s => s.id === tile.owner_game_student_id);
+            if (savedStudent) {
+              const currentStudent = state.roster.find(r => r.name === savedStudent.name);
+              if (currentStudent) {
+                tile.owner_game_student_id = currentStudent.gsId;
+              }
+            }
+          }
+        });
+      }
+      
+      console.log('Loaded saved board:', { board: state.board, tilesCount: state.board.tiles.length });
+    } else {
+      // Create fresh board if no saved state
+      console.log('No saved game state, creating fresh board');
+      const studentCount = state.roster.length;
+      const w = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
+      const h = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
+      
+      console.log('Calculated board size:', { studentCount, w, h });
+      
       // Create fresh tiles
       const tiles = [];
       for (let y = 0; y < h; y++) {
@@ -1005,11 +1028,12 @@
       
       // Assign starting tiles to students (2 tiles each on outer edges)
       assignStartingTiles();
-    
-    // Place starting castles for characters who have them
-    placeStartingCastles();
-    
-    console.log('Board created:', { board: state.board, tilesCount: state.board.tiles.length });
+      
+      // Place starting castles for characters who have them
+      placeStartingCastles();
+      
+      console.log('Created fresh board:', { board: state.board, tilesCount: state.board.tiles.length });
+    }
     
     // Sync tile counts with actual board state
     syncTileCounts();
