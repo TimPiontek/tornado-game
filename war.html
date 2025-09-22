@@ -5297,7 +5297,7 @@
         </div>
         
         <div id="scenarioOptions">
-          <div id="scenarioDetails" style="display: none;">
+            <div id="scenarioDetails" style="display: none;">
             <div id="scenarioInfo" style="
               background: #f8fafc;
               border: 1px solid #e2e8f0;
@@ -5308,6 +5308,7 @@
               <h4 id="scenarioTitle" style="margin: 0 0 0.5rem 0; color: #1e293b;"></h4>
               <p id="scenarioDescription" style="margin: 0 0 0.5rem 0; color: #64748b;"></p>
               <div id="factionsPreview"></div>
+                <div id="aiStatusBadge" style="display:none; margin-top: 8px; font-weight:600; color:#065f46; background:#d1fae5; border:1px solid #10b981; padding:4px 8px; border-radius:6px; width:max-content;">Class vs AI ON</div>
             </div>
             
             <div style="margin-bottom: 1rem;">
@@ -5327,7 +5328,7 @@
             <div style="margin-bottom: 1rem;">
               <label style="display: flex; align-items: center; margin-bottom: 0.5rem;">
                 <input type="checkbox" id="enableAI" style="margin-right: 0.5rem;">
-                <span style="font-weight: 600; color: #1e293b;">Enable AI opponents</span>
+                <span style="font-weight: 600; color: #1e293b;">Class vs AI</span>
               </label>
             </div>
             
@@ -5378,6 +5379,8 @@
     document.getElementById('enableAI').onchange = function() {
       const aiOptions = document.getElementById('aiOptions');
       aiOptions.style.display = this.checked ? 'block' : 'none';
+    const badge = document.getElementById('aiStatusBadge');
+    if (badge) badge.style.display = this.checked ? 'inline-block' : 'none';
     };
     
     // Setup scenario selection change handler
