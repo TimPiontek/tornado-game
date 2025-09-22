@@ -2859,7 +2859,23 @@
     }
 
     // Scenario-specific battle items
-    console.log('Scenario ID:', scenario.id);
+    console.log('Scenario ID:', scenario ? scenario.id : 'No scenario');
+    console.log('Scenario object:', scenario);
+    if (!scenario) {
+      console.log('No scenario found, using default items');
+      return {
+        weapons: [
+          { id: 'spear', name: 'Spear', cost: 30, power: 15, icon: '🗡️' },
+          { id: 'crossbow', name: 'Crossbow', cost: 60, power: 20, icon: '🏹' },
+          { id: 'catapult', name: 'Catapult', cost: 100, power: 30, icon: '🏰' }
+        ],
+        castles: [
+          { id: 'wooden', name: 'Wooden Keep', cost: 50, power: 75, icon: '🏠' },
+          { id: 'stone', name: 'Stone Fortress', cost: 100, power: 150, icon: '🏰' },
+          { id: 'iron', name: 'Iron Citadel', cost: 200, power: 300, icon: '🏯' }
+        ]
+      };
+    }
     switch (scenario.id) {
       case 'harryPotter':
         return {
@@ -3145,8 +3161,10 @@
     };
     
     // Get scenario-specific battle items
-    const battleItems = getScenarioBattleItems(state.scenario);
-    console.log('Battle screen scenario:', state.scenario);
+    // Try to get scenario from state.scenario or currentRoster.scenario
+    const scenario = state.scenario || (state.currentRoster && state.currentRoster.scenario);
+    const battleItems = getScenarioBattleItems(scenario);
+    console.log('Battle screen scenario:', scenario);
     console.log('Battle items:', battleItems);
     
     // Update weapon buttons dynamically
