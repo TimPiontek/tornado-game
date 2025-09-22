@@ -262,9 +262,9 @@
         <div class="section">
           <div class="title">Weapons</div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <button class="pill" id="attackerSpear" style="background: #8b5cf6;">Spear (30 pts)</button>
-            <button class="pill" id="attackerCrossbow" style="background: #3b82f6;">Crossbow (60 pts)</button>
-            <button class="pill" id="attackerCatapult" style="background: #dc2626;">Catapult (100 pts)</button>
+            <button class="pill" id="attackerSpear" style="background: #8b5cf6;">Spear</button>
+            <button class="pill" id="attackerCrossbow" style="background: #3b82f6;">Crossbow</button>
+            <button class="pill" id="attackerCatapult" style="background: #dc2626;">Catapult</button>
           </div>
           <div class="minor">Selected: <span id="attackerWeapons">None</span></div>
           <div id="attackerWeaponList" style="margin-top: 8px;"></div>
@@ -310,9 +310,9 @@
         <div class="section">
           <div class="title">Weapons</div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <button class="pill" id="defenderSpear" style="background: #8b5cf6;">Spear (30 pts)</button>
-            <button class="pill" id="defenderCrossbow" style="background: #3b82f6;">Crossbow (60 pts)</button>
-            <button class="pill" id="defenderCatapult" style="background: #dc2626;">Catapult (100 pts)</button>
+            <button class="pill" id="defenderSpear" style="background: #8b5cf6;">Spear</button>
+            <button class="pill" id="defenderCrossbow" style="background: #3b82f6;">Crossbow</button>
+            <button class="pill" id="defenderCatapult" style="background: #dc2626;">Catapult</button>
           </div>
           <div class="minor">Selected: <span id="defenderWeapons">None</span></div>
           <div id="defenderWeaponList" style="margin-top: 8px;"></div>
@@ -654,6 +654,9 @@
           }
         } catch (error) {
           console.error('Error loading from Supabase:', error);
+          if (error && (error.code === 'PGRST205' || /Could not find the table 'public.rosters'/.test(error.message||''))) {
+            console.warn("Supabase 'rosters' table missing. Falling back to localStorage. Run create-rosters-table SQL to enable cloud saves.");
+          }
         }
       }
       
@@ -2917,7 +2920,20 @@
             });
             if (error) {
               console.error('Supabase error:', error);
-              throw error;
+              // Graceful fallback if table missing
+              if (error.code === 'PGRST205' || /Could not find the table 'public.rosters'/.test(error.message||'')) {
+                console.warn("Supabase 'rosters' table missing. Saved locally only.");
+              } else {
+                throw error;
+              }
+            }
+            if (error) {
+              console.error('Supabase error:', error);
+              if (error.code === 'PGRST205' || /Could not find the table 'public.rosters'/.test(error.message||'')) {
+                console.warn("Supabase 'rosters' table missing. Saved locally only.");
+              } else {
+                throw error;
+              }
             }
             console.log('Auto-saved war points to Supabase');
           } catch (error) {
@@ -3822,7 +3838,7 @@
       if (weaponData.icon.includes('⚔️') && weaponData.power === 15) {
         const weaponButton = document.querySelector(`[data-weapon-id="${weapon}"]`);
         weaponCost = weaponButton ? parseInt(weaponButton.getAttribute('data-weapon-cost')) || 30 : 
-                    (weapon === 'spear' ? 30 : weapon === 'crossbow' ? 60 : weapon === 'catapult' ? 100 : 0);
+                    (weapon === 'spear' ? getActiveEconomy().weapons.spear : weapon === 'crossbow' ? getActiveEconomy().weapons.crossbow : weapon === 'catapult' ? getActiveEconomy().weapons.catapult : 0);
       }
       
       attackerWeaponCost += weaponCost;
@@ -3838,7 +3854,7 @@
       if (weaponData.icon.includes('⚔️') && weaponData.power === 15) {
         const weaponButton = document.querySelector(`[data-weapon-id="${weapon}"]`);
         weaponCost = weaponButton ? parseInt(weaponButton.getAttribute('data-weapon-cost')) || 30 : 
-                    (weapon === 'spear' ? 30 : weapon === 'crossbow' ? 60 : weapon === 'catapult' ? 100 : 0);
+                    (weapon === 'spear' ? getActiveEconomy().weapons.spear : weapon === 'crossbow' ? getActiveEconomy().weapons.crossbow : weapon === 'catapult' ? getActiveEconomy().weapons.catapult : 0);
       }
       
       defenderWeaponCost += weaponCost;
@@ -4110,7 +4126,7 @@
       if (weaponData.icon.includes('⚔️') && weaponData.power === 15) {
         const weaponButton = document.querySelector(`[data-weapon-id="${weapon}"]`);
         weaponCost = weaponButton ? parseInt(weaponButton.getAttribute('data-weapon-cost')) || 30 : 
-                    (weapon === 'spear' ? 30 : weapon === 'crossbow' ? 60 : weapon === 'catapult' ? 100 : 0);
+                    (weapon === 'spear' ? getActiveEconomy().weapons.spear : weapon === 'crossbow' ? getActiveEconomy().weapons.crossbow : weapon === 'catapult' ? getActiveEconomy().weapons.catapult : 0);
       }
       
       attackerWeaponCost += weaponCost;
@@ -4126,7 +4142,7 @@
       if (weaponData.icon.includes('⚔️') && weaponData.power === 15) {
         const weaponButton = document.querySelector(`[data-weapon-id="${weapon}"]`);
         weaponCost = weaponButton ? parseInt(weaponButton.getAttribute('data-weapon-cost')) || 30 : 
-                    (weapon === 'spear' ? 30 : weapon === 'crossbow' ? 60 : weapon === 'catapult' ? 100 : 0);
+                    (weapon === 'spear' ? getActiveEconomy().weapons.spear : weapon === 'crossbow' ? getActiveEconomy().weapons.crossbow : weapon === 'catapult' ? getActiveEconomy().weapons.catapult : 0);
       }
       
       defenderWeaponCost += weaponCost;
