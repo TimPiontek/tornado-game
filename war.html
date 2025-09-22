@@ -853,10 +853,32 @@
       factionCounts[faction] = 0;
     });
     
-    // Assign characters to students with balanced faction distribution
+    // Assign characters to students with perfectly balanced faction distribution
+    const totalStudents = state.roster.length;
+    const numFactions = factionNames.length;
+    
+    // Calculate how many students each faction should get
+    const studentsPerFaction = Math.floor(totalStudents / numFactions);
+    const extraStudents = totalStudents % numFactions;
+    
+    // Create a balanced assignment array
+    const factionAssignments = [];
+    factionNames.forEach((factionName, factionIndex) => {
+      const studentsForThisFaction = studentsPerFaction + (factionIndex < extraStudents ? 1 : 0);
+      for (let i = 0; i < studentsForThisFaction; i++) {
+        factionAssignments.push(factionName);
+      }
+    });
+    
+    // Shuffle the assignments to randomize which students get which factions
+    for (let i = factionAssignments.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [factionAssignments[i], factionAssignments[j]] = [factionAssignments[j], factionAssignments[i]];
+    }
+    
     state.roster.forEach((student, index) => {
-      // Determine which faction this student should get based on balanced distribution
-      const targetFaction = factionNames[index % factionNames.length];
+      // Get the pre-calculated faction assignment
+      const targetFaction = factionAssignments[index];
       const factionCharacters = charactersByFaction[targetFaction];
       const characterIndex = factionCounts[targetFaction] % factionCharacters.length;
       const character = factionCharacters[characterIndex];
@@ -922,6 +944,11 @@
       }
     });
     console.log('Team balance:', teamBalance);
+    
+    // Place starting castles for characters who have them
+    if (state.board && state.board.tiles) {
+      placeStartingCastles();
+    }
     
     // Store assignments in scenario data
     scenarioData.manualRoleAssignments = roleAssignments;
