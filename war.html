@@ -340,9 +340,9 @@
         <div class="section">
           <div class="title">Castle Defense</div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <button class="pill" id="defenderCastle1" style="background: #10b981;">Wooden Keep (50 pts)</button>
-            <button class="pill" id="defenderCastle2" style="background: #3b82f6;">Stone Fortress (100 pts)</button>
-            <button class="pill" id="defenderCastle3" style="background: #8b5cf6;">Iron Citadel (200 pts)</button>
+            <button class="pill" id="defenderCastle1" style="background: #10b981;">Wooden Keep</button>
+            <button class="pill" id="defenderCastle2" style="background: #3b82f6;">Stone Fortress</button>
+            <button class="pill" id="defenderCastle3" style="background: #8b5cf6;">Iron Citadel</button>
           </div>
           <div class="minor">Selected: <span id="defenderCastle">None</span> <button class="pill" id="removeDefenderCastle" style="background: #ef4444; color: white; font-size: 12px; padding: 4px 8px; margin-left: 8px;">Remove</button></div>
         </div>
@@ -3370,6 +3370,10 @@
       document.getElementById('defenderCastle2'),
       document.getElementById('defenderCastle3')
     ];
+    // Update castle buttons with active economy costs
+    if (defenderCastleButtons[0]) defenderCastleButtons[0].textContent = `Wooden Keep (${getActiveEconomy().castleL1} pts)`;
+    if (defenderCastleButtons[1]) defenderCastleButtons[1].textContent = `Stone Fortress (${getActiveEconomy().castleL2} pts)`;
+    if (defenderCastleButtons[2]) defenderCastleButtons[2].textContent = `Iron Citadel (${getActiveEconomy().castleL3} pts)`;
     
     // Update attacker weapon buttons
     (battleItems.weapons && battleItems.weapons.length ? battleItems.weapons : [
@@ -3871,10 +3875,10 @@
     });
     
     let attackerCost = currentBattle.attackerMercs * getActiveEconomy().mercCost + attackerWeaponCost + attackerAllyCost + attackerSpellCost;
-    let defenderCost = currentBattle.defenderMercs * getActiveEconomy().mercCost + defenderWeaponCost + defenderAllyCost + defenderSpellCost +
-      (currentBattle.defenderBattleCastle === 1 ? 50 : 
-       currentBattle.defenderBattleCastle === 2 ? 100 : 
-       currentBattle.defenderBattleCastle === 3 ? 200 : 0);
+  let defenderCost = currentBattle.defenderMercs * getActiveEconomy().mercCost + defenderWeaponCost + defenderAllyCost + defenderSpellCost +
+      (currentBattle.defenderBattleCastle === 1 ? getActiveEconomy().castleL1 : 
+       currentBattle.defenderBattleCastle === 2 ? getActiveEconomy().castleL2 : 
+       currentBattle.defenderBattleCastle === 3 ? getActiveEconomy().castleL3 : 0);
     
     // If students are in a truce, allow resource sharing with limits
     if (areInTruce) {
@@ -4160,9 +4164,9 @@
     
     let attackerCost = currentBattle.attackerMercs * getActiveEconomy().mercCost + attackerWeaponCost + attackerAllyCost + attackerSpellCost;
     let defenderCost = currentBattle.defenderMercs * getActiveEconomy().mercCost + defenderWeaponCost + defenderAllyCost + defenderSpellCost +
-      (currentBattle.defenderBattleCastle === 1 ? 50 : 
-       currentBattle.defenderBattleCastle === 2 ? 100 : 
-       currentBattle.defenderBattleCastle === 3 ? 200 : 0);
+      (currentBattle.defenderBattleCastle === 1 ? getActiveEconomy().castleL1 : 
+       currentBattle.defenderBattleCastle === 2 ? getActiveEconomy().castleL2 : 
+       currentBattle.defenderBattleCastle === 3 ? getActiveEconomy().castleL3 : 0);
     
     // Check if students are in a truce and implement resource sharing
     const areInTruce = state.truces.some(truce => 
@@ -4407,10 +4411,10 @@
     });
     
     const attackerCost = currentBattle.attackerMercs * getActiveEconomy().mercCost + attackerWeaponCost + attackerAllyCost + attackerSpellCost;
-    const defenderCost = currentBattle.defenderMercs * getActiveEconomy().mercCost + defenderWeaponCost + defenderAllyCost + defenderSpellCost +
-      (currentBattle.defenderBattleCastle === 1 ? 50 : 
-       currentBattle.defenderBattleCastle === 2 ? 100 : 
-       currentBattle.defenderBattleCastle === 3 ? 200 : 0);
+  const defenderCost = currentBattle.defenderMercs * getActiveEconomy().mercCost + defenderWeaponCost + defenderAllyCost + defenderSpellCost +
+      (currentBattle.defenderBattleCastle === 1 ? getActiveEconomy().castleL1 : 
+       currentBattle.defenderBattleCastle === 2 ? getActiveEconomy().castleL2 : 
+       currentBattle.defenderBattleCastle === 3 ? getActiveEconomy().castleL3 : 0);
     
     // Apply battle results to current roster system
     // Check if students are in a truce for resource sharing
@@ -4423,9 +4427,9 @@
       // Truce resource sharing - weapons and mercenaries are free, only share money costs
       const attackerMoneyCost = currentBattle.attackerMercs * getActiveEconomy().mercCost; // Only mercenary money cost
       const defenderMoneyCost = currentBattle.defenderMercs * getActiveEconomy().mercCost +
-        (currentBattle.defenderBattleCastle === 1 ? 50 : 
-         currentBattle.defenderBattleCastle === 2 ? 100 : 
-         currentBattle.defenderBattleCastle === 3 ? 200 : 0); // Only mercenary and castle money costs
+        (currentBattle.defenderBattleCastle === 1 ? getActiveEconomy().castleL1 : 
+         currentBattle.defenderBattleCastle === 2 ? getActiveEconomy().castleL2 : 
+         currentBattle.defenderBattleCastle === 3 ? getActiveEconomy().castleL3 : 0); // Only mercenary and castle money costs
       
       const totalMoneyCost = attackerMoneyCost + defenderMoneyCost;
       const attackerBalance = currentBattle.attacker.balance;
