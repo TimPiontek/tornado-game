@@ -2861,6 +2861,8 @@
     // Scenario-specific battle items
     console.log('Scenario ID:', scenario ? scenario.id : 'No scenario');
     console.log('Scenario object:', scenario);
+    console.log('Scenario keys:', scenario ? Object.keys(scenario) : 'No scenario');
+    
     if (!scenario) {
       console.log('No scenario found, using default items');
       return {
@@ -2876,7 +2878,12 @@
         ]
       };
     }
-    switch (scenario.id) {
+    
+    // Check if scenario has scenarioId instead of id
+    const scenarioId = scenario.id || scenario.scenarioId;
+    console.log('Using scenario ID:', scenarioId);
+    
+    switch (scenarioId) {
       case 'harryPotter':
         return {
           weapons: [
