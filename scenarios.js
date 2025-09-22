@@ -1,6 +1,8 @@
 // Historical and Literary Scenarios for Tornado War
 // This file contains all scenario data including characters, territories, and AI personalities
 
+console.log('Loading scenarios.js file...');
+
 const SCENARIOS = {
   // HISTORICAL WARS
   americanRevolution: {
@@ -18412,6 +18414,9 @@ const SCENARIOS = {
   }
 };
 
+console.log('SCENARIOS object defined with', Object.keys(SCENARIOS).length, 'scenarios');
+console.log('Available scenarios:', Object.keys(SCENARIOS).slice(0, 10));
+
 // AI Personality Types and Behaviors
 const AI_PERSONALITIES = {
   strategic: {
@@ -18524,4 +18529,11 @@ const EVENT_CARDS = {
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { SCENARIOS, AI_PERSONALITIES, EVENT_CARDS };
+}
+
+// Make SCENARIOS available globally for browser use
+if (typeof window !== 'undefined') {
+  window.SCENARIOS = SCENARIOS;
+} else if (typeof global !== 'undefined') {
+  global.SCENARIOS = SCENARIOS;
 }
