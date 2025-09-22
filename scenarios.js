@@ -12354,6 +12354,183 @@ const SCENARIOS = {
     randomAssignment: true,
     manualRoleAssignments: false,
     aiAssignments: false
+  },
+
+  // POKEMON SCENARIO
+  pokemon: {
+    id: 'pokemon',
+    name: 'Pokemon: Gotta Catch \'Em All',
+    type: 'gaming',
+    description: 'The ultimate battle between Fire, Water, and Grass type Pokemon trainers.',
+    factions: {
+      fire: {
+        name: 'Fire Type Trainers',
+        color: '#e74c3c', // Red
+        description: 'Trainers who specialize in Fire-type Pokemon',
+        territories: [
+          { name: 'Volcano Island', cost: 100, description: 'Active volcano and Fire Pokemon sanctuary' },
+          { name: 'Lava Caves', cost: 95, description: 'Underground lava chambers and training grounds' },
+          { name: 'Fire Gym', cost: 90, description: 'Official Fire-type Pokemon gym' },
+          { name: 'Desert Oasis', cost: 85, description: 'Hot desert with Fire Pokemon habitats' },
+          { name: 'Sunny Meadows', cost: 80, description: 'Open grasslands perfect for Fire training' },
+          { name: 'Hot Springs', cost: 75, description: 'Natural hot springs and healing center' },
+          { name: 'Fire Temple', cost: 70, description: 'Ancient temple dedicated to Fire Pokemon' },
+          { name: 'Charcoal Forest', cost: 65, description: 'Burnt forest with Fire Pokemon' },
+          { name: 'Ember Valley', cost: 60, description: 'Valley with constant ember activity' },
+          { name: 'Flame Tower', cost: 55, description: 'Tall tower with eternal flame' }
+        ],
+        characters: [
+          {
+            name: 'Charizard',
+            role: 'Fire Dragon',
+            startingCoins: 150,
+            startingWeapons: ['Flamethrower', 'Dragon Claw'],
+            startingMercenaries: 5,
+            startingCastles: 4,
+            personality: 'powerful',
+            quotes: [
+              "I am Charizard, the Fire Dragon!",
+              "I will burn everything in my path!",
+              "I am the most powerful Fire Pokemon!",
+              "I will dominate with fire!",
+              "I am the king of Fire types!"
+            ],
+            description: 'The powerful Fire Dragon Pokemon who rules the skies.'
+          },
+          {
+            name: 'Blastoise',
+            role: 'Water Cannon',
+            startingCoins: 145,
+            startingWeapons: ['Hydro Pump', 'Water Gun'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'defensive',
+            quotes: [
+              "I am Blastoise, the Water Cannon!",
+              "I will douse all fires!",
+              "I am the most defensive Water Pokemon!",
+              "I will protect with water!",
+              "I am the shield of Water types!"
+            ],
+            description: 'The defensive Water Cannon Pokemon who protects allies.'
+          },
+          {
+            name: 'Venusaur',
+            role: 'Grass Giant',
+            startingCoins: 140,
+            startingWeapons: ['Solar Beam', 'Vine Whip'],
+            startingMercenaries: 4,
+            startingCastles: 3,
+            personality: 'wise',
+            quotes: [
+              "I am Venusaur, the Grass Giant!",
+              "I will grow and flourish!",
+              "I am the most wise Grass Pokemon!",
+              "I will nurture with nature!",
+              "I am the guardian of Grass types!"
+            ],
+            description: 'The wise Grass Giant Pokemon who nurtures the land.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Fire Trainer', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'passionate' },
+          { name: 'Fire Gym Leader', startingCoins: 40, startingWeapons: ['Fire Stone'], startingMercenaries: 0, startingCastles: 0, personality: 'determined' },
+          { name: 'Fire Elite', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'elite' }
+        ]
+      },
+      water: {
+        name: 'Water Type Trainers',
+        color: '#3498db', // Blue
+        description: 'Trainers who specialize in Water-type Pokemon',
+        territories: [
+          { name: 'Ocean Depths', cost: 100, description: 'Deep ocean trenches and Water Pokemon sanctuary' },
+          { name: 'Coral Reef', cost: 95, description: 'Beautiful coral formations and training grounds' },
+          { name: 'Water Gym', cost: 90, description: 'Official Water-type Pokemon gym' },
+          { name: 'Frozen Lake', cost: 85, description: 'Ice-covered lake with Water Pokemon' },
+          { name: 'Waterfall Cave', cost: 80, description: 'Hidden cave behind massive waterfall' },
+          { name: 'Hot Springs', cost: 75, description: 'Natural hot springs and healing center' },
+          { name: 'Water Temple', cost: 70, description: 'Ancient temple dedicated to Water Pokemon' },
+          { name: 'Misty Forest', cost: 65, description: 'Foggy forest with Water Pokemon' },
+          { name: 'Tidal Pool', cost: 60, description: 'Rock pools filled with Water Pokemon' },
+          { name: 'Aqua Tower', cost: 55, description: 'Tall tower with flowing water' }
+        ],
+        characters: [
+          {
+            name: 'Squirtle',
+            role: 'Water Starter',
+            startingCoins: 100,
+            startingWeapons: ['Water Gun'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'playful',
+            quotes: [
+              "I am Squirtle, the Water Starter!",
+              "I will splash my way to victory!",
+              "I am the most playful Water Pokemon!",
+              "I will have fun with water!",
+              "I am the cute Water starter!"
+            ],
+            description: 'The playful Water Starter Pokemon who loves to splash around.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Water Trainer', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'calm' },
+          { name: 'Water Gym Leader', startingCoins: 40, startingWeapons: ['Water Stone'], startingMercenaries: 0, startingCastles: 0, personality: 'serene' },
+          { name: 'Water Elite', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'elite' }
+        ]
+      },
+      grass: {
+        name: 'Grass Type Trainers',
+        color: '#2ecc71', // Green
+        description: 'Trainers who specialize in Grass-type Pokemon',
+        territories: [
+          { name: 'Forest Sanctuary', cost: 100, description: 'Ancient forest and Grass Pokemon sanctuary' },
+          { name: 'Flower Fields', cost: 95, description: 'Beautiful flower meadows and training grounds' },
+          { name: 'Grass Gym', cost: 90, description: 'Official Grass-type Pokemon gym' },
+          { name: 'Bamboo Grove', cost: 85, description: 'Dense bamboo forest with Grass Pokemon' },
+          { name: 'Herb Garden', cost: 80, description: 'Medicinal herb garden and healing center' },
+          { name: 'Tree Village', cost: 75, description: 'Village built in giant trees' },
+          { name: 'Grass Temple', cost: 70, description: 'Ancient temple dedicated to Grass Pokemon' },
+          { name: 'Mossy Caves', cost: 65, description: 'Caves covered in moss and Grass Pokemon' },
+          { name: 'Seed Valley', cost: 60, description: 'Valley where seeds grow into Pokemon' },
+          { name: 'Nature Tower', cost: 55, description: 'Tall tower covered in vines' }
+        ],
+        characters: [
+          {
+            name: 'Bulbasaur',
+            role: 'Grass Starter',
+            startingCoins: 100,
+            startingWeapons: ['Vine Whip'],
+            startingMercenaries: 2,
+            startingCastles: 0,
+            personality: 'gentle',
+            quotes: [
+              "I am Bulbasaur, the Grass Starter!",
+              "I will grow and bloom!",
+              "I am the most gentle Grass Pokemon!",
+              "I will nurture with nature!",
+              "I am the peaceful Grass starter!"
+            ],
+            description: 'The gentle Grass Starter Pokemon who loves to grow and bloom.'
+          }
+        ],
+        generalRoles: [
+          { name: 'Grass Trainer', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'peaceful' },
+          { name: 'Grass Gym Leader', startingCoins: 40, startingWeapons: ['Leaf Stone'], startingMercenaries: 0, startingCastles: 0, personality: 'wise' },
+          { name: 'Grass Elite', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'elite' }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Pokemon Center', cost: 90, description: 'Healing center for all Pokemon, very high strategic value' },
+      { name: 'Pokemon Mart', cost: 85, description: 'Shop for Pokemon items and supplies, high strategic value' },
+      { name: 'Route 1', cost: 80, description: 'Main road connecting regions, high strategic value' },
+      { name: 'Pokemon Lab', cost: 75, description: 'Research facility for Pokemon studies, medium strategic value' },
+      { name: 'Daycare Center', cost: 70, description: 'Pokemon breeding and care facility, medium strategic value' }
+    ],
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
   }
 };
 
