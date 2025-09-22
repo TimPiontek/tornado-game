@@ -265,6 +265,26 @@
           <div class="minor">Selected: <span id="attackerWeapons">None</span></div>
           <div id="attackerWeaponList" style="margin-top: 8px;"></div>
         </div>
+        <div class="section">
+          <div class="title">Magical Allies</div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="pill" id="attackerPhoenix" style="background: #f59e0b;">Phoenix (150 pts)</button>
+            <button class="pill" id="attackerHorntail" style="background: #dc2626;">Hungarian Horntail (200 pts)</button>
+            <button class="pill" id="attackerBasilisk" style="background: #059669;">Basilisk (250 pts)</button>
+          </div>
+          <div class="minor">Selected: <span id="attackerAllies">None</span></div>
+          <div id="attackerAlliesList" style="margin-top: 8px;"></div>
+        </div>
+        <div class="section">
+          <div class="title">Special Spells</div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="pill" id="attackerExpelliarmus" style="background: #7c3aed;">Expelliarmus (80 pts)</button>
+            <button class="pill" id="attackerProtego" style="background: #1d4ed8;">Protego (120 pts)</button>
+            <button class="pill" id="attackerAvadaKedavra" style="background: #dc2626;">Avada Kedavra (300 pts)</button>
+          </div>
+          <div class="minor">Selected: <span id="attackerSpells">None</span></div>
+          <div id="attackerSpellsList" style="margin-top: 8px;"></div>
+        </div>
       </div>
 
       <!-- Defender Panel -->
@@ -292,6 +312,26 @@
           </div>
           <div class="minor">Selected: <span id="defenderWeapons">None</span></div>
           <div id="defenderWeaponList" style="margin-top: 8px;"></div>
+        </div>
+        <div class="section">
+          <div class="title">Magical Allies</div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="pill" id="defenderPhoenix" style="background: #f59e0b;">Phoenix (150 pts)</button>
+            <button class="pill" id="defenderHorntail" style="background: #dc2626;">Hungarian Horntail (200 pts)</button>
+            <button class="pill" id="defenderBasilisk" style="background: #059669;">Basilisk (250 pts)</button>
+          </div>
+          <div class="minor">Selected: <span id="defenderAllies">None</span></div>
+          <div id="defenderAlliesList" style="margin-top: 8px;"></div>
+        </div>
+        <div class="section">
+          <div class="title">Special Spells</div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="pill" id="defenderExpelliarmus" style="background: #7c3aed;">Expelliarmus (80 pts)</button>
+            <button class="pill" id="defenderProtego" style="background: #1d4ed8;">Protego (120 pts)</button>
+            <button class="pill" id="defenderAvadaKedavra" style="background: #dc2626;">Avada Kedavra (300 pts)</button>
+          </div>
+          <div class="minor">Selected: <span id="defenderSpells">None</span></div>
+          <div id="defenderSpellsList" style="margin-top: 8px;"></div>
         </div>
         <div class="section">
           <div class="title">Castle Defense</div>
@@ -1046,12 +1086,12 @@
     } else {
       // Create fresh board if no saved state
       console.log('No saved game state, creating fresh board');
-      const studentCount = state.roster.length;
-      const w = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
-      const h = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
-      
-      console.log('Calculated board size:', { studentCount, w, h });
-      
+    const studentCount = state.roster.length;
+    const w = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
+    const h = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
+    
+    console.log('Calculated board size:', { studentCount, w, h });
+    
       // Create fresh tiles
       const tiles = [];
       for (let y = 0; y < h; y++) {
@@ -2895,6 +2935,16 @@
             { id: 'wooden', name: 'Magical Cottage', cost: 50, power: 75, icon: '🏠' },
             { id: 'stone', name: 'Hogwarts Castle', cost: 100, power: 150, icon: '🏰' },
             { id: 'iron', name: 'Protected Hogwarts', cost: 200, power: 300, icon: '🏯' }
+          ],
+          allies: [
+            { id: 'phoenix', name: 'Phoenix', cost: 150, power: 50, icon: '🔥' },
+            { id: 'hungarian_horntail', name: 'Hungarian Horntail', cost: 200, power: 75, icon: '🐉' },
+            { id: 'basilisk', name: 'Basilisk', cost: 250, power: 100, icon: '🐍' }
+          ],
+          spells: [
+            { id: 'expelliarmus', name: 'Expelliarmus', cost: 80, power: 25, icon: '⚡' },
+            { id: 'protego', name: 'Protego', cost: 120, power: 40, icon: '🛡️' },
+            { id: 'avada_kedavra', name: 'Avada Kedavra', cost: 300, power: 150, icon: '💀' }
           ]
         };
 
@@ -3161,8 +3211,12 @@
       tile: tile,
       attackerMercs: 0,
       attackerWeapons: [], // Array of weapons
+      attackerAllies: [], // Array of allies
+      attackerSpells: [], // Array of spells
       defenderMercs: 0,
       defenderWeapons: [], // Array of weapons
+      defenderAllies: [], // Array of allies
+      defenderSpells: [], // Array of spells
       defenderCastle: tile.castle_level || null, // Pre-built castle from tile
       defenderBattleCastle: null // Battle-screen castle
     };
@@ -3222,6 +3276,76 @@
         defenderCastleButtons[index].setAttribute('data-castle-power', castle.power);
       }
     });
+    
+    // Update ally buttons if they exist
+    if (battleItems.allies) {
+      const attackerAllyButtons = [
+        document.getElementById('attackerPhoenix'),
+        document.getElementById('attackerHorntail'),
+        document.getElementById('attackerBasilisk')
+      ];
+      
+      const defenderAllyButtons = [
+        document.getElementById('defenderPhoenix'),
+        document.getElementById('defenderHorntail'),
+        document.getElementById('defenderBasilisk')
+      ];
+      
+      // Update attacker ally buttons
+      battleItems.allies.forEach((ally, index) => {
+        if (attackerAllyButtons[index]) {
+          attackerAllyButtons[index].textContent = `${ally.icon} ${ally.name} (${ally.cost} pts)`;
+          attackerAllyButtons[index].setAttribute('data-ally-id', ally.id);
+          attackerAllyButtons[index].setAttribute('data-ally-cost', ally.cost);
+          attackerAllyButtons[index].setAttribute('data-ally-power', ally.power);
+        }
+      });
+      
+      // Update defender ally buttons
+      battleItems.allies.forEach((ally, index) => {
+        if (defenderAllyButtons[index]) {
+          defenderAllyButtons[index].textContent = `${ally.icon} ${ally.name} (${ally.cost} pts)`;
+          defenderAllyButtons[index].setAttribute('data-ally-id', ally.id);
+          defenderAllyButtons[index].setAttribute('data-ally-cost', ally.cost);
+          defenderAllyButtons[index].setAttribute('data-ally-power', ally.power);
+        }
+      });
+    }
+    
+    // Update spell buttons if they exist
+    if (battleItems.spells) {
+      const attackerSpellButtons = [
+        document.getElementById('attackerExpelliarmus'),
+        document.getElementById('attackerProtego'),
+        document.getElementById('attackerAvadaKedavra')
+      ];
+      
+      const defenderSpellButtons = [
+        document.getElementById('defenderExpelliarmus'),
+        document.getElementById('defenderProtego'),
+        document.getElementById('defenderAvadaKedavra')
+      ];
+      
+      // Update attacker spell buttons
+      battleItems.spells.forEach((spell, index) => {
+        if (attackerSpellButtons[index]) {
+          attackerSpellButtons[index].textContent = `${spell.icon} ${spell.name} (${spell.cost} pts)`;
+          attackerSpellButtons[index].setAttribute('data-spell-id', spell.id);
+          attackerSpellButtons[index].setAttribute('data-spell-cost', spell.cost);
+          attackerSpellButtons[index].setAttribute('data-spell-power', spell.power);
+        }
+      });
+      
+      // Update defender spell buttons
+      battleItems.spells.forEach((spell, index) => {
+        if (defenderSpellButtons[index]) {
+          defenderSpellButtons[index].textContent = `${spell.icon} ${spell.name} (${spell.cost} pts)`;
+          defenderSpellButtons[index].setAttribute('data-spell-id', spell.id);
+          defenderSpellButtons[index].setAttribute('data-spell-cost', spell.cost);
+          defenderSpellButtons[index].setAttribute('data-spell-power', spell.power);
+        }
+      });
+    }
     
     // Add character starting weapons as available options
     addCharacterStartingWeapons(attacker, true); // true for attacker
@@ -3290,6 +3414,20 @@
     updateBattleSummary();
   }
   
+  function addAlly(type, isAttacker) {
+    const allyArray = isAttacker ? currentBattle.attackerAllies : currentBattle.defenderAllies;
+    allyArray.push(type);
+    updateAllyDisplay(isAttacker);
+    updateBattleSummary();
+  }
+  
+  function addSpell(type, isAttacker) {
+    const spellArray = isAttacker ? currentBattle.attackerSpells : currentBattle.defenderSpells;
+    spellArray.push(type);
+    updateSpellDisplay(isAttacker);
+    updateBattleSummary();
+  }
+  
   function removeWeapon(index, isAttacker) {
     const weaponArray = isAttacker ? currentBattle.attackerWeapons : currentBattle.defenderWeapons;
     weaponArray.splice(index, 1);
@@ -3297,8 +3435,24 @@
     updateBattleSummary();
   }
   
-  // Make removeWeapon globally accessible
+  function removeAlly(index, isAttacker) {
+    const allyArray = isAttacker ? currentBattle.attackerAllies : currentBattle.defenderAllies;
+    allyArray.splice(index, 1);
+    updateAllyDisplay(isAttacker);
+    updateBattleSummary();
+  }
+  
+  function removeSpell(index, isAttacker) {
+    const spellArray = isAttacker ? currentBattle.attackerSpells : currentBattle.defenderSpells;
+    spellArray.splice(index, 1);
+    updateSpellDisplay(isAttacker);
+    updateBattleSummary();
+  }
+  
+  // Make remove functions globally accessible
   window.removeWeapon = removeWeapon;
+  window.removeAlly = removeAlly;
+  window.removeSpell = removeSpell;
   
   function updateWeaponDisplay(isAttacker) {
     const weaponArray = isAttacker ? currentBattle.attackerWeapons : currentBattle.defenderWeapons;
@@ -3319,6 +3473,56 @@
           <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px; padding: 4px 8px; background: rgba(255,255,255,0.1); border-radius: 6px;">
             <span>${weaponNames[weapon]} (${weaponCosts[weapon]} pts)</span>
             <button onclick="removeWeapon(${index}, ${isAttacker})" style="background: #ef4444; color: white; border: none; padding: 2px 6px; border-radius: 4px; font-size: 12px; cursor: pointer;">×</button>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+  
+  function updateAllyDisplay(isAttacker) {
+    const allyArray = isAttacker ? currentBattle.attackerAllies : currentBattle.defenderAllies;
+    const summaryElement = isAttacker ? document.getElementById('attackerAllies') : document.getElementById('defenderAllies');
+    const listElement = isAttacker ? document.getElementById('attackerAlliesList') : document.getElementById('defenderAlliesList');
+    
+    if (allyArray.length === 0) {
+      summaryElement.textContent = 'None';
+      listElement.innerHTML = '';
+    } else {
+      summaryElement.textContent = `${allyArray.length} all${allyArray.length > 1 ? 'ies' : 'y'}`;
+      
+      // Create individual ally items with remove buttons
+      listElement.innerHTML = allyArray.map((ally, index) => {
+        const allyNames = { phoenix: 'Phoenix', hungarian_horntail: 'Hungarian Horntail', basilisk: 'Basilisk' };
+        const allyCosts = { phoenix: 150, hungarian_horntail: 200, basilisk: 250 };
+        return `
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px; padding: 4px 8px; background: rgba(255,255,255,0.1); border-radius: 6px;">
+            <span>${allyNames[ally]} (${allyCosts[ally]} pts)</span>
+            <button onclick="removeAlly(${index}, ${isAttacker})" style="background: #ef4444; color: white; border: none; padding: 2px 6px; border-radius: 4px; font-size: 12px; cursor: pointer;">×</button>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+  
+  function updateSpellDisplay(isAttacker) {
+    const spellArray = isAttacker ? currentBattle.attackerSpells : currentBattle.defenderSpells;
+    const summaryElement = isAttacker ? document.getElementById('attackerSpells') : document.getElementById('defenderSpells');
+    const listElement = isAttacker ? document.getElementById('attackerSpellsList') : document.getElementById('defenderSpellsList');
+    
+    if (spellArray.length === 0) {
+      summaryElement.textContent = 'None';
+      listElement.innerHTML = '';
+    } else {
+      summaryElement.textContent = `${spellArray.length} spell${spellArray.length > 1 ? 's' : ''}`;
+      
+      // Create individual spell items with remove buttons
+      listElement.innerHTML = spellArray.map((spell, index) => {
+        const spellNames = { expelliarmus: 'Expelliarmus', protego: 'Protego', avada_kedavra: 'Avada Kedavra' };
+        const spellCosts = { expelliarmus: 80, protego: 120, avada_kedavra: 300 };
+        return `
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px; padding: 4px 8px; background: rgba(255,255,255,0.1); border-radius: 6px;">
+            <span>${spellNames[spell]} (${spellCosts[spell]} pts)</span>
+            <button onclick="removeSpell(${index}, ${isAttacker})" style="background: #ef4444; color: white; border: none; padding: 2px 6px; border-radius: 4px; font-size: 12px; cursor: pointer;">×</button>
           </div>
         `;
       }).join('');
@@ -3348,10 +3552,29 @@
       attackerWeaponPower += weaponPower;
     });
     
-    const attackerMercPower = attackerBasePower + attackerWeaponPower;
+    // Calculate ally power
+    let attackerAllyPower = 0;
+    currentBattle.attackerAllies.forEach(ally => {
+      const allyButton = document.querySelector(`[data-ally-id="${ally}"]`);
+      const allyPower = allyButton ? parseInt(allyButton.getAttribute('data-ally-power')) || 50 : 
+                       (ally === 'phoenix' ? 50 : ally === 'hungarian_horntail' ? 75 : 100);
+      attackerAllyPower += allyPower;
+    });
+    
+    // Calculate spell power
+    let attackerSpellPower = 0;
+    currentBattle.attackerSpells.forEach(spell => {
+      const spellButton = document.querySelector(`[data-spell-id="${spell}"]`);
+      const spellPower = spellButton ? parseInt(spellButton.getAttribute('data-spell-power')) || 25 : 
+                        (spell === 'expelliarmus' ? 25 : spell === 'protego' ? 40 : 150);
+      attackerSpellPower += spellPower;
+    });
+    
+    const attackerMercPower = attackerBasePower + attackerWeaponPower + attackerAllyPower + attackerSpellPower;
     
     // Calculate combo bonus for attacker
-    const attackerItemCount = currentBattle.attackerMercs + currentBattle.attackerWeapons.length;
+    const attackerItemCount = currentBattle.attackerMercs + currentBattle.attackerWeapons.length + 
+                              currentBattle.attackerAllies.length + currentBattle.attackerSpells.length;
     const attackerComboBonus = attackerItemCount >= 4 ? 1.5 : 
                               attackerItemCount >= 3 ? 1.25 : 
                               attackerItemCount >= 2 ? 1.1 : 1;
@@ -3377,7 +3600,25 @@
       defenderWeaponPower += weaponPower;
     });
     
-    const defenderMercPower = defenderBasePower + defenderWeaponPower;
+    // Calculate ally power
+    let defenderAllyPower = 0;
+    currentBattle.defenderAllies.forEach(ally => {
+      const allyButton = document.querySelector(`[data-ally-id="${ally}"]`);
+      const allyPower = allyButton ? parseInt(allyButton.getAttribute('data-ally-power')) || 50 : 
+                       (ally === 'phoenix' ? 50 : ally === 'hungarian_horntail' ? 75 : 100);
+      defenderAllyPower += allyPower;
+    });
+    
+    // Calculate spell power
+    let defenderSpellPower = 0;
+    currentBattle.defenderSpells.forEach(spell => {
+      const spellButton = document.querySelector(`[data-spell-id="${spell}"]`);
+      const spellPower = spellButton ? parseInt(spellButton.getAttribute('data-spell-power')) || 25 : 
+                        (spell === 'expelliarmus' ? 25 : spell === 'protego' ? 40 : 150);
+      defenderSpellPower += spellPower;
+    });
+    
+    const defenderMercPower = defenderBasePower + defenderWeaponPower + defenderAllyPower + defenderSpellPower;
     // Calculate defender castle power - distinguish pre-built vs battle castles
     const defenderCastlePower = currentBattle.defenderCastle ? 
       (currentBattle.defenderCastle === 1 ? 150 : 
@@ -3390,6 +3631,8 @@
     // Calculate combo bonus for defender
     const defenderItemCount = currentBattle.defenderMercs + 
       currentBattle.defenderWeapons.length + 
+      currentBattle.defenderAllies.length + 
+      currentBattle.defenderSpells.length +
       (currentBattle.defenderCastle ? 1 : 0) +
       (currentBattle.defenderBattleCastle ? 1 : 0);
     const defenderComboBonus = defenderItemCount >= 4 ? 1.5 : 
@@ -3562,6 +3805,70 @@
   document.getElementById('defenderCatapult').onclick = () => {
     const weaponId = document.getElementById('defenderCatapult').getAttribute('data-weapon-id') || 'catapult';
     addWeapon(weaponId, false);
+  };
+  
+  // Attacker allies - dynamic based on scenario
+  document.getElementById('attackerPhoenix').onclick = () => {
+    const allyId = document.getElementById('attackerPhoenix').getAttribute('data-ally-id') || 'phoenix';
+    addAlly(allyId, true);
+  };
+  
+  document.getElementById('attackerHorntail').onclick = () => {
+    const allyId = document.getElementById('attackerHorntail').getAttribute('data-ally-id') || 'hungarian_horntail';
+    addAlly(allyId, true);
+  };
+  
+  document.getElementById('attackerBasilisk').onclick = () => {
+    const allyId = document.getElementById('attackerBasilisk').getAttribute('data-ally-id') || 'basilisk';
+    addAlly(allyId, true);
+  };
+  
+  // Defender allies - dynamic based on scenario
+  document.getElementById('defenderPhoenix').onclick = () => {
+    const allyId = document.getElementById('defenderPhoenix').getAttribute('data-ally-id') || 'phoenix';
+    addAlly(allyId, false);
+  };
+  
+  document.getElementById('defenderHorntail').onclick = () => {
+    const allyId = document.getElementById('defenderHorntail').getAttribute('data-ally-id') || 'hungarian_horntail';
+    addAlly(allyId, false);
+  };
+  
+  document.getElementById('defenderBasilisk').onclick = () => {
+    const allyId = document.getElementById('defenderBasilisk').getAttribute('data-ally-id') || 'basilisk';
+    addAlly(allyId, false);
+  };
+  
+  // Attacker spells - dynamic based on scenario
+  document.getElementById('attackerExpelliarmus').onclick = () => {
+    const spellId = document.getElementById('attackerExpelliarmus').getAttribute('data-spell-id') || 'expelliarmus';
+    addSpell(spellId, true);
+  };
+  
+  document.getElementById('attackerProtego').onclick = () => {
+    const spellId = document.getElementById('attackerProtego').getAttribute('data-spell-id') || 'protego';
+    addSpell(spellId, true);
+  };
+  
+  document.getElementById('attackerAvadaKedavra').onclick = () => {
+    const spellId = document.getElementById('attackerAvadaKedavra').getAttribute('data-spell-id') || 'avada_kedavra';
+    addSpell(spellId, true);
+  };
+  
+  // Defender spells - dynamic based on scenario
+  document.getElementById('defenderExpelliarmus').onclick = () => {
+    const spellId = document.getElementById('defenderExpelliarmus').getAttribute('data-spell-id') || 'expelliarmus';
+    addSpell(spellId, false);
+  };
+  
+  document.getElementById('defenderProtego').onclick = () => {
+    const spellId = document.getElementById('defenderProtego').getAttribute('data-spell-id') || 'protego';
+    addSpell(spellId, false);
+  };
+  
+  document.getElementById('defenderAvadaKedavra').onclick = () => {
+    const spellId = document.getElementById('defenderAvadaKedavra').getAttribute('data-spell-id') || 'avada_kedavra';
+    addSpell(spellId, false);
   };
   
   document.getElementById('removeDefenderCastle').onclick = () => {
@@ -3794,6 +4101,8 @@
     // Calculate combo bonus for defender
     const defenderItemCount = currentBattle.defenderMercs + 
       currentBattle.defenderWeapons.length + 
+      currentBattle.defenderAllies.length + 
+      currentBattle.defenderSpells.length +
       (currentBattle.defenderCastle ? 1 : 0) +
       (currentBattle.defenderBattleCastle ? 1 : 0);
     const defenderComboBonus = defenderItemCount >= 4 ? 1.5 : 
@@ -4196,8 +4505,8 @@
 
   // initial load
   async function initializeApp() {
-    const loadedFromRosterPage = checkForRosterFromRosterPage();
-    if (!loadedFromRosterPage) {
+  const loadedFromRosterPage = checkForRosterFromRosterPage();
+  if (!loadedFromRosterPage) {
       await loadRosters(true);
       
       // If no rosters exist, create a default one
