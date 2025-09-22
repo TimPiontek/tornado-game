@@ -229,7 +229,7 @@
             <button class="pill" id="attackerMercMinus">-</button>
             <span id="attackerMercCount">0</span>
             <button class="pill" id="attackerMercPlus">+</button>
-            <span class="minor">(10 points each)</span>
+            <span class="minor">(15 points each)</span>
           </div>
         </div>
         <div class="section">
@@ -257,7 +257,7 @@
             <button class="pill" id="defenderMercMinus">-</button>
             <span id="defenderMercCount">0</span>
             <button class="pill" id="defenderMercPlus">+</button>
-            <span class="minor">(10 points each, +10 power)</span>
+            <span class="minor">(15 points each, +10 power)</span>
           </div>
         </div>
         <div class="section">
@@ -342,8 +342,8 @@
     truces: [],
     truceInvitations: [], // New: stores pending truce invitations
     colors: new Map(),
-    costs: { land: 10, castleL1: 50, castleL2: 100, castleL3: 200 },
-    weaponCosts: { spear: 30, crossbow: 60, catapult: 100 },
+    costs: { land: 20, castleL1: 75, castleL2: 150, castleL3: 300 },
+    weaponCosts: { spear: 40, crossbow: 80, catapult: 140 },
     offlineMode: false, // Start in online mode, can switch to offline
     teams: [],
     teamMode: false,
@@ -1849,20 +1849,20 @@
     return student.name;
   }
 
-  // Calculate tile price based on distance from center
+  // Calculate tile price based on distance from center (premium center tiles)
   function calculateTilePrice(x, y, boardW, boardH) {
     const centerX = (boardW - 1) / 2;
     const centerY = (boardH - 1) / 2;
     const distanceFromCenter = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
     const maxDistance = Math.sqrt(Math.pow(boardW / 2, 2) + Math.pow(boardH / 2, 2));
     
-    // Price starts at 20 (first row in from outer edge) and increases by 10 for each ring toward center
-    // Calculate which "ring" this tile is in (0 = first row in, higher = closer to center)
     const ringLevel = Math.floor((1 - distanceFromCenter / maxDistance) * 6);
-    
-    // Base price of 20, plus 10 for each ring level
-    const price = 20 + (ringLevel * 10);
-    return Math.max(20, Math.min(200, price));
+    let price = 20 + (ringLevel * 10);
+    const isCenterCore = (Math.abs(x - Math.round(centerX)) + Math.abs(y - Math.round(centerY))) <= 1;
+    if (isCenterCore) {
+      price += 30;
+    }
+    return Math.max(20, Math.min(250, price));
   }
 
   // Shorten student name to fit in tile
@@ -2525,7 +2525,7 @@
       // Create individual weapon items with remove buttons
       listElement.innerHTML = weaponArray.map((weapon, index) => {
         const weaponNames = { spear: 'Spear', crossbow: 'Crossbow', catapult: 'Catapult' };
-        const weaponCosts = { spear: 30, crossbow: 60, catapult: 100 };
+        const weaponCosts = { spear: 40, crossbow: 80, catapult: 140 };
         return `
           <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px; padding: 4px 8px; background: rgba(255,255,255,0.1); border-radius: 6px;">
             <span>${weaponNames[weapon]} (${weaponCosts[weapon]} pts)</span>

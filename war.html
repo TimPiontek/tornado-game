@@ -408,8 +408,8 @@
     selectedGsId: null,
     truces: [],
     colors: new Map(),
-    costs: { land: 10, castleL1: 50, castleL2: 100, castleL3: 200 },
-    weaponCosts: { spear: 30, crossbow: 60, catapult: 100 },
+    costs: { land: 20, castleL1: 75, castleL2: 150, castleL3: 300 },
+    weaponCosts: { spear: 40, crossbow: 80, catapult: 140 },
     offlineMode: false, // Start in online mode, can switch to offline
     teams: [],
     teamMode: false,
@@ -2052,7 +2052,7 @@
   function awardVictoryPoints(winnerName, mode) {
     if (!state.currentRoster) return;
     
-    const victoryBonus = 500; // Bonus points for winning
+    const victoryBonus = 100; // Balanced bonus for winning
     
     if (mode === 'team') {
       // Award points to all team members
@@ -2690,20 +2690,23 @@
     return student.name;
   }
 
-  // Calculate tile price based on distance from center
+  // Calculate tile price based on distance from center (premium center tiles)
   function calculateTilePrice(x, y, boardW, boardH) {
     const centerX = (boardW - 1) / 2;
     const centerY = (boardH - 1) / 2;
     const distanceFromCenter = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
     const maxDistance = Math.sqrt(Math.pow(boardW / 2, 2) + Math.pow(boardH / 2, 2));
     
-    // Price starts at 20 (first row in from outer edge) and increases by 10 for each ring toward center
-    // Calculate which "ring" this tile is in (0 = first row in, higher = closer to center)
+    // Rings: outer to inner, moderate slope
     const ringLevel = Math.floor((1 - distanceFromCenter / maxDistance) * 6);
+    let price = 20 + (ringLevel * 10);
     
-    // Base price of 20, plus 10 for each ring level
-    const price = 20 + (ringLevel * 10);
-    return Math.max(20, Math.min(200, price));
+    // Premium center: if within Manhattan distance <= 1 of center, add premium
+    const isCenterCore = (Math.abs(x - Math.round(centerX)) + Math.abs(y - Math.round(centerY))) <= 1;
+    if (isCenterCore) {
+      price += 30; // premium for exclusive real estate
+    }
+    return Math.max(20, Math.min(250, price));
   }
 
   // Shorten student name to fit in tile
@@ -3575,7 +3578,7 @@
           } else {
             // Fallback for generic weapons
         const weaponNames = { spear: 'Spear', crossbow: 'Crossbow', catapult: 'Catapult' };
-        const weaponCosts = { spear: 30, crossbow: 60, catapult: 100 };
+        const weaponCosts = { spear: 40, crossbow: 80, catapult: 140 };
             weaponName = weaponNames[weapon] || weapon;
             weaponCost = weaponCosts[weapon] + ' pts';
           }
