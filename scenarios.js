@@ -2383,8 +2383,8 @@ const SCENARIOS = {
     description: 'The battle between Harry Potter and his friends against Voldemort and the Death Eaters',
     factions: {
       harryPotter: {
-        name: 'Harry Potter & Friends',
-        color: '#2e8b57',
+        name: 'Dumbledore\'s Army',
+        color: '#dc143c',
         description: 'Fighting for love, friendship, and the protection of the wizarding world',
         territories: [
           { name: 'Hogwarts', cost: 100, description: 'Central fortress and headquarters of the resistance' },
@@ -2663,7 +2663,7 @@ const SCENARIOS = {
       },
       deathEaters: {
         name: 'Death Eaters & Voldemort',
-        color: '#8b0000',
+        color: '#2e8b57',
         description: 'Seeking pure-blood supremacy and magical dominance',
         territories: [
           { name: 'Malfoy Manor', cost: 90, description: 'Death Eater headquarters and planning center' },
