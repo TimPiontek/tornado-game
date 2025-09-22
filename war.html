@@ -3707,8 +3707,42 @@
       defenderWeaponCost += weaponCost;
     });
     
-    let attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost;
-    let defenderCost = currentBattle.defenderMercs * 10 + defenderWeaponCost +
+    // Calculate ally costs
+    let attackerAllyCost = 0;
+    currentBattle.attackerAllies.forEach(ally => {
+      const allyButton = document.querySelector(`[data-ally-id="${ally}"]`);
+      const allyCost = allyButton ? parseInt(allyButton.getAttribute('data-ally-cost')) || 150 : 
+                       (ally === 'phoenix' ? 150 : ally === 'hungarian_horntail' ? 200 : 250);
+      attackerAllyCost += allyCost;
+    });
+    
+    let defenderAllyCost = 0;
+    currentBattle.defenderAllies.forEach(ally => {
+      const allyButton = document.querySelector(`[data-ally-id="${ally}"]`);
+      const allyCost = allyButton ? parseInt(allyButton.getAttribute('data-ally-cost')) || 150 : 
+                       (ally === 'phoenix' ? 150 : ally === 'hungarian_horntail' ? 200 : 250);
+      defenderAllyCost += allyCost;
+    });
+    
+    // Calculate spell costs
+    let attackerSpellCost = 0;
+    currentBattle.attackerSpells.forEach(spell => {
+      const spellButton = document.querySelector(`[data-spell-id="${spell}"]`);
+      const spellCost = spellButton ? parseInt(spellButton.getAttribute('data-spell-cost')) || 80 : 
+                        (spell === 'expelliarmus' ? 80 : spell === 'protego' ? 120 : 200);
+      attackerSpellCost += spellCost;
+    });
+    
+    let defenderSpellCost = 0;
+    currentBattle.defenderSpells.forEach(spell => {
+      const spellButton = document.querySelector(`[data-spell-id="${spell}"]`);
+      const spellCost = spellButton ? parseInt(spellButton.getAttribute('data-spell-cost')) || 80 : 
+                        (spell === 'expelliarmus' ? 80 : spell === 'protego' ? 120 : 200);
+      defenderSpellCost += spellCost;
+    });
+    
+    let attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost + attackerAllyCost + attackerSpellCost;
+    let defenderCost = currentBattle.defenderMercs * 10 + defenderWeaponCost + defenderAllyCost + defenderSpellCost +
       (currentBattle.defenderBattleCastle === 1 ? 50 : 
        currentBattle.defenderBattleCastle === 2 ? 100 : 
        currentBattle.defenderBattleCastle === 3 ? 200 : 0);
@@ -3961,8 +3995,42 @@
       defenderWeaponCost += weaponCost;
     });
     
-    let attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost;
-    let defenderCost = currentBattle.defenderMercs * 10 + defenderWeaponCost +
+    // Calculate ally costs
+    let attackerAllyCost = 0;
+    currentBattle.attackerAllies.forEach(ally => {
+      const allyButton = document.querySelector(`[data-ally-id="${ally}"]`);
+      const allyCost = allyButton ? parseInt(allyButton.getAttribute('data-ally-cost')) || 150 : 
+                       (ally === 'phoenix' ? 150 : ally === 'hungarian_horntail' ? 200 : 250);
+      attackerAllyCost += allyCost;
+    });
+    
+    let defenderAllyCost = 0;
+    currentBattle.defenderAllies.forEach(ally => {
+      const allyButton = document.querySelector(`[data-ally-id="${ally}"]`);
+      const allyCost = allyButton ? parseInt(allyButton.getAttribute('data-ally-cost')) || 150 : 
+                       (ally === 'phoenix' ? 150 : ally === 'hungarian_horntail' ? 200 : 250);
+      defenderAllyCost += allyCost;
+    });
+    
+    // Calculate spell costs
+    let attackerSpellCost = 0;
+    currentBattle.attackerSpells.forEach(spell => {
+      const spellButton = document.querySelector(`[data-spell-id="${spell}"]`);
+      const spellCost = spellButton ? parseInt(spellButton.getAttribute('data-spell-cost')) || 80 : 
+                        (spell === 'expelliarmus' ? 80 : spell === 'protego' ? 120 : 200);
+      attackerSpellCost += spellCost;
+    });
+    
+    let defenderSpellCost = 0;
+    currentBattle.defenderSpells.forEach(spell => {
+      const spellButton = document.querySelector(`[data-spell-id="${spell}"]`);
+      const spellCost = spellButton ? parseInt(spellButton.getAttribute('data-spell-cost')) || 80 : 
+                        (spell === 'expelliarmus' ? 80 : spell === 'protego' ? 120 : 200);
+      defenderSpellCost += spellCost;
+    });
+    
+    let attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost + attackerAllyCost + attackerSpellCost;
+    let defenderCost = currentBattle.defenderMercs * 10 + defenderWeaponCost + defenderAllyCost + defenderSpellCost +
       (currentBattle.defenderBattleCastle === 1 ? 50 : 
        currentBattle.defenderBattleCastle === 2 ? 100 : 
        currentBattle.defenderBattleCastle === 3 ? 200 : 0);
@@ -4175,8 +4243,42 @@
       defenderWeaponCost += weaponCost;
     });
     
-    const attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost;
-    const defenderCost = currentBattle.defenderMercs * 10 + defenderWeaponCost +
+    // Calculate ally costs
+    let attackerAllyCost = 0;
+    currentBattle.attackerAllies.forEach(ally => {
+      const allyButton = document.querySelector(`[data-ally-id="${ally}"]`);
+      const allyCost = allyButton ? parseInt(allyButton.getAttribute('data-ally-cost')) || 150 : 
+                       (ally === 'phoenix' ? 150 : ally === 'hungarian_horntail' ? 200 : 250);
+      attackerAllyCost += allyCost;
+    });
+    
+    let defenderAllyCost = 0;
+    currentBattle.defenderAllies.forEach(ally => {
+      const allyButton = document.querySelector(`[data-ally-id="${ally}"]`);
+      const allyCost = allyButton ? parseInt(allyButton.getAttribute('data-ally-cost')) || 150 : 
+                       (ally === 'phoenix' ? 150 : ally === 'hungarian_horntail' ? 200 : 250);
+      defenderAllyCost += allyCost;
+    });
+    
+    // Calculate spell costs
+    let attackerSpellCost = 0;
+    currentBattle.attackerSpells.forEach(spell => {
+      const spellButton = document.querySelector(`[data-spell-id="${spell}"]`);
+      const spellCost = spellButton ? parseInt(spellButton.getAttribute('data-spell-cost')) || 80 : 
+                        (spell === 'expelliarmus' ? 80 : spell === 'protego' ? 120 : 200);
+      attackerSpellCost += spellCost;
+    });
+    
+    let defenderSpellCost = 0;
+    currentBattle.defenderSpells.forEach(spell => {
+      const spellButton = document.querySelector(`[data-spell-id="${spell}"]`);
+      const spellCost = spellButton ? parseInt(spellButton.getAttribute('data-spell-cost')) || 80 : 
+                        (spell === 'expelliarmus' ? 80 : spell === 'protego' ? 120 : 200);
+      defenderSpellCost += spellCost;
+    });
+    
+    const attackerCost = currentBattle.attackerMercs * 10 + attackerWeaponCost + attackerAllyCost + attackerSpellCost;
+    const defenderCost = currentBattle.defenderMercs * 10 + defenderWeaponCost + defenderAllyCost + defenderSpellCost +
       (currentBattle.defenderBattleCastle === 1 ? 50 : 
        currentBattle.defenderBattleCastle === 2 ? 100 : 
        currentBattle.defenderBattleCastle === 3 ? 200 : 0);
