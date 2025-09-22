@@ -2295,7 +2295,7 @@
     }
   }
   
-  function awardPoints(students, amount, actionText) {
+  async function awardPoints(students, amount, actionText) {
     if (!students || students.length === 0) return;
     
     students.forEach(studentData => {
