@@ -3279,11 +3279,13 @@
     
     // Update ally buttons if they exist
     if (battleItems.allies) {
+      console.log('Updating ally buttons:', battleItems.allies);
       const attackerAllyButtons = [
         document.getElementById('attackerPhoenix'),
         document.getElementById('attackerHorntail'),
         document.getElementById('attackerBasilisk')
       ];
+      console.log('Attacker ally buttons found:', attackerAllyButtons);
       
       const defenderAllyButtons = [
         document.getElementById('defenderPhoenix'),
@@ -3314,11 +3316,13 @@
     
     // Update spell buttons if they exist
     if (battleItems.spells) {
+      console.log('Updating spell buttons:', battleItems.spells);
       const attackerSpellButtons = [
         document.getElementById('attackerExpelliarmus'),
         document.getElementById('attackerProtego'),
         document.getElementById('attackerAvadaKedavra')
       ];
+      console.log('Attacker spell buttons found:', attackerSpellButtons);
       
       const defenderSpellButtons = [
         document.getElementById('defenderExpelliarmus'),
@@ -3467,11 +3471,32 @@
       
       // Create individual weapon items with remove buttons
       listElement.innerHTML = weaponArray.map((weapon, index) => {
+        // Check if it's a character starting weapon first
+        const weaponData = getWeaponData(weapon);
+        let weaponName, weaponCost;
+        
+        if (weaponData.icon.includes('⚔️') && weaponData.power === 15) {
+          // Character starting weapon
+          weaponName = weaponData.name || weapon;
+          weaponCost = 'Free';
+        } else {
+          // Regular weapon - get from button data attributes or fallback
+          const weaponButton = document.querySelector(`[data-weapon-id="${weapon}"]`);
+          if (weaponButton) {
+            weaponName = weaponButton.textContent.split(' (')[0].replace(/[🪄👻🍀]/g, '').trim();
+            weaponCost = weaponButton.getAttribute('data-weapon-cost') + ' pts';
+          } else {
+            // Fallback for generic weapons
         const weaponNames = { spear: 'Spear', crossbow: 'Crossbow', catapult: 'Catapult' };
         const weaponCosts = { spear: 30, crossbow: 60, catapult: 100 };
+            weaponName = weaponNames[weapon] || weapon;
+            weaponCost = weaponCosts[weapon] + ' pts';
+          }
+        }
+        
         return `
           <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px; padding: 4px 8px; background: rgba(255,255,255,0.1); border-radius: 6px;">
-            <span>${weaponNames[weapon]} (${weaponCosts[weapon]} pts)</span>
+            <span>${weaponName} (${weaponCost})</span>
             <button onclick="removeWeapon(${index}, ${isAttacker})" style="background: #ef4444; color: white; border: none; padding: 2px 6px; border-radius: 4px; font-size: 12px; cursor: pointer;">×</button>
           </div>
         `;
