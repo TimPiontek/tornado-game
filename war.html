@@ -97,6 +97,32 @@
     </div>
 
     <div class="section">
+      <div class="title">Economy</div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; font-size:12px; align-items:center;">
+        <label>Mercenary Cost</label>
+        <input id="ecoMerc" type="number" min="1" style="width:100%;" />
+        <label>Weapon 1</label>
+        <input id="ecoW1" type="number" min="1" />
+        <label>Weapon 2</label>
+        <input id="ecoW2" type="number" min="1" />
+        <label>Weapon 3</label>
+        <input id="ecoW3" type="number" min="1" />
+        <label>Castle L1</label>
+        <input id="ecoC1" type="number" min="1" />
+        <label>Castle L2</label>
+        <input id="ecoC2" type="number" min="1" />
+        <label>Castle L3</label>
+        <input id="ecoC3" type="number" min="1" />
+        <label>Victory Bonus</label>
+        <input id="ecoVB" type="number" min="0" />
+      </div>
+      <div style="margin-top:8px; display:flex; gap:8px;">
+        <button class="pill" id="ecoApply" style="background:#3b82f6; color:white;">Apply</button>
+        <button class="pill" id="ecoReset" style="background:#6f5c91; color:white;">Reset Defaults</button>
+      </div>
+    </div>
+
+    <div class="section">
       <div class="title">Quick awards</div>
       <div style="margin-bottom: 8px;">
         <button class="pill" onclick="quickAward(1)" style="background: #10b981; font-size: 12px;">+1 All</button>
@@ -525,6 +551,53 @@
 
   await updateAuth();
   supabase.auth.onAuthStateChange(() => updateAuth());
+
+  // === ECONOMY PANEL WIRING ===
+  function loadEconomyPanel(){
+    const eco = state.economy || __activeEconomy || ECONOMY;
+    const w = eco.weapons || ECONOMY.weapons;
+    const get = id => document.getElementById(id);
+    if (!get('ecoMerc')) return;
+    get('ecoMerc').value = eco.mercCost;
+    get('ecoW1').value = w.spear ?? Object.values(w)[0];
+    get('ecoW2').value = w.crossbow ?? Object.values(w)[1];
+    get('ecoW3').value = w.catapult ?? Object.values(w)[2];
+    get('ecoC1').value = eco.castleL1;
+    get('ecoC2').value = eco.castleL2;
+    get('ecoC3').value = eco.castleL3;
+    get('ecoVB').value = eco.victoryBonus;
+  }
+
+  function applyEconomyFromPanel(){
+    const get = id => document.getElementById(id);
+    if (!get('ecoMerc')) return;
+    const newEco = {
+      mercCost: parseInt(get('ecoMerc').value)||ECONOMY.mercCost,
+      castleL1: parseInt(get('ecoC1').value)||ECONOMY.castleL1,
+      castleL2: parseInt(get('ecoC2').value)||ECONOMY.castleL2,
+      castleL3: parseInt(get('ecoC3').value)||ECONOMY.castleL3,
+      weapons: {
+        spear: parseInt(get('ecoW1').value)||Object.values(ECONOMY.weapons)[0],
+        crossbow: parseInt(get('ecoW2').value)||Object.values(ECONOMY.weapons)[1],
+        catapult: parseInt(get('ecoW3').value)||Object.values(ECONOMY.weapons)[2]
+      },
+      victoryBonus: parseInt(get('ecoVB').value)||ECONOMY.victoryBonus,
+      centerPremium: ECONOMY.centerPremium
+    };
+    state.economy = newEco;
+    __activeEconomy = newEco;
+    applyEconomyToUI();
+    renderRoster();
+    autoSaveWarPoints();
+  }
+
+  window.addEventListener('load', ()=>{
+    loadEconomyPanel();
+    const a = document.getElementById('ecoApply');
+    const r = document.getElementById('ecoReset');
+    if (a) a.onclick = applyEconomyFromPanel;
+    if (r) r.onclick = ()=>{ state.economy = { ...ECONOMY }; __activeEconomy = state.economy; loadEconomyPanel(); applyEconomyToUI(); autoSaveWarPoints(); };
+  });
 
 
 
@@ -1027,8 +1100,8 @@
     
     // Store scenario data in state
     state.scenario = scenarioData;
-    // Economy overrides per scenario
-    state.economy = { ...ECONOMY };
+    // Economy overrides per scenario; load from roster if saved
+    state.economy = (state.currentRoster && state.currentRoster.economy) ? state.currentRoster.economy : { ...ECONOMY };
     const id = scenarioData.scenarioId || scenarioData.id;
     if (id === 'harryPotter') {
       // Slight discount for spells theme; keep core prices
@@ -2881,6 +2954,7 @@
         },
         scenario: state.scenario, // Save scenario data including character assignments
         victoryGoals: state.victoryGoals, // Save victory goals
+        economy: state.economy || __activeEconomy || ECONOMY,
         lastModified: new Date().toISOString()
       };
       
