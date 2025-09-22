@@ -280,7 +280,7 @@
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <button class="pill" id="attackerExpelliarmus" style="background: #7c3aed;">Expelliarmus (80 pts)</button>
             <button class="pill" id="attackerProtego" style="background: #1d4ed8;">Protego (120 pts)</button>
-            <button class="pill" id="attackerAvadaKedavra" style="background: #dc2626;">Avada Kedavra (300 pts)</button>
+            <button class="pill" id="attackerPatronus" style="background: #059669;">Expecto Patronum (200 pts)</button>
           </div>
           <div class="minor">Selected: <span id="attackerSpells">None</span></div>
           <div id="attackerSpellsList" style="margin-top: 8px;"></div>
@@ -328,7 +328,7 @@
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <button class="pill" id="defenderExpelliarmus" style="background: #7c3aed;">Expelliarmus (80 pts)</button>
             <button class="pill" id="defenderProtego" style="background: #1d4ed8;">Protego (120 pts)</button>
-            <button class="pill" id="defenderAvadaKedavra" style="background: #dc2626;">Avada Kedavra (300 pts)</button>
+            <button class="pill" id="defenderPatronus" style="background: #059669;">Expecto Patronum (200 pts)</button>
           </div>
           <div class="minor">Selected: <span id="defenderSpells">None</span></div>
           <div id="defenderSpellsList" style="margin-top: 8px;"></div>
@@ -2944,7 +2944,7 @@
           spells: [
             { id: 'expelliarmus', name: 'Expelliarmus', cost: 80, power: 25, icon: '⚡' },
             { id: 'protego', name: 'Protego', cost: 120, power: 40, icon: '🛡️' },
-            { id: 'avada_kedavra', name: 'Avada Kedavra', cost: 300, power: 150, icon: '💀' }
+            { id: 'patronus', name: 'Expecto Patronum', cost: 200, power: 100, icon: '🦌' }
           ]
         };
 
@@ -3149,6 +3149,9 @@
   // Function to get weapon data for character starting weapons
   function getWeaponData(weaponName) {
     const weaponMap = {
+      'wand': { icon: '🪄', power: 15, name: 'Wand' },
+      'invisibility_cloak': { icon: '👻', power: 20, name: 'Cloak of Invisibility' },
+      'felix_felicis': { icon: '🍀', power: 30, name: 'Felix Felicis' },
       'elder wand': { icon: '🪄', power: 25 },
       'time turner': { icon: '⏰', power: 20 },
       'horcruxes': { icon: '💀', power: 30 },
@@ -3320,14 +3323,14 @@
       const attackerSpellButtons = [
         document.getElementById('attackerExpelliarmus'),
         document.getElementById('attackerProtego'),
-        document.getElementById('attackerAvadaKedavra')
+        document.getElementById('attackerPatronus')
       ];
       console.log('Attacker spell buttons found:', attackerSpellButtons);
       
       const defenderSpellButtons = [
         document.getElementById('defenderExpelliarmus'),
         document.getElementById('defenderProtego'),
-        document.getElementById('defenderAvadaKedavra')
+        document.getElementById('defenderPatronus')
       ];
       
       // Update attacker spell buttons
@@ -3542,8 +3545,8 @@
       
       // Create individual spell items with remove buttons
       listElement.innerHTML = spellArray.map((spell, index) => {
-        const spellNames = { expelliarmus: 'Expelliarmus', protego: 'Protego', avada_kedavra: 'Avada Kedavra' };
-        const spellCosts = { expelliarmus: 80, protego: 120, avada_kedavra: 300 };
+        const spellNames = { expelliarmus: 'Expelliarmus', protego: 'Protego', patronus: 'Expecto Patronum' };
+        const spellCosts = { expelliarmus: 80, protego: 120, patronus: 200 };
         return `
           <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px; padding: 4px 8px; background: rgba(255,255,255,0.1); border-radius: 6px;">
             <span>${spellNames[spell]} (${spellCosts[spell]} pts)</span>
@@ -3591,7 +3594,7 @@
     currentBattle.attackerSpells.forEach(spell => {
       const spellButton = document.querySelector(`[data-spell-id="${spell}"]`);
       const spellPower = spellButton ? parseInt(spellButton.getAttribute('data-spell-power')) || 25 : 
-                        (spell === 'expelliarmus' ? 25 : spell === 'protego' ? 40 : 150);
+                        (spell === 'expelliarmus' ? 25 : spell === 'protego' ? 40 : 100);
       attackerSpellPower += spellPower;
     });
     
@@ -3639,7 +3642,7 @@
     currentBattle.defenderSpells.forEach(spell => {
       const spellButton = document.querySelector(`[data-spell-id="${spell}"]`);
       const spellPower = spellButton ? parseInt(spellButton.getAttribute('data-spell-power')) || 25 : 
-                        (spell === 'expelliarmus' ? 25 : spell === 'protego' ? 40 : 150);
+                        (spell === 'expelliarmus' ? 25 : spell === 'protego' ? 40 : 100);
       defenderSpellPower += spellPower;
     });
     
@@ -3875,8 +3878,8 @@
     addSpell(spellId, true);
   };
   
-  document.getElementById('attackerAvadaKedavra').onclick = () => {
-    const spellId = document.getElementById('attackerAvadaKedavra').getAttribute('data-spell-id') || 'avada_kedavra';
+  document.getElementById('attackerPatronus').onclick = () => {
+    const spellId = document.getElementById('attackerPatronus').getAttribute('data-spell-id') || 'patronus';
     addSpell(spellId, true);
   };
   
@@ -3891,8 +3894,8 @@
     addSpell(spellId, false);
   };
   
-  document.getElementById('defenderAvadaKedavra').onclick = () => {
-    const spellId = document.getElementById('defenderAvadaKedavra').getAttribute('data-spell-id') || 'avada_kedavra';
+  document.getElementById('defenderPatronus').onclick = () => {
+    const spellId = document.getElementById('defenderPatronus').getAttribute('data-spell-id') || 'patronus';
     addSpell(spellId, false);
   };
   
