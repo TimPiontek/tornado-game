@@ -649,7 +649,14 @@
         balance: existingStudent?.balance || student.points || 10, // Use saved points or default (10 coins for mercenary)
         teamId: existingStudent?.teamId || null,
         teamName: existingStudent?.teamName || null,
-        teamColor: existingStudent?.teamColor || null
+        teamColor: existingStudent?.teamColor || null,
+        // Preserve character data from saved roster
+        characterName: student.characterName || null,
+        characterRole: student.characterRole || null,
+        characterFaction: student.characterFaction || null,
+        startingCastles: student.startingCastles || 0,
+        weapons: student.weapons || [],
+        mercenaries: student.mercenaries || 0
       };
       
       // Assign color to student
@@ -1016,11 +1023,19 @@
       if (state.board.tiles) {
         state.board.tiles.forEach(tile => {
           if (tile.owner_game_student_id) {
-            const savedStudent = state.currentRoster.roster.find(s => s.id === tile.owner_game_student_id);
+            // Try to find by gsId first, then by id, then by name
+            const savedStudent = state.currentRoster.roster.find(s => 
+              s.gsId === tile.owner_game_student_id || 
+              s.id === tile.owner_game_student_id
+            );
             if (savedStudent) {
-              const currentStudent = state.roster.find(r => r.name === savedStudent.name);
+              const currentStudent = state.roster.find(r => 
+                r.gsId === savedStudent.gsId || 
+                r.name === savedStudent.name
+              );
               if (currentStudent) {
                 tile.owner_game_student_id = currentStudent.gsId;
+                console.log(`Remapped tile (${tile.x}, ${tile.y}) from ${savedStudent.name} to ${currentStudent.name}`);
               }
             }
           }
@@ -2750,7 +2765,14 @@
           tilesOwned: student.tilesOwned,
           teamId: student.teamId,
           teamName: student.teamName,
-          teamColor: student.teamColor
+          teamColor: student.teamColor,
+          // Save character data
+          characterName: student.characterName,
+          characterRole: student.characterRole,
+          characterFaction: student.characterFaction,
+          startingCastles: student.startingCastles,
+          weapons: student.weapons,
+          mercenaries: student.mercenaries
         })),
         gameState: {
           board: state.board,
