@@ -2656,9 +2656,9 @@ const SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Hogwarts Student', startingCoins: 50, startingWeapons: ['wand'], startingMercenaries: 1, startingCastles: 0, personality: 'brave', quotes: ['For Harry!', 'We\'re not afraid!', 'Protect Hogwarts!'] },
-          { name: 'Order Member', startingCoins: 60, startingWeapons: ['wand'], startingMercenaries: 1, startingCastles: 0, personality: 'dedicated', quotes: ['For the Order!', 'We will fight!', 'Protect the innocent!'] },
-          { name: 'Muggle-born', startingCoins: 45, startingWeapons: ['wand'], startingMercenaries: 0, startingCastles: 0, personality: 'determined', quotes: ['We belong here!', 'Magic is for everyone!', 'We will not be silenced!'] }
+          { name: 'Luna Lovegood', startingCoins: 55, startingWeapons: ['wand'], startingMercenaries: 1, startingCastles: 0, personality: 'quirky', quotes: ['The nargles are hiding!', 'I believe in you!', 'Don\'t worry, it\'s just a wrackspurt!'] },
+          { name: 'Dean Thomas', startingCoins: 50, startingWeapons: ['wand'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['We\'re Gryffindors!', 'For Harry!', 'We stand together!'] },
+          { name: 'Seamus Finnigan', startingCoins: 50, startingWeapons: ['wand'], startingMercenaries: 1, startingCastles: 0, personality: 'enthusiastic', quotes: ['Explosive magic!', 'Let\'s blow them up!', 'For Gryffindor!'] }
         ]
       },
       deathEaters: {
@@ -2901,9 +2901,9 @@ const SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Death Eater', startingCoins: 55, startingWeapons: ['dark mark'], startingMercenaries: 1, startingCastles: 0, personality: 'cruel', quotes: ['For the Dark Lord!', 'Pure blood rules!', 'Death to mudbloods!'] },
-          { name: 'Snatcher', startingCoins: 45, startingWeapons: ['snare'], startingMercenaries: 0, startingCastles: 0, personality: 'ruthless', quotes: ['We will catch them!', 'Gold for information!', 'The Dark Lord rewards us!'] },
-          { name: 'Inferi', startingCoins: 40, startingWeapons: ['undead strength'], startingMercenaries: 0, startingCastles: 0, personality: 'mindless', quotes: ['Serve the Dark Lord!', 'No mercy!', 'Death to enemies!'] }
+          { name: 'Amycus Carrow', startingCoins: 55, startingWeapons: ['cruciatus curse'], startingMercenaries: 1, startingCastles: 0, personality: 'cruel', quotes: ['The Dark Lord will be pleased!', 'Pure blood supremacy!', 'I enjoy their pain!'] },
+          { name: 'Thorfinn Rowle', startingCoins: 50, startingWeapons: ['dark mark'], startingMercenaries: 1, startingCastles: 0, personality: 'brutal', quotes: ['For the Dark Lord!', 'We will crush them!', 'Death to the Order!'] },
+          { name: 'Walden Macnair', startingCoins: 50, startingWeapons: ['executioner axe'], startingMercenaries: 1, startingCastles: 0, personality: 'ruthless', quotes: ['I execute the Dark Lord\'s will!', 'Death to traitors!', 'Pure blood will rule!'] }
         ]
       }
     },
@@ -3770,9 +3770,9 @@ const SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Rebel Soldier', startingCoins: 50, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 0, personality: 'brave', quotes: ['For the Rebellion!', 'Freedom!', 'We will fight!'] },
-          { name: 'Pilot', startingCoins: 55, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 0, personality: 'skilled', quotes: ['I can handle it!', 'Let\'s do this!', 'For the cause!'] },
-          { name: 'Jedi Padawan', startingCoins: 45, startingWeapons: ['training saber'], startingMercenaries: 0, startingCastles: 0, personality: 'eager', quotes: ['I want to learn!', 'Teach me!', 'I will be a Jedi!'] }
+          { name: 'Wedge Antilles', startingCoins: 50, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 0, personality: 'brave', quotes: ['For the Rebellion!', 'Red Leader standing by!', 'We will fight!'] },
+          { name: 'Biggs Darklighter', startingCoins: 55, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 0, personality: 'skilled', quotes: ['I can handle it!', 'Let\'s do this!', 'For the cause!'] },
+          { name: 'Ahsoka Tano', startingCoins: 45, startingWeapons: ['training saber'], startingMercenaries: 0, startingCastles: 0, personality: 'eager', quotes: ['I want to learn!', 'Teach me!', 'I will be a Jedi!'] }
         ]
       },
       empire: {
@@ -4049,9 +4049,9 @@ const SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Stormtrooper', startingCoins: 45, startingWeapons: ['blaster'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['For the Empire!', 'All hail the Emperor!', 'We will crush the Rebellion!'] },
-          { name: 'Imperial Officer', startingCoins: 55, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 0, personality: 'disciplined', quotes: ['At attention!', 'Follow orders!', 'For the Empire!'] },
-          { name: 'TIE Pilot', startingCoins: 50, startingWeapons: ['blaster'], startingMercenaries: 0, startingCastles: 0, personality: 'skilled', quotes: ['I can handle it!', 'Let\'s do this!', 'For the Empire!'] }
+          { name: 'Grand Moff Tarkin', startingCoins: 45, startingWeapons: ['blaster'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['For the Empire!', 'All hail the Emperor!', 'We will crush the Rebellion!'] },
+          { name: 'Admiral Piett', startingCoins: 55, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 0, personality: 'disciplined', quotes: ['At attention!', 'Follow orders!', 'For the Empire!'] },
+          { name: 'Commander Cody', startingCoins: 50, startingWeapons: ['blaster'], startingMercenaries: 0, startingCastles: 0, personality: 'skilled', quotes: ['I can handle it!', 'Let\'s do this!', 'For the Empire!'] }
         ]
       },
       neutral: {
