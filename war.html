@@ -2835,16 +2835,21 @@
         // Save to Supabase if logged in (silently, no alerts)
         if (state.session && !state.offlineMode) {
           try {
-            await supabase.from('rosters').upsert({
+            const { error } = await supabase.from('rosters').upsert({
               id: state.currentRosterId,
               teacher_id: state.session.user.id,
               name: state.currentRoster.name,
               data: updatedRoster,
               last_modified: new Date().toISOString()
             });
+            if (error) {
+              console.error('Supabase error:', error);
+              throw error;
+            }
             console.log('Auto-saved war points to Supabase');
           } catch (error) {
             console.error('Error auto-saving to Supabase:', error);
+            // Continue with local save even if Supabase fails
           }
         }
         
@@ -4339,16 +4344,39 @@
     }
     
     // Auto-save points after battle
-    autoSaveWarPoints();
+    try {
+      await autoSaveWarPoints();
+      console.log('Battle results saved successfully');
+    } catch (error) {
+      console.error('Error saving battle results:', error);
+      // Force save to localStorage as fallback
+      localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+      console.log('Battle results saved to localStorage as fallback');
+    }
+    
+    // Force update the display immediately after battle
+    updateGridDisplay();
+    syncTileCounts();
+    updateVictoryTarget();
+    updateTeamScoreboards();
     
     if (attackerWins) {
       // Attacker takes the tile
+      console.log(`Battle result: ${currentBattle.attacker.name} wins! Taking tile from ${currentBattle.defender.name}`);
+      console.log(`Tile before: owner=${currentBattle.tile.owner_game_student_id}, castle=${currentBattle.tile.castle_level}`);
+      
       currentBattle.tile.owner_game_student_id = currentBattle.attacker.gsId;
       currentBattle.tile.castle_level = 0; // Destroy castle
+      
+      console.log(`Tile after: owner=${currentBattle.tile.owner_game_student_id}, castle=${currentBattle.tile.castle_level}`);
       
       // Update tile counts
       currentBattle.attacker.tilesOwned += 1;
       currentBattle.defender.tilesOwned = Math.max(0, currentBattle.defender.tilesOwned - 1);
+      
+      console.log(`Tile counts: ${currentBattle.attacker.name}=${currentBattle.attacker.tilesOwned}, ${currentBattle.defender.name}=${currentBattle.defender.tilesOwned}`);
+    } else {
+      console.log(`Battle result: ${currentBattle.defender.name} wins! Defends tile from ${currentBattle.attacker.name}`);
     }
     
     // Save the updated roster
