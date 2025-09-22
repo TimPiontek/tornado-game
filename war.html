@@ -2279,6 +2279,13 @@
             lsStudents[idx].careerPoints = (lsStudents[idx].careerPoints || 0) + amount;
             localStorage.setItem('tornadoStudents', JSON.stringify(lsStudents));
           }
+          // Best-effort Supabase career_points increment if we can match by auth id
+          if (state.session && student.authId) {
+            try {
+              const { error } = await supabase.rpc('increment_career_points', { p_student_id: student.authId, p_delta: amount });
+              if (error) console.warn('increment_career_points error', error.message);
+            } catch (e) { console.warn('increment_career_points exception', e); }
+          }
         } catch (e) { /* ignore */ }
       }
     });

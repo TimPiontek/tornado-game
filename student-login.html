@@ -1412,14 +1412,17 @@
         }
 
         // === CLASS FEATURE FUNCTIONS ===
-        function viewLeaderboard() {
-            // Load career points from localStorage (fallback) and show top 5
-            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
-            const ranked = students
-                .map(s => ({ name: s.username, career: s.careerPoints || s.totalPoints || 0 }))
-                .sort((a,b) => b.career - a.career)
-                .slice(0, 5);
-            const lines = ranked.length ? ranked.map((r,i)=> `${i+1}. ${r.name} — ${r.career} pts`).join('\n') : 'No data yet.';
+        async function viewLeaderboard() {
+            // Best-effort Supabase load; fallback to localStorage
+            let ranked = [];
+            try {
+                const ls = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+                ranked = ls.map(s => ({ id: s.id, name: s.username, career: s.careerPoints || s.totalPoints || 0 }));
+            } catch {}
+
+            // Render simple modal via alert for now
+            const top = ranked.sort((a,b)=>b.career-a.career).slice(0,5);
+            const lines = top.length ? top.map((r,i)=> `${i+1}. ${r.name} — ${r.career} pts`).join('\n') : 'No data yet.';
             alert(`📊 Leaderboard (Career Points)\n\n${lines}`);
         }
 
