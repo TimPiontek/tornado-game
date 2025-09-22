@@ -2190,7 +2190,25 @@
       }
     }
     
-    // Check if target tile is adjacent to any truce partner's territories
+    // Check if target tile is adjacent to any teammate's territories (for scenario games)
+    if (state.scenario) {
+      const student = state.roster.find(r => r.gsId === studentGsId);
+      if (student && student.teamId) {
+        const teammates = state.roster.filter(r => r.teamId === student.teamId && r.gsId !== studentGsId);
+        
+        for (const teammate of teammates) {
+          const teammateTiles = state.board.tiles.filter(t => t.owner_game_student_id === teammate.gsId);
+          
+          for (const teammateTile of teammateTiles) {
+            if (areTilesAdjacent(teammateTile, targetTile)) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+    
+    // Check if target tile is adjacent to any truce partner's territories (for non-team games)
     const studentTruces = state.truces.filter(truce => 
       truce.student1 === studentGsId || truce.student2 === studentGsId
     );
@@ -2320,32 +2338,41 @@
       // Enemy tile - attack (check adjacency)
       if (!canStudentAttackTile(selectedStudent.gsId, tile)) {
         const defender = state.roster.find(r => r.gsId === tile.owner_game_student_id);
-        if (defender && state.scenario && state.scenario.manualRoleAssignments) {
-          const attackerCharacter = state.scenario.manualRoleAssignments[selectedStudent.gsId];
-          const defenderCharacter = state.scenario.manualRoleAssignments[defender.gsId];
-          
-          // Check if they're teammates
-          let attackerFaction = null;
-          let defenderFaction = null;
-          
-          Object.entries(state.scenario.factions).forEach(([factionId, faction]) => {
-            if (faction.characters) {
-              faction.characters.forEach(char => {
-                if (char.name === attackerCharacter) attackerFaction = factionId;
-                if (char.name === defenderCharacter) defenderFaction = factionId;
-              });
-            }
-            if (faction.generalRoles) {
-              faction.generalRoles.forEach(role => {
-                if (role.name === attackerCharacter) attackerFaction = factionId;
-                if (role.name === defenderCharacter) defenderFaction = factionId;
-              });
-            }
-          });
-          
-          if (attackerFaction && defenderFaction && attackerFaction === defenderFaction) {
-            alert(`Cannot attack teammate! ${defender.name} (${defenderCharacter}) is on your side. You can only attack enemies from other factions.`);
+        if (defender && state.scenario) {
+          // First check: Are they on the same team? (simpler check)
+          if (selectedStudent.teamId && defender.teamId && selectedStudent.teamId === defender.teamId) {
+            alert(`Cannot attack teammate! ${defender.name} is on your team (${selectedStudent.teamName}). You can only attack enemies from other teams.`);
             return;
+          }
+          
+          // Second check: Are they from the same faction? (for manual role assignments)
+          if (state.scenario.manualRoleAssignments) {
+            const attackerCharacter = state.scenario.manualRoleAssignments[selectedStudent.gsId];
+            const defenderCharacter = state.scenario.manualRoleAssignments[defender.gsId];
+            
+            // Check if they're teammates
+            let attackerFaction = null;
+            let defenderFaction = null;
+            
+            Object.entries(state.scenario.factions).forEach(([factionId, faction]) => {
+              if (faction.characters) {
+                faction.characters.forEach(char => {
+                  if (char.name === attackerCharacter) attackerFaction = factionId;
+                  if (char.name === defenderCharacter) defenderFaction = factionId;
+                });
+              }
+              if (faction.generalRoles) {
+                faction.generalRoles.forEach(role => {
+                  if (role.name === attackerCharacter) attackerFaction = factionId;
+                  if (role.name === defenderCharacter) defenderFaction = factionId;
+                });
+              }
+            });
+            
+            if (attackerFaction && defenderFaction && attackerFaction === defenderFaction) {
+              alert(`Cannot attack teammate! ${defender.name} (${defenderCharacter}) is on your side. You can only attack enemies from other factions.`);
+              return;
+            }
           }
         }
         
@@ -2355,11 +2382,19 @@
       
       const defender = state.roster.find(r => r.gsId === tile.owner_game_student_id);
       if (defender) {
-        // Check if students are in a truce
+        // Check if students are teammates (automatic truce in scenario games)
+        const areTeammates = state.scenario && selectedStudent.teamId && defender.teamId && selectedStudent.teamId === defender.teamId;
+        
+        // Check if students are in a manual truce (for non-team games)
         const areInTruce = state.truces.some(truce => 
           (truce.student1 === selectedStudent.gsId && truce.student2 === defender.gsId) ||
           (truce.student1 === defender.gsId && truce.student2 === selectedStudent.gsId)
         );
+        
+        if (areTeammates) {
+          alert(`Cannot attack ${defender.name}! They are on your team (${selectedStudent.teamName}). You can only attack enemies from other teams.`);
+          return;
+        }
         
         if (areInTruce) {
           alert(`Cannot attack ${defender.name}! You are in a truce with them.`);
