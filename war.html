@@ -202,6 +202,10 @@
     </div>
     <div style="margin-top: 1rem; text-align: center;">
       <button id="nextAIActionBtn" onclick="nextAIAction()" style="background: #8b5cf6; color: white; border: none; border-radius: 6px; padding: 12px 24px; cursor: pointer; font-size: 16px;">Next AI Action</button>
+      <button onclick="closeAIActionModal()" style="background: #6b7280; color: white; border: none; border-radius: 6px; padding: 12px 24px; cursor: pointer; font-size: 16px; margin-left: 10px;">Close Modal</button>
+    </div>
+    <div style="margin-top: 1rem; text-align: center; font-size: 12px; color: #6b7280;">
+      Press ESC to close • Click outside modal to close
     </div>
   </div>
 </div>
@@ -9839,7 +9843,7 @@ REQUIREMENTS:
     
     // Check if can attack (has mercenaries and targets)
     if (aiStudent.mercenaries > 0) {
-      const attackableTiles = getAttackableTiles(aiStudent);
+      const attackableTiles = getAIAttackableTiles(aiStudent);
       if (attackableTiles.length > 0) {
         actions.push({ type: 'attack', targets: attackableTiles, description: 'Attack enemy territory' });
       }
@@ -9971,6 +9975,27 @@ REQUIREMENTS:
     aiTurnQueue = [];
     currentAIActionIndex = 0;
   }
+
+  // Add escape key handler for AI modal
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      const modal = document.getElementById('aiActionModal');
+      if (modal && modal.style.display !== 'none') {
+        closeAIActionModal();
+      }
+    }
+  });
+
+  // Add click-outside-to-close handler for AI modal
+  document.addEventListener('click', function(event) {
+    const modal = document.getElementById('aiActionModal');
+    if (modal && modal.style.display !== 'none') {
+      // Check if click is outside the modal content
+      if (event.target === modal) {
+        closeAIActionModal();
+      }
+    }
+  });
   
   // Next AI action in sequence
   async function nextAIAction() {
@@ -10027,7 +10052,7 @@ REQUIREMENTS:
   }
   
   // Helper functions for AI actions
-  function getAttackableTiles(aiStudent) {
+  function getAIAttackableTiles(aiStudent) {
     // Simplified - return some mock attackable tiles
     return [
       { name: 'Enemy Territory 1', cost: 10 },
