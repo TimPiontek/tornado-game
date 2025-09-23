@@ -922,7 +922,11 @@
     // First, create AI players from aiAssignments
     if (state.scenario.aiAssignments) {
       console.log('Creating AI players from aiAssignments:', state.scenario.aiAssignments);
-      Object.values(state.scenario.aiAssignments).forEach(aiAssignment => {
+      const aiAssignmentsArray = Object.values(state.scenario.aiAssignments);
+      console.log(`Found ${aiAssignmentsArray.length} AI assignments to process`);
+      
+      aiAssignmentsArray.forEach(aiAssignment => {
+        console.log(`Processing AI assignment:`, aiAssignment);
         if (aiAssignment.isAI && !state.roster.find(s => s.characterName === aiAssignment.roleName && s.isAI)) {
           // Create AI player
           const aiPlayer = {
@@ -944,9 +948,13 @@
           };
           state.roster.push(aiPlayer);
           console.log(`Created AI player: ${aiPlayer.name} for faction ${aiAssignment.factionName}`);
+        } else {
+          console.log(`Skipping AI assignment ${aiAssignment.roleName} - already exists or not AI`);
         }
       });
       console.log('Final roster after AI creation:', state.roster.map(s => `${s.name} (${s.isAI ? 'AI' : 'Student'}) - ${s.characterName} - ${s.characterFaction}`));
+    } else {
+      console.log('No aiAssignments found in scenario');
     }
     
     state.roster.forEach(student => {
@@ -1008,10 +1016,15 @@
   // Class vs AI: auto-assign students to one faction and AI to another faction
   function assignClassVsAITeams(scenarioData) {
     try {
+      console.log('assignClassVsAITeams called with:', scenarioData);
       const scenario = SCENARIOS[scenarioData.scenarioId];
-      if (!scenario || !scenario.factions) return;
+      if (!scenario || !scenario.factions) {
+        console.error('No scenario or factions found:', scenarioData.scenarioId);
+        return;
+      }
 
       const factionNames = Object.keys(scenario.factions);
+      console.log('Available factions:', factionNames);
       if (factionNames.length < 2) {
         console.warn('Class vs AI: Need at least 2 factions for AI vs Students');
         return;
@@ -1071,11 +1084,14 @@
         // Mirror onto student for downstream team assignment
         student.characterName = pick.name;
         student.characterFaction = pick.factionName;
+        console.log(`Assigned student ${student.name} to character ${pick.name} (${pick.factionName})`);
       });
 
       // Assign remaining characters to AI
       const studentCharacterNames = Object.values(roleAssignments);
       const remainingCharacters = shuffledCharacters.filter(char => !studentCharacterNames.includes(char.name));
+      console.log(`Students got ${studentCharacterNames.length} characters:`, studentCharacterNames);
+      console.log(`AI will get ${remainingCharacters.length} characters:`, remainingCharacters.map(c => c.name));
       
       remainingCharacters.forEach((c) => {
         aiAssignments[c.name] = {
@@ -1085,6 +1101,7 @@
           factionName: c.factionName,
           isAI: true
         };
+        console.log(`Created AI assignment for ${c.name} (${c.factionName})`);
       });
 
       // Persist onto scenario/state
@@ -1896,13 +1913,19 @@
     
     // Auto-assign characters
     if (scenarioData.enableAI) {
+      console.log('AI enabled, checking for class vs AI assignment...');
       // Class vs AI: only assign if nothing is already assigned (respect manual modal results)
       if (!scenarioData.manualRoleAssignments) {
+        console.log('No manual assignments found, calling assignClassVsAITeams...');
         assignClassVsAITeams(scenarioData);
+      } else {
+        console.log('Manual assignments already exist, skipping auto-assignment');
       }
     } else {
+      console.log('AI not enabled, checking for random assignment...');
       // Random assignment if requested and no manual assignments
       if (scenarioData.randomAssignment && !scenarioData.manualRoleAssignments) {
+        console.log('Random assignment requested, calling assignRandomCharacters...');
         assignRandomCharacters(scenarioData);
       }
     }
