@@ -146,6 +146,7 @@
       <div class="title">AI Simulation</div>
       <div style="margin-bottom: 8px;">
         <button class="pill" onclick="simulateAllAI()" style="background: #8b5cf6; font-size: 12px;">Simulate All AI</button>
+        <button class="pill" onclick="takeAllAITurns()" style="background: #f59e0b; font-size: 12px;">🤖 All AI Turn</button>
         <button class="pill" onclick="showIndividualAIControls()" style="background: #3b82f6; font-size: 12px;">Individual AI</button>
       </div>
       <div id="individualAIControls" style="display: none; margin-top: 8px;">
@@ -168,6 +169,19 @@
   <!-- RIGHT: map -->
   <div class="panel">
     <div class="title">Map</div>
+    <div id="gameThemeTitle" style="
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-weight: 600;
+      font-size: 16px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    ">
+      🎮 Select a Scenario to Begin
+    </div>
     <div id="teamScoreboards" style="margin-bottom: 1rem;"></div>
     <div id="board">
       <div id="grid"></div>
@@ -175,6 +189,22 @@
     <div class="minor" id="tip">Tip: click a roster name, then click a tile.</div>
   </div>
   </div>
+
+<!-- AI Action Display Modal -->
+<div id="aiActionModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; display: flex; align-items: center; justify-content: center;">
+  <div style="background: white; border-radius: 12px; padding: 2rem; max-width: 600px; width: 90%; max-height: 80%; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+      <h2 style="margin: 0; color: #1e293b;">🤖 AI Turn Sequence</h2>
+      <button onclick="closeAIActionModal()" style="background: #ef4444; color: white; border: none; border-radius: 6px; padding: 8px 12px; cursor: pointer;">✕ Close</button>
+    </div>
+    <div id="aiActionLog" style="max-height: 400px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; background: #f8fafc;">
+      <!-- AI actions will be displayed here -->
+    </div>
+    <div style="margin-top: 1rem; text-align: center;">
+      <button id="nextAIActionBtn" onclick="nextAIAction()" style="background: #8b5cf6; color: white; border: none; border-radius: 6px; padding: 12px 24px; cursor: pointer; font-size: 16px;">Next AI Action</button>
+    </div>
+  </div>
+</div>
 
 <!-- Actions panel below the main content -->
 <div class="panel" style="margin: 12px;">
@@ -1795,6 +1825,9 @@
     state.scenario = scenarioData;
     // Economy overrides per scenario; load from roster if saved
     state.economy = (state.currentRoster && state.currentRoster.economy) ? state.currentRoster.economy : { ...ECONOMY };
+    
+    // Update game theme title
+    updateGameThemeTitle();
     const id = scenarioData.scenarioId || scenarioData.id;
     if (id === 'harryPotter') {
       // Slight discount for spells theme; keep core prices
@@ -2038,17 +2071,31 @@
     
     const { w, h } = state.board;
     
-    // Group students by team for strategic placement
-    const teamGroups = {};
+    // Separate AI teams from student teams
+    const aiTeams = {};
+    const studentTeams = {};
+    
     state.roster.forEach(student => {
       const teamId = student.teamId || 'individual';
-      if (!teamGroups[teamId]) {
-        teamGroups[teamId] = [];
+      if (student.isAI) {
+        if (!aiTeams[teamId]) {
+          aiTeams[teamId] = [];
+        }
+        aiTeams[teamId].push(student);
+      } else {
+        if (!studentTeams[teamId]) {
+          studentTeams[teamId] = [];
+        }
+        studentTeams[teamId].push(student);
       }
-      teamGroups[teamId].push(student);
     });
     
-    console.log('Team groups:', teamGroups);
+    // Combine teams with AI teams first, then student teams
+    const teamGroups = { ...aiTeams, ...studentTeams };
+    
+    console.log('AI teams:', aiTeams);
+    console.log('Student teams:', studentTeams);
+    console.log('Combined team groups:', teamGroups);
     
     // Create strategic starting positions based on team count
     const team1Positions = []; // Team 1 positions
@@ -2158,11 +2205,18 @@
     
     // Assign starting positions to teams
     const teamIds = Object.keys(teamGroups);
+    const aiTeamIds = Object.keys(aiTeams);
+    const studentTeamIds = Object.keys(studentTeams);
+    
     Object.entries(teamGroups).forEach(([teamId, students], index) => {
       console.log(`Assigning positions for team ${teamId} with ${students.length} students`);
       
       // Choose positions based on team index and formation
       let teamPositions = [];
+      
+      // Determine if this is an AI team or student team
+      const isAITeam = aiTeamIds.includes(teamId);
+      const isStudentTeam = studentTeamIds.includes(teamId);
       
       // Determine which team is "good guys" based on scenario
       const currentTeamId = teamIds[index];
@@ -2171,51 +2225,43 @@
       // Check if this scenario has a clear good vs bad dynamic
       const hasGoodBadDynamic = state.scenario && ['americanRevolution', 'civilWar', 'starWars', 'harryPotter', 'lordOfTheRings', 'avengers', 'superMario', 'worldWar1', 'worldWar2', 'disneyVsPixar'].includes(state.scenario.scenarioId);
       
-      if (hasGoodBadDynamic) {
-        // Apply good guys on left rule for scenarios with clear good vs bad dynamics
+      // AI vs Students positioning: AI teams on left, Student teams on right
+      if (isAITeam) {
+        // AI teams get left side positions
         if (teamCount === 4) {
-          // 4-team corner formation - good guys get left side
-          if (isGoodGuys) {
-            // Good guys get left side (top-left or bottom-left)
-            if (index === 0) teamPositions = team1Positions; // Top-left
-            else if (index === 2) teamPositions = team3Positions; // Bottom-left
-          } else {
-            // Bad guys get right side (top-right or bottom-right)
-            if (index === 1) teamPositions = team2Positions; // Top-right
-            else if (index === 3) teamPositions = team4Positions; // Bottom-right
-          }
+          // AI gets left side (top-left or bottom-left)
+          if (index === 0) teamPositions = team1Positions; // Top-left
+          else if (index === 2) teamPositions = team3Positions; // Bottom-left
         } else if (teamCount === 3) {
-          // 3-team triangle formation - good guys get top center
-          if (isGoodGuys) {
-            teamPositions = team1Positions; // Top center
-          } else {
-            // Bad guys get bottom corners
-            if (index === 1) teamPositions = team2Positions; // Bottom-left
-            else if (index === 2) teamPositions = team3Positions; // Bottom-right
-          }
+          teamPositions = team1Positions; // Top center (left side)
         } else {
-          // 2-team formation - good guys always get left side
-          if (isGoodGuys) {
-            teamPositions = team1Positions; // Left side
-          } else {
-            teamPositions = team2Positions; // Right side
-          }
+          teamPositions = team1Positions; // Left side
+        }
+      } else if (isStudentTeam) {
+        // Student teams get right side positions
+        if (teamCount === 4) {
+          // Students get right side (top-right or bottom-right)
+          if (index === 1) teamPositions = team2Positions; // Top-right
+          else if (index === 3) teamPositions = team4Positions; // Bottom-right
+        } else if (teamCount === 3) {
+          // Students get bottom corners (right side)
+          if (index === 1) teamPositions = team2Positions; // Bottom-left
+          else if (index === 2) teamPositions = team3Positions; // Bottom-right
+        } else {
+          teamPositions = team2Positions; // Right side
         }
       } else {
-        // For scenarios without clear good vs bad dynamics, use standard positioning
+        // Fallback for individual players - use standard positioning
         if (teamCount === 4) {
-          // 4-team corner formation - standard assignment
           if (index === 0) teamPositions = team1Positions; // Top-left
           else if (index === 1) teamPositions = team2Positions; // Top-right
           else if (index === 2) teamPositions = team3Positions; // Bottom-left
           else if (index === 3) teamPositions = team4Positions; // Bottom-right
         } else if (teamCount === 3) {
-          // 3-team triangle formation - standard assignment
           if (index === 0) teamPositions = team1Positions; // Top center
           else if (index === 1) teamPositions = team2Positions; // Bottom-left
           else if (index === 2) teamPositions = team3Positions; // Bottom-right
         } else {
-          // 2-team formation - standard assignment
           if (index === 0) teamPositions = team1Positions; // Left side
           else if (index === 1) teamPositions = team2Positions; // Right side
         }
@@ -3481,8 +3527,78 @@
     }
   };
 
+  // Update game theme title based on current scenario
+  function updateGameThemeTitle() {
+    const themeTitle = document.getElementById('gameThemeTitle');
+    if (!themeTitle) return;
+    
+    if (state.scenario && state.scenario.scenarioName) {
+      const scenarioName = state.scenario.scenarioName;
+      const scenarioData = SCENARIOS[state.scenario.scenarioId];
+      
+      // Get theme-specific emoji and styling
+      let emoji = '🎮';
+      let gradient = 'linear-gradient(135deg, #8b5cf6, #3b82f6)';
+      
+      if (scenarioName.includes('Harry Potter')) {
+        emoji = '⚡';
+        gradient = 'linear-gradient(135deg, #dc143c, #8b0000)';
+      } else if (scenarioName.includes('Star Wars')) {
+        emoji = '⭐';
+        gradient = 'linear-gradient(135deg, #4169e1, #000080)';
+      } else if (scenarioName.includes('Pokemon')) {
+        emoji = '⚡';
+        gradient = 'linear-gradient(135deg, #ffd700, #ff6b6b)';
+      } else if (scenarioName.includes('Disney')) {
+        emoji = '🏰';
+        gradient = 'linear-gradient(135deg, #ff69b4, #ff1493)';
+      } else if (scenarioName.includes('Pixar')) {
+        emoji = '🎬';
+        gradient = 'linear-gradient(135deg, #00bfff, #1e90ff)';
+      } else if (scenarioName.includes('Marvel')) {
+        emoji = '🦸';
+        gradient = 'linear-gradient(135deg, #dc143c, #ff4500)';
+      } else if (scenarioName.includes('DC')) {
+        emoji = '🦇';
+        gradient = 'linear-gradient(135deg, #000080, #4169e1)';
+      } else if (scenarioName.includes('Revolution')) {
+        emoji = '🇺🇸';
+        gradient = 'linear-gradient(135deg, #dc143c, #000080)';
+      } else if (scenarioName.includes('Civil War')) {
+        emoji = '⚔️';
+        gradient = 'linear-gradient(135deg, #dc143c, #8b0000)';
+      } else if (scenarioName.includes('World War')) {
+        emoji = '🌍';
+        gradient = 'linear-gradient(135deg, #8b0000, #2f4f4f)';
+      } else if (scenarioName.includes('Greek') || scenarioName.includes('Mythology')) {
+        emoji = '🏛️';
+        gradient = 'linear-gradient(135deg, #daa520, #b8860b)';
+      } else if (scenarioName.includes('Hunger Games')) {
+        emoji = '🏹';
+        gradient = 'linear-gradient(135deg, #ff4500, #8b0000)';
+      }
+      
+      themeTitle.innerHTML = `${emoji} ${scenarioName}`;
+      themeTitle.style.background = gradient;
+    } else {
+      themeTitle.innerHTML = '🎮 Select a Scenario to Begin';
+      themeTitle.style.background = 'linear-gradient(135deg, #8b5cf6, #3b82f6)';
+    }
+  }
+
   function renderRoster() {
     rosterEl.innerHTML = "";
+    
+    // Show AI controls if there are AI players
+    const hasAIPlayers = state.roster.some(r => r.isAI);
+    const aiControls = document.getElementById('aiControls');
+    if (aiControls) {
+      aiControls.style.display = hasAIPlayers ? 'block' : 'none';
+    }
+    
+    // Update game theme title
+    updateGameThemeTitle();
+    
     for (const r of state.roster) {
       const row = document.createElement("div");
       row.className = "row" + (state.selectedGsId===r.gsId ? " sel" : "");
@@ -3565,6 +3681,7 @@
         <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="1" style="background:#10b981; color:white;">+1</button>
         <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="5" style="background:#3b82f6; color:white;">+5</button>
         <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="10" style="background:#8b5cf6; color:white;">+10</button>
+        ${r.isAI ? `<button class="plus" onclick="takeAITurn('${r.gsId}')" style="background:#f59e0b; color:white;">🤖 AI</button>` : ''}
         <button class="plus" data-gs="${r.gsId}" data-action="subtract" data-amount="1" style="background:#ef4444; color:white;">-1</button>
         <button class="market-btn" data-gs="${r.gsId}" style="background:#f59e0b; color:white; font-size:10px; padding:2px 6px;" title="Student Market">🛒</button>
         <button onclick="showEventCardModal()" class="event-btn" style="background:#8b5cf6; color:white; font-size:10px; padding:2px 6px; margin-left:2px;" title="Event Cards">🎲</button>
@@ -6039,6 +6156,9 @@
     // Clear any existing scenario data
     state.scenario = null;
     
+    // Update game theme title
+    updateGameThemeTitle();
+    
     // Hide AI and educational controls
     const aiControls = document.getElementById('aiControls');
     const educationalControls = document.getElementById('educationalControls');
@@ -6337,6 +6457,9 @@
     if (state.currentRoster && state.currentRoster.scenario) {
       delete state.currentRoster.scenario;
       state.scenario = null;
+      
+      // Update game theme title
+      updateGameThemeTitle();
       
       // Clear character assignments
       state.roster.forEach(student => {
@@ -9577,6 +9700,331 @@ REQUIREMENTS:
       initializeEducationalContent();
     }, 100);
   };
+
+  // AI Turn Management
+  let aiTurnQueue = [];
+  let currentAIActionIndex = 0;
+  let isAITurnSequenceActive = false;
+  
+  // Take individual AI turn
+  async function takeAITurn(aiStudentId) {
+    const aiStudent = state.roster.find(s => s.gsId === aiStudentId && s.isAI);
+    if (!aiStudent) {
+      console.error('AI student not found:', aiStudentId);
+      return;
+    }
+    
+    // Check if AI has enough money to do anything
+    if (aiStudent.balance < 10) {
+      showAIAction(`${aiStudent.name} (${aiStudent.characterName || 'AI'}) skips their turn - not enough money! 💰`, 'skip');
+      return;
+    }
+    
+    // Get AI character data
+    const characterData = getAICharacterData(aiStudent);
+    if (!characterData) {
+      showAIAction(`${aiStudent.name} takes a turn but has no character data!`, 'error');
+      return;
+    }
+    
+    // Make AI decision
+    const action = makeAIDecision(aiStudent, characterData);
+    await executeAIAction(aiStudent, action);
+  }
+  
+  // Take all AI turns in sequence
+  async function takeAllAITurns() {
+    const aiStudents = state.roster.filter(s => s.isAI);
+    if (aiStudents.length === 0) {
+      alert('No AI players found!');
+      return;
+    }
+    
+    // Initialize turn sequence
+    aiTurnQueue = aiStudents.slice();
+    currentAIActionIndex = 0;
+    isAITurnSequenceActive = true;
+    
+    // Show modal
+    showAIActionModal();
+    
+    // Start first AI turn
+    await nextAIAction();
+  }
+  
+  // Get AI character data from scenario
+  function getAICharacterData(aiStudent) {
+    if (!state.scenario || !state.scenario.scenarioId) return null;
+    
+    const scenarioData = SCENARIOS[state.scenario.scenarioId];
+    if (!scenarioData || !scenarioData.factions) return null;
+    
+    // Find character in factions
+    for (const [factionId, faction] of Object.entries(scenarioData.factions)) {
+      if (faction.characters) {
+        const character = faction.characters.find(char => 
+          char.name === aiStudent.characterName || 
+          char.role === aiStudent.characterName
+        );
+        if (character) {
+          return { ...character, factionId, factionName: faction.name };
+        }
+      }
+    }
+    
+    return null;
+  }
+  
+  // Make AI decision based on personality and game state
+  function makeAIDecision(aiStudent, characterData) {
+    const personality = characterData.personality || 'strategic';
+    const availableActions = getAvailableAIActions(aiStudent);
+    
+    if (availableActions.length === 0) {
+      return { type: 'skip', reason: 'No available actions' };
+    }
+    
+    // Decision making based on personality
+    switch (personality) {
+      case 'aggressive':
+        return makeAggressiveDecision(availableActions);
+      case 'defensive':
+        return makeDefensiveDecision(availableActions);
+      case 'strategic':
+        return makeStrategicDecision(availableActions);
+      case 'economic':
+        return makeEconomicDecision(availableActions);
+      default:
+        return makeRandomDecision(availableActions);
+    }
+  }
+  
+  // Get available actions for AI
+  function getAvailableAIActions(aiStudent) {
+    const actions = [];
+    
+    // Check if can buy mercenaries
+    if (aiStudent.balance >= 10) {
+      actions.push({ type: 'buy_mercenaries', cost: 10, description: 'Buy mercenaries' });
+    }
+    
+    // Check if can attack (has mercenaries and targets)
+    if (aiStudent.mercenaries > 0) {
+      const attackableTiles = getAttackableTiles(aiStudent);
+      if (attackableTiles.length > 0) {
+        actions.push({ type: 'attack', targets: attackableTiles, description: 'Attack enemy territory' });
+      }
+    }
+    
+    // Check if can expand (has money for new territories)
+    if (aiStudent.balance >= 5) {
+      const expandableTiles = getExpandableTiles(aiStudent);
+      if (expandableTiles.length > 0) {
+        actions.push({ type: 'expand', targets: expandableTiles, description: 'Expand to new territory' });
+      }
+    }
+    
+    return actions;
+  }
+  
+  // Execute AI action
+  async function executeAIAction(aiStudent, action) {
+    const characterData = getAICharacterData(aiStudent);
+    const characterName = characterData?.name || aiStudent.characterName || 'AI';
+    const quote = characterData?.quotes?.[Math.floor(Math.random() * characterData.quotes.length)] || `${characterName} acts!`;
+    
+    switch (action.type) {
+      case 'buy_mercenaries':
+        aiStudent.balance -= action.cost;
+        aiStudent.mercenaries += 1;
+        showAIAction(`${characterName}: "${quote}" - Buys mercenaries! ⚔️`, 'buy');
+        break;
+        
+      case 'attack':
+        if (action.targets && action.targets.length > 0) {
+          const target = action.targets[Math.floor(Math.random() * action.targets.length)];
+          showAIAction(`${characterName}: "${quote}" - Attacks ${target.name}! ⚔️`, 'attack');
+          // Simulate attack (simplified)
+          await simulateAttack(aiStudent, target);
+        }
+        break;
+        
+      case 'expand':
+        if (action.targets && action.targets.length > 0) {
+          const target = action.targets[Math.floor(Math.random() * action.targets.length)];
+          aiStudent.balance -= 5;
+          aiStudent.tilesOwned += 1;
+          showAIAction(`${characterName}: "${quote}" - Expands to ${target.name}! 🗺️`, 'expand');
+        }
+        break;
+        
+      case 'skip':
+        showAIAction(`${characterName}: "${quote}" - Skips turn (${action.reason})`, 'skip');
+        break;
+        
+      default:
+        showAIAction(`${characterName}: "${quote}" - Takes a mysterious action!`, 'mystery');
+    }
+    
+    // Update UI
+    renderRoster();
+    updateTeamScoreboards();
+  }
+  
+  // Show AI action in modal
+  function showAIAction(message, type) {
+    const log = document.getElementById('aiActionLog');
+    if (!log) return;
+    
+    const actionDiv = document.createElement('div');
+    actionDiv.style.cssText = `
+      padding: 12px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      border-left: 4px solid ${getActionColor(type)};
+      background: white;
+      animation: slideIn 0.3s ease-out;
+    `;
+    
+    actionDiv.innerHTML = `
+      <div style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">
+        ${getActionIcon(type)} ${type.charAt(0).toUpperCase() + type.slice(1)} Action
+      </div>
+      <div style="color: #64748b; font-size: 14px;">${message}</div>
+    `;
+    
+    log.appendChild(actionDiv);
+    log.scrollTop = log.scrollHeight;
+  }
+  
+  // Get action color based on type
+  function getActionColor(type) {
+    const colors = {
+      'buy': '#10b981',
+      'attack': '#ef4444',
+      'expand': '#3b82f6',
+      'skip': '#6b7280',
+      'error': '#f59e0b',
+      'mystery': '#8b5cf6'
+    };
+    return colors[type] || '#6b7280';
+  }
+  
+  // Get action icon based on type
+  function getActionIcon(type) {
+    const icons = {
+      'buy': '💰',
+      'attack': '⚔️',
+      'expand': '🗺️',
+      'skip': '⏭️',
+      'error': '⚠️',
+      'mystery': '❓'
+    };
+    return icons[type] || '❓';
+  }
+  
+  // Show AI action modal
+  function showAIActionModal() {
+    const modal = document.getElementById('aiActionModal');
+    if (modal) {
+      modal.style.display = 'flex';
+      document.getElementById('aiActionLog').innerHTML = '';
+    }
+  }
+  
+  // Close AI action modal
+  function closeAIActionModal() {
+    const modal = document.getElementById('aiActionModal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+    isAITurnSequenceActive = false;
+    aiTurnQueue = [];
+    currentAIActionIndex = 0;
+  }
+  
+  // Next AI action in sequence
+  async function nextAIAction() {
+    if (!isAITurnSequenceActive || currentAIActionIndex >= aiTurnQueue.length) {
+      showAIAction('🎉 All AI turns completed!', 'complete');
+      document.getElementById('nextAIActionBtn').style.display = 'none';
+      return;
+    }
+    
+    const aiStudent = aiTurnQueue[currentAIActionIndex];
+    currentAIActionIndex++;
+    
+    await takeAITurn(aiStudent.gsId);
+    
+    // Auto-advance after a short delay
+    setTimeout(() => {
+      if (isAITurnSequenceActive) {
+        nextAIAction();
+      }
+    }, 1500);
+  }
+  
+  // Simplified decision making functions
+  function makeAggressiveDecision(actions) {
+    const attackActions = actions.filter(a => a.type === 'attack');
+    if (attackActions.length > 0) return attackActions[0];
+    return actions[Math.floor(Math.random() * actions.length)];
+  }
+  
+  function makeDefensiveDecision(actions) {
+    const buyActions = actions.filter(a => a.type === 'buy_mercenaries');
+    if (buyActions.length > 0) return buyActions[0];
+    return actions[Math.floor(Math.random() * actions.length)];
+  }
+  
+  function makeStrategicDecision(actions) {
+    // Prefer buying mercenaries if low on troops, otherwise attack
+    const buyActions = actions.filter(a => a.type === 'buy_mercenaries');
+    const attackActions = actions.filter(a => a.type === 'attack');
+    
+    if (buyActions.length > 0 && Math.random() < 0.6) return buyActions[0];
+    if (attackActions.length > 0) return attackActions[0];
+    return actions[Math.floor(Math.random() * actions.length)];
+  }
+  
+  function makeEconomicDecision(actions) {
+    const expandActions = actions.filter(a => a.type === 'expand');
+    if (expandActions.length > 0) return expandActions[0];
+    return actions[Math.floor(Math.random() * actions.length)];
+  }
+  
+  function makeRandomDecision(actions) {
+    return actions[Math.floor(Math.random() * actions.length)];
+  }
+  
+  // Helper functions for AI actions
+  function getAttackableTiles(aiStudent) {
+    // Simplified - return some mock attackable tiles
+    return [
+      { name: 'Enemy Territory 1', cost: 10 },
+      { name: 'Enemy Territory 2', cost: 15 }
+    ];
+  }
+  
+  function getExpandableTiles(aiStudent) {
+    // Simplified - return some mock expandable tiles
+    return [
+      { name: 'Neutral Territory 1', cost: 5 },
+      { name: 'Neutral Territory 2', cost: 8 }
+    ];
+  }
+  
+  async function simulateAttack(aiStudent, target) {
+    // Simplified attack simulation
+    const success = Math.random() < 0.7; // 70% success rate
+    if (success) {
+      aiStudent.tilesOwned += 1;
+      showAIAction(`🎉 Attack successful! ${aiStudent.name} conquers ${target.name}!`, 'success');
+    } else {
+      aiStudent.mercenaries = Math.max(0, aiStudent.mercenaries - 1);
+      showAIAction(`💥 Attack failed! ${aiStudent.name} loses a mercenary.`, 'failure');
+    }
+  }
 
 </script>
 <script src="scenarios.js"></script>
