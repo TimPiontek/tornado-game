@@ -709,6 +709,34 @@
     console.log('updateGridDisplay completed');
   }
   
+  // Helper function to determine if a team is "good guys" based on scenario
+  function isGoodGuyTeam(teamId, scenario) {
+    if (!scenario || !scenario.scenarioId) return false;
+    
+    const scenarioData = SCENARIOS[scenario.scenarioId];
+    if (!scenarioData || !scenarioData.factions) return false;
+    
+    const faction = scenarioData.factions[teamId];
+    if (!faction) return false;
+    
+    // Only define good guy factions for scenarios with clear good vs bad dynamics
+    const goodGuyFactions = {
+      'americanRevolution': ['patriots'],
+      'civilWar': ['union'],
+      'starWars': ['rebels'],
+      'harryPotter': ['good_guys'],
+      'lordOfTheRings': ['fellowship'],
+      'avengers': ['avengers'],
+      'superMario': ['marioHeroes'],
+      'worldWar1': ['alliedPowers'],
+      'worldWar2': ['allies'],
+      'disneyVsPixar': ['disney']
+    };
+    
+    const goodGuys = goodGuyFactions[scenario.scenarioId] || [];
+    return goodGuys.includes(teamId);
+  }
+
   function assignStartingTiles() {
     if (!state.roster || state.roster.length === 0) return;
     
@@ -842,21 +870,62 @@
       // Choose positions based on team index and formation
       let teamPositions = [];
       
-      if (teamCount === 4) {
-        // 4-team corner formation
-        if (index === 0) teamPositions = team1Positions; // Top-left
-        else if (index === 1) teamPositions = team2Positions; // Top-right
-        else if (index === 2) teamPositions = team3Positions; // Bottom-left
-        else if (index === 3) teamPositions = team4Positions; // Bottom-right
-      } else if (teamCount === 3) {
-        // 3-team triangle formation
-        if (index === 0) teamPositions = team1Positions; // Top center
-        else if (index === 1) teamPositions = team2Positions; // Bottom-left
-        else if (index === 2) teamPositions = team3Positions; // Bottom-right
+      // Determine which team is "good guys" based on scenario
+      const teamIds = Object.keys(teamGroups);
+      const teamId = teamIds[index];
+      const isGoodGuys = isGoodGuyTeam(teamId, state.scenario);
+      
+      // Check if this scenario has a clear good vs bad dynamic
+      const hasGoodBadDynamic = state.scenario && ['americanRevolution', 'civilWar', 'starWars', 'harryPotter', 'lordOfTheRings', 'avengers', 'superMario', 'worldWar1', 'worldWar2', 'disneyVsPixar'].includes(state.scenario.scenarioId);
+      
+      if (hasGoodBadDynamic) {
+        // Apply good guys on left rule for scenarios with clear good vs bad dynamics
+        if (teamCount === 4) {
+          // 4-team corner formation - good guys get left side
+          if (isGoodGuys) {
+            // Good guys get left side (top-left or bottom-left)
+            if (index === 0) teamPositions = team1Positions; // Top-left
+            else if (index === 2) teamPositions = team3Positions; // Bottom-left
+          } else {
+            // Bad guys get right side (top-right or bottom-right)
+            if (index === 1) teamPositions = team2Positions; // Top-right
+            else if (index === 3) teamPositions = team4Positions; // Bottom-right
+          }
+        } else if (teamCount === 3) {
+          // 3-team triangle formation - good guys get top center
+          if (isGoodGuys) {
+            teamPositions = team1Positions; // Top center
+          } else {
+            // Bad guys get bottom corners
+            if (index === 1) teamPositions = team2Positions; // Bottom-left
+            else if (index === 2) teamPositions = team3Positions; // Bottom-right
+          }
+        } else {
+          // 2-team formation - good guys always get left side
+          if (isGoodGuys) {
+            teamPositions = team1Positions; // Left side
+          } else {
+            teamPositions = team2Positions; // Right side
+          }
+        }
       } else {
-        // 2-team formation
-        if (index === 0) teamPositions = team1Positions; // Left side
-        else if (index === 1) teamPositions = team2Positions; // Right side
+        // For scenarios without clear good vs bad dynamics, use standard positioning
+        if (teamCount === 4) {
+          // 4-team corner formation - standard assignment
+          if (index === 0) teamPositions = team1Positions; // Top-left
+          else if (index === 1) teamPositions = team2Positions; // Top-right
+          else if (index === 2) teamPositions = team3Positions; // Bottom-left
+          else if (index === 3) teamPositions = team4Positions; // Bottom-right
+        } else if (teamCount === 3) {
+          // 3-team triangle formation - standard assignment
+          if (index === 0) teamPositions = team1Positions; // Top center
+          else if (index === 1) teamPositions = team2Positions; // Bottom-left
+          else if (index === 2) teamPositions = team3Positions; // Bottom-right
+        } else {
+          // 2-team formation - standard assignment
+          if (index === 0) teamPositions = team1Positions; // Left side
+          else if (index === 1) teamPositions = team2Positions; // Right side
+        }
       }
       
       let positionIndex = 0;

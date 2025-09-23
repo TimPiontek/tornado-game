@@ -13,7 +13,7 @@ const SCENARIOS = {
     factions: {
       patriots: {
         name: 'Patriots',
-        color: '#1e40af', // Blue
+        color: '#0066cc', // Bright American blue
         description: 'American colonists fighting for independence',
         territories: [
           { name: 'Boston', cost: 15, description: 'Center of revolutionary activity and Tea Party' },
@@ -445,7 +445,7 @@ const SCENARIOS = {
       },
       british: {
         name: 'British Empire',
-        color: '#dc2626', // Red
+        color: '#cc0000', // British red
         description: 'British forces maintaining colonial control',
         territories: [
           { name: 'London', cost: 25, description: 'Capital of the British Empire and command center' },
@@ -14082,7 +14082,7 @@ const SCENARIOS = {
     factions: {
       fire: {
         name: 'Fire Type Trainers',
-        color: '#e74c3c', // Red
+        color: '#ff4500', // Bright fire orange-red
         description: 'Trainers who specialize in Fire-type Pokemon',
         territories: [
           { name: 'Volcano Island', cost: 100, description: 'Active volcano and Fire Pokemon sanctuary' },
@@ -14276,7 +14276,7 @@ const SCENARIOS = {
       },
       water: {
         name: 'Water Type Trainers',
-        color: '#3498db', // Blue
+        color: '#0066ff', // Deep ocean blue
         description: 'Trainers who specialize in Water-type Pokemon',
         territories: [
           { name: 'Ocean Depths', cost: 100, description: 'Deep ocean trenches and Water Pokemon sanctuary' },
@@ -14470,7 +14470,7 @@ const SCENARIOS = {
       },
       grass: {
         name: 'Grass Type Trainers',
-        color: '#2ecc71', // Green
+        color: '#00aa00', // Bright forest green
         description: 'Trainers who specialize in Grass-type Pokemon',
         territories: [
           { name: 'Forest Sanctuary', cost: 100, description: 'Ancient forest and Grass Pokemon sanctuary' },
