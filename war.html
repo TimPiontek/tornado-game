@@ -2022,34 +2022,62 @@
     
     console.log('Team groups:', teamGroups);
     
-    // Create strategic starting positions - MAXIMUM separation between teams
-    const team1Positions = []; // Far left side
-    const team2Positions = []; // Far right side  
-    const team3Positions = []; // Center (for 3-team scenarios)
+    // Create strategic starting positions based on team count
+    const team1Positions = []; // Team 1 positions
+    const team2Positions = []; // Team 2 positions  
+    const team3Positions = []; // Team 3 positions
+    const team4Positions = []; // Team 4 positions
     
-    // Check if this is a 2-team or 3-team scenario
     const teamCount = Object.keys(teamGroups).length;
-    const isThreeTeam = teamCount >= 3;
     
-    if (isThreeTeam) {
-      // 3-team scenario: Left, Center, Right with neutral gaps
-      // Team 1 gets far left (first 1/4 of map)
-      for (let y = 0; y < h; y++) {
-        for (let x = 0; x < Math.floor(w / 4); x++) {
+    if (teamCount === 4) {
+      // 4-team scenario: Corner formation - each team gets their own corner
+      // Team 1: Top-left corner
+      for (let y = 0; y < Math.floor(h / 2); y++) {
+        for (let x = 0; x < Math.floor(w / 2); x++) {
           team1Positions.push({ x, y });
         }
       }
       
-      // Team 2 gets far right (last 1/4 of map)
-      for (let y = 0; y < h; y++) {
-        for (let x = Math.floor(3 * w / 4); x < w; x++) {
+      // Team 2: Top-right corner
+      for (let y = 0; y < Math.floor(h / 2); y++) {
+        for (let x = Math.floor(w / 2); x < w; x++) {
           team2Positions.push({ x, y });
         }
       }
       
-      // Team 3 gets center-left (middle-left 1/4 of map)
-      for (let y = 0; y < h; y++) {
-        for (let x = Math.floor(w / 4); x < Math.floor(w / 2); x++) {
+      // Team 3: Bottom-left corner
+      for (let y = Math.floor(h / 2); y < h; y++) {
+        for (let x = 0; x < Math.floor(w / 2); x++) {
+          team3Positions.push({ x, y });
+        }
+      }
+      
+      // Team 4: Bottom-right corner
+      for (let y = Math.floor(h / 2); y < h; y++) {
+        for (let x = Math.floor(w / 2); x < w; x++) {
+          team4Positions.push({ x, y });
+        }
+      }
+    } else if (teamCount === 3) {
+      // 3-team scenario: Triangle formation
+      // Team 1: Top center (upper half, center area)
+      for (let y = 0; y < Math.floor(h / 2); y++) {
+        for (let x = Math.floor(w / 4); x < Math.floor(3 * w / 4); x++) {
+          team1Positions.push({ x, y });
+        }
+      }
+      
+      // Team 2: Bottom-left corner
+      for (let y = Math.floor(h / 2); y < h; y++) {
+        for (let x = 0; x < Math.floor(w / 2); x++) {
+          team2Positions.push({ x, y });
+        }
+      }
+      
+      // Team 3: Bottom-right corner
+      for (let y = Math.floor(h / 2); y < h; y++) {
+        for (let x = Math.floor(w / 2); x < w; x++) {
           team3Positions.push({ x, y });
         }
       }
@@ -2094,35 +2122,35 @@
       return distB - distA; // Furthest from center first
     });
     
+    team4Positions.sort((a, b) => {
+      const distA = Math.sqrt(Math.pow(a.x - centerX, 2) + Math.pow(a.y - centerY, 2));
+      const distB = Math.sqrt(Math.pow(b.x - centerX, 2) + Math.pow(b.y - centerY, 2));
+      return distB - distA; // Furthest from center first
+    });
+    
     // Assign starting positions to teams
-    Object.entries(teamGroups).forEach(([teamId, students]) => {
+    const teamIds = Object.keys(teamGroups);
+    Object.entries(teamGroups).forEach(([teamId, students], index) => {
       console.log(`Assigning positions for team ${teamId} with ${students.length} students`);
       
-      // Choose positions based on team - use dynamic assignment
+      // Choose positions based on team index and formation
       let teamPositions = [];
-      const teamIds = Object.keys(teamGroups);
       
-      if (isThreeTeam) {
-        // 3-team scenario: assign teams to left, center, right
-        if (teamIds.indexOf(teamId) === 0) {
-          teamPositions = team1Positions; // First team gets left
-        } else if (teamIds.indexOf(teamId) === 1) {
-          teamPositions = team3Positions; // Second team gets center
-        } else if (teamIds.indexOf(teamId) === 2) {
-          teamPositions = team2Positions; // Third team gets right
-        } else {
-          teamPositions = [...team1Positions, ...team2Positions, ...team3Positions];
-        }
+      if (teamCount === 4) {
+        // 4-team corner formation
+        if (index === 0) teamPositions = team1Positions; // Top-left
+        else if (index === 1) teamPositions = team2Positions; // Top-right
+        else if (index === 2) teamPositions = team3Positions; // Bottom-left
+        else if (index === 3) teamPositions = team4Positions; // Bottom-right
+      } else if (teamCount === 3) {
+        // 3-team triangle formation
+        if (index === 0) teamPositions = team1Positions; // Top center
+        else if (index === 1) teamPositions = team2Positions; // Bottom-left
+        else if (index === 2) teamPositions = team3Positions; // Bottom-right
       } else {
-        // 2-team scenario: assign teams to left and right
-        if (teamIds.indexOf(teamId) === 0) {
-          teamPositions = team1Positions; // First team gets left
-        } else if (teamIds.indexOf(teamId) === 1) {
-          teamPositions = team2Positions; // Second team gets right
-        } else {
-          // Individual players get mixed positions
-          teamPositions = [...team1Positions, ...team2Positions];
-        }
+        // 2-team formation
+        if (index === 0) teamPositions = team1Positions; // Left side
+        else if (index === 1) teamPositions = team2Positions; // Right side
       }
       
       let positionIndex = 0;
