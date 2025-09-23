@@ -9976,6 +9976,9 @@ REQUIREMENTS:
     currentAIActionIndex = 0;
   }
 
+  // Make functions globally accessible
+  window.closeAIActionModal = closeAIActionModal;
+
   // Add escape key handler for AI modal
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
@@ -10017,6 +10020,9 @@ REQUIREMENTS:
       }
     }, 1500);
   }
+
+  // Make nextAIAction globally accessible
+  window.nextAIAction = nextAIAction;
   
   // Simplified decision making functions
   function makeAggressiveDecision(actions) {
