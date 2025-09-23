@@ -2152,6 +2152,8 @@
     
     // Final render of roster to ensure AI players are displayed
     console.log('initializeScenario: Final renderRoster call');
+    console.log('initializeScenario: state.aiPlayers =', state.aiPlayers);
+    console.log('initializeScenario: state.aiPlayers length =', state.aiPlayers?.length || 0);
     renderRoster();
   }
   
@@ -2848,7 +2850,10 @@
     const attackableTileIds = new Set(attackableTiles.map(t => t.id));
     
     gridEl.innerHTML = state.board.tiles.map(tile => {
-      const owner = state.roster.find(r => r.gsId === tile.owner_game_student_id);
+      let owner = state.roster.find(r => r.gsId === tile.owner_game_student_id);
+      if (!owner && state.aiPlayers) {
+        owner = state.aiPlayers.find(r => r.gsId === tile.owner_game_student_id);
+      }
       const ownerName = owner ? shortenName(owner.name) : '';
       const castleLevel = tile.castle_level || 0;
       const castleText = castleLevel > 0 ? `🏰${castleLevel}` : '';
@@ -3993,6 +3998,8 @@
     
     // Add AI players section if they exist
     console.log('renderRoster: Checking for AI players:', state.aiPlayers?.length || 0);
+    console.log('renderRoster: state.aiPlayers =', state.aiPlayers);
+    console.log('renderRoster: typeof state.aiPlayers =', typeof state.aiPlayers);
     if (state.aiPlayers && state.aiPlayers.length > 0) {
       // Add separator
       const separator = document.createElement('div');
