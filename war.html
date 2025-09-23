@@ -919,16 +919,24 @@
     
     console.log('Assigning teams based on character factions...');
     
-    // First, create AI players from aiAssignments
+    // First, create AI players from aiAssignments (separate from roster)
     if (state.scenario.aiAssignments) {
       console.log('Creating AI players from aiAssignments:', state.scenario.aiAssignments);
       const aiAssignmentsArray = Object.values(state.scenario.aiAssignments);
       console.log(`Found ${aiAssignmentsArray.length} AI assignments to process`);
       
+      // Initialize AI players array if it doesn't exist
+      if (!state.aiPlayers) {
+        state.aiPlayers = [];
+      }
+      
+      // Clear existing AI players for fresh start
+      state.aiPlayers = [];
+      
       aiAssignmentsArray.forEach((aiAssignment, index) => {
         console.log(`Processing AI assignment ${index + 1}:`, aiAssignment);
-        if (aiAssignment.isAI && !state.roster.find(s => s.characterName === aiAssignment.roleName && s.isAI)) {
-          // Create AI player
+        if (aiAssignment.isAI && !state.aiPlayers.find(s => s.characterName === aiAssignment.roleName)) {
+          // Create AI player (separate from roster)
           const aiPlayer = {
             gsId: `ai_${aiAssignment.roleName.replace(/\s+/g, '_').toLowerCase()}_${index}`,
             name: `${aiAssignment.roleName} (AI)`,
@@ -946,13 +954,14 @@
             teamName: null,
             teamColor: null
           };
-          state.roster.push(aiPlayer);
+          state.aiPlayers.push(aiPlayer);
           console.log(`Created AI player: ${aiPlayer.name} for faction ${aiAssignment.factionName}`);
         } else {
           console.log(`Skipping AI assignment ${aiAssignment.roleName} - already exists or not AI`);
         }
       });
-      console.log('Final roster after AI creation:', state.roster.map(s => `${s.name} (${s.isAI ? 'AI' : 'Student'}) - ${s.characterName} - ${s.characterFaction}`));
+      console.log('AI players created:', state.aiPlayers.map(s => `${s.name} - ${s.characterName} - ${s.characterFaction}`));
+      console.log('Student roster unchanged:', state.roster.map(s => `${s.name} - ${s.characterName} - ${s.characterFaction}`));
     } else {
       console.log('No aiAssignments found in scenario');
     }
@@ -1011,6 +1020,69 @@
         console.log(`Final assignment: ${student.name} -> Team: ${student.teamName} (${student.teamColor})`);
       }
     });
+    
+    // Assign teams to AI players (same logic as students)
+    if (state.aiPlayers) {
+      state.aiPlayers.forEach(aiPlayer => {
+        if (aiPlayer.characterName && aiPlayer.characterFaction) {
+          // Get faction data from scenario
+          const scenario = SCENARIOS[state.scenario.scenarioId];
+          if (!scenario || !scenario.factions) return;
+          
+          // Find the faction that matches the AI player's character faction
+          const faction = Object.values(scenario.factions).find(f => f.name === aiPlayer.characterFaction);
+          if (faction) {
+            // Use faction key as team ID and faction color as team color
+            const factionKey = Object.keys(scenario.factions).find(key => scenario.factions[key] === faction);
+            aiPlayer.teamId = factionKey;
+            aiPlayer.teamName = faction.name;
+            aiPlayer.teamColor = faction.color;
+            
+            console.log(`Assigned AI ${aiPlayer.name} to faction ${faction.name} (${faction.color})`);
+          } else {
+            // Fallback for general roles - assign based on scenario type
+            if (state.scenario.scenarioName.includes('Harry Potter')) {
+              if (aiPlayer.characterName === 'Hogwarts Student' || aiPlayer.characterName === 'Order Member' || aiPlayer.characterName === 'Muggle-born') {
+                aiPlayer.teamId = 'good_guys';
+                aiPlayer.teamName = 'Dumbledore\'s Army';
+                aiPlayer.teamColor = '#dc143c'; // Gryffindor red for Dumbledore's Army
+              } else if (aiPlayer.characterName === 'Death Eater' || aiPlayer.characterName === 'Snatcher' || aiPlayer.characterName === 'Inferi') {
+                aiPlayer.teamId = 'bad_guys';
+                aiPlayer.teamName = 'Voldemort\'s Army';
+                aiPlayer.teamColor = '#2e8b57'; // Slytherin green for Voldemort's Army
+              }
+            } else if (state.scenario.scenarioName.includes('Star Wars')) {
+              if (aiPlayer.characterName === 'Rebel Soldier' || aiPlayer.characterName === 'Rebel Pilot') {
+                aiPlayer.teamId = 'rebels';
+                aiPlayer.teamName = 'Rebel Alliance';
+                aiPlayer.teamColor = '#4169e1'; // Blue for rebels
+              } else if (aiPlayer.characterName === 'Stormtrooper' || aiPlayer.characterName === 'Imperial Officer') {
+                aiPlayer.teamId = 'empire';
+                aiPlayer.teamName = 'Galactic Empire';
+                aiPlayer.teamColor = '#8b0000'; // Dark red for empire
+              } else if (aiPlayer.characterName === 'Smuggler' || aiPlayer.characterName === 'Bounty Hunter') {
+                aiPlayer.teamId = 'neutral';
+                aiPlayer.teamName = 'Neutral/Independent';
+                aiPlayer.teamColor = '#808080'; // Gray for neutral
+              }
+            }
+            // Add more scenario-specific general role handling as needed
+          }
+          
+          // Update the color system to use team color
+          if (aiPlayer.teamColor) {
+            state.colors.set(aiPlayer.gsId, aiPlayer.teamColor);
+          }
+          
+          console.log(`Final AI assignment: ${aiPlayer.name} -> Team: ${aiPlayer.teamName} (${aiPlayer.teamColor})`);
+        }
+      });
+    }
+    
+    console.log('Team assignments completed');
+    renderRoster();
+    updateVictoryTarget();
+    updateTeamScoreboards();
   }
 
   // Class vs AI: auto-assign students to characters and create equal number of AI players
@@ -2195,6 +2267,7 @@
     const aiTeams = {};
     const studentTeams = {};
     
+    // Process students from roster
     state.roster.forEach(student => {
       const teamId = student.teamId || 'individual';
       if (student.isAI) {
@@ -2209,6 +2282,17 @@
         studentTeams[teamId].push(student);
       }
     });
+    
+    // Process AI players from separate array
+    if (state.aiPlayers) {
+      state.aiPlayers.forEach(aiPlayer => {
+        const teamId = aiPlayer.teamId || 'individual';
+        if (!aiTeams[teamId]) {
+          aiTeams[teamId] = [];
+        }
+        aiTeams[teamId].push(aiPlayer);
+      });
+    }
     
     // Combine teams with AI teams first, then student teams
     const teamGroups = { ...aiTeams, ...studentTeams };
@@ -3711,8 +3795,8 @@
   function renderRoster() {
     rosterEl.innerHTML = "";
     
-    // Show AI controls if there are AI players
-    const hasAIPlayers = state.roster.some(r => r.isAI);
+    // Show AI controls if there are AI players (check both roster and aiPlayers)
+    const hasAIPlayers = state.roster.some(r => r.isAI) || (state.aiPlayers && state.aiPlayers.length > 0);
     const aiControls = document.getElementById('aiControls');
     if (aiControls) {
       aiControls.style.display = hasAIPlayers ? 'block' : 'none';
@@ -3835,12 +3919,83 @@
       });
       rosterEl.appendChild(row);
     }
+    
+    // Add AI players section if they exist
+    if (state.aiPlayers && state.aiPlayers.length > 0) {
+      // Add separator
+      const separator = document.createElement('div');
+      separator.style.cssText = `
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+        margin: 10px 0;
+        border-radius: 1px;
+      `;
+      rosterEl.appendChild(separator);
+      
+      // Add AI section header
+      const aiHeader = document.createElement('div');
+      aiHeader.style.cssText = `
+        font-size: 14px;
+        font-weight: 600;
+        color: #8b5cf6;
+        margin-bottom: 8px;
+        text-align: center;
+        background: rgba(139, 92, 246, 0.1);
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid rgba(139, 92, 246, 0.2);
+      `;
+      aiHeader.textContent = '🤖 AI Players';
+      rosterEl.appendChild(aiHeader);
+      
+      // Add AI players
+      for (const aiPlayer of state.aiPlayers) {
+        const row = document.createElement('div');
+        row.className = "roster-row";
+        row.style.cssText = `
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px;
+          border: 1px solid var(--border);
+          border-radius: 6px;
+          background: rgba(139, 92, 246, 0.05);
+          margin-bottom: 4px;
+        `;
+        
+        const teamColor = aiPlayer.teamColor || '#8b5cf6';
+        const teamIndicator = aiPlayer.teamName ? `<span style="font-size:10px; color:${teamColor}; font-weight:600;">[${aiPlayer.teamName}]</span> ` : '';
+        
+        row.innerHTML = `
+          <div style="display:flex; gap:6px; align-items:center;">
+            <div style="width:10px;height:10px;border-radius:50%;background:${teamColor};"></div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 4px;">${teamIndicator}${aiPlayer.name}</div>
+            </div>
+          </div>
+          <div class="bal" title="Balance" style="display: flex; align-items: center; gap: 4px;">
+            <span>💰</span>
+            <span style="font-size: 12px; color: var(--text);">${formatMoney(aiPlayer.balance)}</span>
+          </div>
+          <div class="chip" title="Tiles owned">🧩 ${aiPlayer.tilesOwned}</div>
+          <button class="plus" onclick="takeAITurn('${aiPlayer.gsId}')" style="background:#f59e0b; color:white;">🤖 AI</button>
+        `;
+        
+        rosterEl.appendChild(row);
+      }
+    }
   }
 
   // === BOARD ===
 
   function nameForGs(gsId){
-    const student = state.roster.find(r=>r.gsId===gsId);
+    // Check roster first
+    let student = state.roster.find(r=>r.gsId===gsId);
+    if (!student && state.aiPlayers) {
+      // Check AI players if not found in roster
+      student = state.aiPlayers.find(r=>r.gsId===gsId);
+    }
     if (!student) {
       return "Unknown";
     }
@@ -8357,6 +8512,93 @@ REQUIREMENTS:
     showScenarioInfo(scenarioData);
   }
 
+  // Get theme-appropriate market items based on current scenario
+  function getThemeAppropriateMarketItems() {
+    if (!state.scenario || !state.scenario.scenarioId) {
+      // Default items if no scenario
+      return {
+        weapons: [
+          { name: 'Spear', description: '+15 attack power', cost: 40 },
+          { name: 'Crossbow', description: '+20 attack power', cost: 80 },
+          { name: 'Catapult', description: '+30 attack power', cost: 140 }
+        ],
+        allies: [
+          { name: 'War Elephant', description: 'Powerful war beast', cost: 150 },
+          { name: 'Siege Engine', description: 'Heavy siege weapon', cost: 200 }
+        ]
+      };
+    }
+
+    const scenarioId = state.scenario.scenarioId;
+    
+    switch (scenarioId) {
+      case 'harryPotter':
+        return {
+          weapons: [
+            { name: 'Wand', description: '+15 magical power', cost: 40 },
+            { name: 'Enchanted Sword', description: '+20 magical power', cost: 80 },
+            { name: 'Elder Wand', description: '+30 magical power', cost: 140 }
+          ],
+          allies: [
+            { name: 'Phoenix', description: 'Magical ally', cost: 150 },
+            { name: 'Hungarian Horntail', description: 'Powerful dragon ally', cost: 200 }
+          ]
+        };
+      
+      case 'worldWar2':
+        return {
+          weapons: [
+            { name: 'Rifle', description: '+15 attack power', cost: 40 },
+            { name: 'Machine Gun', description: '+20 attack power', cost: 80 },
+            { name: 'Artillery', description: '+30 attack power', cost: 140 }
+          ],
+          allies: [
+            { name: 'Tank Battalion', description: 'Armored division', cost: 150 },
+            { name: 'Air Squadron', description: 'Fighter aircraft', cost: 200 }
+          ]
+        };
+      
+      case 'starWars':
+        return {
+          weapons: [
+            { name: 'Blaster', description: '+15 attack power', cost: 40 },
+            { name: 'Lightsaber', description: '+20 attack power', cost: 80 },
+            { name: 'Death Star', description: '+30 attack power', cost: 140 }
+          ],
+          allies: [
+            { name: 'X-Wing Squadron', description: 'Fighter squadron', cost: 150 },
+            { name: 'Millennium Falcon', description: 'Fast transport', cost: 200 }
+          ]
+        };
+      
+      case 'americanRevolution':
+        return {
+          weapons: [
+            { name: 'Musket', description: '+15 attack power', cost: 40 },
+            { name: 'Cannon', description: '+20 attack power', cost: 80 },
+            { name: 'Naval Fleet', description: '+30 attack power', cost: 140 }
+          ],
+          allies: [
+            { name: 'Continental Army', description: 'Revolutionary forces', cost: 150 },
+            { name: 'French Navy', description: 'Allied naval support', cost: 200 }
+          ]
+        };
+      
+      default:
+        return {
+          weapons: [
+            { name: 'Spear', description: '+15 attack power', cost: 40 },
+            { name: 'Crossbow', description: '+20 attack power', cost: 80 },
+            { name: 'Catapult', description: '+30 attack power', cost: 140 }
+          ],
+          allies: [
+            { name: 'War Elephant', description: 'Powerful war beast', cost: 150 },
+            { name: 'Siege Engine', description: 'Heavy siege weapon', cost: 200 }
+          ]
+        };
+    }
+  }
+
   function showStudentMarket(studentGsId) {
     const student = state.roster.find(s => s.gsId === studentGsId);
     
@@ -8374,6 +8616,8 @@ REQUIREMENTS:
         spells: []
       };
     }
+    
+    const marketItems = getThemeAppropriateMarketItems();
     
     const modal = document.createElement('div');
     modal.id = 'studentMarketModal';
@@ -8595,6 +8839,9 @@ REQUIREMENTS:
       modal.remove();
     }
   }
+
+  // Make function globally accessible
+  window.closeStudentMarket = closeStudentMarket;
 
   function showTeacherTruceModal() {
     const selectedStudent = state.roster.find(s => s.gsId === state.selectedGsId);
@@ -9838,7 +10085,12 @@ REQUIREMENTS:
   
   // Take individual AI turn
   async function takeAITurn(aiStudentId) {
-    const aiStudent = state.roster.find(s => s.gsId === aiStudentId && s.isAI);
+    // Look in both roster (legacy) and aiPlayers array
+    let aiStudent = state.roster.find(s => s.gsId === aiStudentId && s.isAI);
+    if (!aiStudent && state.aiPlayers) {
+      aiStudent = state.aiPlayers.find(s => s.gsId === aiStudentId);
+    }
+    
     if (!aiStudent) {
       console.error('AI student not found:', aiStudentId);
       return;
@@ -9864,14 +10116,18 @@ REQUIREMENTS:
   
   // Take all AI turns in sequence
   async function takeAllAITurns() {
-    const aiStudents = state.roster.filter(s => s.isAI);
-    if (aiStudents.length === 0) {
+    // Get AI players from both roster (legacy) and aiPlayers array
+    const rosterAIStudents = state.roster.filter(s => s.isAI);
+    const aiPlayers = state.aiPlayers || [];
+    const allAIStudents = [...rosterAIStudents, ...aiPlayers];
+    
+    if (allAIStudents.length === 0) {
       alert('No AI players found!');
       return;
     }
     
     // Initialize turn sequence
-    aiTurnQueue = aiStudents.slice();
+    aiTurnQueue = allAIStudents.slice();
     currentAIActionIndex = 0;
     isAITurnSequenceActive = true;
     
