@@ -2851,10 +2851,12 @@
     
     gridEl.innerHTML = state.board.tiles.map(tile => {
       let owner = state.roster.find(r => r.gsId === tile.owner_game_student_id);
+      let isAI = false;
       if (!owner && state.aiPlayers) {
         owner = state.aiPlayers.find(r => r.gsId === tile.owner_game_student_id);
+        isAI = true;
       }
-      const ownerName = owner ? shortenName(owner.name) : '';
+      const ownerName = owner ? (isAI ? `${owner.characterName} (AI)` : shortenName(owner.name)) : '';
       const castleLevel = tile.castle_level || 0;
       const castleText = castleLevel > 0 ? `🏰${castleLevel}` : '';
       
@@ -4050,7 +4052,7 @@
           <div style="display:flex; gap:6px; align-items:center;">
             <div style="width:10px;height:10px;border-radius:50%;background:${teamColor};"></div>
             <div>
-              <div style="display: flex; align-items: center; gap: 4px;">${teamIndicator}${aiPlayer.name}</div>
+              <div style="display: flex; align-items: center; gap: 4px;">${teamIndicator}${aiPlayer.characterName} (AI)</div>
             </div>
           </div>
           <div class="bal" title="Balance" style="display: flex; align-items: center; gap: 4px;">
