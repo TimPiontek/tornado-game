@@ -925,12 +925,12 @@
       const aiAssignmentsArray = Object.values(state.scenario.aiAssignments);
       console.log(`Found ${aiAssignmentsArray.length} AI assignments to process`);
       
-      aiAssignmentsArray.forEach(aiAssignment => {
-        console.log(`Processing AI assignment:`, aiAssignment);
+      aiAssignmentsArray.forEach((aiAssignment, index) => {
+        console.log(`Processing AI assignment ${index + 1}:`, aiAssignment);
         if (aiAssignment.isAI && !state.roster.find(s => s.characterName === aiAssignment.roleName && s.isAI)) {
           // Create AI player
           const aiPlayer = {
-            gsId: `ai_${aiAssignment.roleName.replace(/\s+/g, '_').toLowerCase()}`,
+            gsId: `ai_${aiAssignment.roleName.replace(/\s+/g, '_').toLowerCase()}_${index}`,
             name: `${aiAssignment.roleName} (AI)`,
             characterName: aiAssignment.roleName,
             characterFaction: aiAssignment.factionName,
@@ -1013,7 +1013,7 @@
     });
   }
 
-  // Class vs AI: auto-assign students to one faction and AI to another faction
+  // Class vs AI: auto-assign students to characters and create equal number of AI players
   function assignClassVsAITeams(scenarioData) {
     try {
       console.log('assignClassVsAITeams called with:', scenarioData);
@@ -1032,6 +1032,17 @@
 
       // Get all characters from all factions
       const allCharacters = [];
+      const controversialCharacters = [
+        'Adolf Hitler', 'Benito Mussolini', 'Hirohito', 'Isoroku Yamamoto',
+        'Lord Voldemort', 'Bellatrix Lestrange', 'Lucius Malfoy', 'Severus Snape',
+        'Darth Vader', 'Emperor Palpatine', 'Darth Maul', 'Kylo Ren',
+        'Sauron', 'Saruman', 'Witch-king', 'Gollum',
+        'Thanos', 'Loki', 'Red Skull', 'Ultron',
+        'Bowser', 'Wario', 'Waluigi', 'King K. Rool',
+        'Team Rocket', 'Giovanni', 'Archie', 'Maxie',
+        'Megatron', 'Starscream', 'Soundwave', 'Shockwave'
+      ];
+      
       Object.values(scenario.factions).forEach((faction) => {
         if (Array.isArray(faction.characters)) {
           faction.characters.forEach((char) => {
@@ -1039,7 +1050,8 @@
               name: char.name,
               role: char.role,
               factionName: faction.name,
-              factionColor: faction.color
+              factionColor: faction.color,
+              isControversial: controversialCharacters.includes(char.name)
             });
           });
         }
@@ -1049,7 +1061,8 @@
               name: role.name,
               role: role.name,
               factionName: faction.name,
-              factionColor: faction.color
+              factionColor: faction.color,
+              isControversial: controversialCharacters.includes(role.name)
             });
           });
         }
@@ -1062,6 +1075,9 @@
 
       const roleAssignments = {};
       const aiAssignments = {};
+      const studentCount = state.roster.length;
+      
+      console.log(`Creating Class vs AI matchup: ${studentCount} students vs ${studentCount} AI players`);
 
       // Shuffle students array to ensure true randomization
       const shuffledStudents = [...state.roster];
@@ -1070,39 +1086,67 @@
         [shuffledStudents[i], shuffledStudents[j]] = [shuffledStudents[j], shuffledStudents[i]];
       }
 
-      // Shuffle all characters array to ensure true randomization
-      const shuffledCharacters = [...allCharacters];
-      for (let i = shuffledCharacters.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledCharacters[i], shuffledCharacters[j]] = [shuffledCharacters[j], shuffledCharacters[i]];
+      // Separate safe characters for students from controversial characters for AI
+      const safeCharacters = allCharacters.filter(char => !char.isControversial);
+      const controversialCharacters = allCharacters.filter(char => char.isControversial);
+      
+      console.log(`Safe characters for students: ${safeCharacters.length}`);
+      console.log(`Controversial characters for AI: ${controversialCharacters.length}`);
+      
+      if (safeCharacters.length === 0) {
+        console.warn('No safe characters found for students! Using all characters...');
+        safeCharacters.push(...allCharacters);
       }
 
-      // Assign each student to a character (round-robin if we run out)
+      // Shuffle safe characters for students
+      const shuffledSafeCharacters = [...safeCharacters];
+      for (let i = shuffledSafeCharacters.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledSafeCharacters[i], shuffledSafeCharacters[j]] = [shuffledSafeCharacters[j], shuffledSafeCharacters[i]];
+      }
+
+      // Assign each student to a safe character (round-robin if we run out)
       shuffledStudents.forEach((student, idx) => {
-        const pick = shuffledCharacters[idx % shuffledCharacters.length];
+        const pick = shuffledSafeCharacters[idx % shuffledSafeCharacters.length];
         roleAssignments[student.gsId] = pick.name;
         // Mirror onto student for downstream team assignment
         student.characterName = pick.name;
         student.characterFaction = pick.factionName;
-        console.log(`Assigned student ${student.name} to character ${pick.name} (${pick.factionName})`);
+        console.log(`Assigned student ${student.name} to SAFE character ${pick.name} (${pick.factionName})`);
       });
 
-      // Assign remaining characters to AI
+      // Create exactly the same number of AI players as students
+      // Prioritize controversial characters for AI, then use remaining safe characters
       const studentCharacterNames = Object.values(roleAssignments);
-      const remainingCharacters = shuffledCharacters.filter(char => !studentCharacterNames.includes(char.name));
-      console.log(`Students got ${studentCharacterNames.length} characters:`, studentCharacterNames);
-      console.log(`AI will get ${remainingCharacters.length} characters:`, remainingCharacters.map(c => c.name));
+      const remainingSafeCharacters = safeCharacters.filter(char => !studentCharacterNames.includes(char.name));
       
-      remainingCharacters.forEach((c) => {
-        aiAssignments[c.name] = {
+      console.log(`Students got ${studentCharacterNames.length} characters:`, studentCharacterNames);
+      console.log(`Available controversial characters for AI: ${controversialCharacters.length}`);
+      console.log(`Available remaining safe characters: ${remainingSafeCharacters.length}`);
+      
+      // Create AI assignments - prioritize controversial characters, then remaining safe characters
+      const aiCharacterPool = [...controversialCharacters, ...remainingSafeCharacters];
+      
+      for (let i = 0; i < studentCount; i++) {
+        let characterToUse;
+        if (i < aiCharacterPool.length) {
+          characterToUse = aiCharacterPool[i];
+        } else {
+          // If we run out of unique characters, cycle through the pool
+          characterToUse = aiCharacterPool[i % aiCharacterPool.length];
+        }
+        
+        const aiName = `${characterToUse.name} (AI)`;
+        aiAssignments[aiName] = {
           studentId: null,
           studentName: null,
-          roleName: c.name,
-          factionName: c.factionName,
+          roleName: characterToUse.name,
+          factionName: characterToUse.factionName,
           isAI: true
         };
-        console.log(`Created AI assignment for ${c.name} (${c.factionName})`);
-      });
+        const characterType = characterToUse.isControversial ? 'CONTROVERSIAL' : 'SAFE';
+        console.log(`Created AI assignment ${i + 1}/${studentCount}: ${aiName} (${characterToUse.factionName}) - ${characterType}`);
+      }
 
       // Persist onto scenario/state
       scenarioData.manualRoleAssignments = roleAssignments;
