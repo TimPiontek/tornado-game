@@ -2949,7 +2949,7 @@
                 onclick="handleTileClick('${tile.id}')"
                 title="${owner ? `Owned by ${ownerName}${state.scenario && characterName ? ` (${characterName})` : ''}${owner.teamName ? ` - Team: ${owner.teamName}` : ''}` : `Click to buy ${state.scenario ? (territoryName || 'territory') : 'tile'} for ${displayCost} points`}${isAttackable && !isOwnedBySelected ? ' (Attackable!)' : ''}">
                 ${owner ? `
-                  ${state.scenario ? `<div style="font-weight: bold; font-size: 10px; line-height: 1.0; color: #ffd700;">${characterName || 'Character'}</div>` : ''}
+                  ${state.scenario ? `<div style="font-weight: bold; font-size: 10px; line-height: 1.0; color: #ffd700;">${territoryName || 'Territory'}</div>` : ''}
                   <div style="font-size: 8px; line-height: 1.0; margin-top: 1px;">${ownerName}</div>
                   ${owner.teamName ? `<div style="font-size: 7px; color: ${owner.teamColor || '#fff'}; line-height: 1.0; margin-top: 1px;">Team: ${owner.teamName}</div>` : ''}
                   ${state.scenario ? `<div style="font-size: 7px; color: #ccc; line-height: 1.0; margin-top: 1px;">${displayName}</div>` : ''}
