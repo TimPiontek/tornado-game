@@ -1158,54 +1158,103 @@
         [shuffledStudents[i], shuffledStudents[j]] = [shuffledStudents[j], shuffledStudents[i]];
       }
 
-      // Separate safe characters for students from controversial characters for AI
-      const safeCharacters = allCharacters.filter(char => !char.isControversial);
-      const controversialCharacterList = allCharacters.filter(char => char.isControversial);
+      // For AI vs Students: Students get GOOD faction characters, AI gets BAD faction characters
+      // Identify good vs bad factions based on scenario
+      const goodFactions = [];
+      const badFactions = [];
       
-      console.log(`Safe characters for students: ${safeCharacters.length}`);
-      console.log(`Controversial characters for AI: ${controversialCharacterList.length}`);
+      // Determine good vs bad factions based on scenario type
+      if (scenarioId === 'worldWar2') {
+        goodFactions.push('Allied Powers');
+        badFactions.push('Axis Powers');
+      } else if (scenarioId === 'harryPotter') {
+        goodFactions.push('Dumbledore\'s Army');
+        badFactions.push('Death Eaters & Voldemort');
+      } else if (scenarioId === 'starWars') {
+        goodFactions.push('Rebel Alliance');
+        badFactions.push('Galactic Empire');
+      } else {
+        // Default: first faction is good, second faction is bad
+        const factionNames = Object.keys(scenario.factions);
+        if (factionNames.length >= 2) {
+          goodFactions.push(factionNames[0]);
+          badFactions.push(factionNames[1]);
+        } else {
+          // Fallback to controversial character filtering
+          goodFactions.push(...factionNames);
+        }
+      }
       
-      if (safeCharacters.length === 0) {
-        console.warn('No safe characters found for students! Using all characters...');
-        safeCharacters.push(...allCharacters);
+      console.log(`Good factions for students: ${goodFactions.join(', ')}`);
+      console.log(`Bad factions for AI: ${badFactions.join(', ')}`);
+      
+      // Get characters for students (good factions only)
+      const studentCharacters = allCharacters.filter(char => 
+        goodFactions.includes(char.factionName) && !char.isControversial
+      );
+      
+      // Get characters for AI (bad factions + controversial characters)
+      const aiCharacters = allCharacters.filter(char => 
+        badFactions.includes(char.factionName) || char.isControversial
+      );
+      
+      console.log(`Characters for students: ${studentCharacters.length}`);
+      console.log(`Characters for AI: ${aiCharacters.length}`);
+      
+      if (studentCharacters.length === 0) {
+        console.warn('No good faction characters found for students! Using first faction...');
+        const firstFaction = Object.keys(scenario.factions)[0];
+        studentCharacters.push(...allCharacters.filter(char => char.factionName === firstFaction));
+      }
+      
+      if (aiCharacters.length === 0) {
+        console.warn('No bad faction characters found for AI! Using second faction...');
+        const factionNames = Object.keys(scenario.factions);
+        if (factionNames.length >= 2) {
+          aiCharacters.push(...allCharacters.filter(char => char.factionName === factionNames[1]));
+        } else {
+          aiCharacters.push(...allCharacters.filter(char => char.isControversial));
+        }
       }
 
-      // Shuffle safe characters for students
-      const shuffledSafeCharacters = [...safeCharacters];
-      for (let i = shuffledSafeCharacters.length - 1; i > 0; i--) {
+      // Shuffle student characters
+      const shuffledStudentCharacters = [...studentCharacters];
+      for (let i = shuffledStudentCharacters.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [shuffledSafeCharacters[i], shuffledSafeCharacters[j]] = [shuffledSafeCharacters[j], shuffledSafeCharacters[i]];
+        [shuffledStudentCharacters[i], shuffledStudentCharacters[j]] = [shuffledStudentCharacters[j], shuffledStudentCharacters[i]];
       }
 
-      // Assign each student to a safe character (round-robin if we run out)
+      // Assign each student to a good faction character (round-robin if we run out)
       shuffledStudents.forEach((student, idx) => {
-        const pick = shuffledSafeCharacters[idx % shuffledSafeCharacters.length];
+        const pick = shuffledStudentCharacters[idx % shuffledStudentCharacters.length];
         roleAssignments[student.gsId] = pick.name;
         // Mirror onto student for downstream team assignment
         student.characterName = pick.name;
         student.characterFaction = pick.factionName;
-        console.log(`Assigned student ${student.name} to SAFE character ${pick.name} (${pick.factionName})`);
+        console.log(`Assigned student ${student.name} to GOOD character ${pick.name} (${pick.factionName})`);
       });
 
       // Create exactly the same number of AI players as students
-      // Prioritize controversial characters for AI, then use remaining safe characters
+      // Use bad faction characters for AI
       const studentCharacterNames = Object.values(roleAssignments);
-      const remainingSafeCharacters = safeCharacters.filter(char => !studentCharacterNames.includes(char.name));
       
       console.log(`Students got ${studentCharacterNames.length} characters:`, studentCharacterNames);
-      console.log(`Available controversial characters for AI: ${controversialCharacterList.length}`);
-      console.log(`Available remaining safe characters: ${remainingSafeCharacters.length}`);
+      console.log(`Available AI characters: ${aiCharacters.length}`);
       
-      // Create AI assignments - prioritize controversial characters, then remaining safe characters
-      const aiCharacterPool = [...controversialCharacterList, ...remainingSafeCharacters];
+      // Shuffle AI characters
+      const shuffledAICharacters = [...aiCharacters];
+      for (let i = shuffledAICharacters.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledAICharacters[i], shuffledAICharacters[j]] = [shuffledAICharacters[j], shuffledAICharacters[i]];
+      }
       
       for (let i = 0; i < studentCount; i++) {
         let characterToUse;
-        if (i < aiCharacterPool.length) {
-          characterToUse = aiCharacterPool[i];
+        if (i < shuffledAICharacters.length) {
+          characterToUse = shuffledAICharacters[i];
         } else {
           // If we run out of unique characters, cycle through the pool
-          characterToUse = aiCharacterPool[i % aiCharacterPool.length];
+          characterToUse = shuffledAICharacters[i % shuffledAICharacters.length];
         }
         
         const aiName = `${characterToUse.name} (AI)`;
@@ -10230,17 +10279,36 @@ REQUIREMENTS:
         if (action.targets && action.targets.length > 0) {
           const target = action.targets[Math.floor(Math.random() * action.targets.length)];
           showAIAction(`${characterName}: "${quote}" - Attacks ${target.name}! ⚔️`, 'attack');
-          // Simulate attack (simplified)
-          await simulateAttack(aiStudent, target);
+          
+          // Real attack - trigger the actual battle system
+          await executeRealAIAttack(aiStudent, target);
         }
         break;
         
       case 'expand':
         if (action.targets && action.targets.length > 0) {
           const target = action.targets[Math.floor(Math.random() * action.targets.length)];
-          aiStudent.balance -= 5;
-          aiStudent.tilesOwned += 1;
-          showAIAction(`${characterName}: "${quote}" - Expands to ${target.name}! 🗺️`, 'expand');
+          
+          // Real expansion - actually buy the tile
+          if (aiStudent.balance >= target.cost) {
+            aiStudent.balance -= target.cost;
+            aiStudent.tilesOwned += 1;
+            
+            // Update the actual tile on the board
+            const tile = state.board.tiles[target.y][target.x];
+            if (tile) {
+              tile.owner = aiStudent.gsId;
+              tile.color = aiStudent.teamColor || '#8b5cf6';
+            }
+            
+            showAIAction(`${characterName}: "${quote}" - Expands to ${target.name}! 🗺️`, 'expand');
+            
+            // Update the display
+            updateGridDisplay();
+            renderRoster();
+          } else {
+            showAIAction(`${characterName}: "${quote}" - Cannot afford ${target.name} (cost: ${target.cost})! 💰`, 'skip');
+          }
         }
         break;
         
@@ -10412,23 +10480,121 @@ REQUIREMENTS:
   
   // Helper functions for AI actions
   function getAIAttackableTiles(aiStudent) {
-    // Simplified - return some mock attackable tiles
-    return [
-      { name: 'Enemy Territory 1', cost: 10 },
-      { name: 'Enemy Territory 2', cost: 15 }
-    ];
+    const attackableTiles = [];
+    
+    // Get all tiles on the board
+    for (let y = 0; y < state.board.h; y++) {
+      for (let x = 0; x < state.board.w; x++) {
+        const tile = state.board.tiles[y][x];
+        if (!tile) continue;
+        
+        // Check if tile is owned by enemy (not AI, not neutral)
+        const isOwnedByEnemy = tile.owner && tile.owner !== aiStudent.gsId && 
+          !state.aiPlayers?.some(ai => ai.gsId === tile.owner);
+        
+        if (isOwnedByEnemy) {
+          attackableTiles.push({
+            x: x,
+            y: y,
+            name: tile.name || `Tile ${x},${y}`,
+            cost: tile.cost || 10,
+            owner: tile.owner,
+            value: tile.value || 10
+          });
+        }
+      }
+    }
+    
+    console.log(`AI ${aiStudent.name} found ${attackableTiles.length} attackable tiles`);
+    return attackableTiles;
   }
   
   function getExpandableTiles(aiStudent) {
-    // Simplified - return some mock expandable tiles
-    return [
-      { name: 'Neutral Territory 1', cost: 5 },
-      { name: 'Neutral Territory 2', cost: 8 }
-    ];
+    const expandableTiles = [];
+    
+    // Get all tiles on the board
+    for (let y = 0; y < state.board.h; y++) {
+      for (let x = 0; x < state.board.w; x++) {
+        const tile = state.board.tiles[y][x];
+        if (!tile) continue;
+        
+        // Check if tile is neutral (not owned by anyone)
+        const isNeutral = !tile.owner;
+        
+        if (isNeutral) {
+          expandableTiles.push({
+            x: x,
+            y: y,
+            name: tile.name || `Tile ${x},${y}`,
+            cost: tile.cost || 5,
+            value: tile.value || 5
+          });
+        }
+      }
+    }
+    
+    console.log(`AI ${aiStudent.name} found ${expandableTiles.length} expandable tiles`);
+    return expandableTiles;
+  }
+  
+  // Execute real AI attack that triggers battle system
+  async function executeRealAIAttack(aiStudent, target) {
+    try {
+      // Set the AI as the selected attacker
+      state.selectedGsId = aiStudent.gsId;
+      
+      // Get the target tile
+      const targetTile = state.board.tiles[target.y][target.x];
+      if (!targetTile) {
+        showAIAction(`❌ Attack failed: Target tile not found!`, 'failure');
+        return;
+      }
+      
+      // Check if AI has enough mercenaries
+      if (aiStudent.mercenaries <= 0) {
+        showAIAction(`❌ Attack failed: No mercenaries available!`, 'failure');
+        return;
+      }
+      
+      // Trigger the real battle system
+      showAIAction(`⚔️ Initiating battle against ${target.name}...`, 'battle');
+      
+      // Pause AI sequence to show battle
+      isAITurnSequenceActive = false;
+      
+      // Trigger battle modal
+      await triggerBattleModal(aiStudent, targetTile, target.x, target.y);
+      
+      // Resume AI sequence after battle
+      setTimeout(() => {
+        isAITurnSequenceActive = true;
+        nextAIAction();
+      }, 1000);
+      
+    } catch (error) {
+      console.error('AI attack error:', error);
+      showAIAction(`❌ Attack failed: ${error.message}`, 'failure');
+    }
+  }
+  
+  // Trigger battle modal for AI attacks
+  async function triggerBattleModal(attacker, targetTile, targetX, targetY) {
+    // Set up battle state
+    state.battle = {
+      attacker: attacker.gsId,
+      defender: targetTile.owner,
+      targetTile: { x: targetX, y: targetY },
+      attackerData: attacker,
+      defenderData: state.roster.find(s => s.gsId === targetTile.owner) || 
+                   state.aiPlayers?.find(s => s.gsId === targetTile.owner)
+    };
+    
+    // Show battle modal
+    showBattleModal();
   }
   
   async function simulateAttack(aiStudent, target) {
-    // Simplified attack simulation
+    // Simplified attack simulation (fallback)
     const success = Math.random() < 0.7; // 70% success rate
     if (success) {
       aiStudent.tilesOwned += 1;
