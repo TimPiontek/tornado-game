@@ -2149,6 +2149,10 @@
     if (educationalControls) {
       educationalControls.style.display = 'block';
     }
+    
+    // Final render of roster to ensure AI players are displayed
+    console.log('initializeScenario: Final renderRoster call');
+    renderRoster();
   }
   
   function initializeGameBoard() {
