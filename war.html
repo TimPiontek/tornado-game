@@ -2336,43 +2336,58 @@
     
     const { w, h } = state.board;
     
-    // Separate AI teams from student teams
-    const aiTeams = {};
-    const studentTeams = {};
+    // Check if this is an AI vs Students game
+    const isAIVsStudents = state.aiPlayers && state.aiPlayers.length > 0;
     
-    // Process students from roster
-    state.roster.forEach(student => {
-      const teamId = student.teamId || 'individual';
-      if (student.isAI) {
-        if (!aiTeams[teamId]) {
-          aiTeams[teamId] = [];
+    let teamGroups = {};
+    
+    if (isAIVsStudents) {
+      // AI vs Students: Separate AI teams from student teams
+      const aiTeams = {};
+      const studentTeams = {};
+      
+      // Process students from roster
+      state.roster.forEach(student => {
+        const teamId = student.teamId || 'individual';
+        if (student.isAI) {
+          if (!aiTeams[teamId]) {
+            aiTeams[teamId] = [];
+          }
+          aiTeams[teamId].push(student);
+        } else {
+          if (!studentTeams[teamId]) {
+            studentTeams[teamId] = [];
+          }
+          studentTeams[teamId].push(student);
         }
-        aiTeams[teamId].push(student);
-      } else {
-        if (!studentTeams[teamId]) {
-          studentTeams[teamId] = [];
-        }
-        studentTeams[teamId].push(student);
+      });
+      
+      // Process AI players from separate array
+      if (state.aiPlayers) {
+        state.aiPlayers.forEach(aiPlayer => {
+          const teamId = aiPlayer.teamId || 'individual';
+          if (!aiTeams[teamId]) {
+            aiTeams[teamId] = [];
+          }
+          aiTeams[teamId].push(aiPlayer);
+        });
       }
-    });
-    
-    // Process AI players from separate array
-    if (state.aiPlayers) {
-      state.aiPlayers.forEach(aiPlayer => {
-        const teamId = aiPlayer.teamId || 'individual';
-        if (!aiTeams[teamId]) {
-          aiTeams[teamId] = [];
+      
+      // Combine teams with AI teams first, then student teams
+      teamGroups = { ...aiTeams, ...studentTeams };
+    } else {
+      // Regular game: Just group all students by team
+      state.roster.forEach(student => {
+        const teamId = student.teamId || 'individual';
+        if (!teamGroups[teamId]) {
+          teamGroups[teamId] = [];
         }
-        aiTeams[teamId].push(aiPlayer);
+        teamGroups[teamId].push(student);
       });
     }
     
-    // Combine teams with AI teams first, then student teams
-    const teamGroups = { ...aiTeams, ...studentTeams };
-    
-    console.log('AI teams:', aiTeams);
-    console.log('Student teams:', studentTeams);
-    console.log('Combined team groups:', teamGroups);
+    console.log('Is AI vs Students:', isAIVsStudents);
+    console.log('Team groups:', teamGroups);
     
     // Create strategic starting positions based on team count
     const team1Positions = []; // Team 1 positions
@@ -2482,8 +2497,6 @@
     
     // Assign starting positions to teams
     const teamIds = Object.keys(teamGroups);
-    const aiTeamIds = Object.keys(aiTeams);
-    const studentTeamIds = Object.keys(studentTeams);
     
     Object.entries(teamGroups).forEach(([teamId, students], index) => {
       console.log(`Assigning positions for team ${teamId} with ${students.length} students`);
@@ -2491,9 +2504,15 @@
       // Choose positions based on team index and formation
       let teamPositions = [];
       
-      // Determine if this is an AI team or student team
-      const isAITeam = aiTeamIds.includes(teamId);
-      const isStudentTeam = studentTeamIds.includes(teamId);
+      // Determine if this is an AI team or student team (only for AI vs Students games)
+      let isAITeam = false;
+      let isStudentTeam = false;
+      
+      if (isAIVsStudents) {
+        // For AI vs Students games, check if this team has AI players
+        isAITeam = students.some(s => s.isAI || (state.aiPlayers && state.aiPlayers.some(ai => ai.gsId === s.gsId)));
+        isStudentTeam = !isAITeam;
+      }
       
       // Determine which team is "good guys" based on scenario
       const currentTeamId = teamIds[index];
