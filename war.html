@@ -1088,10 +1088,10 @@
 
       // Separate safe characters for students from controversial characters for AI
       const safeCharacters = allCharacters.filter(char => !char.isControversial);
-      const controversialCharacters = allCharacters.filter(char => char.isControversial);
+      const controversialCharacterList = allCharacters.filter(char => char.isControversial);
       
       console.log(`Safe characters for students: ${safeCharacters.length}`);
-      console.log(`Controversial characters for AI: ${controversialCharacters.length}`);
+      console.log(`Controversial characters for AI: ${controversialCharacterList.length}`);
       
       if (safeCharacters.length === 0) {
         console.warn('No safe characters found for students! Using all characters...');
@@ -1121,11 +1121,11 @@
       const remainingSafeCharacters = safeCharacters.filter(char => !studentCharacterNames.includes(char.name));
       
       console.log(`Students got ${studentCharacterNames.length} characters:`, studentCharacterNames);
-      console.log(`Available controversial characters for AI: ${controversialCharacters.length}`);
+      console.log(`Available controversial characters for AI: ${controversialCharacterList.length}`);
       console.log(`Available remaining safe characters: ${remainingSafeCharacters.length}`);
       
       // Create AI assignments - prioritize controversial characters, then remaining safe characters
-      const aiCharacterPool = [...controversialCharacters, ...remainingSafeCharacters];
+      const aiCharacterPool = [...controversialCharacterList, ...remainingSafeCharacters];
       
       for (let i = 0; i < studentCount; i++) {
         let characterToUse;
