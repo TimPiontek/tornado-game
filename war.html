@@ -919,6 +919,36 @@
     
     console.log('Assigning teams based on character factions...');
     
+    // First, create AI players from aiAssignments
+    if (state.scenario.aiAssignments) {
+      console.log('Creating AI players from aiAssignments:', state.scenario.aiAssignments);
+      Object.values(state.scenario.aiAssignments).forEach(aiAssignment => {
+        if (aiAssignment.isAI && !state.roster.find(s => s.characterName === aiAssignment.roleName && s.isAI)) {
+          // Create AI player
+          const aiPlayer = {
+            gsId: `ai_${aiAssignment.roleName.replace(/\s+/g, '_').toLowerCase()}`,
+            name: `${aiAssignment.roleName} (AI)`,
+            characterName: aiAssignment.roleName,
+            characterFaction: aiAssignment.factionName,
+            isAI: true,
+            startingPoints: 50, // Give AI some starting resources
+            earnedPoints: 0,
+            balance: 50,
+            weapons: [],
+            mercenaries: 0,
+            castles: 0,
+            tilesOwned: 0,
+            teamId: null,
+            teamName: null,
+            teamColor: null
+          };
+          state.roster.push(aiPlayer);
+          console.log(`Created AI player: ${aiPlayer.name} for faction ${aiAssignment.factionName}`);
+        }
+      });
+      console.log('Final roster after AI creation:', state.roster.map(s => `${s.name} (${s.isAI ? 'AI' : 'Student'}) - ${s.characterName} - ${s.characterFaction}`));
+    }
+    
     state.roster.forEach(student => {
       if (student.characterName && student.characterFaction) {
         // Get faction data from scenario
@@ -975,37 +1005,24 @@
     });
   }
 
-  // Class vs AI: auto-assign students to good factions and AI to villain factions
+  // Class vs AI: auto-assign students to one faction and AI to another faction
   function assignClassVsAITeams(scenarioData) {
     try {
       const scenario = SCENARIOS[scenarioData.scenarioId];
       if (!scenario || !scenario.factions) return;
 
-      // Heuristic alignment classifier for factions by name
-      const isBadFactionName = (name) => {
-        if (!name) return false;
-        const n = name.toLowerCase();
-        return (
-          n.includes('villain') ||
-          n.includes('evil') ||
-          n.includes('empire') ||
-          n.includes('sith') ||
-          n.includes('death eater') ||
-          n.includes('first order') ||
-          n.includes('dark') ||
-          n.includes('bad') ||
-          n.includes('antagonist')
-        );
-      };
+      const factionNames = Object.keys(scenario.factions);
+      if (factionNames.length < 2) {
+        console.warn('Class vs AI: Need at least 2 factions for AI vs Students');
+        return;
+      }
 
-      const goodCharacters = [];
-      const badCharacters = [];
-
+      // Get all characters from all factions
+      const allCharacters = [];
       Object.values(scenario.factions).forEach((faction) => {
-        const target = isBadFactionName(faction.name) ? badCharacters : goodCharacters;
         if (Array.isArray(faction.characters)) {
           faction.characters.forEach((char) => {
-            target.push({
+            allCharacters.push({
               name: char.name,
               role: char.role,
               factionName: faction.name,
@@ -1015,7 +1032,7 @@
         }
         if (Array.isArray(faction.generalRoles)) {
           faction.generalRoles.forEach((role) => {
-            target.push({
+            allCharacters.push({
               name: role.name,
               role: role.name,
               factionName: faction.name,
@@ -1025,9 +1042,8 @@
         }
       });
 
-      // Guard: need at least one good character for assignment
-      if (goodCharacters.length === 0) {
-        console.warn('Class vs AI: No good-faction characters found; skipping auto-assign');
+      if (allCharacters.length === 0) {
+        console.warn('Class vs AI: No characters found');
         return;
       }
 
@@ -1041,24 +1057,27 @@
         [shuffledStudents[i], shuffledStudents[j]] = [shuffledStudents[j], shuffledStudents[i]];
       }
 
-      // Shuffle good characters array to ensure true randomization
-      const shuffledGoodCharacters = [...goodCharacters];
-      for (let i = shuffledGoodCharacters.length - 1; i > 0; i--) {
+      // Shuffle all characters array to ensure true randomization
+      const shuffledCharacters = [...allCharacters];
+      for (let i = shuffledCharacters.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [shuffledGoodCharacters[i], shuffledGoodCharacters[j]] = [shuffledGoodCharacters[j], shuffledGoodCharacters[i]];
+        [shuffledCharacters[i], shuffledCharacters[j]] = [shuffledCharacters[j], shuffledCharacters[i]];
       }
 
-      // Assign each student to a good character (round-robin if we run out)
+      // Assign each student to a character (round-robin if we run out)
       shuffledStudents.forEach((student, idx) => {
-        const pick = shuffledGoodCharacters[idx % shuffledGoodCharacters.length];
+        const pick = shuffledCharacters[idx % shuffledCharacters.length];
         roleAssignments[student.gsId] = pick.name;
         // Mirror onto student for downstream team assignment
         student.characterName = pick.name;
         student.characterFaction = pick.factionName;
       });
 
-      // Mark all bad characters as AI-controlled
-      badCharacters.forEach((c) => {
+      // Assign remaining characters to AI
+      const studentCharacterNames = Object.values(roleAssignments);
+      const remainingCharacters = shuffledCharacters.filter(char => !studentCharacterNames.includes(char.name));
+      
+      remainingCharacters.forEach((c) => {
         aiAssignments[c.name] = {
           studentId: null,
           studentName: null,
@@ -1074,6 +1093,15 @@
       if (!state.scenario) state.scenario = {};
       state.scenario.manualRoleAssignments = roleAssignments;
       state.scenario.aiAssignments = aiAssignments;
+
+      console.log('Class vs AI assignments:', {
+        students: Object.keys(roleAssignments).length,
+        ai: Object.keys(aiAssignments).length,
+        studentFactions: [...new Set(Object.values(roleAssignments).map(name => 
+          shuffledCharacters.find(c => c.name === name)?.factionName
+        ))],
+        aiFactions: [...new Set(Object.values(aiAssignments).map(ai => ai.factionName))]
+      });
 
       // Ensure teams reflect factions
       assignTeamsFromCharacters();
@@ -2252,7 +2280,7 @@
       
       // AI vs Students positioning: AI teams on left, Student teams on right
       if (isAITeam) {
-        // AI teams get left side positions
+        // AI teams get left side positions (regardless of faction)
         if (teamCount === 4) {
           // AI gets left side (top-left or bottom-left)
           if (index === 0) teamPositions = team1Positions; // Top-left
@@ -2262,8 +2290,9 @@
         } else {
           teamPositions = team1Positions; // Left side
         }
+        console.log(`AI team ${teamId} assigned to LEFT side positions`);
       } else if (isStudentTeam) {
-        // Student teams get right side positions
+        // Student teams get right side positions (regardless of faction)
         if (teamCount === 4) {
           // Students get right side (top-right or bottom-right)
           if (index === 1) teamPositions = team2Positions; // Top-right
@@ -2275,6 +2304,7 @@
         } else {
           teamPositions = team2Positions; // Right side
         }
+        console.log(`Student team ${teamId} assigned to RIGHT side positions`);
       } else {
         // Fallback for individual players - use standard positioning
         if (teamCount === 4) {
