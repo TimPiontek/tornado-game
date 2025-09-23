@@ -1030,9 +1030,23 @@
       const roleAssignments = {};
       const aiAssignments = {};
 
+      // Shuffle students array to ensure true randomization
+      const shuffledStudents = [...state.roster];
+      for (let i = shuffledStudents.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledStudents[i], shuffledStudents[j]] = [shuffledStudents[j], shuffledStudents[i]];
+      }
+
+      // Shuffle good characters array to ensure true randomization
+      const shuffledGoodCharacters = [...goodCharacters];
+      for (let i = shuffledGoodCharacters.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledGoodCharacters[i], shuffledGoodCharacters[j]] = [shuffledGoodCharacters[j], shuffledGoodCharacters[i]];
+      }
+
       // Assign each student to a good character (round-robin if we run out)
-      state.roster.forEach((student, idx) => {
-        const pick = goodCharacters[idx % goodCharacters.length];
+      shuffledStudents.forEach((student, idx) => {
+        const pick = shuffledGoodCharacters[idx % shuffledGoodCharacters.length];
         roleAssignments[student.gsId] = pick.name;
         // Mirror onto student for downstream team assignment
         student.characterName = pick.name;
@@ -1735,7 +1749,14 @@
       [factionAssignments[i], factionAssignments[j]] = [factionAssignments[j], factionAssignments[i]];
     }
     
-    state.roster.forEach((student, index) => {
+    // Shuffle students array to ensure true randomization
+    const shuffledStudents = [...state.roster];
+    for (let i = shuffledStudents.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledStudents[i], shuffledStudents[j]] = [shuffledStudents[j], shuffledStudents[i]];
+    }
+
+    shuffledStudents.forEach((student, index) => {
       // Get the pre-calculated faction assignment
       const targetFaction = factionAssignments[index];
       const factionCharacters = charactersByFaction[targetFaction];
@@ -6508,9 +6529,17 @@
     // Close modal
     closeScenarioSelectionModal();
     
-    // If AI is enabled, show AI role assignment modal
+    // If AI is enabled, check assignment type
     if (enableAI) {
-      showAIRoleAssignmentModal(scenario, scenarioData, roleAssignment);
+      if (roleAssignment === 'random') {
+        // Random assignment with AI - proceed directly (students vs AI)
+        initializeScenario(scenarioData);
+        resetGameToDefaults();
+        showScenarioInfo(scenarioData);
+      } else {
+        // Manual assignment with AI - show modal
+        showAIRoleAssignmentModal(scenario, scenarioData, roleAssignment);
+      }
     } else if (roleAssignment === 'manual') {
       // Manual assignment without AI
       showRoleAssignmentModal(scenario);
