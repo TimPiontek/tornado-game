@@ -7459,6 +7459,61 @@
                         </div>
                     </div>
                     
+                    <!-- Team Migration Section -->
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #ddd;">
+                        <h3 style="margin: 0 0 1rem 0; color: #333;">⚔️ Migrate Teams from Tornado War</h3>
+                        <p style="margin: 0 0 1rem 0; color: #666; font-size: 0.9rem;">
+                            Import teams from your Tornado War games to create head-to-head quiz battles!
+                        </p>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button id="migrateWarTeamsBtn" style="
+                                background: #dc2626;
+                                color: white;
+                                border: none;
+                                padding: 0.75rem 1.5rem;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-weight: 600;
+                                font-size: 1rem;
+                                display: flex;
+                                align-items: center;
+                                gap: 0.5rem;
+                            ">
+                                ⚔️ Import War Teams
+                            </button>
+                            <button id="randomTeamsBtn" style="
+                                background: #f59e0b;
+                                color: white;
+                                border: none;
+                                padding: 0.75rem 1.5rem;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-weight: 600;
+                                font-size: 1rem;
+                                display: flex;
+                                align-items: center;
+                                gap: 0.5rem;
+                            ">
+                                🎲 Random Teams
+                            </button>
+                            <button id="manualTeamsBtn" style="
+                                background: #3b82f6;
+                                color: white;
+                                border: none;
+                                padding: 0.75rem 1.5rem;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-weight: 600;
+                                font-size: 1rem;
+                                display: flex;
+                                align-items: center;
+                                gap: 0.5rem;
+                            ">
+                                ✏️ Manual Teams
+                            </button>
+                        </div>
+                    </div>
+                    
                     <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #ddd;">
                         <h3 style="margin: 0 0 1rem 0; color: #333;">Don't have a roster yet?</h3>
                         <p style="margin: 0 0 1rem 0; color: #666; font-size: 0.9rem;">
@@ -7506,6 +7561,22 @@
                 window.location.href = 'guest-roster.html';
             });
             
+            // Add event listeners for team migration buttons
+            document.getElementById('migrateWarTeamsBtn').addEventListener('click', () => {
+                document.body.removeChild(modal);
+                showWarTeamMigrationModal();
+            });
+            
+            document.getElementById('randomTeamsBtn').addEventListener('click', () => {
+                document.body.removeChild(modal);
+                assignRandomTeams();
+            });
+            
+            document.getElementById('manualTeamsBtn').addEventListener('click', () => {
+                document.body.removeChild(modal);
+                showManualTeamAssignment();
+            });
+            
             // Close modal when clicking outside
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
@@ -7517,6 +7588,167 @@
         function getAllQuizRosters() {
             const saved = localStorage.getItem('tornadoRosters');
             return saved ? JSON.parse(saved) : [];
+        }
+
+        function showWarTeamMigrationModal() {
+            // Get all rosters that have teams from Tornado War
+            const allRosters = getAllQuizRosters();
+            const warRosters = allRosters.filter(roster => 
+                roster.teams && roster.teams.length > 0 && 
+                roster.scenario && roster.scenario.scenarioId
+            );
+            
+            if (warRosters.length === 0) {
+                alert('No Tornado War rosters with teams found. Please play some scenario games first to create teams!');
+                return;
+            }
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+            
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    border-radius: 16px;
+                    padding: 2rem;
+                    max-width: 800px;
+                    width: 95%;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                ">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h2 style="margin: 0; color: #1e293b; font-size: 1.5rem;">⚔️ Import Teams from Tornado War</h2>
+                        <button id="closeWarMigrationModal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <p style="color: #64748b; margin-bottom: 1rem;">
+                            Select a Tornado War roster to import its teams for your quiz game. This will create head-to-head battles between the same teams!
+                        </p>
+                        
+                        <div id="warRosterList" style="max-height: 400px; overflow-y: auto;">
+                            ${warRosters.map(roster => `
+                                <div class="war-roster-item" data-roster-id="${roster.id}" style="
+                                    background: #f8f9fa;
+                                    border: 1px solid #ddd;
+                                    border-radius: 8px;
+                                    padding: 1rem;
+                                    margin-bottom: 0.75rem;
+                                    cursor: pointer;
+                                    transition: all 0.2s ease;
+                                " onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <h4 style="margin: 0 0 0.25rem 0; color: #dc2626;">${roster.name}</h4>
+                                            <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                                                ${roster.roster ? roster.roster.length : 0} students • 
+                                                ${roster.scenario ? roster.scenario.scenarioName : 'Unknown Scenario'} • 
+                                                ${roster.teams ? roster.teams.length : 0} Teams
+                                            </p>
+                                            <div style="margin-top: 0.5rem;">
+                                                ${roster.teams ? roster.teams.map(team => `
+                                                    <span style="
+                                                        background: ${team.color || '#6f5c91'};
+                                                        color: white;
+                                                        padding: 0.25rem 0.5rem;
+                                                        border-radius: 4px;
+                                                        font-size: 0.8rem;
+                                                        margin-right: 0.5rem;
+                                                        display: inline-block;
+                                                        margin-bottom: 0.25rem;
+                                                    ">${team.name}</span>
+                                                `).join('') : ''}
+                                            </div>
+                                            <p style="margin: 0; color: #999; font-size: 0.8rem;">
+                                                Last modified: ${roster.lastModified ? new Date(roster.lastModified).toLocaleString() : 'Unknown'}
+                                            </p>
+                                        </div>
+                                        <button class="migrate-teams-btn" data-roster-id="${roster.id}" style="
+                                            background: #dc2626;
+                                            color: white;
+                                            border: none;
+                                            padding: 0.5rem 1rem;
+                                            border-radius: 6px;
+                                            cursor: pointer;
+                                            font-size: 0.9rem;
+                                        ">Import Teams</button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add event listeners
+            document.getElementById('closeWarMigrationModal').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+            
+            document.querySelectorAll('.migrate-teams-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const rosterId = btn.getAttribute('data-roster-id');
+                    document.body.removeChild(modal);
+                    migrateWarTeams(rosterId);
+                });
+            });
+            
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+
+        function migrateWarTeams(rosterId) {
+            const allRosters = getAllQuizRosters();
+            const warRoster = allRosters.find(r => r.id === rosterId);
+            
+            if (!warRoster || !warRoster.teams || warRoster.teams.length === 0) {
+                alert('No teams found in this roster!');
+                return;
+            }
+            
+            // Create a new roster data structure for the quiz
+            const quizRosterData = {
+                id: `quiz_${Date.now()}`,
+                name: `${warRoster.name} (Quiz Teams)`,
+                roster: warRoster.roster || [],
+                teams: warRoster.teams,
+                teamMode: true,
+                migratedFrom: rosterId,
+                lastModified: new Date().toISOString()
+            };
+            
+            // Create team assignment for the quiz
+            const teamAssignment = {
+                mode: 'teams',
+                rosterData: quizRosterData,
+                teams: warRoster.teams
+            };
+            
+            // Apply the team assignment
+            window.quizTeamAssignment = teamAssignment;
+            applyTeamAssignment();
+            
+            // Show success message
+            alert(`✅ Successfully imported ${warRoster.teams.length} teams from "${warRoster.name}"!\n\nTeams: ${warRoster.teams.map(t => t.name).join(', ')}`);
         }
         
         function showNoRostersModal() {

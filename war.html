@@ -6833,10 +6833,36 @@
           <button onclick="closeCustomScenarioBuilder()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
         </div>
         
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 1.5rem;">
-          <!-- Left Column: Scenario Setup -->
-          <div>
-            <h3 style="margin: 0 0 1rem 0; color: #1e293b;">Scenario Setup</h3>
+        <!-- Creation Method Selection -->
+        <div style="margin-bottom: 1.5rem;">
+          <h3 style="margin: 0 0 1rem 0; color: #1e293b;">Choose Creation Method</h3>
+          <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+            <button id="formMethodBtn" onclick="switchCreationMethod('form')" style="
+              padding: 0.75rem 1.5rem;
+              border: 2px solid #3b82f6;
+              background: #3b82f6;
+              color: white;
+              border-radius: 8px;
+              cursor: pointer;
+              font-weight: 600;
+            ">📝 Fill Out Form</button>
+            <button id="pasteMethodBtn" onclick="switchCreationMethod('paste')" style="
+              padding: 0.75rem 1.5rem;
+              border: 2px solid #e2e8f0;
+              background: white;
+              color: #64748b;
+              border-radius: 8px;
+              cursor: pointer;
+              font-weight: 600;
+            ">📋 Copy & Paste</button>
+          </div>
+        </div>
+
+        <div id="formCreationMethod" style="display: block;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 1.5rem;">
+            <!-- Left Column: Scenario Setup -->
+            <div>
+              <h3 style="margin: 0 0 1rem 0; color: #1e293b;">Scenario Setup</h3>
             
             <div style="margin-bottom: 1rem;">
               <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Scenario Name:</label>
@@ -6993,6 +7019,141 @@
             </div>
           </div>
         </div>
+
+        <!-- Copy & Paste Method -->
+        <div id="pasteCreationMethod" style="display: none;">
+          <div style="margin-bottom: 1.5rem;">
+            <h3 style="margin: 0 0 1rem 0; color: #1e293b;">🤖 ChatGPT Integration</h3>
+            <p style="color: #64748b; margin-bottom: 1rem;">Copy the prompt below, paste it into ChatGPT, fill in your scenario details, and paste the response back here.</p>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">ChatGPT Prompt (Copy this):</label>
+              <textarea id="chatgptPrompt" readonly style="
+                width: 100%;
+                padding: 1rem;
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                font-size: 0.875rem;
+                min-height: 200px;
+                background: #f8fafc;
+                font-family: monospace;
+              ">Create a detailed scenario for a classroom war game based on: [YOUR SCENARIO HERE - e.g., "The War of 1812", "Romeo and Juliet", "Marvel vs DC", etc.]
+
+Please format your response as a complete JSON object that can be directly imported into a game system. Include ALL of the following elements:
+
+{
+  "id": "unique_scenario_id",
+  "name": "Scenario Name",
+  "type": "historical|literary|fantasy|sci-fi|modern|other",
+  "description": "Brief description of the scenario",
+  "factions": {
+    "faction1_key": {
+      "name": "Faction Display Name",
+      "color": "#hexcolor",
+      "description": "Faction description",
+      "territories": [
+        {
+          "name": "Territory Name",
+          "cost": 100,
+          "description": "Territory description"
+        }
+      ],
+      "characters": [
+        {
+          "name": "Character Name",
+          "role": "Character Role",
+          "startingCoins": 150,
+          "startingWeapons": ["weapon1", "weapon2"],
+          "startingMercenaries": 5,
+          "startingCastles": 4,
+          "personality": "personality_type",
+          "quotes": [
+            "Character quote 1",
+            "Character quote 2",
+            "Character quote 3",
+            "Character quote 4",
+            "Character quote 5"
+          ],
+          "description": "Character description"
+        }
+      ],
+      "generalRoles": [
+        {
+          "name": "General Role Name",
+          "startingCoins": 30,
+          "startingWeapons": [],
+          "startingMercenaries": 0,
+          "startingCastles": 0,
+          "personality": "personality_type"
+        }
+      ]
+    }
+  },
+  "neutralTerritories": [
+    {
+      "name": "Neutral Territory Name",
+      "cost": 75,
+      "description": "Neutral territory description"
+    }
+  ],
+  "randomAssignment": true,
+  "manualRoleAssignments": false,
+  "aiAssignments": false
+}
+
+REQUIREMENTS:
+- Create 2-4 factions with distinct themes and colors
+- Each faction needs 8-10 territories with creative names and descriptions
+- Each faction needs 5-8 named characters with unique personalities and 5 authentic quotes each
+- Each faction needs 2-3 general roles for additional players
+- Include 3-5 neutral territories
+- Use appropriate hex colors (#000000 format) that are distinct and thematic
+- Make quotes authentic to the character/setting
+- Ensure all JSON syntax is valid
+- Include ALL required fields exactly as shown above</textarea>
+              <button onclick="copyChatGPTPrompt()" style="
+                margin-top: 0.5rem;
+                padding: 0.5rem 1rem;
+                background: #3b82f6;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 0.875rem;
+              ">📋 Copy Prompt</button>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Paste ChatGPT Response Here:</label>
+              <textarea id="chatgptResponse" placeholder="Paste the JSON response from ChatGPT here..." style="
+                width: 100%;
+                padding: 1rem;
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                font-size: 0.875rem;
+                min-height: 300px;
+                font-family: monospace;
+              "></textarea>
+              <button onclick="parseChatGPTResponse()" style="
+                margin-top: 0.5rem;
+                padding: 0.5rem 1rem;
+                background: #10b981;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 0.875rem;
+              ">✅ Parse Response</button>
+            </div>
+            
+            <div id="parseResult" style="
+              padding: 1rem;
+              border-radius: 8px;
+              margin-top: 1rem;
+              display: none;
+            "></div>
+          </div>
+        </div>
         
         <div style="text-align: center; margin-top: 1.5rem;">
           <button onclick="closeCustomScenarioBuilder()" style="
@@ -7047,6 +7208,145 @@
     if (modal) {
       modal.remove();
     }
+  }
+
+  // Switch between form and paste creation methods
+  function switchCreationMethod(method) {
+    const formMethod = document.getElementById('formCreationMethod');
+    const pasteMethod = document.getElementById('pasteCreationMethod');
+    const formBtn = document.getElementById('formMethodBtn');
+    const pasteBtn = document.getElementById('pasteMethodBtn');
+    
+    if (method === 'form') {
+      formMethod.style.display = 'block';
+      pasteMethod.style.display = 'none';
+      formBtn.style.background = '#3b82f6';
+      formBtn.style.color = 'white';
+      pasteBtn.style.background = 'white';
+      pasteBtn.style.color = '#64748b';
+    } else {
+      formMethod.style.display = 'none';
+      pasteMethod.style.display = 'block';
+      pasteBtn.style.background = '#3b82f6';
+      pasteBtn.style.color = 'white';
+      formBtn.style.background = 'white';
+      formBtn.style.color = '#64748b';
+    }
+  }
+
+  // Copy ChatGPT prompt to clipboard
+  function copyChatGPTPrompt() {
+    const prompt = document.getElementById('chatgptPrompt');
+    prompt.select();
+    document.execCommand('copy');
+    
+    // Show feedback
+    const button = event.target;
+    const originalText = button.textContent;
+    button.textContent = '✅ Copied!';
+    button.style.background = '#10b981';
+    
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.style.background = '#3b82f6';
+    }, 2000);
+  }
+
+  // Parse ChatGPT response and populate form
+  function parseChatGPTResponse() {
+    const response = document.getElementById('chatgptResponse').value.trim();
+    const resultDiv = document.getElementById('parseResult');
+    
+    if (!response) {
+      showParseResult('Please paste a response from ChatGPT first.', 'error');
+      return;
+    }
+    
+    try {
+      // Try to parse JSON
+      let scenarioData;
+      try {
+        scenarioData = JSON.parse(response);
+      } catch (e) {
+        // Try to extract JSON from markdown code blocks
+        const jsonMatch = response.match(/```(?:json)?\s*(\{[\s\S]*\})\s*```/);
+        if (jsonMatch) {
+          scenarioData = JSON.parse(jsonMatch[1]);
+        } else {
+          throw new Error('No valid JSON found in response');
+        }
+      }
+      
+      // Validate required fields
+      if (!scenarioData.id || !scenarioData.name || !scenarioData.factions) {
+        throw new Error('Missing required fields: id, name, or factions');
+      }
+      
+      // Populate form fields
+      document.getElementById('customScenarioName').value = scenarioData.name;
+      document.getElementById('customScenarioType').value = scenarioData.type || 'other';
+      document.getElementById('customScenarioDescription').value = scenarioData.description || '';
+      
+      // Set faction count
+      const factionCount = Object.keys(scenarioData.factions).length;
+      document.getElementById('customFactionCount').value = Math.min(Math.max(factionCount, 2), 6);
+      
+      // Update factions
+      updateCustomFactions();
+      
+      // Populate faction data
+      Object.entries(scenarioData.factions).forEach(([factionKey, faction], index) => {
+        const factionIndex = index;
+        
+        // Set faction name
+        const factionNameInput = document.querySelector(`input[data-faction="${factionIndex}"].faction-name`);
+        if (factionNameInput) factionNameInput.value = faction.name;
+        
+        // Set faction color
+        const factionColorInput = document.querySelector(`input[data-faction="${factionIndex}"].faction-color`);
+        if (factionColorInput) factionColorInput.value = faction.color;
+        
+        // Set faction description
+        const factionDescInput = document.querySelector(`textarea[data-faction="${factionIndex}"].faction-description`);
+        if (factionDescInput) factionDescInput.value = faction.description || '';
+        
+        // Add territories
+        if (faction.territories) {
+          faction.territories.forEach((territory, territoryIndex) => {
+            const territoryInput = document.querySelector(`input[data-faction="${factionIndex}"][data-territory="${territoryIndex}"].territory-name`);
+            if (territoryInput) territoryInput.value = territory.name;
+          });
+        }
+        
+        // Add characters
+        if (faction.characters) {
+          faction.characters.forEach((character, charIndex) => {
+            const charNameInput = document.querySelector(`input[data-faction="${factionIndex}"][data-char="${charIndex}"].char-name`);
+            if (charNameInput) charNameInput.value = character.name;
+            
+            const charRoleInput = document.querySelector(`input[data-faction="${factionIndex}"][data-char="${charIndex}"].char-role`);
+            if (charRoleInput) charRoleInput.value = character.role;
+          });
+        }
+      });
+      
+      // Store the parsed data for later use
+      window.parsedScenarioData = scenarioData;
+      
+      showParseResult(`✅ Successfully parsed scenario "${scenarioData.name}" with ${factionCount} factions!`, 'success');
+      
+    } catch (error) {
+      showParseResult(`❌ Error parsing response: ${error.message}`, 'error');
+    }
+  }
+
+  function showParseResult(message, type) {
+    const resultDiv = document.getElementById('parseResult');
+    resultDiv.style.display = 'block';
+    resultDiv.style.background = type === 'success' ? '#d1fae5' : '#fee2e2';
+    resultDiv.style.color = type === 'success' ? '#065f46' : '#991b1b';
+    resultDiv.style.border = `2px solid ${type === 'success' ? '#10b981' : '#ef4444'}`;
+    resultDiv.textContent = message;
   }
   
   function updateCustomFactions() {
