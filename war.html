@@ -3872,7 +3872,11 @@
         if (r.characterName) {
           characterName = r.characterName;
           console.log('Found character from student property for', r.name, ':', characterName);
-        } else if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[r.gsId]) {
+        } else {
+          console.log('No characterName found for student', r.name, 'characterName property:', r.characterName);
+        }
+        
+        if (!characterName && scenario.manualRoleAssignments && scenario.manualRoleAssignments[r.gsId]) {
           characterName = scenario.manualRoleAssignments[r.gsId];
           console.log('Found manual role assignment for', r.name, ':', characterName);
         } else if (scenario.aiAssignments) {
