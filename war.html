@@ -962,6 +962,10 @@
       });
       console.log('AI players created:', state.aiPlayers.map(s => `${s.name} - ${s.characterName} - ${s.characterFaction}`));
       console.log('Student roster unchanged:', state.roster.map(s => `${s.name} - ${s.characterName} - ${s.characterFaction}`));
+      
+      // Force render roster to show AI players
+      console.log('Calling renderRoster after AI creation...');
+      renderRoster();
     } else {
       console.log('No aiAssignments found in scenario');
     }
@@ -1287,7 +1291,7 @@
         students: Object.keys(roleAssignments).length,
         ai: Object.keys(aiAssignments).length,
         studentFactions: [...new Set(Object.values(roleAssignments).map(name => 
-          shuffledCharacters.find(c => c.name === name)?.factionName
+          shuffledStudentCharacters.find(c => c.name === name)?.factionName
         ))],
         aiFactions: [...new Set(Object.values(aiAssignments).map(ai => ai.factionName))]
       });
@@ -3984,6 +3988,7 @@
     }
     
     // Add AI players section if they exist
+    console.log('renderRoster: Checking for AI players:', state.aiPlayers?.length || 0);
     if (state.aiPlayers && state.aiPlayers.length > 0) {
       // Add separator
       const separator = document.createElement('div');
@@ -6531,8 +6536,10 @@
       // Update game theme title
       updateGameThemeTitle();
       
-      // Save the cleared roster
-      saveRoster();
+      // Save the cleared roster (if function exists)
+      if (typeof saveRoster === 'function') {
+        saveRoster();
+      }
     }
     
     // Check if scenarios are loaded
