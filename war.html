@@ -2922,8 +2922,8 @@
                 title="${owner ? `Owned by ${ownerName}${state.scenario && characterName ? ` (${characterName})` : ''}${owner.teamName ? ` - Team: ${owner.teamName}` : ''}` : `Click to buy ${state.scenario ? (territoryName || 'territory') : 'tile'} for ${displayCost} points`}${isAttackable && !isOwnedBySelected ? ' (Attackable!)' : ''}">
                 ${owner ? `
                   ${characterDisplay ? `<div style="font-weight: 600; font-size: 10px; line-height: 1.0;">${characterDisplay}</div>` : ''}
-                  ${studentDisplay ? `<div style=\"font-size: 8px; line-height: 1.0; margin-top: 1px;\">${studentDisplay}</div>` : ''}
-                  ${territoryName ? `<div style=\"font-size: 7px; color: #ccc; line-height: 1.0; margin-top: 1px;\">${territoryName}</div>` : ''}
+                  ${studentDisplay ? `<div style="font-size: 8px; line-height: 1.0; margin-top: 1px;">${studentDisplay}</div>` : ''}
+                  ${territoryName ? `<div style="font-size: 7px; color: #ccc; line-height: 1.0; margin-top: 1px;">${territoryName}</div>` : ''}
                 ` : `
                   ${state.scenario ? `<div style="font-weight: 600; font-size: 10px; line-height: 1.0;">${displayName}</div>` : ''}
                   <div style="font-size: 8px; line-height: 1.0; margin-top: 2px;">${costText}</div>
