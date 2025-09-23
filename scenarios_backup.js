@@ -1,8 +1,6 @@
 // Historical and Literary Scenarios for Tornado War
 // This file contains all scenario data including characters, territories, and AI personalities
 
-console.log('Loading scenarios.js file...');
-
 const SCENARIOS = {
   // HISTORICAL WARS
   americanRevolution: {
@@ -14106,11 +14104,11 @@ const SCENARIOS = {
             startingCastles: 4,
             personality: 'powerful',
             quotes: [
-              "Charizard!",
-              "Burn!",
-              "Fire!",
-              "Dragon!",
-              "Charizard!"
+              "I am Charizard, the Fire Dragon!",
+              "I will burn everything in my path!",
+              "I am the most powerful Fire Pokemon!",
+              "I will dominate with fire!",
+              "I am the king of Fire types!"
             ],
             description: 'The powerful Fire Dragon Pokemon who rules the skies.'
           },
@@ -14123,11 +14121,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'loyal',
             quotes: [
-              "Arcanine!",
-              "Run!",
-              "Fire!",
-              "Dog!",
-              "Arcanine!"
+              "I am Arcanine, the Legendary Fire Dog!",
+              "I will run faster than the wind!",
+              "I am the most loyal Fire Pokemon!",
+              "I will protect my trainer!",
+              "I am the legendary guardian!"
             ],
             description: 'The loyal Legendary Fire Dog who protects its trainer.'
           },
@@ -14140,11 +14138,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'mystical',
             quotes: [
-              "Ninetales!",
-              "Fox!",
-              "Fire!",
-              "Nine!",
-              "Ninetales!"
+              "I am Ninetales, the Mystical Fire Fox!",
+              "I will cast fire spells!",
+              "I am the most mystical Fire Pokemon!",
+              "I will bewitch with flames!",
+              "I am the nine-tailed fox!"
             ],
             description: 'The mystical Fire Fox with nine tails and magical powers.'
           },
@@ -14157,11 +14155,11 @@ const SCENARIOS = {
             startingCastles: 2,
             personality: 'fast',
             quotes: [
-              "Rapidash!",
-              "Horse!",
-              "Fire!",
-              "Run!",
-              "Rapidash!"
+              "I am Rapidash, the Fire Horse!",
+              "I will gallop with flames!",
+              "I am the fastest Fire Pokemon!",
+              "I will race across the battlefield!",
+              "I am the blazing steed!"
             ],
             description: 'The fast Fire Horse who gallops with flames.'
           },
@@ -14174,11 +14172,11 @@ const SCENARIOS = {
             startingCastles: 2,
             personality: 'aggressive',
             quotes: [
-              "Magmar!",
-              "Duck!",
-              "Fire!",
-              "Punch!",
-              "Magmar!"
+              "I am Magmar, the Fire Duck!",
+              "I will punch with fire!",
+              "I am the most aggressive Fire Pokemon!",
+              "I will fight with flames!",
+              "I am the fire-breathing duck!"
             ],
             description: 'The aggressive Fire Duck who fights with flaming punches.'
           },
@@ -14191,11 +14189,11 @@ const SCENARIOS = {
             startingCastles: 2,
             personality: 'evolved',
             quotes: [
-              "Flareon!",
-              "Eevee!",
-              "Fire!",
-              "Evolve!",
-              "Flareon!"
+              "I am Flareon, the Fire Evolution!",
+              "I will evolve with fire!",
+              "I am the most evolved Fire Pokemon!",
+              "I will adapt with flames!",
+              "I am the evolved fire type!"
             ],
             description: 'The evolved Fire Pokemon who adapts with flames.'
           },
@@ -14208,11 +14206,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'legendary',
             quotes: [
-              "Moltres!",
-              "Bird!",
-              "Fire!",
-              "Legend!",
-              "Moltres!"
+              "I am Moltres, the Legendary Fire Bird!",
+              "I will soar with fire!",
+              "I am the most legendary Fire Pokemon!",
+              "I will fly with flames!",
+              "I am the legendary fire bird!"
             ],
             description: 'The legendary Fire Bird who soars through the skies.'
           },
@@ -14225,11 +14223,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'noble',
             quotes: [
-              "Entei!",
-              "Lion!",
-              "Fire!",
-              "Roar!",
-              "Entei!"
+              "I am Entei, the Legendary Fire Lion!",
+              "I will roar with fire!",
+              "I am the most noble Fire Pokemon!",
+              "I will lead with flames!",
+              "I am the legendary fire lion!"
             ],
             description: 'The noble Legendary Fire Lion who leads with sacred fire.'
           },
@@ -14242,11 +14240,11 @@ const SCENARIOS = {
             startingCastles: 4,
             personality: 'divine',
             quotes: [
-              "Ho-Oh!",
-              "Rainbow!",
-              "Fire!",
-              "Divine!",
-              "Ho-Oh!"
+              "I am Ho-Oh, the Rainbow Fire Bird!",
+              "I will shine with rainbow fire!",
+              "I am the most divine Fire Pokemon!",
+              "I will bless with flames!",
+              "I am the divine rainbow bird!"
             ],
             description: 'The divine Rainbow Fire Bird who blesses with sacred flames.'
           },
@@ -14259,11 +14257,11 @@ const SCENARIOS = {
             startingCastles: 4,
             personality: 'primordial',
             quotes: [
-              "Groudon!",
-              "Ground!",
-              "Fire!",
-              "Earth!",
-              "Groudon!"
+              "I am Groudon, the Legendary Ground Fire!",
+              "I will shake the earth with fire!",
+              "I am the most primordial Fire Pokemon!",
+              "I will create with flames!",
+              "I am the primordial earth fire!"
             ],
             description: 'The primordial Legendary who creates land with fire.'
           }
@@ -14300,11 +14298,11 @@ const SCENARIOS = {
             startingCastles: 4,
             personality: 'defensive',
             quotes: [
-              "Blastoise!",
-              "Cannon!",
-              "Water!",
-              "Shell!",
-              "Blastoise!"
+              "I am Blastoise, the Water Cannon!",
+              "I will douse all fires!",
+              "I am the most defensive Water Pokemon!",
+              "I will protect with water!",
+              "I am the shield of Water types!"
             ],
             description: 'The defensive Water Cannon Pokemon who protects allies.'
           },
@@ -14317,11 +14315,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'fierce',
             quotes: [
-              "Gyarados!",
-              "Dragon!",
-              "Water!",
-              "Rage!",
-              "Gyarados!"
+              "I am Gyarados, the Water Dragon!",
+              "I will rage with water!",
+              "I am the most fierce Water Pokemon!",
+              "I will destroy with waves!",
+              "I am the fierce water dragon!"
             ],
             description: 'The fierce Water Dragon who rages with powerful waves.'
           },
@@ -14334,11 +14332,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'gentle',
             quotes: [
-              "Lapras!",
-              "Transport!",
-              "Water!",
-              "Carry!",
-              "Lapras!"
+              "I am Lapras, the Water Transport!",
+              "I will carry with water!",
+              "I am the most gentle Water Pokemon!",
+              "I will ferry with waves!",
+              "I am the gentle water carrier!"
             ],
             description: 'The gentle Water Transport who carries passengers safely.'
           },
@@ -14351,11 +14349,11 @@ const SCENARIOS = {
             startingCastles: 2,
             personality: 'evolved',
             quotes: [
-              "Vaporeon!",
-              "Eevee!",
-              "Water!",
-              "Evolve!",
-              "Vaporeon!"
+              "I am Vaporeon, the Water Evolution!",
+              "I will evolve with water!",
+              "I am the most evolved Water Pokemon!",
+              "I will adapt with waves!",
+              "I am the evolved water type!"
             ],
             description: 'The evolved Water Pokemon who adapts with waves.'
           },
@@ -14368,11 +14366,11 @@ const SCENARIOS = {
             startingCastles: 2,
             personality: 'mystical',
             quotes: [
-              "Starmie!",
-              "Star!",
-              "Water!",
-              "Psychic!",
-              "Starmie!"
+              "I am Starmie, the Water Star!",
+              "I will shine with water!",
+              "I am the most mystical Water Pokemon!",
+              "I will glow with waves!",
+              "I am the mystical water star!"
             ],
             description: 'The mystical Water Star who glows with psychic water power.'
           },
@@ -14385,11 +14383,11 @@ const SCENARIOS = {
             startingCastles: 2,
             personality: 'strong',
             quotes: [
-              "Poliwrath!",
-              "Fight!",
-              "Water!",
-              "Frog!",
-              "Poliwrath!"
+              "I am Poliwrath, the Water Fighter!",
+              "I will fight with water!",
+              "I am the strongest Water Pokemon!",
+              "I will battle with waves!",
+              "I am the strong water fighter!"
             ],
             description: 'The strong Water Fighter who battles with powerful water moves.'
           },
@@ -14402,11 +14400,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'legendary',
             quotes: [
-              "Articuno!",
-              "Ice!",
-              "Bird!",
-              "Freeze!",
-              "Articuno!"
+              "I am Articuno, the Legendary Ice Bird!",
+              "I will freeze with water!",
+              "I am the most legendary Water Pokemon!",
+              "I will chill with ice!",
+              "I am the legendary ice bird!"
             ],
             description: 'The legendary Ice Bird who freezes everything with ice.'
           },
@@ -14419,11 +14417,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'pure',
             quotes: [
-              "Suicune!",
-              "Water!",
-              "Dog!",
-              "Pure!",
-              "Suicune!"
+              "I am Suicune, the Legendary Water Dog!",
+              "I will purify with water!",
+              "I am the purest Water Pokemon!",
+              "I will cleanse with waves!",
+              "I am the pure water dog!"
             ],
             description: 'The pure Legendary Water Dog who purifies water.'
           },
@@ -14436,11 +14434,11 @@ const SCENARIOS = {
             startingCastles: 4,
             personality: 'divine',
             quotes: [
-              "Kyogre!",
-              "Sea!",
-              "God!",
-              "Flood!",
-              "Kyogre!"
+              "I am Kyogre, the Legendary Sea God!",
+              "I will flood with water!",
+              "I am the most divine Water Pokemon!",
+              "I will create oceans!",
+              "I am the divine sea god!"
             ],
             description: 'The divine Legendary Sea God who creates oceans.'
           },
@@ -14453,11 +14451,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'royal',
             quotes: [
-              "Manaphy!",
-              "Prince!",
-              "Sea!",
-              "Royal!",
-              "Manaphy!"
+              "I am Manaphy, the Sea Prince!",
+              "I will rule with water!",
+              "I am the most royal Water Pokemon!",
+              "I will command with waves!",
+              "I am the royal sea prince!"
             ],
             description: 'The royal Sea Prince who commands the oceans.'
           }
@@ -14494,11 +14492,11 @@ const SCENARIOS = {
             startingCastles: 4,
             personality: 'wise',
             quotes: [
-              "Venusaur!",
-              "Grass!",
-              "Giant!",
-              "Grow!",
-              "Venusaur!"
+              "I am Venusaur, the Grass Giant!",
+              "I will grow and flourish!",
+              "I am the most wise Grass Pokemon!",
+              "I will nurture with nature!",
+              "I am the guardian of Grass types!"
             ],
             description: 'The wise Grass Giant Pokemon who nurtures the land.'
           },
@@ -14511,11 +14509,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'agile',
             quotes: [
-              "Sceptile!",
-              "Lizard!",
-              "Grass!",
-              "Slash!",
-              "Sceptile!"
+              "I am Sceptile, the Grass Lizard!",
+              "I will slash with leaves!",
+              "I am the most agile Grass Pokemon!",
+              "I will strike with nature!",
+              "I am the agile grass lizard!"
             ],
             description: 'The agile Grass Lizard who strikes with leaf blades.'
           },
@@ -14528,11 +14526,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'steady',
             quotes: [
-              "Torterra!",
-              "Turtle!",
-              "Grass!",
-              "Earth!",
-              "Torterra!"
+              "I am Torterra, the Grass Turtle!",
+              "I will stand firm with nature!",
+              "I am the steadiest Grass Pokemon!",
+              "I will endure with earth!",
+              "I am the steady grass turtle!"
             ],
             description: 'The steady Grass Turtle who stands firm with earth and nature.'
           },
@@ -14545,11 +14543,11 @@ const SCENARIOS = {
             startingCastles: 2,
             personality: 'evolved',
             quotes: [
-              "Leafeon!",
-              "Eevee!",
-              "Grass!",
-              "Evolve!",
-              "Leafeon!"
+              "I am Leafeon, the Grass Evolution!",
+              "I will evolve with grass!",
+              "I am the most evolved Grass Pokemon!",
+              "I will adapt with nature!",
+              "I am the evolved grass type!"
             ],
             description: 'The evolved Grass Pokemon who adapts with nature.'
           },
@@ -14562,11 +14560,11 @@ const SCENARIOS = {
             startingCastles: 2,
             personality: 'elegant',
             quotes: [
-              "Roserade!",
-              "Rose!",
-              "Grass!",
-              "Dance!",
-              "Roserade!"
+              "I am Roserade, the Grass Rose!",
+              "I will dance with petals!",
+              "I am the most elegant Grass Pokemon!",
+              "I will charm with nature!",
+              "I am the elegant grass rose!"
             ],
             description: 'The elegant Grass Rose who dances with beautiful petals.'
           },
@@ -14579,11 +14577,11 @@ const SCENARIOS = {
             startingCastles: 2,
             personality: 'strong',
             quotes: [
-              "Breloom!",
-              "Fight!",
-              "Grass!",
-              "Punch!",
-              "Breloom!"
+              "I am Breloom, the Grass Fighter!",
+              "I will punch with power!",
+              "I am the strongest Grass Pokemon!",
+              "I will fight with nature!",
+              "I am the strong grass fighter!"
             ],
             description: 'The strong Grass Fighter who battles with powerful punches.'
           },
@@ -14596,11 +14594,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'mystical',
             quotes: [
-              "Celebi!",
-              "Time!",
-              "Grass!",
-              "Travel!",
-              "Celebi!"
+              "I am Celebi, the Time Travel Grass!",
+              "I will travel through time!",
+              "I am the most mystical Grass Pokemon!",
+              "I will see the future!",
+              "I am the mystical time traveler!"
             ],
             description: 'The mystical Grass Pokemon who travels through time.'
           },
@@ -14613,11 +14611,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'grateful',
             quotes: [
-              "Shaymin!",
-              "Gratitude!",
-              "Grass!",
-              "Heal!",
-              "Shaymin!"
+              "I am Shaymin, the Gratitude Grass!",
+              "I will spread gratitude!",
+              "I am the most grateful Grass Pokemon!",
+              "I will heal with nature!",
+              "I am the grateful grass spirit!"
             ],
             description: 'The grateful Grass Pokemon who spreads healing and gratitude.'
           },
@@ -14630,11 +14628,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'just',
             quotes: [
-              "Virizion!",
-              "Justice!",
-              "Grass!",
-              "Fight!",
-              "Virizion!"
+              "I am Virizion, the Grass Justice!",
+              "I will fight for justice!",
+              "I am the most just Grass Pokemon!",
+              "I will defend with nature!",
+              "I am the just grass warrior!"
             ],
             description: 'The just Grass Pokemon who fights for justice with nature.'
           },
@@ -14647,11 +14645,11 @@ const SCENARIOS = {
             startingCastles: 4,
             personality: 'sharp',
             quotes: [
-              "Kartana!",
-              "Sword!",
-              "Grass!",
-              "Cut!",
-              "Kartana!"
+              "I am Kartana, the Grass Sword!",
+              "I will cut with precision!",
+              "I am the sharpest Grass Pokemon!",
+              "I will slice with nature!",
+              "I am the sharp grass sword!"
             ],
             description: 'The sharp Grass Sword Pokemon who cuts with precision.'
           }
@@ -16433,11 +16431,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'invincible',
             quotes: [
-              "My wrath!",
-              "Invincible!",
-              "Trojan War!",
-              "Never defeated!",
-              "I am Achilles!"
+              "I am Achilles, the greatest warrior!",
+              "I will fight with invincible strength!",
+              "I am the hero of the Trojan War!",
+              "I will never be defeated!",
+              "I am the invincible warrior!"
             ],
             description: 'The invincible greatest warrior of the Trojan War.'
           },
@@ -16450,11 +16448,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'clever',
             quotes: [
-              "Trojan Horse!",
-              "Cunning!",
-              "Strategy!",
-              "Return home!",
-              "I am Odysseus!"
+              "I am Odysseus, the cunning hero!",
+              "I will outsmart my enemies!",
+              "I am the master of strategy!",
+              "I will return home!",
+              "I am the clever hero!"
             ],
             description: 'The clever cunning hero who outsmarts his enemies.'
           },
@@ -16467,11 +16465,11 @@ const SCENARIOS = {
             startingCastles: 2,
             personality: 'brave',
             quotes: [
-              "Medusa!",
-              "Gorgon!",
-              "Son of Zeus!",
-              "Andromeda!",
-              "I am Perseus!"
+              "I am Perseus, the dragon slayer!",
+              "I will slay Medusa!",
+              "I am the son of Zeus!",
+              "I will rescue Andromeda!",
+              "I am the brave hero!"
             ],
             description: 'The brave dragon slayer who defeated Medusa.'
           },
@@ -16484,11 +16482,11 @@ const SCENARIOS = {
             startingCastles: 2,
             personality: 'determined',
             quotes: [
-              "Minotaur!",
-              "Labyrinth!",
-              "King of Athens!",
-              "Navigate!",
-              "I am Theseus!"
+              "I am Theseus, the Minotaur slayer!",
+              "I will defeat the Minotaur!",
+              "I am the king of Athens!",
+              "I will navigate the labyrinth!",
+              "I am the determined hero!"
             ],
             description: 'The determined Minotaur slayer who became king of Athens.'
           },
@@ -16518,11 +16516,11 @@ const SCENARIOS = {
             startingCastles: 1,
             personality: 'monstrous',
             quotes: [
-              "Look upon me and turn to stone!",
-              "My hair writhes with serpents!",
-              "Once beautiful, now cursed!",
-              "Athena's punishment was cruel!",
-              "I am Medusa!"
+              "I am Medusa, the Gorgon!",
+              "I will turn you to stone!",
+              "I am the monster with snake hair!",
+              "I will petrify my enemies!",
+              "I am the monstrous Gorgon!"
             ],
             description: 'The monstrous Gorgon who turns enemies to stone.'
           },
@@ -16552,11 +16550,11 @@ const SCENARIOS = {
             startingCastles: 1,
             personality: 'swift',
             quotes: [
-              "I will marry only he who can outrun me!",
-              "Faster than the wind!",
-              "Raised by bears in the wild!",
-              "I hunt with Artemis herself!",
-              "I am Atalanta!"
+              "I am Atalanta, the swift huntress!",
+              "I will run faster than anyone!",
+              "I am the master of the hunt!",
+              "I will outrun my enemies!",
+              "I am the swift huntress!"
             ],
             description: 'The swift huntress who runs faster than anyone.'
           },
@@ -16569,11 +16567,11 @@ const SCENARIOS = {
             startingCastles: 1,
             personality: 'musical',
             quotes: [
-              "My music moves even the stones!",
-              "I descended to Hades for love!",
-              "Do not look back, Eurydice!",
-              "Apollo taught me the lyre!",
-              "I am Orpheus!"
+              "I am Orpheus, the master musician!",
+              "I will charm with my music!",
+              "I am the greatest musician!",
+              "I will rescue Eurydice!",
+              "I am the musical hero!"
             ],
             description: 'The musical master musician who charms with his music.'
           }
@@ -16630,11 +16628,11 @@ const SCENARIOS = {
             startingCastles: 4,
             personality: 'aggressive',
             quotes: [
-              "I've been training for this my whole life!",
-              "District 2 produces victors!",
-              "I'm going to win these Games!",
-              "The Capitol will remember my name!",
-              "I am Cato!"
+              "I am Cato, the career tribute!",
+              "I will win the Hunger Games!",
+              "I am the strongest tribute!",
+              "I will kill everyone!",
+              "I am the career champion!"
             ],
             description: 'The aggressive career tribute who trains for the Games.'
           },
@@ -16647,11 +16645,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'deadly',
             quotes: [
-              "I can throw a knife better than anyone!",
-              "District 2 trains the best!",
-              "I'm not afraid of the arena!",
-              "The Capitol will love me!",
-              "I am Clove!"
+              "I am Clove, the career tribute!",
+              "I will throw knives with precision!",
+              "I am the deadliest tribute!",
+              "I will cut down my enemies!",
+              "I am the career killer!"
             ],
             description: 'The deadly career tribute who masters throwing knives.'
           },
@@ -16664,11 +16662,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'strong',
             quotes: [
-              "I'm District 1's finest!",
-              "The Capitol will sponsor me!",
-              "I've trained for this moment!",
-              "Victory is mine!",
-              "I am Marvel!"
+              "I am Marvel, the career tribute!",
+              "I will fight with strength!",
+              "I am the strongest tribute!",
+              "I will overpower my enemies!",
+              "I am the career warrior!"
             ],
             description: 'The strong career tribute who fights with physical strength.'
           },
@@ -16790,11 +16788,11 @@ const SCENARIOS = {
             startingCastles: 4,
             personality: 'rebellious',
             quotes: [
-              "I volunteer as tribute!",
+              "I am Katniss Everdeen, the girl on fire!",
+              "I will volunteer as tribute!",
               "I am the Mockingjay!",
-              "May the odds be ever in your favor!",
-              "Fire is catching!",
-              "I am Katniss Everdeen!"
+              "I will start the revolution!",
+              "I am the girl on fire!"
             ],
             description: 'The rebellious girl on fire who becomes the Mockingjay.'
           },
@@ -16807,11 +16805,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'kind',
             quotes: [
-              "I want to die as myself!",
-              "I'm still betting on you!",
-              "You love me, real or not real?",
-              "I'm not going anywhere!",
-              "I am Peeta Mellark!"
+              "I am Peeta Mellark, the boy with the bread!",
+              "I will protect Katniss!",
+              "I am the kind tribute!",
+              "I will camouflage myself!",
+              "I am the boy with the bread!"
             ],
             description: 'The kind boy with the bread who protects Katniss.'
           },
@@ -16824,11 +16822,11 @@ const SCENARIOS = {
             startingCastles: 3,
             personality: 'charming',
             quotes: [
-              "I'm Finnick Odair!",
-              "Want a sugar cube?",
-              "I'm the golden boy of the Capitol!",
-              "District 4's finest!",
-              "I am Finnick Odair!"
+              "I am Finnick Odair, the golden boy!",
+              "I will charm my enemies!",
+              "I am the most charming tribute!",
+              "I will fight with my trident!",
+              "I am the golden boy!"
             ],
             description: 'The charming golden boy who fights with his trident.'
           },
@@ -16841,11 +16839,11 @@ const SCENARIOS = {
             startingCastles: 2,
             personality: 'fierce',
             quotes: [
-              "I'm Johanna Mason!",
-              "District 7 lumberjack!",
-              "I hate the Capitol!",
-              "I'm not afraid to die!",
-              "I am Johanna Mason!"
+              "I am Johanna Mason, the tree hugger!",
+              "I will fight with fury!",
+              "I am the fiercest tribute!",
+              "I will chop down my enemies!",
+              "I am the tree hugger!"
             ],
             description: 'The fierce tree hugger who fights with fury.'
           },
@@ -16858,11 +16856,11 @@ const SCENARIOS = {
             startingCastles: 2,
             personality: 'intelligent',
             quotes: [
-              "I'm Beetee!",
-              "District 3 electronics!",
-              "I can wire anything!",
-              "Technology is my weapon!",
-              "I am Beetee!"
+              "I am Beetee, the wire master!",
+              "I will wire my enemies!",
+              "I am the most intelligent tribute!",
+              "I will outsmart my enemies!",
+              "I am the wire master!"
             ],
             description: 'The intelligent wire master who outsmarts his enemies.'
           },
@@ -16892,11 +16890,11 @@ const SCENARIOS = {
             startingCastles: 1,
             personality: 'wise',
             quotes: [
-              "I'm Mags!",
-              "District 4 elder!",
-              "I've seen many Games!",
-              "Wisdom comes with age!",
-              "I am Mags!"
+              "I am Mags, the elder tribute!",
+              "I will share my wisdom!",
+              "I am the wisest tribute!",
+              "I will guide the young!",
+              "I am the elder tribute!"
             ],
             description: 'The wise elder tribute who guides the young.'
           },
@@ -16909,11 +16907,11 @@ const SCENARIOS = {
             startingCastles: 1,
             personality: 'strong',
             quotes: [
-              "I'm Thresh!",
-              "District 11 tribute!",
-              "I protect my own!",
-              "Rue was innocent!",
-              "I am Thresh!"
+              "I am Thresh, the District 11 tribute!",
+              "I will fight with strength!",
+              "I am the strongest tribute!",
+              "I will harvest my enemies!",
+              "I am the District 11 tribute!"
             ],
             description: 'The strong District 11 tribute who fights with his scythe.'
           }
@@ -16950,11 +16948,11 @@ const SCENARIOS = {
             startingCastles: 4,
             personality: 'innocent',
             quotes: [
-              "I'm Rue!",
-              "District 11 tribute!",
-              "I'm just a little girl!",
-              "I want to go home!",
-              "I am Rue!"
+              "I am Rue, the little bird!",
+              "I will fly with speed!",
+              "I am the most innocent tribute!",
+              "I will sing my song!",
+              "I am the little bird!"
             ],
             description: 'The innocent little bird who sings her song.'
           },
@@ -18414,9 +18412,6 @@ const SCENARIOS = {
   }
 };
 
-console.log('SCENARIOS object defined with', Object.keys(SCENARIOS).length, 'scenarios');
-console.log('Available scenarios:', Object.keys(SCENARIOS).slice(0, 10));
-
 // AI Personality Types and Behaviors
 const AI_PERSONALITIES = {
   strategic: {
@@ -18529,11 +18524,4 @@ const EVENT_CARDS = {
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { SCENARIOS, AI_PERSONALITIES, EVENT_CARDS };
-}
-
-// Make SCENARIOS available globally for browser use
-if (typeof window !== 'undefined') {
-  window.SCENARIOS = SCENARIOS;
-} else if (typeof global !== 'undefined') {
-  global.SCENARIOS = SCENARIOS;
 }

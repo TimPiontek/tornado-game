@@ -2165,9 +2165,8 @@
       let teamPositions = [];
       
       // Determine which team is "good guys" based on scenario
-      const teamIds = Object.keys(teamGroups);
-      const teamId = teamIds[index];
-      const isGoodGuys = isGoodGuyTeam(teamId, state.scenario);
+      const currentTeamId = teamIds[index];
+      const isGoodGuys = isGoodGuyTeam(currentTeamId, state.scenario);
       
       // Check if this scenario has a clear good vs bad dynamic
       const hasGoodBadDynamic = state.scenario && ['americanRevolution', 'civilWar', 'starWars', 'harryPotter', 'lordOfTheRings', 'avengers', 'superMario', 'worldWar1', 'worldWar2', 'disneyVsPixar'].includes(state.scenario.scenarioId);
