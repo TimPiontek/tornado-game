@@ -1089,11 +1089,15 @@
   function assignClassVsAITeams(scenarioData) {
     try {
       console.log('assignClassVsAITeams called with:', scenarioData);
+      console.log('scenarioData.scenarioId:', scenarioData.scenarioId);
       const scenario = SCENARIOS[scenarioData.scenarioId];
       if (!scenario || !scenario.factions) {
         console.error('No scenario or factions found:', scenarioData.scenarioId);
         return;
       }
+      
+      console.log('Found scenario:', scenario.name);
+      console.log('Scenario factions:', Object.keys(scenario.factions));
 
       const factionNames = Object.keys(scenario.factions);
       console.log('Available factions:', factionNames);
@@ -1164,13 +1168,16 @@
       const badFactions = [];
       
       // Determine good vs bad factions based on scenario type
-      if (scenarioId === 'worldWar2') {
+      const currentScenarioId = scenarioData.scenarioId;
+      console.log('Current scenario ID for faction assignment:', currentScenarioId);
+      
+      if (currentScenarioId === 'worldWar2') {
         goodFactions.push('Allied Powers');
         badFactions.push('Axis Powers');
-      } else if (scenarioId === 'harryPotter') {
+      } else if (currentScenarioId === 'harryPotter') {
         goodFactions.push('Dumbledore\'s Army');
         badFactions.push('Death Eaters & Voldemort');
-      } else if (scenarioId === 'starWars') {
+      } else if (currentScenarioId === 'starWars') {
         goodFactions.push('Rebel Alliance');
         badFactions.push('Galactic Empire');
       } else {
@@ -1231,7 +1238,7 @@
         // Mirror onto student for downstream team assignment
         student.characterName = pick.name;
         student.characterFaction = pick.factionName;
-        console.log(`Assigned student ${student.name} to GOOD character ${pick.name} (${pick.factionName})`);
+        console.log(`✅ Assigned student ${student.name} to GOOD character ${pick.name} (${pick.factionName})`);
       });
 
       // Create exactly the same number of AI players as students
@@ -2082,7 +2089,14 @@
       // Class vs AI: only assign if nothing is already assigned (respect manual modal results)
       if (!scenarioData.manualRoleAssignments) {
         console.log('No manual assignments found, calling assignClassVsAITeams...');
-        assignClassVsAITeams(scenarioData);
+        try {
+          assignClassVsAITeams(scenarioData);
+          console.log('assignClassVsAITeams completed successfully');
+        } catch (error) {
+          console.error('assignClassVsAITeams failed:', error);
+          alert('Failed to set up AI vs Students game. Please try again.');
+          return; // Don't proceed if AI setup fails
+        }
       } else {
         console.log('Manual assignments already exist, skipping auto-assignment');
       }
@@ -6495,6 +6509,32 @@
   }
   
   function showScenarioSelectionModal() {
+    // Clear any existing scenario data when opening scenario selection
+    if (state.currentRoster && state.currentRoster.scenario) {
+      console.log('Clearing existing scenario data before scenario selection');
+      delete state.currentRoster.scenario;
+      state.scenario = null;
+      
+      // Clear character assignments
+      state.roster.forEach(student => {
+        student.characterName = null;
+        student.characterRole = null;
+        student.characterFaction = null;
+        student.teamId = null;
+        student.teamName = null;
+        student.teamColor = null;
+      });
+      
+      // Clear AI players
+      state.aiPlayers = [];
+      
+      // Update game theme title
+      updateGameThemeTitle();
+      
+      // Save the cleared roster
+      saveRoster();
+    }
+    
     // Check if scenarios are loaded
     if (typeof SCENARIOS === 'undefined') {
       console.error('SCENARIOS object not loaded yet!');
