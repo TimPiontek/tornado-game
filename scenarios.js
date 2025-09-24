@@ -840,6 +840,7 @@ const SCENARIOS = {
     name: 'American Civil War (1861-1865)',
     type: 'historical',
     description: 'The war that ended slavery and preserved the Union.',
+    factionOrder: ['union','confederacy'],
     factions: {
       union: {
         name: 'Union',
