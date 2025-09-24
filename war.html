@@ -2493,12 +2493,32 @@
     
     // Assign starting positions to teams
     const teamIds = Object.keys(teamGroups);
+
+    // If a scenario defines factions, map faction IDs to board regions deterministically
+    // so, for 2-faction scenarios: faction[0] = left, faction[1] = right; for 3/4 factions: TL, TR, BL, BR
+    const scenarioFactionKeys = state.scenario && state.scenario.factions ? Object.keys(state.scenario.factions) : [];
+    const positionsByTeamId = {};
+    if (scenarioFactionKeys.length > 0) {
+      if (teamCount === 2) {
+        if (scenarioFactionKeys[0]) positionsByTeamId[scenarioFactionKeys[0]] = team1Positions; // left
+        if (scenarioFactionKeys[1]) positionsByTeamId[scenarioFactionKeys[1]] = team2Positions; // right
+      } else if (teamCount === 3) {
+        if (scenarioFactionKeys[0]) positionsByTeamId[scenarioFactionKeys[0]] = team1Positions; // top center
+        if (scenarioFactionKeys[1]) positionsByTeamId[scenarioFactionKeys[1]] = team2Positions; // bottom-left
+        if (scenarioFactionKeys[2]) positionsByTeamId[scenarioFactionKeys[2]] = team3Positions; // bottom-right
+      } else if (teamCount === 4) {
+        if (scenarioFactionKeys[0]) positionsByTeamId[scenarioFactionKeys[0]] = team1Positions; // TL
+        if (scenarioFactionKeys[1]) positionsByTeamId[scenarioFactionKeys[1]] = team2Positions; // TR
+        if (scenarioFactionKeys[2]) positionsByTeamId[scenarioFactionKeys[2]] = team3Positions; // BL
+        if (scenarioFactionKeys[3]) positionsByTeamId[scenarioFactionKeys[3]] = team4Positions; // BR
+      }
+    }
     
     Object.entries(teamGroups).forEach(([teamId, students], index) => {
       console.log(`Assigning positions for team ${teamId} with ${students.length} students`);
       
-      // Choose positions based on team index and formation
-      let teamPositions = [];
+      // Choose positions based on scenario mapping first; otherwise fall back to formation rules
+      let teamPositions = positionsByTeamId[teamId] || [];
       
       // Determine if this is an AI team or student team (only for AI vs Students games)
       let isAITeam = false;
@@ -2517,8 +2537,8 @@
       // Check if this scenario has a clear good vs bad dynamic
       const hasGoodBadDynamic = state.scenario && ['americanRevolution', 'civilWar', 'starWars', 'harryPotter', 'lordOfTheRings', 'avengers', 'superMario', 'worldWar1', 'worldWar2', 'disneyVsPixar'].includes(state.scenario.scenarioId);
       
-      // AI vs Students positioning: AI teams on left, Student teams on right
-      if (isAITeam) {
+      // AI vs Students positioning: AI teams on left, Student teams on right (unless scenario mapping already set)
+      if (teamPositions.length === 0 && isAITeam) {
         // AI teams get left side positions (regardless of faction)
         if (teamCount === 4) {
           // AI gets left side (top-left or bottom-left)
@@ -2530,7 +2550,7 @@
           teamPositions = team1Positions; // Left side
         }
         console.log(`AI team ${teamId} assigned to LEFT side positions`);
-      } else if (isStudentTeam) {
+      } else if (teamPositions.length === 0 && isStudentTeam) {
         // Student teams get right side positions (regardless of faction)
         if (teamCount === 4) {
           // Students get right side (top-right or bottom-right)
@@ -2546,16 +2566,16 @@
         console.log(`Student team ${teamId} assigned to RIGHT side positions`);
       } else {
         // Fallback for individual players - use standard positioning
-        if (teamCount === 4) {
+        if (teamPositions.length === 0 && teamCount === 4) {
           if (index === 0) teamPositions = team1Positions; // Top-left
           else if (index === 1) teamPositions = team2Positions; // Top-right
           else if (index === 2) teamPositions = team3Positions; // Bottom-left
           else if (index === 3) teamPositions = team4Positions; // Bottom-right
-        } else if (teamCount === 3) {
+        } else if (teamPositions.length === 0 && teamCount === 3) {
           if (index === 0) teamPositions = team1Positions; // Top center
           else if (index === 1) teamPositions = team2Positions; // Bottom-left
           else if (index === 2) teamPositions = team3Positions; // Bottom-right
-        } else {
+        } else if (teamPositions.length === 0) {
           if (index === 0) teamPositions = team1Positions; // Left side
           else if (index === 1) teamPositions = team2Positions; // Right side
         }
