@@ -18443,6 +18443,251 @@ const SCENARIOS = {
     randomAssignment: true,
     manualRoleAssignments: false,
     aiAssignments: false
+  },
+
+  // MONSTER WARS
+  monsterWars: {
+    id: 'monsterWars',
+    name: 'Monster Wars',
+    type: 'fantasy',
+    description: 'Vampires versus Werewolves',
+    factionOrder: ['vampires', 'werewolves'],
+    factions: {
+      vampires: {
+        name: 'Vampires',
+        color: '#8b0000',
+        description: 'Undead nobles of the night',
+        territories: [
+          { name: 'Castle Keep', cost: 90, description: 'Vampire stronghold' },
+          { name: 'Blood Bank', cost: 75, description: 'Supply source' },
+          { name: 'Crypts', cost: 70, description: 'Ancient tombs' },
+          { name: 'Bat Caves', cost: 65, description: 'Hidden lairs' },
+          { name: 'Night Market', cost: 60, description: 'Shady trade' }
+        ],
+        characters: [
+          { name: 'Dracula', role: 'Lord', startingCoins: 110, startingWeapons: ['fangs'], startingMercenaries: 2, startingCastles: 1, personality: 'seductive', quotes: ['Welcome...', 'Blood is life.'], description: 'Vampire lord.' }
+        ]
+      },
+      werewolves: {
+        name: 'Werewolves',
+        color: '#8b5a2b',
+        description: 'Savage pack hunters',
+        territories: [
+          { name: 'Wolf Den', cost: 90, description: 'Pack home' },
+          { name: 'Full Moon Grove', cost: 80, description: 'Change site' },
+          { name: 'Hunting Grounds', cost: 70, description: 'Prey runs' },
+          { name: 'Alpha Lair', cost: 75, description: 'Leader den' },
+          { name: 'Silver Mine', cost: 65, description: 'Dangerous place' }
+        ],
+        characters: [
+          { name: 'Alpha', role: 'Leader', startingCoins: 105, startingWeapons: ['claws'], startingMercenaries: 2, startingCastles: 1, personality: 'feral', quotes: ['Howl!', 'Run with the pack!'], description: 'Pack leader.' }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Graveyard', cost: 70, description: 'Restless dead' },
+      { name: 'Old Forest', cost: 65, description: 'Deep woods' },
+      { name: 'Abandoned Town', cost: 60, description: 'Empty streets' }
+    ]
+  },
+
+  // NBA LEGENDS
+  nbaLegends: {
+    id: 'nbaLegends',
+    name: 'NBA Legends',
+    type: 'sports',
+    description: 'East vs West legends',
+    factionOrder: ['east', 'west'],
+    factions: {
+      east: {
+        name: 'Eastern Conference',
+        color: '#1e40af',
+        description: 'Eastern greats',
+        territories: [
+          { name: 'MSG', cost: 95, description: 'Knicks arena' },
+          { name: 'TD Garden', cost: 90, description: 'Celtics arena' },
+          { name: 'Wells Fargo', cost: 85, description: '76ers arena' },
+          { name: 'Barclays', cost: 80, description: 'Nets arena' },
+          { name: 'United Center', cost: 88, description: 'Bulls arena' }
+        ],
+        characters: [
+          { name: 'Michael Jordan', role: 'Guard', startingCoins: 120, startingWeapons: ['basketball'], startingMercenaries: 2, startingCastles: 1, personality: 'competitive', quotes: ['Take the shot.', 'Win.'], description: 'Bulls legend.' }
+        ]
+      },
+      west: {
+        name: 'Western Conference',
+        color: '#dc2626',
+        description: 'Western greats',
+        territories: [
+          { name: 'Crypto Arena', cost: 95, description: 'Lakers home' },
+          { name: 'Chase Center', cost: 90, description: 'Warriors home' },
+          { name: 'Footprint', cost: 80, description: 'Suns home' },
+          { name: 'AAC', cost: 82, description: 'Mavs home' },
+          { name: 'Moda Center', cost: 78, description: 'Blazers home' }
+        ],
+        characters: [
+          { name: 'Kobe Bryant', role: 'Guard', startingCoins: 115, startingWeapons: ['basketball'], startingMercenaries: 2, startingCastles: 1, personality: 'mamba', quotes: ['Mamba mentality.', 'Keep going.'], description: 'Lakers legend.' }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'All-Star', cost: 85, description: 'Showcase' },
+      { name: 'Finals', cost: 95, description: 'Championship' },
+      { name: 'Draft', cost: 70, description: 'Prospects' }
+    ]
+  },
+
+  // NFL LEGENDS
+  nflLegends: {
+    id: 'nflLegends',
+    name: 'NFL Legends',
+    type: 'sports',
+    description: 'AFC vs NFC legends',
+    factionOrder: ['afc', 'nfc'],
+    factions: {
+      afc: {
+        name: 'AFC',
+        color: '#2563eb',
+        description: 'AFC greats',
+        territories: [
+          { name: 'Arrowhead', cost: 90, description: 'Chiefs' },
+          { name: 'Gillette', cost: 88, description: 'Patriots' },
+          { name: 'Heinz', cost: 82, description: 'Steelers' },
+          { name: 'M&T Bank', cost: 80, description: 'Ravens' },
+          { name: 'Lucas Oil', cost: 78, description: 'Colts' }
+        ],
+        characters: [
+          { name: 'Tom Brady', role: 'QB', startingCoins: 120, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'winner', quotes: ['Let’s go!', 'One more.'], description: 'Patriots legend.' }
+        ]
+      },
+      nfc: {
+        name: 'NFC',
+        color: '#ef4444',
+        description: 'NFC greats',
+        territories: [
+          { name: 'Lambeau', cost: 90, description: 'Packers' },
+          { name: 'AT&T', cost: 88, description: 'Cowboys' },
+          { name: 'Levi’s', cost: 84, description: '49ers' },
+          { name: 'U.S. Bank', cost: 80, description: 'Vikings' },
+          { name: 'Superdome', cost: 78, description: 'Saints' }
+        ],
+        characters: [
+          { name: 'Jerry Rice', role: 'WR', startingCoins: 115, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'precise', quotes: ['Run the route.', 'Catch everything.'], description: '49ers legend.' }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Super Bowl', cost: 95, description: 'Title game' },
+      { name: 'Pro Bowl', cost: 75, description: 'All-stars' },
+      { name: 'Combine', cost: 65, description: 'Prospects' }
+    ]
+  },
+
+  // INTERNATIONAL SOCCER LEGENDS
+  soccerLegends: {
+    id: 'soccerLegends',
+    name: 'International Soccer Legends',
+    type: 'sports',
+    description: 'Europe vs Americas greats',
+    factionOrder: ['europe', 'americas'],
+    factions: {
+      europe: {
+        name: 'Europe',
+        color: '#0ea5e9',
+        description: 'European icons',
+        territories: [
+          { name: 'Wembley', cost: 90, description: 'England' },
+          { name: 'Bernabéu', cost: 92, description: 'Spain' },
+          { name: 'Camp Nou', cost: 90, description: 'Barcelona' },
+          { name: 'Allianz', cost: 85, description: 'Germany' },
+          { name: 'San Siro', cost: 82, description: 'Italy' }
+        ],
+        characters: [
+          { name: 'Cristiano Ronaldo', role: 'Forward', startingCoins: 120, startingWeapons: ['ball'], startingMercenaries: 2, startingCastles: 1, personality: 'driven', quotes: ['Siuuu!'], description: 'Portugal legend.' }
+        ]
+      },
+      americas: {
+        name: 'Americas',
+        color: '#22c55e',
+        description: 'American icons',
+        territories: [
+          { name: 'Maracanã', cost: 92, description: 'Brazil' },
+          { name: 'Azteca', cost: 88, description: 'Mexico' },
+          { name: 'Monumental', cost: 90, description: 'Argentina' },
+          { name: 'Centenario', cost: 82, description: 'Uruguay' },
+          { name: 'MetLife', cost: 80, description: 'USA' }
+        ],
+        characters: [
+          { name: 'Lionel Messi', role: 'Forward', startingCoins: 118, startingWeapons: ['ball'], startingMercenaries: 2, startingCastles: 1, personality: 'magical', quotes: ['Vamos.'], description: 'Argentina legend.' }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'World Cup', cost: 95, description: 'Global title' },
+      { name: 'Copa América', cost: 85, description: 'South America' },
+      { name: 'Euros', cost: 85, description: 'Europe' }
+    ]
+  },
+
+  // ROCK VS POP VS RAP
+  rockPopRap: {
+    id: 'rockPopRap',
+    name: 'Rock vs Pop vs Rap',
+    type: 'entertainment',
+    description: 'Genres face off',
+    factionOrder: ['rock', 'pop', 'rap'],
+    factions: {
+      rock: {
+        name: 'Rock',
+        color: '#ef4444',
+        description: 'Guitars and grit',
+        territories: [
+          { name: 'Woodstock', cost: 90, description: 'Festival' },
+          { name: 'CBGB', cost: 80, description: 'Punk club' },
+          { name: 'Red Rocks', cost: 85, description: 'Amphitheater' },
+          { name: 'Fillmore', cost: 82, description: 'Venue' },
+          { name: 'MSG', cost: 88, description: 'Arena' }
+        ],
+        characters: [
+          { name: 'Jimi Hendrix', role: 'Guitar', startingCoins: 110, startingWeapons: ['guitar'], startingMercenaries: 2, startingCastles: 1, personality: 'rebellious', quotes: ['Purple Haze.'], description: 'Icon.' }
+        ]
+      },
+      pop: {
+        name: 'Pop',
+        color: '#f472b6',
+        description: 'Hooks and hits',
+        territories: [
+          { name: 'Hollywood Bowl', cost: 90, description: 'LA stage' },
+          { name: 'Radio City', cost: 82, description: 'NYC hall' },
+          { name: 'Royal Albert', cost: 85, description: 'London hall' },
+          { name: 'Sydney Opera', cost: 84, description: 'Sydney hall' },
+          { name: 'O2 Arena', cost: 88, description: 'London arena' }
+        ],
+        characters: [
+          { name: 'Michael Jackson', role: 'Vocal', startingCoins: 112, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'perfectionist', quotes: ['Thriller.'], description: 'King of Pop.' }
+        ]
+      },
+      rap: {
+        name: 'Rap',
+        color: '#eab308',
+        description: 'Beats and bars',
+        territories: [
+          { name: 'Bronx', cost: 88, description: 'Birthplace' },
+          { name: 'Compton', cost: 86, description: 'West Coast' },
+          { name: 'Atlanta', cost: 84, description: 'South' },
+          { name: 'Detroit', cost: 82, description: 'Midwest' },
+          { name: 'Brooklyn', cost: 86, description: 'East' }
+        ],
+        characters: [
+          { name: 'Tupac Shakur', role: 'Vocal', startingCoins: 108, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'poetic', quotes: ['Keep ya head up.'], description: 'Rap icon.' }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Grammys', cost: 90, description: 'Awards' },
+      { name: 'Billboard', cost: 80, description: 'Charts' },
+      { name: 'MTV', cost: 75, description: 'TV' }
+    ]
   }
 };
 
