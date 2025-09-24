@@ -1823,105 +1823,88 @@
     const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
     const loggedInStudent = state.roster.find(s => s.name === currentStudent.username);
     
-    if (loggedInStudent) {
-      // Show only the logged-in student with detailed stats
+    // Show all students with team colors
+    state.roster.forEach(student => {
       const row = document.createElement("div");
-      row.className = "row sel"; // Always selected
-      row.style.borderColor = state.colors.get(loggedInStudent.gsId);
-      row.style.background = "rgba(59, 130, 246, 0.1)"; // Highlight the logged-in student
+      const isLoggedIn = loggedInStudent && student.gsId === loggedInStudent.gsId;
+      
+      row.className = isLoggedIn ? "row sel" : "row";
+      row.style.borderColor = state.colors.get(student.gsId);
+      
+      if (isLoggedIn) {
+        row.style.background = "rgba(59, 130, 246, 0.1)"; // Highlight the logged-in student
+      }
       
       // Count castles, mercenaries, and weapons for this student
       const castles = state.board.tiles.filter(tile => 
-        tile.owner_game_student_id === loggedInStudent.gsId && tile.castle_level > 0
+        tile.owner_game_student_id === student.gsId && tile.castle_level > 0
       ).length;
       
-      const mercenaries = loggedInStudent.mercenaries || 0;
-      const weapons = loggedInStudent.weapons ? loggedInStudent.weapons.length : 0;
+      const mercenaries = student.mercenaries || 0;
+      const weapons = student.weapons ? student.weapons.length : 0;
       
       // Get character information if scenario is active
-      let characterInfo = '';
       let characterName = '';
       if (state.scenario) {
         const scenario = state.scenario;
-        console.log('Looking for character for student:', loggedInStudent.name, 'gsId:', loggedInStudent.gsId);
-        console.log('Scenario manualRoleAssignments:', scenario.manualRoleAssignments);
-        console.log('Scenario aiAssignments:', scenario.aiAssignments);
         
         // First check if student has characterName property
-        if (loggedInStudent.characterName) {
-          characterName = loggedInStudent.characterName;
-          characterInfo = `<div style="font-size:11px; color:#8b5cf6; font-weight:600;">${characterName}</div>`;
-          console.log('Found character from student property:', characterName);
-        } else if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[loggedInStudent.gsId]) {
-          characterName = scenario.manualRoleAssignments[loggedInStudent.gsId];
-          characterInfo = `<div style="font-size:11px; color:#8b5cf6; font-weight:600;">${characterName}</div>`;
-          console.log('Found character from manualRoleAssignments:', characterName);
+        if (student.characterName) {
+          characterName = student.characterName;
+        } else if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[student.gsId]) {
+          characterName = scenario.manualRoleAssignments[student.gsId];
         } else if (scenario.aiAssignments) {
-          const aiRole = Object.values(scenario.aiAssignments).find(ai => ai.studentId === loggedInStudent.gsId);
+          const aiRole = Object.values(scenario.aiAssignments).find(ai => ai.studentId === student.gsId);
           if (aiRole) {
             characterName = aiRole.roleName || 'AI Character';
-            characterInfo = `<div style="font-size:11px; color:#ef4444; font-weight:600;">${characterName} (AI)</div>`;
-            console.log('Found character from aiAssignments:', characterName);
           }
         }
-        
-        if (!characterName) {
-          console.log('No character found for student:', loggedInStudent.name, '- assigning random character');
-          // Assign a random character from the scenario
-          const allCharacters = [];
-          Object.values(scenario.factions).forEach(faction => {
-            if (faction.characters) {
-              faction.characters.forEach(char => allCharacters.push(char.name));
-            }
-          });
-          
-          if (allCharacters.length > 0) {
-            const randomCharacter = allCharacters[Math.floor(Math.random() * allCharacters.length)];
-            characterName = randomCharacter;
-            characterInfo = `<div style="font-size:11px; color:#8b5cf6; font-weight:600;">${characterName}</div>`;
-            
-            // Add to manualRoleAssignments for future reference
-            if (!scenario.manualRoleAssignments) {
-              scenario.manualRoleAssignments = {};
-            }
-            scenario.manualRoleAssignments[loggedInStudent.gsId] = characterName;
-            
-            console.log('Assigned random character:', characterName, 'to', loggedInStudent.name);
-          }
-        }
-      } else {
-        console.log('No scenario active for character lookup');
       }
+      
+      // Get team color - use team color if available, otherwise use individual color
+      const teamColor = student.teamColor || state.colors.get(student.gsId);
+      const teamName = student.teamName || 'Student Mode';
       
       row.innerHTML = `
         <div style="display:flex; gap:6px; align-items:center;">
-          <div style="width:12px;height:12px;border-radius:50%;background:${state.colors.get(loggedInStudent.gsId)}; border: 2px solid #3b82f6;"></div>
+          <div style="width:12px;height:12px;border-radius:50%;background:${teamColor}; border: 2px solid ${isLoggedIn ? '#3b82f6' : teamColor};"></div>
           <div>
-            <div style="font-weight: bold; color: #3b82f6;">${loggedInStudent.name}${characterName ? ` (${characterName})` : ''} (You)</div>
-            <div style="font-size:10px; color:var(--muted);">Student Mode</div>
+            <div style="font-weight: bold; color: ${isLoggedIn ? '#3b82f6' : '#333'};">${student.name}${characterName ? ` (${characterName})` : ''}${isLoggedIn ? ' (You)' : ''}</div>
+            <div style="font-size:10px; color:var(--muted);">${teamName}</div>
           </div>
         </div>
         <div class="bal" title="Balance" style="display: flex; align-items: center; gap: 4px;">
           <span>💰</span>
-          <span style="font-size: 12px; font-weight: bold;">${formatMoney(loggedInStudent.balance)}</span>
+          <span style="font-size: 12px; font-weight: bold;">${formatMoney(student.balance)}</span>
         </div>
-        <div class="chip" title="Territories owned">🧩 ${loggedInStudent.tilesOwned}</div>
+        <div class="chip" title="Territories owned">🧩 ${student.tilesOwned}</div>
         <div class="chip" title="Castles built">🏰 ${castles}</div>
         <div class="chip" title="Mercenaries">⚔️ ${mercenaries}</div>
         <div class="chip" title="Weapons">🗡️ ${weapons}</div>
       `;
       
-      // Don't allow clicking to change selection
-      row.onclick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        // Do nothing - student is always selected
-      };
+      // Don't allow clicking to change selection for logged-in student
+      if (isLoggedIn) {
+        row.onclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          // Do nothing - student is always selected
+        };
+      }
       
       rosterEl.appendChild(row);
+    });
+    
+    // Add character profile section for logged-in student if scenario is active
+    if (loggedInStudent && state.scenario) {
+      let characterName = '';
+      if (loggedInStudent.characterName) {
+        characterName = loggedInStudent.characterName;
+      } else if (state.scenario.manualRoleAssignments && state.scenario.manualRoleAssignments[loggedInStudent.gsId]) {
+        characterName = state.scenario.manualRoleAssignments[loggedInStudent.gsId];
+      }
       
-      // Add character profile section if scenario is active
-      if (characterName && state.scenario) {
+      if (characterName) {
         const profileSection = document.createElement("div");
         profileSection.className = "panel";
         profileSection.style.marginTop = "12px";
@@ -1944,8 +1927,10 @@
         
         rosterEl.appendChild(profileSection);
       }
-      
-      // Update context to show student is selected
+    }
+    
+    // Update context to show student is selected
+    if (loggedInStudent) {
       contextEl.textContent = `Selected: ${loggedInStudent.name}. Click a tile to buy/upgrade/attack.`;
     }
   }
