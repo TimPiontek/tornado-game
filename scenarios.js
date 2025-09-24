@@ -5637,11 +5637,11 @@ const SCENARIOS = {
         color: '#8b0000',
         description: 'Seeking absolute control through surveillance and thought control',
         territories: [
-          { name: 'Ministry of Truth', cost: 100, description: 'Information control center' },
-          { name: 'Ministry of Love', cost: 95, description: 'Torture and reeducation' },
-          { name: 'Ministry of Peace', cost: 90, description: 'War planning center' },
-          { name: 'Ministry of Plenty', cost: 85, description: 'Economic control' },
-          { name: 'Big Brother\'s Office', cost: 120, description: 'Supreme authority' }
+          { name: 'Ministry of Truth', cost: 100, description: 'News & records' },
+          { name: 'Ministry of Love', cost: 95, description: 'Room 101' },
+          { name: 'Ministry of Peace', cost: 90, description: 'War office' },
+          { name: 'Ministry of Plenty', cost: 85, description: 'Rations & stats' },
+          { name: 'Big Brother Office', cost: 120, description: 'Supreme control' }
         ],
         characters: [
           {
@@ -6217,16 +6217,16 @@ const SCENARIOS = {
         color: '#1e40af', // Deep blue for Greeks
         description: 'Fighting to reclaim Helen and restore honor',
         territories: [
-          { name: 'Mycenae', cost: 80, description: 'Agamemnon\'s kingdom and command center' },
-          { name: 'Sparta', cost: 75, description: 'Menelaus\' kingdom and warrior training' },
-          { name: 'Ithaca', cost: 70, description: 'Odysseus\' kingdom and strategic planning' },
-          { name: 'Pylos', cost: 65, description: 'Nestor\'s kingdom and wisdom center' },
-          { name: 'Phthia', cost: 60, description: 'Achilles\' homeland and warrior breeding' },
-          { name: 'Greek Camp', cost: 85, description: 'Beachhead base outside Troy' },
-          { name: 'Greek Ships', cost: 75, description: 'Naval fleet and supply line' },
-          { name: 'Mount Olympus', cost: 90, description: 'Divine support and godly favor' },
-          { name: 'Greek Allies', cost: 70, description: 'Allied kingdoms and reinforcements' },
-          { name: 'Patroclus\' Tomb', cost: 65, description: 'Sacred memorial and rallying point' }
+          { name: 'Mycenae', cost: 80, description: 'Agamemnon\'s seat' },
+          { name: 'Sparta', cost: 75, description: 'Menelaus\' hall' },
+          { name: 'Ithaca', cost: 70, description: 'Odysseus\' court' },
+          { name: 'Pylos', cost: 65, description: 'Nestor\'s council' },
+          { name: 'Phthia', cost: 60, description: 'Achilles\' homeland' },
+          { name: 'Beach Camp', cost: 85, description: 'Achaean camp' },
+          { name: 'Achaean Fleet', cost: 75, description: 'Black ships' },
+          { name: 'Mount Olympus', cost: 90, description: 'Gods\' favor' },
+          { name: 'Allied Kings', cost: 70, description: 'Achaean allies' },
+          { name: 'Patroclus\' Tomb', cost: 65, description: 'Hero\'s cairn' }
         ],
         characters: [
           {
