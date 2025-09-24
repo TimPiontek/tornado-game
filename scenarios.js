@@ -18557,7 +18557,11 @@ const SCENARIOS = {
           { name: 'Lucas Oil', cost: 78, description: 'Colts' }
         ],
         characters: [
-          { name: 'Tom Brady', role: 'QB', startingCoins: 120, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'winner', quotes: ['Let’s go!', 'One more.'], description: 'Patriots legend.' }
+          { name: 'Tom Brady', role: 'QB', startingCoins: 120, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'winner', quotes: ['Let's go!', 'One more.'], description: 'Patriots legend.' },
+          { name: 'Peyton Manning', role: 'QB', startingCoins: 115, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'cerebral', quotes: ['Omaha!', 'Let\'s go!'], description: 'Colts/Broncos legend.' },
+          { name: 'Ray Lewis', role: 'LB', startingCoins: 110, startingWeapons: ['tackle'], startingMercenaries: 3, startingCastles: 1, personality: 'intense', quotes: ['Defense!', 'Ravens!'], description: 'Ravens linebacker.' },
+          { name: 'Antonio Brown', role: 'WR', startingCoins: 105, startingWeapons: ['catch'], startingMercenaries: 2, startingCastles: 1, personality: 'flashy', quotes: ['Mr. Big Chest', 'AB!'], description: 'Steelers receiver.' },
+          { name: 'Travis Kelce', role: 'TE', startingCoins: 108, startingWeapons: ['catch'], startingMercenaries: 2, startingCastles: 1, personality: 'energetic', quotes: ['Chiefs!', 'Let\'s go!'], description: 'Chiefs tight end.' }
         ]
       },
       nfc: {
@@ -18572,7 +18576,11 @@ const SCENARIOS = {
           { name: 'Superdome', cost: 78, description: 'Saints' }
         ],
         characters: [
-          { name: 'Jerry Rice', role: 'WR', startingCoins: 115, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'precise', quotes: ['Run the route.', 'Catch everything.'], description: '49ers legend.' }
+          { name: 'Jerry Rice', role: 'WR', startingCoins: 115, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'precise', quotes: ['Run the route.', 'Catch everything.'], description: '49ers legend.' },
+          { name: 'Aaron Rodgers', role: 'QB', startingCoins: 118, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'confident', quotes: ['R-E-L-A-X', 'Run the table'], description: 'Packers quarterback.' },
+          { name: 'Emmitt Smith', role: 'RB', startingCoins: 112, startingWeapons: ['run'], startingMercenaries: 2, startingCastles: 1, personality: 'determined', quotes: ['Cowboys!', 'Let\'s go!'], description: 'Cowboys running back.' },
+          { name: 'Randy Moss', role: 'WR', startingCoins: 110, startingWeapons: ['catch'], startingMercenaries: 2, startingCastles: 1, personality: 'explosive', quotes: ['Straight cash!', 'Moss!'], description: 'Vikings receiver.' },
+          { name: 'Drew Brees', role: 'QB', startingCoins: 108, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'accurate', quotes: ['Who dat!', 'Saints!'], description: 'Saints quarterback.' }
         ]
       }
     },
@@ -18603,7 +18611,11 @@ const SCENARIOS = {
           { name: 'San Siro', cost: 82, description: 'Italy' }
         ],
         characters: [
-          { name: 'Cristiano Ronaldo', role: 'Forward', startingCoins: 120, startingWeapons: ['ball'], startingMercenaries: 2, startingCastles: 1, personality: 'driven', quotes: ['Siuuu!'], description: 'Portugal legend.' }
+          { name: 'Cristiano Ronaldo', role: 'Forward', startingCoins: 120, startingWeapons: ['ball'], startingMercenaries: 2, startingCastles: 1, personality: 'driven', quotes: ['Siuuu!'], description: 'Portugal legend.' },
+          { name: 'Luka Modrić', role: 'Midfielder', startingCoins: 115, startingWeapons: ['pass'], startingMercenaries: 2, startingCastles: 1, personality: 'elegant', quotes: ['Real Madrid!'], description: 'Croatia midfielder.' },
+          { name: 'Robert Lewandowski', role: 'Forward', startingCoins: 112, startingWeapons: ['shot'], startingMercenaries: 2, startingCastles: 1, personality: 'clinical', quotes: ['Bayern!'], description: 'Poland striker.' },
+          { name: 'Virgil van Dijk', role: 'Defender', startingCoins: 108, startingWeapons: ['tackle'], startingMercenaries: 3, startingCastles: 1, personality: 'commanding', quotes: ['Liverpool!'], description: 'Netherlands defender.' },
+          { name: 'Kevin De Bruyne', role: 'Midfielder', startingCoins: 110, startingWeapons: ['pass'], startingMercenaries: 2, startingCastles: 1, personality: 'creative', quotes: ['City!'], description: 'Belgium midfielder.' }
         ]
       },
       americas: {
@@ -18618,7 +18630,11 @@ const SCENARIOS = {
           { name: 'MetLife', cost: 80, description: 'USA' }
         ],
         characters: [
-          { name: 'Lionel Messi', role: 'Forward', startingCoins: 118, startingWeapons: ['ball'], startingMercenaries: 2, startingCastles: 1, personality: 'magical', quotes: ['Vamos.'], description: 'Argentina legend.' }
+          { name: 'Lionel Messi', role: 'Forward', startingCoins: 118, startingWeapons: ['ball'], startingMercenaries: 2, startingCastles: 1, personality: 'magical', quotes: ['Vamos.'], description: 'Argentina legend.' },
+          { name: 'Neymar Jr', role: 'Forward', startingCoins: 115, startingWeapons: ['skill'], startingMercenaries: 2, startingCastles: 1, personality: 'flamboyant', quotes: ['Brazil!'], description: 'Brazil forward.' },
+          { name: 'Luis Suárez', role: 'Forward', startingCoins: 110, startingWeapons: ['bite'], startingMercenaries: 2, startingCastles: 1, personality: 'fiery', quotes: ['Uruguay!'], description: 'Uruguay striker.' },
+          { name: 'Edinson Cavani', role: 'Forward', startingCoins: 108, startingWeapons: ['shot'], startingMercenaries: 2, startingCastles: 1, personality: 'powerful', quotes: ['Cavani!'], description: 'Uruguay forward.' },
+          { name: 'Christian Pulisic', role: 'Midfielder', startingCoins: 105, startingWeapons: ['pace'], startingMercenaries: 2, startingCastles: 1, personality: 'energetic', quotes: ['USA!'], description: 'American midfielder.' }
         ]
       }
     },
@@ -18649,7 +18665,11 @@ const SCENARIOS = {
           { name: 'MSG', cost: 88, description: 'Arena' }
         ],
         characters: [
-          { name: 'Jimi Hendrix', role: 'Guitar', startingCoins: 110, startingWeapons: ['guitar'], startingMercenaries: 2, startingCastles: 1, personality: 'rebellious', quotes: ['Purple Haze.'], description: 'Icon.' }
+          { name: 'Jimi Hendrix', role: 'Guitar', startingCoins: 110, startingWeapons: ['guitar'], startingMercenaries: 2, startingCastles: 1, personality: 'rebellious', quotes: ['Purple Haze.'], description: 'Icon.' },
+          { name: 'Freddie Mercury', role: 'Vocal', startingCoins: 115, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'flamboyant', quotes: ['We are the champions!'], description: 'Queen frontman.' },
+          { name: 'Jimmy Page', role: 'Guitar', startingCoins: 108, startingWeapons: ['guitar'], startingMercenaries: 2, startingCastles: 1, personality: 'mystical', quotes: ['Led Zeppelin!'], description: 'Led Zeppelin guitarist.' },
+          { name: 'Keith Richards', role: 'Guitar', startingCoins: 105, startingWeapons: ['guitar'], startingMercenaries: 2, startingCastles: 1, personality: 'rebellious', quotes: ['Rolling Stones!'], description: 'Stones guitarist.' },
+          { name: 'Ozzy Osbourne', role: 'Vocal', startingCoins: 107, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'wild', quotes: ['Black Sabbath!'], description: 'Metal legend.' }
         ]
       },
       pop: {
@@ -18664,7 +18684,11 @@ const SCENARIOS = {
           { name: 'O2 Arena', cost: 88, description: 'London arena' }
         ],
         characters: [
-          { name: 'Michael Jackson', role: 'Vocal', startingCoins: 112, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'perfectionist', quotes: ['Thriller.'], description: 'King of Pop.' }
+          { name: 'Michael Jackson', role: 'Vocal', startingCoins: 112, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'perfectionist', quotes: ['Thriller.'], description: 'King of Pop.' },
+          { name: 'Madonna', role: 'Vocal', startingCoins: 110, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'provocative', quotes: ['Material Girl!'], description: 'Queen of Pop.' },
+          { name: 'Prince', role: 'Multi', startingCoins: 115, startingWeapons: ['guitar'], startingMercenaries: 2, startingCastles: 1, personality: 'mysterious', quotes: ['Purple Rain!'], description: 'Purple genius.' },
+          { name: 'Whitney Houston', role: 'Vocal', startingCoins: 108, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'powerful', quotes: ['I Will Always Love You!'], description: 'Voice of an angel.' },
+          { name: 'Elton John', role: 'Piano', startingCoins: 105, startingWeapons: ['piano'], startingMercenaries: 2, startingCastles: 1, personality: 'flamboyant', quotes: ['Rocket Man!'], description: 'Piano legend.' }
         ]
       },
       rap: {
@@ -18679,7 +18703,11 @@ const SCENARIOS = {
           { name: 'Brooklyn', cost: 86, description: 'East' }
         ],
         characters: [
-          { name: 'Tupac Shakur', role: 'Vocal', startingCoins: 108, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'poetic', quotes: ['Keep ya head up.'], description: 'Rap icon.' }
+          { name: 'Tupac Shakur', role: 'Vocal', startingCoins: 108, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'poetic', quotes: ['Keep ya head up.'], description: 'Rap icon.' },
+          { name: 'Notorious B.I.G.', role: 'Vocal', startingCoins: 110, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'smooth', quotes: ['Biggie!'], description: 'Brooklyn legend.' },
+          { name: 'Jay-Z', role: 'Vocal', startingCoins: 115, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'business', quotes: ['Brooklyn!'], description: 'Business mogul.' },
+          { name: 'Eminem', role: 'Vocal', startingCoins: 112, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'intense', quotes: ['Slim Shady!'], description: 'Rap god.' },
+          { name: 'Kendrick Lamar', role: 'Vocal', startingCoins: 108, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'conscious', quotes: ['Compton!'], description: 'Modern poet.' }
         ]
       }
     },
