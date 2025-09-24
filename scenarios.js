@@ -18979,6 +18979,156 @@ const AI_PERSONALITIES = {
               "Love wins!"
             ],
             description: 'The cuddly bear skin'
+          },
+          {
+            name: 'Skull Trooper',
+            role: 'Skeleton Skin',
+            startingCoins: 108,
+            startingWeapons: ['bones'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'spooky',
+            quotes: [
+              "Spooky!",
+              "Bones!",
+              "Halloween!"
+            ],
+            description: 'The spooky skeleton skin'
+          },
+          {
+            name: 'Drift',
+            role: 'Ninja Skin',
+            startingCoins: 110,
+            startingWeapons: ['katana'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'ninja',
+            quotes: [
+              "Ninja!",
+              "Stealth!",
+              "Drift!"
+            ],
+            description: 'The ninja drift skin'
+          },
+          {
+            name: 'Black Knight',
+            role: 'Knight Skin',
+            startingCoins: 115,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'noble',
+            quotes: [
+              "For honor!",
+              "Knight!",
+              "Defend!"
+            ],
+            description: 'The noble knight skin'
+          },
+          {
+            name: 'Rex',
+            role: 'Dinosaur Skin',
+            startingCoins: 103,
+            startingWeapons: ['claws'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'prehistoric',
+            quotes: [
+              "Rawr!",
+              "Dino!",
+              "Rex!"
+            ],
+            description: 'The dinosaur skin'
+          },
+          {
+            name: 'Raven',
+            role: 'Superhero Skin',
+            startingCoins: 112,
+            startingWeapons: ['powers'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'heroic',
+            quotes: [
+              "Justice!",
+              "Hero!",
+              "Raven!"
+            ],
+            description: 'The superhero skin'
+          },
+          {
+            name: 'Brite Bomber',
+            role: 'Colorful Skin',
+            startingCoins: 97,
+            startingWeapons: ['colors'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'colorful',
+            quotes: [
+              "Bright!",
+              "Colors!",
+              "Bomber!"
+            ],
+            description: 'The colorful bomber skin'
+          },
+          {
+            name: 'Rust Lord',
+            role: 'Rusty Skin',
+            startingCoins: 99,
+            startingWeapons: ['rust'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'rusty',
+            quotes: [
+              "Rust!",
+              "Old!",
+              "Lord!"
+            ],
+            description: 'The rusty lord skin'
+          },
+          {
+            name: 'Carbide',
+            role: 'Robot Skin',
+            startingCoins: 107,
+            startingWeapons: ['laser'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'robotic',
+            quotes: [
+              "Beep boop!",
+              "Robot!",
+              "Carbide!"
+            ],
+            description: 'The robot skin'
+          },
+          {
+            name: 'Omega',
+            role: 'Alien Skin',
+            startingCoins: 109,
+            startingWeapons: ['alien tech'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'alien',
+            quotes: [
+              "Alien!",
+              "Omega!",
+              "Space!"
+            ],
+            description: 'The alien skin'
+          },
+          {
+            name: 'Wild Card',
+            role: 'Joker Skin',
+            startingCoins: 104,
+            startingWeapons: ['cards'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'chaotic',
+            quotes: [
+              "Wild card!",
+              "Joker!",
+              "Chaos!"
+            ],
+            description: 'The joker skin'
           }
         ]
       },
@@ -19068,6 +19218,156 @@ const AI_PERSONALITIES = {
               "Creeper!"
             ],
             description: 'The explosive green creeper'
+          },
+          {
+            name: 'Zombie',
+            role: 'Undead Mob',
+            startingCoins: 85,
+            startingWeapons: ['bite'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'undead',
+            quotes: [
+              "Brains...",
+              "Zombie!",
+              "Undead!"
+            ],
+            description: 'The classic zombie mob'
+          },
+          {
+            name: 'Skeleton',
+            role: 'Archer Mob',
+            startingCoins: 88,
+            startingWeapons: ['bow'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'ranged',
+            quotes: [
+              "Arrows!",
+              "Skeleton!",
+              "Shoot!"
+            ],
+            description: 'The bow-wielding skeleton'
+          },
+          {
+            name: 'Spider',
+            role: 'Arachnid Mob',
+            startingCoins: 87,
+            startingWeapons: ['web'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'webby',
+            quotes: [
+              "Web!",
+              "Spider!",
+              "Climb!"
+            ],
+            description: 'The web-spinning spider'
+          },
+          {
+            name: 'Iron Golem',
+            role: 'Protector Mob',
+            startingCoins: 105,
+            startingWeapons: ['iron fists'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'protective',
+            quotes: [
+              "Protect!",
+              "Iron!",
+              "Golem!"
+            ],
+            description: 'The village protector'
+          },
+          {
+            name: 'Snow Golem',
+            role: 'Snow Mob',
+            startingCoins: 92,
+            startingWeapons: ['snowball'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'chilly',
+            quotes: [
+              "Snow!",
+              "Cold!",
+              "Golem!"
+            ],
+            description: 'The snowball-throwing golem'
+          },
+          {
+            name: 'Villager',
+            role: 'NPC',
+            startingCoins: 80,
+            startingWeapons: ['trade'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'merchant',
+            quotes: [
+              "Hmm!",
+              "Trade!",
+              "Villager!"
+            ],
+            description: 'The trading villager'
+          },
+          {
+            name: 'Pillager',
+            role: 'Raider Mob',
+            startingCoins: 93,
+            startingWeapons: ['crossbow'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'aggressive',
+            quotes: [
+              "Raid!",
+              "Pillager!",
+              "Attack!"
+            ],
+            description: 'The raiding pillager'
+          },
+          {
+            name: 'Witch',
+            role: 'Magic Mob',
+            startingCoins: 96,
+            startingWeapons: ['potion'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'magical',
+            quotes: [
+              "Magic!",
+              "Potion!",
+              "Witch!"
+            ],
+            description: 'The potion-brewing witch'
+          },
+          {
+            name: 'Blaze',
+            role: 'Fire Mob',
+            startingCoins: 94,
+            startingWeapons: ['fireball'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'fiery',
+            quotes: [
+              "Fire!",
+              "Blaze!",
+              "Burn!"
+            ],
+            description: 'The fire-shooting blaze'
+          },
+          {
+            name: 'Ghast',
+            role: 'Flying Mob',
+            startingCoins: 97,
+            startingWeapons: ['ghast fireball'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'floating',
+            quotes: [
+              "Float!",
+              "Ghast!",
+              "Cry!"
+            ],
+            description: 'The floating ghast'
           }
         ]
       }
