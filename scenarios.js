@@ -11639,16 +11639,16 @@ const SCENARIOS = {
         color: '#2ecc71', // Green
         description: 'The Allied Powers including Britain, France, Russia, and later the US',
         territories: [
-          { name: 'Western Front', cost: 100, description: 'Main battlefront in France and Belgium' },
-          { name: 'Eastern Front', cost: 95, description: 'Battlefront between Russia and Central Powers' },
-          { name: 'Gallipoli', cost: 90, description: 'Strategic peninsula in Turkey' },
-          { name: 'Mesopotamia', cost: 85, description: 'Middle Eastern theater of war' },
-          { name: 'Palestine', cost: 80, description: 'Middle Eastern campaign' },
-          { name: 'Italian Front', cost: 75, description: 'Alpine warfare between Italy and Austria' },
-          { name: 'Balkan Front', cost: 70, description: 'Southeastern European theater' },
-          { name: 'African Colonies', cost: 65, description: 'Colonial warfare in Africa' },
-          { name: 'Naval Blockade', cost: 60, description: 'British naval blockade of Germany' },
-          { name: 'Home Front', cost: 55, description: 'Civilian support and production' }
+          { name: 'Western Front', cost: 100, description: 'France & Belgium trenches' },
+          { name: 'Eastern Front', cost: 95, description: 'Russia vs. Central Powers' },
+          { name: 'Gallipoli', cost: 90, description: 'Dardanelles campaign' },
+          { name: 'Mesopotamia', cost: 85, description: 'Tigris–Euphrates theater' },
+          { name: 'Palestine', cost: 80, description: 'Sinai & Palestine front' },
+          { name: 'Italian Front', cost: 75, description: 'Alpine warfare' },
+          { name: 'Balkan Front', cost: 70, description: 'Salonika front' },
+          { name: 'African Colonies', cost: 65, description: 'East & West Africa' },
+          { name: 'Naval Blockade', cost: 60, description: 'Royal Navy blockade' },
+          { name: 'Home Front', cost: 55, description: 'War industries' }
         ],
         characters: [
           {
@@ -11748,16 +11748,16 @@ const SCENARIOS = {
         color: '#e74c3c', // Red
         description: 'The Central Powers including Germany, Austria-Hungary, and the Ottoman Empire',
         territories: [
-          { name: 'Western Front', cost: 100, description: 'Main battlefront against France and Britain' },
-          { name: 'Eastern Front', cost: 95, description: 'Battlefront against Russia' },
-          { name: 'Balkan Front', cost: 90, description: 'Southeastern European theater' },
-          { name: 'Middle East', cost: 85, description: 'Ottoman territories in the Middle East' },
-          { name: 'Italian Front', cost: 80, description: 'Alpine warfare against Italy' },
-          { name: 'African Colonies', cost: 75, description: 'German colonies in Africa' },
-          { name: 'Naval Warfare', cost: 70, description: 'U-boat warfare and naval battles' },
-          { name: 'Home Front', cost: 65, description: 'Civilian support and production' },
-          { name: 'Austrian Empire', cost: 60, description: 'Austro-Hungarian territories' },
-          { name: 'Ottoman Empire', cost: 55, description: 'Turkish territories and defenses' }
+          { name: 'Western Front', cost: 100, description: 'Against France & Britain' },
+          { name: 'Eastern Front', cost: 95, description: 'Against Russia' },
+          { name: 'Balkan Front', cost: 90, description: 'Serbia & Salonika' },
+          { name: 'Middle East', cost: 85, description: 'Ottoman campaigns' },
+          { name: 'Italian Front', cost: 80, description: 'Isonzo & Alps' },
+          { name: 'African Colonies', cost: 75, description: 'German Africa' },
+          { name: 'Naval Warfare', cost: 70, description: 'U-boats & raids' },
+          { name: 'Home Front', cost: 65, description: 'War industries' },
+          { name: 'Austrian Empire', cost: 60, description: 'Dual Monarchy' },
+          { name: 'Ottoman Empire', cost: 55, description: 'Anatolia & Levant' }
         ],
         characters: [
           {
