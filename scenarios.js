@@ -2587,6 +2587,7 @@ const SCENARIOS = {
     name: 'Harry Potter',
     type: 'literary',
     description: 'The battle between Harry Potter and his friends against Voldemort and the Death Eaters',
+    factionOrder: ['harryPotter', 'deathEaters'],
     factions: {
       harryPotter: {
         name: 'Dumbledore\'s Army',
@@ -2597,6 +2598,9 @@ const SCENARIOS = {
           { name: 'Gryffindor Tower', cost: 80, description: 'Defensive stronghold within Hogwarts' },
           { name: 'Hogsmeade', cost: 70, description: 'Strategic village and supply base' },
           { name: 'Diagon Alley', cost: 75, description: 'Commercial center and resource hub' },
+          { name: "Harry's Quidditch Pitch", cost: 65, description: 'Where Harry shines as Seeker' },
+          { name: "Hermione's Library Nook", cost: 60, description: 'Hermione\'s favorite research corner' },
+          { name: "Ron's Chess Alcove", cost: 55, description: 'Tactical spot for wizard chess' },
           { name: 'Order Headquarters', cost: 85, description: 'Secret base of the Order of the Phoenix' },
           { name: 'Grimmauld Place', cost: 80, description: 'Hidden safe house and planning center' },
           { name: 'Ministry of Magic', cost: 90, description: 'Government center and power base' },
@@ -12827,6 +12831,7 @@ const SCENARIOS = {
     name: 'Romeo and Juliet (Shakespeare)',
     type: 'literary',
     description: 'The tragic tale of star-crossed lovers caught between feuding families in Verona.',
+    factionOrder: ['montagues', 'capulets'],
     factions: {
       montagues: {
         name: 'House of Montague',
@@ -12834,8 +12839,10 @@ const SCENARIOS = {
         description: 'Noble family seeking peace and reconciliation',
         territories: [
           { name: 'Montague Manor', cost: 80, description: 'Family estate and headquarters' },
+          { name: "Romeo's Balcony Overlook", cost: 75, description: "Where Romeo gazes toward Juliet's home" },
           { name: 'Montague Gardens', cost: 70, description: 'Private gardens and meeting place' },
           { name: 'Montague Library', cost: 75, description: 'Knowledge center and planning room' },
+          { name: 'Benvolio Court', cost: 65, description: "Benvolio's favored meeting square" },
           { name: 'Montague Stables', cost: 65, description: 'Horse breeding and transportation' },
           { name: 'Montague Treasury', cost: 85, description: 'Wealth storage and resources' },
           { name: 'Montague Guards', cost: 60, description: 'Security force and protection' },
@@ -13113,8 +13120,10 @@ const SCENARIOS = {
         description: 'Proud family defending their honor and traditions',
         territories: [
           { name: 'Capulet Manor', cost: 80, description: 'Family estate and headquarters' },
+          { name: 'Capulet Balcony', cost: 75, description: "Juliet's balcony and private garden" },
           { name: 'Capulet Gardens', cost: 70, description: 'Private gardens and meeting place' },
           { name: 'Capulet Library', cost: 75, description: 'Knowledge center and planning room' },
+          { name: 'Tybalt Training Yard', cost: 65, description: 'Where Tybalt drills the guards' },
           { name: 'Capulet Stables', cost: 65, description: 'Horse breeding and transportation' },
           { name: 'Capulet Treasury', cost: 85, description: 'Wealth storage and resources' },
           { name: 'Capulet Guards', cost: 60, description: 'Security force and protection' },

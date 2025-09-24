@@ -2496,7 +2496,12 @@
 
     // If a scenario defines factions, map faction IDs to board regions deterministically
     // so, for 2-faction scenarios: faction[0] = left, faction[1] = right; for 3/4 factions: TL, TR, BL, BR
-    const scenarioFactionKeys = state.scenario && state.scenario.factions ? Object.keys(state.scenario.factions) : [];
+    // Allow scenarios to specify explicit faction ordering via scenario.factionOrder
+    const scenarioFactionKeys = state.scenario && state.scenario.factions ? (
+      Array.isArray(state.scenario.factionOrder) && state.scenario.factionOrder.length > 0
+        ? state.scenario.factionOrder.filter(fid => state.scenario.factions[fid])
+        : Object.keys(state.scenario.factions)
+    ) : [];
     const positionsByTeamId = {};
     if (scenarioFactionKeys.length > 0) {
       if (teamCount === 2) {
