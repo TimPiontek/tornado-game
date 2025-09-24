@@ -17,16 +17,16 @@ const SCENARIOS = {
         color: '#1e40af', // Blue
         description: 'American colonists fighting for independence',
         territories: [
-          { name: 'Boston', cost: 15, description: 'Center of revolutionary activity and Tea Party' },
-          { name: 'Philadelphia', cost: 20, description: 'Continental Congress and Declaration signing' },
-          { name: 'New York', cost: 18, description: 'Strategic port city and Continental Army HQ' },
+          { name: 'Boston', cost: 15, description: 'Revolutionary center' },
+          { name: 'Philadelphia', cost: 20, description: 'Congress & Declaration' },
+          { name: 'New York', cost: 18, description: 'Port & Army HQ' },
           { name: 'Charleston', cost: 12, description: 'Southern stronghold and supply base' },
           { name: 'Valley Forge', cost: 8, description: 'Winter encampment and training ground' },
-          { name: 'Saratoga', cost: 10, description: 'Turning point battle and French alliance' },
-          { name: 'Yorktown', cost: 16, description: 'Final battle site and victory location' },
-          { name: 'Lexington & Concord', cost: 9, description: 'First shots fired and revolution begins' },
-          { name: 'Trenton', cost: 7, description: 'Washington\'s Christmas victory' },
-          { name: 'Continental Army Camps', cost: 6, description: 'Mobile military bases and training' }
+          { name: 'Saratoga', cost: 10, description: 'Turning point battle' },
+          { name: 'Yorktown', cost: 16, description: 'Final battle site' },
+          { name: 'Lexington & Concord', cost: 9, description: 'First shots fired' },
+          { name: 'Trenton', cost: 7, description: 'Christmas victory' },
+          { name: 'Continental Army Camps', cost: 6, description: 'Military training' }
         ],
         characters: [
           {
@@ -853,7 +853,7 @@ const SCENARIOS = {
           { name: 'Boston', cost: 12, description: 'Port city and naval base' },
           { name: 'Chicago', cost: 10, description: 'Railroad center and transportation hub' },
           { name: 'Cleveland', cost: 8, description: 'Industrial city and manufacturing' },
-          { name: 'Union Army Camps', cost: 16, description: 'Military training and deployment centers' },
+          { name: 'Union Army Camps', cost: 16, description: 'Military training centers' },
           { name: 'Gettysburg', cost: 14, description: 'Turning point battle site' },
           { name: 'Union Navy', cost: 13, description: 'Naval blockade and river fleet' },
           { name: 'Underground Railroad', cost: 11, description: 'Freedom network and intelligence' }
@@ -1195,10 +1195,10 @@ const SCENARIOS = {
           { name: 'New Orleans', cost: 14, description: 'Mississippi port and trade hub' },
           { name: 'Memphis', cost: 10, description: 'River city and transportation center' },
           { name: 'Nashville', cost: 8, description: 'State capital and strategic position' },
-          { name: 'Confederate Army Camps', cost: 16, description: 'Military training and deployment centers' },
-          { name: 'Fort Sumter', cost: 13, description: 'First battle site and symbolic stronghold' },
-          { name: 'Confederate Navy', cost: 11, description: 'River fleet and blockade runners' },
-          { name: 'Plantation Strongholds', cost: 9, description: 'Economic base and agricultural production' }
+          { name: 'Confederate Army Camps', cost: 16, description: 'Military training centers' },
+          { name: 'Fort Sumter', cost: 13, description: 'First battle site' },
+          { name: 'Confederate Navy', cost: 11, description: 'River fleet' },
+          { name: 'Plantation Strongholds', cost: 9, description: 'Economic base' }
         ],
         characters: [
           {
@@ -2602,7 +2602,7 @@ const SCENARIOS = {
           { name: 'Gryffindor Tower', cost: 80, description: 'Defensive stronghold within Hogwarts' },
           { name: 'Quidditch Pitch', cost: 70, description: 'Hogwarts\' stadium for house matches and practice' },
           { name: 'Hogwarts Library', cost: 70, description: 'Stacks of magical tomes and study tables' },
-          { name: 'Forbidden Forest & Whomping Willow', cost: 65, description: 'Perilous grounds on the edge of Hogwarts' },
+          { name: 'Forbidden Forest', cost: 65, description: 'Perilous grounds' },
           { name: 'Hogsmeade', cost: 70, description: 'Strategic village and supply base' },
           { name: 'Diagon Alley', cost: 75, description: 'Commercial center and resource hub' },
           { name: 'Order Headquarters', cost: 85, description: 'Secret base of the Order of the Phoenix' },
@@ -2884,7 +2884,7 @@ const SCENARIOS = {
           { name: 'Azkaban', cost: 85, description: 'Prison fortress and terror weapon' },
           { name: 'Knockturn Alley', cost: 70, description: 'Dark recruitment and supply district' },
           { name: 'Riddle House', cost: 75, description: 'Symbolic birthplace and dark power site' },
-          { name: 'Little Hangleton Graveyard', cost: 80, description: 'Dark ritual site and resurrection ground' },
+          { name: 'Hangleton Graveyard', cost: 80, description: 'Dark ritual site' },
           { name: 'Forbidden Forest', cost: 65, description: 'Dark creature territory and hiding place' },
           { name: 'Chamber of Secrets', cost: 85, description: 'Hidden lair and monster breeding ground' },
           { name: 'Nurmengard', cost: 90, description: 'International dark wizard prison' },
@@ -16641,8 +16641,8 @@ const SCENARIOS = {
         color: '#e74c3c', // Red
         description: 'The wealthy districts that train tributes for the Games',
         territories: [
-          { name: 'District 1 - Luxury', cost: 100, description: 'Wealthy district specializing in luxury goods' },
-          { name: 'District 2 - Masonry', cost: 95, description: 'District specializing in stonework and masonry' },
+          { name: 'District 1 - Luxury', cost: 100, description: 'Luxury goods' },
+          { name: 'District 2 - Masonry', cost: 95, description: 'Stonework' },
           { name: 'Career Training Center', cost: 90, description: 'Secret training facility for career tributes' },
           { name: 'Weapon Arsenal', cost: 85, description: 'Stockpile of weapons and combat gear' },
           { name: 'Strategy Room', cost: 80, description: 'Command center for game strategy' },
@@ -16801,16 +16801,16 @@ const SCENARIOS = {
         color: '#f39c12', // Orange
         description: 'The middle-class districts with some resources',
         territories: [
-          { name: 'District 3 - Technology', cost: 100, description: 'District specializing in electronics and technology' },
-          { name: 'District 4 - Fishing', cost: 95, description: 'District specializing in fishing and seafood' },
-          { name: 'District 5 - Power', cost: 90, description: 'District specializing in electrical power' },
-          { name: 'District 6 - Transportation', cost: 85, description: 'District specializing in transportation' },
-          { name: 'District 7 - Lumber', cost: 80, description: 'District specializing in lumber and wood' },
-          { name: 'District 8 - Textiles', cost: 75, description: 'District specializing in textiles and clothing' },
-          { name: 'District 9 - Grain', cost: 70, description: 'District specializing in grain and agriculture' },
-          { name: 'District 10 - Livestock', cost: 65, description: 'District specializing in livestock and meat' },
-          { name: 'District 11 - Agriculture', cost: 60, description: 'District specializing in agriculture and farming' },
-          { name: 'District 12 - Mining', cost: 55, description: 'District specializing in coal mining' }
+          { name: 'District 3 - Technology', cost: 100, description: 'Electronics' },
+          { name: 'District 4 - Fishing', cost: 95, description: 'Fishing' },
+          { name: 'District 5 - Power', cost: 90, description: 'Electrical power' },
+          { name: 'District 6 - Transportation', cost: 85, description: 'Transportation' },
+          { name: 'District 7 - Lumber', cost: 80, description: 'Lumber' },
+          { name: 'District 8 - Textiles', cost: 75, description: 'Textiles' },
+          { name: 'District 9 - Grain', cost: 70, description: 'Grain' },
+          { name: 'District 10 - Livestock', cost: 65, description: 'Livestock' },
+          { name: 'District 11 - Agriculture', cost: 60, description: 'Agriculture' },
+          { name: 'District 12 - Mining', cost: 55, description: 'Coal mining' }
         ],
         characters: [
           {
@@ -16961,16 +16961,16 @@ const SCENARIOS = {
         color: '#2ecc71', // Green
         description: 'The poor outer districts with few resources',
         territories: [
-          { name: 'District 12 - Coal Mining', cost: 100, description: 'Poor district specializing in coal mining' },
-          { name: 'District 11 - Agriculture', cost: 95, description: 'Poor district specializing in agriculture' },
-          { name: 'District 10 - Livestock', cost: 90, description: 'Poor district specializing in livestock' },
-          { name: 'District 9 - Grain', cost: 85, description: 'Poor district specializing in grain' },
-          { name: 'District 8 - Textiles', cost: 80, description: 'Poor district specializing in textiles' },
-          { name: 'District 7 - Lumber', cost: 75, description: 'Poor district specializing in lumber' },
-          { name: 'District 6 - Transportation', cost: 70, description: 'Poor district specializing in transportation' },
-          { name: 'District 5 - Power', cost: 65, description: 'Poor district specializing in power' },
-          { name: 'District 4 - Fishing', cost: 60, description: 'Poor district specializing in fishing' },
-          { name: 'District 3 - Technology', cost: 55, description: 'Poor district specializing in technology' }
+          { name: 'District 12 - Coal Mining', cost: 100, description: 'Coal mining' },
+          { name: 'District 11 - Agriculture', cost: 95, description: 'Agriculture' },
+          { name: 'District 10 - Livestock', cost: 90, description: 'Livestock' },
+          { name: 'District 9 - Grain', cost: 85, description: 'Grain' },
+          { name: 'District 8 - Textiles', cost: 80, description: 'Textiles' },
+          { name: 'District 7 - Lumber', cost: 75, description: 'Lumber' },
+          { name: 'District 6 - Transportation', cost: 70, description: 'Transportation' },
+          { name: 'District 5 - Power', cost: 65, description: 'Power' },
+          { name: 'District 4 - Fishing', cost: 60, description: 'Fishing' },
+          { name: 'District 3 - Technology', cost: 55, description: 'Technology' }
         ],
         characters: [
           {
