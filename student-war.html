@@ -2130,12 +2130,13 @@
     
     // Fallback: Check if any students have character names (for backward compatibility)
     const studentsWithCharacters = state.roster.filter(s => s.characterName);
+    console.log('All students:', state.roster.map(s => ({ name: s.name, characterName: s.characterName, characterFaction: s.characterFaction })));
+    console.log('Students with characters:', studentsWithCharacters.map(s => `${s.name}: ${s.characterName}`));
+    
     if (studentsWithCharacters.length === 0) {
       updateScenarioDisplay('No characters assigned - playing in normal mode');
       return;
     }
-    
-    console.log('Found students with characters:', studentsWithCharacters.map(s => `${s.name}: ${s.characterName}`));
     
     // Try to find which scenario these characters belong to
     const characterNames = studentsWithCharacters.map(s => s.characterName);
@@ -2197,26 +2198,38 @@
 
   // Assign teams based on character factions
   function assignTeamsFromCharacters() {
-    if (!state.scenario || !state.roster) return;
+    if (!state.scenario || !state.roster) {
+      console.log('assignTeamsFromCharacters: No scenario or roster available');
+      return;
+    }
     
     console.log('Assigning teams based on character factions...');
+    console.log('Current scenario:', state.scenario.scenarioId);
+    console.log('Roster students:', state.roster.map(s => ({ name: s.name, characterName: s.characterName })));
     
     state.roster.forEach(student => {
       if (student.characterName) {
+        console.log(`Processing student ${student.name} with character ${student.characterName}`);
         const scenario = SCENARIOS[state.scenario.scenarioId];
-        if (!scenario || !scenario.factions) return;
+        if (!scenario || !scenario.factions) {
+          console.log('No scenario or factions found');
+          return;
+        }
 
         // Find which faction this character belongs to
         let characterFaction = null;
         let factionKey = null;
         
         for (const [key, faction] of Object.entries(scenario.factions)) {
+          console.log(`Checking faction ${key}: ${faction.name}`);
+          
           // Check characters array
           if (faction.characters) {
             const character = faction.characters.find(char => char.name === student.characterName);
             if (character) {
               characterFaction = faction;
               factionKey = key;
+              console.log(`Found character ${student.characterName} in faction ${key}`);
               break;
             }
           }
@@ -2227,6 +2240,7 @@
             if (generalRole) {
               characterFaction = faction;
               factionKey = key;
+              console.log(`Found general role ${student.characterName} in faction ${key}`);
               break;
             }
           }
@@ -2237,40 +2251,20 @@
           student.teamName = characterFaction.name;
           student.teamColor = characterFaction.color;
           student.characterFaction = characterFaction.name;
-          console.log(`Assigned ${student.name} (${student.characterName}) to faction ${characterFaction.name} (${characterFaction.color})`);
+          console.log(`✅ Assigned ${student.name} (${student.characterName}) to faction ${characterFaction.name} (${characterFaction.color})`);
         } else {
-          // Fallback for specific scenarios
-          if (state.scenario && state.scenario.scenarioName.includes('Harry Potter')) {
-            if (student.characterName === 'Luna Lovegood' || student.characterName === 'Dean Thomas' || student.characterName === 'Seamus Finnigan') {
-              student.teamId = 'harryPotter';
-              student.teamName = 'Harry Potter & Friends';
-              student.teamColor = '#2e8b57'; // Slytherin green for good guys (flipped)
-            } else if (student.characterName === 'Amycus Carrow' || student.characterName === 'Thorfinn Rowle' || student.characterName === 'Walden Macnair') {
-              student.teamId = 'deathEaters';
-              student.teamName = 'Death Eaters & Voldemort';
-              student.teamColor = '#8b0000'; // Dark red for bad guys
-            }
-          } else if (state.scenario && state.scenario.scenarioName.includes('Star Wars')) {
-            if (student.characterName === 'Wedge Antilles' || student.characterName === 'Biggs Darklighter' || student.characterName === 'Ahsoka Tano') {
-              student.teamId = 'rebels';
-              student.teamName = 'Rebel Alliance';
-              student.teamColor = '#4169e1'; // Blue for rebels
-            } else if (student.characterName === 'Grand Moff Tarkin' || student.characterName === 'Admiral Piett' || student.characterName === 'Commander Cody') {
-              student.teamId = 'empire';
-              student.teamName = 'Galactic Empire';
-              student.teamColor = '#8b0000'; // Dark red for empire
-            }
-          } else {
-            console.log(`No faction found for character: ${student.characterName}`);
-          }
+          console.log(`❌ No faction found for character: ${student.characterName}`);
         }
         
         // Update the color system to use team color
         if (student.teamColor) {
           state.colors.set(student.gsId, student.teamColor);
+          console.log(`Applied team color ${student.teamColor} to ${student.name}`);
         }
         
         console.log(`Final assignment: ${student.name} -> Team: ${student.teamName} (${student.teamColor})`);
+      } else {
+        console.log(`Student ${student.name} has no character name`);
       }
     });
   }
