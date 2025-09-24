@@ -2896,6 +2896,16 @@
       const characterDisplay = owner ? (isAI ? `${owner.characterName} (AI)` : (owner.characterName || '')) : '';
       const studentDisplay = owner && !isAI ? shortenName(owner.name) : '';
       
+      // Compute visual styles for the tile
+      const isOwnedBySelected = !!(owner && owner.gsId === state.selectedGsId);
+      const isAttackable = attackableTileIds.has(tile.id) && !isOwnedBySelected;
+      const characterName = owner ? (owner.characterName || '') : '';
+      const teamColor = owner ? (owner.teamColor || state.colors.get(owner.gsId) || '#374151') : null;
+      const backgroundColor = owner ? teamColor : '#0b1220';
+      const borderStyle = isOwnedBySelected
+        ? '2px solid #f59e0b'
+        : (isAttackable ? '2px dashed #f59e0b' : `1px solid ${teamColor || '#1f2937'}`);
+
       console.log('Tile owner debug:', { 
         ownerName: owner?.name, 
         characterName: owner?.characterName, 
