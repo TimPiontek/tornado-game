@@ -13419,6 +13419,7 @@ const SCENARIOS = {
     name: 'The Lord of the Rings (J.R.R. Tolkien)',
     type: 'literary',
     description: 'The epic struggle between the forces of good and evil in Middle-earth.',
+    factionOrder: ['fellowship','mordor'],
     factions: {
       fellowship: {
         name: 'Fellowship of the Ring',
@@ -13756,16 +13757,15 @@ const SCENARIOS = {
         color: '#8b0000', // Dark red
         description: 'Dark forces seeking to conquer Middle-earth with the One Ring',
         territories: [
-          { name: 'Barad-dûr', cost: 120, description: 'Dark Tower and Sauron\'s fortress' },
-          { name: 'Mount Doom', cost: 110, description: 'Volcano and Ring\'s forge' },
-          { name: 'Minas Morgul', cost: 100, description: 'Dark fortress and Nazgûl base' },
-          { name: 'Cirith Ungol', cost: 95, description: 'Spider\'s lair and mountain pass' },
-          { name: 'Isengard', cost: 90, description: 'Saruman\'s tower and orc factory' },
-          { name: 'Dol Guldur', cost: 85, description: 'Dark fortress and necromancer\'s lair' },
-          { name: 'Morgul Vale', cost: 80, description: 'Cursed valley and dark magic source' },
-          { name: 'Udûn', cost: 75, description: 'Hell valley and orc breeding ground' },
-          { name: 'Nurn', cost: 70, description: 'Slave fields and agricultural base' },
-          { name: 'Gorgoroth', cost: 85, description: 'Wasteland and military training ground' }
+          { name: 'Barad-dûr', cost: 120, description: 'Sauron\'s dark tower' },
+          { name: 'Mount Doom', cost: 110, description: 'Cracks of Doom' },
+          { name: 'Minas Morgul', cost: 100, description: 'City of the Nazgûl' },
+          { name: 'Cirith Ungol', cost: 95, description: 'Pass into Mordor' },
+          { name: 'Isengard', cost: 90, description: 'Saruman\'s stronghold' },
+          { name: 'Dol Guldur', cost: 85, description: 'Fortress in Mirkwood' },
+          { name: 'Gorgoroth', cost: 85, description: 'Ash plain of Mordor' },
+          { name: 'Udûn', cost: 75, description: 'Black Gate valley' },
+          { name: 'Nurn', cost: 70, description: 'Slave fields' }
         ],
         characters: [
           {
