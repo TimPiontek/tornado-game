@@ -10134,9 +10134,9 @@ const SCENARIOS = {
         color: '#dc2626',
         description: 'Muslim forces defending the Holy Land from Christian invaders',
         territories: [
-          { name: 'Damascus', cost: 90, description: 'Muslim capital' },
-          { name: 'Cairo', cost: 85, description: 'Egyptian capital' },
-          { name: 'Baghdad', cost: 80, description: 'Abbasid capital' },
+          { name: 'Damascus', cost: 90, description: 'Syrian capital' },
+          { name: 'Cairo', cost: 85, description: 'Egypt capital' },
+          { name: 'Baghdad', cost: 80, description: 'Abbasid seat' },
           { name: 'Aleppo', cost: 75, description: 'Strategic city' },
           { name: 'Mecca', cost: 95, description: 'Holy city' }
         ],
