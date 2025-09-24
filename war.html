@@ -2514,18 +2514,9 @@
       }
     }
 
-    // Persist a mapping of board regions -> faction/team ids for later territory labeling
-    // Currently used by getTerritoryForTile to name tiles in the correct faction area
-    state.regionFactionMap = state.regionFactionMap || {};
-    state.regionFactionMap[0] = null; // left column region
-    state.regionFactionMap[2] = null; // right column region
-    if (scenarioFactionKeys.length > 0) {
-      // Determine which faction was placed on the left/right by comparing array identities
-      const leftFaction = scenarioFactionKeys.find(fid => positionsByTeamId[fid] === team1Positions) || null;
-      const rightFaction = scenarioFactionKeys.find(fid => positionsByTeamId[fid] === team2Positions) || null;
-      state.regionFactionMap[0] = leftFaction;
-      state.regionFactionMap[2] = rightFaction;
-    }
+    // Prepare a mapping of board regions -> actual team ids (filled during assignment loop)
+    // We populate this based on where teams are actually placed, not on assumed order
+    state.regionFactionMap = { 0: null, 2: null };
     
     Object.entries(teamGroups).forEach(([teamId, students], index) => {
       console.log(`Assigning positions for team ${teamId} with ${students.length} students`);
@@ -2592,6 +2583,13 @@
           if (index === 0) teamPositions = team1Positions; // Left side
           else if (index === 1) teamPositions = team2Positions; // Right side
         }
+      }
+
+      // Record which team actually occupies left/right for correct territory labeling later
+      if (teamPositions === team1Positions) {
+        state.regionFactionMap[0] = teamId;
+      } else if (teamPositions === team2Positions) {
+        state.regionFactionMap[2] = teamId;
       }
       
       let positionIndex = 0;
