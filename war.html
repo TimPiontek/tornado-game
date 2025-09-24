@@ -25,9 +25,9 @@
     .bal { font-variant-numeric: tabular-nums; }
     .chip { padding:4px 8px; border:1px solid var(--border); border-radius:8px; font-size:12px; color:var(--muted) }
     .plus { padding:4px 8px; border:1px solid var(--border); border-radius:8px; background:#12223a; cursor:pointer }
-    #board { width:100%; aspect-ratio: 0.8 / 1; background:#0a1220; border:1px solid var(--border); border-radius:12px; overflow:hidden; max-height: 60vh; }
-    #grid { width:100%; height:100%; display:grid; }
-    .cell { border:1px solid #0d1930; display:flex; align-items:center; justify-content:center; font-size:12px; user-select:none; position:relative; }
+    #board { width:100%; aspect-ratio: 0.8 / 1; background:#0a1220; border:1px solid var(--border); border-radius:16px; overflow:hidden; max-height: 60vh; }
+    #grid { width:100%; height:100%; display:grid; gap: 4px; padding: 6px; box-sizing: border-box; }
+    .cell { border:1px solid #0d1930; border-radius: 8px; display:flex; align-items:center; justify-content:center; font-size:12px; user-select:none; position:relative; box-shadow: inset 0 0 0 1px #00000020; }
     .castle { font-weight:bold; filter: drop-shadow(0 1px 0 #0008) }
     .section { margin: 10px 0 0 }
     input, textarea, select { width:100%; padding:10px; border:1px solid var(--border); border-radius:10px; background:#081125; color:var(--text) }
@@ -3000,27 +3000,27 @@
       
       return `<div class="cell" data-tile-id="${tile.id}" data-x="${tile.x}" data-y="${tile.y}" 
                 style="background: ${backgroundColor}; 
-                       color: ${owner ? '#fff' : '#666'}; 
+                       color: ${owner ? '#fff' : '#b3b8c6'}; 
                        cursor: pointer;
                        border: ${borderStyle};
                        display: flex;
                        flex-direction: column;
                        align-items: center;
                        justify-content: center;
-                       min-height: 50px;
-                       padding: 2px;
+                       min-height: 52px;
+                       padding: 4px;
                        font-size: 10px;
                        text-align: center;
-                       transition: all 0.2s ease;"
+                       transition: transform .15s ease, box-shadow .15s ease;"
                 onclick="handleTileClick('${tile.id}')"
                 title="${owner ? `Owned by ${ownerName}${state.scenario && characterName ? ` (${characterName})` : ''}${owner.teamName ? ` - Team: ${owner.teamName}` : ''}` : `Click to buy ${state.scenario ? (territoryName || 'territory') : 'tile'} for ${displayCost} points`}${isAttackable && !isOwnedBySelected ? ' (Attackable!)' : ''}">
                 ${owner ? `
-                  ${characterDisplay ? `<div style="font-weight: 600; font-size: 10px; line-height: 1.0;">${characterDisplay}</div>` : ''}
-                  ${studentDisplay ? `<div style="font-size: 8px; line-height: 1.0; margin-top: 1px;">${studentDisplay}</div>` : ''}
-                  ${territoryName ? `<div style="font-size: 7px; color: #ccc; line-height: 1.0; margin-top: 1px;">${territoryName}</div>` : ''}
+                  ${characterDisplay ? `<div style="font-weight: 700; font-size: 11px; line-height: 1.1; letter-spacing:.2px;">${characterDisplay}</div>` : ''}
+                  ${studentDisplay ? `<div style="font-size: 8px; line-height: 1.1; margin-top: 1px; opacity:.9;">${studentDisplay}</div>` : ''}
+                  ${territoryName ? `<div style="font-size: 8px; color: #d6d9e1; line-height: 1.1; margin-top: 2px; opacity:.85;">${territoryName}</div>` : ''}
                 ` : `
-                  ${state.scenario ? `<div style="font-weight: 600; font-size: 10px; line-height: 1.0;">${displayName}</div>` : ''}
-                  <div style="font-size: 8px; line-height: 1.0; margin-top: 2px;">${costText}</div>
+                  ${state.scenario ? `<div style=\"font-weight: 600; font-size: 10px; line-height: 1.1; letter-spacing:.2px;\">${displayName}</div>` : ''}
+                  <div style="font-size: 9px; line-height: 1.1; margin-top: 2px; color:#98a2b3;">${costText}</div>
                 `}
                 <div style="font-size: 8px; margin-top: 1px;">${castleText || ''}</div>
               </div>`;
