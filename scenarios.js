@@ -4676,11 +4676,11 @@ const SCENARIOS = {
         color: '#dc2626',
         description: 'Maintaining imperial control and naval supremacy',
         territories: [
-          { name: 'London', cost: 90, description: 'British capital' },
-          { name: 'Quebec', cost: 75, description: 'Canadian stronghold' },
+          { name: 'London', cost: 90, description: 'Capital' },
+          { name: 'Quebec', cost: 75, description: 'Fortress city' },
           { name: 'Halifax', cost: 70, description: 'Naval base' },
-          { name: 'Toronto', cost: 65, description: 'Upper Canada capital' },
-          { name: 'Montreal', cost: 80, description: 'Lower Canada capital' }
+          { name: 'Toronto', cost: 65, description: 'Upper Canada' },
+          { name: 'Montreal', cost: 80, description: 'Lower Canada' }
         ],
         characters: [
           {
@@ -5241,11 +5241,11 @@ const SCENARIOS = {
         color: '#dc2626',
         description: 'Defending their homeland from American invasion',
         territories: [
-          { name: 'Mexico City', cost: 90, description: 'Mexican capital' },
-          { name: 'Veracruz', cost: 80, description: 'Port city' },
-          { name: 'Monterrey', cost: 75, description: 'Northern city' },
-          { name: 'Saltillo', cost: 70, description: 'Mountain city' },
-          { name: 'Puebla', cost: 65, description: 'Central city' }
+          { name: 'Mexico City', cost: 90, description: 'Capital' },
+          { name: 'Veracruz', cost: 80, description: 'Port' },
+          { name: 'Monterrey', cost: 75, description: 'North' },
+          { name: 'Saltillo', cost: 70, description: 'Highlands' },
+          { name: 'Puebla', cost: 65, description: 'Central' }
         ],
         characters: [
           {
@@ -6496,16 +6496,16 @@ const SCENARIOS = {
         color: '#dc2626', // Red for Trojans (already good)
         description: 'Defending their city and protecting Helen',
         territories: [
-          { name: 'Troy', cost: 100, description: 'The great city and fortress' },
-          { name: 'Troy Walls', cost: 90, description: 'Impenetrable defenses and battlements' },
-          { name: 'Troy Gates', cost: 85, description: 'City entrances and defensive chokepoints' },
-          { name: 'Troy Palace', cost: 95, description: 'Royal residence and command center' },
-          { name: 'Troy Temple', cost: 80, description: 'Sacred place and divine protection' },
-          { name: 'Troy Citadel', cost: 88, description: 'Inner fortress and last defense' },
-          { name: 'Troy Armory', cost: 75, description: 'Weapon storage and military supplies' },
-          { name: 'Troy Marketplace', cost: 70, description: 'Supply center and trade hub' },
-          { name: 'Troy Barracks', cost: 72, description: 'Soldier quarters and training ground' },
-          { name: 'Troy Treasury', cost: 78, description: 'Wealth storage and war funding' }
+          { name: 'Troy', cost: 100, description: 'Great city' },
+          { name: 'Troy Walls', cost: 90, description: 'Impenetrable walls' },
+          { name: 'Troy Gates', cost: 85, description: 'City gates' },
+          { name: 'Troy Palace', cost: 95, description: 'Royal palace' },
+          { name: 'Troy Temple', cost: 80, description: 'Sacred temple' },
+          { name: 'Troy Citadel', cost: 88, description: 'Inner fortress' },
+          { name: 'Troy Armory', cost: 75, description: 'Weapons store' },
+          { name: 'Troy Market', cost: 70, description: 'Trade hub' },
+          { name: 'Troy Barracks', cost: 72, description: 'Soldier quarters' },
+          { name: 'Troy Treasury', cost: 78, description: 'War funds' }
         ],
         characters: [
           {
@@ -7632,11 +7632,11 @@ const SCENARIOS = {
         color: '#8b0000',
         description: 'Seeking power and control through deception',
         territories: [
-          { name: 'Southern Isles', cost: 80, description: 'Hans\' homeland' },
-          { name: 'Dark Forest', cost: 70, description: 'Dangerous woods' },
+          { name: 'Southern Isles', cost: 80, description: 'Hans homeland' },
+          { name: 'Dark Forest', cost: 70, description: 'Dark woods' },
           { name: 'Frozen Fjord', cost: 75, description: 'Icy waterway' },
-          { name: 'Marshmallow\'s Cave', cost: 65, description: 'Snow monster\'s lair' },
-          { name: 'Wolves\' Den', cost: 60, description: 'Predator territory' }
+          { name: 'Marshmallow\'s Cave', cost: 65, description: 'Snow monster lair' },
+          { name: 'Wolves\' Den', cost: 60, description: 'Predator den' }
         ],
         characters: [
           {
