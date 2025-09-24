@@ -1397,16 +1397,16 @@ const SCENARIOS = {
         color: '#dc2626', // Red
         description: 'Supporters of Julius Caesar',
         territories: [
-          { name: 'Rome', cost: 25, description: 'Capital of the Roman Empire and power center' },
-          { name: 'Gaul', cost: 20, description: 'Caesar conquered territory and legion base' },
-          { name: 'Egypt', cost: 18, description: 'Allied with Cleopatra and grain source' },
-          { name: 'Spain', cost: 15, description: 'Roman province and silver mines' },
-          { name: 'Africa', cost: 12, description: 'Roman territory and grain supply' },
-          { name: 'Asia Minor', cost: 10, description: 'Eastern provinces and trade routes' },
-          { name: 'Caesar\'s Legions', cost: 22, description: 'Professional army and military force' },
-          { name: 'Caesar\'s Villa', cost: 16, description: 'Private residence and planning center' },
-          { name: 'Roman Navy', cost: 14, description: 'Naval fleet and maritime control' },
-          { name: 'Caesar\'s Treasury', cost: 18, description: 'Wealth storage and war funding' }
+          { name: 'Forum Romanum', cost: 25, description: 'Heart of Rome' },
+          { name: 'Gaul', cost: 20, description: 'Legion base' },
+          { name: 'Alexandria Harbor', cost: 18, description: 'Cleopatra\'s ally port' },
+          { name: 'Hispania Legions', cost: 15, description: 'Western legions' },
+          { name: 'Africa Proconsularis', cost: 12, description: 'Grain source' },
+          { name: 'Asia Province', cost: 10, description: 'Eastern trade' },
+          { name: 'Caesar\'s Legions', cost: 22, description: 'Veteran army' },
+          { name: 'Domus Caesaris', cost: 16, description: 'Caesar\'s villa' },
+          { name: 'Roman Navy', cost: 14, description: 'Mare Nostrum' },
+          { name: 'Aerarium', cost: 18, description: 'State treasury' }
         ],
         characters: [
           {
@@ -2048,16 +2048,16 @@ const SCENARIOS = {
         color: '#dc2626', // Red
         description: 'The ruling class who exploit the other animals',
         territories: [
-          { name: 'Farmhouse', cost: 20, description: 'Former human residence and pig headquarters' },
-          { name: 'Barn', cost: 15, description: 'Meeting place and shelter' },
-          { name: 'Windmill', cost: 18, description: 'Symbol of progress and power source' },
-          { name: 'Orchard', cost: 12, description: 'Apple trees and luxury food source' },
-          { name: 'Hayfield', cost: 10, description: 'Grazing area and food production' },
-          { name: 'Pig Pen', cost: 8, description: 'Pig quarters and breeding ground' },
-          { name: 'Command Center', cost: 16, description: 'Pig planning and control room' },
-          { name: 'Propaganda Office', cost: 14, description: 'Information control and manipulation' },
-          { name: 'Pig Treasury', cost: 12, description: 'Wealth storage and resource control' },
-          { name: 'Guard Dogs', cost: 10, description: 'Enforcement and intimidation force' }
+          { name: 'Farmhouse HQ', cost: 20, description: 'Pig command' },
+          { name: 'Big Barn Hall', cost: 15, description: 'Meetings' },
+          { name: 'The Windmill', cost: 18, description: 'Power project' },
+          { name: 'Apple Orchard', cost: 12, description: 'Milk & apples' },
+          { name: 'Hayfield Store', cost: 10, description: 'Rations' },
+          { name: 'Napoleon\'s Pen', cost: 8, description: 'Leader quarters' },
+          { name: 'Command Shed', cost: 16, description: 'Plans & orders' },
+          { name: 'Squealer\'s Office', cost: 14, description: 'Propaganda' },
+          { name: 'Pigs\' Larder', cost: 12, description: 'Luxuries' },
+          { name: 'Kennel Guard', cost: 10, description: 'Dogs' }
         ],
         characters: [
           {
