@@ -10,6 +10,7 @@ const SCENARIOS = {
     name: 'American Revolutionary War (1775-1783)',
     type: 'historical',
     description: 'The founding of the United States through revolution against British rule.',
+    factionOrder: ['patriots','british'],
     factions: {
       patriots: {
         name: 'Patriots',
@@ -448,16 +449,16 @@ const SCENARIOS = {
         color: '#dc2626', // Red
         description: 'British forces maintaining colonial control',
         territories: [
-          { name: 'London', cost: 25, description: 'Capital of the British Empire and command center' },
-          { name: 'New York Harbor', cost: 20, description: 'British naval base and occupied city' },
-          { name: 'Charleston Harbor', cost: 18, description: 'Southern British stronghold and port' },
-          { name: 'Quebec', cost: 15, description: 'Northern British territory and fortress' },
-          { name: 'Halifax', cost: 12, description: 'Nova Scotia naval base and supply depot' },
-          { name: 'Bermuda', cost: 10, description: 'Atlantic naval station and blockade base' },
-          { name: 'British Fleet', cost: 22, description: 'Royal Navy armada and blockade force' },
-          { name: 'Fort Ticonderoga', cost: 14, description: 'Strategic fortress and artillery position' },
-          { name: 'Loyalist Strongholds', cost: 11, description: 'Tory settlements and British supporters' },
-          { name: 'Caribbean Bases', cost: 13, description: 'Sugar islands and naval supply stations' }
+          { name: 'London', cost: 25, description: 'Imperial command' },
+          { name: 'New York (Occupied)', cost: 20, description: 'British stronghold' },
+          { name: 'Charleston (Occupied)', cost: 18, description: 'Southern port' },
+          { name: 'Quebec', cost: 15, description: 'Crown fortress' },
+          { name: 'Halifax', cost: 12, description: 'Royal Navy base' },
+          { name: 'Bermuda', cost: 10, description: 'Blockade station' },
+          { name: 'Royal Navy', cost: 22, description: 'Blockade force' },
+          { name: 'Fort Ticonderoga', cost: 14, description: 'Strategic fortress' },
+          { name: 'Loyalist Counties', cost: 11, description: 'Tory support' },
+          { name: 'Caribbean Bases', cost: 13, description: 'Sugar islands & supplies' }
         ],
         characters: [
           {
