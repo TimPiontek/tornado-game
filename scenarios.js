@@ -3421,16 +3421,16 @@ const SCENARIOS = {
         color: '#8b0000',
         description: 'Seeking power and destruction',
         territories: [
-          { name: 'Titan', cost: 90, description: 'Thanos\' home planet and command center' },
-          { name: 'Hydra Base', cost: 80, description: 'Evil organization headquarters and training' },
-          { name: 'Vormir', cost: 85, description: 'Planet of the soul stone and sacrifice' },
-          { name: 'Sakaar', cost: 75, description: 'Planet of gladiators and Grandmaster\'s domain' },
-          { name: 'Knowhere', cost: 70, description: 'Criminal space station and black market' },
-          { name: 'Dark Dimension', cost: 95, description: 'Dormammu\'s realm and mystical stronghold' },
-          { name: 'Hydra Island', cost: 75, description: 'Secret base and weapon development' },
-          { name: 'Chitauri Territory', cost: 80, description: 'Alien invasion force and army' },
-          { name: 'Ultron\'s Base', cost: 85, description: 'AI stronghold and robot factory' },
-          { name: 'Loki\'s Domain', cost: 70, description: 'Trickster\'s realm and illusion stronghold' }
+          { name: 'Titan', cost: 90, description: 'Thanos world' },
+          { name: 'Hydra Base', cost: 80, description: 'Hydra HQ' },
+          { name: 'Vormir', cost: 85, description: 'Soul stone world' },
+          { name: 'Sakaar', cost: 75, description: 'Gladiator world' },
+          { name: 'Knowhere', cost: 70, description: 'Outlaw station' },
+          { name: 'Dark Dimension', cost: 95, description: 'Dormammu realm' },
+          { name: 'Hydra Island', cost: 75, description: 'Secret base' },
+          { name: 'Chitauri Space', cost: 80, description: 'Invasion force' },
+          { name: 'Ultron Base', cost: 85, description: 'AI foundry' },
+          { name: 'Loki Domain', cost: 70, description: 'Illusion realm' }
         ],
         characters: [
           {
