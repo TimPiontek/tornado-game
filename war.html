@@ -2832,11 +2832,29 @@
         }
 
         if (!hasPreferred && preferences.length > 0) {
-          // Look for an unowned tile in the same region that has a preferred territory name
+          // Determine which board region (left/right) belongs to this student's faction
+          let allowedRegionX = null; // 0 = left, 1 = center (neutral only), 2 = right
+          if (state.regionFactionMap && state.regionFactionMap[0] === student.teamId) {
+            allowedRegionX = 0;
+          } else if (state.regionFactionMap && state.regionFactionMap[2] === student.teamId) {
+            allowedRegionX = 2;
+          }
+
+          const regionSize = Math.max(2, Math.floor(Math.min(state.board.w, state.board.h) / 3));
+
+          // Look for an unowned tile on the student's side (or neutral center if the preferred territory is neutral)
           const candidate = state.board.tiles.find(t => {
             if (t.owner_game_student_id) return false;
             const td = getTerritoryForTile(t, state.scenario);
-            return td && preferences.includes(td.name);
+            if (!td || !preferences.includes(td.name)) return false;
+            const regionX = Math.floor(t.x / regionSize);
+            if (td.factionId === 'neutral') {
+              // Neutral preferred tiles must be in the center band
+              return regionX === 1;
+            }
+            // Non-neutral preferred tiles must be on the student's faction side
+            if (allowedRegionX === null) return false;
+            return regionX === allowedRegionX;
           });
           if (candidate) {
             // Reassign one of the student's tiles to the preferred spot
