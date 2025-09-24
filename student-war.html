@@ -1861,8 +1861,51 @@
         }
       }
       
-      // Get team color - use team color if available, otherwise use individual color
-      const teamColor = student.teamColor || state.colors.get(student.gsId);
+      // Get team color - prioritize team color over individual color
+      let teamColor = student.teamColor;
+      if (!teamColor && state.scenario) {
+        // Try to get team color from scenario assignments if not set
+        const scenario = state.scenario;
+        let characterName = '';
+        
+        if (student.characterName) {
+          characterName = student.characterName;
+        } else if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[student.gsId]) {
+          characterName = scenario.manualRoleAssignments[student.gsId];
+        } else if (scenario.aiAssignments) {
+          const aiRole = Object.values(scenario.aiAssignments).find(ai => ai.studentId === student.gsId);
+          if (aiRole) {
+            characterName = aiRole.roleName || 'AI Character';
+          }
+        }
+        
+        if (characterName && scenario.scenarioId) {
+          const scenarioData = SCENARIOS[scenario.scenarioId];
+          if (scenarioData && scenarioData.factions) {
+            for (const [key, faction] of Object.entries(scenarioData.factions)) {
+              if (faction.characters) {
+                const character = faction.characters.find(char => char.name === characterName);
+                if (character) {
+                  teamColor = faction.color;
+                  break;
+                }
+              }
+              if (faction.generalRoles) {
+                const generalRole = faction.generalRoles.find(role => role.name === characterName);
+                if (generalRole) {
+                  teamColor = faction.color;
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      // Fallback to individual color if no team color found
+      if (!teamColor) {
+        teamColor = state.colors.get(student.gsId);
+      }
       const teamName = student.teamName || 'Student Mode';
       
       row.innerHTML = `
