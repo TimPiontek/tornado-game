@@ -7594,12 +7594,11 @@
             // Get all rosters that have teams from Tornado War
             const allRosters = getAllQuizRosters();
             const warRosters = allRosters.filter(roster => 
-                roster.teams && roster.teams.length > 0 && 
-                roster.scenario && roster.scenario.scenarioId
+                roster.teams && roster.teams.length > 0
             );
             
             if (warRosters.length === 0) {
-                alert('No Tornado War rosters with teams found. Please play some scenario games first to create teams!');
+                alert('No Tornado War rosters with teams found. Please create teams in Tornado War first!');
                 return;
             }
             
@@ -7725,16 +7724,25 @@
                 return;
             }
             
-            // Create a new roster data structure for the quiz
-            const quizRosterData = {
-                id: `quiz_${Date.now()}`,
-                name: `${warRoster.name} (Quiz Teams)`,
-                roster: warRoster.roster || [],
-                teams: warRoster.teams,
-                teamMode: true,
-                migratedFrom: rosterId,
-                lastModified: new Date().toISOString()
-            };
+            // Update the current quiz roster data with team information
+            if (quizRosterData) {
+                quizRosterData.teams = warRoster.teams;
+                quizRosterData.teamMode = true;
+                quizRosterData.migratedFrom = rosterId;
+                quizRosterData.lastModified = new Date().toISOString();
+                
+                // Assign students to teams based on the war roster
+                quizRosterData.roster.forEach(student => {
+                    const team = warRoster.teams.find(t => 
+                        t.students && t.students.includes(student.name)
+                    );
+                    if (team) {
+                        student.teamId = team.id;
+                        student.teamName = team.name;
+                        student.teamColor = team.color;
+                    }
+                });
+            }
             
             // Create team assignment for the quiz
             const teamAssignment = {
@@ -7981,6 +7989,23 @@
                                 flex: 1;
                                 min-width: 150px;
                             ">Manual Teams</button>
+
+                            <button id="migrateWarTeamsBtn" style="
+                                background: #dc2626;
+                                color: white;
+                                border: none;
+                                padding: 1rem 1.5rem;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-size: 1rem;
+                                font-weight: 600;
+                                flex: 1;
+                                min-width: 150px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                gap: 0.5rem;
+                            ">⚔️ Import War Teams</button>
                         </div>
                     </div>
                     
@@ -8007,6 +8032,11 @@
             
             document.getElementById('manualTeamsBtn').addEventListener('click', () => {
                 showManualTeamsContent();
+            });
+            
+            document.getElementById('migrateWarTeamsBtn').addEventListener('click', () => {
+                document.body.removeChild(modal);
+                showWarTeamMigrationModal();
             });
             
             // Close modal when clicking outside

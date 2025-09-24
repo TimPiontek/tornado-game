@@ -18557,7 +18557,7 @@ const SCENARIOS = {
           { name: 'Lucas Oil', cost: 78, description: 'Colts' }
         ],
         characters: [
-          { name: 'Tom Brady', role: 'QB', startingCoins: 120, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'winner', quotes: ['Let's go!', 'One more.'], description: 'Patriots legend.' },
+          { name: 'Tom Brady', role: 'QB', startingCoins: 120, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'winner', quotes: ['Let\'s go!', 'One more.'], description: 'Patriots legend.' },
           { name: 'Peyton Manning', role: 'QB', startingCoins: 115, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'cerebral', quotes: ['Omaha!', 'Let\'s go!'], description: 'Colts/Broncos legend.' },
           { name: 'Ray Lewis', role: 'LB', startingCoins: 110, startingWeapons: ['tackle'], startingMercenaries: 3, startingCastles: 1, personality: 'intense', quotes: ['Defense!', 'Ravens!'], description: 'Ravens linebacker.' },
           { name: 'Antonio Brown', role: 'WR', startingCoins: 105, startingWeapons: ['catch'], startingMercenaries: 2, startingCastles: 1, personality: 'flashy', quotes: ['Mr. Big Chest', 'AB!'], description: 'Steelers receiver.' },
