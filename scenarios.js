@@ -18561,7 +18561,17 @@ const SCENARIOS = {
           { name: 'Peyton Manning', role: 'QB', startingCoins: 115, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'cerebral', quotes: ['Omaha!', 'Let\'s go!'], description: 'Colts/Broncos legend.' },
           { name: 'Ray Lewis', role: 'LB', startingCoins: 110, startingWeapons: ['tackle'], startingMercenaries: 3, startingCastles: 1, personality: 'intense', quotes: ['Defense!', 'Ravens!'], description: 'Ravens linebacker.' },
           { name: 'Antonio Brown', role: 'WR', startingCoins: 105, startingWeapons: ['catch'], startingMercenaries: 2, startingCastles: 1, personality: 'flashy', quotes: ['Mr. Big Chest', 'AB!'], description: 'Steelers receiver.' },
-          { name: 'Travis Kelce', role: 'TE', startingCoins: 108, startingWeapons: ['catch'], startingMercenaries: 2, startingCastles: 1, personality: 'energetic', quotes: ['Chiefs!', 'Let\'s go!'], description: 'Chiefs tight end.' }
+          { name: 'Travis Kelce', role: 'TE', startingCoins: 108, startingWeapons: ['catch'], startingMercenaries: 2, startingCastles: 1, personality: 'energetic', quotes: ['Chiefs!', 'Let\'s go!'], description: 'Chiefs tight end.' },
+          { name: 'Patrick Mahomes', role: 'QB', startingCoins: 118, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'dynamic', quotes: ['Chiefs Kingdom!', 'Let\'s go!'], description: 'Chiefs quarterback.' },
+          { name: 'Josh Allen', role: 'QB', startingCoins: 112, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'powerful', quotes: ['Bills Mafia!', 'Let\'s go!'], description: 'Bills quarterback.' },
+          { name: 'Derrick Henry', role: 'RB', startingCoins: 110, startingWeapons: ['run'], startingMercenaries: 2, startingCastles: 1, personality: 'dominant', quotes: ['Titans!', 'King Henry!'], description: 'Titans running back.' },
+          { name: 'Tyreek Hill', role: 'WR', startingCoins: 108, startingWeapons: ['speed'], startingMercenaries: 2, startingCastles: 1, personality: 'explosive', quotes: ['Cheetah!', 'Speed!'], description: 'Dolphins receiver.' },
+          { name: 'T.J. Watt', role: 'LB', startingCoins: 106, startingWeapons: ['sack'], startingMercenaries: 3, startingCastles: 1, personality: 'relentless', quotes: ['Steelers!', 'Defense!'], description: 'Steelers linebacker.' },
+          { name: 'Myles Garrett', role: 'DE', startingCoins: 104, startingWeapons: ['sack'], startingMercenaries: 3, startingCastles: 1, personality: 'dominant', quotes: ['Browns!', 'Defense!'], description: 'Browns defensive end.' },
+          { name: 'Davante Adams', role: 'WR', startingCoins: 107, startingWeapons: ['catch'], startingMercenaries: 2, startingCastles: 1, personality: 'precise', quotes: ['Raiders!', 'Route running!'], description: 'Raiders receiver.' },
+          { name: 'Stefon Diggs', role: 'WR', startingCoins: 105, startingWeapons: ['catch'], startingMercenaries: 2, startingCastles: 1, personality: 'clutch', quotes: ['Bills!', 'Diggs!'], description: 'Bills receiver.' },
+          { name: 'Nick Chubb', role: 'RB', startingCoins: 103, startingWeapons: ['run'], startingMercenaries: 2, startingCastles: 1, personality: 'steady', quotes: ['Browns!', 'Chubb!'], description: 'Browns running back.' },
+          { name: 'Quenton Nelson', role: 'OL', startingCoins: 102, startingWeapons: ['block'], startingMercenaries: 2, startingCastles: 1, personality: 'dominant', quotes: ['Colts!', 'Protection!'], description: 'Colts offensive lineman.' }
         ]
       },
       nfc: {
@@ -18580,7 +18590,17 @@ const SCENARIOS = {
           { name: 'Aaron Rodgers', role: 'QB', startingCoins: 118, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'confident', quotes: ['R-E-L-A-X', 'Run the table'], description: 'Packers quarterback.' },
           { name: 'Emmitt Smith', role: 'RB', startingCoins: 112, startingWeapons: ['run'], startingMercenaries: 2, startingCastles: 1, personality: 'determined', quotes: ['Cowboys!', 'Let\'s go!'], description: 'Cowboys running back.' },
           { name: 'Randy Moss', role: 'WR', startingCoins: 110, startingWeapons: ['catch'], startingMercenaries: 2, startingCastles: 1, personality: 'explosive', quotes: ['Straight cash!', 'Moss!'], description: 'Vikings receiver.' },
-          { name: 'Drew Brees', role: 'QB', startingCoins: 108, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'accurate', quotes: ['Who dat!', 'Saints!'], description: 'Saints quarterback.' }
+          { name: 'Drew Brees', role: 'QB', startingCoins: 108, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'accurate', quotes: ['Who dat!', 'Saints!'], description: 'Saints quarterback.' },
+          { name: 'Cooper Kupp', role: 'WR', startingCoins: 114, startingWeapons: ['catch'], startingMercenaries: 2, startingCastles: 1, personality: 'reliable', quotes: ['Rams!', 'Kupp!'], description: 'Rams receiver.' },
+          { name: 'Christian McCaffrey', role: 'RB', startingCoins: 111, startingWeapons: ['run'], startingMercenaries: 2, startingCastles: 1, personality: 'versatile', quotes: ['Panthers!', 'CMC!'], description: 'Panthers running back.' },
+          { name: 'DK Metcalf', role: 'WR', startingCoins: 109, startingWeapons: ['catch'], startingMercenaries: 2, startingCastles: 1, personality: 'physical', quotes: ['Seahawks!', 'Metcalf!'], description: 'Seahawks receiver.' },
+          { name: 'Micah Parsons', role: 'LB', startingCoins: 107, startingWeapons: ['tackle'], startingMercenaries: 3, startingCastles: 1, personality: 'explosive', quotes: ['Cowboys!', 'Defense!'], description: 'Cowboys linebacker.' },
+          { name: 'Justin Jefferson', role: 'WR', startingCoins: 113, startingWeapons: ['catch'], startingMercenaries: 2, startingCastles: 1, personality: 'dynamic', quotes: ['Vikings!', 'JJ!'], description: 'Vikings receiver.' },
+          { name: 'Saquon Barkley', role: 'RB', startingCoins: 106, startingWeapons: ['run'], startingMercenaries: 2, startingCastles: 1, personality: 'elusive', quotes: ['Giants!', 'Saquon!'], description: 'Giants running back.' },
+          { name: 'DeAndre Hopkins', role: 'WR', startingCoins: 108, startingWeapons: ['catch'], startingMercenaries: 2, startingCastles: 1, personality: 'clutch', quotes: ['Cardinals!', 'Nuk!'], description: 'Cardinals receiver.' },
+          { name: 'Aaron Donald', role: 'DT', startingCoins: 110, startingWeapons: ['sack'], startingMercenaries: 3, startingCastles: 1, personality: 'dominant', quotes: ['Rams!', 'Defense!'], description: 'Rams defensive tackle.' },
+          { name: 'George Kittle', role: 'TE', startingCoins: 105, startingWeapons: ['catch'], startingMercenaries: 2, startingCastles: 1, personality: 'energetic', quotes: ['49ers!', 'Kittle!'], description: '49ers tight end.' },
+          { name: 'Russell Wilson', role: 'QB', startingCoins: 109, startingWeapons: ['football'], startingMercenaries: 2, startingCastles: 1, personality: 'mobile', quotes: ['Broncos!', 'Let\'s ride!'], description: 'Broncos quarterback.' }
         ]
       }
     },
@@ -18615,7 +18635,17 @@ const SCENARIOS = {
           { name: 'Luka Modrić', role: 'Midfielder', startingCoins: 115, startingWeapons: ['pass'], startingMercenaries: 2, startingCastles: 1, personality: 'elegant', quotes: ['Real Madrid!'], description: 'Croatia midfielder.' },
           { name: 'Robert Lewandowski', role: 'Forward', startingCoins: 112, startingWeapons: ['shot'], startingMercenaries: 2, startingCastles: 1, personality: 'clinical', quotes: ['Bayern!'], description: 'Poland striker.' },
           { name: 'Virgil van Dijk', role: 'Defender', startingCoins: 108, startingWeapons: ['tackle'], startingMercenaries: 3, startingCastles: 1, personality: 'commanding', quotes: ['Liverpool!'], description: 'Netherlands defender.' },
-          { name: 'Kevin De Bruyne', role: 'Midfielder', startingCoins: 110, startingWeapons: ['pass'], startingMercenaries: 2, startingCastles: 1, personality: 'creative', quotes: ['City!'], description: 'Belgium midfielder.' }
+          { name: 'Kevin De Bruyne', role: 'Midfielder', startingCoins: 110, startingWeapons: ['pass'], startingMercenaries: 2, startingCastles: 1, personality: 'creative', quotes: ['City!'], description: 'Belgium midfielder.' },
+          { name: 'Kylian Mbappé', role: 'Forward', startingCoins: 118, startingWeapons: ['speed'], startingMercenaries: 2, startingCastles: 1, personality: 'explosive', quotes: ['PSG!'], description: 'France forward.' },
+          { name: 'Erling Haaland', role: 'Forward', startingCoins: 116, startingWeapons: ['shot'], startingMercenaries: 2, startingCastles: 1, personality: 'powerful', quotes: ['City!'], description: 'Norway striker.' },
+          { name: 'Jude Bellingham', role: 'Midfielder', startingCoins: 114, startingWeapons: ['pass'], startingMercenaries: 2, startingCastles: 1, personality: 'dynamic', quotes: ['Real Madrid!'], description: 'England midfielder.' },
+          { name: 'Manuel Neuer', role: 'Goalkeeper', startingCoins: 109, startingWeapons: ['save'], startingMercenaries: 3, startingCastles: 1, personality: 'commanding', quotes: ['Bayern!'], description: 'Germany goalkeeper.' },
+          { name: 'Marco Verratti', role: 'Midfielder', startingCoins: 107, startingWeapons: ['pass'], startingMercenaries: 2, startingCastles: 1, personality: 'technical', quotes: ['PSG!'], description: 'Italy midfielder.' },
+          { name: 'Antoine Griezmann', role: 'Forward', startingCoins: 105, startingWeapons: ['shot'], startingMercenaries: 2, startingCastles: 1, personality: 'versatile', quotes: ['Atletico!'], description: 'France forward.' },
+          { name: 'Thibaut Courtois', role: 'Goalkeeper', startingCoins: 106, startingWeapons: ['save'], startingMercenaries: 3, startingCastles: 1, personality: 'reliable', quotes: ['Real Madrid!'], description: 'Belgium goalkeeper.' },
+          { name: 'Joshua Kimmich', role: 'Midfielder', startingCoins: 108, startingWeapons: ['pass'], startingMercenaries: 2, startingCastles: 1, personality: 'versatile', quotes: ['Bayern!'], description: 'Germany midfielder.' },
+          { name: 'Sergio Ramos', role: 'Defender', startingCoins: 104, startingWeapons: ['tackle'], startingMercenaries: 3, startingCastles: 1, personality: 'leader', quotes: ['Real Madrid!'], description: 'Spain defender.' },
+          { name: 'Toni Kroos', role: 'Midfielder', startingCoins: 103, startingWeapons: ['pass'], startingMercenaries: 2, startingCastles: 1, personality: 'precise', quotes: ['Real Madrid!'], description: 'Germany midfielder.' }
         ]
       },
       americas: {
@@ -18634,7 +18664,17 @@ const SCENARIOS = {
           { name: 'Neymar Jr', role: 'Forward', startingCoins: 115, startingWeapons: ['skill'], startingMercenaries: 2, startingCastles: 1, personality: 'flamboyant', quotes: ['Brazil!'], description: 'Brazil forward.' },
           { name: 'Luis Suárez', role: 'Forward', startingCoins: 110, startingWeapons: ['bite'], startingMercenaries: 2, startingCastles: 1, personality: 'fiery', quotes: ['Uruguay!'], description: 'Uruguay striker.' },
           { name: 'Edinson Cavani', role: 'Forward', startingCoins: 108, startingWeapons: ['shot'], startingMercenaries: 2, startingCastles: 1, personality: 'powerful', quotes: ['Cavani!'], description: 'Uruguay forward.' },
-          { name: 'Christian Pulisic', role: 'Midfielder', startingCoins: 105, startingWeapons: ['pace'], startingMercenaries: 2, startingCastles: 1, personality: 'energetic', quotes: ['USA!'], description: 'American midfielder.' }
+          { name: 'Christian Pulisic', role: 'Midfielder', startingCoins: 105, startingWeapons: ['pace'], startingMercenaries: 2, startingCastles: 1, personality: 'energetic', quotes: ['USA!'], description: 'American midfielder.' },
+          { name: 'Gabriel Jesus', role: 'Forward', startingCoins: 112, startingWeapons: ['shot'], startingMercenaries: 2, startingCastles: 1, personality: 'clinical', quotes: ['Brazil!'], description: 'Brazil forward.' },
+          { name: 'Casemiro', role: 'Midfielder', startingCoins: 109, startingWeapons: ['tackle'], startingMercenaries: 3, startingCastles: 1, personality: 'defensive', quotes: ['Brazil!'], description: 'Brazil midfielder.' },
+          { name: 'Alisson', role: 'Goalkeeper', startingCoins: 107, startingWeapons: ['save'], startingMercenaries: 3, startingCastles: 1, personality: 'reliable', quotes: ['Brazil!'], description: 'Brazil goalkeeper.' },
+          { name: 'Paulo Dybala', role: 'Forward', startingCoins: 106, startingWeapons: ['shot'], startingMercenaries: 2, startingCastles: 1, personality: 'creative', quotes: ['Argentina!'], description: 'Argentina forward.' },
+          { name: 'Federico Valverde', role: 'Midfielder', startingCoins: 104, startingWeapons: ['pass'], startingMercenaries: 2, startingCastles: 1, personality: 'dynamic', quotes: ['Uruguay!'], description: 'Uruguay midfielder.' },
+          { name: 'Emiliano Martínez', role: 'Goalkeeper', startingCoins: 103, startingWeapons: ['save'], startingMercenaries: 3, startingCastles: 1, personality: 'confident', quotes: ['Argentina!'], description: 'Argentina goalkeeper.' },
+          { name: 'Richarlison', role: 'Forward', startingCoins: 101, startingWeapons: ['shot'], startingMercenaries: 2, startingCastles: 1, personality: 'energetic', quotes: ['Brazil!'], description: 'Brazil forward.' },
+          { name: 'Rodrigo De Paul', role: 'Midfielder', startingCoins: 102, startingWeapons: ['pass'], startingMercenaries: 2, startingCastles: 1, personality: 'versatile', quotes: ['Argentina!'], description: 'Argentina midfielder.' },
+          { name: 'Darwin Núñez', role: 'Forward', startingCoins: 100, startingWeapons: ['shot'], startingMercenaries: 2, startingCastles: 1, personality: 'powerful', quotes: ['Uruguay!'], description: 'Uruguay forward.' },
+          { name: 'Weston McKennie', role: 'Midfielder', startingCoins: 99, startingWeapons: ['pass'], startingMercenaries: 2, startingCastles: 1, personality: 'box-to-box', quotes: ['USA!'], description: 'American midfielder.' }
         ]
       }
     },
