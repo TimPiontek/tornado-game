@@ -19,14 +19,13 @@
     .panel { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:12px; }
     .title { font-size:14px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0 0 8px; }
     #gamesList { width: 100%; }
-    #roster { display:flex; flex-direction:column; gap:6px; max-height: calc(100vh - 220px); overflow:auto; }
-    .row { display:grid; grid-template-columns: 1fr auto; gap:4px; align-items:center; padding:3px 6px; border:1px solid var(--border); border-radius:8px; cursor:pointer; font-size:12px; }
-    .row-actions { display:flex; flex-wrap:wrap; gap:4px; justify-content:flex-end; }
+    #roster { display:flex; flex-direction:column; gap:3px; max-height: calc(100vh - 220px); overflow:auto; }
+    .row { display:grid; grid-template-columns: 1fr auto; gap:3px; align-items:center; padding:2px 4px; border:1px solid var(--border); border-radius:6px; cursor:pointer; font-size:11px; }
+    .row-actions { display:flex; flex-wrap:wrap; gap:2px; justify-content:flex-end; }
     .row.sel { outline:2px solid var(--accent) }
     .bal { font-variant-numeric: tabular-nums; }
-    .chip { padding:2px 6px; border:1px solid var(--border); border-radius:6px; font-size:11px; color:var(--muted) }
-    .plus { padding:2px 6px; border:1px solid var(--border); border-radius:6px; background:#12223a; cursor:pointer; font-size:11px }
-    #roster { display:flex; flex-direction:column; gap:4px; }
+    .chip { padding:1px 4px; border:1px solid var(--border); border-radius:4px; font-size:10px; color:var(--muted) }
+    .plus { padding:1px 3px; border:1px solid var(--border); border-radius:4px; background:#12223a; cursor:pointer; font-size:9px }
     #board { width:100%; height: 62vh; background:#0a1220; border:1px solid var(--border); border-radius:16px; overflow:hidden; }
     #grid { width:100%; height:100%; display:grid; gap: 3px; padding: 4px; box-sizing: border-box; }
     .cell { border:1px solid #0d1930; border-radius: 8px; display:flex; align-items:center; justify-content:center; font-size:11px; user-select:none; position:relative; box-shadow: inset 0 0 0 1px #00000020; overflow-wrap:anywhere; }
@@ -4016,29 +4015,31 @@
       const characterDisplay = characterName ? `<div style="font-size:11px; color:#8b5cf6; font-weight:600;">${characterName}</div>` : '';
       
       row.innerHTML = `
-        <div style="display:flex; gap:6px; align-items:center;">
-          <div style="width:10px;height:10px;border-radius:50%;background:${teamColor}; cursor:pointer;" 
+        <div style="display:flex; gap:4px; align-items:center;">
+          <div style="width:8px;height:8px;border-radius:50%;background:${teamColor}; cursor:pointer;" 
                onclick="changeTeamColor('${r.gsId}')" title="Click to change team color"></div>
           <div>
-          <div style="display: flex; align-items: center; gap: 4px;">${teamIndicator}${r.name}${characterName ? ` (${characterName})` : ''}</div>
+          <div style="display: flex; align-items: center; gap: 3px; font-size: 12px;">${teamIndicator}${r.name}${characterName ? ` (${characterName})` : ''}</div>
             ${teamInfo}
         </div>
         </div>
-        <div class="bal" title="Balance" style="display: flex; align-items: center; gap: 4px;">
+        <div class="bal" title="Balance" style="display: flex; align-items: center; gap: 3px;">
           <span>💰</span>
           <input type="number" value="${formatMoney(r.balance)}" 
-                 style="width: 60px; padding: 2px 4px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 12px;"
+                 style="width: 50px; padding: 1px 3px; border: 1px solid var(--border); border-radius: 3px; background: var(--panel); color: var(--text); font-size: 11px;"
                  onchange="updateStudentPoints('${r.gsId}', this.value)"
                  title="Click to edit points">
         </div>
-        <div class="chip" title="Tiles owned">🧩 ${r.tilesOwned}</div>
-        <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="1" style="background:#10b981; color:white;">+1</button>
-        <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="5" style="background:#3b82f6; color:white;">+5</button>
-        <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="10" style="background:#8b5cf6; color:white;">+10</button>
-        ${r.isAI ? `<button class="plus" onclick="takeAITurn('${r.gsId}')" style="background:#f59e0b; color:white;">🤖 AI</button>` : ''}
-        <button class="plus" data-gs="${r.gsId}" data-action="subtract" data-amount="1" style="background:#ef4444; color:white;">-1</button>
-        <button class="market-btn" data-gs="${r.gsId}" style="background:#f59e0b; color:white; font-size:10px; padding:2px 6px;" title="Student Market">🛒</button>
-        <button onclick="showEventCardModal()" class="event-btn" style="background:#8b5cf6; color:white; font-size:10px; padding:2px 6px; margin-left:2px;" title="Event Cards">🎲</button>
+        <div class="chip" title="Tiles owned" style="font-size:10px; padding:1px 4px;">🧩 ${r.tilesOwned}</div>
+        <div style="display: flex; gap: 2px; flex-wrap: wrap;">
+          <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="1" style="background:#10b981; color:white; font-size:9px; padding:1px 3px;">+1</button>
+          <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="5" style="background:#3b82f6; color:white; font-size:9px; padding:1px 3px;">+5</button>
+          <button class="plus" data-gs="${r.gsId}" data-action="add" data-amount="10" style="background:#8b5cf6; color:white; font-size:9px; padding:1px 3px;">+10</button>
+          ${r.isAI ? `<button class="plus" onclick="takeAITurn('${r.gsId}')" style="background:#f59e0b; color:white; font-size:9px; padding:1px 3px;">🤖 AI</button>` : ''}
+          <button class="plus" data-gs="${r.gsId}" data-action="subtract" data-amount="1" style="background:#ef4444; color:white; font-size:9px; padding:1px 3px;">-1</button>
+          <button class="market-btn" data-gs="${r.gsId}" style="background:#f59e0b; color:white; font-size:8px; padding:1px 3px;" title="Student Market">🛒</button>
+          <button onclick="showEventCardModal()" class="event-btn" style="background:#8b5cf6; color:white; font-size:8px; padding:1px 3px;" title="Event Cards">🎲</button>
+        </div>
       `;
       row.onclick = (e) => {
         if (e.target.classList.contains("plus") || e.target.classList.contains("market-btn")) return;
