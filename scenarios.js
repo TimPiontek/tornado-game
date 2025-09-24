@@ -1390,6 +1390,7 @@ const SCENARIOS = {
     name: 'Julius Caesar (Shakespeare)',
     type: 'literary',
     description: 'The tragedy of ambition, loyalty, and betrayal in ancient Rome.',
+    factionOrder: ['caesarians', 'republicans'],
     factions: {
       caesarians: {
         name: 'Caesarians',
@@ -2040,6 +2041,7 @@ const SCENARIOS = {
     name: 'Animal Farm (George Orwell)',
     type: 'literary',
     description: 'A farm where animals rebel against human oppression, only to face new tyranny.',
+    factionOrder: ['pigs', 'animals'],
     factions: {
       pigs: {
         name: 'Pigs',
@@ -3133,6 +3135,7 @@ const SCENARIOS = {
     name: 'Avengers',
     type: 'literary',
     description: 'Earth\'s mightiest heroes vs. supervillains',
+    factionOrder: ['avengers', 'villains'],
     factions: {
       avengers: {
         name: 'Avengers',
@@ -4392,6 +4395,7 @@ const SCENARIOS = {
     name: 'War of 1812',
     type: 'historical',
     description: 'The second war for American independence against British forces',
+    factionOrder: ['americans', 'british'],
     factions: {
       americans: {
         name: 'United States',
@@ -4956,6 +4960,7 @@ const SCENARIOS = {
     name: 'Mexican-American War',
     type: 'historical',
     description: 'The war that expanded American territory to the Pacific Ocean',
+    factionOrder: ['americans', 'mexicans'],
     factions: {
       americans: {
         name: 'United States',
@@ -5521,6 +5526,7 @@ const SCENARIOS = {
     name: '1984 (George Orwell)',
     type: 'literary',
     description: 'The battle between individual freedom and totalitarian control',
+    factionOrder: ['rebels', 'party'],
     factions: {
       rebels: {
         name: 'Rebels & Proles',
@@ -6204,6 +6210,7 @@ const SCENARIOS = {
     name: 'The Iliad (Homer)',
     type: 'literary',
     description: 'The epic battle between Greeks and Trojans over Helen of Troy',
+    factionOrder: ['greeks', 'trojans'],
     factions: {
       greeks: {
         name: 'Greeks (Achaeans)',
@@ -6779,6 +6786,7 @@ const SCENARIOS = {
     name: 'DC vs Marvel',
     type: 'literary',
     description: 'The ultimate battle between DC and Marvel superheroes',
+    factionOrder: ['dc', 'marvel'],
     factions: {
       dc: {
         name: 'DC Heroes',
@@ -7343,6 +7351,7 @@ const SCENARIOS = {
     name: 'Frozen',
     type: 'literary',
     description: 'The magical battle between ice and fire in Arendelle',
+    factionOrder: ['elsa', 'hans'],
     factions: {
       elsa: {
         name: 'Elsa & Allies',
@@ -7908,6 +7917,7 @@ const SCENARIOS = {
     name: 'Spanish-American War',
     type: 'historical',
     description: 'The war that established the United States as a world power',
+    factionOrder: ['americans', 'spanish'],
     factions: {
       americans: {
         name: 'United States',
@@ -8473,6 +8483,7 @@ const SCENARIOS = {
     name: 'Dune',
     type: 'literary',
     description: 'The epic battle for control of the desert planet Arrakis and its precious spice',
+    factionOrder: ['atreides', 'harkonnen'],
     factions: {
       atreides: {
         name: 'House Atreides',
@@ -9037,6 +9048,7 @@ const SCENARIOS = {
     name: 'Minions',
     type: 'literary',
     description: 'The chaotic battle between minions and their various masters',
+    factionOrder: ['minions', 'villains'],
     factions: {
       minions: {
         name: 'Minions',
@@ -9602,6 +9614,7 @@ const SCENARIOS = {
     name: 'Toy Story',
     type: 'literary',
     description: 'The battle between toys and their quest for belonging',
+    factionOrder: ['toys', 'villains'],
     factions: {
       toys: {
         name: 'Andy\'s Toys',
@@ -9688,6 +9701,7 @@ const SCENARIOS = {
     name: 'Moana',
     type: 'literary',
     description: 'The journey to restore the heart of Te Fiti and save the ocean',
+    factionOrder: ['moana', 'teka'],
     factions: {
       moana: {
         name: 'Moana & Allies',
@@ -9771,6 +9785,7 @@ const SCENARIOS = {
     name: 'The Crusades',
     type: 'historical',
     description: 'The religious wars between Christians and Muslims for control of the Holy Land',
+    factionOrder: ['christians', 'muslims'],
     factions: {
       christians: {
         name: 'Christian Crusaders',
@@ -10573,6 +10588,7 @@ const SCENARIOS = {
     name: 'Hundred Years\' War',
     type: 'historical',
     description: 'The long conflict between England and France for control of the French throne',
+    factionOrder: ['england', 'france'],
     factions: {
       england: {
         name: 'Kingdom of England',
@@ -11103,6 +11119,7 @@ const SCENARIOS = {
     name: 'Russian Civil War',
     type: 'historical',
     description: 'The conflict between the Red Army and White Army for control of Russia',
+    factionOrder: ['reds', 'whites'],
     factions: {
       reds: {
         name: 'Red Army (Bolsheviks)',
@@ -11633,6 +11650,7 @@ const SCENARIOS = {
     name: 'World War 1',
     type: 'historical',
     description: 'The Great War between the Allied Powers and Central Powers.',
+    factionOrder: ['alliedPowers', 'centralPowers'],
     factions: {
       alliedPowers: {
         name: 'Allied Powers',
@@ -12108,6 +12126,7 @@ const SCENARIOS = {
     name: 'Spanish Civil War',
     type: 'historical',
     description: 'The conflict between Republicans and Nationalists for control of Spain',
+    factionOrder: ['republicans', 'nationalists'],
     factions: {
       republicans: {
         name: 'Republican Government',
