@@ -2112,6 +2112,7 @@
           // Load the scenario with the roster's character assignments
           state.scenario = {
             ...scenario,
+            scenarioId: scenarioId, // Add the scenarioId so assignTeamsFromCharacters can find it
             manualRoleAssignments: rosterScenario.manualRoleAssignments || {},
             aiAssignments: rosterScenario.aiAssignments || {}
           };
@@ -2166,7 +2167,10 @@
         console.log(`Auto-loading scenario ${scenarioId} based on characters:`, matches);
         
         // Load the scenario automatically
-        state.scenario = scenario;
+        state.scenario = {
+          ...scenario,
+          scenarioId: scenarioId // Add the scenarioId for consistency
+        };
         updateScenarioDisplay(scenario.name, scenario.description, scenario.factions);
         
         // Assign characters to any students who don't have them
