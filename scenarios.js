@@ -18540,6 +18540,154 @@ const AI_PERSONALITIES = {
     description: 'Pursues personal gain above all',
     behaviors: ['economic', 'offensive', 'strategic'],
     moveFrequency: 0.8
+  },
+
+  // FORTNITE VS MINECRAFT
+  fortniteVsMinecraft: {
+    id: 'fortniteVsMinecraft',
+    name: 'Fortnite vs Minecraft',
+    type: 'gaming',
+    description: 'The ultimate battle between Fortnite and Minecraft universes',
+    factionOrder: ['fortnite', 'minecraft'],
+    factions: {
+      fortnite: {
+        name: 'Fortnite',
+        color: '#ff6b6b',
+        description: 'Battle royale champions',
+        territories: [
+          { name: 'Tilted Towers', cost: 100, description: 'Skyscraper city' },
+          { name: 'Pleasant Park', cost: 90, description: 'Suburban area' },
+          { name: 'Retail Row', cost: 85, description: 'Shopping district' },
+          { name: 'Dusty Depot', cost: 80, description: 'Industrial zone' },
+          { name: 'Loot Lake', cost: 95, description: 'Central lake' }
+        ],
+        characters: [
+          {
+            name: 'Jonesy',
+            role: 'Default Skin',
+            startingCoins: 100,
+            startingWeapons: ['assault rifle'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'aggressive',
+            quotes: [
+              "Victory Royale!",
+              "Let's build!",
+              "Time to fight!"
+            ],
+            description: 'The iconic Fortnite default skin'
+          }
+        ]
+      },
+      minecraft: {
+        name: 'Minecraft',
+        color: '#4ecdc4',
+        description: 'Block-building masters',
+        territories: [
+          { name: 'Spawn Point', cost: 100, description: 'Starting area' },
+          { name: 'Village', cost: 90, description: 'NPC settlement' },
+          { name: 'Mineshaft', cost: 85, description: 'Underground tunnels' },
+          { name: 'Nether Portal', cost: 95, description: 'Hell dimension' },
+          { name: 'End Portal', cost: 100, description: 'Final dimension' }
+        ],
+        characters: [
+          {
+            name: 'Steve',
+            role: 'Player Character',
+            startingCoins: 100,
+            startingWeapons: ['diamond sword'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'creative',
+            quotes: [
+              "Minecraft!",
+              "Time to mine!",
+              "Let's build!"
+            ],
+            description: 'The iconic Minecraft player character'
+          }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Creative Mode', cost: 80, description: 'Unlimited resources' },
+      { name: 'Survival Mode', cost: 70, description: 'Hardcore challenge' },
+      { name: 'Battle Arena', cost: 90, description: 'PvP zone' }
+    ]
+  },
+
+  // ROMAN MYTHOLOGY
+  romanMythology: {
+    id: 'romanMythology',
+    name: 'Roman Mythology',
+    type: 'mythology',
+    description: 'The battle between Roman gods and their enemies',
+    factionOrder: ['gods', 'titans'],
+    factions: {
+      gods: {
+        name: 'Roman Gods',
+        color: '#ffd700',
+        description: 'Olympian deities of Rome',
+        territories: [
+          { name: 'Mount Olympus', cost: 100, description: 'Divine realm' },
+          { name: 'Jupiter\'s Temple', cost: 95, description: 'King of gods' },
+          { name: 'Mars\' Arena', cost: 90, description: 'War god\'s domain' },
+          { name: 'Venus\' Garden', cost: 85, description: 'Love goddess' },
+          { name: 'Neptune\'s Palace', cost: 80, description: 'Sea god' }
+        ],
+        characters: [
+          {
+            name: 'Jupiter',
+            role: 'King of Gods',
+            startingCoins: 120,
+            startingWeapons: ['thunderbolt'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'authoritative',
+            quotes: [
+              "I am Jupiter!",
+              "Bow before me!",
+              "Thunder and lightning!"
+            ],
+            description: 'King of the Roman gods'
+          }
+        ]
+      },
+      titans: {
+        name: 'Titans',
+        color: '#8b0000',
+        description: 'Ancient primordial beings',
+        territories: [
+          { name: 'Tartarus', cost: 100, description: 'Underworld prison' },
+          { name: 'Titan\'s Lair', cost: 95, description: 'Ancient stronghold' },
+          { name: 'Chaos Realm', cost: 90, description: 'Primordial void' },
+          { name: 'Gaia\'s Domain', cost: 85, description: 'Earth mother' },
+          { name: 'Uranus\' Sky', cost: 80, description: 'Sky father' }
+        ],
+        characters: [
+          {
+            name: 'Saturn',
+            role: 'Titan King',
+            startingCoins: 110,
+            startingWeapons: ['scythe'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'vengeful',
+            quotes: [
+              "I am Saturn!",
+              "Revenge is mine!",
+              "The old ways return!"
+            ],
+            description: 'King of the Titans'
+          }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Roman Forum', cost: 80, description: 'Center of worship' },
+      { name: 'Colosseum', cost: 75, description: 'Battle arena' },
+      { name: 'Pantheon', cost: 85, description: 'Temple of all gods' }
+    ]
   }
 };
 
