@@ -10,6 +10,11 @@ const SCENARIOS = {
     name: 'American Revolutionary War (1775-1783)',
     type: 'historical',
     description: 'The founding of the United States through revolution against British rule.',
+    inspirationalQuote: {
+      text: "The harder the conflict, the more glorious the triumph. What we obtain too cheap, we esteem too lightly.",
+      author: "Thomas Paine",
+      context: "American Revolutionary writer and philosopher"
+    },
     factionOrder: ['patriots','british'],
     factions: {
       patriots: {
@@ -840,6 +845,11 @@ const SCENARIOS = {
     name: 'American Civil War (1861-1865)',
     type: 'historical',
     description: 'The war that ended slavery and preserved the Union.',
+    inspirationalQuote: {
+      text: "With malice toward none, with charity for all, with firmness in the right as God gives us to see the right.",
+      author: "Abraham Lincoln",
+      context: "16th President of the United States, Second Inaugural Address"
+    },
     factionOrder: ['union','confederacy'],
     factions: {
       union: {
@@ -1390,6 +1400,11 @@ const SCENARIOS = {
     name: 'Julius Caesar (Shakespeare)',
     type: 'literary',
     description: 'The tragedy of ambition, loyalty, and betrayal in ancient Rome.',
+    inspirationalQuote: {
+      text: "Cowards die many times before their deaths; the valiant never taste of death but once.",
+      author: "William Shakespeare",
+      context: "Julius Caesar, Act II, Scene II"
+    },
     factionOrder: ['caesarians', 'republicans'],
     factions: {
       caesarians: {
@@ -2041,6 +2056,11 @@ const SCENARIOS = {
     name: 'Animal Farm (George Orwell)',
     type: 'literary',
     description: 'A farm where animals rebel against human oppression, only to face new tyranny.',
+    inspirationalQuote: {
+      text: "All animals are equal, but some animals are more equal than others.",
+      author: "George Orwell",
+      context: "Animal Farm"
+    },
     factionOrder: ['pigs', 'animals'],
     factions: {
       pigs: {
@@ -2591,6 +2611,11 @@ const SCENARIOS = {
     name: 'Harry Potter',
     type: 'literary',
     description: 'The battle between Harry Potter and his friends against Voldemort and the Death Eaters',
+    inspirationalQuote: {
+      text: "It is our choices, Harry, that show what we truly are, far more than our abilities.",
+      author: "J.K. Rowling",
+      context: "Harry Potter and the Chamber of Secrets"
+    },
     factionOrder: ['harryPotter', 'deathEaters'],
     factions: {
       harryPotter: {
@@ -3135,6 +3160,11 @@ const SCENARIOS = {
     name: 'Avengers',
     type: 'literary',
     description: 'Earth\'s mightiest heroes vs. supervillains',
+    inspirationalQuote: {
+      text: "There was an idea to bring together a group of remarkable people, to see if they could become something more.",
+      author: "Nick Fury",
+      context: "Marvel's The Avengers"
+    },
     factionOrder: ['avengers', 'villains'],
     factions: {
       avengers: {
@@ -3710,6 +3740,11 @@ const SCENARIOS = {
     name: 'Star Wars',
     type: 'literary',
     description: 'The eternal battle between the light and dark sides of the Force',
+    inspirationalQuote: {
+      text: "Do or do not, there is no try.",
+      author: "Yoda",
+      context: "Star Wars: The Empire Strikes Back"
+    },
     factionOrder: ['rebels','empire'],
     factions: {
       rebels: {
@@ -4395,6 +4430,11 @@ const SCENARIOS = {
     name: 'War of 1812',
     type: 'historical',
     description: 'The second war for American independence against British forces',
+    inspirationalQuote: {
+      text: "We have met the enemy and they are ours.",
+      author: "Oliver Hazard Perry",
+      context: "American naval commander after victory at Lake Erie"
+    },
     factionOrder: ['americans', 'british'],
     factions: {
       americans: {
@@ -4960,6 +5000,11 @@ const SCENARIOS = {
     name: 'Mexican-American War',
     type: 'historical',
     description: 'The war that expanded American territory to the Pacific Ocean',
+    inspirationalQuote: {
+      text: "From the halls of Montezuma to the shores of Tripoli.",
+      author: "Marines' Hymn",
+      context: "U.S. Marine Corps anthem"
+    },
     factionOrder: ['americans', 'mexicans'],
     factions: {
       americans: {
@@ -5526,6 +5571,11 @@ const SCENARIOS = {
     name: '1984 (George Orwell)',
     type: 'literary',
     description: 'The battle between individual freedom and totalitarian control',
+    inspirationalQuote: {
+      text: "Freedom is the freedom to say that two plus two make four.",
+      author: "George Orwell",
+      context: "1984"
+    },
     factionOrder: ['rebels', 'party'],
     factions: {
       rebels: {
@@ -6210,6 +6260,11 @@ const SCENARIOS = {
     name: 'The Iliad (Homer)',
     type: 'literary',
     description: 'The epic battle between Greeks and Trojans over Helen of Troy',
+    inspirationalQuote: {
+      text: "Sing, O goddess, the anger of Achilles son of Peleus.",
+      author: "Homer",
+      context: "The Iliad, opening line"
+    },
     factionOrder: ['greeks', 'trojans'],
     factions: {
       greeks: {
@@ -6786,6 +6841,11 @@ const SCENARIOS = {
     name: 'DC vs Marvel',
     type: 'literary',
     description: 'The ultimate battle between DC and Marvel superheroes',
+    inspirationalQuote: {
+      text: "With great power comes great responsibility.",
+      author: "Uncle Ben",
+      context: "Spider-Man"
+    },
     factionOrder: ['dc', 'marvel'],
     factions: {
       dc: {
@@ -7351,6 +7411,11 @@ const SCENARIOS = {
     name: 'Frozen',
     type: 'literary',
     description: 'The magical battle between ice and fire in Arendelle',
+    inspirationalQuote: {
+      text: "Let it go, let it go! Can't hold it back anymore.",
+      author: "Elsa",
+      context: "Frozen"
+    },
     factionOrder: ['elsa', 'hans'],
     factions: {
       elsa: {
@@ -8483,6 +8548,11 @@ const SCENARIOS = {
     name: 'Dune',
     type: 'literary',
     description: 'The epic battle for control of the desert planet Arrakis and its precious spice',
+    inspirationalQuote: {
+      text: "Fear is the mind-killer. Fear is the little-death that brings total obliteration.",
+      author: "Frank Herbert",
+      context: "Dune"
+    },
     factionOrder: ['atreides', 'harkonnen'],
     factions: {
       atreides: {
@@ -9048,6 +9118,11 @@ const SCENARIOS = {
     name: 'Minions',
     type: 'literary',
     description: 'The chaotic battle between minions and their various masters',
+    inspirationalQuote: {
+      text: "Banana!",
+      author: "Minions",
+      context: "Despicable Me"
+    },
     factionOrder: ['minions', 'villains'],
     factions: {
       minions: {
@@ -9614,6 +9689,11 @@ const SCENARIOS = {
     name: 'Toy Story',
     type: 'literary',
     description: 'The battle between toys and their quest for belonging',
+    inspirationalQuote: {
+      text: "To infinity and beyond!",
+      author: "Buzz Lightyear",
+      context: "Toy Story"
+    },
     factionOrder: ['toys', 'villains'],
     factions: {
       toys: {
@@ -9701,6 +9781,11 @@ const SCENARIOS = {
     name: 'Moana',
     type: 'literary',
     description: 'The journey to restore the heart of Te Fiti and save the ocean',
+    inspirationalQuote: {
+      text: "I am Moana of Motunui. You will board my boat, sail across the sea, and restore the heart of Te Fiti.",
+      author: "Moana",
+      context: "Moana"
+    },
     factionOrder: ['moana', 'teka'],
     factions: {
       moana: {
@@ -9785,6 +9870,11 @@ const SCENARIOS = {
     name: 'The Crusades',
     type: 'historical',
     description: 'The religious wars between Christians and Muslims for control of the Holy Land',
+    inspirationalQuote: {
+      text: "Deus vult! (God wills it!)",
+      author: "Pope Urban II",
+      context: "Call for the First Crusade"
+    },
     factionOrder: ['christians', 'muslims'],
     factions: {
       christians: {
@@ -10588,6 +10678,11 @@ const SCENARIOS = {
     name: 'Hundred Years\' War',
     type: 'historical',
     description: 'The long conflict between England and France for control of the French throne',
+    inspirationalQuote: {
+      text: "I am not afraid... I was born to do this.",
+      author: "Joan of Arc",
+      context: "French heroine during the Hundred Years' War"
+    },
     factionOrder: ['england', 'france'],
     factions: {
       england: {
@@ -11119,6 +11214,11 @@ const SCENARIOS = {
     name: 'Russian Civil War',
     type: 'historical',
     description: 'The conflict between the Red Army and White Army for control of Russia',
+    inspirationalQuote: {
+      text: "Workers of the world, unite!",
+      author: "Karl Marx",
+      context: "The Communist Manifesto"
+    },
     factionOrder: ['reds', 'whites'],
     factions: {
       reds: {
@@ -11650,6 +11750,11 @@ const SCENARIOS = {
     name: 'World War 1',
     type: 'historical',
     description: 'The Great War between the Allied Powers and Central Powers.',
+    inspirationalQuote: {
+      text: "The war to end all wars.",
+      author: "H.G. Wells",
+      context: "British writer describing World War I"
+    },
     factionOrder: ['alliedPowers', 'centralPowers'],
     factions: {
       alliedPowers: {
@@ -11888,6 +11993,11 @@ const SCENARIOS = {
     name: 'World War 2',
     type: 'historical',
     description: 'The Second World War between the Allies and Axis powers.',
+    inspirationalQuote: {
+      text: "We shall never surrender.",
+      author: "Winston Churchill",
+      context: "British Prime Minister during WWII"
+    },
     factionOrder: ['allies','axis'],
     factions: {
       allies: {
@@ -12126,6 +12236,11 @@ const SCENARIOS = {
     name: 'Spanish Civil War',
     type: 'historical',
     description: 'The conflict between Republicans and Nationalists for control of Spain',
+    inspirationalQuote: {
+      text: "No pasarán! (They shall not pass!)",
+      author: "Dolores Ibárruri",
+      context: "Spanish Republican leader during the Civil War"
+    },
     factionOrder: ['republicans', 'nationalists'],
     factions: {
       republicans: {
@@ -12854,6 +12969,11 @@ const SCENARIOS = {
     name: 'Romeo and Juliet (Shakespeare)',
     type: 'literary',
     description: 'The tragic tale of star-crossed lovers caught between feuding families in Verona.',
+    inspirationalQuote: {
+      text: "What's in a name? That which we call a rose by any other name would smell as sweet.",
+      author: "William Shakespeare",
+      context: "Romeo and Juliet, Act II, Scene II"
+    },
     factionOrder: ['montagues', 'capulets'],
     factions: {
       montagues: {
@@ -13441,6 +13561,11 @@ const SCENARIOS = {
     name: 'The Lord of the Rings (J.R.R. Tolkien)',
     type: 'literary',
     description: 'The epic struggle between the forces of good and evil in Middle-earth.',
+    inspirationalQuote: {
+      text: "Even the smallest person can change the course of the future.",
+      author: "J.R.R. Tolkien",
+      context: "The Lord of the Rings"
+    },
     factionOrder: ['fellowship','mordor'],
     factions: {
       fellowship: {
@@ -14111,6 +14236,11 @@ const SCENARIOS = {
     name: 'Pokemon: Gotta Catch \'Em All',
     type: 'gaming',
     description: 'The ultimate battle between Fire, Water, and Grass type Pokemon trainers.',
+    inspirationalQuote: {
+      text: "I want to be the very best, like no one ever was.",
+      author: "Ash Ketchum",
+      context: "Pokemon Theme Song"
+    },
     factions: {
       fire: {
         name: 'Fire Type Trainers',
@@ -14713,6 +14843,11 @@ const SCENARIOS = {
     name: 'Game of Thrones: Battle for the Iron Throne',
     type: 'fantasy',
     description: 'The ultimate battle for the Iron Throne between the great houses of Westeros.',
+    inspirationalQuote: {
+      text: "When you play the game of thrones, you win or you die. There is no middle ground.",
+      author: "Cersei Lannister",
+      context: "Game of Thrones"
+    },
     factions: {
       stark: {
         name: 'House Stark',
@@ -15373,6 +15508,11 @@ const SCENARIOS = {
     name: 'Avatar: The Last Airbender',
     type: 'fantasy',
     description: 'The epic battle between the four nations in the world of Avatar.',
+    inspirationalQuote: {
+      text: "In the darkest times, hope is something you give yourself. That is the meaning of inner strength.",
+      author: "Iroh",
+      context: "Avatar: The Last Airbender"
+    },
     factions: {
       waterTribe: {
         name: 'Water Tribe',
@@ -16033,6 +16173,11 @@ const SCENARIOS = {
     name: 'Greek Mythology: Gods vs Titans vs Mortals',
     type: 'mythology',
     description: 'The epic battle between the Olympian gods, the ancient Titans, and mortal heroes.',
+    inspirationalQuote: {
+      text: "Know thyself.",
+      author: "Socrates",
+      context: "Ancient Greek philosopher"
+    },
     factions: {
       olympians: {
         name: 'Olympian Gods',
@@ -16635,6 +16780,11 @@ const SCENARIOS = {
     name: 'Hunger Games: May the Odds Be Ever in Your Favor',
     type: 'dystopian',
     description: 'The ultimate battle for survival in the Hunger Games arena.',
+    inspirationalQuote: {
+      text: "May the odds be ever in your favor.",
+      author: "Effie Trinket",
+      context: "The Hunger Games"
+    },
     factions: {
       careerDistricts: {
         name: 'Career Districts',
@@ -17873,6 +18023,11 @@ const SCENARIOS = {
     name: 'Super Mario: Heroes vs Minions',
     type: 'gaming',
     description: 'The epic battle between Mario\'s Heroes and Bowser\'s Minions.',
+    inspirationalQuote: {
+      text: "It's-a me, Mario! Let's-a go!",
+      author: "Mario",
+      context: "Super Mario Bros."
+    },
     factions: {
       mariosHeroes: {
         name: 'Mario\'s Heroes',
@@ -18451,6 +18606,11 @@ const SCENARIOS = {
     name: 'Monster Wars',
     type: 'fantasy',
     description: 'Vampires versus Werewolves',
+    inspirationalQuote: {
+      text: "The night is dark and full of terrors.",
+      author: "Melisandre",
+      context: "Game of Thrones"
+    },
     factionOrder: ['vampires', 'werewolves'],
     factions: {
       vampires: {
@@ -18497,6 +18657,11 @@ const SCENARIOS = {
     name: 'NBA Legends',
     type: 'sports',
     description: 'East vs West legends',
+    inspirationalQuote: {
+      text: "The most important measure of how good a game I played was how much better I made my teammates play.",
+      author: "Bill Russell",
+      context: "NBA Legendary Center, Boston Celtics"
+    },
     factionOrder: ['east', 'west'],
     factions: {
       east: {
@@ -18543,6 +18708,11 @@ const SCENARIOS = {
     name: 'NFL Legends',
     type: 'sports',
     description: 'AFC vs NFC legends',
+    inspirationalQuote: {
+      text: "I'm not a product of my circumstances. I'm a product of my decisions.",
+      author: "Tom Brady",
+      context: "NFL Legendary Quarterback"
+    },
     factionOrder: ['afc', 'nfc'],
     factions: {
       afc: {
@@ -18617,6 +18787,11 @@ const SCENARIOS = {
     name: 'International Soccer Legends',
     type: 'sports',
     description: 'Europe vs Americas greats',
+    inspirationalQuote: {
+      text: "Football is a simple game. Twenty-two men chase a ball for 90 minutes and at the end, the Germans always win.",
+      author: "Gary Lineker",
+      context: "English Football Legend"
+    },
     factionOrder: ['europe', 'americas'],
     factions: {
       europe: {
@@ -18691,6 +18866,11 @@ const SCENARIOS = {
     name: 'Rock vs Pop vs Rap',
     type: 'entertainment',
     description: 'Genres face off',
+    inspirationalQuote: {
+      text: "Music is the universal language of mankind.",
+      author: "Henry Wadsworth Longfellow",
+      context: "American Poet"
+    },
     factionOrder: ['rock', 'pop', 'rap'],
     factions: {
       rock: {
@@ -18891,6 +19071,11 @@ const AI_PERSONALITIES = {
     name: 'Fortnite vs Minecraft',
     type: 'gaming',
     description: 'The ultimate battle between Fortnite and Minecraft universes',
+    inspirationalQuote: {
+      text: "The only way to do great work is to love what you do.",
+      author: "Steve Jobs",
+      context: "Apple Co-founder"
+    },
     factionOrder: ['fortnite', 'minecraft'],
     factions: {
       fortnite: {
@@ -19385,6 +19570,11 @@ const AI_PERSONALITIES = {
     name: 'Roman Mythology',
     type: 'mythology',
     description: 'The battle between Roman gods and their enemies',
+    inspirationalQuote: {
+      text: "Fortune favors the bold.",
+      author: "Virgil",
+      context: "Roman Poet"
+    },
     factionOrder: ['gods', 'titans'],
     factions: {
       gods: {
@@ -19459,6 +19649,11 @@ const AI_PERSONALITIES = {
     name: 'Percy Jackson',
     type: 'literary',
     description: 'The battle between demigods and monsters',
+    inspirationalQuote: {
+      text: "The real world is where the monsters are.",
+      author: "Rick Riordan",
+      context: "Percy Jackson and the Olympians"
+    },
     factionOrder: ['demigods', 'monsters'],
     factions: {
       demigods: {
