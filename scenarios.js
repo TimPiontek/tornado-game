@@ -17,16 +17,16 @@ const SCENARIOS = {
         color: '#1e40af', // Blue
         description: 'American colonists fighting for independence',
         territories: [
-          { name: 'Boston', cost: 15, description: 'Revolutionary center' },
-          { name: 'Philadelphia', cost: 20, description: 'Congress & Declaration' },
-          { name: 'New York', cost: 18, description: 'Port & Army HQ' },
-          { name: 'Charleston', cost: 12, description: 'Southern stronghold and supply base' },
-          { name: 'Valley Forge', cost: 8, description: 'Winter encampment and training ground' },
-          { name: 'Saratoga', cost: 10, description: 'Turning point battle' },
-          { name: 'Yorktown', cost: 16, description: 'Final battle site' },
-          { name: 'Lexington & Concord', cost: 9, description: 'First shots fired' },
-          { name: 'Trenton', cost: 7, description: 'Christmas victory' },
-          { name: 'Continental Army Camps', cost: 6, description: 'Military training' }
+          { name: 'Boston', cost: 20, description: 'Revolutionary center' },
+          { name: 'Philadelphia', cost: 25, description: 'Congress & Declaration' },
+          { name: 'New York', cost: 22, description: 'Port & Army HQ' },
+          { name: 'Charleston', cost: 18, description: 'Southern stronghold and supply base' },
+          { name: 'Valley Forge', cost: 15, description: 'Winter encampment and training ground' },
+          { name: 'Saratoga', cost: 16, description: 'Turning point battle' },
+          { name: 'Yorktown', cost: 20, description: 'Final battle site' },
+          { name: 'Lexington & Concord', cost: 14, description: 'First shots fired' },
+          { name: 'Trenton', cost: 12, description: 'Christmas victory' },
+          { name: 'Continental Army Camps', cost: 10, description: 'Military training' }
         ],
         characters: [
           {
@@ -449,16 +449,16 @@ const SCENARIOS = {
         color: '#dc2626', // Red
         description: 'British forces maintaining colonial control',
         territories: [
-          { name: 'London', cost: 25, description: 'Imperial command' },
-          { name: 'New York (Occupied)', cost: 20, description: 'British stronghold' },
-          { name: 'Charleston (Occupied)', cost: 18, description: 'Southern port' },
-          { name: 'Quebec', cost: 15, description: 'Crown fortress' },
-          { name: 'Halifax', cost: 12, description: 'Royal Navy base' },
-          { name: 'Bermuda', cost: 10, description: 'Blockade station' },
-          { name: 'Royal Navy', cost: 22, description: 'Blockade force' },
-          { name: 'Fort Ticonderoga', cost: 14, description: 'Strategic fortress' },
-          { name: 'Loyalist Counties', cost: 11, description: 'Tory support' },
-          { name: 'Caribbean Bases', cost: 13, description: 'Sugar islands & supplies' }
+          { name: 'London', cost: 30, description: 'Imperial command' },
+          { name: 'New York (Occupied)', cost: 25, description: 'British stronghold' },
+          { name: 'Charleston (Occupied)', cost: 22, description: 'Southern port' },
+          { name: 'Quebec', cost: 20, description: 'Crown fortress' },
+          { name: 'Halifax', cost: 18, description: 'Royal Navy base' },
+          { name: 'Bermuda', cost: 15, description: 'Blockade station' },
+          { name: 'Royal Navy', cost: 28, description: 'Blockade force' },
+          { name: 'Fort Ticonderoga', cost: 16, description: 'Strategic fortress' },
+          { name: 'Loyalist Counties', cost: 14, description: 'Tory support' },
+          { name: 'Caribbean Bases', cost: 12, description: 'Sugar islands & supplies' }
         ],
         characters: [
           {

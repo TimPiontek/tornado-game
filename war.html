@@ -452,10 +452,34 @@
     victoryBonus: 100,
     centerPremium: 30
   };
+  
+  // Difficulty multipliers
+  const DIFFICULTY_MULTIPLIERS = {
+    easy: 0.5,
+    medium: 1.0,
+    hard: 1.5
+  };
+  
   // Active economy is stored separately to avoid referencing state before init
   let __activeEconomy = ECONOMY;
   function getActiveEconomy(){
-    return __activeEconomy || ECONOMY;
+    const baseEconomy = __activeEconomy || ECONOMY;
+    const difficulty = state.gameDifficulty || 'medium';
+    const multiplier = DIFFICULTY_MULTIPLIERS[difficulty] || 1.0;
+    
+    return {
+      mercCost: Math.round(baseEconomy.mercCost * multiplier),
+      castleL1: Math.round(baseEconomy.castleL1 * multiplier),
+      castleL2: Math.round(baseEconomy.castleL2 * multiplier),
+      castleL3: Math.round(baseEconomy.castleL3 * multiplier),
+      weapons: {
+        spear: Math.round(baseEconomy.weapons.spear * multiplier),
+        crossbow: Math.round(baseEconomy.weapons.crossbow * multiplier),
+        catapult: Math.round(baseEconomy.weapons.catapult * multiplier)
+      },
+      victoryBonus: Math.round(baseEconomy.victoryBonus * multiplier),
+      centerPremium: Math.round(baseEconomy.centerPremium * multiplier)
+    };
   }
   function applyEconomyToUI(){
     const eco = getActiveEconomy();
@@ -6552,7 +6576,7 @@
     // Add click handlers
     regularBtn.onclick = () => {
       closeNewGameModal();
-      startRegularGame();
+      showDifficultySelectionModal('regular');
     };
     
     scenarioBtn.onclick = () => {
@@ -6895,88 +6919,259 @@
       alert('Please select a scenario.');
       return;
     }
-    
-    // Handle custom scenario
-    if (scenarioId === 'custom') {
-      closeScenarioSelectionModal();
-      showCustomScenarioBuilder();
-      return;
-    }
-    
-    // Automatically clear any saved scenario
-    if (state.currentRoster && state.currentRoster.scenario) {
-      delete state.currentRoster.scenario;
-      state.scenario = null;
-      
-      // Update game theme title
-      updateGameThemeTitle();
-      
-      // Clear character assignments
-      state.roster.forEach(student => {
-        student.characterName = null;
-        student.characterRole = null;
-        student.characterFaction = null;
-        student.teamId = null;
-        student.teamName = null;
-        student.teamColor = null;
-      });
-      
-      console.log('Automatically cleared saved scenario from roster');
-    }
-    
-    if (!confirm('Are you sure you want to start a new scenario game? This will reset ALL game progress including:\n\n• All territory ownership\n• All castle levels\n• All student balances\n• All truces\n• All game state\n\nThis action cannot be undone!')) {
-      return;
-    }
-    
-    // Get scenario data
-    const scenario = SCENARIOS[scenarioId];
-    if (!scenario) {
-      alert('Scenario not found!');
-      return;
-    }
-    
-    // Create scenario data for the roster
-    const scenarioData = {
-      scenarioId: scenario.id,
-      scenarioName: scenario.name,
-      scenarioType: scenario.type,
-      factions: scenario.factions,
-      neutralTerritories: scenario.neutralTerritories,
-      randomAssignment: roleAssignment === 'random',
-      enableAI: enableAI,
-      aiDifficulty: aiDifficulty
-    };
-    
-    // Update current roster with scenario data
-    state.currentRoster.scenario = scenarioData;
 
-    // Persist AI config on roster for Class vs AI
-    if (!state.currentRoster.aiConfig) state.currentRoster.aiConfig = {};
-    state.currentRoster.aiConfig.classVsAI = !!enableAI;
-    state.currentRoster.aiConfig.difficulty = aiDifficulty;
-    
-    // Close modal
+    // Store scenario settings temporarily
+    window.tempScenarioSettings = {
+      scenarioId,
+      enableAI,
+      aiDifficulty,
+      roleAssignment
+    };
+
+    // Close scenario modal and show difficulty selection
     closeScenarioSelectionModal();
+    showDifficultySelectionModal('scenario');
+  };
+
+  function showDifficultySelectionModal(gameType) {
+    const modal = document.createElement('div');
+    modal.id = 'difficultySelectionModal';
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1004;
+    `;
     
-    // If AI is enabled, check assignment type
-    if (enableAI) {
-      if (roleAssignment === 'random') {
-        // Random assignment with AI - proceed directly (students vs AI)
+    modal.innerHTML = `
+      <div style="
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      ">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h2 style="margin: 0; color: #1e293b; font-size: 1.5rem;">⚙️ Choose Difficulty</h2>
+          <button onclick="closeDifficultySelectionModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+        </div>
+        
+        <p style="margin-bottom: 1.5rem; color: #64748b;">
+          Select the difficulty level for your ${gameType === 'regular' ? 'regular' : 'scenario'} game. This affects the cost of territories, weapons, mercenaries, and upgrades.
+        </p>
+        
+        <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+          <div class="difficulty-option" data-difficulty="easy" style="
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #f8fafc;
+          " onmouseover="this.style.borderColor='#10b981'; this.style.backgroundColor='#f0fdf4'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.backgroundColor='#f8fafc'">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <h3 style="margin: 0 0 0.5rem 0; color: #1e293b;">🟢 Easy</h3>
+                <p style="margin: 0; color: #64748b; font-size: 0.9rem;">
+                  Lower costs for territories, weapons, and upgrades. Perfect for shorter games or younger students.
+                </p>
+                <div style="margin-top: 0.5rem; font-size: 0.8rem; color: #059669;">
+                  • Territory costs: 50% of normal<br>
+                  • Weapons: 50% of normal<br>
+                  • Mercenaries: 50% of normal<br>
+                  • Castle upgrades: 50% of normal
+                </div>
+              </div>
+              <div style="font-size: 1.5rem;">🟢</div>
+            </div>
+          </div>
+          
+          <div class="difficulty-option" data-difficulty="medium" style="
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #eff6ff;
+          " onmouseover="this.style.borderColor='#1d4ed8'; this.style.backgroundColor='#dbeafe'" onmouseout="this.style.borderColor='#3b82f6'; this.style.backgroundColor='#eff6ff'">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <h3 style="margin: 0 0 0.5rem 0; color: #1e293b;">🔵 Medium</h3>
+                <p style="margin: 0; color: #64748b; font-size: 0.9rem;">
+                  Standard costs for balanced gameplay. Recommended for most classroom situations.
+                </p>
+                <div style="margin-top: 0.5rem; font-size: 0.8rem; color: #2563eb;">
+                  • Territory costs: 100% of normal<br>
+                  • Weapons: 100% of normal<br>
+                  • Mercenaries: 100% of normal<br>
+                  • Castle upgrades: 100% of normal
+                </div>
+              </div>
+              <div style="font-size: 1.5rem;">🔵</div>
+            </div>
+          </div>
+          
+          <div class="difficulty-option" data-difficulty="hard" style="
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #f8fafc;
+          " onmouseover="this.style.borderColor='#dc2626'; this.style.backgroundColor='#fef2f2'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.backgroundColor='#f8fafc'">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <h3 style="margin: 0 0 0.5rem 0; color: #1e293b;">🔴 Hard</h3>
+                <p style="margin: 0; color: #64748b; font-size: 0.9rem;">
+                  Higher costs for challenging gameplay. Great for advanced students or longer game sessions.
+                </p>
+                <div style="margin-top: 0.5rem; font-size: 0.8rem; color: #dc2626;">
+                  • Territory costs: 150% of normal<br>
+                  • Weapons: 150% of normal<br>
+                  • Mercenaries: 150% of normal<br>
+                  • Castle upgrades: 150% of normal
+                </div>
+              </div>
+              <div style="font-size: 1.5rem;">🔴</div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <button onclick="closeDifficultySelectionModal()" style="
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 1rem;
+          ">Cancel</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Add click handlers for difficulty options
+    modal.querySelectorAll('.difficulty-option').forEach(option => {
+      option.onclick = () => {
+        const difficulty = option.dataset.difficulty;
+        closeDifficultySelectionModal();
+        startGameWithDifficulty(gameType, difficulty);
+      };
+    });
+  }
+
+  function closeDifficultySelectionModal() {
+    const modal = document.getElementById('difficultySelectionModal');
+    if (modal) {
+      modal.remove();
+    }
+  }
+
+  function startGameWithDifficulty(gameType, difficulty) {
+    // Store difficulty in state
+    state.gameDifficulty = difficulty;
+    
+    if (gameType === 'regular') {
+      startRegularGame();
+    } else if (gameType === 'scenario') {
+      // Use the stored scenario settings
+      const settings = window.tempScenarioSettings;
+      if (!settings) {
+        alert('Scenario settings not found. Please try again.');
+        return;
+      }
+      
+      // Handle custom scenario
+      if (settings.scenarioId === 'custom') {
+        showCustomScenarioBuilder();
+        return;
+      }
+      
+      // Automatically clear any saved scenario
+      if (state.currentRoster && state.currentRoster.scenario) {
+        delete state.currentRoster.scenario;
+        state.scenario = null;
+        
+        // Update game theme title
+        updateGameThemeTitle();
+        
+        // Clear character assignments
+        state.roster.forEach(student => {
+          student.characterName = null;
+          student.characterRole = null;
+          student.characterFaction = null;
+          student.teamId = null;
+          student.teamName = null;
+          student.teamColor = null;
+        });
+        
+        console.log('Automatically cleared saved scenario from roster');
+      }
+      
+      if (!confirm('Are you sure you want to start a new scenario game? This will reset ALL game progress including:\n\n• All territory ownership\n• All castle levels\n• All student balances\n• All truces\n• All game state\n\nThis action cannot be undone!')) {
+        return;
+      }
+      
+      // Get scenario data
+      const scenario = SCENARIOS[settings.scenarioId];
+      if (!scenario) {
+        alert('Scenario not found!');
+        return;
+      }
+      
+      // Create scenario data for the roster
+      const scenarioData = {
+        scenarioId: scenario.id,
+        scenarioName: scenario.name,
+        scenarioType: scenario.type,
+        factions: scenario.factions,
+        neutralTerritories: scenario.neutralTerritories,
+        randomAssignment: settings.roleAssignment === 'random',
+        enableAI: settings.enableAI,
+        aiDifficulty: settings.aiDifficulty,
+        gameDifficulty: difficulty
+      };
+      
+      // Update current roster with scenario data
+      state.currentRoster.scenario = scenarioData;
+
+      // Persist AI config on roster for Class vs AI
+      if (!state.currentRoster.aiConfig) state.currentRoster.aiConfig = {};
+      state.currentRoster.aiConfig.classVsAI = !!settings.enableAI;
+      state.currentRoster.aiConfig.difficulty = settings.aiDifficulty;
+      
+      // If AI is enabled, check assignment type
+      if (settings.enableAI) {
+        if (settings.roleAssignment === 'random') {
+          // Random assignment with AI - proceed directly (students vs AI)
+          initializeScenario(scenarioData);
+          resetGameToDefaults();
+          showScenarioInfo(scenarioData);
+        } else {
+          // Manual assignment with AI - show modal
+          showAIRoleAssignmentModal(scenario, scenarioData, settings.roleAssignment);
+        }
+      } else if (settings.roleAssignment === 'manual') {
+        // Manual assignment without AI
+        showRoleAssignmentModal(scenario);
+      } else {
+        // Random assignment without AI - proceed directly
         initializeScenario(scenarioData);
         resetGameToDefaults();
         showScenarioInfo(scenarioData);
-      } else {
-        // Manual assignment with AI - show modal
-        showAIRoleAssignmentModal(scenario, scenarioData, roleAssignment);
       }
-    } else if (roleAssignment === 'manual') {
-      // Manual assignment without AI
-      showRoleAssignmentModal(scenario);
-    } else {
-      // Random assignment without AI - proceed directly
-      initializeScenario(scenarioData);
-      resetGameToDefaults();
-      showScenarioInfo(scenarioData);
     }
   }
 
@@ -8684,17 +8879,19 @@ REQUIREMENTS:
 
   // Get theme-appropriate market items based on current scenario
   function getThemeAppropriateMarketItems() {
+    const economy = getActiveEconomy();
+    
     if (!state.scenario || !state.scenario.scenarioId) {
       // Default items if no scenario
       return {
         weapons: [
-          { name: 'Spear', description: '+15 attack power', cost: 40 },
-          { name: 'Crossbow', description: '+20 attack power', cost: 80 },
-          { name: 'Catapult', description: '+30 attack power', cost: 140 }
+          { name: 'Spear', description: '+15 attack power', cost: economy.weapons.spear },
+          { name: 'Crossbow', description: '+20 attack power', cost: economy.weapons.crossbow },
+          { name: 'Catapult', description: '+30 attack power', cost: economy.weapons.catapult }
         ],
         allies: [
-          { name: 'War Elephant', description: 'Powerful war beast', cost: 150 },
-          { name: 'Siege Engine', description: 'Heavy siege weapon', cost: 200 }
+          { name: 'War Elephant', description: 'Powerful war beast', cost: Math.round(150 * (economy.weapons.spear / 40)) },
+          { name: 'Siege Engine', description: 'Heavy siege weapon', cost: Math.round(200 * (economy.weapons.spear / 40)) }
         ]
       };
     }
@@ -8705,13 +8902,13 @@ REQUIREMENTS:
       case 'harryPotter':
         return {
           weapons: [
-            { name: 'Wand', description: '+15 magical power', cost: 40 },
-            { name: 'Enchanted Sword', description: '+20 magical power', cost: 80 },
-            { name: 'Elder Wand', description: '+30 magical power', cost: 140 }
+            { name: 'Wand', description: '+15 magical power', cost: economy.weapons.spear },
+            { name: 'Enchanted Sword', description: '+20 magical power', cost: economy.weapons.crossbow },
+            { name: 'Elder Wand', description: '+30 magical power', cost: economy.weapons.catapult }
           ],
           allies: [
-            { name: 'Phoenix', description: 'Magical ally', cost: 150 },
-            { name: 'Hungarian Horntail', description: 'Powerful dragon ally', cost: 200 }
+            { name: 'Phoenix', description: 'Magical ally', cost: Math.round(150 * (economy.weapons.spear / 40)) },
+            { name: 'Hungarian Horntail', description: 'Powerful dragon ally', cost: Math.round(200 * (economy.weapons.spear / 40)) }
           ]
         };
       
@@ -8744,13 +8941,13 @@ REQUIREMENTS:
       case 'animalFarm':
         return {
           weapons: [
-            { name: 'Pitchfork', description: '+15 attack power', cost: 40 },
-            { name: 'Scythe', description: '+20 attack power', cost: 80 },
-            { name: 'Windmill', description: '+30 attack power', cost: 140 }
+            { name: 'Pitchfork', description: '+15 attack power', cost: economy.weapons.spear },
+            { name: 'Scythe', description: '+20 attack power', cost: economy.weapons.crossbow },
+            { name: 'Windmill', description: '+30 attack power', cost: economy.weapons.catapult }
           ],
           allies: [
-            { name: 'Farm Dog Pack', description: 'Loyal farm dogs', cost: 150 },
-            { name: 'Wild Boar', description: 'Fierce wild boar', cost: 200 }
+            { name: 'Farm Dog Pack', description: 'Loyal farm dogs', cost: Math.round(150 * (economy.weapons.spear / 40)) },
+            { name: 'Wild Boar', description: 'Fierce wild boar', cost: Math.round(200 * (economy.weapons.spear / 40)) }
           ]
         };
       
