@@ -18709,7 +18709,17 @@ const SCENARIOS = {
           { name: 'Freddie Mercury', role: 'Vocal', startingCoins: 115, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'flamboyant', quotes: ['We are the champions!'], description: 'Queen frontman.' },
           { name: 'Jimmy Page', role: 'Guitar', startingCoins: 108, startingWeapons: ['guitar'], startingMercenaries: 2, startingCastles: 1, personality: 'mystical', quotes: ['Led Zeppelin!'], description: 'Led Zeppelin guitarist.' },
           { name: 'Keith Richards', role: 'Guitar', startingCoins: 105, startingWeapons: ['guitar'], startingMercenaries: 2, startingCastles: 1, personality: 'rebellious', quotes: ['Rolling Stones!'], description: 'Stones guitarist.' },
-          { name: 'Ozzy Osbourne', role: 'Vocal', startingCoins: 107, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'wild', quotes: ['Black Sabbath!'], description: 'Metal legend.' }
+          { name: 'Ozzy Osbourne', role: 'Vocal', startingCoins: 107, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'wild', quotes: ['Black Sabbath!'], description: 'Metal legend.' },
+          { name: 'Robert Plant', role: 'Vocal', startingCoins: 112, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'powerful', quotes: ['Led Zeppelin!'], description: 'Led Zeppelin vocalist.' },
+          { name: 'Eric Clapton', role: 'Guitar', startingCoins: 109, startingWeapons: ['guitar'], startingMercenaries: 2, startingCastles: 1, personality: 'bluesy', quotes: ['Slowhand!'], description: 'Blues rock guitarist.' },
+          { name: 'David Bowie', role: 'Vocal', startingCoins: 113, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'chameleon', quotes: ['Ziggy Stardust!'], description: 'Rock chameleon.' },
+          { name: 'Bruce Springsteen', role: 'Vocal', startingCoins: 111, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'blue-collar', quotes: ['The Boss!'], description: 'The Boss.' },
+          { name: 'Mick Jagger', role: 'Vocal', startingCoins: 106, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'charismatic', quotes: ['Rolling Stones!'], description: 'Stones frontman.' },
+          { name: 'Roger Waters', role: 'Bass', startingCoins: 104, startingWeapons: ['bass'], startingMercenaries: 2, startingCastles: 1, personality: 'conceptual', quotes: ['Pink Floyd!'], description: 'Pink Floyd bassist.' },
+          { name: 'Eddie Van Halen', role: 'Guitar', startingCoins: 108, startingWeapons: ['guitar'], startingMercenaries: 2, startingCastles: 1, personality: 'innovative', quotes: ['Van Halen!'], description: 'Guitar virtuoso.' },
+          { name: 'Steven Tyler', role: 'Vocal', startingCoins: 105, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'flamboyant', quotes: ['Aerosmith!'], description: 'Aerosmith frontman.' },
+          { name: 'Angus Young', role: 'Guitar', startingCoins: 103, startingWeapons: ['guitar'], startingMercenaries: 2, startingCastles: 1, personality: 'energetic', quotes: ['AC/DC!'], description: 'AC/DC guitarist.' },
+          { name: 'Lemmy Kilmister', role: 'Bass', startingCoins: 102, startingWeapons: ['bass'], startingMercenaries: 2, startingCastles: 1, personality: 'metal', quotes: ['Motorhead!'], description: 'Motorhead bassist.' }
         ]
       },
       pop: {
@@ -18728,7 +18738,17 @@ const SCENARIOS = {
           { name: 'Madonna', role: 'Vocal', startingCoins: 110, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'provocative', quotes: ['Material Girl!'], description: 'Queen of Pop.' },
           { name: 'Prince', role: 'Multi', startingCoins: 115, startingWeapons: ['guitar'], startingMercenaries: 2, startingCastles: 1, personality: 'mysterious', quotes: ['Purple Rain!'], description: 'Purple genius.' },
           { name: 'Whitney Houston', role: 'Vocal', startingCoins: 108, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'powerful', quotes: ['I Will Always Love You!'], description: 'Voice of an angel.' },
-          { name: 'Elton John', role: 'Piano', startingCoins: 105, startingWeapons: ['piano'], startingMercenaries: 2, startingCastles: 1, personality: 'flamboyant', quotes: ['Rocket Man!'], description: 'Piano legend.' }
+          { name: 'Elton John', role: 'Piano', startingCoins: 105, startingWeapons: ['piano'], startingMercenaries: 2, startingCastles: 1, personality: 'flamboyant', quotes: ['Rocket Man!'], description: 'Piano legend.' },
+          { name: 'Beyoncé', role: 'Vocal', startingCoins: 114, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'powerful', quotes: ['Queen Bey!'], description: 'Queen Bey.' },
+          { name: 'Taylor Swift', role: 'Vocal', startingCoins: 113, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'storytelling', quotes: ['Swifties!'], description: 'Pop storyteller.' },
+          { name: 'Ariana Grande', role: 'Vocal', startingCoins: 111, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'powerful', quotes: ['Arianators!'], description: 'Pop powerhouse.' },
+          { name: 'Justin Timberlake', role: 'Vocal', startingCoins: 109, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'smooth', quotes: ['JT!'], description: 'Pop smooth operator.' },
+          { name: 'Lady Gaga', role: 'Vocal', startingCoins: 107, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'artistic', quotes: ['Little Monsters!'], description: 'Pop art icon.' },
+          { name: 'Bruno Mars', role: 'Vocal', startingCoins: 106, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'funky', quotes: ['Mars!'], description: 'Pop funk master.' },
+          { name: 'Adele', role: 'Vocal', startingCoins: 108, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'emotional', quotes: ['Hello!'], description: 'Soulful pop diva.' },
+          { name: 'Ed Sheeran', role: 'Vocal', startingCoins: 104, startingWeapons: ['guitar'], startingMercenaries: 2, startingCastles: 1, personality: 'acoustic', quotes: ['Ed!'], description: 'Acoustic pop star.' },
+          { name: 'Billie Eilish', role: 'Vocal', startingCoins: 103, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'alternative', quotes: ['Billie!'], description: 'Alternative pop queen.' },
+          { name: 'Dua Lipa', role: 'Vocal', startingCoins: 102, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'dance', quotes: ['Dua!'], description: 'Dance pop sensation.' }
         ]
       },
       rap: {
@@ -18747,7 +18767,17 @@ const SCENARIOS = {
           { name: 'Notorious B.I.G.', role: 'Vocal', startingCoins: 110, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'smooth', quotes: ['Biggie!'], description: 'Brooklyn legend.' },
           { name: 'Jay-Z', role: 'Vocal', startingCoins: 115, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'business', quotes: ['Brooklyn!'], description: 'Business mogul.' },
           { name: 'Eminem', role: 'Vocal', startingCoins: 112, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'intense', quotes: ['Slim Shady!'], description: 'Rap god.' },
-          { name: 'Kendrick Lamar', role: 'Vocal', startingCoins: 108, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'conscious', quotes: ['Compton!'], description: 'Modern poet.' }
+          { name: 'Kendrick Lamar', role: 'Vocal', startingCoins: 108, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'conscious', quotes: ['Compton!'], description: 'Modern poet.' },
+          { name: 'Drake', role: 'Vocal', startingCoins: 114, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'versatile', quotes: ['OVO!'], description: 'Rap superstar.' },
+          { name: 'Kanye West', role: 'Vocal', startingCoins: 113, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'innovative', quotes: ['Yeezy!'], description: 'Rap innovator.' },
+          { name: 'Nas', role: 'Vocal', startingCoins: 111, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'lyrical', quotes: ['Queens!'], description: 'Rap lyricist.' },
+          { name: 'Snoop Dogg', role: 'Vocal', startingCoins: 109, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'laid-back', quotes: ['Snoop!'], description: 'Rap legend.' },
+          { name: 'Ice Cube', role: 'Vocal', startingCoins: 107, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'aggressive', quotes: ['N.W.A!'], description: 'Gangsta rap pioneer.' },
+          { name: 'Dr. Dre', role: 'Producer', startingCoins: 106, startingWeapons: ['beat'], startingMercenaries: 2, startingCastles: 1, personality: 'innovative', quotes: ['Aftermath!'], description: 'Rap producer.' },
+          { name: '50 Cent', role: 'Vocal', startingCoins: 105, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'street', quotes: ['G-Unit!'], description: 'Street rap king.' },
+          { name: 'Lil Wayne', role: 'Vocal', startingCoins: 104, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'creative', quotes: ['Weezy!'], description: 'Rap mixtape king.' },
+          { name: 'Travis Scott', role: 'Vocal', startingCoins: 103, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'experimental', quotes: ['Cactus Jack!'], description: 'Rap experimentalist.' },
+          { name: 'J. Cole', role: 'Vocal', startingCoins: 102, startingWeapons: ['mic'], startingMercenaries: 2, startingCastles: 1, personality: 'conscious', quotes: ['Dreamville!'], description: 'Conscious rap king.' }
         ]
       }
     },
