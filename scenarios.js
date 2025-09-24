@@ -18849,6 +18849,66 @@ const AI_PERSONALITIES = {
               "Time to fight!"
             ],
             description: 'The iconic Fortnite default skin'
+          },
+          {
+            name: 'Peely',
+            role: 'Banana Skin',
+            startingCoins: 95,
+            startingWeapons: ['banana'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'silly',
+            quotes: [
+              "Peely!",
+              "Banana time!",
+              "Let's go!"
+            ],
+            description: 'The beloved banana skin'
+          },
+          {
+            name: 'Fishstick',
+            role: 'Fish Skin',
+            startingCoins: 98,
+            startingWeapons: ['fish'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'quirky',
+            quotes: [
+              "Fishstick!",
+              "Under the sea!",
+              "Swim away!"
+            ],
+            description: 'The popular fish skin'
+          },
+          {
+            name: 'Raven',
+            role: 'Dark Skin',
+            startingCoins: 105,
+            startingWeapons: ['dark magic'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'mysterious',
+            quotes: [
+              "Darkness!",
+              "Nevermore!",
+              "Shadow strike!"
+            ],
+            description: 'The mysterious raven skin'
+          },
+          {
+            name: 'Cuddle Team Leader',
+            role: 'Bear Skin',
+            startingCoins: 102,
+            startingWeapons: ['hugs'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'friendly',
+            quotes: [
+              "Cuddle time!",
+              "Bear hug!",
+              "Love wins!"
+            ],
+            description: 'The cuddly bear skin'
           }
         ]
       },
@@ -18878,6 +18938,66 @@ const AI_PERSONALITIES = {
               "Let's build!"
             ],
             description: 'The iconic Minecraft player character'
+          },
+          {
+            name: 'Alex',
+            role: 'Player Character',
+            startingCoins: 98,
+            startingWeapons: ['iron sword'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'adventurous',
+            quotes: [
+              "Adventure time!",
+              "Let's explore!",
+              "Minecraft!"
+            ],
+            description: 'The adventurous Minecraft character'
+          },
+          {
+            name: 'Herobrine',
+            role: 'Mysterious Entity',
+            startingCoins: 110,
+            startingWeapons: ['void magic'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'mysterious',
+            quotes: [
+              "I am Herobrine.",
+              "The void calls.",
+              "You cannot escape."
+            ],
+            description: 'The mysterious Herobrine entity'
+          },
+          {
+            name: 'Enderman',
+            role: 'Mob',
+            startingCoins: 95,
+            startingWeapons: ['teleport'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'shy',
+            quotes: [
+              "Don't look at me!",
+              "Teleport away!",
+              "Enderman!"
+            ],
+            description: 'The tall, dark Enderman mob'
+          },
+          {
+            name: 'Creeper',
+            role: 'Explosive Mob',
+            startingCoins: 90,
+            startingWeapons: ['explosion'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'explosive',
+            quotes: [
+              "Sssss...",
+              "Boom!",
+              "Creeper!"
+            ],
+            description: 'The explosive green creeper'
           }
         ]
       }
