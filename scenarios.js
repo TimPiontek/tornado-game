@@ -11873,16 +11873,16 @@ const SCENARIOS = {
         color: '#2ecc71', // Green
         description: 'The Allied Powers including Britain, US, Soviet Union, and others',
         territories: [
-          { name: 'Western Front', cost: 100, description: 'Battlefront in Western Europe' },
-          { name: 'Eastern Front', cost: 95, description: 'Massive battlefront in Eastern Europe' },
-          { name: 'Pacific Theater', cost: 90, description: 'Naval and island warfare in the Pacific' },
-          { name: 'North Africa', cost: 85, description: 'Desert warfare in North Africa' },
-          { name: 'Italian Campaign', cost: 80, description: 'Allied invasion of Italy' },
-          { name: 'Burma Campaign', cost: 75, description: 'Warfare in Southeast Asia' },
-          { name: 'Atlantic Ocean', cost: 70, description: 'Naval warfare and convoy battles' },
-          { name: 'Home Front', cost: 65, description: 'Civilian support and production' },
-          { name: 'Resistance Movements', cost: 60, description: 'Underground resistance networks' },
-          { name: 'Strategic Bombing', cost: 55, description: 'Air warfare and bombing campaigns' }
+          { name: 'Normandy (D‑Day)', cost: 100, description: 'Allied landings on June 6, 1944' },
+          { name: 'Stalingrad', cost: 95, description: 'Turning point on the Eastern Front' },
+          { name: 'Pearl Harbor', cost: 90, description: 'US naval base attacked Dec 7, 1941' },
+          { name: 'El Alamein', cost: 85, description: 'Decisive victory in North Africa' },
+          { name: 'Anzio & Monte Cassino', cost: 80, description: 'Hard-fought Italian campaign battles' },
+          { name: 'Burma Road', cost: 75, description: 'Lifeline for China in Southeast Asia' },
+          { name: 'Battle of the Atlantic', cost: 70, description: 'Convoy routes and U‑boat hunting' },
+          { name: 'Home Front Production', cost: 65, description: 'Arsenal of Democracy' },
+          { name: 'French Resistance', cost: 60, description: 'Underground networks and sabotage' },
+          { name: 'Strategic Bombing (RAF/USAAF)', cost: 55, description: 'Air campaigns over Europe' }
         ],
         characters: [
           {
@@ -11982,16 +11982,16 @@ const SCENARIOS = {
         color: '#e74c3c', // Red
         description: 'The Axis Powers including Germany, Japan, and Italy',
         territories: [
-          { name: 'Western Front', cost: 100, description: 'Battlefront against Britain and later US' },
-          { name: 'Eastern Front', cost: 95, description: 'Massive battlefront against the Soviet Union' },
-          { name: 'Pacific Theater', cost: 90, description: 'Naval and island warfare in the Pacific' },
-          { name: 'North Africa', cost: 85, description: 'Desert warfare in North Africa' },
-          { name: 'Balkan Campaign', cost: 80, description: 'Warfare in the Balkans' },
-          { name: 'Burma Campaign', cost: 75, description: 'Warfare in Southeast Asia' },
-          { name: 'Atlantic Ocean', cost: 70, description: 'U-boat warfare and naval battles' },
-          { name: 'Home Front', cost: 65, description: 'Civilian support and production' },
-          { name: 'Occupied Territories', cost: 60, description: 'Conquered lands and resources' },
-          { name: 'Strategic Bombing', cost: 55, description: 'Air warfare and bombing campaigns' }
+          { name: 'Berlin', cost: 100, description: 'Capital of Nazi Germany' },
+          { name: 'Kursk', cost: 95, description: 'Largest tank battle in history' },
+          { name: 'Hiroshima & Nagasaki', cost: 90, description: 'Atomic bombings in Japan' },
+          { name: 'Tobruk', cost: 85, description: 'Key port in North Africa' },
+          { name: 'Balkans Campaign', cost: 80, description: 'Axis operations in the Balkans' },
+          { name: 'Burma–Thailand Railway', cost: 75, description: 'Supply route built under harsh conditions' },
+          { name: 'U‑boat Wolfpacks', cost: 70, description: 'Submarine warfare in the Atlantic' },
+          { name: 'Axis Home Front', cost: 65, description: 'War production and mobilization' },
+          { name: 'Occupied Europe', cost: 60, description: 'Administered territories and resources' },
+          { name: 'Luftwaffe Bombing', cost: 55, description: 'Air campaigns and blitzes' }
         ],
         characters: [
           {
@@ -12087,12 +12087,12 @@ const SCENARIOS = {
         ]
       }
     },
-    neutralTerritories: [
-      { name: 'Neutral Nations', cost: 90, description: 'Countries that remained neutral, very high strategic value' },
-      { name: 'International Waters', cost: 85, description: 'Oceanic trade routes and naval warfare, high strategic value' },
-      { name: 'Colonial Territories', cost: 80, description: 'Overseas colonies and resources, high strategic value' },
-      { name: 'Diplomatic Corps', cost: 75, description: 'International diplomacy and negotiations, medium strategic value' },
-      { name: 'War Industries', cost: 70, description: 'Military production and supply chains, medium strategic value' }
+  neutralTerritories: [
+      { name: 'Neutral Nations', cost: 90, description: 'Sweden, Switzerland, Spain, and others' },
+      { name: 'International Waters', cost: 85, description: 'High seas contested by fleets' },
+      { name: 'Colonial Territories', cost: 80, description: 'Overseas colonies and resources' },
+      { name: 'Diplomatic Corps', cost: 75, description: 'Envoys, treaties, and intelligence' },
+      { name: 'War Industries', cost: 70, description: 'Factories, shipyards, and logistics' }
     ],
     randomAssignment: true,
     manualRoleAssignments: false,
