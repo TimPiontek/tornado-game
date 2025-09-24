@@ -3717,16 +3717,16 @@ const SCENARIOS = {
         color: '#4169e1',
         description: 'Fighting for freedom and justice across the galaxy',
         territories: [
-          { name: 'Yavin 4', cost: 80, description: 'Primary rebel base and command center' },
-          { name: 'Hoth', cost: 70, description: 'Secret ice planet base and Echo Base' },
-          { name: 'Endor', cost: 75, description: 'Forest moon and Death Star II battle site' },
-          { name: 'Dagobah', cost: 65, description: 'Jedi training ground and Force nexus' },
-          { name: 'Rebel Fleet', cost: 85, description: 'Mobile space fleet and command ships' },
-          { name: 'Alderaan', cost: 90, description: 'Destroyed homeworld and symbol of resistance' },
-          { name: 'Mon Calamari', cost: 80, description: 'Shipyard world and fleet construction base' },
-          { name: 'Rogue Squadron Base', cost: 75, description: 'Elite fighter pilot training facility' },
-          { name: 'Hidden Rebel Cells', cost: 70, description: 'Underground resistance network' },
-          { name: 'Jedi Temple Ruins', cost: 85, description: 'Ancient Force stronghold and training site' }
+          { name: 'Yavin 4', cost: 80, description: 'Rebel base' },
+          { name: 'Hoth', cost: 70, description: 'Echo Base' },
+          { name: 'Endor', cost: 75, description: 'Forest moon' },
+          { name: 'Dagobah', cost: 65, description: 'Jedi training' },
+          { name: 'Rebel Fleet', cost: 85, description: 'Mobile command' },
+          { name: 'Alderaan', cost: 90, description: 'Martyr world' },
+          { name: 'Mon Calamari', cost: 80, description: 'Shipyards' },
+          { name: 'Rogue Squadron', cost: 75, description: 'Elite pilots' },
+          { name: 'Hidden Cells', cost: 70, description: 'Underground network' },
+          { name: 'Jedi Ruins', cost: 85, description: 'Ancient stronghold' }
         ],
         characters: [
           {
@@ -3996,16 +3996,16 @@ const SCENARIOS = {
         color: '#8b0000',
         description: 'Seeking order and control through fear and power',
         territories: [
-          { name: 'Death Star', cost: 120, description: 'Planet-destroying battle station' },
-          { name: 'Imperial Palace', cost: 100, description: 'Seat of the Emperor on Coruscant' },
-          { name: 'Star Destroyer Fleet', cost: 110, description: 'Capital ships of the Empire' },
-          { name: 'Mustafar', cost: 80, description: 'Vader\'s fortress and Sith stronghold' },
-          { name: 'Bespin (Cloud City)', cost: 75, description: 'Gas mining and Imperial garrison' },
-          { name: 'Scarif Archives', cost: 85, description: 'Imperial data vault' },
-          { name: 'Tatooine Outpost', cost: 60, description: 'Outer Rim control post' },
-          { name: 'Kuat Drive Yards', cost: 80, description: 'Shipbuilding hub' },
-          { name: 'Imperial Academy', cost: 75, description: 'Officer and pilot training' },
-          { name: 'Inquisitor Fortress', cost: 75, description: 'Dark side hunters HQ' }
+          { name: 'Death Star', cost: 120, description: 'Battle station' },
+          { name: 'Imperial Palace', cost: 100, description: 'Coruscant throne' },
+          { name: 'Star Destroyers', cost: 110, description: 'Capital fleet' },
+          { name: 'Mustafar', cost: 80, description: 'Vader fortress' },
+          { name: 'Bespin', cost: 75, description: 'Cloud City' },
+          { name: 'Scarif Archives', cost: 85, description: 'Data vault' },
+          { name: 'Tatooine Outpost', cost: 60, description: 'Outer Rim post' },
+          { name: 'Kuat Yards', cost: 80, description: 'Shipbuilding' },
+          { name: 'Imperial Academy', cost: 75, description: 'Officer training' },
+          { name: 'Inquisitorius', cost: 75, description: 'Dark hunters' }
         ],
         characters: [
           {
@@ -6793,11 +6793,11 @@ const SCENARIOS = {
         color: '#4169e1',
         description: 'Protecting the DC universe from threats',
         territories: [
-          { name: 'Gotham City', cost: 90, description: 'Batman\'s city' },
-          { name: 'Metropolis', cost: 95, description: 'Superman\'s city' },
-          { name: 'Themyscira', cost: 85, description: 'Wonder Woman\'s island' },
-          { name: 'Central City', cost: 80, description: 'Flash\'s city' },
-          { name: 'Atlantis', cost: 75, description: 'Aquaman\'s kingdom' }
+          { name: 'Gotham City', cost: 90, description: 'Batman city' },
+          { name: 'Metropolis', cost: 95, description: 'Superman city' },
+          { name: 'Themyscira', cost: 85, description: 'Amazon island' },
+          { name: 'Central City', cost: 80, description: 'Flash city' },
+          { name: 'Atlantis', cost: 75, description: 'Undersea kingdom' }
         ],
         characters: [
           {
@@ -8490,11 +8490,11 @@ const SCENARIOS = {
         color: '#1e40af',
         description: 'Noble house seeking to rule Arrakis with honor and justice',
         territories: [
-          { name: 'Caladan', cost: 80, description: 'Atreides homeworld' },
-          { name: 'Arrakeen', cost: 90, description: 'Capital of Arrakis' },
-          { name: 'Carthag', cost: 85, description: 'Spice mining city' },
-          { name: 'Sietch Tabr', cost: 75, description: 'Fremen stronghold' },
-          { name: 'Spice Fields', cost: 95, description: 'Valuable spice deposits' }
+          { name: 'Caladan', cost: 80, description: 'Atreides home' },
+          { name: 'Arrakeen', cost: 90, description: 'Arrakis capital' },
+          { name: 'Carthag', cost: 85, description: 'Spice city' },
+          { name: 'Sietch Tabr', cost: 75, description: 'Fremen sietch' },
+          { name: 'Spice Fields', cost: 95, description: 'Melange harvest' }
         ],
         characters: [
           {
