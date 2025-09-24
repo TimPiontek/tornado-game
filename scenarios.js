@@ -7067,11 +7067,11 @@ const SCENARIOS = {
         color: '#dc2626',
         description: 'Protecting the Marvel universe from threats',
         territories: [
-          { name: 'New York City', cost: 90, description: 'Spider-Man\'s city' },
-          { name: 'Wakanda', cost: 95, description: 'Black Panther\'s kingdom' },
-          { name: 'Asgard', cost: 100, description: 'Thor\'s realm' },
-          { name: 'Xavier\'s School', cost: 85, description: 'X-Men headquarters' },
-          { name: 'Stark Tower', cost: 80, description: 'Iron Man\'s base' }
+          { name: 'New York City', cost: 90, description: 'Spider-Man city' },
+          { name: 'Wakanda', cost: 95, description: 'Panther kingdom' },
+          { name: 'Asgard', cost: 100, description: 'Thor realm' },
+          { name: 'Xavier School', cost: 85, description: 'X-Men HQ' },
+          { name: 'Stark Tower', cost: 80, description: 'Iron Man base' }
         ],
         characters: [
           {
@@ -7359,10 +7359,10 @@ const SCENARIOS = {
         description: 'Fighting for love, acceptance, and family',
         territories: [
           { name: 'Arendelle Castle', cost: 90, description: 'Royal palace' },
-          { name: 'Ice Palace', cost: 85, description: 'Elsa\'s frozen castle' },
+          { name: 'Ice Palace', cost: 85, description: 'Elsa\'s castle' },
           { name: 'Arendelle Village', cost: 70, description: 'Town center' },
-          { name: 'Frozen Lake', cost: 75, description: 'Skating rink' },
-          { name: 'Mountain Peak', cost: 80, description: 'High vantage point' }
+          { name: 'Frozen Lake', cost: 75, description: 'Skating lake' },
+          { name: 'North Mountain', cost: 80, description: 'High peak' }
         ],
         characters: [
           {
@@ -8764,11 +8764,11 @@ const SCENARIOS = {
         color: '#8b0000',
         description: 'Ruthless house seeking to control Arrakis through fear and oppression',
         territories: [
-          { name: 'Giedi Prime', cost: 85, description: 'Harkonnen homeworld' },
-          { name: 'Harkonnen Keep', cost: 90, description: 'Fortress on Arrakis' },
-          { name: 'Spice Refineries', cost: 80, description: 'Spice processing facilities' },
-          { name: 'Mining Operations', cost: 70, description: 'Resource extraction facilities' },
-          { name: 'Ornithopter Base', cost: 75, description: 'Aerial assault base' }
+          { name: 'Giedi Prime', cost: 85, description: 'Harkonnen world' },
+          { name: 'Harkonnen Keep', cost: 90, description: 'Arrakis fortress' },
+          { name: 'Spice Refineries', cost: 80, description: 'Processing plants' },
+          { name: 'Mining Ops', cost: 70, description: 'Extraction sites' },
+          { name: 'Ornithopter Base', cost: 75, description: 'Aerial base' }
         ],
         characters: [
           {
@@ -9792,10 +9792,10 @@ const SCENARIOS = {
         color: '#1e40af',
         description: 'European Christians fighting to reclaim the Holy Land',
         territories: [
-          { name: 'Jerusalem', cost: 100, description: 'Holy city and ultimate goal' },
-          { name: 'Antioch', cost: 85, description: 'Major Crusader stronghold' },
-          { name: 'Edessa', cost: 80, description: 'First Crusader state' },
-          { name: 'Tripoli', cost: 75, description: 'Crusader county' },
+          { name: 'Jerusalem', cost: 100, description: 'Holy city' },
+          { name: 'Antioch', cost: 85, description: 'Crusader stronghold' },
+          { name: 'Edessa', cost: 80, description: 'First county' },
+          { name: 'Tripoli', cost: 75, description: 'Coastal county' },
           { name: 'Constantinople', cost: 90, description: 'Byzantine capital' }
         ],
         characters: [
