@@ -18688,6 +18688,80 @@ const AI_PERSONALITIES = {
       { name: 'Colosseum', cost: 75, description: 'Battle arena' },
       { name: 'Pantheon', cost: 85, description: 'Temple of all gods' }
     ]
+  },
+
+  // PERCY JACKSON
+  percyJackson: {
+    id: 'percyJackson',
+    name: 'Percy Jackson',
+    type: 'literary',
+    description: 'The battle between demigods and monsters',
+    factionOrder: ['demigods', 'monsters'],
+    factions: {
+      demigods: {
+        name: 'Demigods',
+        color: '#4169e1',
+        description: 'Half-god heroes',
+        territories: [
+          { name: 'Camp Half-Blood', cost: 100, description: 'Demigod training' },
+          { name: 'Poseidon\'s Cabin', cost: 95, description: 'Sea god\'s children' },
+          { name: 'Athena\'s Cabin', cost: 90, description: 'Wisdom goddess' },
+          { name: 'Ares\' Cabin', cost: 85, description: 'War god\'s children' },
+          { name: 'Zeus\' Cabin', cost: 95, description: 'Sky god\'s children' }
+        ],
+        characters: [
+          {
+            name: 'Percy Jackson',
+            role: 'Son of Poseidon',
+            startingCoins: 110,
+            startingWeapons: ['Riptide'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'heroic',
+            quotes: [
+              "I am Percy Jackson!",
+              "For the gods!",
+              "Sea power!"
+            ],
+            description: 'Son of Poseidon and hero of Olympus'
+          }
+        ]
+      },
+      monsters: {
+        name: 'Monsters',
+        color: '#8b0000',
+        description: 'Mythological creatures',
+        territories: [
+          { name: 'Underworld', cost: 100, description: 'Hades\' realm' },
+          { name: 'Tartarus', cost: 95, description: 'Deepest pit' },
+          { name: 'Monster Lair', cost: 90, description: 'Creature den' },
+          { name: 'Labyrinth', cost: 85, description: 'Maze of death' },
+          { name: 'Medusa\'s Cave', cost: 80, description: 'Stone gaze' }
+        ],
+        characters: [
+          {
+            name: 'Kronos',
+            role: 'Titan Lord',
+            startingCoins: 120,
+            startingWeapons: ['scythe'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'evil',
+            quotes: [
+              "I am Kronos!",
+              "Time to destroy!",
+              "The old ways return!"
+            ],
+            description: 'Titan Lord seeking revenge'
+          }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Mount Olympus', cost: 90, description: 'Gods\' realm' },
+      { name: 'Empire State Building', cost: 80, description: 'Olympus entrance' },
+      { name: 'Underworld Gates', cost: 75, description: 'Death\'s door' }
+    ]
   }
 };
 
