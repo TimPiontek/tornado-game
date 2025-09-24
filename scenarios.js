@@ -2596,11 +2596,11 @@ const SCENARIOS = {
         territories: [
           { name: 'Hogwarts', cost: 100, description: 'Central fortress and headquarters of the resistance' },
           { name: 'Gryffindor Tower', cost: 80, description: 'Defensive stronghold within Hogwarts' },
+          { name: 'Quidditch Pitch', cost: 70, description: 'Hogwarts\' stadium for house matches and practice' },
+          { name: 'Hogwarts Library', cost: 70, description: 'Stacks of magical tomes and study tables' },
+          { name: 'Forbidden Forest & Whomping Willow', cost: 65, description: 'Perilous grounds on the edge of Hogwarts' },
           { name: 'Hogsmeade', cost: 70, description: 'Strategic village and supply base' },
           { name: 'Diagon Alley', cost: 75, description: 'Commercial center and resource hub' },
-          { name: "Harry's Quidditch Pitch", cost: 65, description: 'Where Harry shines as Seeker' },
-          { name: "Hermione's Library Nook", cost: 60, description: 'Hermione\'s favorite research corner' },
-          { name: "Ron's Chess Alcove", cost: 55, description: 'Tactical spot for wizard chess' },
           { name: 'Order Headquarters', cost: 85, description: 'Secret base of the Order of the Phoenix' },
           { name: 'Grimmauld Place', cost: 80, description: 'Hidden safe house and planning center' },
           { name: 'Ministry of Magic', cost: 90, description: 'Government center and power base' },
@@ -3705,6 +3705,7 @@ const SCENARIOS = {
     name: 'Star Wars',
     type: 'literary',
     description: 'The eternal battle between the light and dark sides of the Force',
+    factionOrder: ['rebels','empire'],
     factions: {
       rebels: {
         name: 'Rebel Alliance',
@@ -3990,16 +3991,16 @@ const SCENARIOS = {
         color: '#8b0000',
         description: 'Seeking order and control through fear and power',
         territories: [
-          { name: 'Death Star', cost: 120, description: 'Ultimate superweapon and terror device' },
-          { name: 'Coruscant', cost: 100, description: 'Imperial capital and galactic center' },
-          { name: 'Mustafar', cost: 80, description: 'Vader\'s fortress and dark side nexus' },
-          { name: 'Kamino', cost: 70, description: 'Clone production facility and army source' },
-          { name: 'Geonosis', cost: 65, description: 'Droid factory world and manufacturing base' },
-          { name: 'Imperial Fleet', cost: 110, description: 'Massive space armada and Star Destroyers' },
-          { name: 'Imperial Palace', cost: 95, description: 'Emperor\'s throne and command center' },
-          { name: 'Death Star II', cost: 125, description: 'Second superweapon and final battle site' },
-          { name: 'Imperial Academy', cost: 75, description: 'Officer training and indoctrination center' },
-          { name: 'Sith Temple', cost: 90, description: 'Dark side stronghold and Force training site' }
+          { name: 'Death Star', cost: 120, description: 'Planet-destroying battle station' },
+          { name: 'Imperial Palace', cost: 100, description: 'Seat of the Emperor on Coruscant' },
+          { name: 'Star Destroyer Fleet', cost: 110, description: 'Capital ships of the Empire' },
+          { name: 'Mustafar', cost: 80, description: 'Vader\'s fortress and Sith stronghold' },
+          { name: 'Bespin (Cloud City)', cost: 75, description: 'Gas mining and Imperial garrison' },
+          { name: 'Scarif Archives', cost: 85, description: 'Imperial data vault' },
+          { name: 'Tatooine Outpost', cost: 60, description: 'Outer Rim control post' },
+          { name: 'Kuat Drive Yards', cost: 80, description: 'Shipbuilding hub' },
+          { name: 'Imperial Academy', cost: 75, description: 'Officer and pilot training' },
+          { name: 'Inquisitor Fortress', cost: 75, description: 'Dark side hunters HQ' }
         ],
         characters: [
           {
@@ -11877,12 +11878,12 @@ const SCENARIOS = {
           { name: 'Stalingrad', cost: 95, description: 'Turning point on the Eastern Front' },
           { name: 'Pearl Harbor', cost: 90, description: 'US naval base attacked Dec 7, 1941' },
           { name: 'El Alamein', cost: 85, description: 'Decisive victory in North Africa' },
-          { name: 'Anzio & Monte Cassino', cost: 80, description: 'Hard-fought Italian campaign battles' },
+          { name: 'Anzio & Cassino', cost: 80, description: 'Hard-fought Italian campaign battles' },
           { name: 'Burma Road', cost: 75, description: 'Lifeline for China in Southeast Asia' },
           { name: 'Battle of the Atlantic', cost: 70, description: 'Convoy routes and U‑boat hunting' },
           { name: 'Home Front Production', cost: 65, description: 'Arsenal of Democracy' },
           { name: 'French Resistance', cost: 60, description: 'Underground networks and sabotage' },
-          { name: 'Strategic Bombing (RAF/USAAF)', cost: 55, description: 'Air campaigns over Europe' }
+          { name: 'Strategic Bombing', cost: 55, description: 'Air campaigns over Europe' }
         ],
         characters: [
           {
@@ -11984,10 +11985,10 @@ const SCENARIOS = {
         territories: [
           { name: 'Berlin', cost: 100, description: 'Capital of Nazi Germany' },
           { name: 'Kursk', cost: 95, description: 'Largest tank battle in history' },
-          { name: 'Hiroshima & Nagasaki', cost: 90, description: 'Atomic bombings in Japan' },
+          { name: 'Hiroshima/Nagasaki', cost: 90, description: 'Atomic bombings in Japan' },
           { name: 'Tobruk', cost: 85, description: 'Key port in North Africa' },
           { name: 'Balkans Campaign', cost: 80, description: 'Axis operations in the Balkans' },
-          { name: 'Burma–Thailand Railway', cost: 75, description: 'Supply route built under harsh conditions' },
+          { name: 'Burma Railway', cost: 75, description: 'Supply route built under harsh conditions' },
           { name: 'U‑boat Wolfpacks', cost: 70, description: 'Submarine warfare in the Atlantic' },
           { name: 'Axis Home Front', cost: 65, description: 'War production and mobilization' },
           { name: 'Occupied Europe', cost: 60, description: 'Administered territories and resources' },
