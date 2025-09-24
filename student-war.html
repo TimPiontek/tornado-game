@@ -2216,11 +2216,27 @@
     
     console.log('Assigning teams based on character factions...');
     console.log('Current scenario:', state.scenario.scenarioId);
-    console.log('Roster students:', state.roster.map(s => ({ name: s.name, characterName: s.characterName })));
+    console.log('Manual role assignments:', state.scenario.manualRoleAssignments);
+    console.log('AI assignments:', state.scenario.aiAssignments);
     
     state.roster.forEach(student => {
+      // Get character name from scenario assignments
+      let characterName = '';
+      
+      // First check if student has characterName property
       if (student.characterName) {
-        console.log(`Processing student ${student.name} with character ${student.characterName}`);
+        characterName = student.characterName;
+      } else if (state.scenario.manualRoleAssignments && state.scenario.manualRoleAssignments[student.gsId]) {
+        characterName = state.scenario.manualRoleAssignments[student.gsId];
+      } else if (state.scenario.aiAssignments) {
+        const aiRole = Object.values(state.scenario.aiAssignments).find(ai => ai.studentId === student.gsId);
+        if (aiRole) {
+          characterName = aiRole.roleName || 'AI Character';
+        }
+      }
+      
+      if (characterName) {
+        console.log(`Processing student ${student.name} with character ${characterName}`);
         const scenario = SCENARIOS[state.scenario.scenarioId];
         if (!scenario || !scenario.factions) {
           console.log('No scenario or factions found');
@@ -2236,22 +2252,22 @@
           
           // Check characters array
           if (faction.characters) {
-            const character = faction.characters.find(char => char.name === student.characterName);
+            const character = faction.characters.find(char => char.name === characterName);
             if (character) {
               characterFaction = faction;
               factionKey = key;
-              console.log(`Found character ${student.characterName} in faction ${key}`);
+              console.log(`Found character ${characterName} in faction ${key}`);
               break;
             }
           }
           
           // Check generalRoles array
           if (faction.generalRoles) {
-            const generalRole = faction.generalRoles.find(role => role.name === student.characterName);
+            const generalRole = faction.generalRoles.find(role => role.name === characterName);
             if (generalRole) {
               characterFaction = faction;
               factionKey = key;
-              console.log(`Found general role ${student.characterName} in faction ${key}`);
+              console.log(`Found general role ${characterName} in faction ${key}`);
               break;
             }
           }
@@ -2262,9 +2278,9 @@
           student.teamName = characterFaction.name;
           student.teamColor = characterFaction.color;
           student.characterFaction = characterFaction.name;
-          console.log(`✅ Assigned ${student.name} (${student.characterName}) to faction ${characterFaction.name} (${characterFaction.color})`);
+          console.log(`✅ Assigned ${student.name} (${characterName}) to faction ${characterFaction.name} (${characterFaction.color})`);
         } else {
-          console.log(`❌ No faction found for character: ${student.characterName}`);
+          console.log(`❌ No faction found for character: ${characterName}`);
         }
         
         // Update the color system to use team color
