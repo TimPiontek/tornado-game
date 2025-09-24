@@ -2513,6 +2513,19 @@
         if (scenarioFactionKeys[3]) positionsByTeamId[scenarioFactionKeys[3]] = team4Positions; // BR
       }
     }
+
+    // Persist a mapping of board regions -> faction/team ids for later territory labeling
+    // Currently used by getTerritoryForTile to name tiles in the correct faction area
+    state.regionFactionMap = state.regionFactionMap || {};
+    state.regionFactionMap[0] = null; // left column region
+    state.regionFactionMap[2] = null; // right column region
+    if (scenarioFactionKeys.length > 0) {
+      // Determine which faction was placed on the left/right by comparing array identities
+      const leftFaction = scenarioFactionKeys.find(fid => positionsByTeamId[fid] === team1Positions) || null;
+      const rightFaction = scenarioFactionKeys.find(fid => positionsByTeamId[fid] === team2Positions) || null;
+      state.regionFactionMap[0] = leftFaction;
+      state.regionFactionMap[2] = rightFaction;
+    }
     
     Object.entries(teamGroups).forEach(([teamId, students], index) => {
       console.log(`Assigning positions for team ${teamId} with ${students.length} students`);
@@ -2785,6 +2798,16 @@
       'Jefferson Davis': ['Richmond', 'Confederate Capital', 'Government Building'],
       
       // Add more character-territory mappings as needed
+      
+      // Romeo & Juliet (Shakespeare)
+      'Romeo Montague': ['Montague Manor', "Prince's Palace", 'Market District'],
+      'Juliet Capulet': ['Capulet Gardens', 'Capulet Balcony', 'Capulet Library'],
+      'Lord Capulet': ['Capulet Manor', 'Capulet Hall', 'Capulet Library'],
+      'Lady Capulet': ['Capulet Manor', 'Capulet Hall', 'Capulet Gardens'],
+      'Mercutio': ['Market District', 'Church Square', 'Prince\'s Palace'],
+      'Tybalt Capulet': ['Capulet Guards', 'Capulet Workshops', 'Capulet Gardens'],
+      'Benvolio Montague': ['Montague Allies', 'City Gates', 'Market District'],
+      'Friar Laurence': ["Friar Laurence's Cell", 'Church Square', 'City Gates']
     };
     
     // Assign characters to appropriate territories
@@ -2795,13 +2818,31 @@
         // Find tiles owned by this student
         const studentTiles = state.board.tiles.filter(tile => tile.owner_game_student_id === student.gsId);
         
-        // Try to find territories that match the character's preferences
-        studentTiles.forEach(tile => {
+        // If none of the student's tiles match a preferred territory, try to swap within team region
+        let hasPreferred = false;
+        for (const tile of studentTiles) {
           const territoryData = getTerritoryForTile(tile, state.scenario);
           if (territoryData && preferences.includes(territoryData.name)) {
-            console.log(`Perfect match: ${student.characterName} assigned to ${territoryData.name}`);
+            hasPreferred = true;
+            break;
           }
-        });
+        }
+
+        if (!hasPreferred && preferences.length > 0) {
+          // Look for an unowned tile in the same region that has a preferred territory name
+          const candidate = state.board.tiles.find(t => {
+            if (t.owner_game_student_id) return false;
+            const td = getTerritoryForTile(t, state.scenario);
+            return td && preferences.includes(td.name);
+          });
+          if (candidate) {
+            // Reassign one of the student's tiles to the preferred spot
+            const giveBack = studentTiles[0];
+            if (giveBack) giveBack.owner_game_student_id = null;
+            candidate.owner_game_student_id = student.gsId;
+            console.log(`Reassigned ${student.characterName} to preferred territory ${getTerritoryForTile(candidate, state.scenario)?.name}`);
+          }
+        }
       }
     });
   }
@@ -2841,12 +2882,14 @@
     let territoryIndex = 0;
     
     if (regionX === 0) {
-      // Left region - first faction
-      factionId = factionKeys[0];
+      // Left region - prefer the faction mapped to left by starting-tile assignment
+      const mappedLeft = state.regionFactionMap && state.regionFactionMap[0];
+      factionId = mappedLeft || factionKeys[0];
       territoryIndex = regionSeed % (factionTerritories[factionId]?.length || 1);
     } else if (regionX === 2) {
-      // Right region - second faction (if exists)
-      factionId = factionKeys[1] || factionKeys[0];
+      // Right region - prefer the faction mapped to right by starting-tile assignment
+      const mappedRight = state.regionFactionMap && state.regionFactionMap[2];
+      factionId = mappedRight || factionKeys[1] || factionKeys[0];
       territoryIndex = regionSeed % (factionTerritories[factionId]?.length || 1);
     } else {
       // Center region - neutral territories or mixed
