@@ -11870,6 +11870,7 @@ const SCENARIOS = {
     name: 'World War 2',
     type: 'historical',
     description: 'The Second World War between the Allies and Axis powers.',
+    factionOrder: ['allies','axis'],
     factions: {
       allies: {
         name: 'Allied Powers',
