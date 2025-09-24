@@ -2160,6 +2160,9 @@
         // Assign characters to any students who don't have them
         assignCharactersToStudents();
         
+        // Assign teams based on character factions
+        assignTeamsFromCharacters();
+        
         // Re-apply team colors after team assignment
         state.roster.forEach(student => {
           if (student.teamColor) {
@@ -2199,19 +2202,44 @@
     console.log('Assigning teams based on character factions...');
     
     state.roster.forEach(student => {
-      if (student.characterName && student.characterFaction) {
+      if (student.characterName) {
         const scenario = SCENARIOS[state.scenario.scenarioId];
         if (!scenario || !scenario.factions) return;
 
-        const faction = Object.values(scenario.factions).find(f => f.name === student.characterFaction);
-        if (faction) {
-          const factionKey = Object.keys(scenario.factions).find(key => scenario.factions[key] === faction);
+        // Find which faction this character belongs to
+        let characterFaction = null;
+        let factionKey = null;
+        
+        for (const [key, faction] of Object.entries(scenario.factions)) {
+          // Check characters array
+          if (faction.characters) {
+            const character = faction.characters.find(char => char.name === student.characterName);
+            if (character) {
+              characterFaction = faction;
+              factionKey = key;
+              break;
+            }
+          }
+          
+          // Check generalRoles array
+          if (faction.generalRoles) {
+            const generalRole = faction.generalRoles.find(role => role.name === student.characterName);
+            if (generalRole) {
+              characterFaction = faction;
+              factionKey = key;
+              break;
+            }
+          }
+        }
+        
+        if (characterFaction && factionKey) {
           student.teamId = factionKey;
-          student.teamName = faction.name;
-          student.teamColor = faction.color;
-          console.log(`Assigned ${student.name} to faction ${faction.name} (${faction.color})`);
+          student.teamName = characterFaction.name;
+          student.teamColor = characterFaction.color;
+          student.characterFaction = characterFaction.name;
+          console.log(`Assigned ${student.name} (${student.characterName}) to faction ${characterFaction.name} (${characterFaction.color})`);
         } else {
-          // Fallback for general roles (Harry Potter, Star Wars specific)
+          // Fallback for specific scenarios
           if (state.scenario && state.scenario.scenarioName.includes('Harry Potter')) {
             if (student.characterName === 'Luna Lovegood' || student.characterName === 'Dean Thomas' || student.characterName === 'Seamus Finnigan') {
               student.teamId = 'harryPotter';
@@ -2232,6 +2260,8 @@
               student.teamName = 'Galactic Empire';
               student.teamColor = '#8b0000'; // Dark red for empire
             }
+          } else {
+            console.log(`No faction found for character: ${student.characterName}`);
           }
         }
         
@@ -2240,7 +2270,7 @@
           state.colors.set(student.gsId, student.teamColor);
         }
         
-        console.log(`Assigned ${student.name} to team ${student.teamName} (${student.teamColor})`);
+        console.log(`Final assignment: ${student.name} -> Team: ${student.teamName} (${student.teamColor})`);
       }
     });
   }
