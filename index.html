@@ -3181,11 +3181,8 @@ The Beatles
         // Simple, direct navigation update
         async function updateNavigationDirect() {
           try {
-            console.log('🚨 TESTING: Inside updateNavigationDirect()');
             const { data: { session } } = await supabaseClient.auth.getSession();
-            console.log('🚨 TESTING: Session:', session);
             const navLinks = document.querySelector('#mainNav > div:last-child');
-            console.log('🚨 TESTING: navLinks element:', navLinks);
             if (!navLinks) return;
             
             // Clear navigation
@@ -3198,7 +3195,6 @@ The Beatles
             
             if (session && session.user) {
               // Teacher is logged in - show teacher navigation
-              console.log('🚨 TESTING: Adding teacher navigation with Assignments');
               navLinks.innerHTML += `
                 <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
                 <a href="/teacher-assignments-manage.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Assignments</a>
@@ -3231,11 +3227,9 @@ The Beatles
               if (session && session.user) {
                 // Teacher is logged in - show Create Assignment card
                 createAssignmentCard.style.display = 'block';
-                console.log('🚨 TESTING: Showing Create Assignment card for teacher');
               } else {
                 // Not logged in - hide Create Assignment card
                 createAssignmentCard.style.display = 'none';
-                console.log('🚨 TESTING: Hiding Create Assignment card for guest');
               }
             }
             
@@ -3245,7 +3239,6 @@ The Beatles
         }
         
         // Initialize navigation
-        console.log('🚨 TESTING: Calling updateNavigationDirect()');
         updateNavigationDirect();
 
         // // Debug: Log session on page load
