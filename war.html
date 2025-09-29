@@ -1447,7 +1447,7 @@
   }
   
   // Save roster to storage (called by AI ticker and other functions)
-  function saveRosterToStorage() {
+  async function saveRosterToStorage() {
     if (!state.currentRoster || !state.currentRosterId) return;
     
     // Update the roster data with current scores
@@ -1489,6 +1489,31 @@
       
       // Save to localStorage
       localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+      
+      // Save to Supabase if logged in (silently, no alerts)
+      if (state.session && !state.offlineMode) {
+        try {
+          const { error } = await supabase.from('rosters').upsert({
+            id: state.currentRosterId,
+            teacher_id: state.session.user.id,
+            name: state.currentRoster.name,
+            data: updatedRoster,
+            last_modified: new Date().toISOString()
+          });
+          if (error) {
+            console.error('Supabase error in saveRosterToStorage:', error);
+            // Graceful fallback if table missing
+            if (error.code === 'PGRST205' || /Could not find the table 'public.rosters'/.test(error.message||'')) {
+              console.warn("Supabase 'rosters' table missing. Saved locally only.");
+            }
+          } else {
+            console.log('Roster saved to Supabase via saveRosterToStorage');
+          }
+        } catch (error) {
+          console.error('Error saving to Supabase in saveRosterToStorage:', error);
+          // Continue with local save even if Supabase fails
+        }
+      }
     }
   }
   // === EVENT CARDS SYSTEM ===
@@ -6268,7 +6293,7 @@
   }
 
   // Create a default roster when none exist
-  function createDefaultRoster() {
+  async function createDefaultRoster() {
     console.log('Creating default roster...');
     
     const defaultRoster = {
@@ -6289,6 +6314,31 @@
     
     // Save to localStorage
     localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+    
+    // Save to Supabase if logged in
+    if (state.session && !state.offlineMode) {
+      try {
+        const { error } = await supabase.from('rosters').upsert({
+          id: defaultRoster.id,
+          teacher_id: state.session.user.id,
+          name: defaultRoster.name,
+          data: defaultRoster,
+          last_modified: new Date().toISOString()
+        });
+        if (error) {
+          console.error('Supabase error in createDefaultRoster:', error);
+          // Graceful fallback if table missing
+          if (error.code === 'PGRST205' || /Could not find the table 'public.rosters'/.test(error.message||'')) {
+            console.warn("Supabase 'rosters' table missing. Saved locally only.");
+          }
+        } else {
+          console.log('Default roster saved to Supabase');
+        }
+      } catch (error) {
+        console.error('Error saving default roster to Supabase:', error);
+        // Continue with local save even if Supabase fails
+      }
+    }
     
     // Update UI
     rosterList.innerHTML = `<option value="">Select Roster…</option>` + (state.rosters.map(r =>
@@ -6408,7 +6458,7 @@
       
       // If no rosters exist, create a default one
       if (state.rosters.length === 0) {
-        createDefaultRoster();
+        await createDefaultRoster();
       }
     }
   }

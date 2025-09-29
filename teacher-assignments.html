@@ -414,7 +414,13 @@ What is photosynthesis?"></textarea>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
+        // === SUPABASE CLIENT ===
+        const supabaseClient = window.supabase.createClient(
+            'https://dmbbsrcwqpmdxqtzvtqj.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w'
+        );
         // === INITIALIZATION ===
         function init() {
             loadRosters();
@@ -480,7 +486,7 @@ What is photosynthesis?"></textarea>
             }
         }
 
-        function createAssignment() {
+        async function createAssignment() {
             const title = document.getElementById('assignmentTitle').value.trim();
             const description = document.getElementById('assignmentDescription').value.trim();
             const assignmentType = document.getElementById('assignmentType').value;
@@ -542,6 +548,48 @@ What is photosynthesis?"></textarea>
             
             // Save assignments
             localStorage.setItem('tornadoAssignments', JSON.stringify(assignments));
+            
+            // Save to Supabase if logged in
+            console.log('Attempting to save assignments to cloud...');
+            if (supabaseClient && supabaseClient.auth && supabaseClient.auth.getSession) {
+                try {
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    console.log('Session check result:', session ? 'Found session' : 'No session');
+                    if (session) {
+                        console.log('Saving assignments to Supabase with teacher_id:', session.user.id);
+                        for (const assignment of assignments.slice(-createdCount)) {
+                            const { error } = await supabaseClient.from('assignments').upsert({
+                                id: assignment.id,
+                                teacher_id: session.user.id,
+                                title: assignment.title,
+                                description: assignment.description,
+                                type: assignment.type,
+                                roster_id: assignment.rosterId,
+                                questions: assignment.questions,
+                                submissions: assignment.submissions,
+                                created_at: assignment.createdAt,
+                                last_modified: new Date().toISOString()
+                            });
+                            if (error) {
+                                console.error('Supabase error in createAssignment:', error);
+                                // Graceful fallback if table missing
+                                if (error.code === 'PGRST205' || /Could not find the table 'public.assignments'/.test(error.message||'')) {
+                                    console.warn("Supabase 'assignments' table missing. Saved locally only.");
+                                }
+                            } else {
+                                console.log('✅ Assignment saved to Supabase successfully!');
+                            }
+                        }
+                    } else {
+                        console.log('❌ No active session - assignments saved locally only');
+                    }
+                } catch (error) {
+                    console.error('Error saving assignments to Supabase:', error);
+                    // Continue with local save even if Supabase fails
+                }
+            } else {
+                console.log('❌ Supabase client not available - assignments saved locally only');
+            }
             
             // Show success message
             showStatus(`Assignment "${title}" created successfully for ${createdCount} roster${createdCount !== 1 ? 's' : ''}! Students can now access it from their dashboard.`, 'success');
@@ -625,7 +673,12 @@ What is photosynthesis?"></textarea>
         }
 
         function generateAssignmentId() {
-            return 'assignment_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            // Generate a proper UUID v4
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
         }
 
         function showStatus(message, type = 'info') {
@@ -636,6 +689,10 @@ What is photosynthesis?"></textarea>
 
         // === INITIALIZE ===
         document.addEventListener('DOMContentLoaded', init);
+        
+        // Make functions globally accessible
+        window.createAssignment = createAssignment;
+        window.toggleAssignmentType = toggleAssignmentType;
     </script>
 </body>
 </html>

@@ -490,10 +490,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
         // Supabase client (best-effort)
-        const sb = window.supabase?.createClient(
+        console.log('🔧 Initializing Supabase client...');
+        console.log('window.supabase available:', !!window.supabase);
+        const supabaseClient = window.supabase?.createClient(
             "https://dmbbsrcwqpmdxqtzvtqj.supabase.co",
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w"
         );
+        console.log('supabaseClient created:', !!supabaseClient);
         // === GAME STATE ===
         let currentStudent = null;
         let currentAssignment = null;
@@ -742,7 +745,7 @@
             updateProgress();
         }
 
-        function saveProgress() {
+        async function saveProgress() {
             if (!currentSubmission) {
                 alert('No progress to save!');
                 return;
@@ -754,10 +757,51 @@
             assignments[assignmentIndex].submissions[currentStudent.username] = currentSubmission;
             localStorage.setItem('tornadoAssignments', JSON.stringify(assignments));
             
+            // Save to Supabase if logged in
+            console.log('Attempting to save assignment progress to cloud...');
+            console.log('supabaseClient available:', !!supabaseClient);
+            console.log('supabaseClient.auth available:', !!(supabaseClient && supabaseClient.auth));
+            console.log('supabaseClient.auth.getSession available:', !!(supabaseClient && supabaseClient.auth && supabaseClient.auth.getSession));
+            if (supabaseClient && supabaseClient.auth && supabaseClient.auth.getSession) {
+                try {
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    if (session) {
+                        console.log('Saving assignment progress to Supabase with teacher_id:', session.user.id);
+                        const { error } = await supabaseClient.from('assignments').upsert({
+                            id: currentAssignment.id,
+                            teacher_id: session.user.id,
+                            title: currentAssignment.title,
+                            description: currentAssignment.description,
+                            type: currentAssignment.type,
+                            roster_id: currentAssignment.rosterId,
+                            questions: currentAssignment.questions,
+                            submissions: assignments[assignmentIndex].submissions,
+                            last_modified: new Date().toISOString()
+                        });
+                        if (error) {
+                            console.error('Supabase error in saveProgress:', error);
+                            // Graceful fallback if table missing
+                            if (error.code === 'PGRST205' || /Could not find the table 'public.assignments'/.test(error.message||'')) {
+                                console.warn("Supabase 'assignments' table missing. Saved locally only.");
+                            }
+                        } else {
+                            console.log('✅ Assignment progress saved to Supabase successfully!');
+                        }
+                    } else {
+                        console.log('❌ No active session - assignment progress saved locally only');
+                    }
+                } catch (error) {
+                    console.error('Error saving assignment progress to Supabase:', error);
+                    // Continue with local save even if Supabase fails
+                }
+            } else {
+                console.log('❌ Supabase client not available - assignment progress saved locally only');
+            }
+            
             alert('Progress saved successfully!');
         }
 
-        function submitAssignment() {
+        async function submitAssignment() {
             if (!currentSubmission) {
                 alert('No answers to submit!');
                 return;
@@ -789,6 +833,40 @@
             
             // Auto-grade multiple choice questions
             autoGradeMultipleChoice();
+            
+            // Save to Supabase if logged in
+            console.log('Attempting to save assignment submission to cloud...');
+            if (supabaseClient && supabaseClient.auth && supabaseClient.auth.getSession) {
+                try {
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    if (session) {
+                        console.log('Saving assignment submission to Supabase with teacher_id:', session.user.id);
+                        const { error } = await supabaseClient.from('assignments').upsert({
+                            id: currentAssignment.id,
+                            teacher_id: session.user.id,
+                            title: currentAssignment.title,
+                            description: currentAssignment.description,
+                            type: currentAssignment.type,
+                            roster_id: currentAssignment.rosterId,
+                            questions: currentAssignment.questions,
+                            submissions: assignments[assignmentIndex].submissions,
+                            last_modified: new Date().toISOString()
+                        });
+                        if (error) {
+                            console.error('Supabase error in submitAssignment:', error);
+                            // Graceful fallback if table missing
+                            if (error.code === 'PGRST205' || /Could not find the table 'public.assignments'/.test(error.message||'')) {
+                                console.warn("Supabase 'assignments' table missing. Saved locally only.");
+                            }
+                        } else {
+                            console.log('✅ Assignment submission saved to Supabase successfully!');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error saving assignment submission to Supabase:', error);
+                    // Continue with local save even if Supabase fails
+                }
+            }
             
             alert('Assignment submitted successfully! Your teacher will review short answer questions.');
             

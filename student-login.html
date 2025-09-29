@@ -1042,7 +1042,7 @@
             });
         }
 
-        function selectStudentName(studentName, index) {
+        async function selectStudentName(studentName, index) {
             // Update student with roster info
             currentStudent.rosterId = currentRoster.id;
             currentStudent.rosterName = studentName;
@@ -1054,6 +1054,46 @@
             students[studentIndex] = currentStudent;
             localStorage.setItem('tornadoStudents', JSON.stringify(students));
             localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+            
+            // Save to Supabase if logged in
+            console.log('Attempting to save student progress to cloud...');
+            if (supabaseClient && supabaseClient.auth && supabaseClient.auth.getSession) {
+                try {
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    console.log('Session check result:', session ? 'Found session' : 'No session');
+                    if (session) {
+                        console.log('Saving student progress to Supabase with teacher_id:', session.user.id);
+                        const { error } = await supabaseClient.from('student_progress').upsert({
+                            student_id: currentStudent.id,
+                            roster_id: currentStudent.rosterId,
+                            teacher_id: session.user.id,
+                            total_points: currentStudent.totalPoints || 0,
+                            quiz_games_played: currentStudent.quizGamesPlayed || 0,
+                            war_games_played: currentStudent.warGamesPlayed || 0,
+                            questions_answered: currentStudent.questionsAnswered || 0,
+                            correct_answers: currentStudent.correctAnswers || 0,
+                            last_login: currentStudent.lastLogin,
+                            last_modified: new Date().toISOString()
+                        });
+                        if (error) {
+                            console.error('Supabase error in updateStudentProgress:', error);
+                            // Graceful fallback if table missing
+                            if (error.code === 'PGRST205' || /Could not find the table 'public.student_progress'/.test(error.message||'')) {
+                                console.warn("Supabase 'student_progress' table missing. Saved locally only.");
+                            }
+                        } else {
+                            console.log('✅ Student progress saved to Supabase successfully!');
+                        }
+                    } else {
+                        console.log('❌ No active session - student progress saved locally only');
+                    }
+                } catch (error) {
+                    console.error('Error saving student progress to Supabase:', error);
+                    // Continue with local save even if Supabase fails
+                }
+            } else {
+                console.log('❌ Supabase client not available - student progress saved locally only');
+            }
 
             showSuccess(`Welcome to ${currentRoster ? currentRoster.name : 'your class'}! You've joined as ${studentName}.`);
             showDashboard();

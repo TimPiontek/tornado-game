@@ -7020,6 +7020,40 @@
                 // Update current student in localStorage
                 localStorage.setItem('currentStudent', JSON.stringify(student));
                 
+                // Save to Supabase if logged in
+                console.log('Attempting to save quiz progress to cloud...');
+                if (window.supabase && window.supabase.auth && window.supabase.auth.getSession) {
+                    try {
+                        const { data: { session } } = await window.supabase.auth.getSession();
+                        if (session) {
+                            const { error } = await window.supabase.from('student_progress').upsert({
+                                student_id: student.id,
+                                roster_id: student.rosterId,
+                                teacher_id: session.user.id,
+                                total_points: student.totalPoints || 0,
+                                quiz_games_played: student.quizGamesPlayed || 0,
+                                war_games_played: student.warGamesPlayed || 0,
+                                questions_answered: student.questionsAnswered || 0,
+                                correct_answers: student.correctAnswers || 0,
+                                last_login: student.lastLogin,
+                                last_modified: new Date().toISOString()
+                            });
+                            if (error) {
+                                console.error('Supabase error in updateStudentProgress:', error);
+                                // Graceful fallback if table missing
+                                if (error.code === 'PGRST205' || /Could not find the table 'public.student_progress'/.test(error.message||'')) {
+                                    console.warn("Supabase 'student_progress' table missing. Saved locally only.");
+                                }
+                            } else {
+                                console.log('✅ Quiz progress saved to Supabase successfully!');
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error saving quiz progress to Supabase:', error);
+                        // Continue with local save even if Supabase fails
+                    }
+                }
+                
                 console.log(`Updated student progress: +${totalPointsEarned} points, ${questionsAnswered} questions answered`);
             } catch (error) {
                 console.error('Error updating student progress:', error);

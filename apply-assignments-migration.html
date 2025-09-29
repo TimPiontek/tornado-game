@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply Assignments Migration - Tornado Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        button:disabled { background: #6c757d; cursor: not-allowed; }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗄️ Apply Assignments Migration</h1>
+        <p>This will create the assignments table in your Supabase database.</p>
+        
+        <div id="status"></div>
+        
+        <button onclick="applyMigration()" id="applyBtn">Apply Migration</button>
+        <button onclick="checkTable()" id="checkBtn">Check Table</button>
+        
+        <div id="output"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        const supabase = window.supabase.createClient(
+            'https://dmbbsrcwqpmdxqtzvtqj.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w'
+        );
+
+        function showStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        function showOutput(content) {
+            document.getElementById('output').innerHTML = `<pre>${content}</pre>`;
+        }
+
+        async function checkTable() {
+            showStatus('Checking if assignments table exists...', 'info');
+            
+            try {
+                const { data, error } = await supabase
+                    .from('assignments')
+                    .select('*')
+                    .limit(1);
+                
+                if (error) {
+                    if (error.code === 'PGRST205' || error.message.includes('Could not find the table')) {
+                        showStatus('❌ Assignments table does not exist. Run the migration first.', 'error');
+                        showOutput('Table not found. Error: ' + JSON.stringify(error, null, 2));
+                    } else {
+                        showStatus('❌ Error checking table: ' + error.message, 'error');
+                        showOutput(JSON.stringify(error, null, 2));
+                    }
+                } else {
+                    showStatus('✅ Assignments table exists!', 'success');
+                    showOutput('Table exists. Sample data: ' + JSON.stringify(data, null, 2));
+                }
+            } catch (err) {
+                showStatus('❌ Error: ' + err.message, 'error');
+                showOutput(err.toString());
+            }
+        }
+
+        async function applyMigration() {
+            const applyBtn = document.getElementById('applyBtn');
+            applyBtn.disabled = true;
+            applyBtn.textContent = 'Applying...';
+            
+            showStatus('Applying assignments migration...', 'info');
+            
+            const migrationSQL = `
+-- Create assignments table for Tornado War
+CREATE TABLE IF NOT EXISTS assignments (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    teacher_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    title TEXT NOT NULL,
+    description TEXT,
+    type TEXT NOT NULL CHECK (type IN ('multiple_choice', 'short_answer', 'mixed')),
+    roster_id UUID NOT NULL,
+    questions JSONB NOT NULL DEFAULT '[]',
+    submissions JSONB NOT NULL DEFAULT '{}',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    last_modified TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Add RLS policy for assignments table
+ALTER TABLE assignments ENABLE ROW LEVEL SECURITY;
+
+-- Policy: Teachers can only access their own assignments
+CREATE POLICY "Teachers can manage their own assignments" ON assignments
+    FOR ALL USING (auth.uid() = teacher_id);
+
+-- Create indexes for better performance
+CREATE INDEX IF NOT EXISTS idx_assignments_teacher_id ON assignments(teacher_id);
+CREATE INDEX IF NOT EXISTS idx_assignments_roster_id ON assignments(roster_id);
+CREATE INDEX IF NOT EXISTS idx_assignments_created_at ON assignments(created_at);
+            `;
+            
+            try {
+                // Note: This requires a custom RPC function or direct SQL execution
+                // For now, we'll show the SQL that needs to be run
+                showStatus('⚠️ Manual migration required', 'info');
+                showOutput(`Please run this SQL in your Supabase SQL editor:
+
+${migrationSQL}
+
+Or use the Supabase CLI:
+supabase db push
+
+After running the migration, click "Check Table" to verify.`);
+                
+            } catch (err) {
+                showStatus('❌ Error: ' + err.message, 'error');
+                showOutput(err.toString());
+            } finally {
+                applyBtn.disabled = false;
+                applyBtn.textContent = 'Apply Migration';
+            }
+        }
+
+        // Check table on page load
+        window.addEventListener('load', checkTable);
+    </script>
+</body>
+</html>

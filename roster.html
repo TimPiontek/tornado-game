@@ -602,7 +602,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>👥 Manage Roster</h1>
+            <h1>👥 Manage Roster <span style="color: red; font-size: 0.7em;">[LOCAL DEV VERSION]</span></h1>
             <a href="/" class="back-btn">
                 ← Back to Home
             </a>
@@ -1605,7 +1605,7 @@
             }
         }
         
-        function createNewRoster() {
+        async function createNewRoster() {
             const rosterNameInput = document.getElementById('newRosterName');
             const rosterName = rosterNameInput.value.trim();
             
@@ -1677,6 +1677,41 @@
             
             // Save all rosters
             localStorage.setItem('tornadoRosters', JSON.stringify(existingRosters));
+            
+            // Save to Supabase if logged in
+            console.log('Attempting to save roster to cloud...');
+            if (supabaseClient && supabaseClient.auth && supabaseClient.auth.getSession) {
+                try {
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    console.log('Session check result:', session ? 'Found session' : 'No session');
+                    if (session) {
+                        console.log('Saving roster to Supabase with teacher_id:', session.user.id);
+                        const { error } = await supabaseClient.from('rosters').upsert({
+                            id: rosterData.id,
+                            teacher_id: session.user.id,
+                            name: rosterData.name,
+                            data: rosterData,
+                            last_modified: new Date().toISOString()
+                        });
+                        if (error) {
+                            console.error('Supabase error in createNewRoster:', error);
+                            // Graceful fallback if table missing
+                            if (error.code === 'PGRST205' || /Could not find the table 'public.rosters'/.test(error.message||'')) {
+                                console.warn("Supabase 'rosters' table missing. Saved locally only.");
+                            }
+                        } else {
+                            console.log('✅ New roster saved to Supabase successfully!');
+                        }
+                    } else {
+                        console.log('❌ No active session - roster saved locally only');
+                    }
+                } catch (error) {
+                    console.error('Error saving new roster to Supabase:', error);
+                    // Continue with local save even if Supabase fails
+                }
+            } else {
+                console.log('❌ Supabase client not available - roster saved locally only');
+            }
             
             // Reset form
             rosterNameInput.value = '';
@@ -1869,7 +1904,7 @@
             alert(`Roster "${newRoster.name}" created successfully!`);
         }
         
-        function deleteRoster(rosterId) {
+        async function deleteRoster(rosterId) {
             const allRosters = getAllRosters();
             const roster = allRosters.find(r => r.id === rosterId);
             
@@ -1878,6 +1913,32 @@
             if (confirm(`Are you sure you want to delete "${roster.name}"? This action cannot be undone.`)) {
                 const updatedRosters = allRosters.filter(r => r.id !== rosterId);
                 localStorage.setItem('tornadoRosters', JSON.stringify(updatedRosters));
+                
+                // Delete from Supabase if logged in
+                if (supabaseClient && supabaseClient.auth && supabaseClient.auth.getSession) {
+                    try {
+                        const { data: { session } } = await supabaseClient.auth.getSession();
+                        if (session) {
+                            const { error } = await supabaseClient.from('rosters').delete().eq('id', rosterId).eq('teacher_id', session.user.id);
+                            if (error) {
+                                console.error('Supabase error in deleteRoster:', error);
+                                // Graceful fallback if table missing
+                                if (error.code === 'PGRST205' || /Could not find the table 'public.rosters'/.test(error.message||'')) {
+                                    console.warn("Supabase 'rosters' table missing. Deleted locally only.");
+                                }
+                            } else {
+                                console.log('Roster deleted from Supabase');
+                            }
+                        } else {
+                            console.log('No active session - roster deleted locally only');
+                        }
+                    } catch (error) {
+                        console.error('Error deleting roster from Supabase:', error);
+                        // Continue with local delete even if Supabase fails
+                    }
+                } else {
+                    console.log('Supabase client not available - roster deleted locally only');
+                }
                 
                 loadExistingRosters();
                 alert(`Roster "${roster.name}" deleted successfully!`);
@@ -1890,7 +1951,12 @@
         }
         
         function generateRosterId() {
-            return 'roster_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            // Generate a proper UUID v4
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
         }
         
         function generateClassCode() {
@@ -2309,7 +2375,10 @@
             if (document.getElementById('googleLoginBtn')) {
                 document.getElementById('googleLoginBtn').onclick = async function() {
                     const { error } = await supabaseClient.auth.signInWithOAuth({
-                        provider: 'google'
+                        provider: 'google',
+                        options: {
+                            redirectTo: window.location.origin + '/roster.html'
+                        }
                     });
                     if (error) {
                         document.getElementById('authError').textContent = error.message;
@@ -2321,7 +2390,10 @@
             if (document.getElementById('googleSignupBtn')) {
                 document.getElementById('googleSignupBtn').onclick = async function() {
                     const { error } = await supabaseClient.auth.signInWithOAuth({
-                        provider: 'google'
+                        provider: 'google',
+                        options: {
+                            redirectTo: window.location.origin + '/roster.html'
+                        }
                     });
                     if (error) {
                         document.getElementById('authError').textContent = error.message;
