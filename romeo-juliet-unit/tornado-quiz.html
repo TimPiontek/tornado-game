@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romeo & Juliet Tornado Quiz | Play Tornado</title>
+    <style>
+        body {
+            font-family: 'Lexend Deca', Arial, sans-serif;
+            background: #f7fafc;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 2rem;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #6F5C91;
+        }
+        .quiz-info {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #6F5C91;
+        }
+        .start-btn {
+            background: #6F5C91;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        .start-btn:hover {
+            background: #59487a;
+        }
+        .sample-questions {
+            margin-top: 2rem;
+        }
+        .sample-questions h3 {
+            color: #6F5C91;
+        }
+        .sample-questions ul {
+            text-align: left;
+        }
+        .sample-questions li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Romeo & Juliet Tornado Quiz</h1>
+            <h2>30 Questions - Test Your Knowledge!</h2>
+        </div>
+
+        <div class="quiz-info">
+            <h3>🎯 Quiz Information</h3>
+            <p><strong>Total Questions:</strong> 30</p>
+            <p><strong>Question Types:</strong> Multiple Choice</p>
+            <p><strong>Time Limit:</strong> No time limit - take your time!</p>
+            <p><strong>Scoring:</strong> 1 point per correct answer</p>
+            <p><strong>Topics Covered:</strong> Characters, plot, themes, quotes, and literary devices from Romeo & Juliet</p>
+        </div>
+
+        <div class="sample-questions">
+            <h3>📝 Sample Questions:</h3>
+            <ul>
+                <li>Who wrote Romeo and Juliet?</li>
+                <li>What families are feuding in the play?</li>
+                <li>Where do Romeo and Juliet first meet?</li>
+                <li>Who kills Mercutio?</li>
+                <li>What punishment does Romeo receive for killing Tybalt?</li>
+                <li>Who secretly marries Romeo and Juliet?</li>
+                <li>What potion does Juliet take?</li>
+                <li>How does Juliet die?</li>
+            </ul>
+        </div>
+
+        <button class="start-btn" onclick="startQuiz()">Start Romeo & Juliet Quiz</button>
+    </div>
+
+    <script>
+        function startQuiz() {
+            // Redirect to the main quiz page with Romeo & Juliet category
+            window.location.href = '/quiz.html?category=romeo-juliet';
+        }
+    </script>
+</body>
+</html>
+

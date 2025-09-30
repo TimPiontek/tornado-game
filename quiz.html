@@ -2998,6 +2998,8 @@
           <!-- Close button (for emergencies) -->
           <button id="closeQuestionModal" style="position:absolute;top:15px;right:20px;background:none;border:none;font-size:2em;cursor:pointer;color:#6F5C91;opacity:0.7;">&times;</button>
           
+          <!-- Current Student Display -->
+          <div id="modalStudentName" style="font-size:1.8rem;font-weight:600;color:#31727a;margin-bottom:1.5em;text-align:center;padding:0.5em 1em;background:#f8f9fa;border-radius:12px;border:2px solid #e9ecef;"></div>
           
           <!-- Question Display -->
           <div id="modalQuestion" style="font-size:2.5rem;font-weight:700;color:#6F5C91;margin-bottom:2em;line-height:1.3;min-height:120px;display:flex;align-items:center;justify-content:center;"></div>
@@ -3302,6 +3304,104 @@
         
         // Initialize quiz roster integration
         initializeQuizRosterIntegration();
+
+        // === READ URL PARAMS FOR QUIZ CONFIG ===
+        try {
+          const params = new URLSearchParams(window.location.search);
+          const perCorrectParam = params.get('perCorrect');
+          const teamWinParam = params.get('teamWin');
+          const rosterIdParam = params.get('rosterId');
+          window.quizConfig = {
+            perCorrect: perCorrectParam ? parseInt(perCorrectParam, 10) : null,
+            teamWin: teamWinParam ? parseInt(teamWinParam, 10) : null,
+            rosterId: rosterIdParam || null,
+          };
+          console.log('[Quiz] Startup config from URL:', window.quizConfig);
+        } catch (e) {
+          console.warn('Failed to parse quiz URL params', e);
+        }
+
+        // Auto-start will happen after quiz library loads
+
+        async function autoStartQuizWithRoster(roster) {
+          console.log('[Quiz] autoStartQuizWithRoster called with:', roster.name);
+          // Set roster data
+          quizRosterData = roster;
+          updateRosterStatus(`Loaded: ${roster.name} (${(roster.roster||[]).length} students)`);
+          
+          // Use roster's existing team configuration or create default teams
+          let teams = roster.teams || [];
+          console.log('[Quiz] Roster teams found:', teams.length, teams);
+          if (!teams || teams.length === 0) {
+            console.log('[Quiz] No teams found, creating default teams');
+            // Create 2 default teams if none exist
+            const students = roster.roster || [];
+            const mid = Math.ceil(students.length / 2);
+            teams = [
+              { name: 'Team A', students: students.slice(0, mid) },
+              { name: 'Team B', students: students.slice(mid) }
+            ];
+          } else {
+            console.log('[Quiz] Using existing teams from roster');
+          }
+          
+          // Set up team assignment
+          window.quizTeamAssignment = {
+            rosterData: roster,
+            teams: teams
+          };
+          
+          // Auto-select Romeo & Juliet quiz
+          console.log('[Quiz] Available quizzes:', quizLibrary.map(q => ({ title: q.title, category: q.category })));
+          console.log('[Quiz] Looking for Romeo quizzes:', quizLibrary.filter(q => q.title.toLowerCase().includes('romeo')));
+          const romeoQuiz = quizLibrary.find(q => 
+            q.title === 'Romeo and Juliet Act 1 Scene 1 Tornado Quiz'
+          ) || quizLibrary.find(q => 
+            q.title === 'Romeo & Juliet (Updated)' ||
+            q.title === 'Romeo & Juliet' || 
+            q.category === 'romeo-juliet' || 
+            q.name?.toLowerCase().includes('romeo')
+          );
+          console.log('[Quiz] Found Romeo quiz:', romeoQuiz);
+          
+          if (romeoQuiz) {
+            console.log('[Quiz] Starting Romeo & Juliet quiz automatically');
+            console.log('[Quiz] Quiz questions:', romeoQuiz.questions?.length || 'no questions');
+            
+            // Populate the Questions & Answers textarea with Romeo & Juliet questions
+            const populateQuestions = () => {
+              const questionsTextarea = document.getElementById('questionsInput');
+              if (questionsTextarea && romeoQuiz.questions) {
+                const formattedQuestions = romeoQuiz.questions.map(q => 
+                  `${q.question}\n${q.answer}`
+                ).join('\n\n');
+                questionsTextarea.value = formattedQuestions;
+                return true;
+              } else {
+                return false;
+              }
+            };
+            
+            // Try to populate immediately, if not available, wait a bit and try again
+            if (!populateQuestions()) {
+              setTimeout(() => {
+                populateQuestions();
+              }, 100);
+            }
+            
+            // Update roster status but don't auto-start - let teacher review and start manually
+            updateRosterStatus(`Loaded: ${roster.name} (${(roster.roster||[]).length} students) - Ready to start Romeo & Juliet quiz`);
+            
+            // Show a notification that questions are loaded
+            setTimeout(() => {
+              alert('Romeo & Juliet quiz questions loaded! Review them in the Questions & Answers box, then click Start Game when ready.');
+            }, 500);
+            
+          } else {
+            console.warn('[Quiz] Romeo & Juliet quiz not found in library');
+            console.log('[Quiz] Available quiz titles:', quizLibrary.map(q => q.title));
+          }
+        }
 
         // === SUPABASE INIT ===
         const supabaseClient = window.supabase.createClient(
@@ -4426,12 +4526,26 @@
 
         // Debug: Log fetch start
         async function fetchQuizzes(params) {
+          // Use local JSON file as primary source for better control
+          try {
+            const response = await fetch('/quiz_library.json');
+            if (response.ok) {
+              const localQuizzes = await response.json();
+              quizLibrary = localQuizzes;
+              console.log("Fetched quizzes from local JSON:", quizLibrary.length);
+              return quizLibrary;
+            }
+          } catch (err) {
+            console.log("Local JSON not available, trying Supabase:", err);
+          }
+          
+          // Fallback to Supabase if local JSON fails
           try {
             let { data, error } = await supabaseClient
               .from("quizzes")
               .select("*")
               .eq("is_public", true)
-              .order("title", { ascending: true }); // Sort by title A-Z
+              .order("title", { ascending: true });
             
             if (error) {
               console.error("Database error, using fallback quizzes:", error);
@@ -4441,7 +4555,6 @@
             
             quizLibrary = data || fallbackQuizzes;
             console.log("Fetched quizzes from database:", quizLibrary.length);
-            console.log("Quiz library contents:", quizLibrary);
             return quizLibrary;
           } catch (err) {
             console.error("Network error, using fallback quizzes:", err);
@@ -4453,6 +4566,7 @@
         // Call fetchQuizzes and then populate the dropdown
         fetchQuizzes().then(() => {
           console.log("After fetchQuizzes, quizLibrary length:", quizLibrary.length);
+          
           // Update the dropdown text if we have quizzes
           if (quizLibrary.length > 0) {
             const dropdown = document.getElementById("customQuizDropdown");
@@ -4460,6 +4574,23 @@
               dropdown.textContent = "Select a quiz...";
             }
           }
+          
+          // Auto-start quiz if rosterId was provided in URL
+          if (window.quizConfig && window.quizConfig.rosterId) {
+            const warRosters = (function(){
+              try { return JSON.parse(localStorage.getItem('tornadoRosters')||'[]'); } catch(_) { return []; }
+            })();
+            const teacherRosters = (function(){
+              try { return JSON.parse(localStorage.getItem('teacherRosters')||'[]'); } catch(_) { return []; }
+            })();
+            const all = [...warRosters, ...teacherRosters];
+            const found = all.find(r => r && r.id === window.quizConfig.rosterId);
+            if (found) {
+              autoStartQuizWithRoster(found);
+            }
+          }
+        }).catch(error => {
+          console.error('[Quiz] Error in fetchQuizzes:', error);
         });
 
         // Team count change handler
@@ -4669,6 +4800,7 @@
             } else if (questionsInputEl && questionsInputEl.value.trim() !== "") {
               // Parse custom questions from textarea
               const raw = questionsInputEl.value;
+              console.log('[Quiz] Parsing questions from textarea, length:', raw.length);
               // split blocks on blank line
               const blocks = raw
                 .split(/\n\s*\n/)
@@ -4680,6 +4812,7 @@
                   const [q, a] = b.split("\n");
                   return { question: q.trim(), answer: a?.trim() || null };
                 });
+                console.log('[Quiz] Parsed Q&A blocks:', questions.length);
               } else {
                 questions = raw
                   .split("\n")
@@ -4689,6 +4822,7 @@
                     question: q.replace(/^\d+\.\s*/, ""),
                     answer: null,
                   }));
+                console.log('[Quiz] Parsed question-only format:', questions.length);
               }
             } else {
               // No questions provided - grid-only mode
@@ -5770,7 +5904,7 @@
           // Move to next team or next student
           do {
             if (teamMode) {
-              // In team mode, alternate between teams while keeping same student index
+              // In quiz mode, alternate between teams while keeping same student index
               // Only advance student when we've gone through all teams
               let currentIndex = teamOrder.indexOf(turn);
               currentIndex = (currentIndex + 1) % teamCount;
@@ -5862,12 +5996,20 @@
           const questionModal = document.getElementById("questionModal");
           const modalQuestion = document.getElementById("modalQuestion");
           const modalAnswer = document.getElementById("modalAnswer");
-          const modalTeamName = document.getElementById("modalTeamName");
+          const modalStudentName = document.getElementById("modalStudentName");
           
           // Set question text
           modalQuestion.textContent = qObj.question;
           modalAnswer.textContent = "";
           modalAnswer.style.display = "none";
+          
+          // Set current student name
+          const currentStudent = getCurrentStudent();
+          if (modalStudentName && currentStudent) {
+            modalStudentName.textContent = `${currentStudent.name} (${names[turn] || `Team ${turn}`})`;
+          } else if (modalStudentName) {
+            modalStudentName.textContent = `${names[turn] || `Team ${turn}`}'s turn`;
+          }
           
           
           // Show modal
@@ -6979,7 +7121,7 @@
         }
         
         // === STUDENT PROGRESS TRACKING ===
-        function updateStudentProgressFromQuiz() {
+        async function updateStudentProgressFromQuiz() {
             try {
                 const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
                 const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
@@ -9467,6 +9609,7 @@
         function loadRosterData() {
             console.log('=== LOAD ROSTER DATA ===');
             console.log('window.quizTeamAssignment:', window.quizTeamAssignment);
+          console.log('window.quizConfig:', window.quizConfig);
             
             // First try to load from quizTeamAssignment (set during roster selection)
             if (window.quizTeamAssignment && window.quizTeamAssignment.rosterData) {
@@ -9474,6 +9617,17 @@
                 console.log('Roster loaded from quizTeamAssignment:', rosterData);
                 return true;
             }
+
+          // Try to load a specific roster by ID from URL params
+          if (window.quizConfig && window.quizConfig.rosterId) {
+            const all = getAllQuizRosters();
+            const found = all.find(r => r.id === window.quizConfig.rosterId);
+            if (found) {
+              rosterData = found;
+              console.log('Roster loaded from URL rosterId:', rosterData);
+              return true;
+            }
+          }
             
             // Check for quick roster (guest mode)
             const quickRoster = localStorage.getItem('quickRoster');
@@ -9781,8 +9935,23 @@
           // Reset game state first
           resetGameState();
           
-          // Load roster data only if explicitly selected
-          loadRosterData();
+        // Load roster data only if explicitly selected (URL or selection)
+        loadRosterData();
+
+        // If a category param exists, auto-select the quiz and hide the library step
+        try {
+          const params = new URLSearchParams(window.location.search);
+          const category = params.get('category');
+          if (category) {
+            const chooseSelect = document.querySelector('select#chooseQuiz');
+            if (chooseSelect) {
+              // If there is a dedicated selector, set value; otherwise skip
+              chooseSelect.value = category;
+            }
+          }
+        } catch (e) {
+          // non-fatal
+        }
           
           // Apply quiz team assignment if available BEFORE initializing team mode
           if (window.quizTeamAssignment) {
@@ -9795,31 +9964,43 @@
           // Initialize individual student points
           initializeStudentPoints();
           
-          // Load point configuration
-          const individualPointsInput = document.getElementById('individualPoints');
-          const teamVictoryPointsInput = document.getElementById('teamVictoryPoints');
-          
-          if (individualPointsInput) {
-            individualPoints = parseInt(individualPointsInput.value) || 100;
-          }
-          if (teamVictoryPointsInput) {
-            teamVictoryPoints = parseInt(teamVictoryPointsInput.value) || 500;
-          }
+        // Load point configuration (inputs or URL params override)
+        const individualPointsInput = document.getElementById('individualPoints');
+        const teamVictoryPointsInput = document.getElementById('teamVictoryPoints');
+        
+        if (individualPointsInput) {
+          individualPoints = parseInt(individualPointsInput.value) || 100;
+        }
+        if (teamVictoryPointsInput) {
+          teamVictoryPoints = parseInt(teamVictoryPointsInput.value) || 500;
+        }
+        if (window.quizConfig && typeof window.quizConfig.perCorrect === 'number' && !Number.isNaN(window.quizConfig.perCorrect)) {
+          individualPoints = window.quizConfig.perCorrect;
+        }
+        if (window.quizConfig && typeof window.quizConfig.teamWin === 'number' && !Number.isNaN(window.quizConfig.teamWin)) {
+          teamVictoryPoints = window.quizConfig.teamWin;
+        }
           
           console.log('Point configuration:', { individualPoints, teamVictoryPoints });
           
           // Set up game state
-          questions = quiz.questions && Array.isArray(quiz.questions)
-            ? quiz.questions.map((q) => ({
-                question: q.question,
-                answer: q.answer || null,
-              }))
-            : [];
+          // Only overwrite questions if we don't already have them loaded
+          if (!questions || questions.length === 0) {
+            questions = quiz.questions && Array.isArray(quiz.questions)
+              ? quiz.questions.map((q) => ({
+                  question: q.question,
+                  answer: q.answer || null,
+                }))
+              : [];
+          }
           
+          console.log('[Quiz] Questions array before creating indices:', questions.length, questions.slice(0, 2));
+          console.log('[Quiz] QuestionsInput value length:', document.getElementById('questionsInput')?.value?.length || 'no textarea');
           usedQuestionIndices = Array.from(
             { length: questions.length },
             (_, i) => i
           );
+          console.log('[Quiz] Created usedQuestionIndices:', usedQuestionIndices.length, usedQuestionIndices.slice(0, 5));
           
           // Shuffle questions
           for (let i = usedQuestionIndices.length - 1; i > 0; i--) {
@@ -9934,6 +10115,7 @@
           if (nextQuestionBtn) {
             nextQuestionBtn.onclick = () => {
               hideNextQuestionButton();
+              // Turn is already advanced from grid click, just show next question
               showQuestion();
             };
           }

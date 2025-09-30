@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Browser - Tornado Game</title>
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --background: #f9fafb;
+            --card: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .breadcrumb {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .folders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .folder-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .folder-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .folder-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .folder-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .folder-description {
+            color: var(--muted);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .folder-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .assignments-list {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .assignment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .assignment-item:hover {
+            background-color: var(--background);
+        }
+
+        .assignment-item:last-child {
+            border-bottom: none;
+        }
+
+        .assignment-info h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--text);
+        }
+
+        .assignment-info p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .assignment-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #7c3aed;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+        }
+
+        .btn-link {
+            background: none;
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .btn-link:hover {
+            color: #7c3aed;
+        }
+
+        .back-btn {
+            background: var(--muted);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: #4b5563;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📁 Assignment Browser</h1>
+            <button class="back-btn" onclick="window.close()">Close</button>
+        </div>
+
+        <div id="breadcrumb" class="breadcrumb" style="display: none;">
+            <a href="#" onclick="showFolders()">Home</a> > <span id="currentFolder"></span>
+        </div>
+
+        <div id="foldersView">
+            <div class="folders-grid">
+                <div class="folder-card" onclick="openFolder('romeo-juliet-unit')">
+                    <div class="folder-icon">🎭</div>
+                    <div class="folder-name">Romeo & Juliet Unit</div>
+                    <div class="folder-description">Complete 14-day unit plan with assignments for each scene</div>
+                    <div class="folder-stats">
+                        <span>14 assignments</span>
+                        <span>1 quiz</span>
+                    </div>
+                </div>
+
+                <div class="folder-card" onclick="openFolder('the-odyssey-unit')">
+                    <div class="folder-icon">⚔️</div>
+                    <div class="folder-name">The Odyssey Unit</div>
+                    <div class="folder-description">Coming soon - Homer's epic journey</div>
+                    <div class="folder-stats">
+                        <span>0 assignments</span>
+                        <span>Coming soon</span>
+                    </div>
+                </div>
+
+                <div class="folder-card" onclick="openFolder('american-revolution-unit')">
+                    <div class="folder-icon">🇺🇸</div>
+                    <div class="folder-name">American Revolution Unit</div>
+                    <div class="folder-description">Coming soon - Revolutionary War scenarios</div>
+                    <div class="folder-stats">
+                        <span>0 assignments</span>
+                        <span>Coming soon</span>
+                    </div>
+                </div>
+
+                <div class="folder-card" onclick="createNewFolder()">
+                    <div class="folder-icon">➕</div>
+                    <div class="folder-name">Create New Folder</div>
+                    <div class="folder-description">Create your own custom assignment folder</div>
+                    <div class="folder-stats">
+                        <span>Custom</span>
+                        <span>Your content</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="assignmentsView" style="display: none;">
+            <div class="assignments-list">
+                <h2 id="assignmentsTitle">Assignments</h2>
+                <div id="assignmentsList">
+                    <!-- Assignments will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentFolder = null;
+
+        function showFolders() {
+            document.getElementById('foldersView').style.display = 'block';
+            document.getElementById('assignmentsView').style.display = 'none';
+            document.getElementById('breadcrumb').style.display = 'none';
+            currentFolder = null;
+        }
+
+        function openFolder(folderId) {
+            if (folderId === 'romeo-juliet-unit') {
+                showRomeoJulietAssignments();
+            } else if (folderId === 'the-odyssey-unit' || folderId === 'american-revolution-unit') {
+                alert('This unit is coming soon!');
+            } else {
+                // Handle custom folders
+                showCustomFolderAssignments(folderId);
+            }
+        }
+
+        function showRomeoJulietAssignments() {
+            currentFolder = 'romeo-juliet-unit';
+            document.getElementById('foldersView').style.display = 'none';
+            document.getElementById('assignmentsView').style.display = 'block';
+            document.getElementById('breadcrumb').style.display = 'block';
+            document.getElementById('currentFolder').textContent = 'Romeo & Juliet Unit';
+            document.getElementById('assignmentsTitle').textContent = 'Romeo & Juliet Assignments';
+
+            const assignments = [
+                {
+                    id: 'day1',
+                    title: 'Day 1: Act 1, Scene 1',
+                    description: 'Street Fight & Prince\'s Decree - 5 questions',
+                    points: 35,
+                    file: 'romeo-juliet-unit/assignments/day1-act1-scene1.html'
+                },
+                {
+                    id: 'day2',
+                    title: 'Day 2: Act 1, Scenes 2-3',
+                    description: 'Paris\'s Proposal & Capulet\'s Party Plan - 5 questions',
+                    points: 35,
+                    file: 'romeo-juliet-unit/assignments/day2-act1-scenes2-3.html'
+                },
+                {
+                    id: 'tornado-quiz',
+                    title: 'Romeo & Juliet Tornado Quiz',
+                    description: '30 multiple choice questions - Comprehensive quiz',
+                    points: 30,
+                    file: 'romeo-juliet-unit/tornado-quiz.html'
+                }
+            ];
+
+            displayAssignments(assignments);
+        }
+
+        function showCustomFolderAssignments(folderId) {
+            currentFolder = folderId;
+            document.getElementById('foldersView').style.display = 'none';
+            document.getElementById('assignmentsView').style.display = 'block';
+            document.getElementById('breadcrumb').style.display = 'block';
+            document.getElementById('currentFolder').textContent = folderId.replace(/-/g, ' ');
+            document.getElementById('assignmentsTitle').textContent = `${folderId.replace(/-/g, ' ')} Assignments`;
+
+            // Load custom folder assignments from localStorage
+            const customAssignments = JSON.parse(localStorage.getItem(`folder_${folderId}_assignments`) || '[]');
+            displayAssignments(customAssignments);
+        }
+
+        function displayAssignments(assignments) {
+            const assignmentsList = document.getElementById('assignmentsList');
+            assignmentsList.innerHTML = '';
+
+            if (assignments.length === 0) {
+                assignmentsList.innerHTML = '<p style="text-align: center; color: var(--muted); padding: 2rem;">No assignments in this folder yet.</p>';
+                return;
+            }
+
+            assignments.forEach(assignment => {
+                const assignmentItem = document.createElement('div');
+                assignmentItem.className = 'assignment-item';
+                assignmentItem.innerHTML = `
+                    <div class="assignment-info">
+                        <h3>${assignment.title}</h3>
+                        <p>${assignment.description}</p>
+                    </div>
+                    <div class="assignment-actions">
+                        ${assignment.id === 'tornado-quiz' ? 
+                            `<button class="btn btn-primary" onclick="playTornadoQuiz()">Play Quiz</button>` :
+                            `<button class="btn btn-primary" onclick="useAssignment('${assignment.id}', '${assignment.title}', '${assignment.description}', ${assignment.points})">Use Assignment</button>`
+                        }
+                        <button class="btn btn-secondary" onclick="previewAssignment('${assignment.file}')">
+                            Preview
+                        </button>
+                    </div>
+                `;
+                assignmentsList.appendChild(assignmentItem);
+            });
+        }
+
+        function useAssignment(assignmentId, title, description, points) {
+            // For Tornado Quiz, open the quiz directly
+            if (assignmentId === 'tornado-quiz') {
+                playTornadoQuiz();
+                return;
+            }
+            
+            // For regular assignments, show roster selection
+            showRosterSelection(assignmentId, title, description, points);
+        }
+        
+        function showRosterSelection(assignmentId, title, description, points) {
+            // Get rosters from localStorage
+            const rosters = JSON.parse(localStorage.getItem('teacherRosters') || '[]');
+            
+            if (rosters.length === 0) {
+                alert('No rosters found. Please create a roster first.');
+                return;
+            }
+            
+            // Create roster selection dialog
+            const dialog = document.createElement('div');
+            dialog.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+            
+            dialog.innerHTML = `
+                <div style="background: white; padding: 2rem; border-radius: 12px; max-width: 500px; width: 90%;">
+                    <h3>Select Roster for Assignment</h3>
+                    <p><strong>Assignment:</strong> ${title}</p>
+                    <p><strong>Description:</strong> ${description}</p>
+                    <p><strong>Points:</strong> ${points}</p>
+                    
+                    <div style="margin: 1rem 0;">
+                        <label>Choose a roster:</label>
+                        <select id="rosterSelect" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                            ${rosters.map(roster => `<option value="${roster.id}">${roster.name}</option>`).join('')}
+                        </select>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1rem;">
+                        <button onclick="this.closest('div').parentElement.remove()" style="padding: 0.5rem 1rem; border: 1px solid #ccc; background: white; border-radius: 4px; cursor: pointer;">Cancel</button>
+                        <button onclick="assignToRoster('${assignmentId}', '${title}', '${description}', ${points})" style="padding: 0.5rem 1rem; background: #6F5C91; color: white; border: none; border-radius: 4px; cursor: pointer;">Assign</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(dialog);
+        }
+        
+        function assignToRoster(assignmentId, title, description, points) {
+            const rosterSelect = document.getElementById('rosterSelect');
+            const selectedRosterId = rosterSelect.value;
+            
+            // Send assignment info back to parent window
+            if (window.opener) {
+                window.opener.document.getElementById('assignmentTitle').value = title;
+                window.opener.document.getElementById('assignmentDescription').value = description;
+                window.opener.document.getElementById('assignmentFolder').value = currentFolder;
+                window.opener.document.getElementById('rosterSelect').value = selectedRosterId;
+                
+                // Set assignment type based on the assignment
+                window.opener.document.getElementById('assignmentType').value = 'mixed';
+                
+                window.opener.toggleAssignmentType();
+                window.close();
+            }
+        }
+        
+        function playTornadoQuiz() {
+            // Open setup modal to choose roster and scoring before starting quiz
+            showQuizSetupModal();
+        }
+
+        function showQuizSetupModal() {
+            // Prefer teacher-managed rosters; fall back to Tornado War rosters
+            let rosters = [];
+            try {
+                const teacher = JSON.parse(localStorage.getItem('teacherRosters') || '[]');
+                const war = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                rosters = Array.isArray(teacher) && teacher.length > 0 ? teacher : (Array.isArray(war) ? war : []);
+            } catch (_) {
+                rosters = [];
+            }
+            if (!Array.isArray(rosters) || rosters.length === 0) {
+                // Offer quick roster creation so teachers can test without login
+                return quickCreateRosterAndReopen();
+            }
+
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.6);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+            `;
+
+            overlay.innerHTML = `
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; width: 90%; max-width: 560px;">
+                    <h3 style="margin-top: 0;">Start Romeo & Juliet Tornado Quiz</h3>
+                    <div style="margin: 1rem 0;">
+                        <label for="quizRosterSelect" style="display:block; font-weight:600; margin-bottom:0.25rem;">Choose a roster</label>
+                        <select id="quizRosterSelect" style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:6px;">
+                            ${rosters.map(r => `<option value="${r.id}">${r.name}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div style="display:flex; gap:1rem;">
+                        <div style="flex:1;">
+                            <label for="perCorrectInput" style="display:block; font-weight:600; margin-bottom:0.25rem;">Points per correct</label>
+                            <input id="perCorrectInput" type="number" min="0" step="10" value="100" style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:6px;" />
+                        </div>
+                        <div style="flex:1;">
+                            <label for="teamWinInput" style="display:block; font-weight:600; margin-bottom:0.25rem;">Points per team win (per student)</label>
+                            <input id="teamWinInput" type="number" min="0" step="50" value="500" style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:6px;" />
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:0.5rem; justify-content:flex-end; margin-top:1.25rem;">
+                        <button id="cancelQuizSetupBtn" style="padding:0.5rem 1rem; background:#e5e7eb; border:none; border-radius:6px; cursor:pointer;">Cancel</button>
+                        <button id="startQuizBtn" style="padding:0.5rem 1rem; background:#6F5C91; color:white; border:none; border-radius:6px; cursor:pointer;">Start Quiz</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(overlay);
+
+            overlay.querySelector('#cancelQuizSetupBtn').onclick = () => overlay.remove();
+            overlay.querySelector('#startQuizBtn').onclick = () => {
+                const rosterId = overlay.querySelector('#quizRosterSelect').value;
+                const perCorrect = Math.max(0, parseInt(overlay.querySelector('#perCorrectInput').value || '100', 10));
+                const teamWin = Math.max(0, parseInt(overlay.querySelector('#teamWinInput').value || '500', 10));
+                const url = `/quiz.html?category=romeo-juliet&rosterId=${encodeURIComponent(rosterId)}&perCorrect=${encodeURIComponent(perCorrect)}&teamWin=${encodeURIComponent(teamWin)}`;
+                overlay.remove();
+                window.location.href = url;
+            };
+        }
+
+        function quickCreateRosterAndReopen() {
+            const name = prompt('No rosters found. Enter a roster name to create a quick roster:');
+            if (!name) return;
+            const studentsRaw = prompt('Enter student names separated by commas:');
+            const students = (studentsRaw || '')
+                .split(',')
+                .map(s => s.trim())
+                .filter(Boolean);
+            if (students.length === 0) return;
+            // Minimal quick roster compatible with quiz page expectations
+            const newRoster = {
+                id: `quick-${Date.now()}`,
+                name,
+                roster: students.map(n => ({ name: n, points: 0 })),
+                lastModified: new Date().toISOString(),
+                isQuickRoster: true
+            };
+            const existing = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            existing.push(newRoster);
+            localStorage.setItem('tornadoRosters', JSON.stringify(existing));
+            // Reopen the setup modal now that a roster exists
+            showQuizSetupModal();
+        }
+
+        function previewAssignment(filePath) {
+            // Open assignment in edit mode
+            const editUrl = `/${filePath}?edit=true`;
+            window.open(editUrl, '_blank');
+        }
+
+        function createNewFolder() {
+            const folderName = prompt('Enter folder name:');
+            if (folderName && folderName.trim()) {
+                const folderId = folderName.toLowerCase().replace(/\s+/g, '-');
+                
+                // Add to localStorage
+                let folders = JSON.parse(localStorage.getItem('teacherFolders') || '[]');
+                if (!folders.includes(folderId)) {
+                    folders.push(folderId);
+                    localStorage.setItem('teacherFolders', JSON.stringify(folders));
+                }
+                
+                // Create folder card
+                const foldersGrid = document.querySelector('.folders-grid');
+                const newFolderCard = document.createElement('div');
+                newFolderCard.className = 'folder-card';
+                newFolderCard.onclick = () => openFolder(folderId);
+                newFolderCard.innerHTML = `
+                    <div class="folder-icon">📁</div>
+                    <div class="folder-name">${folderName}</div>
+                    <div class="folder-description">Your custom assignment folder</div>
+                    <div class="folder-stats">
+                        <span>0 assignments</span>
+                        <span>Custom</span>
+                    </div>
+                `;
+                
+                // Insert before the "Create New Folder" card
+                const createCard = foldersGrid.querySelector('.folder-card:last-child');
+                foldersGrid.insertBefore(newFolderCard, createCard);
+            }
+        }
+
+        // Load custom folders on page load
+        window.addEventListener('load', () => {
+            const customFolders = JSON.parse(localStorage.getItem('teacherFolders') || '[]');
+            const foldersGrid = document.querySelector('.folders-grid');
+            const createCard = foldersGrid.querySelector('.folder-card:last-child');
+            
+            customFolders.forEach(folderId => {
+                const folderName = folderId.replace(/-/g, ' ');
+                const folderCard = document.createElement('div');
+                folderCard.className = 'folder-card';
+                folderCard.onclick = () => openFolder(folderId);
+                folderCard.innerHTML = `
+                    <div class="folder-icon">📁</div>
+                    <div class="folder-name">${folderName}</div>
+                    <div class="folder-description">Your custom assignment folder</div>
+                    <div class="folder-stats">
+                        <span>0 assignments</span>
+                        <span>Custom</span>
+                    </div>
+                `;
+                foldersGrid.insertBefore(folderCard, createCard);
+            });
+        });
+    </script>
+</body>
+</html>

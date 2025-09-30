@@ -10972,16 +10972,16 @@
     "category": "Literature",
     "questions": [
       {
-        "question": "Who wrote Romeo and Juliet?",
-        "answer": "William Shakespeare"
+        "question": "Who delivers the Prologue at the start of the play?",
+        "answer": "The Chorus"
       },
       {
-        "question": "What families are feuding in Romeo and Juliet?",
-        "answer": "Montagues and Capulets"
+        "question": "According to the Prologue, where does the play take place?",
+        "answer": "Verona"
       },
       {
-        "question": "Who is Romeo in love with at the beginning of the play?",
-        "answer": "Rosaline"
+        "question": "What does the Prologue call the families of Romeo and Juliet?",
+        "answer": "Two households, both alike in dignity"
       },
       {
         "question": "Who is Juliet’s cousin that Romeo kills?",
@@ -24855,6 +24855,132 @@
       {"question": "What is the main concern addressed in Federalist No. 39?", "answer": "The nature of the federal system"},
       {"question": "What is the main concern addressed in Federalist No. 78?", "answer": "The role of the judiciary"},
       {"question": "What is the importance of The Federalist Papers today?", "answer": "They are cited in Supreme Court decisions and legal scholarship"}
+    ]
+  },
+  {
+    "title": "Romeo and Juliet Act 1 Scene 1 Tornado Quiz",
+    "category": "Literature",
+    "questions": [
+      {
+        "question": "Who delivers the Prologue at the start of the play?",
+        "answer": "The Chorus"
+      },
+      {
+        "question": "According to the Prologue, where does the play take place?",
+        "answer": "Verona"
+      },
+      {
+        "question": "What does the Prologue call the families of Romeo and Juliet?",
+        "answer": "Two households, both alike in dignity"
+      },
+      {
+        "question": "What is foretold about Romeo and Juliet in the Prologue?",
+        "answer": "They are star-crossed lovers doomed to die"
+      },
+      {
+        "question": "Who are the first two characters to appear in Act 1, Scene 1?",
+        "answer": "Sampson and Gregory"
+      },
+      {
+        "question": "What house do Sampson and Gregory serve?",
+        "answer": "The Capulets"
+      },
+      {
+        "question": "What are Sampson and Gregory armed with at the start of the scene?",
+        "answer": "Swords and bucklers"
+      },
+      {
+        "question": "What do Sampson and Gregory boast about doing to Montague men?",
+        "answer": "Fighting and killing them"
+      },
+      {
+        "question": "What do Sampson and Gregory boast about doing to Montague women?",
+        "answer": "Pushing them against the wall"
+      },
+      {
+        "question": "What gesture does Sampson make to provoke Abram?",
+        "answer": "He bites his thumb"
+      },
+      {
+        "question": "Who is Abram?",
+        "answer": "A servant of the Montagues"
+      },
+      {
+        "question": "Why does Abram question Sampson about biting his thumb?",
+        "answer": "He wants to know if it is meant as an insult to him"
+      },
+      {
+        "question": "Who tries to stop the fight between the servants?",
+        "answer": "Benvolio"
+      },
+      {
+        "question": "What relation is Benvolio to Romeo?",
+        "answer": "He is Romeo's cousin"
+      },
+      {
+        "question": "Who escalates the fight after Benvolio tries to keep peace?",
+        "answer": "Tybalt"
+      },
+      {
+        "question": "What is Tybalt's attitude toward peace?",
+        "answer": "He says he hates peace as he hates all Montagues"
+      },
+      {
+        "question": "What do the citizens cry out when the brawl grows?",
+        "answer": "Clubs, bills, and partisans!"
+      },
+      {
+        "question": "Who arrives with soldiers to break up the street fight?",
+        "answer": "Prince Escalus"
+      },
+      {
+        "question": "What punishment does the Prince declare for anyone who disturbs the peace again?",
+        "answer": "Death"
+      },
+      {
+        "question": "How many times have the Montagues and Capulets disturbed the peace recently?",
+        "answer": "Three times"
+      },
+      {
+        "question": "What does the Prince command both families to do after the fight?",
+        "answer": "Meet with him to hear judgment"
+      },
+      {
+        "question": "Who is worried about Romeo's sadness after the fight?",
+        "answer": "Lord and Lady Montague"
+      },
+      {
+        "question": "What has Romeo been doing early in the mornings, according to Benvolio?",
+        "answer": "Walking alone at dawn"
+      },
+      {
+        "question": "What does Montague say Romeo does during the day?",
+        "answer": "Shuts himself in his chamber, makes himself an artificial night"
+      },
+      {
+        "question": "What reason does Romeo give for his sadness?",
+        "answer": "He is in love but not loved back"
+      },
+      {
+        "question": "What is the name of the woman Romeo loves in Act 1, Scene 1?",
+        "answer": "Rosaline"
+      },
+      {
+        "question": "What vow has Rosaline made that upsets Romeo?",
+        "answer": "She has sworn to remain chaste"
+      },
+      {
+        "question": "What oxymorons does Romeo use to describe his feelings?",
+        "answer": "Brawling love, loving hate, heavy lightness, serious vanity"
+      },
+      {
+        "question": "How does Benvolio respond to Romeo's despair?",
+        "answer": "He urges him to look at other women"
+      },
+      {
+        "question": "What central theme is introduced through the opening brawl?",
+        "answer": "The destructive feud between the Montagues and Capulets"
+      }
     ]
   }
 ]

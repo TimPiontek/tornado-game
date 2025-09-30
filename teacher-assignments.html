@@ -326,6 +326,12 @@
             
             <form id="assignmentForm">
                 <div class="form-group">
+                    <button type="button" class="btn btn-secondary" onclick="openAssignmentBrowser()" style="width: 100%; margin-bottom: 1rem;">
+                        📁 Browse Premade Assignments
+                    </button>
+                </div>
+                
+                <div class="form-group">
                     <label for="assignmentTitle">Assignment Title</label>
                     <input type="text" id="assignmentTitle" placeholder="Enter assignment title" required>
                 </div>
@@ -336,12 +342,55 @@
                 </div>
                 
                 <div class="form-group">
+                    <label for="assignmentFolder">Save to Folder (Optional)</label>
+                    <select id="assignmentFolder">
+                        <option value="">No folder (save to root)</option>
+                        <option value="romeo-juliet-unit">📁 Romeo & Juliet Unit</option>
+                        <option value="the-odyssey-unit">📁 The Odyssey Unit</option>
+                        <option value="american-revolution-unit">📁 American Revolution Unit</option>
+                    </select>
+                    <button type="button" class="btn btn-link" onclick="createNewFolder()" style="margin-top: 0.5rem; padding: 0.25rem 0.5rem; font-size: 0.9rem;">
+                        + Create New Folder
+                    </button>
+                </div>
+                
+                <div class="form-group">
                     <label for="assignmentType">Assignment Type</label>
                     <select id="assignmentType" onchange="toggleAssignmentType()">
                         <option value="multiple_choice">Multiple Choice Questions</option>
                         <option value="short_answer">Short Answer Questions</option>
                         <option value="mixed">Mixed (Multiple Choice + Short Answer)</option>
+                        <option value="romeo_juliet_unit">Romeo & Juliet Unit Assignment</option>
                     </select>
+                </div>
+                
+                <!-- Romeo & Juliet Unit Section -->
+                <div id="romeoJulietSection" class="assignment-section" style="display: none;">
+                    <h3>🎭 Romeo & Juliet Unit Assignments</h3>
+                    <div class="form-group">
+                        <label for="romeoJulietDay">Select Day/Scene</label>
+                        <select id="romeoJulietDay">
+                            <option value="day1">Day 1: Act 1, Scene 1 (Street Fight & Prince's Decree)</option>
+                            <option value="day2">Day 2: Act 1, Scenes 2-3 (Paris's Proposal & Capulet's Party Plan)</option>
+                            <option value="day3">Day 3: Act 1, Scenes 4-5 (Queen Mab Speech & Romeo & Juliet Meet)</option>
+                            <option value="day4">Day 4: Act 2, Scene 1-2 (Balcony Scene Opening)</option>
+                            <option value="day5">Day 5: Act 2, Scene 2-3 (Balcony Scene Conclusion & Friar Laurence)</option>
+                            <option value="day6">Day 6: Act 2, Scenes 4-5 (Mercutio/Tybalt Banter & Nurse as Go-Between)</option>
+                            <option value="day7">Day 7: Act 2, Scene 6 (Romeo & Juliet's Secret Marriage)</option>
+                            <option value="day8">Day 8: Act 3, Scene 1 (Mercutio Killed, Tybalt Killed, Romeo Banished)</option>
+                            <option value="day9">Day 9: Act 3, Scenes 2-3 (Juliet Learns of Tybalt's Death, Romeo Despairs)</option>
+                            <option value="day10">Day 10: Act 3, Scenes 4-5 (Capulet Sets Wedding Date, Romeo & Juliet's Farewell)</option>
+                            <option value="day11">Day 11: Act 4, Scenes 1-2 (Friar Laurence's Plan, Juliet Agrees to Marry Paris)</option>
+                            <option value="day12">Day 12: Act 4, Scenes 3-5 (Juliet Takes Potion, Family Discovers "Death")</option>
+                            <option value="day13">Day 13: Act 5, Scenes 1-2 (Romeo's Dream, Balthasar's News, Friar John's Failure)</option>
+                            <option value="day14">Day 14: Act 5, Scene 3 (Romeo and Juliet Die, Families Reconcile)</option>
+                            <option value="tornado_quiz">Romeo & Juliet Tornado Quiz (30 Questions)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="romeoJulietPoints">Total Points for Assignment</label>
+                        <input type="number" id="romeoJulietPoints" value="35" min="1" max="100">
+                    </div>
                 </div>
                 
                 <!-- Multiple Choice Section -->
@@ -469,20 +518,51 @@ What is photosynthesis?"></textarea>
             }
         }
 
+        function openAssignmentBrowser() {
+            window.open('/assignment-browser.html', '_blank', 'width=1000,height=700');
+        }
+
+        function createNewFolder() {
+            const folderName = prompt('Enter folder name:');
+            if (folderName && folderName.trim()) {
+                const folderSelect = document.getElementById('assignmentFolder');
+                const newOption = document.createElement('option');
+                newOption.value = folderName.toLowerCase().replace(/\s+/g, '-');
+                newOption.textContent = `📁 ${folderName}`;
+                folderSelect.appendChild(newOption);
+                newOption.selected = true;
+                
+                // Save to localStorage
+                let folders = JSON.parse(localStorage.getItem('teacherFolders') || '[]');
+                if (!folders.includes(folderName.toLowerCase().replace(/\s+/g, '-'))) {
+                    folders.push(folderName.toLowerCase().replace(/\s+/g, '-'));
+                    localStorage.setItem('teacherFolders', JSON.stringify(folders));
+                }
+            }
+        }
+
         function toggleAssignmentType() {
             const assignmentType = document.getElementById('assignmentType').value;
             const mcSection = document.getElementById('multipleChoiceSection');
             const saSection = document.getElementById('shortAnswerSection');
+            const rjSection = document.getElementById('romeoJulietSection');
             
             if (assignmentType === 'multiple_choice') {
                 mcSection.style.display = 'block';
                 saSection.style.display = 'none';
+                rjSection.style.display = 'none';
             } else if (assignmentType === 'short_answer') {
                 mcSection.style.display = 'none';
                 saSection.style.display = 'block';
+                rjSection.style.display = 'none';
             } else if (assignmentType === 'mixed') {
                 mcSection.style.display = 'block';
                 saSection.style.display = 'block';
+                rjSection.style.display = 'none';
+            } else if (assignmentType === 'romeo_juliet_unit') {
+                mcSection.style.display = 'none';
+                saSection.style.display = 'none';
+                rjSection.style.display = 'block';
             }
         }
 
@@ -508,7 +588,21 @@ What is photosynthesis?"></textarea>
             // Parse questions based on type
             let questions = [];
             
-            if (assignmentType === 'multiple_choice' || assignmentType === 'mixed') {
+            if (assignmentType === 'romeo_juliet_unit') {
+                // Handle Romeo & Juliet unit assignments
+                const rjDay = document.getElementById('romeoJulietDay').value;
+                const rjPoints = parseInt(document.getElementById('romeoJulietPoints').value) || 35;
+                
+                // Create a special assignment that redirects to the appropriate day
+                questions = [{
+                    id: 'romeo_juliet_redirect',
+                    type: 'romeo_juliet_unit',
+                    day: rjDay,
+                    points: rjPoints,
+                    title: title,
+                    description: description
+                }];
+            } else if (assignmentType === 'multiple_choice' || assignmentType === 'mixed') {
                 const mcQuestions = parseMultipleChoiceQuestions();
                 if (mcQuestions.length === 0) {
                     showStatus('Please enter at least one multiple choice question', 'error');

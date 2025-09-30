@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romeo & Juliet - Day 1: Act 1, Scene 1 | Play Tornado</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: 'Lexend Deca', Arial, sans-serif;
+            background: #f7fafc;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 2rem;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #6F5C91;
+        }
+        .story-summary {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #6F5C91;
+        }
+        .questions-section {
+            margin-bottom: 2rem;
+        }
+        .question {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .question h3 {
+            color: #6F5C91;
+            margin-top: 0;
+        }
+        .question-type {
+            display: inline-block;
+            background: #6F5C91;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .multiple-choice {
+            background: #3182ce;
+        }
+        .short-answer {
+            background: #38a169;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .options li {
+            margin-bottom: 0.5rem;
+        }
+        .options input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+        .short-answer textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.5;
+            resize: vertical;
+        }
+        .short-answer textarea:focus {
+            border-color: #6F5C91;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(111, 92, 145, 0.1);
+        }
+        .submit-btn {
+            background: #6F5C91;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        .submit-btn:hover {
+            background: #59487a;
+        }
+        
+        /* Edit mode styles */
+        .edit-mode .story-summary {
+            border: 2px dashed #6F5C91;
+            background: #f8f9fa;
+        }
+        .edit-mode .story-summary h3 {
+            color: #6F5C91;
+        }
+        .edit-mode .question {
+            border: 2px dashed #6F5C91;
+            background: #f8f9fa;
+        }
+        .edit-mode .question h3 {
+            color: #6F5C91;
+        }
+        .edit-mode .question-type {
+            background: #6F5C91;
+        }
+        .edit-mode .submit-btn {
+            background: #10b981;
+        }
+        .edit-mode .submit-btn:hover {
+            background: #059669;
+        }
+        
+        /* Inline editing styles */
+        .editable:hover {
+            background-color: rgba(111, 92, 145, 0.05) !important;
+            border-radius: 4px !important;
+        }
+        .editable.editing {
+            background-color: #f8f9fa !important;
+            border: 1px solid #dee2e6 !important;
+            border-radius: 6px !important;
+            padding: 8px 12px !important;
+            outline: none !important;
+            min-height: 40px !important;
+            line-height: 1.5 !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+        }
+        .edit-controls {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .question-management {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .edit-controls button {
+            margin: 0 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .add-question-btn {
+            background: #28a745;
+            color: white;
+        }
+        .add-question-btn:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+        .save-btn {
+            background: #6F5C91;
+            color: white;
+        }
+        .save-btn:hover {
+            background: #5a4a7a;
+            transform: translateY(-1px);
+        }
+        .cancel-btn {
+            background: #6c757d;
+            color: white;
+        }
+        .cancel-btn:hover {
+            background: #5a6268;
+            transform: translateY(-1px);
+        }
+        .delete-question-btn {
+            background: #dc3545;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            margin-left: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .delete-question-btn:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="assignmentContainer">
+        <div class="header">
+            <h1>Romeo & Juliet - Day 1</h1>
+            <h2>Act 1, Scene 1: Street Fight & Prince's Decree</h2>
+        </div>
+
+        <div id="editControls" class="edit-controls" style="display: none;">
+            <p><strong>✏️ Edit Mode:</strong> Click or double-click any highlighted text to edit it. Use Ctrl+Enter to save, Escape to cancel.</p>
+            <div class="question-management">
+                <button class="add-question-btn" onclick="addNewQuestion()">+ Add Question</button>
+                <button class="save-btn" onclick="saveAssignment()">Save All Changes</button>
+                <button class="cancel-btn" onclick="cancelEdit()">Cancel All Changes</button>
+            </div>
+        </div>
+
+        <div class="story-summary">
+            <h3>📖 Story Summary</h3>
+            <div id="summaryContent">
+                <p><strong>Setting:</strong> <span class="editable" data-field="setting">A public place in Verona</span></p>
+                <p><strong>What happens:</strong> <span class="editable" data-field="what-happens">A street brawl breaks out between servants of two feuding families. One family member tries to stop the fight, but another escalates it. The Prince arrives and threatens severe punishment for anyone who disturbs the peace again. We learn that one of the young men is lovesick over a woman who doesn't return his affections.</span></p>
+                <p><strong>Key characters introduced:</strong> <span class="editable" data-field="characters">A peacemaker, a hot-headed fighter, the Prince, a lovesick young man, and the family patriarchs and matriarchs</span></p>
+            </div>
+        </div>
+
+        <div class="questions-section">
+            <h2>📝 Assignment Questions</h2>
+            <div id="questionsContainer">
+                <div class="question" data-question-id="1">
+                    <span class="question-type multiple-choice">Multiple Choice</span>
+                    <button class="delete-question-btn" onclick="deleteQuestion(1)" style="display: none;">Delete</button>
+                    <h3>Question 1 (<span class="editable" data-field="q1-points">5</span> points)</h3>
+                    <p class="editable" data-field="q1-text">Who tries to stop the street fight between the Montague and Capulet servants?</p>
+                    <ul class="options">
+                        <li><input type="radio" name="q1" value="a"> A) <span class="editable" data-field="q1-a">Tybalt</span></li>
+                        <li><input type="radio" name="q1" value="b"> B) <span class="editable" data-field="q1-b">Benvolio</span></li>
+                        <li><input type="radio" name="q1" value="c"> C) <span class="editable" data-field="q1-c">Romeo</span></li>
+                        <li><input type="radio" name="q1" value="d"> D) <span class="editable" data-field="q1-d">Prince Escalus</span></li>
+                    </ul>
+                </div>
+
+                <div class="question" data-question-id="2">
+                    <span class="question-type multiple-choice">Multiple Choice</span>
+                    <button class="delete-question-btn" onclick="deleteQuestion(2)" style="display: none;">Delete</button>
+                    <h3>Question 2 (<span class="editable" data-field="q2-points">5</span> points)</h3>
+                    <p class="editable" data-field="q2-text">What punishment does the Prince threaten for future street fights?</p>
+                    <ul class="options">
+                        <li><input type="radio" name="q2" value="a"> A) <span class="editable" data-field="q2-a">Banishment</span></li>
+                        <li><input type="radio" name="q2" value="b"> B) <span class="editable" data-field="q2-b">Death</span></li>
+                        <li><input type="radio" name="q2" value="c"> C) <span class="editable" data-field="q2-c">Imprisonment</span></li>
+                        <li><input type="radio" name="q2" value="d"> D) <span class="editable" data-field="q2-d">Fines</span></li>
+                    </ul>
+                </div>
+
+                <div class="question" data-question-id="3">
+                    <span class="question-type multiple-choice">Multiple Choice</span>
+                    <button class="delete-question-btn" onclick="deleteQuestion(3)" style="display: none;">Delete</button>
+                    <h3>Question 3 (<span class="editable" data-field="q3-points">5</span> points)</h3>
+                    <p class="editable" data-field="q3-text">Who is Romeo in love with at the beginning of the play?</p>
+                    <ul class="options">
+                        <li><input type="radio" name="q3" value="a"> A) <span class="editable" data-field="q3-a">Juliet</span></li>
+                        <li><input type="radio" name="q3" value="b"> B) <span class="editable" data-field="q3-b">Rosaline</span></li>
+                        <li><input type="radio" name="q3" value="c"> C) <span class="editable" data-field="q3-c">Lady Capulet</span></li>
+                        <li><input type="radio" name="q3" value="d"> D) <span class="editable" data-field="q3-d">The Nurse</span></li>
+                    </ul>
+                </div>
+
+                <div class="question" data-question-id="4">
+                    <span class="question-type short-answer">Short Answer</span>
+                    <button class="delete-question-btn" onclick="deleteQuestion(4)" style="display: none;">Delete</button>
+                    <h3>Question 4 (<span class="editable" data-field="q4-points">10</span> points)</h3>
+                    <p class="editable" data-field="q4-text">Explain why Benvolio is considered a peacemaker in this scene. Use specific examples from the text.</p>
+                    <textarea name="q4" placeholder="Your answer here..."></textarea>
+                </div>
+
+                <div class="question" data-question-id="5">
+                    <span class="question-type short-answer">Short Answer</span>
+                    <button class="delete-question-btn" onclick="deleteQuestion(5)" style="display: none;">Delete</button>
+                    <h3>Question 5 (<span class="editable" data-field="q5-points">10</span> points)</h3>
+                    <p class="editable" data-field="q5-text">How does Tybalt's personality contrast with Benvolio's in this scene? What does this tell us about the ongoing feud between the families?</p>
+                    <textarea name="q5" placeholder="Your answer here..."></textarea>
+                </div>
+            </div>
+
+            <button class="submit-btn" onclick="submitAssignment()">Submit Assignment</button>
+        </div>
+    </div>
+
+    <script>
+        let isEditMode = false;
+        let originalContent = {};
+        let supabaseClient = null;
+
+        // Get current teacher ID (for now, use a simple method)
+        function getCurrentTeacherId() {
+            // Try to get from localStorage first
+            let teacherId = localStorage.getItem('currentTeacherId');
+            if (!teacherId) {
+                // Generate a unique teacher ID and save it
+                teacherId = 'teacher_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('currentTeacherId', teacherId);
+            }
+            return teacherId;
+        }
+
+        // Load teacher-specific assignment
+        function loadTeacherAssignment() {
+            try {
+                const teacherId = getCurrentTeacherId();
+                const savedAssignment = localStorage.getItem(`assignment_romeo-juliet-day1_${teacherId}`);
+                
+                if (savedAssignment) {
+                    const assignmentData = JSON.parse(savedAssignment);
+                    
+                    // Load saved assignment content
+                    Object.keys(assignmentData.questions || {}).forEach(field => {
+                        const element = document.querySelector(`[data-field="${field}"]`);
+                        if (element) {
+                            element.textContent = assignmentData.questions[field];
+                            originalContent[field] = assignmentData.questions[field];
+                        }
+                    });
+                    
+                    console.log('Loaded teacher-specific assignment for:', teacherId);
+                } else {
+                    console.log('No saved assignment found, using default');
+                }
+            } catch (error) {
+                console.error('Error loading assignment:', error);
+            }
+        }
+
+        // Check if we're in edit mode
+        window.addEventListener('load', () => {
+            loadTeacherAssignment();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('edit') === 'true') {
+                enableEditMode();
+            }
+        });
+
+        function enableEditMode() {
+            isEditMode = true;
+            document.getElementById('assignmentContainer').classList.add('edit-mode');
+            document.getElementById('editControls').style.display = 'block';
+            
+            // Show delete buttons for questions
+            document.querySelectorAll('.delete-question-btn').forEach(btn => {
+                btn.style.display = 'inline-block';
+            });
+            
+            // Make all editable elements clickable
+            document.querySelectorAll('.editable').forEach(element => {
+                element.style.cursor = 'pointer';
+                
+                // Store original content
+                originalContent[element.dataset.field] = element.textContent;
+                
+                // Add click handler
+                element.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    editElementInline(element);
+                });
+                
+                // Add double-click handler for better editing
+                element.addEventListener('dblclick', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    editElementInline(element);
+                });
+            });
+        }
+
+        function editElementInline(element) {
+            const currentText = element.textContent;
+            
+            // Add editing class
+            element.classList.add('editing');
+            
+            // Make element contentEditable instead of replacing with textarea
+            element.contentEditable = true;
+            
+            // Focus element (let browser handle cursor positioning)
+            element.focus();
+            
+            // Handle save on Enter (Ctrl+Enter) or blur
+            const saveEdit = () => {
+                const newText = element.textContent.trim();
+                if (newText && newText !== currentText) {
+                    element.textContent = newText;
+                } else {
+                    element.textContent = currentText;
+                }
+                element.contentEditable = false;
+                element.classList.remove('editing');
+                
+                // Re-enable editing
+                element.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    editElementInline(element);
+                });
+            };
+            
+            element.addEventListener('blur', saveEdit);
+            element.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && e.ctrlKey) {
+                    e.preventDefault();
+                    saveEdit();
+                } else if (e.key === 'Escape') {
+                    element.textContent = currentText;
+                    element.contentEditable = false;
+                    element.classList.remove('editing');
+                    
+                    element.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        editElementInline(element);
+                    });
+                }
+            });
+            
+            // Remove click listener temporarily
+            element.removeEventListener('click', () => editElementInline(element));
+        }
+
+        window.saveAssignment = function saveAssignment() {
+            try {
+                // Collect all edited content
+                const editedContent = {};
+                document.querySelectorAll('.editable').forEach(element => {
+                    editedContent[element.dataset.field] = element.textContent;
+                });
+
+                // Get current teacher ID
+                const teacherId = getCurrentTeacherId();
+
+                // Save teacher-specific assignment
+                const assignmentData = {
+                    id: `romeo-juliet-day1-${teacherId}`,
+                    teacher_id: teacherId,
+                    title: 'Romeo & Juliet - Day 1: Act 1, Scene 1 (Custom)',
+                    description: 'Customized assignment for Romeo & Juliet Day 1',
+                    type: 'romeo_juliet_unit',
+                    questions: editedContent,
+                    created_at: new Date().toISOString(),
+                    last_modified: new Date().toISOString()
+                };
+
+                // Save to localStorage with teacher-specific key
+                localStorage.setItem(`assignment_romeo-juliet-day1_${teacherId}`, JSON.stringify(assignmentData));
+
+                alert('Assignment saved successfully!');
+                console.log('Assignment saved for teacher:', teacherId);
+                
+                // Don't close window, just show success
+                // window.close();
+            } catch (error) {
+                console.error('Error saving assignment:', error);
+                alert('Error saving assignment. Please try again.');
+            }
+        }
+
+        window.cancelEdit = function cancelEdit() {
+            // Restore original content
+            document.querySelectorAll('.editable').forEach(element => {
+                if (originalContent[element.dataset.field]) {
+                    element.textContent = originalContent[element.dataset.field];
+                }
+            });
+            
+            // Hide delete buttons
+            document.querySelectorAll('.delete-question-btn').forEach(btn => {
+                btn.style.display = 'none';
+            });
+            
+            // Exit edit mode
+            isEditMode = false;
+            document.getElementById('assignmentContainer').classList.remove('edit-mode');
+            document.getElementById('editControls').style.display = 'none';
+        }
+        
+        window.addNewQuestion = function addNewQuestion() {
+            const questionsContainer = document.getElementById('questionsContainer');
+            const questionCount = questionsContainer.children.length + 1;
+            
+            // Create new question element
+            const newQuestion = document.createElement('div');
+            newQuestion.className = 'question';
+            newQuestion.setAttribute('data-question-id', questionCount);
+            
+            newQuestion.innerHTML = `
+                <span class="question-type multiple-choice">Multiple Choice</span>
+                <button class="delete-question-btn" onclick="deleteQuestion(${questionCount})" style="display: inline-block;">Delete</button>
+                <h3>Question ${questionCount} (<span class="editable" data-field="q${questionCount}-points">5</span> points)</h3>
+                <p class="editable" data-field="q${questionCount}-text">Enter your question here...</p>
+                <ul class="options">
+                    <li><input type="radio" name="q${questionCount}" value="a"> A) <span class="editable" data-field="q${questionCount}-a">Option A</span></li>
+                    <li><input type="radio" name="q${questionCount}" value="b"> B) <span class="editable" data-field="q${questionCount}-b">Option B</span></li>
+                    <li><input type="radio" name="q${questionCount}" value="c"> C) <span class="editable" data-field="q${questionCount}-c">Option C</span></li>
+                    <li><input type="radio" name="q${questionCount}" value="d"> D) <span class="editable" data-field="q${questionCount}-d">Option D</span></li>
+                </ul>
+            `;
+            
+            questionsContainer.appendChild(newQuestion);
+            
+            // Make new question editable
+            newQuestion.querySelectorAll('.editable').forEach(element => {
+                element.style.cursor = 'pointer';
+                
+                // Store original content
+                originalContent[element.dataset.field] = element.textContent;
+                
+                // Add click handler
+                element.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    editElementInline(element);
+                });
+                
+                // Add double-click handler for better editing
+                element.addEventListener('dblclick', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    editElementInline(element);
+                });
+            });
+        }
+        
+        window.deleteQuestion = function deleteQuestion(questionId) {
+            if (confirm('Are you sure you want to delete this question?')) {
+                const questionElement = document.querySelector(`[data-question-id="${questionId}"]`);
+                if (questionElement) {
+                    questionElement.remove();
+                    
+                    // Renumber remaining questions
+                    const questions = document.querySelectorAll('.question');
+                    questions.forEach((question, index) => {
+                        const newId = index + 1;
+                        question.setAttribute('data-question-id', newId);
+                        question.querySelector('h3').innerHTML = `Question ${newId} (<span class="editable" data-field="q${newId}-points">5</span> points)`;
+                        question.querySelector('.delete-question-btn').setAttribute('onclick', `deleteQuestion(${newId})`);
+                    });
+                }
+            }
+        }
+
+        function submitAssignment() {
+            // Collect answers
+            const answers = {
+                q1: document.querySelector('input[name="q1"]:checked')?.value || '',
+                q2: document.querySelector('input[name="q2"]:checked')?.value || '',
+                q3: document.querySelector('input[name="q3"]:checked')?.value || '',
+                q4: document.querySelector('textarea[name="q4"]').value.trim(),
+                q5: document.querySelector('textarea[name="q5"]').value.trim()
+            };
+
+            // Check if all questions are answered
+            const unanswered = Object.entries(answers).filter(([key, value]) => !value);
+            if (unanswered.length > 0) {
+                alert(`Please answer all questions. Unanswered: ${unanswered.map(([key]) => key).join(', ')}`);
+                return;
+            }
+
+            // Save to localStorage (will be integrated with cloud later)
+            const assignment = {
+                id: 'romeo-juliet-day1',
+                title: 'Romeo & Juliet - Day 1: Act 1, Scene 1',
+                answers: answers,
+                submittedAt: new Date().toISOString()
+            };
+
+            let submissions = JSON.parse(localStorage.getItem('romeoJulietSubmissions') || '[]');
+            submissions.push(assignment);
+            localStorage.setItem('romeoJulietSubmissions', JSON.stringify(submissions));
+
+            alert('Assignment submitted successfully!');
+            
+            // Redirect back to student dashboard
+            window.location.href = '/student-assignments.html';
+        }
+    </script>
+</body>
+</html>
