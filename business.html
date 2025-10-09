@@ -214,15 +214,76 @@
       
       <!-- Metrics Tab -->
       <div id="tab-metrics" class="business-tab-panel">
-        <div class="title">Performance Metrics</div>
-        <div style="margin-bottom: 8px;">
-          <button id="addMetricBtn" onclick="showAddMetricModal()" style="width: 100%; padding: 6px; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">+ Add Metric</button>
+        <div class="title">Team Metrics Dashboard</div>
+        
+        <!-- Main Team Goal Progress -->
+        <div style="margin-bottom: 16px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: rgba(34, 197, 94, 0.1);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <h4 style="margin: 0; color: #22c55e; font-size: 14px;">🎯 Q4 Sales Goal</h4>
+            <span style="font-size: 12px; color: var(--muted);">$847,500 / $1,000,000</span>
+          </div>
+          <div style="background: #1e293b; border-radius: 6px; height: 20px; overflow: hidden; position: relative;">
+            <div id="mainProgressBar" style="background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%); height: 100%; width: 84.75%; transition: width 0.5s ease; position: relative;">
+              <div style="position: absolute; right: -1px; top: 0; height: 100%; width: 2px; background: #fff; box-shadow: 0 0 4px rgba(255,255,255,0.5);"></div>
+            </div>
+            <div id="mainProgressText" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 10px; font-weight: bold; color: #fff; text-shadow: 0 0 2px rgba(0,0,0,0.8);">84.75%</div>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-top: 4px; font-size: 10px; color: var(--muted);">
+            <span>Target: $1,000,000</span>
+            <span id="remainingAmount">Remaining: $152,500</span>
+          </div>
         </div>
-        <div id="metricsList">
-          <div style="font-size: 11px; color: var(--muted);">Select metrics to track performance...</div>
+
+        <!-- Individual Metrics Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+          <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(59, 130, 246, 0.1);">
+            <div style="font-weight: 600; color: #60a5fa; font-size: 12px;">Products Sold</div>
+            <div id="productsValue" style="font-size: 18px; font-weight: bold; color: #60a5fa; margin: 4px 0;">2,847</div>
+            <div style="font-size: 10px; color: var(--muted);">Target: 3,000</div>
+            <div style="background: #1e293b; border-radius: 4px; height: 6px; margin-top: 4px;">
+              <div id="productsProgress" style="background: #3b82f6; height: 100%; width: 94.9%; border-radius: 4px; transition: width 0.3s ease;"></div>
+            </div>
+          </div>
+          
+          <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(168, 85, 247, 0.1);">
+            <div style="font-weight: 600; color: #a78bfa; font-size: 12px;">Customer Satisfaction</div>
+            <div id="satisfactionValue" style="font-size: 18px; font-weight: bold; color: #a78bfa; margin: 4px 0;">4.7/5</div>
+            <div style="font-size: 10px; color: var(--muted);">Target: 4.5/5</div>
+            <div style="background: #1e293b; border-radius: 4px; height: 6px; margin-top: 4px;">
+              <div id="satisfactionProgress" style="background: #a855f7; height: 100%; width: 94%; border-radius: 4px; transition: width 0.3s ease;"></div>
+            </div>
+          </div>
+          
+          <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(245, 158, 11, 0.1);">
+            <div style="font-weight: 600; color: #f59e0b; font-size: 12px;">Features Shipped</div>
+            <div id="featuresValue" style="font-size: 18px; font-weight: bold; color: #f59e0b; margin: 4px 0;">47</div>
+            <div style="font-size: 10px; color: var(--muted);">Target: 50</div>
+            <div style="background: #1e293b; border-radius: 4px; height: 6px; margin-top: 4px;">
+              <div id="featuresProgress" style="background: #f59e0b; height: 100%; width: 94%; border-radius: 4px; transition: width 0.3s ease;"></div>
+            </div>
+          </div>
+          
+          <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(239, 68, 68, 0.1);">
+            <div style="font-weight: 600; color: #ef4444; font-size: 12px;">Bugs Resolved</div>
+            <div id="bugsValue" style="font-size: 18px; font-weight: bold; color: #ef4444; margin: 4px 0;">156</div>
+            <div style="font-size: 10px; color: var(--muted);">Target: 200</div>
+            <div style="background: #1e293b; border-radius: 4px; height: 6px; margin-top: 4px;">
+              <div id="bugsProgress" style="background: #ef4444; height: 100%; width: 78%; border-radius: 4px; transition: width 0.3s ease;"></div>
+            </div>
+          </div>
         </div>
-        <div style="margin-top: 8px;">
-          <button id="csvImportBtn" onclick="showCsvImportModal()" style="width: 100%; padding: 6px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">📊 CSV Import</button>
+
+        <!-- Quick Actions -->
+        <div style="display: flex; gap: 6px; margin-bottom: 12px;">
+          <button class="pill" onclick="updateMetric('sales', 1000)" style="background: #22c55e; color: white; font-size: 10px; flex: 1;">+$1K Sales</button>
+          <button class="pill" onclick="updateMetric('products', 10)" style="background: #3b82f6; color: white; font-size: 10px; flex: 1;">+10 Products</button>
+          <button class="pill" onclick="updateMetric('features', 1)" style="background: #f59e0b; color: white; font-size: 10px; flex: 1;">+1 Feature</button>
+        </div>
+
+        <!-- Management Controls -->
+        <div style="margin-top: 12px;">
+          <button class="pill" onclick="showMetricEditor()" style="background: #8b5cf6; color: white; font-size: 11px; width: 100%; margin-bottom: 6px;">⚙️ Edit Metrics</button>
+          <button class="pill" onclick="showCsvImportModal()" style="background: #3b82f6; color: white; font-size: 11px; width: 100%;">📊 Import CSV Data</button>
         </div>
       </div>
       
@@ -286,7 +347,14 @@
     privacyLevel: 'TEAM_PUBLIC',
     scoreEvents: [],
     board: { w: 0, h: 0, tiles: [] },
-    selectedEmployee: null
+    selectedEmployee: null,
+    teamMetrics: {
+      sales: { current: 847500, target: 1000000, unit: '$' },
+      products: { current: 2847, target: 3000, unit: '' },
+      satisfaction: { current: 4.7, target: 5.0, unit: '/5' },
+      features: { current: 47, target: 50, unit: '' },
+      bugs: { current: 156, target: 200, unit: '' }
+    }
   };
 
   // Top 25 Business Metrics
@@ -405,6 +473,9 @@
     
     // Update employee display
     updateEmployeeDisplay();
+    
+    // Update metrics display
+    updateMetricsDisplay();
   }
 
   function saveGameData() {
@@ -995,6 +1066,157 @@
     if (businessState.selectedEmployee) {
       console.log('Selected employee:', businessState.selectedEmployee.name);
     }
+  }
+
+  function updateMetric(metricType, amount) {
+    if (!businessState.teamMetrics[metricType]) return;
+    
+    const metric = businessState.teamMetrics[metricType];
+    metric.current += amount;
+    
+    // Update UI
+    updateMetricsDisplay();
+    saveGameData();
+    
+    // Show success message
+    const metricNames = {
+      sales: 'Sales',
+      products: 'Products Sold',
+      features: 'Features Shipped',
+      bugs: 'Bugs Resolved'
+    };
+    
+    alert(`✅ Updated ${metricNames[metricType]}: +${amount}${metric.unit}`);
+  }
+
+  function updateMetricsDisplay() {
+    const metrics = businessState.teamMetrics;
+    
+    // Update main sales progress
+    const salesProgress = (metrics.sales.current / metrics.sales.target) * 100;
+    const mainProgressBar = document.getElementById('mainProgressBar');
+    const mainProgressText = document.getElementById('mainProgressText');
+    const remainingAmount = document.getElementById('remainingAmount');
+    
+    if (mainProgressBar) {
+      mainProgressBar.style.width = `${Math.min(salesProgress, 100)}%`;
+    }
+    if (mainProgressText) {
+      mainProgressText.textContent = `${salesProgress.toFixed(1)}%`;
+    }
+    if (remainingAmount) {
+      const remaining = metrics.sales.target - metrics.sales.current;
+      remainingAmount.textContent = `Remaining: $${remaining.toLocaleString()}`;
+    }
+    
+    // Update individual metrics
+    updateMetricCard('products', metrics.products);
+    updateMetricCard('satisfaction', metrics.satisfaction);
+    updateMetricCard('features', metrics.features);
+    updateMetricCard('bugs', metrics.bugs);
+  }
+
+  function updateMetricCard(metricType, metric) {
+    const valueElement = document.getElementById(`${metricType}Value`);
+    const progressElement = document.getElementById(`${metricType}Progress`);
+    
+    if (valueElement) {
+      if (metricType === 'satisfaction') {
+        valueElement.textContent = `${metric.current}${metric.unit}`;
+      } else {
+        valueElement.textContent = metric.current.toLocaleString();
+      }
+    }
+    
+    if (progressElement) {
+      const progress = (metric.current / metric.target) * 100;
+      progressElement.style.width = `${Math.min(progress, 100)}%`;
+    }
+  }
+
+  function showMetricEditor() {
+    const modal = document.createElement('div');
+    modal.className = 'modal show';
+    modal.innerHTML = `
+      <div class="card" style="width: 500px;">
+        <div class="closeX" onclick="this.closest('.modal').remove()">×</div>
+        <h2>⚙️ Edit Team Metrics</h2>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">🎯 Main Goal (Sales)</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <input type="number" id="salesCurrent" placeholder="Current ($)" value="${businessState.teamMetrics.sales.current}">
+            <input type="number" id="salesTarget" placeholder="Target ($)" value="${businessState.teamMetrics.sales.target}">
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">📦 Products Sold</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <input type="number" id="productsCurrent" placeholder="Current" value="${businessState.teamMetrics.products.current}">
+            <input type="number" id="productsTarget" placeholder="Target" value="${businessState.teamMetrics.products.target}">
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">😊 Customer Satisfaction</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <input type="number" step="0.1" id="satisfactionCurrent" placeholder="Current" value="${businessState.teamMetrics.satisfaction.current}">
+            <input type="number" step="0.1" id="satisfactionTarget" placeholder="Target" value="${businessState.teamMetrics.satisfaction.target}">
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">🚀 Features Shipped</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <input type="number" id="featuresCurrent" placeholder="Current" value="${businessState.teamMetrics.features.current}">
+            <input type="number" id="featuresTarget" placeholder="Target" value="${businessState.teamMetrics.features.target}">
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">🐛 Bugs Resolved</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <input type="number" id="bugsCurrent" placeholder="Current" value="${businessState.teamMetrics.bugs.current}">
+            <input type="number" id="bugsTarget" placeholder="Target" value="${businessState.teamMetrics.bugs.target}">
+          </div>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-top: 16px;">
+          <button onclick="saveMetricChanges()" style="flex: 1; padding: 10px; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">💾 Save Changes</button>
+          <button onclick="this.closest('.modal').remove()" style="flex: 1; padding: 10px; background: #6b7280; color: white; border: none; border-radius: 6px; cursor: pointer;">❌ Cancel</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+  }
+
+  function saveMetricChanges() {
+    // Update metrics from form inputs
+    businessState.teamMetrics.sales.current = parseInt(document.getElementById('salesCurrent').value) || 0;
+    businessState.teamMetrics.sales.target = parseInt(document.getElementById('salesTarget').value) || 1;
+    
+    businessState.teamMetrics.products.current = parseInt(document.getElementById('productsCurrent').value) || 0;
+    businessState.teamMetrics.products.target = parseInt(document.getElementById('productsTarget').value) || 1;
+    
+    businessState.teamMetrics.satisfaction.current = parseFloat(document.getElementById('satisfactionCurrent').value) || 0;
+    businessState.teamMetrics.satisfaction.target = parseFloat(document.getElementById('satisfactionTarget').value) || 1;
+    
+    businessState.teamMetrics.features.current = parseInt(document.getElementById('featuresCurrent').value) || 0;
+    businessState.teamMetrics.features.target = parseInt(document.getElementById('featuresTarget').value) || 1;
+    
+    businessState.teamMetrics.bugs.current = parseInt(document.getElementById('bugsCurrent').value) || 0;
+    businessState.teamMetrics.bugs.target = parseInt(document.getElementById('bugsTarget').value) || 1;
+    
+    // Update display
+    updateMetricsDisplay();
+    saveGameData();
+    
+    // Close modal
+    document.querySelector('.modal').remove();
+    
+    alert('✅ Metrics updated successfully!');
   }
 
   // Initialize when page loads
