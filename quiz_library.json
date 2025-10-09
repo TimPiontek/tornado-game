@@ -734,6 +734,40 @@
     ]
   },
   {
+    "title": "The Odyssey Book 13–16 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "Where does Odysseus arrive in Book 13 and how is he disguised?", "answer": "Ithaca; Athena disguises him as a beggar", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "What does Athena advise about revealing his identity?", "answer": "Wait and test loyalties before acting", "standards": ["RL.9-10.1", "RL.9-10.2"] },
+      { "question": "How is Eumaeus characterized in Book 14?", "answer": "Loyal swineherd exemplifying xenia and faithfulness", "standards": ["RL.9-10.3"] },
+      { "question": "What narrative technique shapes Odysseus’ tales to Eumaeus?", "answer": "Feigning identity—embedded storytelling", "standards": ["RL.9-10.5", "RL.9-10.6"] },
+      { "question": "What sign of Telemachus’ growth appears in Book 15?", "answer": "He heeds Athena, avoids the suitors’ ambush", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "What omen occurs and how is it interpreted?", "answer": "Bird signs; Theoclymenus predicts Odysseus’ return", "standards": ["RL.9-10.1", "RL.9-10.6"] },
+      { "question": "What moment closes Book 16?", "answer": "Odysseus reveals himself to Telemachus", "standards": ["RL.9-10.1"] },
+      { "question": "What plan do father and son devise?", "answer": "Hide weapons, test allies, and confront suitors", "standards": ["RL.9-10.1", "RL.9-10.5"] },
+      { "question": "Which themes intensify through 13–16?", "answer": "Recognition, loyalty, justice, and strategy", "standards": ["RL.9-10.2"] },
+      { "question": "How does disguise function structurally?", "answer": "Delays recognition, sets up the revenge arc", "standards": ["RL.9-10.5"] }
+    ]
+  },
+  {
+    "title": "The Odyssey Book 17–20 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "How do the suitors treat the beggar in Book 17?", "answer": "With contempt and violence (Antinous strikes him)", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "What role does Argos play in Book 17?", "answer": "Old dog recognizes Odysseus and dies—pathos/recognition", "standards": ["RL.9-10.1", "RL.9-10.5"] },
+      { "question": "What contest occurs in Book 18?", "answer": "Beggar vs. Irus fight; Odysseus shows restraint and strength", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "How is Penelope portrayed in Book 19?", "answer": "Clever, dignified; tests the beggar with the bed story", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "What omen appears in Book 20?", "answer": "Thunder from Zeus; portents of doom for suitors", "standards": ["RL.9-10.1", "RL.9-10.6"] },
+      { "question": "What theme grows across 17–20?", "answer": "Justice approaching, recognition drawing near", "standards": ["RL.9-10.2"] },
+      { "question": "How does Homer use dramatic irony here?", "answer": "Audience knows the beggar’s identity; characters do not", "standards": ["RL.9-10.6"] },
+      { "question": "What stylistic devices build tension?", "answer": "Similes, epithets, ritual preparations", "standards": ["RL.9-10.4", "RL.9-10.5"] },
+      { "question": "What preparations ensure the suitors’ vulnerability?", "answer": "Weapons removed; doors secured; allies positioned", "standards": ["RL.9-10.1", "RL.9-10.5"] },
+      { "question": "How do these books set up 21–24?", "answer": "Bow contest and reckoning are imminent", "standards": ["RL.9-10.5"] }
+    ]
+  },
+  {
     "title": "Grammy Winners",
     "category": "Music",
     "questions": [
