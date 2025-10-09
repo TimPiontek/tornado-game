@@ -385,6 +385,40 @@
     ]
   }
   {
+    "title": "Romeo and Juliet Act 3 Scenes 1–2 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "Why does Tybalt confront Romeo and his friends in Act 3 Scene 1?", "answer": "To challenge Romeo for crashing the Capulet party", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "Why does Romeo initially refuse to fight Tybalt?", "answer": "He is now related to Tybalt by marriage to Juliet", "standards": ["RL.9-10.3", "RL.9-10.6"] },
+      { "question": "How does Mercutio get mortally wounded?", "answer": "Tybalt stabs him under Romeo’s arm during the scuffle", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "What is the significance of Mercutio’s line ‘A plague o’ both your houses’?", "answer": "It curses both families and foreshadows tragedy", "standards": ["RL.9-10.2", "RL.9-10.4"] },
+      { "question": "What does Romeo do after Mercutio dies?", "answer": "He kills Tybalt in revenge", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "What punishment does the Prince decree for Romeo?", "answer": "Banishment from Verona", "standards": ["RL.9-10.1", "RL.9-10.5"] },
+      { "question": "In Scene 2, what is Juliet anticipating before the Nurse arrives?", "answer": "Nightfall and Romeo’s visit", "standards": ["RL.9-10.1"] },
+      { "question": "How does Juliet react when she learns Romeo killed Tybalt?", "answer": "She uses oxymorons to express conflicted feelings", "standards": ["RL.9-10.4", "RL.9-10.3"] },
+      { "question": "What plan does the Nurse bring to Juliet in Scene 2?", "answer": "Romeo will come to her that night before fleeing", "standards": ["RL.9-10.1", "RL.9-10.5"] },
+      { "question": "What theme is heightened by the duel and banishment?", "answer": "Love versus violence/fate, escalating consequences", "standards": ["RL.9-10.2", "RL.9-10.5"] }
+    ]
+  },
+  {
+    "title": "Romeo and Juliet Act 3 Scenes 3–5 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "Where is Romeo hiding in Scene 3 and what is his state of mind?", "answer": "In Friar Laurence’s cell; despairing over banishment", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "What arguments does Friar use to rebuke Romeo’s despair?", "answer": "Banishment is mercy; he still has life and Juliet", "standards": ["RL.9-10.2", "RL.9-10.3"] },
+      { "question": "What role does the ring from Juliet play in Scene 3?", "answer": "It steadies Romeo and reaffirms their bond", "standards": ["RL.9-10.1", "RL.9-10.5"] },
+      { "question": "What plan does Friar outline for Romeo after the wedding night?", "answer": "Go to Mantua and await a time for pardon", "standards": ["RL.9-10.1", "RL.9-10.5"] },
+      { "question": "What arrangement does Capulet make with Paris in Scene 4?", "answer": "Juliet will marry Paris on Thursday", "standards": ["RL.9-10.1"] },
+      { "question": "In Scene 5, what bird imagery signals the break of day?", "answer": "Lark (day) versus nightingale (night)", "standards": ["RL.9-10.4", "RL.9-10.5"] },
+      { "question": "How do Juliet’s parents react to her refusal to marry Paris?", "answer": "Capulet rages; Lady Capulet withdraws support", "standards": ["RL.9-10.3", "RL.9-10.1"] },
+      { "question": "What advice does the Nurse give Juliet about Romeo and Paris?", "answer": "Marry Paris; Romeo is as good as dead to her", "standards": ["RL.9-10.3"] },
+      { "question": "How does Juliet respond internally to the Nurse’s advice?", "answer": "She feels betrayed and vows to seek Friar’s help", "standards": ["RL.9-10.2", "RL.9-10.3"] },
+      { "question": "What theme is emphasized by the dawn scene and parental conflict?", "answer": "Separation and pressure of social order against love", "standards": ["RL.9-10.2", "RL.9-10.5"] }
+    ]
+  },
+  {
     "title": "Electronic Music",
     "category": "Music",
     "questions": [
