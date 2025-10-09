@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Editor - Tornado Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6f5c91 0%, #4a4a8a 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: #6f5c91;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #6f5c91;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a4a7a;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .question-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .question-type {
+            font-weight: 600;
+            color: #6f5c91;
+        }
+
+        .question-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .choice-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .choice-item input[type="text"] {
+            flex: 1;
+        }
+
+        .choice-item input[type="radio"] {
+            width: auto;
+        }
+
+        .roster-section {
+            background: #f0f9ff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px solid #bae6fd;
+        }
+
+        .roster-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .roster-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .roster-card:hover {
+            border-color: #6f5c91;
+        }
+
+        .roster-card.selected {
+            border-color: #6f5c91;
+            background: #f8f9fa;
+        }
+
+        .roster-card input[type="checkbox"] {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+
+        .status-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .standards-section {
+            background: #fef3c7;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #fbbf24;
+        }
+
+        .standard-tag {
+            display: inline-block;
+            background: #6f5c91;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin: 0.25rem;
+        }
+
+        .back-button {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            margin-bottom: 1rem;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>✏️ Assignment Editor</h1>
+                    <p>Edit assignment and assign to rosters</p>
+                </div>
+                <a href="/assignments-library.html" class="back-button">
+                    ← Back to Library
+                </a>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div id="statusMessage"></div>
+            
+            <form id="assignmentForm">
+                <div class="form-group">
+                    <label for="assignmentTitle">Assignment Title</label>
+                    <input type="text" id="assignmentTitle" placeholder="Enter assignment title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="assignmentDescription">Description</label>
+                    <textarea id="assignmentDescription" rows="3" placeholder="Enter assignment description"></textarea>
+                </div>
+
+                <div class="standards-section">
+                    <h3>Standards Alignment</h3>
+                    <div id="standardsDisplay"></div>
+                    <button type="button" class="btn btn-secondary" onclick="openStandardsPicker()">Edit Standards</button>
+                </div>
+
+                <div id="questionsContainer">
+                    <!-- Questions will be dynamically loaded here -->
+                </div>
+
+                <div class="question-section">
+                    <div class="question-header">
+                        <span class="question-type">Add New Question</span>
+                        <div class="question-controls">
+                            <button type="button" class="btn btn-success" onclick="addMultipleChoiceQuestion()">Add MC</button>
+                            <button type="button" class="btn btn-success" onclick="addShortAnswerQuestion()">Add SA</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="roster-section">
+                    <h3>Assign to Rosters</h3>
+                    <p>Select which rosters should receive this assignment:</p>
+                    <div id="rosterContainer" class="roster-grid">
+                        <!-- Rosters will be loaded here -->
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="button" class="btn btn-primary" onclick="saveAssignment()">Save Assignment</button>
+                    <button type="button" class="btn btn-secondary" onclick="previewAssignment()">Preview</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Standards Picker Modal -->
+    <div id="standardsPickerOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:white; width:95%; max-width:800px; border-radius:12px; padding:1rem; max-height:90vh; overflow:auto;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <h3>Select Standards</h3>
+                <button onclick="closeStandardsPicker()" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+            </div>
+            
+            <div style="display:flex; gap:1rem; margin-bottom:1rem;">
+                <select id="stdSubject" onchange="renderStandardsList()" style="flex:1; padding:0.5rem; border:1px solid #ccc; border-radius:4px;">
+                    <option value="ela">ELA</option>
+                    <option value="math">Math</option>
+                    <option value="science">Science</option>
+                    <option value="history">History</option>
+                </select>
+                <input type="text" id="stdSearch" placeholder="Search standards..." onkeyup="renderStandardsList()" style="flex:2; padding:0.5rem; border:1px solid #ccc; border-radius:4px;">
+            </div>
+            
+            <div id="stdList" style="max-height:300px; overflow-y:auto; border:1px solid #eee; padding:0.5rem; margin-bottom:1rem;">
+                <!-- Standards list will be populated here -->
+            </div>
+            
+            <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
+                <input type="text" id="stdCustomCode" placeholder="Custom standard code" style="flex:1; padding:0.5rem; border:1px solid #ccc; border-radius:4px;">
+                <button onclick="addCustomStandardToList()" class="btn btn-secondary">Add Custom</button>
+            </div>
+            
+            <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+                <button onclick="closeStandardsPicker()" class="btn btn-secondary">Cancel</button>
+                <button onclick="applySelectedStandards()" class="btn btn-primary">Apply</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentAssignment = null;
+        let selectedRosters = new Set();
+        let currentStandards = [];
+
+        // Load assignment from URL parameters
+        async function loadAssignment() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const assignmentId = urlParams.get('id');
+            
+            if (!assignmentId) {
+                showStatus('No assignment ID provided', 'error');
+                return;
+            }
+
+            try {
+                // Load from assignments library
+                const response = await fetch('/assignments_library.json');
+                const assignments = await response.json();
+                currentAssignment = assignments.find(a => a.id === assignmentId);
+                
+                if (!currentAssignment) {
+                    showStatus('Assignment not found', 'error');
+                    return;
+                }
+
+                populateForm();
+                loadRosters();
+            } catch (error) {
+                console.error('Error loading assignment:', error);
+                showStatus('Failed to load assignment', 'error');
+            }
+        }
+
+        function populateForm() {
+            document.getElementById('assignmentTitle').value = currentAssignment.title;
+            document.getElementById('assignmentDescription').value = currentAssignment.description;
+            
+            // Load standards
+            currentStandards = [...(currentAssignment.standards || [])];
+            updateStandardsDisplay();
+            
+            // Load questions
+            loadQuestions();
+        }
+
+        function loadQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            // Load multiple choice questions
+            if (currentAssignment.multiple_choice) {
+                currentAssignment.multiple_choice.forEach((q, index) => {
+                    addMultipleChoiceQuestion(q, index);
+                });
+            }
+
+            // Load short answer questions
+            if (currentAssignment.short_answer) {
+                currentAssignment.short_answer.forEach((q, index) => {
+                    addShortAnswerQuestion(q, index);
+                });
+            }
+        }
+
+        function addMultipleChoiceQuestion(question = null, index = null) {
+            const container = document.getElementById('questionsContainer');
+            const questionId = index !== null ? `mc-${index}` : `mc-${Date.now()}`;
+            
+            const questionHtml = `
+                <div class="question-section" id="${questionId}">
+                    <div class="question-header">
+                        <span class="question-type">Multiple Choice Question</span>
+                        <div class="question-controls">
+                            <button type="button" class="btn btn-danger" onclick="removeQuestion('${questionId}')">Delete</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Question</label>
+                        <textarea placeholder="Enter question text" rows="2">${question ? question.q : ''}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Choices</label>
+                        <div id="choices-${questionId}">
+                            ${question ? question.choices.map((choice, i) => `
+                                <div class="choice-item">
+                                    <input type="radio" name="correct-${questionId}" value="${i}" ${i === question.answer ? 'checked' : ''}>
+                                    <input type="text" placeholder="Choice ${i + 1}" value="${choice}">
+                                    <button type="button" class="btn btn-danger" onclick="removeChoice('${questionId}', this)">×</button>
+                                </div>
+                            `).join('') : `
+                                <div class="choice-item">
+                                    <input type="radio" name="correct-${questionId}" value="0">
+                                    <input type="text" placeholder="Choice 1">
+                                    <button type="button" class="btn btn-danger" onclick="removeChoice('${questionId}', this)">×</button>
+                                </div>
+                                <div class="choice-item">
+                                    <input type="radio" name="correct-${questionId}" value="1">
+                                    <input type="text" placeholder="Choice 2">
+                                    <button type="button" class="btn btn-danger" onclick="removeChoice('${questionId}', this)">×</button>
+                                </div>
+                            `}
+                        </div>
+                        <button type="button" class="btn btn-secondary" onclick="addChoice('${questionId}')">Add Choice</button>
+                    </div>
+                    <div class="form-group">
+                        <label>Points</label>
+                        <input type="number" value="${question ? question.points || 5 : 5}" min="1" max="100">
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', questionHtml);
+        }
+
+        function addShortAnswerQuestion(question = null, index = null) {
+            const container = document.getElementById('questionsContainer');
+            const questionId = index !== null ? `sa-${index}` : `sa-${Date.now()}`;
+            
+            const questionHtml = `
+                <div class="question-section" id="${questionId}">
+                    <div class="question-header">
+                        <span class="question-type">Short Answer Question</span>
+                        <div class="question-controls">
+                            <button type="button" class="btn btn-danger" onclick="removeQuestion('${questionId}')">Delete</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Question</label>
+                        <textarea placeholder="Enter question text" rows="2">${question ? question.q : ''}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Max Points</label>
+                        <input type="number" value="${question ? question.maxPoints || 10 : 10}" min="1" max="100">
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', questionHtml);
+        }
+
+        function addChoice(questionId) {
+            const container = document.getElementById(`choices-${questionId}`);
+            const choiceCount = container.children.length;
+            
+            const choiceHtml = `
+                <div class="choice-item">
+                    <input type="radio" name="correct-${questionId}" value="${choiceCount}">
+                    <input type="text" placeholder="Choice ${choiceCount + 1}">
+                    <button type="button" class="btn btn-danger" onclick="removeChoice('${questionId}', this)">×</button>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', choiceHtml);
+        }
+
+        function removeChoice(questionId, button) {
+            button.parentElement.remove();
+        }
+
+        function removeQuestion(questionId) {
+            document.getElementById(questionId).remove();
+        }
+
+        async function loadRosters() {
+            try {
+                // Load rosters from localStorage
+                const warRosters = JSON.parse(localStorage.getItem('warRosters') || '[]');
+                const teacherRosters = JSON.parse(localStorage.getItem('teacherRosters') || '[]');
+                const allRosters = [...warRosters, ...teacherRosters];
+                
+                const container = document.getElementById('rosterContainer');
+                container.innerHTML = '';
+                
+                if (allRosters.length === 0) {
+                    container.innerHTML = '<p>No rosters found. Create rosters first.</p>';
+                    return;
+                }
+                
+                allRosters.forEach(roster => {
+                    const rosterHtml = `
+                        <div class="roster-card" onclick="toggleRoster('${roster.id}')">
+                            <input type="checkbox" id="roster-${roster.id}" onchange="toggleRoster('${roster.id}')">
+                            <label for="roster-${roster.id}">${roster.name}</label>
+                            <div style="font-size: 0.8rem; color: #666; margin-top: 0.25rem;">
+                                ${roster.students ? roster.students.length : 0} students
+                            </div>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', rosterHtml);
+                });
+            } catch (error) {
+                console.error('Error loading rosters:', error);
+                showStatus('Failed to load rosters', 'error');
+            }
+        }
+
+        function toggleRoster(rosterId) {
+            const checkbox = document.getElementById(`roster-${rosterId}`);
+            const card = checkbox.closest('.roster-card');
+            
+            if (checkbox.checked) {
+                selectedRosters.add(rosterId);
+                card.classList.add('selected');
+            } else {
+                selectedRosters.delete(rosterId);
+                card.classList.remove('selected');
+            }
+        }
+
+        function updateStandardsDisplay() {
+            const container = document.getElementById('standardsDisplay');
+            if (currentStandards.length === 0) {
+                container.innerHTML = '<p>No standards selected</p>';
+            } else {
+                container.innerHTML = currentStandards.map(std => `<span class="standard-tag">${std}</span>`).join('');
+            }
+        }
+
+        function openStandardsPicker() {
+            document.getElementById('standardsPickerOverlay').style.display = 'flex';
+            renderStandardsList();
+        }
+
+        function closeStandardsPicker() {
+            document.getElementById('standardsPickerOverlay').style.display = 'none';
+        }
+
+        function renderStandardsList() {
+            const subject = document.getElementById('stdSubject').value;
+            const search = document.getElementById('stdSearch').value.toLowerCase();
+            
+            const standards = {
+                ela: [
+                    { code: 'RL.9-10.1', label: 'Cite strong textual evidence' },
+                    { code: 'RL.9-10.2', label: 'Determine theme and analyze development' },
+                    { code: 'RL.9-10.3', label: 'Analyze complex characters' },
+                    { code: 'RL.9-10.4', label: 'Determine word meanings and figurative language' },
+                    { code: 'RL.9-10.5', label: 'Analyze structure of text' },
+                    { code: 'RL.9-10.6', label: 'Analyze point of view' },
+                    { code: 'L.9-10.1', label: 'Demonstrate command of grammar' },
+                    { code: 'L.9-10.2', label: 'Demonstrate command of capitalization and spelling' }
+                ],
+                math: [
+                    { code: 'A-REI.1', label: 'Explain steps in solving equations' },
+                    { code: 'A-REI.3', label: 'Solve linear equations' }
+                ],
+                science: [
+                    { code: 'HS-LS1-1', label: 'Construct explanation for cell function' },
+                    { code: 'HS-LS1-2', label: 'Develop and use model for hierarchical organization' }
+                ],
+                history: [
+                    { code: 'RH.9-10.1', label: 'Cite specific textual evidence' },
+                    { code: 'RH.9-10.2', label: 'Determine central ideas of source' }
+                ]
+            };
+            
+            const list = standards[subject] || [];
+            const filtered = list.filter(item => 
+                item.code.toLowerCase().includes(search) || 
+                item.label.toLowerCase().includes(search)
+            );
+            
+            const html = filtered.map(item => `
+                <label style="display:flex; align-items:center; gap:0.5rem; padding:0.25rem 0;">
+                    <input type="checkbox" class="std-item" value="${item.code}" ${currentStandards.includes(item.code) ? 'checked' : ''}>
+                    <span style="font-weight:600; min-width:110px;">${item.code}</span>
+                    <span style="color:#374151;">${item.label}</span>
+                </label>
+            `).join('');
+            
+            document.getElementById('stdList').innerHTML = html || '<div>No matching standards</div>';
+        }
+
+        function addCustomStandardToList() {
+            const code = document.getElementById('stdCustomCode').value.trim();
+            if (!code) {
+                alert('Enter a custom standard code');
+                return;
+            }
+            
+            const listEl = document.getElementById('stdList');
+            const row = document.createElement('label');
+            row.style.cssText = 'display:flex; align-items:center; gap:0.5rem; padding:0.25rem 0;';
+            row.innerHTML = `
+                <input type="checkbox" class="std-item" value="${code}" checked>
+                <span style="font-weight:600; min-width:110px;">${code}</span>
+                <span style="color:#374151;">(custom)</span>
+            `;
+            listEl.prepend(row);
+            document.getElementById('stdCustomCode').value = '';
+        }
+
+        function applySelectedStandards() {
+            const selected = Array.from(document.querySelectorAll('#stdList .std-item:checked')).map(cb => cb.value);
+            currentStandards = selected;
+            updateStandardsDisplay();
+            closeStandardsPicker();
+        }
+
+        async function saveAssignment() {
+            if (selectedRosters.size === 0) {
+                showStatus('Please select at least one roster', 'error');
+                return;
+            }
+
+            try {
+                // Collect assignment data
+                const assignmentData = {
+                    id: currentAssignment.id,
+                    title: document.getElementById('assignmentTitle').value,
+                    description: document.getElementById('assignmentDescription').value,
+                    standards: currentStandards,
+                    multiple_choice: collectMultipleChoiceQuestions(),
+                    short_answer: collectShortAnswerQuestions(),
+                    assignedRosters: Array.from(selectedRosters),
+                    modifiedAt: new Date().toISOString()
+                };
+
+                // Save to cloud (Supabase)
+                await saveAssignmentToCloud(assignmentData);
+                
+                showStatus('Assignment saved and assigned successfully!', 'success');
+                
+                // Redirect back to library after a delay
+                setTimeout(() => {
+                    window.location.href = '/assignments-library.html';
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Error saving assignment:', error);
+                showStatus('Failed to save assignment', 'error');
+            }
+        }
+
+        function collectMultipleChoiceQuestions() {
+            const questions = [];
+            document.querySelectorAll('[id^="mc-"]').forEach(questionEl => {
+                const questionText = questionEl.querySelector('textarea').value;
+                if (!questionText.trim()) return;
+                
+                const choices = Array.from(questionEl.querySelectorAll('.choice-item input[type="text"]'))
+                    .map(input => input.value)
+                    .filter(choice => choice.trim());
+                
+                const correctAnswer = questionEl.querySelector('input[type="radio"]:checked');
+                const points = parseInt(questionEl.querySelector('input[type="number"]').value) || 5;
+                
+                if (choices.length >= 2 && correctAnswer) {
+                    questions.push({
+                        q: questionText,
+                        choices: choices,
+                        answer: correctAnswer.value,
+                        points: points
+                    });
+                }
+            });
+            return questions;
+        }
+
+        function collectShortAnswerQuestions() {
+            const questions = [];
+            document.querySelectorAll('[id^="sa-"]').forEach(questionEl => {
+                const questionText = questionEl.querySelector('textarea').value;
+                const maxPoints = parseInt(questionEl.querySelector('input[type="number"]').value) || 10;
+                
+                if (questionText.trim()) {
+                    questions.push({
+                        q: questionText,
+                        maxPoints: maxPoints
+                    });
+                }
+            });
+            return questions;
+        }
+
+        async function saveAssignmentToCloud(assignmentData) {
+            // For now, save to localStorage. In production, this would save to Supabase
+            const savedAssignments = JSON.parse(localStorage.getItem('savedAssignments') || '[]');
+            
+            // Remove existing assignment with same ID
+            const filtered = savedAssignments.filter(a => a.id !== assignmentData.id);
+            filtered.push(assignmentData);
+            
+            localStorage.setItem('savedAssignments', JSON.stringify(filtered));
+            
+            // Simulate cloud save delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+
+        function previewAssignment() {
+            const assignmentData = {
+                title: document.getElementById('assignmentTitle').value,
+                description: document.getElementById('assignmentDescription').value,
+                standards: currentStandards,
+                multiple_choice: collectMultipleChoiceQuestions(),
+                short_answer: collectShortAnswerQuestions()
+            };
+            
+            // Open preview in new window
+            const previewWindow = window.open('', 'preview', 'width=800,height=600');
+            previewWindow.document.write(`
+                <html>
+                <head><title>Assignment Preview</title></head>
+                <body style="font-family: Arial, sans-serif; padding: 2rem;">
+                    <h1>${assignmentData.title}</h1>
+                    <p>${assignmentData.description}</p>
+                    <h3>Standards: ${assignmentData.standards.join(', ')}</h3>
+                    <h3>Multiple Choice Questions (${assignmentData.multiple_choice.length})</h3>
+                    ${assignmentData.multiple_choice.map((q, i) => `
+                        <div style="margin-bottom: 1rem; padding: 1rem; border: 1px solid #ccc;">
+                            <p><strong>${i + 1}. ${q.q}</strong></p>
+                            ${q.choices.map((choice, j) => `
+                                <p>${String.fromCharCode(65 + j)}) ${choice} ${j == q.answer ? '(Correct)' : ''}</p>
+                            `).join('')}
+                            <p><em>Points: ${q.points}</em></p>
+                        </div>
+                    `).join('')}
+                    <h3>Short Answer Questions (${assignmentData.short_answer.length})</h3>
+                    ${assignmentData.short_answer.map((q, i) => `
+                        <div style="margin-bottom: 1rem; padding: 1rem; border: 1px solid #ccc;">
+                            <p><strong>${i + 1}. ${q.q}</strong></p>
+                            <p><em>Max Points: ${q.maxPoints}</em></p>
+                        </div>
+                    `).join('')}
+                </body>
+                </html>
+            `);
+        }
+
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.className = `status-message status-${type}`;
+            statusEl.textContent = message;
+            statusEl.style.display = 'block';
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusEl.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', loadAssignment);
+    </script>
+</body>
+</html>

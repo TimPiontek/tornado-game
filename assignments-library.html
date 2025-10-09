@@ -313,15 +313,11 @@
                 Loading assignments...
             </div>
             
-            <button id="loadButton" class="load-button" onclick="loadSelectedAssignment()" disabled>
-                Load Selected Assignment
-            </button>
         </div>
     </div>
 
     <script>
         let assignments = [];
-        let selectedAssignmentId = null;
 
         async function loadAssignments() {
             try {
@@ -416,7 +412,7 @@
                         </div>
                         <div class="folder-content" id="content-${work}">
                             ${workAssignments.map(assignment => `
-                                <div class="assignment-card" onclick="selectAssignment('${assignment.id}')" id="card-${assignment.id}">
+                                <div class="assignment-card" onclick="editAssignment('${assignment.id}')" id="card-${assignment.id}">
                                     <div class="assignment-title">${assignment.title}</div>
                                     <div class="assignment-meta">
                                         ${assignment.act_scenes ? `<span>🎭 ${assignment.act_scenes}</span>` : ''}
@@ -430,6 +426,9 @@
                                         <span>${assignment.multiple_choice ? assignment.multiple_choice.length : 0} MC</span>
                                         <span>${assignment.short_answer ? assignment.short_answer.length : 0} SA</span>
                                         <span>${assignment.standards.length} Standards</span>
+                                    </div>
+                                    <div style="margin-top: 1rem; text-align: center;">
+                                        <button class="btn btn-primary" style="width: 100%;">✏️ Edit & Assign</button>
                                     </div>
                                 </div>
                             `).join('')}
@@ -454,36 +453,9 @@
             }
         }
 
-        function selectAssignment(assignmentId) {
-            // Remove previous selection
-            document.querySelectorAll('.assignment-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            
-            // Add selection to clicked card
-            const card = document.getElementById(`card-${assignmentId}`);
-            card.classList.add('selected');
-            
-            selectedAssignmentId = assignmentId;
-            document.getElementById('loadButton').disabled = false;
-        }
-
-        function loadSelectedAssignment() {
-            if (!selectedAssignmentId) return;
-            
-            const assignment = assignments.find(a => a.id === selectedAssignmentId);
-            if (!assignment) return;
-            
-            // Send assignment data to parent window
-            if (window.opener) {
-                window.opener.postMessage({
-                    type: 'LOAD_ASSIGNMENT',
-                    assignment: assignment
-                }, '*');
-                window.close();
-            } else {
-                alert('Assignment loaded! (This would normally populate the form in the parent window)');
-            }
+        function editAssignment(assignmentId) {
+            // Open assignment editor in new tab
+            window.open(`/assignment-editor.html?id=${assignmentId}`, '_blank');
         }
 
         // Initialize
