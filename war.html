@@ -15,7 +15,7 @@
     .pill { padding:8px 12px; border:1px solid var(--border); border-radius:10px; background:var(--panel); color:var(--text); cursor:pointer; }
     .pill[disabled] { opacity:.6; cursor:not-allowed }
     .muted { color:var(--muted) }
-    .wrap { display:grid; grid-template-columns: 400px 1fr; gap:12px; padding:12px; }
+    .wrap { display:grid; grid-template-columns: 400px 1fr 300px; gap:12px; padding:12px; }
     .panel { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:12px; }
     .title { font-size:14px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0 0 8px; }
     #gamesList { width: 100%; }
@@ -62,7 +62,7 @@
 
 <header>
   <div class="bar">
-    <h1 style="cursor: pointer;" onclick="window.location.href = '/'">TORNADO WAR</h1>
+    <h1 style="cursor: pointer;" onclick="window.location.href = '/'">TORNADO WAR <span id="modeIndicator" style="font-size: 0.7em; background: #6f5c91; color: white; padding: 2px 6px; border-radius: 4px; margin-left: 8px;">School Mode</span></h1>
     <button class="pill" id="btnTruces">Truces</button>
     <button class="pill" id="btnHelp">How to Play</button>
         <button class="pill" id="btnReset" style="background: #dc2626; color: white;">🔄 New Game</button>
@@ -78,7 +78,7 @@
   <!-- LEFT: roster and create -->
   <div class="panel">
     <div class="section">
-      <div class="title">Roster</div>
+      <div class="title" id="rosterTitle">Roster</div>
       <select id="rosterList"></select>
       <div class="minor" id="victory"></div>
     </div>
@@ -193,7 +193,66 @@
     </div>
     <div class="minor" id="tip">Tip: click a roster name, then click a tile.</div>
   </div>
+  
+  <!-- RIGHT: Business Mode Sidebar -->
+  <div class="panel" id="businessSidebar" style="display: none;">
+    <div class="title">Business Tools</div>
+    
+    <!-- Tab Navigation -->
+    <div style="display: flex; gap: 4px; margin-bottom: 12px;">
+      <button class="business-tab active" data-tab="leaderboard" style="flex: 1; padding: 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text); cursor: pointer; font-size: 11px;">Leaderboard</button>
+      <button class="business-tab" data-tab="metrics" style="flex: 1; padding: 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text); cursor: pointer; font-size: 11px;">Metrics</button>
+      <button class="business-tab" data-tab="announcements" style="flex: 1; padding: 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text); cursor: pointer; font-size: 11px;">Announcements</button>
+      <button class="business-tab" data-tab="rewards" style="flex: 1; padding: 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text); cursor: pointer; font-size: 11px;">Rewards</button>
+    </div>
+    
+    <!-- Tab Content -->
+    <div id="businessTabContent">
+      <!-- Leaderboard Tab (default) -->
+      <div id="tab-leaderboard" class="business-tab-panel">
+        <div class="title">Team Rankings</div>
+        <div id="businessLeaderboard"></div>
+      </div>
+      
+      <!-- Metrics Tab -->
+      <div id="tab-metrics" class="business-tab-panel" style="display: none;">
+        <div class="title">Performance Metrics</div>
+        <div style="margin-bottom: 8px;">
+          <button id="addMetricBtn" style="width: 100%; padding: 6px; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">+ Add Metric</button>
+        </div>
+        <div id="metricsList"></div>
+        <div style="margin-top: 8px;">
+          <button id="csvImportBtn" style="width: 100%; padding: 6px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">📊 CSV Import</button>
+        </div>
+      </div>
+      
+      <!-- Announcements Tab -->
+      <div id="tab-announcements" class="business-tab-panel" style="display: none;">
+        <div class="title">Company Updates</div>
+        <div style="margin-bottom: 8px;">
+          <button id="newAnnouncementBtn" style="width: 100%; padding: 6px; background: #8b5cf6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">+ New Announcement</button>
+        </div>
+        <div id="announcementsList"></div>
+      </div>
+      
+      <!-- Rewards Tab -->
+      <div id="tab-rewards" class="business-tab-panel" style="display: none;">
+        <div class="title">Rewards & Incentives</div>
+        <div style="margin-bottom: 8px;">
+          <label style="display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px;">Winning Team Gets:</label>
+          <input type="text" id="rewardTeam" placeholder="e.g., Team dinner" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
+        </div>
+        <div style="margin-bottom: 8px;">
+          <label style="display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px;">Top Player Gets:</label>
+          <input type="text" id="rewardPlayer" placeholder="e.g., 1 PTO day" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
+        </div>
+        <div style="margin-top: 8px;">
+          <button id="saveRewardsBtn" style="width: 100%; padding: 6px; background: #f59e0b; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">Save Rewards</button>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 
 <!-- AI Action Display Modal -->
 <div id="aiActionModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; align-items: center; justify-content: center;">
@@ -6606,8 +6665,36 @@
         </div>
         
         <p style="margin-bottom: 1.5rem; color: #64748b;">
-          Choose the type of game you want to start with your current roster:
+          Choose the mode and type of game you want to start with your current roster:
         </p>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Game Mode:</label>
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+            <button id="schoolModeBtn" class="mode-btn active" style="
+              flex: 1;
+              padding: 0.75rem;
+              background: #6f5c91;
+              color: white;
+              border: none;
+              border-radius: 6px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.2s ease;
+            ">🏫 School Mode</button>
+            <button id="businessModeBtn" class="mode-btn" style="
+              flex: 1;
+              padding: 0.75rem;
+              background: #64748b;
+              color: white;
+              border: none;
+              border-radius: 6px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.2s ease;
+            ">🏢 Business Mode</button>
+          </div>
+        </div>
         
         <div style="margin-bottom: 1.5rem;">
           <button id="regularGameBtn" style="
@@ -6625,7 +6712,8 @@
           ">🎯 Regular Game</button>
           
           <p style="margin: 0 0 1rem 0; color: #64748b; font-size: 0.9rem;">
-            Standard Tornado War with your current roster. Students play as themselves with basic resources.
+            <span class="mode-text-school">Standard Tornado War with your current roster. Students play as themselves with basic resources.</span>
+            <span class="mode-text-business" style="display: none;">Standard Tornado War with your current roster. Employees compete with basic resources and metrics.</span>
           </p>
         </div>
         
@@ -6645,7 +6733,8 @@
           ">📚 Historical/Literary Scenario</button>
           
           <p style="margin: 0 0 1rem 0; color: #64748b; font-size: 0.9rem;">
-            Choose from 22 historical wars and literary stories. Students get authentic roles with period-appropriate weapons and personalities.
+            <span class="mode-text-school">Choose from 22 historical wars and literary stories. Students get authentic roles with period-appropriate weapons and personalities.</span>
+            <span class="mode-text-business" style="display: none;">Choose from historical scenarios adapted for business contexts. Employees take on strategic roles with performance metrics.</span>
           </p>
         </div>
         
@@ -6675,16 +6764,45 @@
     scenarioBtn.onmouseout = () => scenarioBtn.style.transform = 'translateY(0)';
     
     // Add click handlers
+    // Mode switching logic
+    const schoolModeBtn = document.getElementById('schoolModeBtn');
+    const businessModeBtn = document.getElementById('businessModeBtn');
+    let currentMode = 'school';
+    
+    schoolModeBtn.onclick = () => {
+      currentMode = 'school';
+      schoolModeBtn.style.background = '#6f5c91';
+      businessModeBtn.style.background = '#64748b';
+      schoolModeBtn.classList.add('active');
+      businessModeBtn.classList.remove('active');
+      
+      // Update text visibility
+      document.querySelectorAll('.mode-text-school').forEach(el => el.style.display = 'inline');
+      document.querySelectorAll('.mode-text-business').forEach(el => el.style.display = 'none');
+    };
+    
+    businessModeBtn.onclick = () => {
+      currentMode = 'business';
+      businessModeBtn.style.background = '#6f5c91';
+      schoolModeBtn.style.background = '#64748b';
+      businessModeBtn.classList.add('active');
+      schoolModeBtn.classList.remove('active');
+      
+      // Update text visibility
+      document.querySelectorAll('.mode-text-business').forEach(el => el.style.display = 'inline');
+      document.querySelectorAll('.mode-text-school').forEach(el => el.style.display = 'none');
+    };
+    
     regularBtn.onclick = () => {
       closeNewGameModal();
-      showDifficultySelectionModal('regular');
+      showDifficultySelectionModal('regular', currentMode);
     };
     
     scenarioBtn.onclick = () => {
       closeNewGameModal();
       // Add a small delay to ensure scenarios.js is loaded
       setTimeout(() => {
-      showScenarioSelectionModal();
+      showScenarioSelectionModal(currentMode);
       }, 100);
     };
   }
@@ -8026,7 +8144,7 @@
     });
   }
 
-  function showDifficultySelectionModal(gameType) {
+  function showDifficultySelectionModal(gameType, mode = 'school') {
     const modal = document.createElement('div');
     modal.id = 'difficultySelectionModal';
     modal.style.cssText = `
@@ -8172,9 +8290,283 @@
     }
   }
 
-  function startGameWithDifficulty(gameType, difficulty) {
-    // Store difficulty in state
+  function updateModeLabels(mode) {
+    const modeIndicator = document.getElementById('modeIndicator');
+    const rosterTitle = document.getElementById('rosterTitle');
+    const businessSidebar = document.getElementById('businessSidebar');
+    
+    if (mode === 'business') {
+      if (modeIndicator) {
+        modeIndicator.textContent = 'Business Mode';
+        modeIndicator.style.background = '#64748b';
+      }
+      if (rosterTitle) {
+        rosterTitle.textContent = 'Employees';
+      }
+      if (businessSidebar) {
+        businessSidebar.style.display = 'block';
+      }
+      // Update grid layout for business mode
+      document.querySelector('.wrap').style.gridTemplateColumns = '400px 1fr 300px';
+    } else {
+      if (modeIndicator) {
+        modeIndicator.textContent = 'School Mode';
+        modeIndicator.style.background = '#6f5c91';
+      }
+      if (rosterTitle) {
+        rosterTitle.textContent = 'Roster';
+      }
+      if (businessSidebar) {
+        businessSidebar.style.display = 'none';
+      }
+      // Update grid layout for school mode
+      document.querySelector('.wrap').style.gridTemplateColumns = '400px 1fr';
+    }
+  }
+
+  // Top 25 Business Metrics
+  const TOP_25_METRICS = [
+    'Features shipped',
+    'Bugs resolved', 
+    'Code quality score',
+    'Test coverage %',
+    'CSAT/NPS delta',
+    'Revenue influenced',
+    'Deals closed',
+    'Hours saved via automation',
+    'Knowledge shares hosted',
+    'Mentoring sessions',
+    'Delivery time delta',
+    'On-time task rate %',
+    'Escalations handled',
+    'Training hours',
+    'Certifications earned',
+    'New clients onboarded',
+    'Retention rate improvement',
+    'Innovation proposals',
+    'Security issues resolved',
+    'Downtime reduced',
+    'Documentation completed',
+    'Cross-team collaborations',
+    'Product demos delivered',
+    'Feedback surveys completed',
+    'Peer kudos / votes'
+  ];
+
+  function initializeBusinessMode() {
+    // Tab switching
+    document.querySelectorAll('.business-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.dataset.tab;
+        
+        // Update active tab
+        document.querySelectorAll('.business-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // Show corresponding panel
+        document.querySelectorAll('.business-tab-panel').forEach(panel => {
+          panel.style.display = 'none';
+        });
+        document.getElementById(`tab-${tabName}`).style.display = 'block';
+        
+        // Load tab content
+        if (tabName === 'metrics') {
+          loadMetricsTab();
+        } else if (tabName === 'announcements') {
+          loadAnnouncementsTab();
+        } else if (tabName === 'rewards') {
+          loadRewardsTab();
+        } else if (tabName === 'leaderboard') {
+          loadBusinessLeaderboard();
+        }
+      });
+    });
+    
+    // Initialize metrics tab
+    loadMetricsTab();
+    loadAnnouncementsTab();
+    loadRewardsTab();
+    loadBusinessLeaderboard();
+  }
+
+  function loadMetricsTab() {
+    const metricsList = document.getElementById('metricsList');
+    if (!metricsList) return;
+    
+    metricsList.innerHTML = '<div style="font-size: 11px; color: var(--muted);">Select metrics to track performance...</div>';
+    
+    // Add Metric button handler
+    const addMetricBtn = document.getElementById('addMetricBtn');
+    if (addMetricBtn) {
+      addMetricBtn.onclick = () => showAddMetricModal();
+    }
+    
+    // CSV Import button handler
+    const csvImportBtn = document.getElementById('csvImportBtn');
+    if (csvImportBtn) {
+      csvImportBtn.onclick = () => showCsvImportModal();
+    }
+  }
+
+  function loadAnnouncementsTab() {
+    const announcementsList = document.getElementById('announcementsList');
+    if (!announcementsList) return;
+    
+    announcementsList.innerHTML = '<div style="font-size: 11px; color: var(--muted);">No announcements yet...</div>';
+    
+    // New Announcement button handler
+    const newAnnouncementBtn = document.getElementById('newAnnouncementBtn');
+    if (newAnnouncementBtn) {
+      newAnnouncementBtn.onclick = () => showNewAnnouncementModal();
+    }
+  }
+
+  function loadRewardsTab() {
+    // Save Rewards button handler
+    const saveRewardsBtn = document.getElementById('saveRewardsBtn');
+    if (saveRewardsBtn) {
+      saveRewardsBtn.onclick = () => {
+        const teamReward = document.getElementById('rewardTeam').value;
+        const playerReward = document.getElementById('rewardPlayer').value;
+        
+        if (teamReward || playerReward) {
+          // Store rewards in state
+          state.rewardTeam = teamReward;
+          state.rewardPlayer = playerReward;
+          
+          alert('Rewards saved successfully!');
+        } else {
+          alert('Please enter at least one reward.');
+        }
+      };
+    }
+  }
+
+  function loadBusinessLeaderboard() {
+    const businessLeaderboard = document.getElementById('businessLeaderboard');
+    if (!businessLeaderboard) return;
+    
+    // Simple leaderboard display
+    businessLeaderboard.innerHTML = '<div style="font-size: 11px; color: var(--muted);">Team rankings will appear here...</div>';
+  }
+
+  function showAddMetricModal() {
+    // Create modal for adding metrics
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    `;
+    
+    modal.innerHTML = `
+      <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; max-width: 500px; width: 90%;">
+        <h3 style="margin: 0 0 1rem 0; color: var(--text);">Add Performance Metric</h3>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Metric Name:</label>
+          <select id="metricSelect" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
+            <option value="">Select from Top 25...</option>
+            ${TOP_25_METRICS.map(metric => `<option value="${metric}">${metric}</option>`).join('')}
+            <option value="custom">Custom Metric</option>
+          </select>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Custom Name:</label>
+          <input type="text" id="customMetricName" placeholder="Enter custom metric name" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);" disabled>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Weight:</label>
+          <input type="number" id="metricWeight" value="1" min="0.1" max="10" step="0.1" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
+        </div>
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+          <button onclick="this.closest('div').parentElement.remove()" style="padding: 0.5rem 1rem; background: var(--border); color: var(--text); border: none; border-radius: 4px; cursor: pointer;">Cancel</button>
+          <button onclick="addMetric()" style="padding: 0.5rem 1rem; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer;">Add Metric</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Handle metric selection
+    const metricSelect = document.getElementById('metricSelect');
+    const customMetricName = document.getElementById('customMetricName');
+    
+    metricSelect.onchange = () => {
+      if (metricSelect.value === 'custom') {
+        customMetricName.disabled = false;
+        customMetricName.focus();
+      } else {
+        customMetricName.disabled = true;
+        customMetricName.value = '';
+      }
+    };
+  }
+
+  function addMetric() {
+    const metricSelect = document.getElementById('metricSelect');
+    const customMetricName = document.getElementById('customMetricName');
+    const metricWeight = document.getElementById('metricWeight');
+    
+    let metricName = metricSelect.value;
+    if (metricName === 'custom') {
+      metricName = customMetricName.value.trim();
+      if (!metricName) {
+        alert('Please enter a custom metric name.');
+        return;
+      }
+    }
+    
+    if (!metricName) {
+      alert('Please select or enter a metric name.');
+      return;
+    }
+    
+    // Add metric to state (in production, this would save to database)
+    if (!state.businessMetrics) {
+      state.businessMetrics = [];
+    }
+    
+    state.businessMetrics.push({
+      name: metricName,
+      weight: parseFloat(metricWeight.value) || 1,
+      source: 'MANUAL',
+      createdAt: new Date().toISOString()
+    });
+    
+    // Close modal and refresh metrics list
+    document.querySelector('[onclick*="addMetric()"]').closest('div').parentElement.remove();
+    loadMetricsTab();
+    
+    alert(`Metric "${metricName}" added successfully!`);
+  }
+
+  function showCsvImportModal() {
+    alert('CSV Import functionality coming soon! This will allow bulk import of performance data.');
+  }
+
+  function showNewAnnouncementModal() {
+    alert('New Announcement functionality coming soon! This will allow managers to post company updates.');
+  }
+
+  function startGameWithDifficulty(gameType, difficulty, mode = 'school') {
+    // Store difficulty and mode in state
     state.gameDifficulty = difficulty;
+    state.gameMode = mode;
+    
+    // Update UI labels
+    updateModeLabels(mode);
+    
+    // Initialize business mode functionality if needed
+    if (mode === 'business') {
+      initializeBusinessMode();
+    }
     
     if (gameType === 'regular') {
       startRegularGame();
