@@ -26,9 +26,9 @@
     .bal { font-variant-numeric: tabular-nums; }
     .chip { padding:1px 4px; border:1px solid var(--border); border-radius:4px; font-size:10px; color:var(--muted) }
     .plus { padding:1px 3px; border:1px solid var(--border); border-radius:4px; background:#12223a; cursor:pointer; font-size:9px }
-    #board { width:100%; height: 85vh; background:#0a1220; border:1px solid var(--border); border-radius:16px; overflow:hidden; }
-    #grid { width:100%; height:100%; display:grid; gap: 3px; padding: 4px; box-sizing: border-box; }
-    .cell { border:1px solid #0d1930; border-radius: 8px; display:flex; align-items:center; justify-content:center; font-size:11px; user-select:none; position:relative; box-shadow: inset 0 0 0 1px #00000020; overflow-wrap:anywhere; }
+    #board { width:100%; aspect-ratio: 0.8 / 1; background:#0a1220; border:1px solid var(--border); border-radius:12px; overflow:hidden; max-height: 60vh; }
+    #grid { width:100%; height:100%; display:grid; }
+    .cell { border:1px solid #0d1930; display:flex; align-items:center; justify-content:center; font-size:12px; user-select:none; position:relative; }
     @media (max-height: 800px) { #board { height: 75vh; } }
     .castle { font-weight:bold; filter: drop-shadow(0 1px 0 #0008) }
     .section { margin: 10px 0 0 }
@@ -130,8 +130,27 @@
   <div class="panel">
     <div class="section">
       <div class="title">Employees</div>
-      <select id="rosterList"></select>
-      <div class="minor" id="victory"></div>
+      <div id="employeeList" style="display: flex; flex-direction: column; gap: 6px; max-height: calc(100vh - 300px); overflow: auto;">
+        <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(59, 130, 246, 0.1);">
+          <div style="font-weight: 600; color: #60a5fa;">Alice Johnson</div>
+          <div style="font-size: 11px; color: var(--muted);">Alpha Team • 150 pts • 25 credits</div>
+        </div>
+        <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(16, 185, 129, 0.1);">
+          <div style="font-weight: 600; color: #34d399;">Bob Smith</div>
+          <div style="font-size: 11px; color: var(--muted);">Beta Team • 140 pts • 22 credits</div>
+        </div>
+        <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(139, 92, 246, 0.1);">
+          <div style="font-weight: 600; color: #a78bfa;">Carol Davis</div>
+          <div style="font-size: 11px; color: var(--muted);">Alpha Team • 135 pts • 20 credits</div>
+        </div>
+        <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(245, 158, 11, 0.1);">
+          <div style="font-weight: 600; color: #fbbf24;">David Wilson</div>
+          <div style="font-size: 11px; color: var(--muted);">Gamma Team • 130 pts • 18 credits</div>
+        </div>
+      </div>
+      <div style="margin-top: 8px;">
+        <button class="pill" onclick="addEmployee()" style="background: #10b981; color: white; font-size: 11px; width: 100%;">+ Add Employee</button>
+      </div>
     </div>
     
     <div class="section">
@@ -265,7 +284,9 @@
       player: ''
     },
     privacyLevel: 'TEAM_PUBLIC',
-    scoreEvents: []
+    scoreEvents: [],
+    board: { w: 0, h: 0, tiles: [] },
+    selectedEmployee: null
   };
 
   // Top 25 Business Metrics
@@ -322,6 +343,44 @@
       businessState = { ...businessState, ...JSON.parse(savedGame) };
     }
     
+    // Initialize with sample employees if none exist
+    if (businessState.employees.length === 0) {
+      businessState.employees = [
+        {
+          id: 'emp_1',
+          name: 'Alice Johnson',
+          team: 'Alpha',
+          points: 150,
+          credits: 25,
+          balance: 100
+        },
+        {
+          id: 'emp_2',
+          name: 'Bob Smith',
+          team: 'Beta',
+          points: 140,
+          credits: 22,
+          balance: 100
+        },
+        {
+          id: 'emp_3',
+          name: 'Carol Davis',
+          team: 'Alpha',
+          points: 135,
+          credits: 20,
+          balance: 100
+        },
+        {
+          id: 'emp_4',
+          name: 'David Wilson',
+          team: 'Gamma',
+          points: 130,
+          credits: 18,
+          balance: 100
+        }
+      ];
+    }
+    
     // Update UI with loaded data
     if (businessState.currentGame) {
       document.getElementById('gameName').value = businessState.currentGame.name || '';
@@ -339,6 +398,9 @@
     if (businessState.privacyLevel) {
       document.getElementById('privacyLevel').value = businessState.privacyLevel;
     }
+    
+    // Update employee display
+    updateEmployeeDisplay();
   }
 
   function saveGameData() {
@@ -355,29 +417,101 @@
   }
 
   function initializeGameBoard() {
-    const grid = document.getElementById('grid');
-    if (grid) {
-      // Create a 4x4 grid
-      grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
-      grid.style.gridTemplateRows = 'repeat(4, 1fr)';
-      
-      for (let i = 0; i < 16; i++) {
-        const cell = document.createElement('div');
-        cell.className = 'cell';
-        cell.textContent = `Tile ${i + 1}`;
-        cell.style.background = '#1e293b';
-        cell.style.cursor = 'pointer';
-        cell.onclick = () => selectTile(i);
-        grid.appendChild(cell);
+    // Calculate board size based on employee count (minimum 8x8)
+    const employeeCount = businessState.employees.length || 8; // Default to 8 if no employees
+    const w = Math.max(8, Math.ceil(Math.sqrt(employeeCount * 2)));
+    const h = Math.max(8, Math.ceil(Math.sqrt(employeeCount * 2)));
+    
+    console.log('Calculated board size:', { employeeCount, w, h });
+    
+    // Create board tiles
+    const tiles = [];
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        tiles.push({
+          id: `tile_${x}_${y}`,
+          x: x,
+          y: y,
+          owner: null,
+          cost: calculateTilePrice(x, y, w, h)
+        });
       }
     }
+    
+    businessState.board = { w, h, tiles };
+    
+    // Update grid display
+    updateGridDisplay();
   }
 
-  function selectTile(tileIndex) {
-    // Simple tile selection logic
-    const cells = document.querySelectorAll('.cell');
-    cells.forEach(cell => cell.style.outline = 'none');
-    cells[tileIndex].style.outline = '2px solid var(--accent)';
+  function calculateTilePrice(x, y, boardW, boardH) {
+    const centerX = (boardW - 1) / 2;
+    const centerY = (boardH - 1) / 2;
+    const distanceFromCenter = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+    const maxDistance = Math.sqrt(Math.pow(boardW / 2, 2) + Math.pow(boardH / 2, 2));
+    
+    const ringLevel = Math.floor((1 - distanceFromCenter / maxDistance) * 6);
+    let price = 20 + (ringLevel * 10);
+    
+    return Math.max(10, price);
+  }
+
+  function updateGridDisplay() {
+    const gridEl = document.getElementById('grid');
+    if (!gridEl || !businessState.board || !businessState.board.tiles) {
+      return;
+    }
+    
+    console.log('updateGridDisplay: updating grid with', businessState.board.tiles.length, 'tiles');
+    
+    gridEl.style.gridTemplateColumns = `repeat(${businessState.board.w}, 1fr)`;
+    gridEl.style.gridTemplateRows = `repeat(${businessState.board.h}, 1fr)`;
+    
+    gridEl.innerHTML = businessState.board.tiles.map(tile => {
+      const owner = tile.owner;
+      const cost = !owner ? tile.cost : 0;
+      const costText = !owner ? `💰${cost}` : '';
+      
+      return `
+        <div class="cell" onclick="selectTile('${tile.id}')" style="
+          background: ${owner ? '#1e3a8a' : '#1e293b'};
+          cursor: pointer;
+          position: relative;
+        ">
+          <div style="font-size: 10px; text-align: center;">
+            ${owner ? '🏢' : ''}
+            <div style="font-size: 8px; color: var(--muted);">${costText}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    console.log('Grid updated with', businessState.board.tiles.length, 'tiles');
+  }
+
+  function selectTile(tileId) {
+    if (!businessState.selectedEmployee) {
+      alert('Please select an employee first!');
+      return;
+    }
+    
+    const tile = businessState.board.tiles.find(t => t.id === tileId);
+    if (!tile) return;
+    
+    if (tile.owner) {
+      alert('This tile is already owned!');
+      return;
+    }
+    
+    // Check if employee has enough balance (mock balance for demo)
+    const employeeBalance = 100; // Mock balance
+    if (employeeBalance >= tile.cost) {
+      tile.owner = businessState.selectedEmployee.id;
+      updateGridDisplay();
+      alert(`${businessState.selectedEmployee.name} claimed this tile for ${tile.cost} points!`);
+    } else {
+      alert('Insufficient balance to claim this tile!');
+    }
   }
 
   function switchTab(tabName) {
@@ -730,8 +864,83 @@
   }
 
   function awardPoints(points) {
-    // Simple point awarding logic
-    alert(`Awarded ${points} points to selected employee!`);
+    if (!businessState.selectedEmployee) {
+      alert('Please select an employee first!');
+      return;
+    }
+    
+    // Award points to selected employee
+    businessState.selectedEmployee.points = (businessState.selectedEmployee.points || 0) + points;
+    businessState.selectedEmployee.balance = (businessState.selectedEmployee.balance || 0) + points;
+    
+    updateEmployeeDisplay();
+    saveGameData();
+    
+    alert(`Awarded ${points} points to ${businessState.selectedEmployee.name}!`);
+  }
+
+  function addEmployee() {
+    const name = prompt('Enter employee name:');
+    if (!name) return;
+    
+    const team = prompt('Enter team name (Alpha, Beta, Gamma):') || 'Alpha';
+    
+    const newEmployee = {
+      id: 'emp_' + Date.now(),
+      name: name,
+      team: team,
+      points: 0,
+      credits: 0,
+      balance: 100 // Starting balance
+    };
+    
+    businessState.employees.push(newEmployee);
+    updateEmployeeDisplay();
+    saveGameData();
+    
+    alert(`Employee ${name} added to ${team} team!`);
+  }
+
+  function updateEmployeeDisplay() {
+    const employeeList = document.getElementById('employeeList');
+    if (!employeeList) return;
+    
+    if (businessState.employees.length === 0) {
+      employeeList.innerHTML = '<div style="text-align: center; color: var(--muted); padding: 2rem;">No employees yet</div>';
+      return;
+    }
+    
+    employeeList.innerHTML = businessState.employees.map(employee => {
+      const isSelected = businessState.selectedEmployee && businessState.selectedEmployee.id === employee.id;
+      const teamColors = {
+        'Alpha': 'rgba(59, 130, 246, 0.1)',
+        'Beta': 'rgba(16, 185, 129, 0.1)',
+        'Gamma': 'rgba(139, 92, 246, 0.1)'
+      };
+      
+      return `
+        <div onclick="selectEmployee('${employee.id}')" style="
+          padding: 8px; 
+          border: 1px solid var(--border); 
+          border-radius: 6px; 
+          background: ${teamColors[employee.team] || 'rgba(245, 158, 11, 0.1)'};
+          cursor: pointer;
+          ${isSelected ? 'outline: 2px solid var(--accent);' : ''}
+        ">
+          <div style="font-weight: 600; color: ${isSelected ? 'var(--accent)' : 'var(--text)'};">${employee.name}</div>
+          <div style="font-size: 11px; color: var(--muted);">${employee.team} Team • ${employee.points || 0} pts • ${employee.credits || 0} credits</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function selectEmployee(employeeId) {
+    businessState.selectedEmployee = businessState.employees.find(emp => emp.id === employeeId);
+    updateEmployeeDisplay();
+    
+    if (businessState.selectedEmployee) {
+      console.log('Selected employee:', businessState.selectedEmployee.name);
+    }
   }
 
   // Initialize when page loads
