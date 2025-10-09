@@ -326,9 +326,9 @@
             
             <form id="assignmentForm">
                 <div class="form-group">
-                    <button type="button" class="btn btn-secondary" onclick="openAssignmentBrowser()" style="width: 100%; margin-bottom: 1rem;">
+                    <a href="/assignments-library.html" target="_blank" class="btn btn-secondary" style="width: 100%; margin-bottom: 1rem; text-decoration: none;">
                         📁 Browse Premade Assignments
-                    </button>
+                    </a>
                 </div>
                 
                 <div class="form-group">
@@ -872,72 +872,7 @@ What is photosynthesis?"></textarea>
             showStatus('Loaded from library: ' + item.title, 'success');
         }
 
-        // Make functions globally accessible
-        window.createAssignment = createAssignment;
-        window.toggleAssignmentType = toggleAssignmentType;
-        window.openStandardsPicker = openStandardsPicker;
-        window.openAssignmentsLibrary = openAssignmentsLibrary;
-    </script>
-
-    <!-- Standards Picker Modal -->
-    <div id="standardsPickerOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:1000; align-items:center; justify-content:center;">
-        <div style="background:white; width:95%; max-width:800px; border-radius:12px; padding:1rem; max-height:90vh; overflow:auto;">
-            <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
-                <h3 style="margin:0;">Add Standards Tag</h3>
-                <button class="btn btn-secondary" onclick="closeStandardsPicker()" style="background:#e5e7eb;">Close</button>
-            </div>
-            <div style="display:flex; gap:0.75rem; align-items:center; margin:0.75rem 0;">
-                <label for="stdSubject" style="font-weight:600;">Subject</label>
-                <select id="stdSubject" onchange="renderStandardsList()">
-                    <option value="ela" selected>ELA (Common Core)</option>
-                    <option value="math">Math (Common Core)</option>
-                    <option value="science">Science (NGSS)</option>
-                    <option value="history">History/Social Studies</option>
-                </select>
-                <input id="stdSearch" type="text" placeholder="Search standards (e.g., RL.9-10.1)" oninput="renderStandardsList()" style="flex:1; padding:0.5rem; border:1px solid #e5e7eb; border-radius:6px;">
-            </div>
-            <div id="stdList" style="border:1px solid #e5e7eb; border-radius:8px; padding:0.5rem; max-height:50vh; overflow:auto; background:#fafafa;"></div>
-            <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.75rem;">
-                <span style="font-weight:600;">Custom code:</span>
-                <input id="stdCustomCode" type="text" placeholder="e.g., RL.9-10.7 or MyStd.1" style="flex:1; padding:0.5rem; border:1px solid #e5e7eb; border-radius:6px;">
-                <button class="btn btn-secondary" onclick="addCustomStandardToList()">Add</button>
-            </div>
-            <div style="display:flex; gap:0.5rem; justify-content:flex-end; margin-top:0.75rem;">
-                <button class="btn btn-secondary" onclick="insertSelectedStandards()">Insert tag at cursor</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // === Standards Catalog (seed subset; can be expanded) ===
-        const STANDARDS_CATALOG = {
-            ela: [
-                { code: 'RL.9-10.1', label: 'Cite strong and thorough textual evidence' },
-                { code: 'RL.9-10.2', label: 'Determine themes; analyze development; objective summary' },
-                { code: 'RL.9-10.3', label: 'Analyze how complex characters develop and advance plot' },
-                { code: 'RL.9-10.4', label: 'Determine word meanings; analyze figurative and connotative meanings' },
-                { code: 'RL.9-10.5', label: 'Analyze author’s choices in text structure and order' },
-                { code: 'RL.9-10.6', label: 'Analyze point of view and cultural experience' },
-                { code: 'RI.9-10.1', label: 'Cite textual evidence (informational)' },
-                { code: 'W.9-10.1', label: 'Write arguments to support claims' },
-                { code: 'W.9-10.2', label: 'Informative/explanatory writing' },
-                { code: 'L.9-10.4', label: 'Determine or clarify the meaning of unknown words' }
-            ],
-            math: [
-                { code: 'N-RN.1', label: 'Properties of rational and irrational exponents' },
-                { code: 'A-REI.3', label: 'Solve linear equations/inequalities in one variable' },
-                { code: 'F-IF.4', label: 'Interpret key features of functions' }
-            ],
-            science: [
-                { code: 'HS-LS1-2', label: 'Develop and use models of systems of specialized cells' },
-                { code: 'HS-ESS1-4', label: 'Use mathematical or computational representations' }
-            ],
-            history: [
-                { code: 'RH.9-10.1', label: 'Cite specific textual evidence (history/social studies)' },
-                { code: 'RH.9-10.2', label: 'Determine central ideas of a primary/secondary source' }
-            ]
-        };
-
+        // === Standards Picker Functions ===
         let standardsPickerTargetId = null;
 
         function openStandardsPicker(targetTextareaId) {
@@ -1004,6 +939,72 @@ What is photosynthesis?"></textarea>
             listEl.prepend(row);
             document.getElementById('stdCustomCode').value = '';
         }
+
+        // Make functions globally accessible
+        window.createAssignment = createAssignment;
+        window.toggleAssignmentType = toggleAssignmentType;
+        window.openStandardsPicker = openStandardsPicker;
+        window.openAssignmentsLibrary = openAssignmentsLibrary;
+    </script>
+
+    <!-- Standards Picker Modal -->
+    <div id="standardsPickerOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:white; width:95%; max-width:800px; border-radius:12px; padding:1rem; max-height:90vh; overflow:auto;">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
+                <h3 style="margin:0;">Add Standards Tag</h3>
+                <button class="btn btn-secondary" onclick="closeStandardsPicker()" style="background:#e5e7eb;">Close</button>
+            </div>
+            <div style="display:flex; gap:0.75rem; align-items:center; margin:0.75rem 0;">
+                <label for="stdSubject" style="font-weight:600;">Subject</label>
+                <select id="stdSubject" onchange="renderStandardsList()">
+                    <option value="ela" selected>ELA (Common Core)</option>
+                    <option value="math">Math (Common Core)</option>
+                    <option value="science">Science (NGSS)</option>
+                    <option value="history">History/Social Studies</option>
+                </select>
+                <input id="stdSearch" type="text" placeholder="Search standards (e.g., RL.9-10.1)" oninput="renderStandardsList()" style="flex:1; padding:0.5rem; border:1px solid #e5e7eb; border-radius:6px;">
+            </div>
+            <div id="stdList" style="border:1px solid #e5e7eb; border-radius:8px; padding:0.5rem; max-height:50vh; overflow:auto; background:#fafafa;"></div>
+            <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.75rem;">
+                <span style="font-weight:600;">Custom code:</span>
+                <input id="stdCustomCode" type="text" placeholder="e.g., RL.9-10.7 or MyStd.1" style="flex:1; padding:0.5rem; border:1px solid #e5e7eb; border-radius:6px;">
+                <button class="btn btn-secondary" onclick="addCustomStandardToList()">Add</button>
+            </div>
+            <div style="display:flex; gap:0.5rem; justify-content:flex-end; margin-top:0.75rem;">
+                <button class="btn btn-secondary" onclick="insertSelectedStandards()">Insert tag at cursor</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // === Standards Catalog (seed subset; can be expanded) ===
+        const STANDARDS_CATALOG = {
+            ela: [
+                { code: 'RL.9-10.1', label: 'Cite strong and thorough textual evidence' },
+                { code: 'RL.9-10.2', label: 'Determine themes; analyze development; objective summary' },
+                { code: 'RL.9-10.3', label: 'Analyze how complex characters develop and advance plot' },
+                { code: 'RL.9-10.4', label: 'Determine word meanings; analyze figurative and connotative meanings' },
+                { code: 'RL.9-10.5', label: 'Analyze author’s choices in text structure and order' },
+                { code: 'RL.9-10.6', label: 'Analyze point of view and cultural experience' },
+                { code: 'RI.9-10.1', label: 'Cite textual evidence (informational)' },
+                { code: 'W.9-10.1', label: 'Write arguments to support claims' },
+                { code: 'W.9-10.2', label: 'Informative/explanatory writing' },
+                { code: 'L.9-10.4', label: 'Determine or clarify the meaning of unknown words' }
+            ],
+            math: [
+                { code: 'N-RN.1', label: 'Properties of rational and irrational exponents' },
+                { code: 'A-REI.3', label: 'Solve linear equations/inequalities in one variable' },
+                { code: 'F-IF.4', label: 'Interpret key features of functions' }
+            ],
+            science: [
+                { code: 'HS-LS1-2', label: 'Develop and use models of systems of specialized cells' },
+                { code: 'HS-ESS1-4', label: 'Use mathematical or computational representations' }
+            ],
+            history: [
+                { code: 'RH.9-10.1', label: 'Cite specific textual evidence (history/social studies)' },
+                { code: 'RH.9-10.2', label: 'Determine central ideas of a primary/secondary source' }
+            ]
+        };
 
         // Heuristic standards auto-suggest for untagged questions
         function suggestStandardsForQuestion(text) {

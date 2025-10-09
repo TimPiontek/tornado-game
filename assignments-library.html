@@ -253,11 +253,13 @@
 
         async function loadAssignments() {
             try {
+                console.log('Loading assignments library...');
                 const response = await fetch('/assignments_library.json');
                 if (!response.ok) {
                     throw new Error('Failed to load assignments library');
                 }
                 assignments = await response.json();
+                console.log(`Loaded ${assignments.length} assignments:`, assignments.map(a => a.title));
                 renderAssignments();
                 populateFilters();
             } catch (error) {
