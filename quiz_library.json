@@ -166,6 +166,25 @@
     ]
   },
   {
+    "title": "Romeo and Juliet Act 1 Scenes 4–5 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "Before the feast, what does Romeo fear as they approach?", "answer": "A consequence foretold by the stars (fate)", "standards": ["RL.9-10.2", "RL.9-10.6"] },
+      { "question": "Who delivers the Queen Mab speech?", "answer": "Mercutio", "standards": ["RL.9-10.1"] },
+      { "question": "What is the purpose of the Queen Mab speech in context?", "answer": "To mock dreams and romantic fantasies", "standards": ["RL.9-10.2", "RL.9-10.6"] },
+      { "question": "How does Mercutio’s language in the speech reveal his character?", "answer": "Witty, imaginative, cynical about love", "standards": ["RL.9-10.3", "RL.9-10.4"] },
+      { "question": "Who first notices Romeo at the Capulet feast?", "answer": "Tybalt", "standards": ["RL.9-10.1"] },
+      { "question": "What is Tybalt’s reaction to Romeo’s presence?", "answer": "He wants to confront and fight him", "standards": ["RL.9-10.3"] },
+      { "question": "How does Lord Capulet respond to Tybalt’s anger?", "answer": "He restrains him and insists on peace", "standards": ["RL.9-10.3"] },
+      { "question": "What literary device is in ‘my lips, two blushing pilgrims’?", "answer": "Extended religious metaphor (conceit)", "standards": ["RL.9-10.4", "RL.9-10.5"] },
+      { "question": "What happens when Romeo and Juliet first speak?", "answer": "They share a sonnet leading to a kiss", "standards": ["RL.9-10.5"] },
+      { "question": "How do Romeo and Juliet discover each other’s identities?", "answer": "The Nurse informs each of them", "standards": ["RL.9-10.1"] },
+      { "question": "Why is their discovery ironic?", "answer": "They have fallen in love with their enemy", "standards": ["RL.9-10.3", "RL.9-10.6"] },
+      { "question": "What theme is reinforced by the masked-ball setting?", "answer": "Appearance vs. reality and hidden identities", "standards": ["RL.9-10.2", "RL.9-10.5"] }
+    ]
+  }
+  {
     "title": "Classic Rock",
     "category": "Music",
     "questions": [
