@@ -978,6 +978,16 @@
         if (assignedTiles.length !== tilesPerStudent) {
           console.warn(`Student ${student.name} has ${assignedTiles.length} tiles instead of ${tilesPerStudent}`);
         }
+        
+        // Give each student equal starting points and a castle on their first tile
+        student.balance = 100; // Equal starting points for all students
+        
+        // Build a castle on the first assigned tile (headquarters)
+        if (assignedTiles.length > 0) {
+          const headquartersTile = assignedTiles[0];
+          headquartersTile.castle_level = 1;
+          console.log(`Built castle on ${student.name}'s headquarters tile (${headquartersTile.x}, ${headquartersTile.y})`);
+        }
       });
     });
     
@@ -2488,8 +2498,8 @@
         student.characterRole = character.role;
         student.characterFaction = character.factionName;
         
-        // Apply character starting resources
-        student.balance = character.startingCoins || student.balance || 10;
+        // Apply character starting resources (use equal starting points)
+        student.balance = 100; // Equal starting points for all students
         student.weapons = character.startingWeapons || [];
         student.mercenaries = character.startingMercenaries || 0;
         student.startingCastles = character.startingCastles || 0;

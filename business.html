@@ -30,7 +30,7 @@
     #grid { width:100%; height:100%; display:grid; }
     .cell { border:1px solid #0d1930; display:flex; align-items:center; justify-content:center; font-size:12px; user-select:none; position:relative; }
     @media (max-height: 800px) { #board { height: 75vh; } }
-    .castle { font-weight:bold; filter: drop-shadow(0 1px 0 #0008) }
+    .headquarters { font-weight:bold; filter: drop-shadow(0 1px 0 #0008) }
     .section { margin: 10px 0 0 }
     input, textarea, select { width:100%; padding:10px; border:1px solid var(--border); border-radius:10px; background:#081125; color:var(--text) }
     textarea { min-height: 160px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
@@ -350,33 +350,37 @@
           id: 'emp_1',
           name: 'Alice Johnson',
           team: 'Alpha',
-          points: 150,
-          credits: 25,
-          balance: 100
+          points: 100,
+          credits: 0,
+          balance: 100,
+          headquarters: null
         },
         {
           id: 'emp_2',
           name: 'Bob Smith',
           team: 'Beta',
-          points: 140,
-          credits: 22,
-          balance: 100
+          points: 100,
+          credits: 0,
+          balance: 100,
+          headquarters: null
         },
         {
           id: 'emp_3',
           name: 'Carol Davis',
           team: 'Alpha',
-          points: 135,
-          credits: 20,
-          balance: 100
+          points: 100,
+          credits: 0,
+          balance: 100,
+          headquarters: null
         },
         {
           id: 'emp_4',
           name: 'David Wilson',
           team: 'Gamma',
-          points: 130,
-          credits: 18,
-          balance: 100
+          points: 100,
+          credits: 0,
+          balance: 100,
+          headquarters: null
         }
       ];
     }
@@ -433,15 +437,53 @@
           x: x,
           y: y,
           owner: null,
-          cost: calculateTilePrice(x, y, w, h)
+          cost: calculateTilePrice(x, y, w, h),
+          isHeadquarters: false
         });
       }
     }
     
     businessState.board = { w, h, tiles };
     
+    // Assign starting headquarters to employees
+    assignStartingHeadquarters();
+    
     // Update grid display
     updateGridDisplay();
+  }
+
+  function assignStartingHeadquarters() {
+    const { w, h } = businessState.board;
+    
+    // Place headquarters on outer edges, evenly distributed
+    const edgePositions = [];
+    
+    // Top and bottom edges
+    for (let x = 1; x < w - 1; x++) {
+      edgePositions.push({ x, y: 0 }); // Top
+      edgePositions.push({ x, y: h - 1 }); // Bottom
+    }
+    
+    // Left and right edges
+    for (let y = 1; y < h - 1; y++) {
+      edgePositions.push({ x: 0, y }); // Left
+      edgePositions.push({ x: w - 1, y }); // Right
+    }
+    
+    // Assign headquarters to employees
+    businessState.employees.forEach((employee, index) => {
+      if (index < edgePositions.length) {
+        const pos = edgePositions[index];
+        const tile = businessState.board.tiles.find(t => t.x === pos.x && t.y === pos.y);
+        if (tile) {
+          tile.owner = employee.id;
+          tile.isHeadquarters = true;
+          employee.headquarters = tile.id;
+        }
+      }
+    });
+    
+    console.log('Assigned headquarters to employees');
   }
 
   function calculateTilePrice(x, y, boardW, boardH) {
@@ -469,18 +511,26 @@
     
     gridEl.innerHTML = businessState.board.tiles.map(tile => {
       const owner = tile.owner;
+      const employee = businessState.employees.find(emp => emp.id === owner);
       const cost = !owner ? tile.cost : 0;
       const costText = !owner ? `💰${cost}` : '';
       
+      // Different styling for headquarters vs regular owned tiles
+      const isHeadquarters = tile.isHeadquarters;
+      const backgroundColor = owner ? (isHeadquarters ? '#1e40af' : '#1e3a8a') : '#1e293b';
+      const icon = isHeadquarters ? '🏢' : (owner ? '🏢' : '');
+      
       return `
-        <div class="cell" onclick="selectTile('${tile.id}')" style="
-          background: ${owner ? '#1e3a8a' : '#1e293b'};
+        <div class="cell ${isHeadquarters ? 'headquarters' : ''}" onclick="selectTile('${tile.id}')" style="
+          background: ${backgroundColor};
           cursor: pointer;
           position: relative;
+          ${isHeadquarters ? 'border: 2px solid #fbbf24;' : ''}
         ">
           <div style="font-size: 10px; text-align: center;">
-            ${owner ? '🏢' : ''}
+            ${icon}
             <div style="font-size: 8px; color: var(--muted);">${costText}</div>
+            ${employee ? `<div style="font-size: 7px; color: var(--accent); margin-top: 2px;">${employee.name.split(' ')[0]}</div>` : ''}
           </div>
         </div>
       `;
@@ -889,16 +939,20 @@
       id: 'emp_' + Date.now(),
       name: name,
       team: team,
-      points: 0,
+      points: 100, // Equal starting points
       credits: 0,
-      balance: 100 // Starting balance
+      balance: 100, // Starting balance
+      headquarters: null
     };
     
     businessState.employees.push(newEmployee);
+    
+    // Reinitialize board to assign new headquarters
+    initializeGameBoard();
     updateEmployeeDisplay();
     saveGameData();
     
-    alert(`Employee ${name} added to ${team} team!`);
+    alert(`Employee ${name} added to ${team} team with equal starting points!`);
   }
 
   function updateEmployeeDisplay() {
