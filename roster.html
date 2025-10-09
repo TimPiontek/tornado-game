@@ -1503,6 +1503,7 @@
                         <button class="btn btn-small" onclick="editRoster('${roster.id}')">Edit</button>
                         <button class="btn btn-small btn-secondary" onclick="duplicateRoster('${roster.id}')">Duplicate</button>
                         <button class="btn btn-small btn-danger" onclick="deleteRoster('${roster.id}')">Delete</button>
+                        <button class="btn btn-small btn-secondary" onclick="openStandardsDashboard('${roster.id}')">Standards</button>
                     </div>
                 </div>
             `).join('');
@@ -1991,6 +1992,105 @@
         function getAllRosters() {
             const saved = localStorage.getItem('tornadoRosters');
             return saved ? JSON.parse(saved) : [];
+        }
+
+        // === STANDARDS DASHBOARD (TEACHER) ===
+        function openStandardsDashboard(rosterId) {
+            const roster = getAllRosters().find(r => r.id === rosterId);
+            if (!roster) return alert('Roster not found');
+
+            // Aggregate standards across assignments for this roster
+            const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]')
+                .filter(a => a.rosterId === rosterId);
+
+            // standardsByCode: { code: { totalPoints, byStudent: { name: {earned,total} } } }
+            const standardsByCode = {};
+
+            assignments.forEach(a => {
+                const subs = a.submissions || {};
+                (a.questions || []).forEach(q => {
+                    const codes = Array.isArray(q.standards) ? q.standards : [];
+                    if (codes.length === 0) return;
+                    const qType = q.type;
+                    const qTotal = qType === 'multiple_choice' ? Number(q.points || 0) : Number(q.maxPoints || 0);
+                    roster.roster.forEach(student => {
+                        codes.forEach(code => {
+                            if (!standardsByCode[code]) standardsByCode[code] = { totalPoints: 0, byStudent: {} };
+                            standardsByCode[code].totalPoints += qTotal;
+                            if (!standardsByCode[code].byStudent[student.name]) {
+                                standardsByCode[code].byStudent[student.name] = { earned: 0, total: 0 };
+                            }
+                            standardsByCode[code].byStudent[student.name].total += qTotal;
+
+                            const sub = subs[student.name];
+                            if (sub) {
+                                if (qType === 'multiple_choice') {
+                                    if (sub.answers && sub.answers[q.id] && sub.answers[q.id] === q.correctAnswer) {
+                                        standardsByCode[code].byStudent[student.name].earned += qTotal;
+                                    }
+                                } else if (qType === 'short_answer') {
+                                    if (sub.grades && typeof sub.grades[q.id] === 'number') {
+                                        const earned = Math.max(0, Math.min(qTotal, sub.grades[q.id]));
+                                        standardsByCode[code].byStudent[student.name].earned += earned;
+                                    }
+                                }
+                            }
+                        });
+                    });
+                });
+            });
+
+            // Build modal content
+            const overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:1000;';
+            const content = document.createElement('div');
+            content.style.cssText = 'background:white; padding:1rem 1rem; border-radius:12px; width:95%; max-width:960px; max-height:90vh; overflow:auto;';
+            content.innerHTML = `
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:0.5rem;">
+                    <h3 style="margin:0;">Standards Dashboard — ${roster.name}</h3>
+                    <button class="btn btn-small" onclick="this.closest('.standards-modal')?.remove();" style="background:#e5e7eb;">Close</button>
+                </div>
+                <div style="font-size:0.9rem; color:#6b7280; margin-bottom:0.75rem;">Aggregated from assignments tagged with [STD: ...]</div>
+                <div>
+                    ${renderStandardsTable(standardsByCode, roster)}
+                </div>
+            `;
+            content.className = 'standards-modal';
+            overlay.appendChild(content);
+            document.body.appendChild(overlay);
+        }
+
+        function renderStandardsTable(standardsByCode, roster) {
+            const codes = Object.keys(standardsByCode).sort();
+            if (codes.length === 0) {
+                return '<div class="status-message status-info">No standards found for this roster.</div>';
+            }
+            // Build per-standard rows with mini progress bars per student
+            return codes.map(code => {
+                const entry = standardsByCode[code];
+                const studentNames = roster.roster.map(s => s.name);
+                const header = `
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:0.5rem; padding:0.5rem 0; border-top:1px solid #eee;">
+                        <div style="min-width:140px; font-weight:700;">${code}</div>
+                        <div style="flex:1; display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:0.5rem;">
+                            ${studentNames.map(name => {
+                                const s = entry.byStudent[name] || { earned: 0, total: 0 };
+                                const pct = s.total > 0 ? Math.round((s.earned / s.total) * 100) : 0;
+                                return `
+                                    <div style="border:1px solid #eee; border-radius:8px; padding:0.5rem;">
+                                        <div style="font-size:0.85rem; font-weight:600; margin-bottom:0.25rem;">${name}</div>
+                                        <div class="progress-bar" style="height:6px; margin:0 0 0.25rem 0;">
+                                            <div class="progress-fill" style="height:6px; width:${pct}%;"></div>
+                                        </div>
+                                        <div style="font-size:0.8rem; color:#6b7280;">${s.earned}/${s.total} (${pct}%)</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+                return header;
+            }).join('');
         }
         
         // === TEAM MANAGEMENT ===

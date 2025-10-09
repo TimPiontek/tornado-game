@@ -264,6 +264,10 @@
         <div id="assignmentsView" style="display: none;">
             <div class="assignments-list">
                 <h2 id="assignmentsTitle">Assignments</h2>
+                <div style="display:flex; gap:0.5rem; align-items:center; margin:0.5rem 0 1rem 0;">
+                    <label for="stdFilter" style="font-weight:600;">Filter by standard:</label>
+                    <input id="stdFilter" type="text" placeholder="e.g., RL.9-10.1" oninput="applyStandardsFilter()" style="flex:1; padding:0.5rem; border:1px solid #e5e7eb; border-radius:6px;">
+                </div>
                 <div id="assignmentsList">
                     <!-- Assignments will be loaded here -->
                 </div>
@@ -349,7 +353,12 @@
                 return;
             }
 
-            assignments.forEach(assignment => {
+            // Preserve original list and apply standards filter if present
+            window.__currentAssignments = assignments;
+            const filterVal = (document.getElementById('stdFilter')?.value || '').trim();
+            const filtered = filterVal ? filterAssignmentsByStandard(assignments, filterVal) : assignments;
+
+            filtered.forEach(assignment => {
                 const assignmentItem = document.createElement('div');
                 assignmentItem.className = 'assignment-item';
                 assignmentItem.innerHTML = `
@@ -369,6 +378,22 @@
                 `;
                 assignmentsList.appendChild(assignmentItem);
             });
+        }
+
+        function filterAssignmentsByStandard(assignments, query) {
+            const q = query.toLowerCase();
+            return assignments.filter(a => {
+                // Try to load file and inspect standards metadata best-effort (if embedded)
+                // Fallback: match code in title/description
+                const titleHit = (a.title || '').toLowerCase().includes(q);
+                const descHit = (a.description || '').toLowerCase().includes(q);
+                return titleHit || descHit;
+            });
+        }
+
+        function applyStandardsFilter() {
+            if (!window.__currentAssignments) return;
+            displayAssignments(window.__currentAssignments);
         }
 
         function useAssignment(assignmentId, title, description, points) {

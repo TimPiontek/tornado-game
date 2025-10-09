@@ -476,6 +476,11 @@
                     </div>
                 </div>
 
+                    <div class="sidebar-section">
+                        <h3>📚 Standards</h3>
+                        <div id="standardsList" class="status-message status-info">No standards yet</div>
+                    </div>
+
                 <div class="sidebar-section">
                     <h3>ℹ️ Instructions</h3>
                     <div class="status-message status-info">
@@ -520,6 +525,7 @@
             
             // Update UI
             updateStudentInfo();
+            renderStandardsProgress();
         }
 
         function loadAssignment() {
@@ -543,6 +549,8 @@
             isReviewMode = currentSubmission && currentSubmission.submittedAt;
 
             renderAssignment();
+            // Re-render standards each time we load an assignment (in case submissions changed)
+            renderStandardsProgress();
         }
 
         function showAssignmentsList() {
@@ -872,6 +880,7 @@
             
             // Refresh the page to show results
             loadAssignment();
+            renderStandardsProgress();
         }
 
         function autoGradeMultipleChoice() {
@@ -998,6 +1007,74 @@
             if (submission.submittedAt && !submission.gradedAt) return 'completed';
             if (submission.gradedAt) return 'graded';
             return 'pending';
+        }
+
+        // === STANDARDS AGGREGATION ===
+        function renderStandardsProgress() {
+            const container = document.getElementById('standardsList');
+            if (!currentStudent || !container) return;
+
+            const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+            const studentAssignments = assignments.filter(a => a.rosterId === currentStudent.rosterId);
+
+            // Build a standards map: { standardCode: { totalPoints, earnedPoints, questions: n } }
+            const standardsMap = {};
+
+            studentAssignments.forEach(assignment => {
+                const submission = assignment.submissions?.[currentStudent.username] || null;
+                (assignment.questions || []).forEach(q => {
+                    const standards = Array.isArray(q.standards) ? q.standards : [];
+                    if (standards.length === 0) return;
+
+                    standards.forEach(code => {
+                        if (!standardsMap[code]) standardsMap[code] = { totalPoints: 0, earnedPoints: 0, questions: 0 };
+                        if (q.type === 'multiple_choice') {
+                            const pts = Number(q.points || 0);
+                            standardsMap[code].totalPoints += pts;
+                            standardsMap[code].questions += 1;
+                            if (submission && submission.answers && submission.answers[q.id] && submission.answers[q.id] === q.correctAnswer) {
+                                standardsMap[code].earnedPoints += pts;
+                            }
+                        } else if (q.type === 'short_answer') {
+                            const pts = Number(q.maxPoints || 0);
+                            standardsMap[code].totalPoints += pts;
+                            standardsMap[code].questions += 1;
+                            if (submission && submission.grades && typeof submission.grades[q.id] === 'number') {
+                                standardsMap[code].earnedPoints += Math.max(0, Math.min(pts, submission.grades[q.id]));
+                            }
+                        }
+                    });
+                });
+            });
+
+            const codes = Object.keys(standardsMap);
+            if (codes.length === 0) {
+                container.className = 'status-message status-info';
+                container.textContent = 'No standards yet';
+                return;
+            }
+
+            // Render compact list
+            const rows = codes.sort().map(code => {
+                const s = standardsMap[code];
+                const pct = s.totalPoints > 0 ? Math.round((s.earnedPoints / s.totalPoints) * 100) : 0;
+                return `
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:0.5rem; margin-bottom:0.5rem;">
+                        <div style="min-width:110px; font-weight:600;">${code}</div>
+                        <div style="flex:1;">
+                            <div class="progress-bar" style="height:6px; margin:0;">
+                                <div class="progress-fill" style="width:${pct}%; height:6px;"></div>
+                            </div>
+                        </div>
+                        <div style="min-width:120px; text-align:right; color:var(--muted);">
+                            ${s.earnedPoints}/${s.totalPoints} (${pct}%)
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.className = '';
+            container.innerHTML = rows;
         }
 
         function getAssignmentScore(assignment, submission) {

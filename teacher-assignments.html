@@ -397,11 +397,14 @@
                 <div id="multipleChoiceSection" class="assignment-section">
                     <h3>📝 Multiple Choice Questions</h3>
                     <div class="form-group">
-                        <label for="mcPointsPerQuestion">Points per Question (default: 1)</label>
-                        <input type="number" id="mcPointsPerQuestion" value="1" min="1" max="100">
+                        <label for="mcPointsPerQuestion">Points per Question (default: 5)</label>
+                        <input type="number" id="mcPointsPerQuestion" value="5" min="1" max="100">
                     </div>
                     <div class="form-group">
                         <label for="mcQuestionsText">Questions (Copy & Paste Format)</label>
+                        <div style="display:flex; gap:0.5rem; margin:0.25rem 0 0.5rem 0;">
+                            <button type="button" class="btn btn-secondary" onclick="openStandardsPicker('mcQuestionsText')">Add Standards Tag</button>
+                        </div>
                         <textarea id="mcQuestionsText" rows="10" placeholder="Enter questions in this format:
 
 What is the capital of France?
@@ -425,6 +428,7 @@ Answer: B"></textarea>
                             <li>Choices labeled A), B), C), D)</li>
                             <li>Answer line: "Answer: [letter]"</li>
                             <li>Leave blank line between questions</li>
+                            <li>Optional: tag standards inline like [STD: RL.9-10.1, W.9-10.2]</li>
                         </ul>
                     </div>
                 </div>
@@ -433,16 +437,26 @@ Answer: B"></textarea>
                 <div id="shortAnswerSection" class="assignment-section" style="display: none;">
                     <h3>✍️ Short Answer Questions</h3>
                     <div class="form-group">
-                        <label for="saMaxPoints">Maximum Points per Question</label>
-                        <input type="number" id="saMaxPoints" value="5" min="1" max="100">
+                        <label for="saMaxPoints">Maximum Points per Question (default: 10)</label>
+                        <input type="number" id="saMaxPoints" value="10" min="1" max="100">
                     </div>
                     <div class="form-group">
                         <label for="saQuestionsText">Questions</label>
+                        <div style="display:flex; gap:0.5rem; margin:0.25rem 0 0.5rem 0;">
+                            <button type="button" class="btn btn-secondary" onclick="openStandardsPicker('saQuestionsText')">Add Standards Tag</button>
+                        </div>
                         <textarea id="saQuestionsText" rows="8" placeholder="Enter questions, one per line:
 
 Explain the causes of World War I.
 Describe the water cycle.
 What is photosynthesis?"></textarea>
+                    </div>
+                    <div class="format-help">
+                        <strong>Format Instructions:</strong>
+                        <ul>
+                            <li>One question per line</li>
+                            <li>Optional: tag standards inline like [STD: RL.9-10.1, W.9-10.2]</li>
+                        </ul>
                     </div>
                 </div>
                 
@@ -620,6 +634,16 @@ What is photosynthesis?"></textarea>
                 questions = questions.concat(saQuestions);
             }
             
+            // Enforce per-question standards tagging
+            const missing = findQuestionsMissingStandards(questions);
+            if (missing.length > 0) {
+                const msg = `Please add standards to all questions before saving. Missing on: \n` +
+                    missing.slice(0, 10).map(i => ` - Question ${i + 1}`).join('\n') +
+                    (missing.length > 10 ? `\n ...and ${missing.length - 10} more` : '');
+                showStatus(msg, 'error');
+                return;
+            }
+
             // Create assignment for each selected roster
             const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
             let createdCount = 0;
@@ -702,7 +726,7 @@ What is photosynthesis?"></textarea>
 
         function parseMultipleChoiceQuestions() {
             const text = document.getElementById('mcQuestionsText').value.trim();
-            const pointsPerQuestion = parseInt(document.getElementById('mcPointsPerQuestion').value) || 1;
+            const pointsPerQuestion = parseInt(document.getElementById('mcPointsPerQuestion').value) || 5;
             
             if (!text) return [];
             
@@ -713,7 +737,9 @@ What is photosynthesis?"></textarea>
                 const lines = block.trim().split('\n');
                 if (lines.length < 4) return; // Need question + 4 choices + answer
                 
-                const question = lines[0].trim();
+                let question = lines[0].trim();
+                const standards = extractStandards(question);
+                question = stripStandards(question);
                 const choices = [];
                 let answer = '';
                 
@@ -734,7 +760,8 @@ What is photosynthesis?"></textarea>
                         question: question,
                         choices: choices,
                         correctAnswer: answer,
-                        points: pointsPerQuestion
+                        points: pointsPerQuestion,
+                        standards: standards
                     });
                 }
             });
@@ -744,7 +771,7 @@ What is photosynthesis?"></textarea>
 
         function parseShortAnswerQuestions() {
             const text = document.getElementById('saQuestionsText').value.trim();
-            const maxPoints = parseInt(document.getElementById('saMaxPoints').value) || 5;
+            const maxPoints = parseInt(document.getElementById('saMaxPoints').value) || 10;
             
             if (!text) return [];
             
@@ -752,18 +779,46 @@ What is photosynthesis?"></textarea>
             const lines = text.split('\n').filter(line => line.trim());
             
             lines.forEach((line, index) => {
-                const question = line.trim();
+                let question = line.trim();
+                const standards = extractStandards(question);
+                question = stripStandards(question);
                 if (question) {
                     questions.push({
                         id: `sa_${index}`,
                         type: 'short_answer',
                         question: question,
-                        maxPoints: maxPoints
+                        maxPoints: maxPoints,
+                        standards: standards
                     });
                 }
             });
             
             return questions;
+        }
+
+        // === Standards Tagging Helpers ===
+        function extractStandards(text) {
+            if (!text) return [];
+            const matches = [...text.matchAll(/\[STD:\s*([^\]]+)\]/gi)];
+            const found = [];
+            matches.forEach(m => {
+                const parts = m[1].split(',').map(s => s.trim()).filter(Boolean);
+                parts.forEach(p => found.push(p));
+            });
+            // De-duplicate while preserving order
+            return [...new Set(found)];
+        }
+
+        function stripStandards(text) {
+            return text.replace(/\s*\[STD:\s*[^\]]+\]/gi, '').trim();
+        }
+
+        function findQuestionsMissingStandards(questions) {
+            const missing = [];
+            (questions || []).forEach((q, idx) => {
+                if (!Array.isArray(q.standards) || q.standards.length === 0) missing.push(idx);
+            });
+            return missing;
         }
 
         function generateAssignmentId() {
@@ -787,6 +842,134 @@ What is photosynthesis?"></textarea>
         // Make functions globally accessible
         window.createAssignment = createAssignment;
         window.toggleAssignmentType = toggleAssignmentType;
+        window.openStandardsPicker = openStandardsPicker;
+    </script>
+
+    <!-- Standards Picker Modal -->
+    <div id="standardsPickerOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:white; width:95%; max-width:800px; border-radius:12px; padding:1rem; max-height:90vh; overflow:auto;">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
+                <h3 style="margin:0;">Add Standards Tag</h3>
+                <button class="btn btn-secondary" onclick="closeStandardsPicker()" style="background:#e5e7eb;">Close</button>
+            </div>
+            <div style="display:flex; gap:0.75rem; align-items:center; margin:0.75rem 0;">
+                <label for="stdSubject" style="font-weight:600;">Subject</label>
+                <select id="stdSubject" onchange="renderStandardsList()">
+                    <option value="ela" selected>ELA (Common Core)</option>
+                    <option value="math">Math (Common Core)</option>
+                    <option value="science">Science (NGSS)</option>
+                    <option value="history">History/Social Studies</option>
+                </select>
+                <input id="stdSearch" type="text" placeholder="Search standards (e.g., RL.9-10.1)" oninput="renderStandardsList()" style="flex:1; padding:0.5rem; border:1px solid #e5e7eb; border-radius:6px;">
+            </div>
+            <div id="stdList" style="border:1px solid #e5e7eb; border-radius:8px; padding:0.5rem; max-height:50vh; overflow:auto; background:#fafafa;"></div>
+            <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.75rem;">
+                <span style="font-weight:600;">Custom code:</span>
+                <input id="stdCustomCode" type="text" placeholder="e.g., RL.9-10.7 or MyStd.1" style="flex:1; padding:0.5rem; border:1px solid #e5e7eb; border-radius:6px;">
+                <button class="btn btn-secondary" onclick="addCustomStandardToList()">Add</button>
+            </div>
+            <div style="display:flex; gap:0.5rem; justify-content:flex-end; margin-top:0.75rem;">
+                <button class="btn btn-secondary" onclick="insertSelectedStandards()">Insert tag at cursor</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // === Standards Catalog (seed subset; can be expanded) ===
+        const STANDARDS_CATALOG = {
+            ela: [
+                { code: 'RL.9-10.1', label: 'Cite strong and thorough textual evidence' },
+                { code: 'RL.9-10.2', label: 'Determine themes; analyze development; objective summary' },
+                { code: 'RL.9-10.3', label: 'Analyze how complex characters develop and advance plot' },
+                { code: 'RL.9-10.4', label: 'Determine word meanings; analyze figurative and connotative meanings' },
+                { code: 'RL.9-10.5', label: 'Analyze author’s choices in text structure and order' },
+                { code: 'RL.9-10.6', label: 'Analyze point of view and cultural experience' },
+                { code: 'RI.9-10.1', label: 'Cite textual evidence (informational)' },
+                { code: 'W.9-10.1', label: 'Write arguments to support claims' },
+                { code: 'W.9-10.2', label: 'Informative/explanatory writing' },
+                { code: 'L.9-10.4', label: 'Determine or clarify the meaning of unknown words' }
+            ],
+            math: [
+                { code: 'N-RN.1', label: 'Properties of rational and irrational exponents' },
+                { code: 'A-REI.3', label: 'Solve linear equations/inequalities in one variable' },
+                { code: 'F-IF.4', label: 'Interpret key features of functions' }
+            ],
+            science: [
+                { code: 'HS-LS1-2', label: 'Develop and use models of systems of specialized cells' },
+                { code: 'HS-ESS1-4', label: 'Use mathematical or computational representations' }
+            ],
+            history: [
+                { code: 'RH.9-10.1', label: 'Cite specific textual evidence (history/social studies)' },
+                { code: 'RH.9-10.2', label: 'Determine central ideas of a primary/secondary source' }
+            ]
+        };
+
+        let standardsPickerTargetId = null;
+
+        function openStandardsPicker(targetTextareaId) {
+            standardsPickerTargetId = targetTextareaId;
+            document.getElementById('standardsPickerOverlay').style.display = 'flex';
+            renderStandardsList();
+        }
+
+        function closeStandardsPicker() {
+            document.getElementById('standardsPickerOverlay').style.display = 'none';
+            standardsPickerTargetId = null;
+        }
+
+        function renderStandardsList() {
+            const subject = document.getElementById('stdSubject').value;
+            const q = (document.getElementById('stdSearch').value || '').toLowerCase();
+            const list = STANDARDS_CATALOG[subject] || [];
+            const filtered = list.filter(item => item.code.toLowerCase().includes(q) || item.label.toLowerCase().includes(q));
+            const html = filtered.map(item => `
+                <label style="display:flex; align-items:center; gap:0.5rem; padding:0.25rem 0;">
+                    <input type="checkbox" class="std-item" value="${item.code}">
+                    <span style="font-weight:600; min-width:110px;">${item.code}</span>
+                    <span style="color:#374151;">${item.label}</span>
+                </label>
+            `).join('');
+            document.getElementById('stdList').innerHTML = html || '<div class="status-message status-info">No matching standards</div>';
+        }
+
+        function insertSelectedStandards() {
+            if (!standardsPickerTargetId) return;
+            const textarea = document.getElementById(standardsPickerTargetId);
+            if (!textarea) return;
+            const selected = Array.from(document.querySelectorAll('#stdList .std-item:checked')).map(cb => cb.value);
+            const custom = (document.getElementById('stdCustomCode').value || '').trim();
+            if (custom) selected.push(custom);
+            if (selected.length === 0) { alert('Select at least one standard.'); return; }
+            const tag = ` [STD: ${selected.join(', ')}]`;
+
+            // Insert at cursor
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const before = textarea.value.substring(0, start);
+            const after = textarea.value.substring(end);
+            textarea.value = before + tag + after;
+            // Move cursor after inserted tag
+            const newPos = start + tag.length;
+            textarea.setSelectionRange(newPos, newPos);
+            textarea.focus();
+        }
+
+        function addCustomStandardToList() {
+            const code = (document.getElementById('stdCustomCode').value || '').trim();
+            if (!code) { alert('Enter a custom standard code.'); return; }
+            // Prepend a temporary custom item to the list for visibility and selection
+            const listEl = document.getElementById('stdList');
+            const tempId = `custom-${Date.now()}`;
+            const row = document.createElement('label');
+            row.style.cssText = 'display:flex; align-items:center; gap:0.5rem; padding:0.25rem 0;';
+            row.innerHTML = `
+                <input type="checkbox" class="std-item" value="${code}" checked>
+                <span style="font-weight:600; min-width:110px;">${code}</span>
+                <span style="color:#374151;">(custom)</span>
+            `;
+            listEl.prepend(row);
+            document.getElementById('stdCustomCode').value = '';
+        }
     </script>
 </body>
 </html>

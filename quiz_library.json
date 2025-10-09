@@ -24860,126 +24860,157 @@
   {
     "title": "Romeo and Juliet Act 1 Scene 1 Tornado Quiz",
     "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4"],
     "questions": [
       {
         "question": "Who delivers the Prologue at the start of the play?",
-        "answer": "The Chorus"
+        "answer": "The Chorus",
+        "standards": ["RL.9-10.1"]
       },
       {
         "question": "According to the Prologue, where does the play take place?",
-        "answer": "Verona"
+        "answer": "Verona",
+        "standards": ["RL.9-10.1"]
       },
       {
         "question": "What does the Prologue call the families of Romeo and Juliet?",
-        "answer": "Two households, both alike in dignity"
+        "answer": "Two households, both alike in dignity",
+        "standards": ["RL.9-10.2"]
       },
       {
         "question": "What is foretold about Romeo and Juliet in the Prologue?",
-        "answer": "They are star-crossed lovers doomed to die"
+        "answer": "They are star-crossed lovers doomed to die",
+        "standards": ["RL.9-10.2"]
       },
       {
         "question": "Who are the first two characters to appear in Act 1, Scene 1?",
-        "answer": "Sampson and Gregory"
+        "answer": "Sampson and Gregory",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "What house do Sampson and Gregory serve?",
-        "answer": "The Capulets"
+        "answer": "The Capulets",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "What are Sampson and Gregory armed with at the start of the scene?",
-        "answer": "Swords and bucklers"
+        "answer": "Swords and bucklers",
+        "standards": ["RL.9-10.4"]
       },
       {
         "question": "What do Sampson and Gregory boast about doing to Montague men?",
-        "answer": "Fighting and killing them"
+        "answer": "Fighting and killing them",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "What do Sampson and Gregory boast about doing to Montague women?",
-        "answer": "Pushing them against the wall"
+        "answer": "Pushing them against the wall",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "What gesture does Sampson make to provoke Abram?",
-        "answer": "He bites his thumb"
+        "answer": "He bites his thumb",
+        "standards": ["RL.9-10.4"]
       },
       {
         "question": "Who is Abram?",
-        "answer": "A servant of the Montagues"
+        "answer": "A servant of the Montagues",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "Why does Abram question Sampson about biting his thumb?",
-        "answer": "He wants to know if it is meant as an insult to him"
+        "answer": "He wants to know if it is meant as an insult to him",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "Who tries to stop the fight between the servants?",
-        "answer": "Benvolio"
+        "answer": "Benvolio",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "What relation is Benvolio to Romeo?",
-        "answer": "He is Romeo's cousin"
+        "answer": "He is Romeo's cousin",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "Who escalates the fight after Benvolio tries to keep peace?",
-        "answer": "Tybalt"
+        "answer": "Tybalt",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "What is Tybalt's attitude toward peace?",
-        "answer": "He says he hates peace as he hates all Montagues"
+        "answer": "He says he hates peace as he hates all Montagues",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "What do the citizens cry out when the brawl grows?",
-        "answer": "Clubs, bills, and partisans!"
+        "answer": "Clubs, bills, and partisans!",
+        "standards": ["RL.9-10.4"]
       },
       {
         "question": "Who arrives with soldiers to break up the street fight?",
-        "answer": "Prince Escalus"
+        "answer": "Prince Escalus",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "What punishment does the Prince declare for anyone who disturbs the peace again?",
-        "answer": "Death"
+        "answer": "Death",
+        "standards": ["RL.9-10.2"]
       },
       {
         "question": "How many times have the Montagues and Capulets disturbed the peace recently?",
-        "answer": "Three times"
+        "answer": "Three times",
+        "standards": ["RL.9-10.2"]
       },
       {
         "question": "What does the Prince command both families to do after the fight?",
-        "answer": "Meet with him to hear judgment"
+        "answer": "Meet with him to hear judgment",
+        "standards": ["RL.9-10.2"]
       },
       {
         "question": "Who is worried about Romeo's sadness after the fight?",
-        "answer": "Lord and Lady Montague"
+        "answer": "Lord and Lady Montague",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "What has Romeo been doing early in the mornings, according to Benvolio?",
-        "answer": "Walking alone at dawn"
+        "answer": "Walking alone at dawn",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "What does Montague say Romeo does during the day?",
-        "answer": "Shuts himself in his chamber, makes himself an artificial night"
+        "answer": "Shuts himself in his chamber, makes himself an artificial night",
+        "standards": ["RL.9-10.4"]
       },
       {
         "question": "What reason does Romeo give for his sadness?",
-        "answer": "He is in love but not loved back"
+        "answer": "He is in love but not loved back",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "What is the name of the woman Romeo loves in Act 1, Scene 1?",
-        "answer": "Rosaline"
+        "answer": "Rosaline",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "What vow has Rosaline made that upsets Romeo?",
-        "answer": "She has sworn to remain chaste"
+        "answer": "She has sworn to remain chaste",
+        "standards": ["RL.9-10.2"]
       },
       {
         "question": "What oxymorons does Romeo use to describe his feelings?",
-        "answer": "Brawling love, loving hate, heavy lightness, serious vanity"
+        "answer": "Brawling love, loving hate, heavy lightness, serious vanity",
+        "standards": ["RL.9-10.4"]
       },
       {
         "question": "How does Benvolio respond to Romeo's despair?",
-        "answer": "He urges him to look at other women"
+        "answer": "He urges him to look at other women",
+        "standards": ["RL.9-10.3"]
       },
       {
         "question": "What central theme is introduced through the opening brawl?",
-        "answer": "The destructive feud between the Montagues and Capulets"
+        "answer": "The destructive feud between the Montagues and Capulets",
+        "standards": ["RL.9-10.2"]
       }
     ]
   }
