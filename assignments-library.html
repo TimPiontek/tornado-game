@@ -79,9 +79,76 @@
         }
 
         .assignments-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .folder-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .folder-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #dee2e6;
+        }
+
+        .folder-header:hover {
+            background: #f8f9fa;
+            border-color: #6f5c91;
+        }
+
+        .folder-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .folder-icon {
+            font-size: 1.2rem;
+        }
+
+        .folder-count {
+            background: #6f5c91;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .folder-toggle {
+            font-size: 1.2rem;
+            color: #6f5c91;
+            transition: transform 0.2s ease;
+        }
+
+        .folder-toggle.expanded {
+            transform: rotate(90deg);
+        }
+
+        .folder-content {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        .folder-content.expanded {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1rem;
         }
 
         .assignment-card {
@@ -205,13 +272,18 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📚 Assignments Library</h1>
-            <p>Browse and load pre-made, standards-aligned assignments</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>📚 Assignments Library</h1>
+                    <p>Browse and load pre-made, standards-aligned assignments</p>
+                </div>
+                <a href="/teacher-assignments.html" class="btn btn-secondary" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; transition: all 0.2s ease;">
+                    ← Back to Create Assignment
+                </a>
+            </div>
         </div>
         
         <div class="content">
-            <button class="back-button" onclick="window.close()">← Back to Create Assignment</button>
-            
             <div class="filters">
                 <div class="filter-group">
                     <label for="subjectFilter">Subject</label>
@@ -310,26 +382,76 @@
                 return;
             }
             
-            container.innerHTML = '<div class="assignments-grid">' +
-                assignmentsToRender.map(assignment => `
-                    <div class="assignment-card" onclick="selectAssignment('${assignment.id}')" id="card-${assignment.id}">
-                        <div class="assignment-title">${assignment.title}</div>
-                        <div class="assignment-meta">
-                            <span>📚 ${assignment.work}</span>
-                            ${assignment.act_scenes ? `<span>🎭 ${assignment.act_scenes}</span>` : ''}
-                            ${assignment.books ? `<span>📖 ${assignment.books}</span>` : ''}
+            // Group assignments by work
+            const groupedAssignments = {};
+            assignmentsToRender.forEach(assignment => {
+                const work = assignment.work || 'Other';
+                if (!groupedAssignments[work]) {
+                    groupedAssignments[work] = [];
+                }
+                groupedAssignments[work].push(assignment);
+            });
+            
+            // Get folder icons for each work
+            const folderIcons = {
+                'Romeo and Juliet': '🎭',
+                'The Odyssey': '🏛️',
+                'Macbeth': '👑',
+                'Other': '📚'
+            };
+            
+            const foldersHtml = Object.keys(groupedAssignments).sort().map(work => {
+                const workAssignments = groupedAssignments[work];
+                const icon = folderIcons[work] || '📚';
+                
+                return `
+                    <div class="folder-section">
+                        <div class="folder-header" onclick="toggleFolder('${work}')">
+                            <div class="folder-title">
+                                <span class="folder-icon">${icon}</span>
+                                <span>${work}</span>
+                                <span class="folder-count">${workAssignments.length}</span>
+                            </div>
+                            <span class="folder-toggle" id="toggle-${work}">▶</span>
                         </div>
-                        <div class="assignment-description">${assignment.description}</div>
-                        <div class="assignment-standards">
-                            ${assignment.standards.map(std => `<span class="standard-tag">${std}</span>`).join('')}
-                        </div>
-                        <div class="assignment-stats">
-                            <span>${assignment.multiple_choice ? assignment.multiple_choice.length : 0} MC</span>
-                            <span>${assignment.short_answer ? assignment.short_answer.length : 0} SA</span>
-                            <span>${assignment.standards.length} Standards</span>
+                        <div class="folder-content" id="content-${work}">
+                            ${workAssignments.map(assignment => `
+                                <div class="assignment-card" onclick="selectAssignment('${assignment.id}')" id="card-${assignment.id}">
+                                    <div class="assignment-title">${assignment.title}</div>
+                                    <div class="assignment-meta">
+                                        ${assignment.act_scenes ? `<span>🎭 ${assignment.act_scenes}</span>` : ''}
+                                        ${assignment.books ? `<span>📖 ${assignment.books}</span>` : ''}
+                                    </div>
+                                    <div class="assignment-description">${assignment.description}</div>
+                                    <div class="assignment-standards">
+                                        ${assignment.standards.map(std => `<span class="standard-tag">${std}</span>`).join('')}
+                                    </div>
+                                    <div class="assignment-stats">
+                                        <span>${assignment.multiple_choice ? assignment.multiple_choice.length : 0} MC</span>
+                                        <span>${assignment.short_answer ? assignment.short_answer.length : 0} SA</span>
+                                        <span>${assignment.standards.length} Standards</span>
+                                    </div>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
-                `).join('') + '</div>';
+                `;
+            }).join('');
+            
+            container.innerHTML = `<div class="assignments-grid">${foldersHtml}</div>`;
+        }
+
+        function toggleFolder(work) {
+            const content = document.getElementById(`content-${work}`);
+            const toggle = document.getElementById(`toggle-${work}`);
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                toggle.classList.remove('expanded');
+            } else {
+                content.classList.add('expanded');
+                toggle.classList.add('expanded');
+            }
         }
 
         function selectAssignment(assignmentId) {
