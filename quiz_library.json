@@ -632,6 +632,40 @@
     ]
   },
   {
+    "title": "The Odyssey Book 1–2 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "What is the situation in Ithaca at the start of Book 1?", "answer": "Suitors overrun Odysseus’ house, courting Penelope", "standards": ["RL.9-10.1"] },
+      { "question": "Which god shows concern for Odysseus and who opposes him?", "answer": "Athena supports; Poseidon opposes", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "In what guise does Athena visit Telemachus?", "answer": "As Mentes (a friend of Odysseus)", "standards": ["RL.9-10.1", "RL.9-10.6"] },
+      { "question": "What advice does Athena give Telemachus?", "answer": "Call an assembly; seek news of Odysseus from Nestor and Menelaus", "standards": ["RL.9-10.1", "RL.9-10.5"] },
+      { "question": "How is Telemachus characterized early on?", "answer": "Insecure but longing for agency and honor", "standards": ["RL.9-10.3"] },
+      { "question": "What trick does Penelope use to delay the suitors?", "answer": "Weaving and unweaving Laertes’ shroud", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "What themes are introduced in Books 1–2?", "answer": "Hospitality (xenia), identity, leadership, and justice", "standards": ["RL.9-10.2"] },
+      { "question": "What narrative technique shapes the opening?", "answer": "In medias res with divine council framing", "standards": ["RL.9-10.5", "RL.9-10.6"] },
+      { "question": "What decision does Telemachus make at the end of Book 2?", "answer": "He sets sail to seek his father", "standards": ["RL.9-10.1"] },
+      { "question": "How does Homer use epithets to characterize figures?", "answer": "Stock phrases like ‘bright-eyed Athena’ signal traits and themes", "standards": ["RL.9-10.4"] }
+    ]
+  },
+  {
+    "title": "The Odyssey Book 3–4 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "Whom does Telemachus visit in Book 3 and what does he learn?", "answer": "Nestor; news of the Greeks and counsel on piety and prudence", "standards": ["RL.9-10.1", "RL.9-10.2"] },
+      { "question": "How is hospitality shown at Pylos and Sparta?", "answer": "Lavish feasts, gifts, and formal welcomes", "standards": ["RL.9-10.1", "RL.9-10.2"] },
+      { "question": "What story does Menelaus tell about Odysseus?", "answer": "Stratagems at Troy and being detained by Proteus", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "What role does Helen play in Book 4?", "answer": "Recognizes Telemachus, offers a drug to ease grief", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "What news about Odysseus is revealed?", "answer": "He is alive on Calypso’s island", "standards": ["RL.9-10.1"] },
+      { "question": "How does the narrative structure expand the epic’s scope?", "answer": "Embedded tales and multiple perspectives", "standards": ["RL.9-10.5", "RL.9-10.6"] },
+      { "question": "What themes continue in Books 3–4?", "answer": "Homecoming, loyalty, fame (kleos), and justice", "standards": ["RL.9-10.2"] },
+      { "question": "How are epithets and similes used in these books?", "answer": "Elevated style and characterization", "standards": ["RL.9-10.4", "RL.9-10.5"] },
+      { "question": "What danger develops back in Ithaca?", "answer": "Suitors plot to ambush Telemachus", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "How does Telemachus grow as a character across 1–4?", "answer": "From hesitant youth to decisive voyager", "standards": ["RL.9-10.3", "RL.9-10.2"] }
+    ]
+  },
+  {
     "title": "Grammy Winners",
     "category": "Music",
     "questions": [
