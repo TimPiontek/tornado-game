@@ -6,10 +6,9 @@ Tornado Business Mode extends the existing Tornado War app with workplace compet
 ## 🚀 Quick Start
 
 ### 1. Access Business Mode
-- Navigate to `http://localhost:8001/war.html`
-- Click "🔄 New Game"
-- Select "🏢 Business Mode"
-- Choose game type (Regular or Scenario)
+- Navigate to `http://localhost:8001/business.html`
+- Business Mode is completely separate from the school game
+- All business features are available immediately
 
 ### 2. Manager Features (Business Mode)
 
