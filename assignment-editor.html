@@ -517,9 +517,8 @@
         async function loadRosters() {
             try {
                 // Load rosters from localStorage
-                const warRosters = JSON.parse(localStorage.getItem('warRosters') || '[]');
-                const teacherRosters = JSON.parse(localStorage.getItem('teacherRosters') || '[]');
-                const allRosters = [...warRosters, ...teacherRosters];
+                const allRosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                console.log('Loaded rosters:', allRosters);
                 
                 const container = document.getElementById('rosterContainer');
                 container.innerHTML = '';
@@ -535,7 +534,7 @@
                             <input type="checkbox" id="roster-${roster.id}" onchange="toggleRoster('${roster.id}')">
                             <label for="roster-${roster.id}">${roster.name}</label>
                             <div style="font-size: 0.8rem; color: #666; margin-top: 0.25rem;">
-                                ${roster.students ? roster.students.length : 0} students
+                                ${roster.roster ? roster.roster.length : 0} students
                             </div>
                         </div>
                     `;
