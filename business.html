@@ -118,7 +118,7 @@
   <div class="bar">
     <h1 style="cursor: pointer;" onclick="window.location.href = '/'">TORNADO BUSINESS</h1>
     <button class="pill" id="btnHelp">How to Play</button>
-    <button class="pill" id="btnNewGame" style="background: #dc2626; color: white;">🔄 New Game</button>
+    <button class="pill" id="btnNewGame" onclick="showNewGameModal()" style="background: #dc2626; color: white;">🔄 New Game</button>
     <div style="flex:1"></div>
     <span id="who" class="muted">Manager Mode</span>
     <button class="pill" onclick="window.location.href='/'">← Back to Home</button>
@@ -525,36 +525,79 @@
 
   function assignStartingHeadquarters() {
     const { w, h } = businessState.board;
+    const employeeCount = businessState.employees.length;
     
-    // Place headquarters on outer edges, evenly distributed
-    const edgePositions = [];
+    let startingPositions = [];
     
-    // Top and bottom edges
-    for (let x = 1; x < w - 1; x++) {
-      edgePositions.push({ x, y: 0 }); // Top
-      edgePositions.push({ x, y: h - 1 }); // Bottom
-    }
-    
-    // Left and right edges
-    for (let y = 1; y < h - 1; y++) {
-      edgePositions.push({ x: 0, y }); // Left
-      edgePositions.push({ x: w - 1, y }); // Right
+    if (employeeCount === 4) {
+      // 4 employees: place in corners
+      startingPositions = [
+        { x: 0, y: 0 },           // Top-left
+        { x: w - 1, y: 0 },       // Top-right
+        { x: 0, y: h - 1 },       // Bottom-left
+        { x: w - 1, y: h - 1 }    // Bottom-right
+      ];
+    } else if (employeeCount === 3) {
+      // 3 employees: place in corners (skip one corner)
+      startingPositions = [
+        { x: 0, y: 0 },           // Top-left
+        { x: w - 1, y: 0 },       // Top-right
+        { x: w - 1, y: h - 1 }    // Bottom-right
+      ];
+    } else if (employeeCount === 2) {
+      // 2 employees: place in opposite corners
+      startingPositions = [
+        { x: 0, y: 0 },           // Top-left
+        { x: w - 1, y: h - 1 }    // Bottom-right
+      ];
+    } else {
+      // More than 4 employees: place evenly around edges
+      const edgePositions = [];
+      
+      // Top edge (left to right)
+      for (let x = 0; x < w; x++) {
+        edgePositions.push({ x, y: 0 });
+      }
+      
+      // Right edge (top to bottom, excluding corners)
+      for (let y = 1; y < h - 1; y++) {
+        edgePositions.push({ x: w - 1, y });
+      }
+      
+      // Bottom edge (right to left)
+      for (let x = w - 1; x >= 0; x--) {
+        edgePositions.push({ x, y: h - 1 });
+      }
+      
+      // Left edge (bottom to top, excluding corners)
+      for (let y = h - 2; y >= 1; y--) {
+        edgePositions.push({ x: 0, y });
+      }
+      
+      // Select evenly spaced positions
+      const step = Math.floor(edgePositions.length / employeeCount);
+      startingPositions = [];
+      for (let i = 0; i < employeeCount; i++) {
+        const index = (i * step) % edgePositions.length;
+        startingPositions.push(edgePositions[index]);
+      }
     }
     
     // Assign headquarters to employees
     businessState.employees.forEach((employee, index) => {
-      if (index < edgePositions.length) {
-        const pos = edgePositions[index];
+      if (index < startingPositions.length) {
+        const pos = startingPositions[index];
         const tile = businessState.board.tiles.find(t => t.x === pos.x && t.y === pos.y);
         if (tile) {
           tile.owner = employee.id;
           tile.isHeadquarters = true;
           employee.headquarters = tile.id;
+          console.log(`Assigned headquarters to ${employee.name} at (${pos.x}, ${pos.y})`);
         }
       }
     });
     
-    console.log('Assigned headquarters to employees');
+    console.log(`Assigned ${startingPositions.length} headquarters to ${employeeCount} employees`);
   }
 
   function calculateTilePrice(x, y, boardW, boardH) {
@@ -620,18 +663,104 @@
     if (!tile) return;
     
     if (tile.owner) {
-      alert('This tile is already owned!');
+      // Tile is owned - check if it's owned by the selected employee
+      if (tile.owner === businessState.selectedEmployee.id) {
+        // Own tile - show headquarters upgrade options
+        showHeadquartersOptions(tile);
+      } else {
+        // Owned by someone else - show attack options
+        showAttackOptions(tile);
+      }
       return;
     }
     
-    // Check if employee has enough balance (mock balance for demo)
-    const employeeBalance = 100; // Mock balance
+    // Check if employee has enough balance
+    const employeeBalance = businessState.selectedEmployee.balance || 0;
     if (employeeBalance >= tile.cost) {
       tile.owner = businessState.selectedEmployee.id;
+      businessState.selectedEmployee.balance -= tile.cost;
+      businessState.selectedEmployee.points = (businessState.selectedEmployee.points || 0) + tile.cost;
+      
       updateGridDisplay();
-      alert(`${businessState.selectedEmployee.name} claimed this tile for ${tile.cost} points!`);
+      updateEmployeeDisplay();
+      saveGameData();
+      
+      alert(`${businessState.selectedEmployee.name} claimed this tile for ${tile.cost} points! Balance: ${businessState.selectedEmployee.balance}`);
     } else {
-      alert('Insufficient balance to claim this tile!');
+      alert(`Insufficient balance! Need ${tile.cost} points but only have ${employeeBalance}.`);
+    }
+  }
+
+  function showHeadquartersOptions(tile) {
+    const options = ['Build Headquarters (100 points)', 'Upgrade Headquarters (200 points)', 'Cancel'];
+    const choice = prompt(`Headquarters Options:\n\n1. ${options[0]}\n2. ${options[1]}\n3. ${options[2]}\n\nEnter choice (1-3):`);
+    
+    if (choice === '1') {
+      if (businessState.selectedEmployee.balance >= 100) {
+        tile.isHeadquarters = true;
+        businessState.selectedEmployee.balance -= 100;
+        businessState.selectedEmployee.points = (businessState.selectedEmployee.points || 0) + 100;
+        updateGridDisplay();
+        updateEmployeeDisplay();
+        saveGameData();
+        alert(`${businessState.selectedEmployee.name} built headquarters for 100 points!`);
+      } else {
+        alert('Insufficient balance! Need 100 points.');
+      }
+    } else if (choice === '2' && tile.isHeadquarters) {
+      if (businessState.selectedEmployee.balance >= 200) {
+        businessState.selectedEmployee.balance -= 200;
+        businessState.selectedEmployee.points = (businessState.selectedEmployee.points || 0) + 200;
+        updateGridDisplay();
+        updateEmployeeDisplay();
+        saveGameData();
+        alert(`${businessState.selectedEmployee.name} upgraded headquarters for 200 points!`);
+      } else {
+        alert('Insufficient balance! Need 200 points.');
+      }
+    }
+  }
+
+  function showAttackOptions(tile) {
+    const owner = businessState.employees.find(emp => emp.id === tile.owner);
+    const attackCost = tile.cost * 2; // Attack costs double the tile cost
+    
+    if (businessState.selectedEmployee.balance >= attackCost) {
+      const confirmAttack = confirm(`${businessState.selectedEmployee.name} wants to attack ${owner.name}'s territory!\n\nAttack cost: ${attackCost} points\nCurrent balance: ${businessState.selectedEmployee.balance}\n\nProceed with attack?`);
+      
+      if (confirmAttack) {
+        // Simple attack logic - 70% chance of success
+        const success = Math.random() < 0.7;
+        
+        if (success) {
+          // Attack successful
+          tile.owner = businessState.selectedEmployee.id;
+          tile.isHeadquarters = false; // Remove headquarters if it was one
+          businessState.selectedEmployee.balance -= attackCost;
+          businessState.selectedEmployee.points = (businessState.selectedEmployee.points || 0) + attackCost;
+          
+          // Award points to defender for losing
+          owner.balance += Math.floor(attackCost / 2);
+          owner.points = (owner.points || 0) + Math.floor(attackCost / 2);
+          
+          updateGridDisplay();
+          updateEmployeeDisplay();
+          saveGameData();
+          
+          alert(`🎉 Attack successful! ${businessState.selectedEmployee.name} captured the territory!\nCost: ${attackCost} points`);
+        } else {
+          // Attack failed
+          businessState.selectedEmployee.balance -= attackCost;
+          businessState.selectedEmployee.points = (businessState.selectedEmployee.points || 0) + attackCost;
+          
+          updateEmployeeDisplay();
+          saveGameData();
+          
+          alert(`💥 Attack failed! ${businessState.selectedEmployee.name} lost ${attackCost} points.\nBetter luck next time!`);
+        }
+      }
+    } else {
+      alert(`Insufficient balance! Need ${attackCost} points but only have ${businessState.selectedEmployee.balance}.`);
     }
   }
 
@@ -1006,13 +1135,16 @@
     
     const team = prompt('Enter team name (Alpha, Beta, Gamma):') || 'Alpha';
     
+    // Use starting points from current game, or default to 100
+    const startingPoints = businessState.currentGame?.startingPoints || 100;
+    
     const newEmployee = {
       id: 'emp_' + Date.now(),
       name: name,
       team: team,
-      points: 100, // Equal starting points
+      points: startingPoints,
       credits: 0,
-      balance: 100, // Starting balance
+      balance: startingPoints,
       headquarters: null
     };
     
@@ -1023,7 +1155,7 @@
     updateEmployeeDisplay();
     saveGameData();
     
-    alert(`Employee ${name} added to ${team} team with equal starting points!`);
+    alert(`Employee ${name} added to ${team} team with ${startingPoints} starting points!`);
   }
 
   function updateEmployeeDisplay() {
@@ -1217,6 +1349,140 @@
     document.querySelector('.modal').remove();
     
     alert('✅ Metrics updated successfully!');
+  }
+
+  function showNewGameModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal show';
+    modal.innerHTML = `
+      <div class="card" style="width: 600px;">
+        <div class="closeX" onclick="this.closest('.modal').remove()">×</div>
+        <h2>🔄 Create New Work Scenario</h2>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">Game Name</label>
+          <input type="text" id="newGameName" placeholder="e.g., Q4 Sales Challenge" value="Business Competition">
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">Work Scenario</label>
+          <select id="workScenario" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
+            <option value="individual">👤 Individual Competition - Everyone works alone</option>
+            <option value="pairs">👥 Pair Competition - Teams of 2 employees</option>
+            <option value="teams3">🏢 Team Competition - Teams of 3 employees</option>
+            <option value="teams4">🏢 Team Competition - Teams of 4 employees</option>
+            <option value="mixed">🎯 Mixed Mode - Individual + Team challenges</option>
+          </select>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">Starting Points per Employee</label>
+          <input type="number" id="startingPoints" placeholder="100" value="100" min="50" max="500">
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">Board Size</label>
+          <select id="boardSize" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
+            <option value="small">Small (8x8) - 64 tiles</option>
+            <option value="medium" selected>Medium (10x10) - 100 tiles</option>
+            <option value="large">Large (12x12) - 144 tiles</option>
+          </select>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">Game Duration</label>
+          <select id="gameDuration" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
+            <option value="1week">1 Week Sprint</option>
+            <option value="2weeks" selected>2 Week Sprint</option>
+            <option value="1month">1 Month Challenge</option>
+            <option value="quarterly">Quarterly Competition</option>
+          </select>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-top: 16px;">
+          <button onclick="createNewGame()" style="flex: 1; padding: 10px; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">🚀 Create Game</button>
+          <button onclick="this.closest('.modal').remove()" style="flex: 1; padding: 10px; background: #6b7280; color: white; border: none; border-radius: 6px; cursor: pointer;">❌ Cancel</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+  }
+
+  function createNewGame() {
+    const gameName = document.getElementById('newGameName').value || 'Business Competition';
+    const workScenario = document.getElementById('workScenario').value;
+    const startingPoints = parseInt(document.getElementById('startingPoints').value) || 100;
+    const boardSize = document.getElementById('boardSize').value;
+    const gameDuration = document.getElementById('gameDuration').value;
+    
+    // Determine board dimensions
+    let boardDimensions;
+    switch (boardSize) {
+      case 'small': boardDimensions = { w: 8, h: 8 }; break;
+      case 'medium': boardDimensions = { w: 10, h: 10 }; break;
+      case 'large': boardDimensions = { w: 12, h: 12 }; break;
+      default: boardDimensions = { w: 10, h: 10 };
+    }
+    
+    // Create new game state
+    businessState.currentGame = {
+      name: gameName,
+      scenario: workScenario,
+      startingPoints: startingPoints,
+      boardSize: boardDimensions,
+      duration: gameDuration,
+      managerCode: 'DEMO' + Math.random().toString(36).substr(2, 4).toUpperCase(),
+      createdAt: new Date().toISOString()
+    };
+    
+    // Reset employees and board
+    businessState.employees = [];
+    businessState.board = { w: 0, h: 0, tiles: [] };
+    businessState.selectedEmployee = null;
+    
+    // Reset metrics
+    businessState.teamMetrics = {
+      sales: { current: 0, target: 1000000, unit: '$' },
+      products: { current: 0, target: 3000, unit: '' },
+      satisfaction: { current: 0, target: 5.0, unit: '/5' },
+      features: { current: 0, target: 50, unit: '' },
+      bugs: { current: 0, target: 200, unit: '' }
+    };
+    
+    // Update UI
+    document.getElementById('gameTitle').textContent = `🏢 ${gameName}`;
+    document.getElementById('gameName').value = gameName;
+    document.getElementById('managerCode').value = businessState.currentGame.managerCode;
+    
+    // Close modal
+    document.querySelector('.modal').remove();
+    
+    // Show success message with next steps
+    alert(`🎉 New game "${gameName}" created!\n\nScenario: ${getScenarioDescription(workScenario)}\nStarting Points: ${startingPoints}\nBoard Size: ${boardDimensions.w}x${boardDimensions.h}\nDuration: ${getDurationDescription(gameDuration)}\n\nNext: Add employees to start playing!`);
+    
+    saveGameData();
+  }
+
+  function getScenarioDescription(scenario) {
+    const descriptions = {
+      individual: 'Individual Competition - Everyone works alone',
+      pairs: 'Pair Competition - Teams of 2 employees',
+      teams3: 'Team Competition - Teams of 3 employees',
+      teams4: 'Team Competition - Teams of 4 employees',
+      mixed: 'Mixed Mode - Individual + Team challenges'
+    };
+    return descriptions[scenario] || scenario;
+  }
+
+  function getDurationDescription(duration) {
+    const descriptions = {
+      '1week': '1 Week Sprint',
+      '2weeks': '2 Week Sprint',
+      '1month': '1 Month Challenge',
+      'quarterly': 'Quarterly Competition'
+    };
+    return descriptions[duration] || duration;
   }
 
   // Initialize when page loads
