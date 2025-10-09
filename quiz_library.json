@@ -351,6 +351,40 @@
     ]
   },
   {
+    "title": "Romeo and Juliet Act 2 Scenes 1–2 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "Where do Romeo’s friends think he has gone after the party?", "answer": "Home or after Rosaline", "standards": ["RL.9-10.1"] },
+      { "question": "Where does Romeo actually go?", "answer": "Capulet’s orchard (beneath Juliet’s balcony)", "standards": ["RL.9-10.1"] },
+      { "question": "What does Romeo compare Juliet to when he sees her at the window?", "answer": "The sun", "standards": ["RL.9-10.4"] },
+      { "question": "What conflict does Juliet express about names?", "answer": "The feud is tied to names; a name is arbitrary", "standards": ["RL.9-10.2", "RL.9-10.6"] },
+      { "question": "What famous line summarizes Juliet’s dilemma over Romeo’s identity?", "answer": "Wherefore art thou Romeo?", "standards": ["RL.9-10.4"] },
+      { "question": "Why is the balcony scene structurally important?", "answer": "It accelerates their relationship and introduces a plan to marry", "standards": ["RL.9-10.5"] },
+      { "question": "How does the dialogue show character contrast between Romeo and Juliet?", "answer": "Romeo is impulsive; Juliet is thoughtful and cautious", "standards": ["RL.9-10.3"] },
+      { "question": "What arrangement do they make by the end of the scene?", "answer": "Juliet will send word; Romeo will arrange the marriage", "standards": ["RL.9-10.1"] },
+      { "question": "What theme is reinforced by their secret vow?", "answer": "Love versus social/familial conflict", "standards": ["RL.9-10.2"] },
+      { "question": "How does night imagery function in this scene?", "answer": "It conceals them and elevates their love with celestial imagery", "standards": ["RL.9-10.4", "RL.9-10.5"] }
+    ]
+  },
+  {
+    "title": "Romeo and Juliet Act 2 Scenes 3–6 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "What is Friar Laurence doing when Romeo visits him?", "answer": "Gathering herbs/flowers in the early morning", "standards": ["RL.9-10.1"] },
+      { "question": "What theme does Friar discuss through plants and poison?", "answer": "Duality of good/evil and misuse leading to harm", "standards": ["RL.9-10.2"] },
+      { "question": "Why does Friar agree to marry Romeo and Juliet?", "answer": "He hopes it will end the families’ feud", "standards": ["RL.9-10.3"] },
+      { "question": "What message does Romeo ask the Nurse to deliver to Juliet?", "answer": "Meet at Friar’s cell for marriage", "standards": ["RL.9-10.1"] },
+      { "question": "How does Mercutio’s banter with the Nurse characterize him?", "answer": "Clever, mocking, often crude", "standards": ["RL.9-10.3", "RL.9-10.4"] },
+      { "question": "What does the secret wedding signify in the plot?", "answer": "A turning point; their union deepens the stakes", "standards": ["RL.9-10.5"] },
+      { "question": "How does dramatic irony operate in these scenes?", "answer": "The audience knows of the secret plans; others do not", "standards": ["RL.9-10.6"] },
+      { "question": "What warning does Friar give about ‘violent delights’?", "answer": "They have violent ends (foreshadowing)", "standards": ["RL.9-10.2", "RL.9-10.5"] },
+      { "question": "How does Juliet’s impatience with the Nurse reveal character?", "answer": "Juliet is eager and assertive despite her youth", "standards": ["RL.9-10.3"] },
+      { "question": "What is the immediate outcome at the end of Act 2?", "answer": "Romeo and Juliet are married", "standards": ["RL.9-10.1"] }
+    ]
+  }
+  {
     "title": "Electronic Music",
     "category": "Music",
     "questions": [
