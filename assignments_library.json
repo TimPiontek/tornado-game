@@ -232,5 +232,56 @@
     "short_answer": [
       { "q": "How do recognition cues build toward justice in 17-20? [STD: RL.9-10.2, RL.9-10.5]", "maxPoints": 10 }
     ]
+  },
+  {
+    "id": "mac-act1-s1-3",
+    "title": "Macbeth Act 1 Scenes 1-3 - Witches and Prophecies",
+    "description": "Supernatural elements, prophecies, and character introduction.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act 1 Scenes 1-3",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "multiple_choice": [
+      { "q": "What supernatural elements open the play? [STD: RL.9-10.1, RL.9-10.4]", "choices": ["A) Ghosts", "B) Three witches on a heath", "C) Demons", "D) Angels"], "answer": "B", "points": 5 },
+      { "q": "What prophecy do the witches give Macbeth? [STD: RL.9-10.1]", "choices": ["A) He will be defeated", "B) He will be Thane of Cawdor and King", "C) He will die young", "D) He will be betrayed"], "answer": "B", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "How does the supernatural atmosphere set the tone for the play? [STD: RL.9-10.2, RL.9-10.5]", "maxPoints": 10 },
+      { "q": "What does Macbeth's reaction to the prophecies reveal about his character? [STD: RL.9-10.3]", "maxPoints": 10 }
+    ]
+  },
+  {
+    "id": "mac-act1-s4-7",
+    "title": "Macbeth Act 1 Scenes 4-7 - Ambition and Manipulation",
+    "description": "Lady Macbeth's influence and the murder plot.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act 1 Scenes 4-7",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "multiple_choice": [
+      { "q": "What does Duncan announce about Malcolm? [STD: RL.9-10.1]", "choices": ["A) He is banished", "B) He names Malcolm Prince of Cumberland", "C) He is executed", "D) He is promoted"], "answer": "B", "points": 5 },
+      { "q": "How does Lady Macbeth manipulate Macbeth? [STD: RL.9-10.3]", "choices": ["A) With threats", "B) Questions his manhood and love", "C) With bribes", "D) With flattery"], "answer": "B", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "Analyze the gender role reversal in these scenes. [STD: RL.9-10.2, RL.9-10.6]", "maxPoints": 10 },
+      { "q": "What internal conflict does Macbeth express in his soliloquy? [STD: RL.9-10.2, RL.9-10.3]", "maxPoints": 10 }
+    ]
+  },
+  {
+    "id": "mac-act2-s1-4",
+    "title": "Macbeth Act 2 Scenes 1-4 - The Murder and Aftermath",
+    "description": "Duncan's murder, guilt, and the Porter scene.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act 2 Scenes 1-4",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "multiple_choice": [
+      { "q": "What does Macbeth see before killing Duncan? [STD: RL.9-10.1, RL.9-10.4]", "choices": ["A) A ghost", "B) A floating dagger", "C) Blood", "D) Fire"], "answer": "B", "points": 5 },
+      { "q": "What does the Porter scene provide? [STD: RL.9-10.2, RL.9-10.5]", "choices": ["A) Exposition", "B) Comic relief and thematic commentary", "C) Character development", "D) Plot advancement"], "answer": "B", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "How does the dagger soliloquy reveal Macbeth's psychological state? [STD: RL.9-10.3, RL.9-10.4]", "maxPoints": 10 },
+      { "q": "What theme emerges from the murder and its aftermath? [STD: RL.9-10.2]", "maxPoints": 10 }
+    ]
   }
 ]

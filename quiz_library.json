@@ -768,6 +768,57 @@
     ]
   },
   {
+    "title": "Macbeth Act 1 Scenes 1–3 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "What supernatural elements open the play?", "answer": "Three witches on a heath with thunder and lightning", "standards": ["RL.9-10.1", "RL.9-10.4"] },
+      { "question": "What prophecy do the witches give Macbeth?", "answer": "He will be Thane of Cawdor and King", "standards": ["RL.9-10.1"] },
+      { "question": "What prophecy do they give Banquo?", "answer": "His descendants will be kings", "standards": ["RL.9-10.1"] },
+      { "question": "How does Macbeth react to the prophecies?", "answer": "He is intrigued but conflicted; shows ambition and fear", "standards": ["RL.9-10.3"] },
+      { "question": "What theme is introduced through the witches?", "answer": "Fate versus free will and the supernatural", "standards": ["RL.9-10.2"] },
+      { "question": "What literary device dominates the opening scene?", "answer": "Paradox and equivocation ('fair is foul')", "standards": ["RL.9-10.4", "RL.9-10.5"] },
+      { "question": "How does Duncan reward Macbeth?", "answer": "Makes him Thane of Cawdor for bravery", "standards": ["RL.9-10.1"] },
+      { "question": "What does Macbeth's aside reveal about his character?", "answer": "His ambition and moral conflict about the crown", "standards": ["RL.9-10.3", "RL.9-10.6"] },
+      { "question": "What role does dramatic irony play in these scenes?", "answer": "Audience knows Macbeth's thoughts; others do not", "standards": ["RL.9-10.6"] },
+      { "question": "How does the supernatural atmosphere set the tone?", "answer": "Creates foreboding and moral ambiguity", "standards": ["RL.9-10.2", "RL.9-10.5"] }
+    ]
+  },
+  {
+    "title": "Macbeth Act 1 Scenes 4–7 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "What does Duncan announce about Malcolm?", "answer": "He names Malcolm Prince of Cumberland (heir)", "standards": ["RL.9-10.1"] },
+      { "question": "How does Macbeth react to Malcolm's appointment?", "answer": "He sees it as an obstacle to his ambition", "standards": ["RL.9-10.3"] },
+      { "question": "What does Lady Macbeth reveal about her character?", "answer": "She is ambitious, ruthless, and manipulative", "standards": ["RL.9-10.3"] },
+      { "question": "What plan does Lady Macbeth propose?", "answer": "Kill Duncan while he sleeps in their castle", "standards": ["RL.9-10.1"] },
+      { "question": "What internal conflict does Macbeth express in his soliloquy?", "answer": "Moral hesitation versus ambition", "standards": ["RL.9-10.2", "RL.9-10.3"] },
+      { "question": "How does Lady Macbeth manipulate Macbeth?", "answer": "Questions his manhood and love for her", "standards": ["RL.9-10.3"] },
+      { "question": "What theme emerges from the gender role reversal?", "answer": "Traditional masculinity versus feminine manipulation", "standards": ["RL.9-10.2", "RL.9-10.6"] },
+      { "question": "What literary devices appear in Macbeth's soliloquy?", "answer": "Metaphor, personification, and imagery of blood", "standards": ["RL.9-10.4", "RL.9-10.5"] },
+      { "question": "What does the dagger soliloquy reveal?", "answer": "Macbeth's psychological state and guilt", "standards": ["RL.9-10.3", "RL.9-10.4"] },
+      { "question": "How do these scenes set up the murder?", "answer": "They establish motivation, method, and moral conflict", "standards": ["RL.9-10.5"] }
+    ]
+  },
+  {
+    "title": "Macbeth Act 2 Scenes 1–4 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "What does Macbeth see before killing Duncan?", "answer": "A floating dagger pointing toward Duncan's chamber", "standards": ["RL.9-10.1", "RL.9-10.4"] },
+      { "question": "What does the dagger soliloquy reveal about Macbeth's state?", "answer": "His guilt, fear, and psychological breakdown", "standards": ["RL.9-10.3", "RL.9-10.4"] },
+      { "question": "What happens after Macbeth kills Duncan?", "answer": "He brings the bloody daggers back and cannot return them", "standards": ["RL.9-10.1"] },
+      { "question": "How does Lady Macbeth react to Macbeth's return?", "answer": "She takes charge, returns the daggers, and washes hands", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "What knocking occurs at the castle gate?", "answer": "Macduff and Lennox arrive to wake the king", "standards": ["RL.9-10.1"] },
+      { "question": "What does the Porter scene provide?", "answer": "Comic relief and thematic commentary on hell", "standards": ["RL.9-10.2", "RL.9-10.5"] },
+      { "question": "How does Macbeth explain Duncan's death?", "answer": "He claims to have killed the grooms in rage", "standards": ["RL.9-10.1"] },
+      { "question": "What do Malcolm and Donalbain decide?", "answer": "To flee Scotland for safety", "standards": ["RL.9-10.1"] },
+      { "question": "What theme emerges from the murder and its aftermath?", "answer": "The corrupting nature of power and guilt", "standards": ["RL.9-10.2"] },
+      { "question": "How does dramatic irony operate in these scenes?", "answer": "Audience knows the truth; characters suspect but cannot prove", "standards": ["RL.9-10.6"] }
+    ]
+  },
+  {
     "title": "Grammy Winners",
     "category": "Music",
     "questions": [
