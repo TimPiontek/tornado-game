@@ -1,0 +1,11 @@
+email,team,metric,amount,date,note
+john@company.com,Alpha,Features shipped,5,2024-01-15,Completed user login feature
+jane@company.com,Beta,Bugs resolved,3,2024-01-15,Fixed payment processing bug
+mike@company.com,Alpha,CSAT/NPS delta,8,2024-01-16,Improved customer satisfaction
+sarah@company.com,Gamma,Features shipped,4,2024-01-16,Added search functionality
+david@company.com,Beta,Bugs resolved,2,2024-01-17,Resolved database connection issue
+lisa@company.com,Alpha,Training hours,12,2024-01-17,Completed React certification
+tom@company.com,Gamma,Deals closed,1,2024-01-18,Closed enterprise contract
+amy@company.com,Beta,Knowledge shares hosted,2,2024-01-18,Presented security best practices
+mark@company.com,Alpha,Hours saved via automation,6,2024-01-19,Automated deployment process
+jenny@company.com,Gamma,Documentation completed,3,2024-01-19,Updated API documentation
