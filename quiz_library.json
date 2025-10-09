@@ -700,6 +700,40 @@
     ]
   },
   {
+    "title": "The Odyssey Book 9–10 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "What peoples do Odysseus’ men encounter first in Book 9?", "answer": "Cicones; they raid then are driven off", "standards": ["RL.9-10.1"] },
+      { "question": "What is the effect of the Lotus-Eaters?", "answer": "Forgetting home and desire to stay", "standards": ["RL.9-10.2"] },
+      { "question": "How does Odysseus outwit Polyphemus?", "answer": "Noman trick, wine, blinding, escape under sheep", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "What is Odysseus’ tragic flaw shown at the cave’s end?", "answer": "Boasting his name, provoking Poseidon’s wrath", "standards": ["RL.9-10.2", "RL.9-10.3"] },
+      { "question": "What gift does Aeolus give and how is it lost?", "answer": "Bag of winds; crew opens it near Ithaca", "standards": ["RL.9-10.1", "RL.9-10.5"] },
+      { "question": "Who are the Laestrygonians?", "answer": "Cannibal giants who destroy the fleet", "standards": ["RL.9-10.1"] },
+      { "question": "How does Circe initially treat the men and what changes it?", "answer": "Turns them to swine; Hermes’ advice and Odysseus’ resolve", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "How long do they stay with Circe and why is this significant?", "answer": "A year; delays nostos and tests discipline", "standards": ["RL.9-10.2", "RL.9-10.5"] },
+      { "question": "What guidance does Circe give for the next stage?", "answer": "Visit Tiresias in Hades for prophecy", "standards": ["RL.9-10.1"] },
+      { "question": "What theme unifies the episodes in 9–10?", "answer": "Temptation, hubris, and leadership challenges", "standards": ["RL.9-10.2"] }
+    ]
+  },
+  {
+    "title": "The Odyssey Book 11–12 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "Whom does Odysseus consult in Hades and why?", "answer": "Tiresias; to learn the route and dangers ahead", "standards": ["RL.9-10.1"] },
+      { "question": "Which shade does Odysseus meet that deepens the theme of homecoming?", "answer": "His mother, Anticleia", "standards": ["RL.9-10.2", "RL.9-10.3"] },
+      { "question": "What warning does Tiresias give about Helios’ cattle?", "answer": "Do not harm them or destruction will follow", "standards": ["RL.9-10.1"] },
+      { "question": "How does Odysseus survive the Sirens?", "answer": "Beeswax for crew; he is bound to the mast", "standards": ["RL.9-10.1", "RL.9-10.5"] },
+      { "question": "What choice must Odysseus make at Scylla and Charybdis?", "answer": "Risk six deaths or total loss—he chooses Scylla", "standards": ["RL.9-10.1", "RL.9-10.2"] },
+      { "question": "What occurs on Thrinacia and why?", "answer": "Crew slaughters Helios’ cattle; Zeus destroys the ship", "standards": ["RL.9-10.1"] },
+      { "question": "What theme do 11–12 emphasize about leadership and fate?", "answer": "Limits of control and the cost of disobedience", "standards": ["RL.9-10.2"] },
+      { "question": "How does Homer use imagery in these episodes?", "answer": "Vivid horror of monsters and sacred taboo", "standards": ["RL.9-10.4", "RL.9-10.5"] },
+      { "question": "What does Odysseus’ restraint (or lack) reveal?", "answer": "He learns prudence but cannot save all men", "standards": ["RL.9-10.3"] },
+      { "question": "How do these books transition toward Ithaca?", "answer": "Odysseus alone survives, setting up 13–24", "standards": ["RL.9-10.5"] }
+    ]
+  },
+  {
     "title": "Grammy Winners",
     "category": "Music",
     "questions": [
