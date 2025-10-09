@@ -1,0 +1,236 @@
+[
+  {
+    "id": "rj-act1-s1",
+    "title": "Romeo and Juliet Act 1 Scene 1 - Reading Check",
+    "description": "Comprehension and analysis for A1S1 (street brawl, prince's decree).",
+    "subject": "ELA",
+    "work": "Romeo and Juliet",
+    "act_scenes": "Act 1 Scene 1",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4"],
+    "multiple_choice": [
+      {
+        "q": "Who starts the quarrel among the servants? [STD: RL.9-10.1]",
+        "choices": ["A) Gregory", "B) Sampson", "C) Abram", "D) Benvolio"],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What role does Benvolio play in this scene? [STD: RL.9-10.3]",
+        "choices": ["A) Instigator", "B) Peacekeeper", "C) Messenger", "D) Judge"],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What decree does the Prince make about further brawls? [STD: RL.9-10.1]",
+        "choices": ["A) Exile", "B) Imprisonment", "C) Death", "D) Fine"],
+        "answer": "C",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      { "q": "How does this public brawl establish the conflict of the play? [STD: RL.9-10.2]", "maxPoints": 10 },
+      { "q": "What do Benvolio and Tybalt's contrasting actions reveal about their characters? [STD: RL.9-10.3]", "maxPoints": 10 }
+    ]
+  },
+  {
+    "id": "rj-act1-s4-5",
+    "title": "Romeo and Juliet Act 1 Scenes 4-5 - Party Scenes",
+    "description": "Character, motif, and theme development at the Capulet feast.",
+    "subject": "ELA",
+    "work": "Romeo and Juliet",
+    "act_scenes": "Act 1 Scenes 4-5",
+    "standards": ["RL.9-10.1", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5"],
+    "multiple_choice": [
+      { "q": "Mercutio's Queen Mab speech primarily reveals his view on what? [STD: RL.9-10.4]", "choices": ["A) Dreams as truthful", "B) Dreams as foolish fantasies", "C) Fate's certainty", "D) Love's nobility"], "answer": "B", "points": 5 },
+      { "q": "What literary device dominates Romeo's first description of Juliet? [STD: RL.9-10.4]", "choices": ["A) Hyperbole", "B) Personification", "C) Simile", "D) Metaphor"], "answer": "D", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "How does the party scene accelerate the plot structurally? [STD: RL.9-10.5]", "maxPoints": 10 },
+      { "q": "Explain how Tybalt's reaction foreshadows later conflict. [STD: RL.9-10.2]", "maxPoints": 10 }
+    ]
+  },
+  {
+    "id": "rj-act2-s1-2",
+    "title": "Romeo and Juliet Act 2 Scenes 1-2 - Balcony Scene",
+    "description": "Close reading questions on identity, imagery, and structure.",
+    "subject": "ELA",
+    "work": "Romeo and Juliet",
+    "act_scenes": "Act 2 Scenes 1-2",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "multiple_choice": [
+      { "q": "What does Juliet argue about names? [STD: RL.9-10.2, RL.9-10.6]", "choices": ["A) Names define essence", "B) Names are arbitrary", "C) Names decide fate", "D) Names belong to family"], "answer": "B", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "Analyze the function of celestial imagery in the scene. [STD: RL.9-10.4, RL.9-10.5]", "maxPoints": 10 },
+      { "q": "How do Romeo's and Juliet's tones differ and why does it matter? [STD: RL.9-10.3]", "maxPoints": 10 }
+    ]
+  },
+  {
+    "id": "rj-act3-s1-2",
+    "title": "Romeo and Juliet Act 3 Scenes 1-2 - Turning Point",
+    "description": "Duel, banishment, and rising tragic stakes.",
+    "subject": "ELA",
+    "work": "Romeo and Juliet",
+    "act_scenes": "Act 3 Scenes 1-2",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5"],
+    "multiple_choice": [
+      { "q": "Why does Romeo refuse Tybalt's challenge initially? [STD: RL.9-10.3]", "choices": ["A) He fears Tybalt", "B) He's now family", "C) He lost his sword", "D) He promised the Prince"], "answer": "B", "points": 5 },
+      { "q": "Mercutio's 'plague' speech serves as what? [STD: RL.9-10.2, RL.9-10.4]", "choices": ["A) Comic relief", "B) Exposition", "C) Curse/foreshadowing", "D) Epilogue"], "answer": "C", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "Explain how banishment escalates the tragic structure. [STD: RL.9-10.5]", "maxPoints": 10 }
+    ]
+  },
+  {
+    "id": "rj-act4-s3-5",
+    "title": "Romeo and Juliet Act 4 Scenes 3-5 - Potion and Fallout",
+    "description": "False death, irony, and tonal shift.",
+    "subject": "ELA",
+    "work": "Romeo and Juliet",
+    "act_scenes": "Act 4 Scenes 3-5",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "multiple_choice": [
+      { "q": "Juliet's fears before drinking the vial center on what? [STD: RL.9-10.2]", "choices": ["A) Social shame", "B) Potion failing/poison/tomb terror", "C) Romeo's loyalty", "D) Nurse's betrayal"], "answer": "B", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "How does the wedding-to-funeral reversal function structurally? [STD: RL.9-10.5]", "maxPoints": 10 }
+    ]
+  },
+  {
+    "id": "rj-act5-s1-3",
+    "title": "Romeo and Juliet Act 5 Scenes 1-3 - Catastrophe",
+    "description": "Final recognition, timing, and resolution of the feud.",
+    "subject": "ELA",
+    "work": "Romeo and Juliet",
+    "act_scenes": "Act 5 Scenes 1-3",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.5"],
+    "multiple_choice": [
+      { "q": "Why does the Friar's letter fail to reach Romeo? [STD: RL.9-10.1]", "choices": ["A) Lost at sea", "B) Messenger detained by quarantine", "C) Robbed", "D) Wrong address"], "answer": "B", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "How does missed timing drive the catastrophe? [STD: RL.9-10.5]", "maxPoints": 10 }
+    ]
+  },
+  {
+    "id": "ody-bk1-2",
+    "title": "The Odyssey Books 1-2 - Telemachus' Call to Action",
+    "description": "Telemachus, Athena's counsel, and the suitors in Ithaca.",
+    "subject": "ELA",
+    "work": "The Odyssey",
+    "books": "1-2",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.5", "RL.9-10.6"],
+    "multiple_choice": [
+      { "q": "Whom does Athena support and who opposes Odysseus? [STD: RL.9-10.1]", "choices": ["A) Zeus / Ares", "B) Athena / Poseidon", "C) Hermes / Apollo", "D) Hera / Artemis"], "answer": "B", "points": 5 },
+      { "q": "Penelope delays the suitors with what ruse? [STD: RL.9-10.1]", "choices": ["A) Feigned illness", "B) A vow of silence", "C) Weaving and unweaving a shroud", "D) A voyage"], "answer": "C", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "Explain how in medias res and divine council frame the epic's opening. [STD: RL.9-10.5, RL.9-10.6]", "maxPoints": 10 },
+      { "q": "How does Telemachus develop across these books? [STD: RL.9-10.3]", "maxPoints": 10 }
+    ]
+  },
+  {
+    "id": "ody-bk3-4",
+    "title": "The Odyssey Books 3-4 - Nestor and Menelaus",
+    "description": "Hospitality, embedded tales, and news of Odysseus.",
+    "subject": "ELA",
+    "work": "The Odyssey",
+    "books": "3-4",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.5", "RL.9-10.6"],
+    "multiple_choice": [
+      { "q": "Which hosts model ideal xenia? [STD: RL.9-10.2]", "choices": ["A) Nestor and Menelaus", "B) Aeolus and Circe", "C) Polyphemus and Calypso", "D) Laertes and Eumaeus"], "answer": "A", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "How do embedded narratives expand scope and theme? [STD: RL.9-10.5, RL.9-10.6]", "maxPoints": 10 }
+    ]
+  },
+  {
+    "id": "ody-bk5-6",
+    "title": "The Odyssey Books 5-6 - From Calypso to Nausicaa",
+    "description": "Release from Ogygia, shipwreck, and Phaeacian hospitality.",
+    "subject": "ELA",
+    "work": "The Odyssey",
+    "books": "5-6",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5"],
+    "multiple_choice": [
+      { "q": "What decree frees Odysseus from Calypso? [STD: RL.9-10.1]", "choices": ["A) Hermes' will", "B) Zeus' order", "C) Athena's plan", "D) Poseidon's mercy"], "answer": "B", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "Analyze epic similes and divine aid in these books. [STD: RL.9-10.4, RL.9-10.5]", "maxPoints": 10 }
+    ]
+  },
+  {
+    "id": "ody-bk7-8",
+    "title": "The Odyssey Books 7-8 - Phaeacian Court",
+    "description": "Supplication to Arete, Demodocus' songs, and athletic games.",
+    "subject": "ELA",
+    "work": "The Odyssey",
+    "books": "7-8",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "multiple_choice": [
+      { "q": "Why do Demodocus' songs move Odysseus to tears? [STD: RL.9-10.6]", "choices": ["A) Fear of gods", "B) Homesickness and identity", "C) Anger at hosts", "D) Pride in victories"], "answer": "B", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "Explain the role of song/poetry in epic identity. [STD: RL.9-10.2, RL.9-10.6]", "maxPoints": 10 }
+    ]
+  },
+  {
+    "id": "ody-bk9-10",
+    "title": "The Odyssey Books 9-10 - Cyclops and Circe",
+    "description": "Temptation, hubris, and leadership challenges.",
+    "subject": "ELA",
+    "work": "The Odyssey",
+    "books": "9-10",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.5"],
+    "multiple_choice": [
+      { "q": "How does Odysseus escape Polyphemus? [STD: RL.9-10.1]", "choices": ["A) Hides under rams", "B) Digs a tunnel", "C) Bribes him", "D) Flees by sea at night"], "answer": "A", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "Evaluate Odysseus' leadership in 9-10 with evidence. [STD: RL.9-10.1, RL.9-10.3]", "maxPoints": 10 }
+    ]
+  },
+  {
+    "id": "ody-bk11-12",
+    "title": "The Odyssey Books 11-12 - Hades to Thrinacia",
+    "description": "Prophecy, perils, and disobedience.",
+    "subject": "ELA",
+    "work": "The Odyssey",
+    "books": "11-12",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.4", "RL.9-10.5"],
+    "multiple_choice": [
+      { "q": "What warning does Tiresias give? [STD: RL.9-10.1]", "choices": ["A) Avoid Phaeacia", "B) Do not harm Helios' cattle", "C) Never reveal your name", "D) Shun the Sirens"], "answer": "B", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "How do imagery and structure heighten terror in 11-12? [STD: RL.9-10.4, RL.9-10.5]", "maxPoints": 10 }
+    ]
+  },
+  {
+    "id": "ody-bk13-16",
+    "title": "The Odyssey Books 13-16 - Return and Recognition (I)",
+    "description": "Disguise, loyalty, and reunion with Telemachus.",
+    "subject": "ELA",
+    "work": "The Odyssey",
+    "books": "13-16",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.5"],
+    "multiple_choice": [
+      { "q": "Who shelters Odysseus and exemplifies xenia? [STD: RL.9-10.3]", "choices": ["A) Antinous", "B) Eumaeus", "C) Melanthius", "D) Philoetius"], "answer": "B", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "What structural role does disguise play across 13-16? [STD: RL.9-10.5]", "maxPoints": 10 }
+    ]
+  },
+  {
+    "id": "ody-bk17-20",
+    "title": "The Odyssey Books 17-20 - In the Hall",
+    "description": "Irus fight, omens, and rising tension before the bow contest.",
+    "subject": "ELA",
+    "work": "The Odyssey",
+    "books": "17-20",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.5", "RL.9-10.6"],
+    "multiple_choice": [
+      { "q": "Which omen foreshadows doom for the suitors? [STD: RL.9-10.6]", "choices": ["A) Solar eclipse", "B) Zeus' thunder", "C) A blood-red moon", "D) Falling stars"], "answer": "B", "points": 5 }
+    ],
+    "short_answer": [
+      { "q": "How do recognition cues build toward justice in 17-20? [STD: RL.9-10.2, RL.9-10.5]", "maxPoints": 10 }
+    ]
+  }
+]

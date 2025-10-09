@@ -972,6 +972,30 @@ What is photosynthesis?"></textarea>
             listEl.prepend(row);
             document.getElementById('stdCustomCode').value = '';
         }
+
+        // Heuristic standards auto-suggest for untagged questions
+        function suggestStandardsForQuestion(text) {
+            const t = (text||'').toLowerCase();
+            const out = new Set();
+            if (/(cite|evidence|quote|line|passage)/.test(t)) out.add('RL.9-10.1');
+            if (/(theme|central idea|message)/.test(t)) out.add('RL.9-10.2');
+            if (/(character|motivation|develop)/.test(t)) out.add('RL.9-10.3');
+            if (/(figurative|metaphor|simile|diction|connotative|meaning)/.test(t)) out.add('RL.9-10.4');
+            if (/(structure|plot|order|foreshadow|flashback)/.test(t)) out.add('RL.9-10.5');
+            if (/(point of view|dramatic irony|cultural|perspective)/.test(t)) out.add('RL.9-10.6');
+            return [...out];
+        }
+
+        function autoSuggestStandardsForAssignment(assignment) {
+            (assignment?.questions||[]).forEach(q => {
+                if (!Array.isArray(q.standards) || q.standards.length === 0) {
+                    const base = q.question || q.q || '';
+                    const guess = suggestStandardsForQuestion(base);
+                    if (guess.length > 0) q.standards = guess;
+                }
+            });
+            return assignment;
+        }
     </script>
 </body>
 </html>
