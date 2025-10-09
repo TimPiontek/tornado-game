@@ -25013,5 +25013,24 @@
         "standards": ["RL.9-10.2"]
       }
     ]
+  },
+  {
+    "title": "Romeo and Juliet Act 1 Scenes 2–3 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5"],
+    "questions": [
+      { "question": "Whom does Paris ask for permission to marry Juliet?", "answer": "Lord Capulet", "standards": ["RL.9-10.1"] },
+      { "question": "What is Capulet's initial response to Paris's request?", "answer": "Juliet is too young; wait two summers", "standards": ["RL.9-10.3"] },
+      { "question": "What event does Capulet plan that evening?", "answer": "A masquerade (masked ball)", "standards": ["RL.9-10.1"] },
+      { "question": "Why does Capulet give the servant a list?", "answer": "To invite guests to the feast", "standards": ["RL.9-10.1"] },
+      { "question": "Why does the servant ask Romeo and Benvolio for help?", "answer": "He cannot read the guest list", "standards": ["RL.9-10.4"] },
+      { "question": "What plan does Benvolio propose after reading the list?", "answer": "Crash the Capulet party to compare Rosaline with other women", "standards": ["RL.9-10.2"] },
+      { "question": "How does this plan advance the plot?", "answer": "It sets up Romeo and Juliet meeting at the feast", "standards": ["RL.9-10.5"] },
+      { "question": "In Scene 3, who speaks with Lady Capulet about marriage?", "answer": "The Nurse and Juliet", "standards": ["RL.9-10.1"] },
+      { "question": "What is Lady Capulet's view on Juliet's age and marriage?", "answer": "She thinks Juliet is old enough to marry", "standards": ["RL.9-10.3"] },
+      { "question": "What extended metaphor does Lady Capulet use for Paris?", "answer": "A book that only lacks a cover (Juliet)", "standards": ["RL.9-10.4"] },
+      { "question": "How does Juliet respond to the idea of marrying Paris?", "answer": "She will look to like if looking liking move", "standards": ["RL.9-10.3"] },
+      { "question": "What do the Nurse's bawdy jokes reveal?", "answer": "Her earthy humor and close bond with Juliet", "standards": ["RL.9-10.3"] }
+    ]
   }
 ]
