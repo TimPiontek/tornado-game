@@ -249,6 +249,22 @@
         <div style="margin-top: 8px;">
           <button id="saveRewardsBtn" style="width: 100%; padding: 6px; background: #f59e0b; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">Save Rewards</button>
         </div>
+        
+        <!-- Privacy Controls -->
+        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);">
+          <div class="title">Privacy Settings</div>
+          <div style="margin-bottom: 8px;">
+            <label style="display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px;">Leaderboard Visibility:</label>
+            <select id="privacyLevel" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
+              <option value="TEAM_PUBLIC">Team Public - Show team names and scores</option>
+              <option value="INDIVIDUAL_PRIVATE">Individual Private - Hide individual names</option>
+              <option value="MIXED">Mixed - Teams public, individuals private</option>
+            </select>
+          </div>
+          <div style="margin-top: 8px;">
+            <button id="savePrivacyBtn" style="width: 100%; padding: 6px; background: #6366f1; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">Save Privacy Settings</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -8440,6 +8456,22 @@
         }
       };
     }
+    
+    // Save Privacy Settings button handler
+    const savePrivacyBtn = document.getElementById('savePrivacyBtn');
+    if (savePrivacyBtn) {
+      savePrivacyBtn.onclick = () => {
+        const privacyLevel = document.getElementById('privacyLevel').value;
+        
+        // Store privacy level in state
+        state.privacyLevel = privacyLevel;
+        
+        // Update leaderboard display based on privacy settings
+        updateLeaderboardPrivacy(privacyLevel);
+        
+        alert('Privacy settings saved successfully!');
+      };
+    }
   }
 
   function loadBusinessLeaderboard() {
@@ -8547,8 +8579,229 @@
     alert(`Metric "${metricName}" added successfully!`);
   }
 
+  function updateLeaderboardPrivacy(privacyLevel) {
+    // Update leaderboard display based on privacy settings
+    const businessLeaderboard = document.getElementById('businessLeaderboard');
+    if (!businessLeaderboard) return;
+    
+    // Mock leaderboard data
+    const mockData = [
+      { name: 'Alice Johnson', team: 'Alpha', points: 150, credits: 25 },
+      { name: 'Bob Smith', team: 'Beta', points: 140, credits: 22 },
+      { name: 'Carol Davis', team: 'Alpha', points: 135, credits: 20 },
+      { name: 'David Wilson', team: 'Gamma', points: 130, credits: 18 }
+    ];
+    
+    let displayData = mockData;
+    
+    if (privacyLevel === 'INDIVIDUAL_PRIVATE') {
+      // Hide individual names, show only team info
+      displayData = mockData.map((item, index) => ({
+        ...item,
+        name: `Employee ${index + 1}`,
+        team: item.team
+      }));
+    } else if (privacyLevel === 'MIXED') {
+      // Show team names but anonymize individuals
+      displayData = mockData.map((item, index) => ({
+        ...item,
+        name: `${item.team} Member ${index + 1}`,
+        team: item.team
+      }));
+    }
+    
+    businessLeaderboard.innerHTML = `
+      <div style="font-size: 11px;">
+        ${displayData.map((item, index) => `
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid var(--border);">
+            <div>
+              <span style="font-weight: 600;">${index + 1}. ${item.name}</span>
+              <span style="color: var(--muted); font-size: 10px;">(${item.team})</span>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 600;">${item.points} pts</div>
+              <div style="color: var(--muted); font-size: 10px;">${item.credits} credits</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
   function showCsvImportModal() {
-    alert('CSV Import functionality coming soon! This will allow bulk import of performance data.');
+    // Create CSV import modal
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    `;
+    
+    modal.innerHTML = `
+      <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; max-width: 600px; width: 90%; max-height: 80%; overflow-y: auto;">
+        <h3 style="margin: 0 0 1rem 0; color: var(--text);">📊 CSV Import</h3>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Select CSV File:</label>
+          <input type="file" id="csvFile" accept=".csv" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Expected Format:</label>
+          <div style="background: #1e293b; padding: 0.5rem; border-radius: 4px; font-family: monospace; font-size: 11px; color: var(--text);">
+            email,team,metric,amount,date,note<br>
+            john@company.com,Alpha,Features shipped,5,2024-01-15,Completed user login<br>
+            jane@company.com,Beta,Bugs resolved,3,2024-01-15,Fixed payment bug
+          </div>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Column Mapping:</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 11px;">
+            <div>
+              <label>Email Column:</label>
+              <select id="emailColumn" style="width: 100%; padding: 0.25rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
+                <option value="0">Column 1</option>
+                <option value="1">Column 2</option>
+                <option value="2">Column 3</option>
+                <option value="3">Column 4</option>
+                <option value="4">Column 5</option>
+                <option value="5">Column 6</option>
+              </select>
+            </div>
+            <div>
+              <label>Team Column:</label>
+              <select id="teamColumn" style="width: 100%; padding: 0.25rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
+                <option value="1">Column 2</option>
+                <option value="0">Column 1</option>
+                <option value="2">Column 3</option>
+                <option value="3">Column 4</option>
+                <option value="4">Column 5</option>
+                <option value="5">Column 6</option>
+              </select>
+            </div>
+            <div>
+              <label>Metric Column:</label>
+              <select id="metricColumn" style="width: 100%; padding: 0.25rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
+                <option value="2">Column 3</option>
+                <option value="0">Column 1</option>
+                <option value="1">Column 2</option>
+                <option value="3">Column 4</option>
+                <option value="4">Column 5</option>
+                <option value="5">Column 6</option>
+              </select>
+            </div>
+            <div>
+              <label>Amount Column:</label>
+              <select id="amountColumn" style="width: 100%; padding: 0.25rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
+                <option value="3">Column 4</option>
+                <option value="0">Column 1</option>
+                <option value="1">Column 2</option>
+                <option value="2">Column 3</option>
+                <option value="4">Column 5</option>
+                <option value="5">Column 6</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+          <button onclick="this.closest('div').parentElement.remove()" style="padding: 0.5rem 1rem; background: var(--border); color: var(--text); border: none; border-radius: 4px; cursor: pointer;">Cancel</button>
+          <button onclick="importCsvData()" style="padding: 0.5rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer;">Import Data</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Handle file selection
+    const csvFile = document.getElementById('csvFile');
+    csvFile.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const csvContent = e.target.result;
+          // Preview first few lines
+          const lines = csvContent.split('\n').slice(0, 3);
+          console.log('CSV Preview:', lines);
+        };
+        reader.readAsText(file);
+      }
+    });
+  }
+
+  function importCsvData() {
+    const csvFile = document.getElementById('csvFile');
+    const emailColumn = document.getElementById('emailColumn').value;
+    const teamColumn = document.getElementById('teamColumn').value;
+    const metricColumn = document.getElementById('metricColumn').value;
+    const amountColumn = document.getElementById('amountColumn').value;
+    
+    if (!csvFile.files[0]) {
+      alert('Please select a CSV file first.');
+      return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const csvContent = e.target.result;
+      const lines = csvContent.split('\n').filter(line => line.trim());
+      
+      let importedCount = 0;
+      let errorCount = 0;
+      
+      // Skip header row
+      for (let i = 1; i < lines.length; i++) {
+        const columns = lines[i].split(',');
+        
+        try {
+          const email = columns[emailColumn]?.trim();
+          const team = columns[teamColumn]?.trim();
+          const metric = columns[metricColumn]?.trim();
+          const amount = parseFloat(columns[amountColumn]?.trim());
+          
+          if (email && team && metric && !isNaN(amount)) {
+            // Create score event
+            const scoreEvent = {
+              id: 'csv_' + Date.now() + '_' + i,
+              gameId: state.currentRoster?.id || 'current_game',
+              teamId: team,
+              userId: email,
+              points: amount,
+              source: 'CSV',
+              note: `Imported: ${metric}`,
+              createdAt: new Date().toISOString()
+            };
+            
+            // Add to state (in production, this would save to database)
+            if (!state.scoreEvents) {
+              state.scoreEvents = [];
+            }
+            state.scoreEvents.push(scoreEvent);
+            
+            importedCount++;
+          } else {
+            errorCount++;
+          }
+        } catch (error) {
+          errorCount++;
+        }
+      }
+      
+      // Close modal and show results
+      document.querySelector('[onclick*="importCsvData()"]').closest('div').parentElement.remove();
+      
+      alert(`CSV Import Complete!\n\nImported: ${importedCount} records\nErrors: ${errorCount} records\n\nData has been added to the game.`);
+      
+      // Refresh metrics display
+      loadMetricsTab();
+    };
+    
+    reader.readAsText(csvFile.files[0]);
   }
 
   function showNewAnnouncementModal() {

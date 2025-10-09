@@ -1,0 +1,488 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; img-src * data: blob:; connect-src *;">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Tornado War – Employee</title>
+  <script src="scenarios.js"></script>
+  <style>
+    :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
+    * { box-sizing: border-box }
+    html, body { height:100% }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    header { position:sticky; top:0; z-index:3; background:#0d1628cc; backdrop-filter: blur(6px); border-bottom:1px solid var(--border); }
+    .bar { display:flex; gap:8px; align-items:center; padding:10px 14px; flex-wrap:wrap }
+    .bar h1 { font-size:18px; margin:0 8px 0 0; }
+    .pill { padding:8px 12px; border:1px solid var(--border); border-radius:10px; background:var(--panel); color:var(--text); cursor:pointer; }
+    .pill[disabled] { opacity:.6; cursor:not-allowed }
+    .muted { color:var(--muted) }
+    .wrap { display:grid; grid-template-columns: 400px 1fr; gap:12px; padding:12px; }
+    .panel { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:12px; }
+    .title { font-size:14px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0 0 8px; }
+    #gamesList { width: 100%; }
+    #roster { display:flex; flex-direction:column; gap:6px; max-height: calc(100vh - 220px); overflow:auto; }
+    .row { display:grid; grid-template-columns: 1fr auto auto auto auto auto auto auto; gap:6px; align-items:center; padding:6px 8px; border:1px solid var(--border); border-radius:10px; cursor:pointer; }
+    .row.sel { outline:2px solid var(--accent) }
+    .bal { font-variant-numeric: tabular-nums; }
+    .chip { padding:4px 8px; border:1px solid var(--border); border-radius:8px; font-size:12px; color:var(--muted) }
+    .plus { padding:4px 8px; border:1px solid var(--border); border-radius:8px; background:#12223a; cursor:pointer }
+    #board { width:100%; aspect-ratio: 0.8 / 1; background:#0a1220; border:1px solid var(--border); border-radius:12px; overflow:hidden; max-height: 60vh; }
+    #grid { width:100%; height:100%; display:grid; }
+    .cell { border:1px solid #0d1930; display:flex; align-items:center; justify-content:center; font-size:12px; user-select:none; position:relative; }
+    .castle { font-weight:bold; filter: drop-shadow(0 1px 0 #0008) }
+    .section { margin: 10px 0 0 }
+    input, textarea, select { width:100%; padding:10px; border:1px solid var(--border); border-radius:10px; background:#081125; color:var(--text) }
+    textarea { min-height: 160px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap:8px; }
+    table { width:100%; border-collapse: collapse; }
+    th, td { padding:6px 4px; border-bottom: 1px solid var(--border); text-align:left; font-size:14px }
+    .minor { font-size:12px; color:var(--muted) }
+    .ok { color:#86efac } .warn { color:#facc15 } .err { color:#f87171 }
+    
+    /* Employee-specific styles */
+    .employee-card {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    
+    .metrics-table {
+      width: 100%;
+      font-size: 11px;
+    }
+    
+    .metrics-table th,
+    .metrics-table td {
+      padding: 4px 6px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    
+    .credits-display {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+      font-weight: bold;
+      color: #fbbf24;
+    }
+    
+    .notification-feed {
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 11px;
+    }
+    
+    .notification-item {
+      padding: 6px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 4px;
+    }
+    
+    .notification-item:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <h1 style="cursor: pointer;" onclick="window.location.href = '/employee-login.html'">TORNADO WAR - EMPLOYEE</h1>
+    <button class="pill" id="btnTruces">Truces</button>
+    <button class="pill" id="btnHelp">How to Play</button>
+    <div style="flex:1"></div>
+    <span id="who" class="muted">Employee Mode</span>
+    <button class="pill" onclick="window.location.href='employee-login.html'" style="background: #10b981; color: white;">← Back to Dashboard</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- LEFT: Employee Dashboard -->
+  <div class="panel">
+    <div class="section">
+      <div class="title">Employee Dashboard</div>
+      <div class="employee-card">
+        <h4 style="margin: 0 0 8px; color: #60a5fa;">👤 My Performance</h4>
+        <div id="employeeStats">
+          <div class="credits-display">
+            <div style="font-size: 14px;">Credits Earned</div>
+            <div id="myCredits" style="font-size: 18px;">0</div>
+          </div>
+          <div style="margin-top: 8px;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px;">
+              <span>My Points:</span>
+              <span id="myPoints" class="bal">0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 12px;">
+              <span>My Team:</span>
+              <span id="myTeam">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="title">My Metrics</div>
+      <div class="employee-card">
+        <table class="metrics-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Score</th>
+              <th>Weight</th>
+            </tr>
+          </thead>
+          <tbody id="myMetricsTable">
+            <tr>
+              <td colspan="3" style="text-align: center; color: var(--muted); font-size: 11px;">No metrics assigned yet</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="title">Quick Actions</div>
+      <div class="employee-card">
+        <button class="pill" onclick="playTornadoQuiz()" style="background: #8b5cf6; color: white; font-size: 12px; width: 100%; margin-bottom: 8px;">🎯 Play Tornado Quiz</button>
+        <button class="pill" onclick="viewAssignments()" style="background: #10b981; color: white; font-size: 12px; width: 100%; margin-bottom: 8px;">📋 View Assignments</button>
+        <button class="pill" onclick="viewLeaderboard()" style="background: #f59e0b; color: white; font-size: 12px; width: 100%;">🏆 Team Leaderboard</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="title">Notifications</div>
+      <div class="employee-card">
+        <div id="notificationFeed" class="notification-feed">
+          <div class="notification-item" style="color: var(--muted); text-align: center;">
+            No notifications yet
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENTER: Game Board -->
+  <div class="panel">
+    <div id="gameThemeTitle" style="
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+      color: white;
+      padding: 1rem;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 0.5rem;
+      transition: all 0.2s ease;
+    ">
+      🎮 Business Game
+    </div>
+    <div id="teamScoreboards" style="margin-bottom: 1rem;"></div>
+    <div id="board">
+      <div id="grid"></div>
+    </div>
+    <div class="minor" id="tip">Tip: click a team name, then click a tile.</div>
+  </div>
+</div>
+
+<!-- Assignment Modal -->
+<div id="assignmentModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;">
+  <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; max-width: 600px; width: 90%; max-height: 80%; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+      <h3 style="margin: 0; color: var(--text);">📋 My Assignments</h3>
+      <button onclick="closeAssignmentModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--muted);">&times;</button>
+    </div>
+    <div id="assignmentsList">
+      <div style="text-align: center; color: var(--muted); padding: 2rem;">
+        No assignments yet
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Quiz Modal -->
+<div id="quizModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;">
+  <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; max-width: 600px; width: 90%; max-height: 80%; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+      <h3 style="margin: 0; color: var(--text);">🎯 Tornado Quiz</h3>
+      <button onclick="closeQuizModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--muted);">&times;</button>
+    </div>
+    <div id="quizContent">
+      <div style="text-align: center; color: var(--muted); padding: 2rem;">
+        Loading quiz...
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Employee-specific state
+  let employeeState = {
+    currentEmployee: null,
+    gameData: null,
+    assignments: [],
+    notifications: [],
+    credits: 0,
+    points: 0,
+    team: null,
+    metrics: []
+  };
+
+  // Initialize employee page
+  function initializeEmployeePage() {
+    // Load employee data from localStorage or URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    const employeeId = urlParams.get('employeeId') || localStorage.getItem('currentEmployeeId');
+    
+    if (employeeId) {
+      loadEmployeeData(employeeId);
+    } else {
+      // Show join code input
+      showJoinCodeInput();
+    }
+    
+    // Initialize game board
+    initializeGameBoard();
+    
+    // Load notifications
+    loadNotifications();
+  }
+
+  function showJoinCodeInput() {
+    const joinCode = prompt('Enter your Manager Code to join the game:');
+    if (joinCode) {
+      // In production, this would validate with the server
+      localStorage.setItem('currentEmployeeId', 'emp_' + Date.now());
+      localStorage.setItem('managerCode', joinCode);
+      location.reload();
+    }
+  }
+
+  function loadEmployeeData(employeeId) {
+    // Mock employee data - in production, this would come from the server
+    employeeState.currentEmployee = {
+      id: employeeId,
+      name: 'Employee ' + employeeId.slice(-4),
+      team: 'Alpha',
+      credits: 15,
+      points: 42
+    };
+    
+    employeeState.credits = employeeState.currentEmployee.credits;
+    employeeState.points = employeeState.currentEmployee.points;
+    employeeState.team = employeeState.currentEmployee.team;
+    
+    updateEmployeeDashboard();
+  }
+
+  function updateEmployeeDashboard() {
+    // Update credits display
+    const creditsEl = document.getElementById('myCredits');
+    if (creditsEl) {
+      creditsEl.textContent = employeeState.credits;
+    }
+    
+    // Update points display
+    const pointsEl = document.getElementById('myPoints');
+    if (pointsEl) {
+      pointsEl.textContent = employeeState.points;
+    }
+    
+    // Update team display
+    const teamEl = document.getElementById('myTeam');
+    if (teamEl) {
+      teamEl.textContent = employeeState.team || '-';
+    }
+    
+    // Update metrics table
+    updateMetricsTable();
+  }
+
+  function updateMetricsTable() {
+    const tableBody = document.getElementById('myMetricsTable');
+    if (!tableBody) return;
+    
+    if (employeeState.metrics.length === 0) {
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="3" style="text-align: center; color: var(--muted); font-size: 11px;">No metrics assigned yet</td>
+        </tr>
+      `;
+      return;
+    }
+    
+    tableBody.innerHTML = employeeState.metrics.map(metric => `
+      <tr>
+        <td>${metric.name}</td>
+        <td class="bal">${metric.score || 0}</td>
+        <td>${metric.weight}</td>
+      </tr>
+    `).join('');
+  }
+
+  function loadNotifications() {
+    // Mock notifications - in production, this would come from the server
+    employeeState.notifications = [
+      {
+        id: 1,
+        type: 'award',
+        message: 'You earned 5 credits for completing a quiz!',
+        timestamp: new Date().toISOString(),
+        read: false
+      },
+      {
+        id: 2,
+        type: 'milestone',
+        message: 'Your team reached 100 points!',
+        timestamp: new Date(Date.now() - 3600000).toISOString(),
+        read: false
+      }
+    ];
+    
+    updateNotificationFeed();
+  }
+
+  function updateNotificationFeed() {
+    const feedEl = document.getElementById('notificationFeed');
+    if (!feedEl) return;
+    
+    if (employeeState.notifications.length === 0) {
+      feedEl.innerHTML = `
+        <div class="notification-item" style="color: var(--muted); text-align: center;">
+          No notifications yet
+        </div>
+      `;
+      return;
+    }
+    
+    feedEl.innerHTML = employeeState.notifications.map(notification => `
+      <div class="notification-item">
+        <div style="font-size: 10px; color: var(--muted); margin-bottom: 2px;">
+          ${new Date(notification.timestamp).toLocaleString()}
+        </div>
+        <div style="color: var(--text);">
+          ${notification.message}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function initializeGameBoard() {
+    // Initialize the game board (reuse existing logic)
+    // This would connect to the same game state as the manager
+    const grid = document.getElementById('grid');
+    if (grid) {
+      // Create a 4x4 grid
+      grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+      grid.style.gridTemplateRows = 'repeat(4, 1fr)';
+      
+      for (let i = 0; i < 16; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.textContent = `Tile ${i + 1}`;
+        cell.style.background = '#1e293b';
+        grid.appendChild(cell);
+      }
+    }
+  }
+
+  // Employee Actions
+  function playTornadoQuiz() {
+    // Open quiz modal
+    const modal = document.getElementById('quizModal');
+    if (modal) {
+      modal.style.display = 'flex';
+      
+      // Load quiz content
+      const quizContent = document.getElementById('quizContent');
+      quizContent.innerHTML = `
+        <div style="text-align: center; padding: 2rem;">
+          <h4 style="color: var(--text); margin-bottom: 1rem;">🎯 Performance Quiz</h4>
+          <p style="color: var(--muted); margin-bottom: 1rem;">Complete this quiz to earn credits and points!</p>
+          <button onclick="startQuiz()" style="background: #8b5cf6; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; cursor: pointer; font-size: 14px;">
+            Start Quiz
+          </button>
+        </div>
+      `;
+    }
+  }
+
+  function startQuiz() {
+    // Mock quiz completion
+    setTimeout(() => {
+      const creditsEarned = Math.floor(Math.random() * 10) + 5;
+      const pointsEarned = Math.floor(Math.random() * 20) + 10;
+      
+      employeeState.credits += creditsEarned;
+      employeeState.points += pointsEarned;
+      
+      updateEmployeeDashboard();
+      
+      // Add notification
+      employeeState.notifications.unshift({
+        id: Date.now(),
+        type: 'award',
+        message: `You earned ${creditsEarned} credits and ${pointsEarned} points for completing the quiz!`,
+        timestamp: new Date().toISOString(),
+        read: false
+      });
+      
+      updateNotificationFeed();
+      
+      closeQuizModal();
+      
+      alert(`Quiz completed! You earned ${creditsEarned} credits and ${pointsEarned} points.`);
+    }, 1000);
+  }
+
+  function closeQuizModal() {
+    const modal = document.getElementById('quizModal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  function viewAssignments() {
+    // Open assignments modal
+    const modal = document.getElementById('assignmentModal');
+    if (modal) {
+      modal.style.display = 'flex';
+      
+      // Load assignments
+      const assignmentsList = document.getElementById('assignmentsList');
+      assignmentsList.innerHTML = `
+        <div style="text-align: center; color: var(--muted); padding: 2rem;">
+          <h4 style="color: var(--text); margin-bottom: 1rem;">📋 My Assignments</h4>
+          <p style="margin-bottom: 1rem;">No assignments assigned yet</p>
+          <p style="font-size: 12px;">Your manager will assign tasks and projects here.</p>
+        </div>
+      `;
+    }
+  }
+
+  function closeAssignmentModal() {
+    const modal = document.getElementById('assignmentModal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  function viewLeaderboard() {
+    alert('Team Leaderboard: Coming soon! This will show your team\'s performance rankings.');
+  }
+
+  // Initialize when page loads
+  document.addEventListener('DOMContentLoaded', initializeEmployeePage);
+</script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Login - Tornado War</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #6f5c91;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #6f5c91;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: #6f5c91;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #5a4a7a;
+        }
+
+        .btn-secondary {
+            background: #64748b;
+            margin-top: 1rem;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .status-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .features {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            text-align: left;
+        }
+
+        .features h3 {
+            color: #374151;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features li {
+            padding: 0.5rem 0;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .features li::before {
+            content: "✅";
+            font-size: 1.2rem;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-link">← Back to Home</a>
+    
+    <div class="container">
+        <div class="logo">🏢 TORNADO WAR</div>
+        <div class="subtitle">Employee Portal</div>
+        
+        <div id="statusMessage"></div>
+        
+        <form id="employeeLoginForm">
+            <div class="form-group">
+                <label for="managerCode">Manager Code</label>
+                <input type="text" id="managerCode" placeholder="Enter your manager's code" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="employeeName">Your Name</label>
+                <input type="text" id="employeeName" placeholder="Enter your name" required>
+            </div>
+            
+            <button type="submit" class="btn">Join Game</button>
+        </form>
+        
+        <button onclick="showDemoMode()" class="btn btn-secondary">Try Demo Mode</button>
+        
+        <div class="features">
+            <h3>Employee Features</h3>
+            <ul>
+                <li>View your performance metrics and credits</li>
+                <li>Complete assigned tasks and quizzes</li>
+                <li>Track team progress and rankings</li>
+                <li>Receive notifications from your manager</li>
+                <li>Participate in team competitions</li>
+                <li>Earn credits for completed work</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let currentEmployee = null;
+
+        document.getElementById('employeeLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const managerCode = document.getElementById('managerCode').value.trim();
+            const employeeName = document.getElementById('employeeName').value.trim();
+            
+            if (!managerCode || !employeeName) {
+                showStatus('Please fill in all fields', 'error');
+                return;
+            }
+            
+            // Simulate joining game
+            joinGame(managerCode, employeeName);
+        });
+
+        function joinGame(managerCode, employeeName) {
+            showStatus('Joining game...', 'success');
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Generate employee ID
+                const employeeId = 'emp_' + Date.now();
+                
+                // Store employee data
+                currentEmployee = {
+                    id: employeeId,
+                    name: employeeName,
+                    managerCode: managerCode,
+                    joinedAt: new Date().toISOString()
+                };
+                
+                localStorage.setItem('currentEmployee', JSON.stringify(currentEmployee));
+                localStorage.setItem('currentEmployeeId', employeeId);
+                
+                showStatus('Successfully joined! Redirecting...', 'success');
+                
+                // Redirect to employee game page
+                setTimeout(() => {
+                    window.location.href = `/employee-war.html?employeeId=${employeeId}`;
+                }, 1500);
+                
+            }, 1000);
+        }
+
+        function showDemoMode() {
+            const employeeId = 'demo_emp_' + Date.now();
+            
+            currentEmployee = {
+                id: employeeId,
+                name: 'Demo Employee',
+                managerCode: 'DEMO',
+                joinedAt: new Date().toISOString(),
+                isDemo: true
+            };
+            
+            localStorage.setItem('currentEmployee', JSON.stringify(currentEmployee));
+            localStorage.setItem('currentEmployeeId', employeeId);
+            
+            showStatus('Entering demo mode...', 'success');
+            
+            setTimeout(() => {
+                window.location.href = `/employee-war.html?employeeId=${employeeId}&demo=true`;
+            }, 1000);
+        }
+
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.className = `status-message status-${type}`;
+            statusEl.textContent = message;
+            statusEl.style.display = 'block';
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusEl.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Check if employee is already logged in
+        window.addEventListener('load', function() {
+            const existingEmployee = localStorage.getItem('currentEmployee');
+            if (existingEmployee) {
+                const employee = JSON.parse(existingEmployee);
+                if (!employee.isDemo) {
+                    showStatus(`Welcome back, ${employee.name}!`, 'success');
+                    setTimeout(() => {
+                        window.location.href = `/employee-war.html?employeeId=${employee.id}`;
+                    }, 2000);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
