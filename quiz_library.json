@@ -666,6 +666,40 @@
     ]
   },
   {
+    "title": "The Odyssey Book 5–6 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "What divine decision initiates Book 5?", "answer": "Zeus orders Calypso to release Odysseus", "standards": ["RL.9-10.1"] },
+      { "question": "How does Calypso respond to Zeus’ decree?", "answer": "She complains of double standards but obeys", "standards": ["RL.9-10.1", "RL.9-10.2"] },
+      { "question": "What adversity does Odysseus face at sea?", "answer": "Poseidon’s storm wrecks his raft", "standards": ["RL.9-10.1"] },
+      { "question": "Who aids Odysseus and how?", "answer": "Ino gives a veil; Athena steadies the winds", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "Where does Odysseus arrive and who finds him in Book 6?", "answer": "Scheria; Nausicaa discovers him", "standards": ["RL.9-10.1"] },
+      { "question": "How is Nausicaa characterized?", "answer": "Modest, practical, and hospitable", "standards": ["RL.9-10.3"] },
+      { "question": "What themes emerge in the Phaeacian episode?", "answer": "Xenia, reputation, aid to the traveler", "standards": ["RL.9-10.2"] },
+      { "question": "What literary devices mark these books?", "answer": "Epic similes, divine machinery, epithets", "standards": ["RL.9-10.4", "RL.9-10.5"] },
+      { "question": "What plan does Nausicaa outline for Odysseus?", "answer": "How to approach Arete for safe passage", "standards": ["RL.9-10.1", "RL.9-10.5"] },
+      { "question": "How does this section advance the plot arc?", "answer": "Sets up Odysseus’ appeal to the Phaeacians", "standards": ["RL.9-10.5"] }
+    ]
+  },
+  {
+    "title": "The Odyssey Book 7–8 Tornado Quiz",
+    "category": "Literature",
+    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
+    "questions": [
+      { "question": "Whom does Odysseus supplicate in Book 7 and why?", "answer": "Queen Arete; she holds decisive influence", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "How does Arete test Odysseus?", "answer": "By questioning the clothing and his story", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "What public display occurs in Book 8?", "answer": "Games, songs by Demodocus, and feasting", "standards": ["RL.9-10.1"] },
+      { "question": "What episodes does Demodocus sing and why are they significant?", "answer": "Ares and Aphrodite; Trojan War tales—evoke Odysseus’ identity", "standards": ["RL.9-10.5", "RL.9-10.6"] },
+      { "question": "How does Odysseus reveal himself?", "answer": "He weeps at the songs; then declares his name", "standards": ["RL.9-10.1", "RL.9-10.3"] },
+      { "question": "What themes are foregrounded?", "answer": "Fame, memory, the power of song/poetry", "standards": ["RL.9-10.2", "RL.9-10.6"] },
+      { "question": "What stylistic devices shape Phaeacian society’s image?", "answer": "Similes, epithets, ceremonial descriptions", "standards": ["RL.9-10.4", "RL.9-10.5"] },
+      { "question": "What promise do the Phaeacians make to Odysseus?", "answer": "To ferry him home with gifts", "standards": ["RL.9-10.1"] },
+      { "question": "How do the athletic contests characterize Odysseus?", "answer": "As capable, proud; he excels when provoked", "standards": ["RL.9-10.3"] },
+      { "question": "How does this section transition the narrative?", "answer": "Leads into Odysseus’ great tale (Books 9–12)", "standards": ["RL.9-10.5"] }
+    ]
+  },
+  {
     "title": "Grammy Winners",
     "category": "Music",
     "questions": [
