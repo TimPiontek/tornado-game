@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments Library - Tornado Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6f5c91 0%, #4a4a8a 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .filter-group select, .filter-group input {
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .filter-group select:focus, .filter-group input:focus {
+            outline: none;
+            border-color: #6f5c91;
+        }
+
+        .assignments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .assignment-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .assignment-card:hover {
+            border-color: #6f5c91;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .assignment-card.selected {
+            border-color: #6f5c91;
+            background: #f8f9ff;
+        }
+
+        .assignment-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .assignment-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .assignment-description {
+            color: #4b5563;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .assignment-standards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .standard-tag {
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .assignment-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .load-button {
+            background: #6f5c91;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        .load-button:hover {
+            background: #5a4a7a;
+            transform: translateY(-1px);
+        }
+
+        .load-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-button {
+            background: #6b7280;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .back-button:hover {
+            background: #4b5563;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Assignments Library</h1>
+            <p>Browse and load pre-made, standards-aligned assignments</p>
+        </div>
+        
+        <div class="content">
+            <button class="back-button" onclick="window.close()">← Back to Create Assignment</button>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="subjectFilter">Subject</label>
+                    <select id="subjectFilter" onchange="filterAssignments()">
+                        <option value="">All Subjects</option>
+                        <option value="ELA">ELA</option>
+                        <option value="Math">Math</option>
+                        <option value="Science">Science</option>
+                        <option value="History">History</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="workFilter">Work</label>
+                    <select id="workFilter" onchange="filterAssignments()">
+                        <option value="">All Works</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="searchFilter">Search</label>
+                    <input type="text" id="searchFilter" placeholder="Search assignments..." oninput="filterAssignments()">
+                </div>
+            </div>
+            
+            <div id="assignmentsContainer" class="loading">
+                Loading assignments...
+            </div>
+            
+            <button id="loadButton" class="load-button" onclick="loadSelectedAssignment()" disabled>
+                Load Selected Assignment
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let assignments = [];
+        let selectedAssignmentId = null;
+
+        async function loadAssignments() {
+            try {
+                const response = await fetch('/assignments_library.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load assignments library');
+                }
+                assignments = await response.json();
+                renderAssignments();
+                populateFilters();
+            } catch (error) {
+                console.error('Error loading assignments:', error);
+                document.getElementById('assignmentsContainer').innerHTML = 
+                    '<div class="no-results">Failed to load assignments library. Please try again.</div>';
+            }
+        }
+
+        function populateFilters() {
+            const workFilter = document.getElementById('workFilter');
+            const works = [...new Set(assignments.map(a => a.work))].sort();
+            
+            workFilter.innerHTML = '<option value="">All Works</option>';
+            works.forEach(work => {
+                const option = document.createElement('option');
+                option.value = work;
+                option.textContent = work;
+                workFilter.appendChild(option);
+            });
+        }
+
+        function filterAssignments() {
+            const subjectFilter = document.getElementById('subjectFilter').value;
+            const workFilter = document.getElementById('workFilter').value;
+            const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
+            
+            const filtered = assignments.filter(assignment => {
+                const matchesSubject = !subjectFilter || assignment.subject === subjectFilter;
+                const matchesWork = !workFilter || assignment.work === workFilter;
+                const matchesSearch = !searchFilter || 
+                    assignment.title.toLowerCase().includes(searchFilter) ||
+                    assignment.description.toLowerCase().includes(searchFilter) ||
+                    (assignment.act_scenes && assignment.act_scenes.toLowerCase().includes(searchFilter)) ||
+                    (assignment.books && assignment.books.toLowerCase().includes(searchFilter));
+                
+                return matchesSubject && matchesWork && matchesSearch;
+            });
+            
+            renderAssignments(filtered);
+        }
+
+        function renderAssignments(assignmentsToRender = assignments) {
+            const container = document.getElementById('assignmentsContainer');
+            
+            if (assignmentsToRender.length === 0) {
+                container.innerHTML = '<div class="no-results">No assignments found matching your criteria.</div>';
+                return;
+            }
+            
+            container.innerHTML = '<div class="assignments-grid">' +
+                assignmentsToRender.map(assignment => `
+                    <div class="assignment-card" onclick="selectAssignment('${assignment.id}')" id="card-${assignment.id}">
+                        <div class="assignment-title">${assignment.title}</div>
+                        <div class="assignment-meta">
+                            <span>📚 ${assignment.work}</span>
+                            ${assignment.act_scenes ? `<span>🎭 ${assignment.act_scenes}</span>` : ''}
+                            ${assignment.books ? `<span>📖 ${assignment.books}</span>` : ''}
+                        </div>
+                        <div class="assignment-description">${assignment.description}</div>
+                        <div class="assignment-standards">
+                            ${assignment.standards.map(std => `<span class="standard-tag">${std}</span>`).join('')}
+                        </div>
+                        <div class="assignment-stats">
+                            <span>${assignment.multiple_choice ? assignment.multiple_choice.length : 0} MC</span>
+                            <span>${assignment.short_answer ? assignment.short_answer.length : 0} SA</span>
+                            <span>${assignment.standards.length} Standards</span>
+                        </div>
+                    </div>
+                `).join('') + '</div>';
+        }
+
+        function selectAssignment(assignmentId) {
+            // Remove previous selection
+            document.querySelectorAll('.assignment-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selection to clicked card
+            const card = document.getElementById(`card-${assignmentId}`);
+            card.classList.add('selected');
+            
+            selectedAssignmentId = assignmentId;
+            document.getElementById('loadButton').disabled = false;
+        }
+
+        function loadSelectedAssignment() {
+            if (!selectedAssignmentId) return;
+            
+            const assignment = assignments.find(a => a.id === selectedAssignmentId);
+            if (!assignment) return;
+            
+            // Send assignment data to parent window
+            if (window.opener) {
+                window.opener.postMessage({
+                    type: 'LOAD_ASSIGNMENT',
+                    assignment: assignment
+                }, '*');
+                window.close();
+            } else {
+                alert('Assignment loaded! (This would normally populate the form in the parent window)');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadAssignments);
+    </script>
+</body>
+</html>

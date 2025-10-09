@@ -471,7 +471,7 @@ What is photosynthesis?"></textarea>
                 
                 <div class="action-buttons">
                     <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Cancel</button>
-                    <button type="button" class="btn btn-secondary" onclick="loadFromLibrary()">Load from Library</button>
+                    <button type="button" class="btn btn-secondary" onclick="openAssignmentsLibrary()">Load from Library</button>
                     <button type="button" class="btn" onclick="createAssignment()">Create Assignment</button>
                 </div>
             </form>
@@ -840,11 +840,43 @@ What is photosynthesis?"></textarea>
         // === INITIALIZE ===
         document.addEventListener('DOMContentLoaded', init);
         
+        function openAssignmentsLibrary() {
+            const libraryWindow = window.open('/assignments-library.html', 'assignmentsLibrary', 'width=1000,height=700,scrollbars=yes');
+            
+            // Listen for messages from the library window
+            window.addEventListener('message', function(event) {
+                if (event.data.type === 'LOAD_ASSIGNMENT') {
+                    loadAssignmentFromLibrary(event.data.assignment);
+                }
+            });
+        }
+
+        function loadAssignmentFromLibrary(item) {
+            document.getElementById('assignmentTitle').value = item.title;
+            document.getElementById('assignmentDescription').value = item.description + (item.standards?.length? ` [STD: ${item.standards.join(', ')}]` : '');
+            
+            // Default to mixed to load both MC and SA if present
+            document.getElementById('assignmentType').value = (item.multiple_choice && item.short_answer) ? 'mixed' : (item.multiple_choice ? 'multiple_choice' : 'short_answer');
+            toggleAssignmentType();
+            
+            if (item.multiple_choice) {
+                const mcText = item.multiple_choice.map(q => [q.q, ...(q.choices||[]), `Answer: ${q.answer}`].join('\n')).join('\n\n');
+                document.getElementById('mcQuestionsText').value = mcText;
+            }
+            
+            if (item.short_answer) {
+                const saText = item.short_answer.map(q => q.q).join('\n');
+                document.getElementById('saQuestionsText').value = saText;
+            }
+            
+            showStatus('Loaded from library: ' + item.title, 'success');
+        }
+
         // Make functions globally accessible
         window.createAssignment = createAssignment;
         window.toggleAssignmentType = toggleAssignmentType;
         window.openStandardsPicker = openStandardsPicker;
-        window.loadFromLibrary = loadFromLibrary;
+        window.openAssignmentsLibrary = openAssignmentsLibrary;
     </script>
 
     <!-- Standards Picker Modal -->
