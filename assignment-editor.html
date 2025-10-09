@@ -303,14 +303,21 @@
                 <div class="roster-section">
                     <h3>Assign to Rosters</h3>
                     <p>Select which rosters should receive this assignment:</p>
+                    
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="dueDate">Due Date (Optional)</label>
+                        <input type="datetime-local" id="dueDate">
+                    </div>
+                    
                     <div id="rosterContainer" class="roster-grid">
                         <!-- Rosters will be loaded here -->
                     </div>
                 </div>
 
                 <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                    <button type="button" class="btn btn-primary" onclick="saveAssignment()">Save Assignment</button>
-                    <button type="button" class="btn btn-secondary" onclick="previewAssignment()">Preview</button>
+                    <button type="button" class="btn btn-success" onclick="assignToStudents()">📤 Assign to Students</button>
+                    <button type="button" class="btn btn-primary" onclick="saveAssignment()">💾 Save Assignment</button>
+                    <button type="button" class="btn btn-secondary" onclick="previewAssignment()">👁️ Preview</button>
                 </div>
             </form>
         </div>
@@ -649,7 +656,7 @@
             closeStandardsPicker();
         }
 
-        async function saveAssignment() {
+        async function assignToStudents() {
             if (selectedRosters.size === 0) {
                 showStatus('Please select at least one roster', 'error');
                 return;
@@ -658,25 +665,54 @@
             try {
                 // Collect assignment data
                 const assignmentData = {
-                    id: currentAssignment.id,
+                    id: currentAssignment.id + '_' + Date.now(), // Unique ID for this assignment instance
+                    originalId: currentAssignment.id,
                     title: document.getElementById('assignmentTitle').value,
                     description: document.getElementById('assignmentDescription').value,
                     standards: currentStandards,
                     multiple_choice: collectMultipleChoiceQuestions(),
                     short_answer: collectShortAnswerQuestions(),
                     assignedRosters: Array.from(selectedRosters),
-                    modifiedAt: new Date().toISOString()
+                    assignedAt: new Date().toISOString(),
+                    dueDate: document.getElementById('dueDate').value || null,
+                    status: 'assigned'
                 };
 
-                // Save to cloud (Supabase)
-                await saveAssignmentToCloud(assignmentData);
+                // Send assignment to students
+                await sendAssignmentToStudents(assignmentData);
                 
-                showStatus('Assignment saved and assigned successfully!', 'success');
+                showStatus(`Assignment sent to ${selectedRosters.size} roster(s) successfully!`, 'success');
                 
                 // Redirect back to library after a delay
                 setTimeout(() => {
                     window.location.href = '/assignments-library.html';
                 }, 2000);
+                
+            } catch (error) {
+                console.error('Error assigning to students:', error);
+                showStatus('Failed to assign to students', 'error');
+            }
+        }
+
+        async function saveAssignment() {
+            try {
+                // Collect assignment data
+                const assignmentData = {
+                    id: currentAssignment.id + '_personal_' + Date.now(),
+                    originalId: currentAssignment.id,
+                    title: document.getElementById('assignmentTitle').value,
+                    description: document.getElementById('assignmentDescription').value,
+                    standards: currentStandards,
+                    multiple_choice: collectMultipleChoiceQuestions(),
+                    short_answer: collectShortAnswerQuestions(),
+                    savedAt: new Date().toISOString(),
+                    status: 'saved'
+                };
+
+                // Save to teacher's personal cloud storage
+                await saveAssignmentToPersonalCloud(assignmentData);
+                
+                showStatus('Assignment saved to your personal library!', 'success');
                 
             } catch (error) {
                 console.error('Error saving assignment:', error);
@@ -725,18 +761,88 @@
             return questions;
         }
 
-        async function saveAssignmentToCloud(assignmentData) {
-            // For now, save to localStorage. In production, this would save to Supabase
-            const savedAssignments = JSON.parse(localStorage.getItem('savedAssignments') || '[]');
-            
-            // Remove existing assignment with same ID
-            const filtered = savedAssignments.filter(a => a.id !== assignmentData.id);
-            filtered.push(assignmentData);
-            
-            localStorage.setItem('savedAssignments', JSON.stringify(filtered));
-            
-            // Simulate cloud save delay
-            await new Promise(resolve => setTimeout(resolve, 1000));
+        async function sendAssignmentToStudents(assignmentData) {
+            try {
+                // Get teacher info (in production, this would come from authentication)
+                const teacherId = localStorage.getItem('teacherId') || 'demo-teacher';
+                
+                // Load student assignments from localStorage
+                const studentAssignments = JSON.parse(localStorage.getItem('studentAssignments') || '[]');
+                
+                // Get roster data to find students
+                const allRosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                
+                // Create assignments for each student in selected rosters
+                assignmentData.assignedRosters.forEach(rosterId => {
+                    const roster = allRosters.find(r => r.id === rosterId);
+                    if (roster && roster.roster) {
+                        roster.roster.forEach(student => {
+                            const studentAssignment = {
+                                id: assignmentData.id + '_' + student.id,
+                                assignmentId: assignmentData.id,
+                                studentId: student.id,
+                                studentName: student.name,
+                                rosterId: rosterId,
+                                rosterName: roster.name,
+                                teacherId: teacherId,
+                                title: assignmentData.title,
+                                description: assignmentData.description,
+                                standards: assignmentData.standards,
+                                multiple_choice: assignmentData.multiple_choice,
+                                short_answer: assignmentData.short_answer,
+                                assignedAt: assignmentData.assignedAt,
+                                dueDate: assignmentData.dueDate,
+                                status: 'pending',
+                                completedAt: null,
+                                score: null,
+                                answers: {
+                                    multiple_choice: [],
+                                    short_answer: []
+                                }
+                            };
+                            
+                            studentAssignments.push(studentAssignment);
+                        });
+                    }
+                });
+                
+                // Save to localStorage (in production, this would save to Supabase)
+                localStorage.setItem('studentAssignments', JSON.stringify(studentAssignments));
+                
+                // Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                console.log(`Assignment sent to ${assignmentData.assignedRosters.length} roster(s)`);
+                
+            } catch (error) {
+                console.error('Error sending assignment to students:', error);
+                throw error;
+            }
+        }
+
+        async function saveAssignmentToPersonalCloud(assignmentData) {
+            try {
+                // Get teacher info (in production, this would come from authentication)
+                const teacherId = localStorage.getItem('teacherId') || 'demo-teacher';
+                
+                // Load teacher's personal assignments
+                const personalAssignments = JSON.parse(localStorage.getItem(`teacherAssignments_${teacherId}`) || '[]');
+                
+                // Add new assignment
+                personalAssignments.push(assignmentData);
+                
+                // Save to localStorage (in production, this would save to Supabase)
+                localStorage.setItem(`teacherAssignments_${teacherId}`, JSON.stringify(personalAssignments));
+                
+                // Simulate cloud save delay
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                console.log('Assignment saved to personal cloud storage');
+                
+            } catch (error) {
+                console.error('Error saving to personal cloud:', error);
+                throw error;
+            }
         }
 
         function previewAssignment() {
