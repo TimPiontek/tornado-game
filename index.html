@@ -2228,39 +2228,7 @@
             </div>
           </div>
 
-          <!-- Create Assignment Card -->
-          <div style="
-            background: #fff;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            text-align: center;
-            flex: 1;
-            min-width: 280px;
-            max-width: 350px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 2px solid transparent;
-          " 
-          id="assignmentCard"
-          onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 40px rgba(0,0,0,0.15)'"
-          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 32px rgba(0,0,0,0.1)'"
-          onclick="createAssignment()">
-            <div style="font-size: 4rem; margin-bottom: 1rem;">📋</div>
-            <h2 style="color: #6f5c91; margin: 0 0 0.75rem 0; font-size: 1.5rem;">Create Assignment</h2>
-            <p style="color: #666; line-height: 1.4; margin: 0 0 1.25rem 0; font-size: 0.9rem;">
-              Create assignments with multiple choice and short answer questions. 
-              Assign to multiple classes and auto-grade student submissions.
-            </p>
-            <div style="
-              background: #6f5c91;
-              color: white;
-              padding: 0.8rem 1.5rem;
-              border-radius: 8px;
-              font-weight: 600;
-              display: inline-block;
-            ">Create Assignment</div>
-          </div>
+          <!-- Removed Create Assignment card; functionality moved to navbar -->
           </div>
         </div>
       </div>
@@ -3243,7 +3211,10 @@ The Beatles
               // Teacher is logged in - show teacher navigation
               navLinks.innerHTML += `
                 <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
-                <a href="/teacher-assignments-manage.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Assignments</a>
+                <span style="display:inline-flex;gap:6px;align-items:center;">
+                  <a href="/teacher-assignments-manage.html" style="color:#fff;text-decoration:none;padding:0.3em 0.7em;border-radius:6px;">📋 Assignments</a>
+                  <a href="/teacher-assignments-manage.html#create" style="background:#10b981;color:#fff;text-decoration:none;padding:0.3em 0.6em;border-radius:6px;">+ Create</a>
+                </span>
                 <button id="loginLogoutBtn" class="login-btn">Logout</button>
               `;
             } else {
@@ -3267,18 +3238,6 @@ The Beatles
                   showAuthModal();
                 }
               };
-            }
-            
-            // Update content visibility (show/hide Create Assignment card)
-            const createAssignmentCard = document.getElementById('assignmentCard');
-            if (createAssignmentCard) {
-              if (session && session.user) {
-                // Teacher is logged in - show Create Assignment card
-                createAssignmentCard.style.display = 'block';
-              } else {
-                // Not logged in - hide Create Assignment card
-                createAssignmentCard.style.display = 'none';
-              }
             }
             
           } catch (error) {
@@ -4353,7 +4312,10 @@ The Beatles
             // Teacher navigation (teacher takes priority over student)
             navLinks.innerHTML += `
               <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
-              <a href="/teacher-assignments-manage.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Assignments</a>
+              <span style="display:inline-flex;gap:6px;align-items:center;">
+                <a href="/teacher-assignments-manage.html" style="color:#fff;text-decoration:none;padding:0.3em 0.7em;border-radius:6px;">📋 Assignments</a>
+                <a href="/teacher-assignments-manage.html#create" style="background:#10b981;color:#fff;text-decoration:none;padding:0.3em 0.6em;border-radius:6px;">+ Create</a>
+              </span>
               <button id="loginLogoutBtn" class="login-btn">Logout</button>
             `;
           } else if (isStudent && !isTeacher) {
@@ -4392,25 +4354,7 @@ The Beatles
         }
 
         function updateContentVisibility(isTeacher, isStudent) {
-          // Hide/show Create Assignment card based on teacher status
-          const createAssignmentCard = document.getElementById('assignmentCard');
-          
-          if (createAssignmentCard) {
-            createAssignmentCard.style.display = isTeacher ? 'block' : 'none';
-          }
-          
-          // Adjust grid layout for remaining cards
-          const gameCardsContainer = document.querySelector('.game-cards') || 
-                                   document.querySelector('.game-grid') ||
-                                   document.querySelector('[class*="grid"]');
-          
-          if (gameCardsContainer) {
-            if (isTeacher) {
-              gameCardsContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
-            } else {
-              gameCardsContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
-            }
-          }
+          // Nothing to toggle now that assignment card is removed
         }
 
         // === LOGIN BUTTON STATE ===
