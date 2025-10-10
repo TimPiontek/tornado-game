@@ -153,11 +153,17 @@
   // Load game data from localStorage
   function loadGameData() {
     const savedRosters = localStorage.getItem('businessRosters');
+    console.log('[DEBUG] Saved rosters from localStorage:', savedRosters);
+    
     if (savedRosters) {
       const rosters = JSON.parse(savedRosters);
+      console.log('[DEBUG] Parsed rosters:', rosters);
+      
       if (rosters.length > 0) {
-        businessState.employees = rosters[0].roster || [];
+        // Handle both 'roster' and 'employees' property names for compatibility
+        businessState.employees = rosters[0].roster || rosters[0].employees || [];
         businessState.currentGame = { name: rosters[0].name, managerCode: 'DEMO' };
+        console.log('[DEBUG] Loaded employees:', businessState.employees);
       }
     }
     
@@ -187,10 +193,14 @@
     const selector = document.getElementById('rosterSelect');
     const savedRosters = localStorage.getItem('businessRosters');
     
+    console.log('[DEBUG] Loading roster selector, saved rosters:', savedRosters);
+    
     selector.innerHTML = '<option value="">Choose a roster...</option>';
     
     if (savedRosters) {
       const rosters = JSON.parse(savedRosters);
+      console.log('[DEBUG] Adding rosters to selector:', rosters);
+      
       rosters.forEach(roster => {
         const option = document.createElement('option');
         option.value = roster.id;
@@ -213,7 +223,8 @@
       const selectedRoster = rosters.find(r => r.id === selectedId);
       
       if (selectedRoster) {
-        businessState.employees = selectedRoster.roster || [];
+        // Handle both 'roster' and 'employees' property names for compatibility
+        businessState.employees = selectedRoster.roster || selectedRoster.employees || [];
         businessState.currentGame = { name: selectedRoster.name, managerCode: 'DEMO' };
         
         // Reinitialize board with new employees
