@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://dmbbsrcwqpmdxqtzvtqj.supabase.co; object-src 'none';">
   <title>Tornado Business – Manager Dashboard</title>
   <style>
     :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
@@ -139,7 +140,8 @@
     <div class="section">
       <div class="title">Employees</div>
       <div style="display:grid; gap:6px; margin-bottom:6px;">
-        <textarea id="rosterPaste" placeholder="Paste employee names (one per line)" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--panel); color:var(--text); min-height:80px"></textarea>
+        <label for="rosterPaste" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Employee Names:</label>
+        <textarea id="rosterPaste" name="rosterPaste" placeholder="Paste employee names (one per line)" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--panel); color:var(--text); min-height:80px"></textarea>
         <button class="pill" onclick="createRosterFromPaste()" style="background:#22c55e;color:#fff">Create/Update Roster</button>
         <div class="minor">Manager Code: <span id="managerCodeDisplay">—</span> <button class="pill" onclick="copyManagerCode()">Copy</button></div>
         
@@ -182,11 +184,11 @@
       <div class="title">Game Settings</div>
       <div style="margin-bottom: 8px;">
         <label style="display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px;">Game Name:</label>
-        <input type="text" id="gameName" placeholder="Q4 Performance Challenge" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
+        <input type="text" id="gameName" name="gameName" placeholder="Q4 Performance Challenge" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
       </div>
       <div style="margin-bottom: 8px;">
         <label style="display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px;">Manager Code:</label>
-        <input type="text" id="managerCode" placeholder="DEMO" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
+        <input type="text" id="managerCode" name="managerCode" placeholder="DEMO" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
       </div>
       <button class="pill" onclick="saveGameSettings()" style="background: #3b82f6; color: white; font-size: 11px; width: 100%;">Save Settings</button>
     </div>
@@ -234,7 +236,8 @@
         <div class="section">
           <div class="title">Recognition Feed</div>
           <div style="display:grid; gap:6px; margin-bottom:8px;">
-            <input id="recogText" placeholder="Praise a teammate (e.g., Alice closed ACME!)" style="width:100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text); font-size: 12px;" />
+            <label for="recogText" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Recognition Message:</label>
+            <input id="recogText" name="recogText" placeholder="Praise a teammate (e.g., Alice closed ACME!)" style="width:100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text); font-size: 12px;" />
             <button class="pill" onclick="postRecognition()" style="background:#22c55e;color:#fff">Post Recognition</button>
           </div>
           <div id="recognitionFeed" style="max-height: 260px; overflow:auto; border:1px solid var(--border); border-radius:8px; padding:8px;">
@@ -366,11 +369,15 @@
       <div id="tab-quests" class="business-tab-panel">
         <div class="title">Quests</div>
         <div style="display:grid; gap:8px; margin-bottom:8px;">
-          <input id="qTitle" placeholder="Quest title (e.g., Friday Wrap-Up Calls)" />
-          <textarea id="qBody" placeholder="Quest description..." style="min-height:90px"></textarea>
+          <label for="qTitle" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Quest Title:</label>
+          <input id="qTitle" name="qTitle" placeholder="Quest title (e.g., Friday Wrap-Up Calls)" />
+          <label for="qBody" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Quest Description:</label>
+          <textarea id="qBody" name="qBody" placeholder="Quest description..." style="min-height:90px"></textarea>
           <div class="grid2">
-            <input id="qPoints" type="number" placeholder="Points (e.g., 25)" />
-            <select id="qAudience"><option value="all">All Employees</option><option value="team:Alpha">Team: Alpha</option><option value="team:Beta">Team: Beta</option><option value="team:Gamma">Team: Gamma</option></select>
+            <label for="qPoints" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Points:</label>
+            <input id="qPoints" name="qPoints" type="number" placeholder="Points (e.g., 25)" />
+            <label for="qAudience" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Audience:</label>
+            <select id="qAudience" name="qAudience"><option value="all">All Employees</option><option value="team:Alpha">Team: Alpha</option><option value="team:Beta">Team: Beta</option><option value="team:Gamma">Team: Gamma</option></select>
           </div>
           <div class="grid2">
             <select id="qType">
