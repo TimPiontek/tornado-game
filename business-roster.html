@@ -47,7 +47,7 @@
           if (!rosterMap[gameId]) {
             rosterMap[gameId] = {
               id: gameId,
-              name: `Game ${gameId}`,
+              name: emp.game_name || `Game ${gameId}`,
               employees: []
             };
           }
@@ -58,6 +58,9 @@
         renderRosters();
       } catch (error) {
         console.error('Load rosters error:', error);
+        // Initialize with empty rosters if no data
+        rosters = [];
+        renderRosters();
       }
     }
 
@@ -129,9 +132,13 @@
 
           <div style="margin-bottom:16px;">
             <label style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Add Employee:</label>
-            <div style="display:flex; gap:8px;">
+            <div style="display:flex; gap:8px; margin-bottom:8px;">
               <input type="text" id="newEmployeeName" placeholder="Employee name" style="flex:1;">
               <button class="btn btn-primary" onclick="addEmployee()">Add</button>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <textarea id="bulkEmployeeNames" placeholder="Add multiple employees (one per line):&#10;John Smith&#10;Jane Doe&#10;Mike Johnson" style="height:80px; resize:vertical; flex:1;"></textarea>
+              <button class="btn btn-success" onclick="addBulkEmployees()">Add All</button>
             </div>
           </div>
 
@@ -194,12 +201,16 @@
 
     async function addEmployee() {
       const name = document.getElementById('newEmployeeName').value.trim();
-      if (!name) return;
+      if (!name) {
+        alert('Please enter an employee name');
+        return;
+      }
 
       try {
         const { data } = await supabase.from('employees').insert({
           name,
           game_id: currentRoster.id,
+          game_name: currentRoster.name,
           team: teamMode === 'individual' ? null : getTeamOptions()[0],
           points: 100,
           credits: 0
@@ -208,9 +219,47 @@
         currentRoster.employees.push(data);
         document.getElementById('newEmployeeName').value = '';
         loadRosterDetails();
+        alert('Employee added successfully!');
       } catch (error) {
         console.error('Add employee error:', error);
         alert('Failed to add employee: ' + error.message);
+      }
+    }
+
+    async function addBulkEmployees() {
+      const bulkText = document.getElementById('bulkEmployeeNames').value.trim();
+      if (!bulkText) {
+        alert('Please enter employee names (one per line)');
+        return;
+      }
+
+      const names = bulkText.split('\n').map(name => name.trim()).filter(name => name.length > 0);
+      if (names.length === 0) {
+        alert('No valid names found');
+        return;
+      }
+
+      if (!confirm(`Add ${names.length} employees to this roster?`)) return;
+
+      try {
+        const employeesToAdd = names.map(name => ({
+          name,
+          game_id: currentRoster.id,
+          game_name: currentRoster.name,
+          team: teamMode === 'individual' ? null : getTeamOptions()[0],
+          points: 100,
+          credits: 0
+        }));
+
+        const { data } = await supabase.from('employees').insert(employeesToAdd).select();
+        
+        currentRoster.employees.push(...data);
+        document.getElementById('bulkEmployeeNames').value = '';
+        loadRosterDetails();
+        alert(`Successfully added ${data.length} employees!`);
+      } catch (error) {
+        console.error('Add bulk employees error:', error);
+        alert('Failed to add employees: ' + error.message);
       }
     }
 
@@ -273,26 +322,18 @@
       try {
         const gameId = 'game_' + Date.now();
         
-        // Create a sample employee to establish the roster
-        const { data } = await supabase.from('employees').insert({
-          name: 'Sample Employee',
-          game_id: gameId,
-          game_name: name,
-          team: null,
-          points: 100,
-          credits: 0
-        }).select().single();
-
+        // Create roster without sample employee - just add to rosters array
         const newRoster = {
           id: gameId,
           name: name,
-          employees: [data]
+          employees: []
         };
 
         rosters.push(newRoster);
         document.getElementById('newRosterName').value = '';
         renderRosters();
         selectRoster(gameId);
+        alert('Roster created successfully! Add employees to get started.');
       } catch (error) {
         console.error('Create roster error:', error);
         alert('Failed to create roster: ' + error.message);
@@ -303,11 +344,17 @@
       if (!confirm('Delete this roster and all employees? This cannot be undone.')) return;
 
       try {
-        await supabase.from('employees').delete().eq('game_id', id);
+        // Delete employees from database if they exist
+        const roster = rosters.find(r => r.id === id);
+        if (roster && roster.employees.length > 0) {
+          await supabase.from('employees').delete().eq('game_id', id);
+        }
+        
         rosters = rosters.filter(r => r.id !== id);
         currentRoster = null;
         renderRosters();
         loadRosterDetails();
+        alert('Roster deleted successfully!');
       } catch (error) {
         console.error('Delete roster error:', error);
         alert('Failed to delete roster: ' + error.message);
