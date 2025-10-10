@@ -1,0 +1,554 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tornado Business – Data Attribution</title>
+  <style>
+    :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
+    * { box-sizing: border-box }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    header { position:sticky; top:0; z-index:2; background:#0d1628cc; border-bottom:1px solid var(--border); }
+    .bar { display:flex; gap:8px; align-items:center; padding:12px 16px }
+    .wrap { max-width:1200px; margin:0 auto; padding:16px }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px }
+    .card { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:16px }
+    .btn { padding:8px 12px; border:1px solid var(--border); border-radius:10px; background:#0b1932; color:#fff; cursor:pointer; font-size:12px }
+    .btn-primary { background:#3b82f6; }
+    .btn-success { background:#059669; }
+    .btn-danger { background:#dc2626; }
+    .status { font-size:11px; color:var(--muted); text-transform:uppercase; }
+    .attribution-item { border:1px solid var(--border); border-radius:8px; padding:12px; margin-bottom:8px; }
+    .attribution-item.unattributed { border-color:#f59e0b; background:#1c1917; }
+    .attribution-item.attributed { border-color:#059669; background:#064e3b; }
+    .points-input { width:80px; padding:4px 8px; border:1px solid var(--border); border-radius:6px; background:#081125; color:#e5e7eb; }
+    .select-employee { padding:4px 8px; border:1px solid var(--border); border-radius:6px; background:#081125; color:#e5e7eb; }
+    .tabs { display:flex; gap:8px; margin-bottom:16px; }
+    .tab { padding:8px 16px; border:1px solid var(--border); border-radius:8px; background:var(--panel); color:var(--text); cursor:pointer; }
+    .tab.active { background:#3b82f6; color:#fff; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="lib/dataSync.js"></script>
+  <script>
+    const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+    const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    let currentTab = 'unattributed';
+    let employees = [];
+    let unattributedData = [];
+    let attributedData = [];
+
+    async function loadData() {
+      try {
+        // Load employees
+        const { data: empData } = await supabase.from('employees').select('*');
+        employees = empData || [];
+        
+        // Load unattributed data (score events without employee_id)
+        const { data: unattributed } = await supabase.from('score_events')
+          .select('*')
+          .is('employee_id', null)
+          .order('created_at', { ascending: false });
+        unattributedData = unattributed || [];
+        
+        // Load attributed data (score events with employee_id)
+        const { data: attributed } = await supabase.from('score_events')
+          .select('*, employees(name, team)')
+          .not('employee_id', 'is', null)
+          .order('created_at', { ascending: false })
+          .limit(50);
+        attributedData = attributed || [];
+        
+        renderData();
+      } catch (error) {
+        console.error('Load data error:', error);
+      }
+    }
+
+    function renderData() {
+      const container = document.getElementById('dataContainer');
+      
+      if (currentTab === 'unattributed') {
+        renderUnattributedData(container);
+      } else if (currentTab === 'attributed') {
+        renderAttributedData(container);
+      } else if (currentTab === 'bulk') {
+        renderBulkAttribution(container);
+      }
+    }
+
+    function renderUnattributedData(container) {
+      if (unattributedData.length === 0) {
+        container.innerHTML = '<div class="card"><div style="text-align:center; color:var(--muted);">No unattributed data</div></div>';
+        return;
+      }
+
+      const html = unattributedData.map(item => {
+        const source = item.source || 'unknown';
+        const value = item.value || 0;
+        const metric = item.metric_name || 'Unknown Metric';
+        const date = new Date(item.created_at).toLocaleDateString();
+        
+        return `
+          <div class="attribution-item unattributed">
+            <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:8px;">
+              <div>
+                <div style="font-weight:600;">${metric}</div>
+                <div style="font-size:12px; color:var(--muted);">${source} • ${date}</div>
+                <div style="font-size:12px; color:var(--accent);">Value: ${value}</div>
+              </div>
+              <div class="status">Unattributed</div>
+            </div>
+            
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <select class="select-employee" id="employee_${item.id}">
+                <option value="">Select Employee</option>
+                ${employees.map(emp => `<option value="${emp.id}">${emp.name} (${emp.team || 'Individual'})</option>`).join('')}
+              </select>
+              
+              <input type="number" class="points-input" id="points_${item.id}" placeholder="Points" value="${item.points || 0}">
+              
+              <button class="btn btn-success" onclick="attributeData('${item.id}')">✓ Attribute</button>
+              <button class="btn btn-danger" onclick="deleteData('${item.id}')">✗ Delete</button>
+            </div>
+            
+            ${item.metadata ? `<div style="font-size:11px; color:var(--muted); margin-top:8px;">${JSON.stringify(item.metadata)}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = html;
+    }
+
+    function renderAttributedData(container) {
+      if (attributedData.length === 0) {
+        container.innerHTML = '<div class="card"><div style="text-align:center; color:var(--muted);">No attributed data</div></div>';
+        return;
+      }
+
+      const html = attributedData.map(item => {
+        const source = item.source || 'unknown';
+        const value = item.value || 0;
+        const metric = item.metric_name || 'Unknown Metric';
+        const date = new Date(item.created_at).toLocaleDateString();
+        const employee = item.employees?.name || 'Unknown';
+        const team = item.employees?.team || 'Individual';
+        const points = item.points || 0;
+        
+        return `
+          <div class="attribution-item attributed">
+            <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:8px;">
+              <div>
+                <div style="font-weight:600;">${metric}</div>
+                <div style="font-size:12px; color:var(--muted);">${source} • ${date}</div>
+                <div style="font-size:12px; color:var(--accent);">Value: ${value} • Points: ${points}</div>
+                <div style="font-size:12px; color:#22c55e;">→ ${employee} (${team})</div>
+              </div>
+              <div class="status">Attributed</div>
+            </div>
+            
+            <div style="display:flex; gap:8px; align-items:center;">
+              <button class="btn" onclick="reattributeData('${item.id}')">↻ Re-attribute</button>
+              <button class="btn btn-danger" onclick="deleteData('${item.id}')">✗ Delete</button>
+            </div>
+            
+            ${item.metadata ? `<div style="font-size:11px; color:var(--muted); margin-top:8px;">${JSON.stringify(item.metadata)}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = html;
+    }
+
+    async function attributeData(itemId) {
+      const employeeSelect = document.getElementById(`employee_${itemId}`);
+      const pointsInput = document.getElementById(`points_${itemId}`);
+      
+      const employeeId = employeeSelect.value;
+      const points = parseInt(pointsInput.value) || 0;
+      
+      if (!employeeId) {
+        alert('Please select an employee');
+        return;
+      }
+
+      try {
+        // Update the score event with employee_id and points
+        await supabase.from('score_events')
+          .update({ 
+            employee_id: employeeId,
+            points: points,
+            attributed_at: new Date().toISOString(),
+            attributed_by: 'manager'
+          })
+          .eq('id', itemId);
+
+        // Update employee points
+        const employee = employees.find(e => e.id === employeeId);
+        if (employee) {
+          const newPoints = (employee.points || 0) + points;
+          await supabase.from('employees')
+            .update({ points: newPoints })
+            .eq('id', employeeId);
+        }
+
+        alert('Data attributed successfully!');
+        await loadData();
+      } catch (error) {
+        console.error('Attribution error:', error);
+        alert('Failed to attribute data: ' + error.message);
+      }
+    }
+
+    async function reattributeData(itemId) {
+      const item = attributedData.find(i => i.id === itemId);
+      if (!item) return;
+
+      const newEmployeeId = prompt('Enter new employee ID (or leave blank to unattribute):');
+      const newPoints = prompt('Enter new points:', item.points || 0);
+
+      if (newEmployeeId === null) return; // User cancelled
+
+      try {
+        if (newEmployeeId === '') {
+          // Unattribute
+          await supabase.from('score_events')
+            .update({ 
+              employee_id: null,
+              attributed_at: null,
+              attributed_by: null
+            })
+            .eq('id', itemId);
+        } else {
+          // Re-attribute to new employee
+          const points = parseInt(newPoints) || 0;
+          
+          // Remove points from old employee
+          if (item.employee_id) {
+            const oldEmployee = employees.find(e => e.id === item.employee_id);
+            if (oldEmployee) {
+              const oldPoints = Math.max(0, (oldEmployee.points || 0) - (item.points || 0));
+              await supabase.from('employees')
+                .update({ points: oldPoints })
+                .eq('id', item.employee_id);
+            }
+          }
+
+          // Add points to new employee
+          const newEmployee = employees.find(e => e.id === newEmployeeId);
+          if (newEmployee) {
+            const newEmployeePoints = (newEmployee.points || 0) + points;
+            await supabase.from('employees')
+              .update({ points: newEmployeePoints })
+              .eq('id', newEmployeeId);
+          }
+
+          await supabase.from('score_events')
+            .update({ 
+              employee_id: newEmployeeId,
+              points: points,
+              attributed_at: new Date().toISOString(),
+              attributed_by: 'manager'
+            })
+            .eq('id', itemId);
+        }
+
+        alert('Data re-attributed successfully!');
+        await loadData();
+      } catch (error) {
+        console.error('Re-attribution error:', error);
+        alert('Failed to re-attribute data: ' + error.message);
+      }
+    }
+
+    async function deleteData(itemId) {
+      if (!confirm('Are you sure you want to delete this data?')) return;
+
+      try {
+        await supabase.from('score_events')
+          .delete()
+          .eq('id', itemId);
+
+        alert('Data deleted successfully!');
+        await loadData();
+      } catch (error) {
+        console.error('Delete error:', error);
+        alert('Failed to delete data: ' + error.message);
+      }
+    }
+
+    function renderBulkAttribution(container) {
+      const html = `
+        <div class="card">
+          <h3>Bulk Attribution Rules</h3>
+          <p>Create rules to automatically attribute data based on conditions.</p>
+          <div style="display:grid; gap:12px; margin-top:16px;">
+            <div>
+              <label style="display:block; margin-bottom:4px; font-size:12px;">Source</label>
+              <select id="bulkSource" class="select-employee">
+                <option value="">All Sources</option>
+                <option value="salesforce">Salesforce</option>
+                <option value="hubspot">HubSpot</option>
+                <option value="csv">CSV Upload</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block; margin-bottom:4px; font-size:12px;">Metric Contains</label>
+              <input type="text" id="bulkMetric" placeholder="e.g., Opportunity" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:#081125; color:#e5e7eb;">
+            </div>
+            <div>
+              <label style="display:block; margin-bottom:4px; font-size:12px;">Assign to Employee</label>
+              <select id="bulkEmployee" class="select-employee">
+                <option value="">Select Employee</option>
+                ${employees.map(emp => `<option value="${emp.id}">${emp.name} (${emp.team || 'Individual'})</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label style="display:block; margin-bottom:4px; font-size:12px;">Points per Item</label>
+              <input type="number" id="bulkPoints" placeholder="10" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:#081125; color:#e5e7eb;">
+            </div>
+            <button class="btn btn-success" onclick="applyBulkAttribution()">Apply Bulk Attribution</button>
+          </div>
+        </div>
+        
+        <div class="card">
+          <h3>Quick Actions</h3>
+          <div style="display:grid; gap:8px;">
+            <button class="btn" onclick="attributeAllSalesforce()">Attribute All Salesforce Data</button>
+            <button class="btn" onclick="attributeAllHubSpot()">Attribute All HubSpot Data</button>
+            <button class="btn btn-danger" onclick="clearAllAttributions()">Clear All Attributions</button>
+          </div>
+        </div>
+      `;
+      
+      container.innerHTML = html;
+    }
+
+    async function applyBulkAttribution() {
+      const source = document.getElementById('bulkSource').value;
+      const metricContains = document.getElementById('bulkMetric').value;
+      const employeeId = document.getElementById('bulkEmployee').value;
+      const points = parseInt(document.getElementById('bulkPoints').value) || 0;
+      
+      if (!employeeId) {
+        alert('Please select an employee');
+        return;
+      }
+
+      try {
+        let query = supabase.from('score_events').select('*').is('employee_id', null);
+        
+        if (source) {
+          query = query.eq('source', source);
+        }
+        
+        const { data: items } = await query;
+        
+        if (!items?.length) {
+          alert('No matching unattributed data found');
+          return;
+        }
+
+        const filteredItems = items.filter(item => {
+          if (metricContains && !item.metric_name?.includes(metricContains)) {
+            return false;
+          }
+          return true;
+        });
+
+        if (filteredItems.length === 0) {
+          alert('No items match the criteria');
+          return;
+        }
+
+        if (!confirm(`Attribute ${filteredItems.length} items to selected employee?`)) {
+          return;
+        }
+
+        // Update all matching items
+        for (const item of filteredItems) {
+          await supabase.from('score_events')
+            .update({
+              employee_id: employeeId,
+              points: points,
+              attributed_at: new Date().toISOString(),
+              attributed_by: 'bulk'
+            })
+            .eq('id', item.id);
+        }
+
+        // Update employee points
+        const employee = employees.find(e => e.id === employeeId);
+        if (employee) {
+          const totalPoints = filteredItems.length * points;
+          const newPoints = (employee.points || 0) + totalPoints;
+          await supabase.from('employees')
+            .update({ points: newPoints })
+            .eq('id', employeeId);
+        }
+
+        alert(`Successfully attributed ${filteredItems.length} items!`);
+        await loadData();
+      } catch (error) {
+        console.error('Bulk attribution error:', error);
+        alert('Failed to apply bulk attribution: ' + error.message);
+      }
+    }
+
+    async function attributeAllSalesforce() {
+      if (!confirm('Attribute all unattributed Salesforce data to employees? This will use default point values.')) return;
+      
+      try {
+        const { data: items } = await supabase.from('score_events')
+          .select('*')
+          .is('employee_id', null)
+          .eq('source', 'salesforce');
+        
+        if (!items?.length) {
+          alert('No unattributed Salesforce data found');
+          return;
+        }
+
+        // Simple round-robin assignment
+        for (let i = 0; i < items.length; i++) {
+          const employee = employees[i % employees.length];
+          const points = items[i].points || 10;
+          
+          await supabase.from('score_events')
+            .update({
+              employee_id: employee.id,
+              points: points,
+              attributed_at: new Date().toISOString(),
+              attributed_by: 'bulk_salesforce'
+            })
+            .eq('id', items[i].id);
+
+          // Update employee points
+          const newPoints = (employee.points || 0) + points;
+          await supabase.from('employees')
+            .update({ points: newPoints })
+            .eq('id', employee.id);
+        }
+
+        alert(`Attributed ${items.length} Salesforce items!`);
+        await loadData();
+      } catch (error) {
+        console.error('Salesforce attribution error:', error);
+        alert('Failed to attribute Salesforce data: ' + error.message);
+      }
+    }
+
+    async function attributeAllHubSpot() {
+      if (!confirm('Attribute all unattributed HubSpot data to employees? This will use default point values.')) return;
+      
+      try {
+        const { data: items } = await supabase.from('score_events')
+          .select('*')
+          .is('employee_id', null)
+          .eq('source', 'hubspot');
+        
+        if (!items?.length) {
+          alert('No unattributed HubSpot data found');
+          return;
+        }
+
+        // Simple round-robin assignment
+        for (let i = 0; i < items.length; i++) {
+          const employee = employees[i % employees.length];
+          const points = items[i].points || 10;
+          
+          await supabase.from('score_events')
+            .update({
+              employee_id: employee.id,
+              points: points,
+              attributed_at: new Date().toISOString(),
+              attributed_by: 'bulk_hubspot'
+            })
+            .eq('id', items[i].id);
+
+          // Update employee points
+          const newPoints = (employee.points || 0) + points;
+          await supabase.from('employees')
+            .update({ points: newPoints })
+            .eq('id', employee.id);
+        }
+
+        alert(`Attributed ${items.length} HubSpot items!`);
+        await loadData();
+      } catch (error) {
+        console.error('HubSpot attribution error:', error);
+        alert('Failed to attribute HubSpot data: ' + error.message);
+      }
+    }
+
+    async function clearAllAttributions() {
+      if (!confirm('Clear all attributions? This will remove employee assignments but keep the data.')) return;
+      
+      try {
+        await supabase.from('score_events')
+          .update({
+            employee_id: null,
+            attributed_at: null,
+            attributed_by: null
+          })
+          .not('employee_id', 'is', null);
+
+        alert('All attributions cleared!');
+        await loadData();
+      } catch (error) {
+        console.error('Clear attributions error:', error);
+        alert('Failed to clear attributions: ' + error.message);
+      }
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(`tab_${tab}`).classList.add('active');
+      renderData();
+    }
+
+    async function syncNewData() {
+      try {
+        const dataSyncService = new DataSyncService(supabase);
+        const results = await dataSyncService.syncAllIntegrations();
+        
+        alert(`Sync completed! ${results.length} integrations processed.`);
+        await loadData();
+      } catch (error) {
+        console.error('Sync error:', error);
+        alert('Sync failed: ' + error.message);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadData);
+  </script>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <h1 style="margin:0; font-size:18px;">🎯 Data Attribution</h1>
+      <div style="flex:1"></div>
+      <button class="btn btn-primary" onclick="syncNewData()">🔄 Sync New Data</button>
+      <button class="btn" onclick="window.location.href='business-home.html'">← Manager Hub</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="tabs">
+      <div id="tab_unattributed" class="tab active" onclick="switchTab('unattributed')">
+        Unattributed Data (${unattributedData.length})
+      </div>
+      <div id="tab_attributed" class="tab" onclick="switchTab('attributed')">
+        Attributed Data (${attributedData.length})
+      </div>
+      <div id="tab_bulk" class="tab" onclick="switchTab('bulk')">
+        Bulk Attribution
+      </div>
+    </div>
+
+    <div id="dataContainer" class="grid"></div>
+  </div>
+</body>
+</html>
