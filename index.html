@@ -1580,7 +1580,6 @@
       .custom-quiz-folderlist li:hover {
         background: #e6e6fa;
       }
-
       /* Add styles for the unified card and grid */
       .setup-unified-card {
         background: #fff;
@@ -1985,7 +1984,6 @@
       #grid.active-team-F { border: 3px solid #96ceb4; }
     </style>
   </head>
-
   <body>
     <!-- NAVIGATION BAR -->
     <nav
@@ -2199,6 +2197,34 @@
             ">Start Quiz Game</div>
           </div>
 
+          <!-- Business Mode Card -->
+          <div style="
+            background: #fff;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;"
+            onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 40px rgba(0,0,0,0.15)'"
+            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 32px rgba(0,0,0,0.1)'"
+            onclick="window.location.href='business-home.html'">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🏢</div>
+            <h2 style="color: #6f5c91; margin: 0 0 0.75rem 0; font-size: 1.5rem;">Tornado Business</h2>
+            <p style="color: #666; line-height: 1.4; margin: 0 0 1.25rem 0; font-size: 0.9rem;">
+              Manager tools for the workplace version: rosters, metrics, announcements,
+              quests and the Business War + Quiz games.
+            </p>
+            <div style="
+              background: #6f5c91;
+              color: white;
+              padding: 0.8rem 1.5rem;
+              border-radius: 8px;
+              font-weight: 600;
+              display: inline-block;">
+              Open Business Hub
+            </div>
+          </div>
+
           <!-- Create Assignment Card -->
           <div style="
             background: #fff;
@@ -2390,7 +2416,6 @@
 Boston
 Which band wrote the song 'Hey Jude'?
 The Beatles
-
 (Leave empty to play grid-only mode!)"
                     ></textarea>
                   </div>
