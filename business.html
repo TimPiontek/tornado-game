@@ -341,7 +341,72 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+  const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+  const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+  async function saveCloudActivity(action, detail) {
+    try {
+      if (!businessState.currentGame) return;
+      const payload = Array.isArray(detail) ? detail : { ...(detail||{}) };
+      await supabase.from('activity_feed').insert({
+        game_id: businessState.currentGame.id || businessState.currentGame.managerCode,
+        actor_id: businessState.selectedEmployee?.id || 'manager',
+        action,
+        detail: payload
+      });
+    } catch (e) { console.warn('[cloud] activity save failed', e); }
+  }
+
+  async function saveCloudGame() {
+    try {
+      if (!businessState.currentGame) return;
+      // upsert game
+      const { data: g } = await supabase.from('games').upsert({
+        id: businessState.currentGame.id,
+        code: businessState.currentGame.managerCode,
+        name: businessState.currentGame.name,
+        scenario: businessState.currentGame.scenario,
+        starting_points: businessState.currentGame.startingPoints,
+        board_w: businessState.board?.w,
+        board_h: businessState.board?.h
+      }).select().single();
+      if (g && !businessState.currentGame.id) businessState.currentGame.id = g.id;
+
+      // upsert employees
+      if (businessState.employees?.length) {
+        const rows = businessState.employees.map(e => ({
+          id: e.id, game_id: businessState.currentGame.id || businessState.currentGame.managerCode,
+          name: e.name, team: e.team, points: e.points||0, credits: e.credits||0, balance: e.balance||0
+        }));
+        await supabase.from('employees').upsert(rows);
+      }
+
+      // upsert tiles (bulk)
+      if (businessState.board?.tiles?.length) {
+        const rows = businessState.board.tiles.map(t => ({
+          game_id: businessState.currentGame.id || businessState.currentGame.managerCode,
+          tile_id: t.id, x: t.x, y: t.y, owner_employee_id: t.owner, is_headquarters: !!t.isHeadquarters, cost: t.cost
+        }));
+        await supabase.from('tiles').upsert(rows, { onConflict: 'game_id,tile_id' });
+      }
+    } catch (e) { console.warn('[cloud] game save failed', e); }
+  }
+
+  async function saveCloudMetrics() {
+    try {
+      if (!businessState.currentGame) return;
+      const entries = Object.entries(businessState.teamMetrics||{}).map(([key, m]) => ({
+        game_id: businessState.currentGame.id || businessState.currentGame.managerCode,
+        key, name: key, unit: m.unit||'', target: m.target||0, current: m.current||0
+      }));
+      if (entries.length) await supabase.from('metrics').upsert(entries, { onConflict: 'game_id,key' });
+    } catch (e) { console.warn('[cloud] metrics save failed', e); }
+  }
+
   // Business Mode State
   let businessState = {
     currentGame: null,
@@ -488,6 +553,9 @@
 
   function saveGameData() {
     localStorage.setItem('businessGame', JSON.stringify(businessState));
+    // best-effort cloud persist
+    saveCloudGame();
+    saveCloudMetrics();
   }
 
   function setupEventListeners() {
@@ -692,6 +760,7 @@
       updateGridDisplay();
       updateEmployeeDisplay();
       saveGameData();
+      saveCloudActivity('purchase_tile', { tileId, cost: tile.cost });
       
       alert(`${businessState.selectedEmployee.name} claimed this tile for ${tile.cost} points! Balance: ${businessState.selectedEmployee.balance}`);
     } else {
@@ -754,6 +823,7 @@
           updateGridDisplay();
           updateEmployeeDisplay();
           saveGameData();
+          saveCloudActivity('attack_success', { tileId: tile.id, attackCost, defender: owner.id });
           
           alert(`🎉 Attack successful! ${businessState.selectedEmployee.name} captured the territory!\nCost: ${attackCost} points`);
         } else {
@@ -763,6 +833,7 @@
           
           updateEmployeeDisplay();
           saveGameData();
+          saveCloudActivity('attack_failed', { tileId: tile.id, attackCost, defender: owner.id });
           
           alert(`💥 Attack failed! ${businessState.selectedEmployee.name} lost ${attackCost} points.\nBetter luck next time!`);
         }
@@ -777,25 +848,28 @@
     document.querySelectorAll('.business-tab').forEach(tab => {
       tab.classList.remove('active');
     });
-    document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-    
-    // Show corresponding panel
     document.querySelectorAll('.business-tab-panel').forEach(panel => {
       panel.classList.remove('active');
     });
-    document.getElementById(`tab-${tabName}`).classList.add('active');
     
-    // Load tab content
-    if (tabName === 'metrics') {
-      loadMetricsTab();
-    } else if (tabName === 'announcements') {
-      loadAnnouncementsTab();
-    } else if (tabName === 'rewards') {
-      loadRewardsTab();
-    } else if (tabName === 'leaderboard') {
-      loadBusinessLeaderboard();
+    const tabButton = document.querySelector(`.business-tab[data-tab="${tabName}"]`);
+    const tabPanel = document.getElementById(`tab-${tabName}`);
+    if (tabButton) tabButton.classList.add('active');
+    if (tabPanel) tabPanel.classList.add('active');
+    
+    // Update URL hash for deep link
+    if (location.hash !== `#${tabName}`) {
+      history.replaceState(null, '', `#${tabName}`);
     }
   }
+  
+  // On load: open tab from hash if present
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabFromHash = (location.hash || '').replace('#','');
+    if (tabFromHash) {
+      switchTab(tabFromHash);
+    }
+  });
 
   function loadMetricsTab() {
     const metricsList = document.getElementById('metricsList');
@@ -1500,3 +1574,4 @@
 </script>
 </body>
 </html>
+

@@ -780,7 +780,6 @@
         overflow: hidden;
         text-shadow: 2px 2px 8px #fff, 0 0 8px #6f5c91;
       }
-
       @keyframes tornadoTextScroll {
         0% {
           transform: translateX(-120%);
@@ -1575,7 +1574,6 @@
         word-break: break-word;
         background: none;
       }
-
       .custom-quiz-quizlist li.selected,
       .custom-quiz-quizlist li:hover,
       .custom-quiz-folderlist li.selected,
@@ -2074,6 +2072,28 @@
           "
           >🎓 Student Login</a
         >
+        <a
+          href="/business-home.html"
+          style="
+            color: #fff;
+            text-decoration: none;
+            padding: 0.3em 0.7em;
+            border-radius: 6px;
+            transition: background 0.2s;
+          "
+          >🏢 Business Home</a
+        >
+        <a
+          href="/business.html"
+          style="
+            color: #fff;
+            text-decoration: none;
+            padding: 0.3em 0.7em;
+            border-radius: 6px;
+            transition: background 0.2s;
+          "
+          >🏢 Business Mode</a
+        >
         <button
           id="loginLogoutBtn"
           style="
@@ -2368,7 +2388,6 @@
                       style="height: 3.8em; resize: vertical;"
                       placeholder="What city is home to Fenway Park?
 Boston
-
 Which band wrote the song 'Hey Jude'?
 The Beatles
 
@@ -3154,7 +3173,6 @@ The Beatles
       </div>
     </div>
     <!-- === END AUTH MODAL === -->
-
     <!-- Move Supabase CDN script and main script block to the end of <body> -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
@@ -3205,6 +3223,7 @@ The Beatles
               navLinks.innerHTML += `
                 <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
                 <a href="/student-login.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🎓 Student Login</a>
+                <a href="/business-home.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🏢 Business Home</a>
                 <a href="/business.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🏢 Business Mode</a>
                 <button id="loginLogoutBtn" class="login-btn">👨‍🏫 Teacher Login</button>
               `;
@@ -3947,7 +3966,6 @@ The Beatles
             showLibrary("my");
           }
         };
-
         window.publishQuizToPublic = async function (quizId) {
           // Get quiz from Supabase
           const { data, error } = await supabaseClient
@@ -4323,6 +4341,7 @@ The Beatles
             navLinks.innerHTML += `
               <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
               <a href="/student-login.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🎓 Student Login</a>
+              <a href="/business-home.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🏢 Business Home</a>
               <a href="/business.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🏢 Business Mode</a>
               <button id="loginLogoutBtn" class="login-btn">👨‍🏫 Teacher Login</button>
             `;
@@ -5428,7 +5447,6 @@ The Beatles
             gridEl.appendChild(btn);
           }
         }
-
         let isResolvingTurn = false;
 
         function handlePick(btn, i) {
@@ -6184,7 +6202,6 @@ The Beatles
             }, 1100);
           }
         }
-
         // Confetti burst function
         function confettiBurst(targetBtn) {
           const effect = document.createElement("div");
@@ -6923,7 +6940,6 @@ The Beatles
             });
           };
         }
-
         // Function to start game with specific settings
         async function startGameWithSettings(quiz, settings) {
           // Set up game state

@@ -89,7 +89,7 @@
     .notification-item:last-child {
       border-bottom: none;
     }
-  </style>
+</style>
 </head>
 <body>
 
@@ -225,6 +225,9 @@
   </div>
 </div>
 
+<!-- Supabase client -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
 <script>
   // Employee-specific state
   let employeeState = {
@@ -235,14 +238,34 @@
     credits: 0,
     points: 0,
     team: null,
-    metrics: []
+    metrics: [],
+    board: { w: 0, h: 0, tiles: [] },
+    employees: []
   };
+
+  // === Supabase ===
+  const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+  const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+  async function saveActivity(action, detail) {
+    try {
+      if (!employeeState.gameData) return;
+      await supabase.from('activity_feed').insert({
+        game_id: employeeState.gameData.id || employeeState.gameData.code,
+        actor_id: employeeState.currentEmployee?.id,
+        action,
+        detail
+      });
+    } catch (e) { console.warn('[emp] activity save failed', e); }
+  }
 
   // Initialize employee page
   function initializeEmployeePage() {
     // Load employee data from localStorage or URL params
     const urlParams = new URLSearchParams(window.location.search);
     const employeeId = urlParams.get('employeeId') || localStorage.getItem('currentEmployeeId');
+    const managerCode = urlParams.get('code') || localStorage.getItem('managerCode');
     
     if (employeeId) {
       loadEmployeeData(employeeId);
@@ -251,11 +274,20 @@
       showJoinCodeInput();
     }
     
-    // Initialize game board
-    initializeGameBoard();
+    // Load game from cloud by manager code
+    if (managerCode) {
+      fetchCloudGame(managerCode).then(() => {
+        renderBoardFromState();
+      });
+    } else {
+      // Initialize fallback board
+      initializeGameBoard();
+    }
     
     // Load notifications
     loadNotifications();
+    // Start inbox polling
+    setInterval(pollNotifications, 5000);
   }
 
   function showJoinCodeInput() {
@@ -283,6 +315,90 @@
     employeeState.team = employeeState.currentEmployee.team;
     
     updateEmployeeDashboard();
+  }
+  async function fetchCloudGame(code) {
+    try {
+      // Load game by manager code
+      const { data: games } = await supabase.from('games').select('*').eq('code', code).limit(1);
+      if (games && games.length) {
+        employeeState.gameData = games[0];
+        // Load employees
+        const { data: emps } = await supabase.from('employees').select('*').eq('game_id', employeeState.gameData.id);
+        employeeState.employees = emps || [];
+        const me = employeeState.employees.find(e => e.id === employeeState.currentEmployee.id);
+        if (me) {
+          employeeState.points = me.points||0; employeeState.credits = me.credits||0; employeeState.team = me.team||null;
+        }
+        // Load tiles
+        const { data: tiles } = await supabase.from('tiles').select('*').eq('game_id', employeeState.gameData.id);
+        const w = employeeState.gameData.board_w || 10; const h = employeeState.gameData.board_h || 10;
+        employeeState.board = { w, h, tiles: (tiles||[]).map(t => ({ id: t.tile_id, x: t.x, y: t.y, owner: t.owner_employee_id, isHeadquarters: !!t.is_headquarters, cost: t.cost||20 })) };
+      }
+    } catch (e) { console.warn('[emp] load game failed', e); }
+  }
+
+  function renderBoardFromState() {
+    const grid = document.getElementById('grid');
+    if (!grid || !employeeState.board?.tiles) return;
+    grid.style.gridTemplateColumns = `repeat(${employeeState.board.w}, 1fr)`;
+    grid.style.gridTemplateRows = `repeat(${employeeState.board.h}, 1fr)`;
+    grid.innerHTML = employeeState.board.tiles.map(tile => {
+      const owner = employeeState.employees.find(e => e.id === tile.owner);
+      const isHQ = tile.isHeadquarters;
+      const bg = tile.owner ? (isHQ ? '#1e40af' : '#1e3a8a') : '#1e293b';
+      const icon = tile.owner ? '🏢' : '';
+      const name = owner ? (owner.name.split(' ')[0]) : '';
+      return `<div class="cell" onclick="handleTileClick('${tile.id}')" style="background:${bg};position:relative;cursor:pointer;${isHQ?'border:2px solid #fbbf24;':''}">
+        <div style="font-size:10px;text-align:center;">${icon}<div style="font-size:8px;color:var(--muted);">${!tile.owner?`💰${tile.cost||20}`:''}</div>${name?`<div style=\"font-size:7px;color:var(--accent)\">${name}</div>`:''}</div>
+      </div>`;
+    }).join('');
+  }
+
+  window.handleTileClick = async function(tileId) {
+    const tile = employeeState.board.tiles.find(t => t.id === tileId);
+    if (!tile) return;
+    const me = employeeState.currentEmployee;
+    const myRow = employeeState.employees.find(e => e.id === me.id) || { id: me.id, name: me.name };
+
+    // Claim empty tile (deduct points)
+    if (!tile.owner) {
+      const cost = tile.cost || 20;
+      if ((employeeState.points||0) < cost) { alert(`Insufficient points (${cost} needed)`); return; }
+      tile.owner = me.id;
+      employeeState.points -= cost;
+      // Persist
+      await supabase.from('tiles').upsert({ game_id: employeeState.gameData.id, tile_id: tile.id, x: tile.x, y: tile.y, owner_employee_id: me.id, is_headquarters: tile.isHeadquarters||false, cost });
+      await supabase.from('employees').upsert({ id: myRow.id, game_id: employeeState.gameData.id, name: myRow.name, team: myRow.team||employeeState.team, points: employeeState.points, credits: employeeState.credits, balance: employeeState.points });
+      await saveActivity('purchase_tile', { tileId });
+      updateEmployeeDashboard();
+      renderBoardFromState();
+      return;
+    }
+
+    // Attack enemy tile
+    if (tile.owner && tile.owner !== me.id) {
+      const defender = employeeState.employees.find(e => e.id === tile.owner);
+      const attackCost = (tile.cost||20) * 2;
+      if ((employeeState.points||0) < attackCost) { alert(`Need ${attackCost} points to attack`); return; }
+      if (!confirm(`Attack ${defender?.name || 'opponent'}'s tile for ${attackCost} points?`)) return;
+      // Resolve locally (optimistic) and notify
+      const success = Math.random() < 0.7;
+      employeeState.points -= attackCost;
+      if (success) tile.owner = me.id;
+      await supabase.from('notifications').insert({
+        game_id: employeeState.gameData.id,
+        to_employee_id: defender?.id,
+        from_employee_id: me.id,
+        kind: 'attack',
+        payload: { tile_id: tile.id, attack_cost: attackCost, success }
+      });
+      await supabase.from('tiles').upsert({ game_id: employeeState.gameData.id, tile_id: tile.id, x: tile.x, y: tile.y, owner_employee_id: tile.owner, is_headquarters: tile.isHeadquarters||false, cost: tile.cost||20 });
+      await supabase.from('employees').upsert({ id: myRow.id, game_id: employeeState.gameData.id, name: myRow.name, team: myRow.team||employeeState.team, points: employeeState.points, credits: employeeState.credits, balance: employeeState.points });
+      await saveActivity(success?'attack_success':'attack_failed', { tileId: tile.id, defender: defender?.id, attackCost });
+      updateEmployeeDashboard();
+      renderBoardFromState();
+      alert(success? '🎉 Attack successful!' : '💥 Attack failed.');
+    }
   }
 
   function updateEmployeeDashboard() {
@@ -331,25 +447,38 @@
   }
 
   function loadNotifications() {
-    // Mock notifications - in production, this would come from the server
-    employeeState.notifications = [
-      {
-        id: 1,
-        type: 'award',
-        message: 'You earned 5 credits for completing a quiz!',
-        timestamp: new Date().toISOString(),
-        read: false
-      },
-      {
-        id: 2,
-        type: 'milestone',
-        message: 'Your team reached 100 points!',
-        timestamp: new Date(Date.now() - 3600000).toISOString(),
-        read: false
-      }
-    ];
-    
     updateNotificationFeed();
+  }
+
+  async function pollNotifications() {
+    try {
+      if (!employeeState.gameData || !employeeState.currentEmployee) return;
+      const { data: rows } = await supabase
+        .from('notifications')
+        .select('*')
+        .eq('game_id', employeeState.gameData.id)
+        .eq('to_employee_id', employeeState.currentEmployee.id)
+        .order('created_at', { ascending: false })
+        .limit(20);
+      if (rows) {
+        employeeState.notifications = rows.map(n => ({
+          id: n.id,
+          type: n.kind,
+          message: formatNotification(n),
+          timestamp: n.created_at,
+          read: !!n.read_at
+        }));
+        updateNotificationFeed();
+      }
+    } catch (e) { console.warn('[emp] poll notifications failed', e); }
+  }
+
+  function formatNotification(n) {
+    if (n.kind === 'attack') {
+      const success = n.payload?.success ? 'won' : 'lost';
+      return `Attack on your territory ${success}. Tile: ${n.payload?.tile_id}`;
+    }
+    return n.kind || 'notification';
   }
 
   function updateNotificationFeed() {
@@ -382,17 +511,15 @@
     // This would connect to the same game state as the manager
     const grid = document.getElementById('grid');
     if (grid) {
-      // Create a 4x4 grid
-      grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
-      grid.style.gridTemplateRows = 'repeat(4, 1fr)';
-      
-      for (let i = 0; i < 16; i++) {
-        const cell = document.createElement('div');
-        cell.className = 'cell';
-        cell.textContent = `Tile ${i + 1}`;
-        cell.style.background = '#1e293b';
-        grid.appendChild(cell);
+      // Fallback small board
+      const w = 8, h = 8;
+      employeeState.board = { w, h, tiles: [] };
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+          employeeState.board.tiles.push({ id: `tile_${x}_${y}`, x, y, owner: null, cost: 20 });
+        }
       }
+      renderBoardFromState();
     }
   }
 

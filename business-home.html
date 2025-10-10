@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tornado Business – Home</title>
+  <style>
+    :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
+    * { box-sizing: border-box }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    header { position:sticky; top:0; z-index:2; background:#0d1628cc; backdrop-filter: blur(6px); border-bottom:1px solid var(--border); }
+    .bar { display:flex; gap:8px; align-items:center; padding:12px 16px }
+    .wrap { max-width:1100px; margin:0 auto; padding:16px }
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:12px }
+    .tile { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:16px; cursor:pointer; text-decoration:none; color:var(--text); transition: transform .12s ease, border-color .12s ease }
+    .tile:hover { transform: translateY(-2px); border-color:#334155 }
+    .tile h3 { margin:8px 0 6px; font-size:16px }
+    .tile p { margin:0; color:var(--muted); font-size:13px; line-height:1.4 }
+    .pill { padding:8px 12px; border:1px solid var(--border); border-radius:10px; background:var(--panel); color:var(--text); cursor:pointer; }
+  </style>
+  <script>
+    function go(path) { window.location.href = path; }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <h1 style="margin:0; font-size:18px;">🏢 Tornado Business – Manager Hub</h1>
+      <div style="flex:1"></div>
+      <button class="pill" onclick="window.location.href='/'">← Back to Home</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="grid">
+      <a class="tile" href="/business.html#leaderboard">
+        <div>📊</div>
+        <h3>Leaderboard</h3>
+        <p>See teams and employees ranked by points and progress.</p>
+      </a>
+      <a class="tile" href="/business.html#metrics">
+        <div>📈</div>
+        <h3>Metrics</h3>
+        <p>Track sales, products, satisfaction, features and more.</p>
+      </a>
+      <a class="tile" href="/assignments-library.html">
+        <div>📝</div>
+        <h3>Assignments</h3>
+        <p>Browse, edit and assign quizzes or tasks to employees.</p>
+      </a>
+      <a class="tile" href="/business.html#announcements">
+        <div>📣</div>
+        <h3>Announcements</h3>
+        <p>Post updates and notify your teams.</p>
+      </a>
+      <a class="tile" href="/business.html">
+        <div>🗺️</div>
+        <h3>Start Tornado Business War</h3>
+        <p>Open the strategy map to run live competitions.</p>
+      </a>
+      <a class="tile" href="/quiz.html?mode=business">
+        <div>🧩</div>
+        <h3>Start Tornado Quiz</h3>
+        <p>Launch a quiz and award points for correct answers.</p>
+      </a>
+      <a class="tile" href="/employee-login.html">
+        <div>👤</div>
+        <h3>Employee Portal</h3>
+        <p>Employees can log in, see points, credits and metrics.</p>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
+
