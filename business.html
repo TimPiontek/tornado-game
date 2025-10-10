@@ -224,6 +224,16 @@
             <div style="font-size: 11px; color: var(--muted);">No activity yet</div>
           </div>
         </div>
+        <div class="section">
+          <div class="title">Recognition Feed</div>
+          <div style="display:grid; gap:6px; margin-bottom:8px;">
+            <input id="recogText" placeholder="Praise a teammate (e.g., Alice closed ACME!)" style="width:100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text); font-size: 12px;" />
+            <button class="pill" onclick="postRecognition()" style="background:#22c55e;color:#fff">Post Recognition</button>
+          </div>
+          <div id="recognitionFeed" style="max-height: 260px; overflow:auto; border:1px solid var(--border); border-radius:8px; padding:8px;">
+            <div style="font-size: 11px; color: var(--muted);">No recognitions yet</div>
+          </div>
+        </div>
       </div>
       
       <!-- Metrics Tab -->
@@ -877,6 +887,7 @@
       switchTab(tabFromHash);
     }
     subscribeActivity();
+    loadRecognitionFeed();
   });
 
   function loadMetricsTab() {
@@ -1725,6 +1736,59 @@
       alert('✅ Task assigned');
     } catch (e) { console.warn('[cloud] assignment save failed', e); alert('Could not save to cloud'); }
   }
+
+  async function loadRecognitionFeed() {
+    try {
+      if (!businessState.currentGame) return;
+      const gid = businessState.currentGame.id || businessState.currentGame.managerCode;
+      const { data: rows } = await supabase
+        .from('recognitions')
+        .select('*')
+        .eq('game_id', gid)
+        .order('created_at', { ascending: false })
+        .limit(50);
+      const feed = document.getElementById('recognitionFeed');
+      if (!feed) return;
+      if (!rows || rows.length === 0) { feed.innerHTML = '<div style="font-size:11px;color:var(--muted)">No recognitions yet</div>'; return; }
+      feed.innerHTML = rows.map(r => renderRecognition(r)).join('');
+    } catch (e) { console.warn('[cloud] recognition load failed', e); }
+  }
+
+  function renderRecognition(r) {
+    const ts = new Date(r.created_at).toLocaleString();
+    const reacts = r.reactions || { '+1':0, 'clap':0, 'tada':0 };
+    return `<div style="padding:6px;border-bottom:1px solid var(--border);font-size:12px">
+      <div style="color:var(--text)">${r.text}</div>
+      <div style="color:var(--muted);font-size:10px">${ts}</div>
+      <div style="margin-top:6px; display:flex; gap:6px;">
+        <button class="pill" onclick="reactRecognition('${r.id}','+1')">👍 ${reacts['+1']||0}</button>
+        <button class="pill" onclick="reactRecognition('${r.id}','clap')">👏 ${reacts['clap']||0}</button>
+        <button class="pill" onclick="reactRecognition('${r.id}','tada')">🎉 ${reacts['tada']||0}</button>
+      </div>
+    </div>`;
+  }
+
+  async function postRecognition() {
+    try {
+      const text = (document.getElementById('recogText')?.value||'').trim();
+      if (!text) return;
+      const gid = businessState.currentGame?.id || businessState.currentGame?.managerCode;
+      await supabase.from('recognitions').insert({ game_id: gid, text, reactions: { '+1':0, 'clap':0, 'tada':0 } });
+      document.getElementById('recogText').value = '';
+      loadRecognitionFeed();
+    } catch (e) { console.warn('[cloud] recognition post failed', e); }
+  }
+
+  async function reactRecognition(id, emoji) {
+    try {
+      const { data } = await supabase.from('recognitions').select('reactions').eq('id', id).single();
+      const reactions = data?.reactions || {}; reactions[emoji] = (reactions[emoji]||0) + 1;
+      await supabase.from('recognitions').update({ reactions }).eq('id', id);
+      loadRecognitionFeed();
+    } catch (e) { console.warn('[cloud] react failed', e); }
+  }
+
+  setInterval(loadRecognitionFeed, 7000);
 </script>
 </body>
 </html>
