@@ -497,7 +497,7 @@
     }
     
     feedEl.innerHTML = employeeState.notifications.map(notification => `
-      <div class="notification-item">
+      <div class="notification-item" onclick="markNotificationRead('${notification.id}')" style="cursor:pointer; ${notification.read?'' :'background: rgba(59,130,246,0.06);'}">
         <div style="font-size: 10px; color: var(--muted); margin-bottom: 2px;">
           ${new Date(notification.timestamp).toLocaleString()}
         </div>
@@ -518,6 +518,19 @@
   function openInbox() {
     // Simple inline view: scroll to notifications panel
     document.getElementById('notificationFeed')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  async function markNotificationRead(id) {
+    try {
+      const idx = employeeState.notifications.findIndex(n => String(n.id) === String(id));
+      if (idx >= 0) {
+        employeeState.notifications[idx].read = true;
+        updateNotificationFeed();
+      }
+      if (employeeState.gameData) {
+        await supabase.from('notifications').update({ read_at: new Date().toISOString() }).eq('id', id);
+      }
+    } catch (e) { console.warn('[emp] mark read failed', e); }
   }
 
   function initializeGameBoard() {
