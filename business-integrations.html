@@ -47,19 +47,102 @@
           <p>${intg.desc}</p>
           ${intg.kind==='webhook' ? `<input id="inp_${intg.key}" placeholder="Webhook URL" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:8px;background:#081125;color:#e5e7eb;margin-bottom:8px;" />` : ''}
           <button class="btn" onclick="connect('${intg.key}','${intg.kind}')">${status==='Connected'?'Reconnect':'Connect'}</button>
+          ${status==='Connected' ? `<button class="btn" onclick="disconnect('${intg.key}')" style="margin-left:8px;background:#dc2626;">Disconnect</button>` : ''}
+          ${status==='Connected' && intg.kind==='webhook' ? `<button class="btn" onclick="testWebhook('${intg.key}')" style="margin-left:8px;background:#059669;">Test</button>` : ''}
         </div>`;
       }).join('');
     }
 
     async function connect(key, kind) {
       let token = null; let settings = {};
+      
       if (kind === 'webhook') {
         token = document.getElementById('inp_'+key)?.value || '';
         if (!token) { alert('Enter webhook URL'); return; }
+        settings = { webhook_url: token };
+      } else if (kind === 'oauth') {
+        // For OAuth integrations, we'll simulate the connection process
+        if (key === 'salesforce') {
+          const clientId = prompt('Enter Salesforce Client ID:');
+          const clientSecret = prompt('Enter Salesforce Client Secret:');
+          if (!clientId || !clientSecret) return;
+          token = btoa(`${clientId}:${clientSecret}`); // Basic auth encoding
+          settings = { client_id: clientId, instance_url: 'https://yourcompany.salesforce.com' };
+        } else if (key === 'hubspot') {
+          const apiKey = prompt('Enter HubSpot API Key:');
+          if (!apiKey) return;
+          token = apiKey;
+          settings = { api_key: apiKey };
+        }
+      } else if (kind === 'token') {
+        const accessToken = prompt(`Enter ${key} Access Token:`);
+        if (!accessToken) return;
+        token = accessToken;
+        settings = { access_token: accessToken };
+      } else if (kind === 'csv') {
+        // CSV upload is already supported in business.html
+        token = 'csv_upload_enabled';
+        settings = { upload_enabled: true };
+      } else if (kind === 'export') {
+        // Export functionality placeholder
+        token = 'export_enabled';
+        settings = { export_enabled: true };
       }
-      await supabase.from('integrations').upsert({ type: key, status: 'Connected', token, settings });
-      await loadStatus();
-      alert(`${key} connected`);
+      
+      try {
+        await supabase.from('integrations').upsert({ 
+          type: key, 
+          status: 'Connected', 
+          token, 
+          settings,
+          created_at: new Date().toISOString()
+        });
+        await loadStatus();
+        alert(`${key} connected successfully!`);
+      } catch (error) {
+        console.error('Connection error:', error);
+        alert(`Failed to connect ${key}: ${error.message}`);
+      }
+    }
+
+    async function disconnect(key) {
+      if (!confirm(`Are you sure you want to disconnect ${key}?`)) return;
+      
+      try {
+        await supabase.from('integrations').delete().eq('type', key);
+        await loadStatus();
+        alert(`${key} disconnected successfully!`);
+      } catch (error) {
+        console.error('Disconnection error:', error);
+        alert(`Failed to disconnect ${key}: ${error.message}`);
+      }
+    }
+
+    async function testWebhook(key) {
+      const { data } = await supabase.from('integrations').select('settings').eq('type', key).single();
+      if (!data?.settings?.webhook_url) {
+        alert('No webhook URL configured');
+        return;
+      }
+      
+      try {
+        const response = await fetch(data.settings.webhook_url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text: `🎉 Tornado Business Integration Test - ${key} is working!`,
+            username: 'Tornado Business'
+          })
+        });
+        
+        if (response.ok) {
+          alert(`${key} webhook test successful!`);
+        } else {
+          alert(`${key} webhook test failed: ${response.status}`);
+        }
+      } catch (error) {
+        alert(`${key} webhook test failed: ${error.message}`);
+      }
     }
 
     document.addEventListener('DOMContentLoaded', loadStatus);
