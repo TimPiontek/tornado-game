@@ -676,13 +676,30 @@
         .eq('game_id', gameId)
         .order('created_at', { ascending: false })
         .limit(50);
+      // Quests
+      const { data: quests } = await supabase
+        .from('quest_assignments')
+        .select('*, quests!inner(title, points)')
+        .eq('game_id', gameId)
+        .eq('employee_id', employeeState.currentEmployee.id)
+        .order('sent_at', { ascending: false })
+        .limit(50);
       const myTeam = employeeState.team;
       const filtered = (rows||[]).filter(a => a.audience === 'all' || a.audience === `team:${myTeam}`);
-      if (filtered.length === 0) {
-        list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:2rem">No assignments yet</div>';
+      const questCards = (quests||[]).map(q => `
+        <div style="border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px;background:rgba(34,197,94,0.06)">
+          <div style="font-weight:600">${q.quests.title} (Quest)</div>
+          <div style="font-size:12px;color:var(--muted);margin:4px 0">Worth ${q.quests.points||0} pts</div>
+          <div style="margin-top:6px;display:flex;gap:8px;">
+            <button onclick="completeQuest('${q.id}','${q.quests.points||0}')" class="pill" style="background:#10b981;color:#fff">Complete</button>
+          </div>
+        </div>
+      `).join('');
+      if (filtered.length === 0 && (!quests || quests.length === 0)) {
+        list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:2rem">No assignments or quests yet</div>';
         return;
       }
-      list.innerHTML = filtered.map(a => `
+      list.innerHTML = questCards + filtered.map(a => `
         <div style="border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px;">
           <div style="font-weight:600">${a.title}</div>
           <div style="font-size:12px;color:var(--muted);margin:4px 0">${a.body||''}</div>
@@ -695,6 +712,18 @@
     } catch (e) {
       console.warn('[emp] load assignments failed', e);
     }
+  }
+
+  async function completeQuest(assignId, points) {
+    try {
+      await supabase.from('quest_assignments').update({ status:'completed', completed_at: new Date().toISOString() }).eq('id', assignId);
+      // award points
+      employeeState.points = (employeeState.points||0) + Number(points||0);
+      await supabase.from('employees').update({ points: employeeState.points, balance: employeeState.points }).eq('id', employeeState.currentEmployee.id).eq('game_id', employeeState.gameData.id);
+      updateEmployeeDashboard();
+      loadEmployeeAssignments();
+      alert(`✅ Quest completed! +${points} pts`);
+    } catch(e) { console.warn('[emp] complete quest failed', e); }
   }
 
   async function markAssignmentComplete(id) {

@@ -208,6 +208,7 @@
       <button class="business-tab" data-tab="metrics" onclick="switchTab('metrics')">Metrics</button>
       <button class="business-tab" data-tab="announcements" onclick="switchTab('announcements')">Announcements</button>
       <button class="business-tab" data-tab="rewards" onclick="switchTab('rewards')">Rewards</button>
+      <button class="business-tab" data-tab="quests" onclick="switchTab('quests')">Quests</button>
     </div>
     
     <!-- Tab Content -->
@@ -353,6 +354,48 @@
             <button id="savePrivacyBtn" onclick="savePrivacySettings()" style="width: 100%; padding: 6px; background: #6366f1; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">Save Privacy Settings</button>
           </div>
         </div>
+      </div>
+
+      <!-- Quests Tab -->
+      <div id="tab-quests" class="business-tab-panel">
+        <div class="title">Quests</div>
+        <div style="display:grid; gap:8px; margin-bottom:8px;">
+          <input id="qTitle" placeholder="Quest title (e.g., Friday Wrap-Up Calls)" />
+          <textarea id="qBody" placeholder="Quest description..." style="min-height:90px"></textarea>
+          <div class="grid2">
+            <input id="qPoints" type="number" placeholder="Points (e.g., 25)" />
+            <select id="qAudience"><option value="all">All Employees</option><option value="team:Alpha">Team: Alpha</option><option value="team:Beta">Team: Beta</option><option value="team:Gamma">Team: Gamma</option></select>
+          </div>
+          <div class="grid2">
+            <select id="qType">
+              <option value="one_time">One-time</option>
+              <option value="weekly">Weekly</option>
+              <option value="seasonal">Seasonal</option>
+            </select>
+            <input id="qTime" type="time" value="09:00" />
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--muted)">Weekdays</label>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <label><input type="checkbox" class="qwd" value="Mon" checked /> Mon</label>
+              <label><input type="checkbox" class="qwd" value="Tue" checked /> Tue</label>
+              <label><input type="checkbox" class="qwd" value="Wed" checked /> Wed</label>
+              <label><input type="checkbox" class="qwd" value="Thu" checked /> Thu</label>
+              <label><input type="checkbox" class="qwd" value="Fri" checked /> Fri</label>
+              <label><input type="checkbox" class="qwd" value="Sat" /> Sat</label>
+              <label><input type="checkbox" class="qwd" value="Sun" /> Sun</label>
+            </div>
+          </div>
+          <div class="grid2">
+            <input id="qStart" type="date" />
+            <input id="qEnd" type="date" />
+          </div>
+          <button class="pill" onclick="saveQuest()" style="background:#10b981;color:#fff">Save Quest</button>
+        </div>
+        <div class="title">Upcoming Runs</div>
+        <div id="questPreview" style="font-size:12px;color:var(--muted)">No preview yet</div>
+        <div class="title" style="margin-top:10px">Scheduled Quests</div>
+        <div id="questList" style="font-size:12px;color:var(--muted)">Loading...</div>
       </div>
     </div>
   </div>
@@ -1789,6 +1832,102 @@
   }
 
   setInterval(loadRecognitionFeed, 7000);
+
+  function getSelectedWeekdays() {
+    return Array.from(document.querySelectorAll('.qwd:checked')).map(cb => cb.value);
+  }
+
+  function computeNextRuns({ type, weekdays, time, startDate, endDate }, count = 3) {
+    const runs = [];
+    const now = new Date();
+    let cursor = new Date(startDate || now);
+    const end = endDate ? new Date(endDate) : new Date(now.getFullYear()+1, 0, 1);
+    const toW = d => ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()];
+    while (runs.length < count && cursor <= end) {
+      const dayOk = type === 'one_time' ? true : weekdays.includes(toW(cursor));
+      if (dayOk) {
+        const [hh,mm] = (time||'09:00').split(':').map(Number);
+        const next = new Date(cursor.getFullYear(), cursor.getMonth(), cursor.getDate(), hh, mm, 0);
+        if (next >= now) runs.push(next);
+      }
+      cursor.setDate(cursor.getDate()+1);
+    }
+    return runs;
+  }
+
+  async function saveQuest() {
+    const title = (document.getElementById('qTitle')?.value||'').trim();
+    const body = (document.getElementById('qBody')?.value||'').trim();
+    const points = parseInt(document.getElementById('qPoints')?.value||'0',10);
+    const audience = document.getElementById('qAudience')?.value||'all';
+    const type = document.getElementById('qType')?.value||'one_time';
+    const time = document.getElementById('qTime')?.value||'09:00';
+    const weekdays = getSelectedWeekdays();
+    const startDate = document.getElementById('qStart')?.value||null;
+    const endDate = document.getElementById('qEnd')?.value||null;
+    const runs = computeNextRuns({ type, weekdays, time, startDate, endDate }, 1);
+    const next_run_at = runs[0] ? runs[0].toISOString() : null;
+    const gameId = businessState.currentGame?.id || businessState.currentGame?.managerCode;
+    await supabase.from('quests').upsert({
+      game_id: gameId, title, body, points, audience, recurrence_type: type, weekdays, time_of_day: time, start_date: startDate, end_date: endDate, next_run_at, status: 'active'
+    });
+    alert('✅ Quest saved');
+    loadQuests();
+    previewQuest();
+  }
+
+  function previewQuest() {
+    const type = document.getElementById('qType')?.value||'one_time';
+    const time = document.getElementById('qTime')?.value||'09:00';
+    const weekdays = getSelectedWeekdays();
+    const startDate = document.getElementById('qStart')?.value||null;
+    const endDate = document.getElementById('qEnd')?.value||null;
+    const runs = computeNextRuns({ type, weekdays, time, startDate, endDate }, 3);
+    const el = document.getElementById('questPreview');
+    el.textContent = runs.length ? runs.map(d => d.toLocaleString()).join('  •  ') : 'No upcoming runs';
+  }
+
+  ['qType','qTime','qStart','qEnd'].forEach(id => {
+    document.addEventListener('DOMContentLoaded', () => document.getElementById(id)?.addEventListener('change', previewQuest));
+  });
+  document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('.qwd').forEach(cb => cb.addEventListener('change', previewQuest)));
+
+  async function loadQuests() {
+    const list = document.getElementById('questList'); if (!list) return;
+    const gid = businessState.currentGame?.id || businessState.currentGame?.managerCode; if (!gid) return;
+    const { data: rows } = await supabase.from('quests').select('*').eq('game_id', gid).order('next_run_at', { ascending: true });
+    if (!rows || rows.length === 0) { list.textContent = 'No quests yet'; return; }
+    list.innerHTML = rows.map(q => `<div style=\"padding:8px;border-bottom:1px solid var(--border)\"><b>${q.title}</b> • ${q.recurrence_type} • next: ${q.next_run_at ? new Date(q.next_run_at).toLocaleString() : '—'}</div>`).join('');
+  }
+
+  async function questSchedulerTick() {
+    try {
+      const gid = businessState.currentGame?.id || businessState.currentGame?.managerCode; if (!gid) return;
+      const nowIso = new Date().toISOString();
+      const { data: due } = await supabase.from('quests').select('*').eq('game_id', gid).eq('status','active').lte('next_run_at', nowIso);
+      if (!due || due.length === 0) return;
+      for (const q of due) {
+        // resolve audience
+        let audienceEmployees = businessState.employees||[];
+        if (q.audience && q.audience.startsWith('team:')) {
+          const team = q.audience.split(':')[1];
+          audienceEmployees = audienceEmployees.filter(e => e.team === team);
+        }
+        const assignments = audienceEmployees.map(e => ({
+          quest_id: q.id, game_id: gid, employee_id: e.id, status: 'pending', sent_at: new Date().toISOString(), due_at: null
+        }));
+        if (assignments.length) await supabase.from('quest_assignments').insert(assignments);
+        // compute next run
+        const runs = computeNextRuns({ type: q.recurrence_type, weekdays: q.weekdays||[], time: q.time_of_day, startDate: q.start_date, endDate: q.end_date }, 2);
+        const next = runs.find(d => d.toISOString() > nowIso);
+        await supabase.from('quests').update({ last_run_at: nowIso, next_run_at: next ? next.toISOString() : null }).eq('id', q.id);
+      }
+      loadQuests();
+    } catch (e) { console.warn('[quests] scheduler failed', e); }
+  }
+
+  setInterval(questSchedulerTick, 60000);
+  document.addEventListener('DOMContentLoaded', () => { previewQuest(); loadQuests(); });
 </script>
 </body>
 </html>

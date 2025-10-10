@@ -24,6 +24,13 @@
     const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
+    function downloadCSV(filename, rows) {
+      const csv = rows.map(r => Object.values(r).map(v => '"'+String(v).replaceAll('"','""')+'"').join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob); link.download = filename; link.click();
+    }
+
     async function loadAnalytics() {
       const kpiTotalPoints = document.getElementById('kpiTotalPoints');
       const kpiAvgEngagement = document.getElementById('kpiAvgEngagement');
@@ -46,6 +53,21 @@
       // Simple bar data text (placeholder for charts)
       const bars = document.getElementById('barTeams');
       bars.innerHTML = Object.entries(byTeam).map(([team,pts])=>`<div class="card"><div>${team}</div><div class="muted">${pts} pts</div><div style="height:6px;background:#1e293b;border-radius:4px"><div style="height:6px;width:${Math.min(100, pts/ (total||1)*100)}%;background:#22c55e;border-radius:4px"></div></div></div>`).join('');
+
+      // Coaching suggestions
+      const coach = document.getElementById('coaching');
+      const avg = employees && employees.length ? Math.round(total/employees.length) : 0;
+      const underperformers = (employees||[]).filter(e => (e.points||0) < avg * 0.6).slice(0,5);
+      coach.innerHTML = underperformers.length ? underperformers.map(e => `<div class=\"card\"><div>${e.team || 'Team'} member below pace</div><div class=\"muted\">${e.points||0} pts (avg ${avg})</div></div>`).join('') : '<div class="card">All teams trending well 🎉</div>';
+
+      // Bind export buttons
+      document.getElementById('btnExportCsv').onclick = () => {
+        const rows = Object.entries(byTeam).map(([team,pts])=>({ team, points: pts }));
+        downloadCSV('points_by_team.csv', [{ team:'Team', points:'Points' }, ...rows]);
+      };
+      document.getElementById('btnExportPdf').onclick = () => {
+        window.print();
+      };
     }
     document.addEventListener('DOMContentLoaded', loadAnalytics);
   </script>
@@ -65,8 +87,14 @@
       <div class="card"><div class="muted">Top Team</div><div id="kpiTopTeam" class="kpi">—</div></div>
       <div class="card"><div class="muted">Most Awarded Badge</div><div id="kpiTopBadge" class="kpi">—</div></div>
     </div>
+    <div style="display:flex; gap:8px; margin:12px 0;">
+      <button id="btnExportCsv" class="btn" style="padding:8px 12px;border:1px solid var(--border);border-radius:10px;background:#0b1932;color:#fff;cursor:pointer;font-size:12px">Export CSV</button>
+      <button id="btnExportPdf" class="btn" style="padding:8px 12px;border:1px solid var(--border);border-radius:10px;background:#0b1932;color:#fff;cursor:pointer;font-size:12px">Export PDF</button>
+    </div>
     <h3 style="margin:16px 0">Points by Team</h3>
     <div id="barTeams" class="grid"></div>
+    <h3 style="margin:16px 0">Coaching Suggestions</h3>
+    <div id="coaching" class="grid"></div>
   </div>
 </body>
 </html>
