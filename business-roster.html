@@ -242,21 +242,33 @@
       if (!confirm(`Add ${names.length} employees to this roster?`)) return;
 
       try {
-        const employeesToAdd = names.map(name => ({
-          name,
-          game_id: currentRoster.id,
-          game_name: currentRoster.name,
-          team: teamMode === 'individual' ? null : getTeamOptions()[0],
-          points: 100,
-          credits: 0
-        }));
-
-        const { data } = await supabase.from('employees').insert(employeesToAdd).select();
+        // Add employees one by one to avoid batch insert issues
+        const addedEmployees = [];
         
-        currentRoster.employees.push(...data);
+        for (const name of names) {
+          const { data, error } = await supabase.from('employees').insert({
+            name,
+            game_id: currentRoster.id,
+            game_name: currentRoster.name,
+            team: teamMode === 'individual' ? null : getTeamOptions()[0],
+            points: 100,
+            credits: 0
+          }).select().single();
+          
+          if (error) {
+            console.error('Error adding employee:', name, error);
+            continue;
+          }
+          
+          if (data) {
+            addedEmployees.push(data);
+          }
+        }
+        
+        currentRoster.employees.push(...addedEmployees);
         document.getElementById('bulkEmployeeNames').value = '';
         loadRosterDetails();
-        alert(`Successfully added ${data.length} employees!`);
+        alert(`Successfully added ${addedEmployees.length} employees!`);
       } catch (error) {
         console.error('Add bulk employees error:', error);
         alert('Failed to add employees: ' + error.message);
