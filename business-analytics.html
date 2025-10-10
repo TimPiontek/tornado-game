@@ -19,6 +19,7 @@
     @media (max-width: 600px) { .grid { grid-template-columns: 1fr } }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="lib/dataSync.js"></script>
   <script>
     const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
     const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
@@ -37,8 +38,11 @@
       const kpiTopTeam = document.getElementById('kpiTopTeam');
       const kpiTopBadge = document.getElementById('kpiTopBadge');
 
-      // Mocked from existing tables (best effort)
+      // Load real data from Supabase
       const { data: employees } = await supabase.from('employees').select('team, points');
+      const { data: scoreEvents } = await supabase.from('score_events').select('*');
+      const { data: metrics } = await supabase.from('metrics').select('*');
+      
       const total = (employees||[]).reduce((s,e)=>s+(e.points||0),0);
       kpiTotalPoints.textContent = total.toLocaleString();
 
@@ -46,9 +50,23 @@
       (employees||[]).forEach(e=>{ byTeam[e.team]= (byTeam[e.team]||0)+(e.points||0) });
       const topTeam = Object.entries(byTeam).sort((a,b)=>b[1]-a[1])[0];
       kpiTopTeam.textContent = topTeam? `${topTeam[0]} (${topTeam[1]} pts)` : '—';
-
-      kpiAvgEngagement.textContent = employees && employees.length? Math.round(total/ employees.length) + ' pts / user' : '—';
-      kpiTopBadge.textContent = 'Closer Badge (mock)';
+      
+      // Calculate average engagement
+      const avgEngagement = employees?.length ? Math.round(total / employees.length) : 0;
+      kpiAvgEngagement.textContent = avgEngagement;
+      
+      // Find most awarded badge
+      const badgeCounts = {};
+      (scoreEvents||[]).forEach(event => {
+        if (event.metric_name?.includes('Badge')) {
+          badgeCounts[event.metric_name] = (badgeCounts[event.metric_name] || 0) + 1;
+        }
+      });
+      const topBadge = Object.keys(badgeCounts).reduce((a, b) => badgeCounts[a] > badgeCounts[b] ? a : b, 'Sales Champion');
+      kpiTopBadge.textContent = topBadge;
+      
+      // Load integration metrics
+      await loadIntegrationMetrics(metrics);
 
       // Simple bar data text (placeholder for charts)
       const bars = document.getElementById('barTeams');
@@ -69,6 +87,29 @@
         window.print();
       };
     }
+    async function loadIntegrationMetrics(metrics) {
+      const integrationMetrics = metrics?.filter(m => m.source && m.source !== 'manual') || [];
+      
+      if (integrationMetrics.length > 0) {
+        const container = document.getElementById('integrationMetrics');
+        if (container) {
+          container.innerHTML = `
+            <h3 style="margin-bottom:12px;">Integration Data</h3>
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:12px;">
+              ${integrationMetrics.map(metric => `
+                <div class="card">
+                  <div style="font-size:11px; color:var(--muted); text-transform:uppercase;">${metric.source}</div>
+                  <div class="kpi">${metric.value} ${metric.unit || ''}</div>
+                  <div class="muted">${metric.name}</div>
+                  <div style="font-size:11px; color:var(--accent);">Target: ${metric.target || 'N/A'}</div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+        }
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', loadAnalytics);
   </script>
 </head>
@@ -95,6 +136,7 @@
     <div id="barTeams" class="grid"></div>
     <h3 style="margin:16px 0">Coaching Suggestions</h3>
     <div id="coaching" class="grid"></div>
+    <div id="integrationMetrics" style="margin-top:24px;"></div>
   </div>
 </body>
 </html>

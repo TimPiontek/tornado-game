@@ -19,6 +19,7 @@
     .status { font-size:11px; color:var(--muted) }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="lib/dataSync.js"></script>
   <script>
     const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
     const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
@@ -49,6 +50,7 @@
           <button class="btn" onclick="connect('${intg.key}','${intg.kind}')">${status==='Connected'?'Reconnect':'Connect'}</button>
           ${status==='Connected' ? `<button class="btn" onclick="disconnect('${intg.key}')" style="margin-left:8px;background:#dc2626;">Disconnect</button>` : ''}
           ${status==='Connected' && intg.kind==='webhook' ? `<button class="btn" onclick="testWebhook('${intg.key}')" style="margin-left:8px;background:#059669;">Test</button>` : ''}
+          ${status==='Connected' && ['salesforce','hubspot'].includes(intg.key) ? `<button class="btn" onclick="syncIntegration('${intg.key}')" style="margin-left:8px;background:#3b82f6;">Sync</button>` : ''}
         </div>`;
       }).join('');
     }
@@ -145,6 +147,77 @@
       }
     }
 
+    // Initialize data sync service
+    let dataSyncService;
+    
+    async function syncIntegration(key) {
+      if (!dataSyncService) {
+        dataSyncService = new DataSyncService(supabase);
+      }
+      
+      try {
+        let result;
+        if (key === 'salesforce') {
+          const { data: integration } = await supabase.from('integrations').select('*').eq('type', 'salesforce').single();
+          result = await dataSyncService.syncSalesforceData(integration);
+        } else if (key === 'hubspot') {
+          const { data: integration } = await supabase.from('integrations').select('*').eq('type', 'hubspot').single();
+          result = await dataSyncService.syncHubSpotData(integration);
+        }
+        
+        displaySyncResults([{ integration: key, ...result }]);
+        alert(`${key} sync ${result.success ? 'completed' : 'failed'}!`);
+      } catch (error) {
+        console.error('Sync error:', error);
+        alert(`${key} sync failed: ${error.message}`);
+      }
+    }
+
+    async function syncAllData() {
+      if (!dataSyncService) {
+        dataSyncService = new DataSyncService(supabase);
+      }
+      
+      const button = document.querySelector('button[onclick="syncAllData()"]');
+      button.disabled = true;
+      button.textContent = '🔄 Syncing...';
+      
+      try {
+        const results = await dataSyncService.syncAllIntegrations();
+        displaySyncResults(results);
+        alert(`Sync completed! Processed ${results.length} integrations.`);
+      } catch (error) {
+        console.error('Sync error:', error);
+        alert(`Sync failed: ${error.message}`);
+      } finally {
+        button.disabled = false;
+        button.textContent = '🔄 Sync All Data';
+      }
+    }
+    
+    function displaySyncResults(results) {
+      const container = document.getElementById('syncResults');
+      const timestamp = new Date().toLocaleString();
+      
+      if (results.length === 0) {
+        container.innerHTML = '<div style="color:var(--muted);">No connected integrations to sync</div>';
+        return;
+      }
+      
+      const html = results.map(result => {
+        const status = result.success ? '✅' : '❌';
+        const records = result.records || 0;
+        return `<div style="margin-bottom:8px;">
+          ${status} <strong>${result.integration}</strong>: ${result.success ? `${records} records synced` : result.error}
+        </div>`;
+      }).join('');
+      
+      container.innerHTML = `
+        <div style="color:var(--muted); margin-bottom:8px;">Last sync: ${timestamp}</div>
+        ${html}
+      `;
+    }
+
     document.addEventListener('DOMContentLoaded', loadStatus);
   </script>
 </head>
@@ -157,7 +230,18 @@
     </div>
   </header>
   <div class="wrap">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+      <h2 style="margin:0; font-size:16px;">Connected Integrations</h2>
+      <button class="btn" onclick="syncAllData()" style="background:#059669;">🔄 Sync All Data</button>
+    </div>
     <div id="tiles" class="grid"></div>
+    
+    <div style="margin-top:24px;">
+      <h3 style="margin-bottom:12px;">Recent Sync Results</h3>
+      <div id="syncResults" style="background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:12px; font-size:12px;">
+        <div style="color:var(--muted);">No recent syncs</div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
