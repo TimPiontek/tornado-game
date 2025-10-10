@@ -100,6 +100,7 @@
     <button class="pill" id="btnHelp">How to Play</button>
     <div style="flex:1"></div>
     <span id="who" class="muted">Employee Mode</span>
+    <button class="pill" id="btnInbox" onclick="openInbox()">🔔 <span id="inboxCount" style="background:#ef4444; color:#fff; padding:2px 6px; border-radius:10px; font-size:11px;">0</span></button>
     <button class="pill" onclick="window.location.href='employee-login.html'" style="background: #10b981; color: white;">← Back to Dashboard</button>
   </div>
 </header>
@@ -491,6 +492,7 @@
           No notifications yet
         </div>
       `;
+      updateInboxCount();
       return;
     }
     
@@ -504,6 +506,18 @@
         </div>
       </div>
     `).join('');
+    updateInboxCount();
+  }
+
+  function updateInboxCount() {
+    const unread = employeeState.notifications.filter(n => !n.read).length;
+    const badge = document.getElementById('inboxCount');
+    if (badge) badge.textContent = String(unread);
+  }
+
+  function openInbox() {
+    // Simple inline view: scroll to notifications panel
+    document.getElementById('notificationFeed')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   function initializeGameBoard() {

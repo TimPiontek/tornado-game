@@ -218,6 +218,12 @@
         <div id="businessLeaderboard">
           <div style="font-size: 11px; color: var(--muted);">Team rankings will appear here...</div>
         </div>
+        <div class="section">
+          <div class="title">Recent Activity</div>
+          <div id="activityFeed" style="max-height: 240px; overflow:auto; border: 1px solid var(--border); border-radius: 8px; padding: 8px;">
+            <div style="font-size: 11px; color: var(--muted);">No activity yet</div>
+          </div>
+        </div>
       </div>
       
       <!-- Metrics Tab -->
@@ -894,6 +900,8 @@
     
     if (businessState.announcements.length === 0) {
       announcementsList.innerHTML = '<div style="font-size: 11px; color: var(--muted);">No announcements yet...</div>';
+      // also try to load from cloud
+      loadCloudAnnouncements();
       return;
     }
     
@@ -904,6 +912,23 @@
         <div style="color: var(--muted); font-size: 10px; margin-top: 4px;">${new Date(announcement.createdAt).toLocaleString()}</div>
       </div>
     `).join('');
+  }
+
+  async function loadCloudAnnouncements() {
+    try {
+      if (!businessState.currentGame) return;
+      const gameId = businessState.currentGame.id || businessState.currentGame.managerCode;
+      const { data: rows } = await supabase
+        .from('announcements')
+        .select('*')
+        .eq('game_id', gameId)
+        .order('created_at', { ascending: false })
+        .limit(25);
+      if (rows) {
+        businessState.announcements = rows.map(r => ({ id: r.id, title: r.title, body: r.body, createdAt: r.created_at }));
+        loadAnnouncementsTab();
+      }
+    } catch (e) { console.warn('[cloud] announcements load failed', e); }
   }
 
   function loadRewardsTab() {
@@ -1151,7 +1176,37 @@
   }
 
   function showNewAnnouncementModal() {
-    alert('New Announcement functionality coming soon! This will allow managers to post company updates.');
+    const modal = document.createElement('div');
+    modal.className = 'modal show';
+    modal.innerHTML = `
+      <div class="card" style="width: 560px;">
+        <div class="closeX" onclick="this.closest('.modal').remove()">×</div>
+        <h2>📣 New Announcement</h2>
+        <div style="display:grid; gap:8px;">
+          <input id="annTitle" placeholder="Title" />
+          <textarea id="annBody" placeholder="Write your announcement..." style="min-height:120px"></textarea>
+          <div style="display:flex; gap:8px;">
+            <button onclick="saveAnnouncement()" style="flex:1; padding:10px; background:#8b5cf6; color:#fff; border:none; border-radius:8px; cursor:pointer;">Post</button>
+            <button onclick="this.closest('.modal').remove()" style="flex:1; padding:10px; background:#6b7280; color:#fff; border:none; border-radius:8px; cursor:pointer;">Cancel</button>
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+  }
+
+  async function saveAnnouncement() {
+    const title = (document.getElementById('annTitle')?.value || '').trim();
+    const body  = (document.getElementById('annBody')?.value || '').trim();
+    if (!title || !body) { alert('Please enter a title and body'); return; }
+    const ann = { id: 'ann_'+Date.now(), title, body, createdAt: new Date().toISOString() };
+    businessState.announcements.unshift(ann);
+    loadAnnouncementsTab();
+    document.querySelector('.modal')?.remove();
+    // cloud persist
+    try {
+      const gameId = businessState.currentGame?.id || businessState.currentGame?.managerCode;
+      if (gameId) await supabase.from('announcements').insert({ game_id: gameId, title, body });
+    } catch(e) { console.warn('[cloud] announcement save failed', e); }
   }
 
   function saveGameSettings() {
@@ -1568,6 +1623,43 @@
     };
     return descriptions[duration] || duration;
   }
+
+  async function loadActivityFeed() {
+    try {
+      if (!businessState.currentGame) return;
+      const gameId = businessState.currentGame.id || businessState.currentGame.managerCode;
+      const { data: rows } = await supabase
+        .from('activity_feed')
+        .select('*')
+        .eq('game_id', gameId)
+        .order('created_at', { ascending: false })
+        .limit(50);
+      const feed = document.getElementById('activityFeed');
+      if (!feed) return;
+      if (!rows || rows.length === 0) {
+        feed.innerHTML = '<div style="font-size:11px;color:var(--muted)">No activity yet</div>';
+        return;
+      }
+      feed.innerHTML = rows.map(r => renderActivityRow(r)).join('');
+    } catch (e) { console.warn('[cloud] activity load failed', e); }
+  }
+
+  function renderActivityRow(r) {
+    const ts = new Date(r.created_at || Date.now()).toLocaleString();
+    const action = r.action || 'event';
+    let desc = '';
+    if (action === 'purchase_tile') desc = `Purchased tile ${r.detail?.tileId || ''}`;
+    else if (action === 'attack_success') desc = `Won attack on tile ${r.detail?.tileId || ''}`;
+    else if (action === 'attack_failed') desc = `Lost attack on tile ${r.detail?.tileId || ''}`;
+    else desc = JSON.stringify(r.detail || {});
+    return `<div style="padding:6px;border-bottom:1px solid var(--border);font-size:12px">
+      <div style="color:var(--text)">${desc}</div>
+      <div style="color:var(--muted);font-size:10px">${ts}</div>
+    </div>`;
+  }
+
+  // Periodically refresh activity feed
+  setInterval(loadActivityFeed, 5000);
 
   // Initialize when page loads
   document.addEventListener('DOMContentLoaded', initializeBusinessMode);
