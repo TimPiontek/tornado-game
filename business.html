@@ -580,51 +580,28 @@
   }
 
   async function loadGameData() {
-    try {
-      // Try to load from Supabase first
-      const { data: employees } = await supabase.from('employees').select('*');
-      
-      if (employees && employees.length > 0) {
-        // Group employees by game_id to create rosters
-        const rosterMap = {};
-        employees.forEach(emp => {
-          const gameId = emp.game_id || 'default';
-          if (!rosterMap[gameId]) {
-            rosterMap[gameId] = {
-              id: gameId,
-              name: `Game ${gameId}`,
-              employees: []
-            };
-          }
-          rosterMap[gameId].employees.push(emp);
-        });
-        
-        const rosters = Object.values(rosterMap);
-        if (rosters.length > 0) {
-          // Use the first roster
-          const defaultRoster = rosters[0];
-          businessState.employees = defaultRoster.employees.map(emp => ({
-            id: emp.id || emp.name.toLowerCase().replace(/[^a-z0-9]+/g, '_'),
-            name: emp.name,
-            team: emp.team || 'Individual',
-            points: emp.points || 100,
-            credits: emp.credits || 0,
-            balance: emp.points || 100,
-            headquarters: null
-          }));
-          businessState.currentGame = {
-            id: defaultRoster.id,
-            name: defaultRoster.name,
-            managerCode: 'CODE' + Math.random().toString(36).slice(2, 7).toUpperCase()
-          };
-        }
-      }
-    } catch (error) {
-      console.warn('Failed to load from Supabase:', error);
-    }
+    // Load from localStorage like the student game
+    const saved = localStorage.getItem('businessRosters');
+    const rosters = saved ? JSON.parse(saved) : [];
     
-    // If no rosters exist, create default demo roster
-    if (!Array.isArray(businessState.employees) || businessState.employees.length === 0) {
+    if (rosters.length > 0) {
+      // Use the first roster
+      const defaultRoster = rosters[0];
+      businessState.employees = defaultRoster.employees.map(emp => ({
+        id: emp.name.toLowerCase().replace(/[^a-z0-9]+/g, '_'),
+        name: emp.name,
+        team: emp.team || 'Individual',
+        points: emp.points || 100,
+        credits: emp.credits || 0,
+        balance: emp.points || 100,
+        headquarters: null
+      }));
+      businessState.currentGame = {
+        name: defaultRoster.name,
+        managerCode: 'CODE' + Math.random().toString(36).slice(2, 7).toUpperCase()
+      };
+    } else {
+      // Create default demo roster
       const defaults = ['Alice Johnson','Bob Smith','Carol Davis','David Wilson','Eve Clark','Frank Nguyen','Grace Patel','Hank Lee'];
       const teams = ['Alpha','Beta','Gamma','Delta'];
       businessState.employees = defaults.map((n,i)=>({ 
@@ -641,8 +618,14 @@
         managerCode: 'DEMO' + Math.random().toString(36).slice(2, 7).toUpperCase()
       };
       
-      // Save demo roster to Supabase
-      await saveDemoRosterToSupabase();
+      // Save to localStorage like the student game
+      const demoRoster = {
+        id: 'demo_' + Date.now(),
+        name: 'Demo Business Competition',
+        employees: businessState.employees,
+        lastModified: new Date().toISOString()
+      };
+      localStorage.setItem('businessRosters', JSON.stringify([demoRoster]));
     }
     
     // Update UI with loaded data
@@ -661,28 +644,9 @@
     }, 100);
   }
 
-  async function saveDemoRosterToSupabase() {
-    try {
-      const gameId = 'demo_' + Date.now();
-      const employeesToSave = businessState.employees.map(emp => ({
-        id: emp.id,
-        game_id: gameId,
-        name: emp.name,
-        team: emp.team,
-        points: emp.points,
-        credits: emp.credits
-      }));
-      
-      await supabase.from('employees').upsert(employeesToSave);
-      businessState.currentGame.id = gameId;
-      console.log('Demo roster saved to Supabase');
-    } catch (error) {
-      console.warn('Failed to save demo roster to Supabase:', error);
-    }
-  }
 
   function loadRosterSelector() {
-    // Add roster selector to the UI
+    // Add roster selector to the UI like the student game
     const rosterSection = document.querySelector('.panel h3');
     if (rosterSection && rosterSection.textContent.includes('EMPLOYEES')) {
       // Check if selector already exists
@@ -690,6 +654,7 @@
       
       const selector = document.createElement('select');
       selector.id = 'rosterSelector';
+      selector.name = 'rosterSelector';
       selector.style.marginBottom = '8px';
       selector.style.width = '100%';
       selector.style.padding = '8px';
@@ -699,80 +664,57 @@
       selector.style.color = 'var(--text)';
       selector.innerHTML = '<option value="">Select Roster</option>';
       
-      // Load available rosters from Supabase
+      // Load available rosters from localStorage
       loadAvailableRosters(selector);
       
       rosterSection.parentNode.insertBefore(selector, rosterSection.nextSibling);
     }
   }
 
-  async function loadAvailableRosters(selector) {
-    try {
-      const { data: employees } = await supabase.from('employees').select('*');
-      
-      if (employees && employees.length > 0) {
-        // Group by game_id
-        const rosterMap = {};
-        employees.forEach(emp => {
-          const gameId = emp.game_id || 'default';
-          if (!rosterMap[gameId]) {
-            rosterMap[gameId] = {
-              id: gameId,
-              name: `Game ${gameId}`,
-              count: 0
-            };
-          }
-          rosterMap[gameId].count++;
-        });
-        
-        Object.values(rosterMap).forEach(roster => {
-          const option = document.createElement('option');
-          option.value = roster.id;
-          option.textContent = `${roster.name} (${roster.count} employees)`;
-          selector.appendChild(option);
-        });
-        
-        selector.onchange = function() {
-          if (this.value) {
-            loadRosterFromSupabase(this.value);
-          }
-        };
+  function loadAvailableRosters(selector) {
+    const saved = localStorage.getItem('businessRosters');
+    const rosters = saved ? JSON.parse(saved) : [];
+    
+    rosters.forEach(roster => {
+      const option = document.createElement('option');
+      option.value = roster.id;
+      option.textContent = `${roster.name} (${roster.employees.length} employees)`;
+      selector.appendChild(option);
+    });
+    
+    selector.onchange = function() {
+      if (this.value) {
+        loadRosterFromLocalStorage(this.value);
       }
-    } catch (error) {
-      console.warn('Failed to load rosters:', error);
-    }
+    };
   }
 
-  async function loadRosterFromSupabase(gameId) {
-    try {
-      const { data: employees } = await supabase.from('employees').select('*').eq('game_id', gameId);
+  function loadRosterFromLocalStorage(rosterId) {
+    const saved = localStorage.getItem('businessRosters');
+    const rosters = saved ? JSON.parse(saved) : [];
+    const roster = rosters.find(r => r.id === rosterId);
+    
+    if (roster) {
+      businessState.employees = roster.employees.map(emp => ({
+        id: emp.name.toLowerCase().replace(/[^a-z0-9]+/g, '_'),
+        name: emp.name,
+        team: emp.team || 'Individual',
+        points: emp.points || 100,
+        credits: emp.credits || 0,
+        balance: emp.points || 100,
+        headquarters: null
+      }));
       
-      if (employees && employees.length > 0) {
-        businessState.employees = employees.map(emp => ({
-          id: emp.id,
-          name: emp.name,
-          team: emp.team || 'Individual',
-          points: emp.points || 100,
-          credits: emp.credits || 0,
-          balance: emp.points || 100,
-          headquarters: null
-        }));
-        
-        businessState.currentGame = {
-          id: gameId,
-          name: `Game ${gameId}`,
-          managerCode: 'CODE' + Math.random().toString(36).slice(2, 7).toUpperCase()
-        };
-        
-        updateEmployeeDisplay();
-        initializeGameBoard();
-        saveGameData();
-        
-        alert(`Loaded roster with ${employees.length} employees`);
-      }
-    } catch (error) {
-      console.error('Failed to load roster:', error);
-      alert('Failed to load roster from cloud');
+      businessState.currentGame = {
+        name: roster.name,
+        managerCode: 'CODE' + Math.random().toString(36).slice(2, 7).toUpperCase()
+      };
+      
+      updateEmployeeDisplay();
+      initializeGameBoard();
+      saveGameData();
+      
+      alert(`Loaded roster with ${roster.employees.length} employees`);
     }
     
     if (businessState.rewards.team) {
@@ -843,21 +785,20 @@
     updateEmployeeDisplay();
     saveGameData();
     
-    // Save to Supabase with proper structure
-    try {
-      const rows = employees.map(emp => ({
-        id: emp.id,
-        game_id: gid,
-        name: emp.name,
-        team: emp.team,
-        points: emp.points,
-        credits: emp.credits
-      }));
-      await supabase.from('employees').upsert(rows);
-      console.log('Roster saved to Supabase successfully');
-    } catch(e) { 
-      console.warn('[cloud] roster upsert failed', e); 
-    }
+    // Save to localStorage like the student game
+    const roster = {
+      id: gid,
+      name: businessState.currentGame.name,
+      employees: employees,
+      lastModified: new Date().toISOString()
+    };
+    
+    const saved = localStorage.getItem('businessRosters');
+    const rosters = saved ? JSON.parse(saved) : [];
+    rosters.push(roster);
+    localStorage.setItem('businessRosters', JSON.stringify(rosters));
+    
+    console.log('Roster saved to localStorage successfully');
     
     document.getElementById('managerCodeDisplay').textContent = businessState.currentGame.managerCode;
     alert('Roster saved. Share the Manager Code with employees.');
