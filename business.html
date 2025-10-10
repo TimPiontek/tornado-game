@@ -138,6 +138,11 @@
   <div class="panel">
     <div class="section">
       <div class="title">Employees</div>
+      <div style="display:grid; gap:6px; margin-bottom:6px;">
+        <textarea id="rosterPaste" placeholder="Paste employee names (one per line)" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--panel); color:var(--text); min-height:80px"></textarea>
+        <button class="pill" onclick="createRosterFromPaste()" style="background:#22c55e;color:#fff">Create/Update Roster</button>
+        <div class="minor">Manager Code: <span id="managerCodeDisplay">—</span> <button class="pill" onclick="copyManagerCode()">Copy</button></div>
+      </div>
       <div id="employeeList" style="display: flex; flex-direction: column; gap: 6px; max-height: calc(100vh - 300px); overflow: auto;">
         <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(59, 130, 246, 0.1);">
           <div style="font-weight: 600; color: #60a5fa;">Alice Johnson</div>
@@ -616,6 +621,30 @@
     // best-effort cloud persist
     saveCloudGame();
     saveCloudMetrics();
+  }
+
+  function copyManagerCode() {
+    const code = businessState.currentGame?.managerCode || 'DEMO';
+    navigator.clipboard.writeText(code).then(()=>alert('Manager code copied')); 
+  }
+
+  async function createRosterFromPaste() {
+    const text = document.getElementById('rosterPaste')?.value||'';
+    const names = text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+    if (names.length === 0) { alert('Paste at least one name'); return; }
+    // Ensure game + code exist
+    if (!businessState.currentGame) {
+      businessState.currentGame = { name:'Business Competition', managerCode: 'CODE'+Math.random().toString(36).slice(2,7).toUpperCase() };
+    }
+    const gid = businessState.currentGame.id || businessState.currentGame.managerCode;
+    // Upsert employees
+    const rows = names.map(n => ({ id: 'emp_'+n.toLowerCase().replace(/[^a-z0-9]+/g,'_'), game_id: gid, name: n, team: 'Alpha', points: 0, credits: 0, balance: 0 }));
+    businessState.employees = rows.map(r=>({ id:r.id, name:r.name, team:r.team, points:0, credits:0, balance:0 }));
+    updateEmployeeDisplay();
+    saveGameData();
+    try { await supabase.from('employees').upsert(rows); } catch(e) { console.warn('[cloud] roster upsert failed', e); }
+    document.getElementById('managerCodeDisplay').textContent = businessState.currentGame.managerCode;
+    alert('Roster saved. Share the Manager Code with employees.');
   }
 
   function setupEventListeners() {

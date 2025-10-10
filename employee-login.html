@@ -222,31 +222,24 @@
 
         function joinGame(managerCode, employeeName) {
             showStatus('Joining game...', 'success');
-            
-            // Simulate API call
-            setTimeout(() => {
-                // Generate employee ID
-                const employeeId = 'emp_' + Date.now();
-                
-                // Store employee data
-                currentEmployee = {
-                    id: employeeId,
-                    name: employeeName,
-                    managerCode: managerCode,
-                    joinedAt: new Date().toISOString()
-                };
-                
-                localStorage.setItem('currentEmployee', JSON.stringify(currentEmployee));
-                localStorage.setItem('currentEmployeeId', employeeId);
-                
-                showStatus('Successfully joined! Redirecting...', 'success');
-                
-                // Redirect to employee game page
-                setTimeout(() => {
-                    window.location.href = `/employee-war.html?employeeId=${employeeId}`;
-                }, 1500);
-                
-            }, 1000);
+            (async () => {
+                try {
+                    const SUPABASE_URL = 'https://dmbbsrcwqpmdxqtzvtqj.supabase.co';
+                    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w';
+                    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+                    const { data: g } = await supabase.from('games').select('id,code').eq('code', managerCode).limit(1);
+                    const gameId = g && g[0] ? g[0].id : managerCode;
+                    const employeeId = 'emp_' + employeeName.toLowerCase().replace(/[^a-z0-9]+/g,'_');
+                    await supabase.from('employees').upsert({ id: employeeId, game_id: gameId, name: employeeName, team: 'Alpha', points: 0, credits: 0, balance: 0 });
+                    currentEmployee = { id: employeeId, name: employeeName, managerCode, joinedAt: new Date().toISOString() };
+                    localStorage.setItem('currentEmployee', JSON.stringify(currentEmployee));
+                    localStorage.setItem('currentEmployeeId', employeeId);
+                    showStatus('Successfully joined! Redirecting...', 'success');
+                    setTimeout(() => { window.location.href = `/employee-war.html?employeeId=${employeeId}&code=${encodeURIComponent(managerCode)}`; }, 1000);
+                } catch (e) {
+                    showStatus('Could not join game. Please check the code.', 'error');
+                }
+            })();
         }
 
         function showDemoMode() {
