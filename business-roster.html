@@ -18,8 +18,9 @@
     .btn-success { background:#059669; }
     .btn-danger { background:#dc2626; }
     input, textarea, select { width:100%; padding:10px; border:1px solid var(--border); border-radius:10px; background:#081125; color:var(--text); margin-bottom:8px }
-    .roster-card { border:1px solid var(--border); border-radius:8px; padding:12px; margin-bottom:8px; }
+    .roster-card { border:1px solid var(--border); border-radius:8px; padding:12px; margin-bottom:8px; cursor:pointer; }
     .roster-card.active { border-color:#3b82f6; background:#1e3a8a20; }
+    .roster-card:hover { border-color:#60a5fa; }
     .employee-list { max-height:200px; overflow-y:auto; border:1px solid var(--border); border-radius:8px; padding:8px; background:#081125; }
     .employee-item { display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border); }
     .employee-item:last-child { border-bottom:none; }
@@ -27,52 +28,32 @@
     .team-option { padding:4px 8px; border:1px solid var(--border); border-radius:6px; background:var(--panel); color:var(--text); cursor:pointer; font-size:11px; }
     .team-option.active { background:#3b82f6; color:#fff; }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
-    const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
-    const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-
-    let rosters = [];
+    let businessRosters = [];
     let currentRoster = null;
     let teamMode = 'individual';
 
-    async function loadRosters() {
-      try {
-        const { data } = await supabase.from('employees').select('*');
-        // Group employees by game_id to create rosters
-        const rosterMap = {};
-        (data || []).forEach(emp => {
-          const gameId = emp.game_id || 'default';
-          if (!rosterMap[gameId]) {
-            rosterMap[gameId] = {
-              id: gameId,
-              name: `Game ${gameId}`,
-              employees: []
-            };
-          }
-          rosterMap[gameId].employees.push(emp);
-        });
-        
-        rosters = Object.values(rosterMap);
-        renderRosters();
-      } catch (error) {
-        console.error('Load rosters error:', error);
-        // Initialize with empty rosters if no data
-        rosters = [];
-        renderRosters();
-      }
+    // Load rosters from localStorage
+    function loadRosters() {
+      const saved = localStorage.getItem('businessRosters');
+      businessRosters = saved ? JSON.parse(saved) : [];
+      renderRosters();
+    }
+
+    // Save rosters to localStorage
+    function saveRosters() {
+      localStorage.setItem('businessRosters', JSON.stringify(businessRosters));
     }
 
     function renderRosters() {
       const container = document.getElementById('rostersContainer');
       
-      if (rosters.length === 0) {
+      if (businessRosters.length === 0) {
         container.innerHTML = '<div class="card"><div style="text-align:center; color:var(--muted);">No rosters found. Create your first roster below.</div></div>';
         return;
       }
 
-      const html = rosters.map(roster => `
+      const html = businessRosters.map(roster => `
         <div class="roster-card ${currentRoster?.id === roster.id ? 'active' : ''}" onclick="selectRoster('${roster.id}')">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
             <h3 style="margin:0; font-size:16px;">${roster.name}</h3>
@@ -99,7 +80,7 @@
     }
 
     function selectRoster(rosterId) {
-      currentRoster = rosters.find(r => r.id === rosterId);
+      currentRoster = businessRosters.find(r => r.id === rosterId);
       renderRosters();
       loadRosterDetails();
     }
@@ -145,19 +126,19 @@
           <div>
             <h4 style="margin-bottom:8px;">Employees (${currentRoster.employees.length})</h4>
             <div class="employee-list">
-              ${currentRoster.employees.map(emp => `
+              ${currentRoster.employees.map((emp, index) => `
                 <div class="employee-item">
                   <div>
-                    <input type="text" value="${emp.name}" onchange="updateEmployeeName('${emp.id}', this.value)" style="background:transparent; border:none; color:var(--text); padding:2px 4px; font-size:12px;">
+                    <input type="text" value="${emp.name}" onchange="updateEmployeeName(${index}, this.value)" style="background:transparent; border:none; color:var(--text); padding:2px 4px; font-size:12px;">
                     <div style="font-size:11px; color:var(--muted);">${emp.team || 'Individual'} • ${emp.points || 0} pts</div>
                   </div>
                   <div style="display:flex; gap:4px;">
                     ${teamMode !== 'individual' ? `
-                      <select onchange="updateEmployeeTeam('${emp.id}', this.value)" style="padding:2px 4px; font-size:10px; background:#081125; border:1px solid var(--border); border-radius:4px; color:var(--text);">
+                      <select onchange="updateEmployeeTeam(${index}, this.value)" style="padding:2px 4px; font-size:10px; background:#081125; border:1px solid var(--border); border-radius:4px; color:var(--text);">
                         ${getTeamOptions().map(team => `<option value="${team}" ${emp.team === team ? 'selected' : ''}>${team}</option>`).join('')}
                       </select>
                     ` : ''}
-                    <button class="btn btn-danger" onclick="removeEmployee('${emp.id}')" style="padding:2px 6px; font-size:10px;">×</button>
+                    <button class="btn btn-danger" onclick="removeEmployee(${index})" style="padding:2px 6px; font-size:10px;">×</button>
                   </div>
                 </div>
               `).join('')}
@@ -180,52 +161,49 @@
       loadRosterDetails();
     }
 
-    async function autoAssignTeams() {
+    function autoAssignTeams() {
       if (teamMode === 'individual') {
         // Remove all team assignments
-        for (const emp of currentRoster.employees) {
-          await supabase.from('employees').update({ team: null }).eq('id', emp.id);
-        }
+        currentRoster.employees.forEach(emp => emp.team = null);
       } else {
         const teamNames = getTeamOptions();
-        for (let i = 0; i < currentRoster.employees.length; i++) {
-          const emp = currentRoster.employees[i];
-          const team = teamNames[i % teamNames.length];
-          await supabase.from('employees').update({ team }).eq('id', emp.id);
-        }
+        currentRoster.employees.forEach((emp, index) => {
+          emp.team = teamNames[index % teamNames.length];
+        });
       }
       
-      await loadRosters();
+      saveRosters();
       loadRosterDetails();
     }
 
-    async function addEmployee() {
+    function addEmployee() {
       const name = document.getElementById('newEmployeeName').value.trim();
       if (!name) {
         alert('Please enter an employee name');
         return;
       }
 
-      try {
-        const { data } = await supabase.from('employees').insert({
-          name,
-          game_id: currentRoster.id,
-          team: teamMode === 'individual' ? null : getTeamOptions()[0],
-          points: 100,
-          credits: 0
-        }).select().single();
-
-        currentRoster.employees.push(data);
-        document.getElementById('newEmployeeName').value = '';
-        loadRosterDetails();
-        alert('Employee added successfully!');
-      } catch (error) {
-        console.error('Add employee error:', error);
-        alert('Failed to add employee: ' + error.message);
+      // Check for duplicates
+      if (currentRoster.employees.some(emp => emp.name.toLowerCase() === name.toLowerCase())) {
+        alert('Employee already exists in this roster');
+        return;
       }
+
+      const newEmployee = {
+        name,
+        team: teamMode === 'individual' ? null : getTeamOptions()[0],
+        points: 100,
+        credits: 0
+      };
+
+      currentRoster.employees.push(newEmployee);
+      document.getElementById('newEmployeeName').value = '';
+      saveRosters();
+      loadRosterDetails();
+      alert('Employee added successfully!');
     }
 
-    async function addBulkEmployees() {
+    function addBulkEmployees() {
       const bulkText = document.getElementById('bulkEmployeeNames').value.trim();
       if (!bulkText) {
         alert('Please enter employee names (one per line)');
@@ -240,150 +218,97 @@
 
       if (!confirm(`Add ${names.length} employees to this roster?`)) return;
 
-      try {
-        // Add employees one by one to avoid batch insert issues
-        const addedEmployees = [];
-        
-        for (const name of names) {
-          const { data, error } = await supabase.from('employees').insert({
+      const newEmployees = [];
+      const teamNames = getTeamOptions();
+      
+      names.forEach((name, index) => {
+        // Check for duplicates
+        if (!currentRoster.employees.some(emp => emp.name.toLowerCase() === name.toLowerCase())) {
+          newEmployees.push({
             name,
-            game_id: currentRoster.id,
-            team: teamMode === 'individual' ? null : getTeamOptions()[0],
+            team: teamMode === 'individual' ? null : teamNames[index % teamNames.length],
             points: 100,
             credits: 0
-          }).select().single();
-          
-          if (error) {
-            console.error('Error adding employee:', name, error);
-            continue;
-          }
-          
-          if (data) {
-            addedEmployees.push(data);
-          }
+          });
         }
-        
-        currentRoster.employees.push(...addedEmployees);
-        document.getElementById('bulkEmployeeNames').value = '';
-        loadRosterDetails();
-        alert(`Successfully added ${addedEmployees.length} employees!`);
-      } catch (error) {
-        console.error('Add bulk employees error:', error);
-        alert('Failed to add employees: ' + error.message);
-      }
+      });
+
+      currentRoster.employees.push(...newEmployees);
+      document.getElementById('bulkEmployeeNames').value = '';
+      saveRosters();
+      loadRosterDetails();
+      alert(`Successfully added ${newEmployees.length} employees!`);
     }
 
-    async function updateEmployeeName(id, name) {
-      try {
-        await supabase.from('employees').update({ name }).eq('id', id);
-        const emp = currentRoster.employees.find(e => e.id === id);
-        if (emp) emp.name = name;
-      } catch (error) {
-        console.error('Update employee name error:', error);
-      }
+    function updateEmployeeName(index, name) {
+      currentRoster.employees[index].name = name;
+      saveRosters();
     }
 
-    async function updateEmployeeTeam(id, team) {
-      try {
-        await supabase.from('employees').update({ team: team || null }).eq('id', id);
-        const emp = currentRoster.employees.find(e => e.id === id);
-        if (emp) emp.team = team;
-      } catch (error) {
-        console.error('Update employee team error:', error);
-      }
+    function updateEmployeeTeam(index, team) {
+      currentRoster.employees[index].team = team || null;
+      saveRosters();
     }
 
-    async function removeEmployee(id) {
+    function removeEmployee(index) {
       if (!confirm('Remove this employee from the roster?')) return;
 
-      try {
-        await supabase.from('employees').delete().eq('id', id);
-        currentRoster.employees = currentRoster.employees.filter(e => e.id !== id);
-        loadRosterDetails();
-      } catch (error) {
-        console.error('Remove employee error:', error);
-        alert('Failed to remove employee: ' + error.message);
-      }
+      currentRoster.employees.splice(index, 1);
+      saveRosters();
+      loadRosterDetails();
     }
 
-    async function updateRosterName() {
+    function updateRosterName() {
       const name = document.getElementById('rosterName').value.trim();
       if (!name) return;
 
-      try {
-        // Update roster name locally (no database field for game_name)
-        currentRoster.name = name;
-        renderRosters();
-        loadRosterDetails();
-        alert('Roster name updated successfully!');
-      } catch (error) {
-        console.error('Update roster name error:', error);
-        alert('Failed to update roster name: ' + error.message);
-      }
+      currentRoster.name = name;
+      saveRosters();
+      renderRosters();
+      loadRosterDetails();
+      alert('Roster name updated successfully!');
     }
 
-    // Generate a proper UUID
-    function generateUUID() {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        const r = Math.random() * 16 | 0;
-        const v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-      });
-    }
-
-    async function createNewRoster() {
+    function createNewRoster() {
       const name = document.getElementById('newRosterName').value.trim();
       if (!name) {
         alert('Please enter a roster name');
         return;
       }
 
-      try {
-        const gameId = generateUUID();
-        
-        // Create roster without sample employee - just add to rosters array
-        const newRoster = {
-          id: gameId,
-          name: name,
-          employees: []
-        };
+      const newRoster = {
+        id: Date.now().toString(),
+        name: name,
+        employees: [],
+        lastModified: new Date().toISOString()
+      };
 
-        rosters.push(newRoster);
-        document.getElementById('newRosterName').value = '';
-        renderRosters();
-        selectRoster(gameId);
-        alert('Roster created successfully! Add employees to get started.');
-      } catch (error) {
-        console.error('Create roster error:', error);
-        alert('Failed to create roster: ' + error.message);
-      }
+      businessRosters.push(newRoster);
+      document.getElementById('newRosterName').value = '';
+      saveRosters();
+      renderRosters();
+      selectRoster(newRoster.id);
+      alert('Roster created successfully! Add employees to get started.');
     }
 
-    async function deleteRoster(id) {
+    function deleteRoster(rosterId) {
       if (!confirm('Delete this roster and all employees? This cannot be undone.')) return;
 
-      try {
-        // Delete employees from database if they exist
-        const roster = rosters.find(r => r.id === id);
-        if (roster && roster.employees.length > 0) {
-          await supabase.from('employees').delete().eq('game_id', id);
-        }
-        
-        rosters = rosters.filter(r => r.id !== id);
+      businessRosters = businessRosters.filter(r => r.id !== rosterId);
+      if (currentRoster && currentRoster.id === rosterId) {
         currentRoster = null;
-        renderRosters();
-        loadRosterDetails();
-        alert('Roster deleted successfully!');
-      } catch (error) {
-        console.error('Delete roster error:', error);
-        alert('Failed to delete roster: ' + error.message);
       }
+      saveRosters();
+      renderRosters();
+      loadRosterDetails();
+      alert('Roster deleted successfully!');
     }
 
-    function editRoster(id) {
-      selectRoster(id);
+    function editRoster(rosterId) {
+      selectRoster(rosterId);
     }
 
+    // Initialize on page load
     document.addEventListener('DOMContentLoaded', loadRosters);
   </script>
 </head>
