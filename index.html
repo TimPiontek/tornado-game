@@ -3211,11 +3211,8 @@ The Beatles
               // Teacher is logged in - show teacher navigation
               navLinks.innerHTML += `
                 <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
-                <span style="display:inline-flex;gap:6px;align-items:center;">
-                  <a href="/teacher-assignments-manage.html" style="color:#fff;text-decoration:none;padding:0.3em 0.7em;border-radius:6px;">📋 Assignments</a>
-                  <a href="/teacher-assignments-manage.html#create" style="background:#10b981;color:#fff;text-decoration:none;padding:0.3em 0.6em;border-radius:6px;">+ Create</a>
-                </span>
-                <button id="loginLogoutBtn" class="login-btn">Logout</button>
+                <a href="/teacher-assignments-manage.html" style="color:#fff;text-decoration:none;padding:0.3em 0.7em;border-radius:6px;">📋 Assignments</a>
+                <button id=\"loginLogoutBtn\" class=\"login-btn\">Logout</button>
               `;
             } else {
               // Not logged in - show guest navigation
@@ -4312,11 +4309,8 @@ The Beatles
             // Teacher navigation (teacher takes priority over student)
             navLinks.innerHTML += `
               <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
-              <span style="display:inline-flex;gap:6px;align-items:center;">
-                <a href="/teacher-assignments-manage.html" style="color:#fff;text-decoration:none;padding:0.3em 0.7em;border-radius:6px;">📋 Assignments</a>
-                <a href="/teacher-assignments-manage.html#create" style="background:#10b981;color:#fff;text-decoration:none;padding:0.3em 0.6em;border-radius:6px;">+ Create</a>
-              </span>
-              <button id="loginLogoutBtn" class="login-btn">Logout</button>
+              <a href="/teacher-assignments-manage.html" style="color:#fff;text-decoration:none;padding:0.3em 0.7em;border-radius:6px;">📋 Assignments</a>
+              <button id=\"loginLogoutBtn\" class=\"login-btn\">Logout</button>
             `;
           } else if (isStudent && !isTeacher) {
             // Student navigation
