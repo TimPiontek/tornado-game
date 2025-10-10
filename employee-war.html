@@ -334,6 +334,9 @@
         const { data: tiles } = await supabase.from('tiles').select('*').eq('game_id', employeeState.gameData.id);
         const w = employeeState.gameData.board_w || 10; const h = employeeState.gameData.board_h || 10;
         employeeState.board = { w, h, tiles: (tiles||[]).map(t => ({ id: t.tile_id, x: t.x, y: t.y, owner: t.owner_employee_id, isHeadquarters: !!t.is_headquarters, cost: t.cost||20 })) };
+        // Realtime subscriptions
+        subscribeTiles();
+        subscribeNotifications();
       }
     } catch (e) { console.warn('[emp] load game failed', e); }
   }
@@ -353,6 +356,38 @@
         <div style="font-size:10px;text-align:center;">${icon}<div style="font-size:8px;color:var(--muted);">${!tile.owner?`💰${tile.cost||20}`:''}</div>${name?`<div style=\"font-size:7px;color:var(--accent)\">${name}</div>`:''}</div>
       </div>`;
     }).join('');
+  }
+
+  function subscribeTiles() {
+    try {
+      if (!employeeState.gameData) return;
+      const channel = supabase.channel('emp_tiles_'+employeeState.gameData.id);
+      channel.on('postgres_changes', { event: '*', schema: 'public', table: 'tiles', filter: `game_id=eq.${employeeState.gameData.id}` }, payload => {
+        const r = payload.new || payload.old;
+        if (!r) return;
+        const idx = employeeState.board.tiles.findIndex(t => t.id === r.tile_id);
+        if (idx >= 0) {
+          employeeState.board.tiles[idx].owner = r.owner_employee_id;
+          employeeState.board.tiles[idx].isHeadquarters = !!r.is_headquarters;
+        } else {
+          employeeState.board.tiles.push({ id: r.tile_id, x: r.x, y: r.y, owner: r.owner_employee_id, isHeadquarters: !!r.is_headquarters, cost: r.cost||20 });
+        }
+        renderBoardFromState();
+      }).subscribe();
+    } catch (e) { console.warn('[emp] subscribe tiles failed', e); }
+  }
+
+  function subscribeNotifications() {
+    try {
+      if (!employeeState.gameData) return;
+      const channel = supabase.channel('emp_notifs_'+employeeState.currentEmployee.id);
+      channel.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: `game_id=eq.${employeeState.gameData.id}` }, payload => {
+        const n = payload.new;
+        if (!n || n.to_employee_id !== employeeState.currentEmployee.id) return;
+        employeeState.notifications.unshift({ id: n.id, type: n.kind, message: formatNotification(n), timestamp: n.created_at, read: false });
+        updateNotificationFeed();
+      }).subscribe();
+    } catch (e) { console.warn('[emp] subscribe notifications failed', e); }
   }
 
   window.handleTileClick = async function(tileId) {

@@ -876,6 +876,7 @@
     if (tabFromHash) {
       switchTab(tabFromHash);
     }
+    subscribeActivity();
   });
 
   function loadMetricsTab() {
@@ -1662,8 +1663,16 @@
   // Periodically refresh activity feed
   setInterval(loadActivityFeed, 5000);
 
-  // Initialize when page loads
-  document.addEventListener('DOMContentLoaded', initializeBusinessMode);
+  function subscribeActivity() {
+    try {
+      if (!businessState.currentGame) return;
+      const gid = businessState.currentGame.id || businessState.currentGame.managerCode;
+      const channel = supabase.channel('mgr_activity_'+gid);
+      channel.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'activity_feed', filter: `game_id=eq.${gid}` }, () => {
+        loadActivityFeed();
+      }).subscribe();
+    } catch (e) { console.warn('[cloud] activity subscribe failed', e); }
+  }
 
   function showNewAssignmentModal() {
     const modal = document.createElement('div');
