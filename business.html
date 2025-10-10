@@ -8,7 +8,18 @@
     :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
     * { box-sizing: border-box }
     html, body { height:100%; margin:0; padding:0; font-family:system-ui, -apple-system, sans-serif; background:var(--bg); color:var(--text); }
-    .container { display:grid; grid-template-columns: 300px 1fr 300px; height:100vh; gap:1px; background:var(--border); }
+    
+    /* Header */
+    .header { background:var(--panel); border-bottom:1px solid var(--border); padding:12px 16px; display:flex; align-items:center; justify-content:space-between; }
+    .header-left { display:flex; align-items:center; gap:16px; }
+    .logo { font-size:20px; font-weight:bold; color:var(--accent); }
+    .header-right { display:flex; align-items:center; gap:12px; }
+    .header-btn { padding:6px 12px; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--text); text-decoration:none; font-size:12px; cursor:pointer; }
+    .header-btn:hover { background:var(--accent); color:var(--bg); }
+    .header-btn.danger { background:#dc2626; color:white; }
+    .header-btn.danger:hover { background:#b91c1c; }
+    
+    .container { display:grid; grid-template-columns: 300px 1fr 300px; height:calc(100vh - 60px); gap:1px; background:var(--border); }
     .panel { background:var(--panel); padding:16px; overflow-y:auto; }
     .title { font-size:14px; font-weight:600; margin-bottom:12px; color:var(--accent); }
     .pill { padding:6px 12px; border:none; border-radius:20px; cursor:pointer; font-size:12px; font-weight:500; }
@@ -32,6 +43,19 @@
   </style>
 </head>
 <body>
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">🌪️ TORNADO BUSINESS</div>
+    </div>
+    <div class="header-right">
+      <a href="how-it-works.html" class="header-btn">How to Play</a>
+      <button class="header-btn danger" onclick="showNewGameModal()">🔄 New Game</button>
+      <span style="color:var(--muted); font-size:12px;">Manager Mode</span>
+      <a href="business-home.html" class="header-btn">← Back to Home</a>
+    </div>
+  </div>
+
   <div class="container">
     <!-- Left Panel -->
     <div class="panel">
@@ -126,7 +150,13 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
+  // Supabase client for cloud persistence
+  const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+  const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
   // Business game state
   let businessState = {
     employees: [],
@@ -142,16 +172,112 @@
     }
   };
 
+  // Cloud persistence functions
+  async function saveCloudActivity(action, detail) {
+    try {
+      if (!businessState.currentGame) return;
+      const payload = Array.isArray(detail) ? detail : { ...(detail||{}) };
+      await supabase.from('activity_feed').insert({
+        game_id: businessState.currentGame.id || businessState.currentGame.managerCode,
+        actor_id: businessState.selectedEmployee?.id || 'manager',
+        action,
+        detail: payload,
+        created_at: new Date().toISOString()
+      });
+    } catch (e) { console.warn('[cloud] activity save failed', e); }
+  }
+  
+  async function saveCloudGame() {
+    try {
+      if (!businessState.currentGame) return;
+      
+      // Save game
+      const { data: game } = await supabase.from('games').upsert({
+        id: businessState.currentGame.id,
+        code: businessState.currentGame.managerCode,
+        name: businessState.currentGame.name,
+        mode: 'business',
+        status: 'active',
+        created_at: new Date().toISOString()
+      }).select().single();
+      
+      if (game && !businessState.currentGame.id) {
+        businessState.currentGame.id = game.id;
+      }
+      
+      // Save employees
+      if (businessState.employees?.length) {
+        const rows = businessState.employees.map(e => ({
+          id: e.id,
+          game_id: businessState.currentGame.id,
+          name: e.name,
+          team: e.team,
+          points: e.points || 0,
+          credits: e.credits || 0,
+          balance: e.balance || 0
+        }));
+        await supabase.from('employees').upsert(rows);
+      }
+      
+      // Save tiles
+      if (businessState.board?.tiles?.length) {
+        const rows = businessState.board.tiles.map(t => ({
+          game_id: businessState.currentGame.id,
+          tile_id: t.id,
+          x: t.x,
+          y: t.y,
+          owner_employee_id: t.owner,
+          is_headquarters: !!t.isHeadquarters,
+          cost: t.cost
+        }));
+        await supabase.from('tiles').upsert(rows, { onConflict: 'game_id,tile_id' });
+      }
+    } catch (e) { console.warn('[cloud] game save failed', e); }
+  }
+
   // Initialize the game
-  function init() {
-    loadGameData();
+  async function init() {
+    await loadGameData();
     loadRosterSelector();
     initializeGameBoard();
     updateDisplay();
   }
 
-  // Load game data from localStorage
-  function loadGameData() {
+  // Load game data from Supabase
+  async function loadGameData() {
+    try {
+      // Try to load from Supabase first
+      const { data: games } = await supabase.from('games').select('*').eq('mode', 'business').limit(1);
+      
+      if (games && games.length > 0) {
+        const game = games[0];
+        businessState.currentGame = game;
+        
+        // Load employees
+        const { data: employees } = await supabase.from('employees').select('*').eq('game_id', game.id);
+        businessState.employees = employees || [];
+        
+        // Load tiles
+        const { data: tiles } = await supabase.from('tiles').select('*').eq('game_id', game.id);
+        if (tiles && tiles.length > 0) {
+          businessState.board.tiles = tiles.map(t => ({
+            id: t.tile_id,
+            x: t.x,
+            y: t.y,
+            owner: t.owner_employee_id,
+            cost: t.cost,
+            isHeadquarters: !!t.is_headquarters
+          }));
+        }
+        
+        document.getElementById('managerCode').value = game.code || 'DEMO';
+        return;
+      }
+    } catch (e) {
+      console.warn('[cloud] Failed to load from Supabase, falling back to localStorage:', e);
+    }
+    
+    // Fallback to localStorage for compatibility
     const savedRosters = localStorage.getItem('businessRosters');
     console.log('[DEBUG] Saved rosters from localStorage:', savedRosters);
     
@@ -176,13 +302,18 @@
         { id: '4', name: 'David Wilson', team: 'Gamma Team', points: 130, credits: 18, balance: 130 }
       ];
       
-      // Save demo roster
+      businessState.currentGame = { name: 'Demo Business Roster', managerCode: 'DEMO' };
+      
+      // Save to both localStorage and Supabase
       const demoRoster = {
         id: 'demo',
         name: 'Demo Business Roster',
         roster: businessState.employees
       };
       localStorage.setItem('businessRosters', JSON.stringify([demoRoster]));
+      
+      // Also save to Supabase
+      await saveCloudGame();
     }
     
     document.getElementById('managerCode').value = businessState.currentGame?.managerCode || 'DEMO';
@@ -352,7 +483,7 @@
   }
 
   // Select a tile
-  function selectTile(tile) {
+  async function selectTile(tile) {
     if (!businessState.selectedEmployee) {
       alert('Please select an employee first');
       return;
@@ -370,6 +501,11 @@
           businessState.selectedEmployee.balance -= tile.cost * 2;
           tile.owner = businessState.selectedEmployee.id;
           updateDisplay();
+          
+          // Save to cloud
+          await saveCloudGame();
+          await saveCloudActivity('attack_tile', { tileId: tile.id, cost: tile.cost * 2 });
+          
           alert('Attack successful!');
         } else {
           alert('Not enough points for attack');
@@ -381,6 +517,10 @@
         businessState.selectedEmployee.balance -= tile.cost;
         tile.owner = businessState.selectedEmployee.id;
         updateDisplay();
+        
+        // Save to cloud
+        await saveCloudGame();
+        await saveCloudActivity('claim_tile', { tileId: tile.id, cost: tile.cost });
       } else {
         alert('Not enough points to claim this tile');
       }
@@ -705,6 +845,95 @@
     }));
     
     alert('✅ Rewards saved!');
+  }
+
+  // Show new game modal
+  function showNewGameModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+      <div class="card" style="width: 500px;">
+        <div class="closeX" onclick="this.closest('.modal').remove()">×</div>
+        <h2>🔄 Create New Work Scenario</h2>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">Game Name</label>
+          <input type="text" id="newGameName" name="newGameName" placeholder="e.g., Q4 Sales Challenge" value="Business Competition">
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">Work Scenario</label>
+          <select id="workScenario" name="workScenario" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
+            <option value="individual">👤 Individual Competition - Everyone works alone</option>
+            <option value="pairs">👥 Pair Competition - Teams of 2 employees</option>
+            <option value="teams3">🏢 Team Competition - Teams of 3 employees</option>
+            <option value="teams4">🏢 Team Competition - Teams of 4 employees</option>
+            <option value="mixed">🎯 Mixed Mode - Individual + Team challenges</option>
+          </select>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">Starting Points per Employee</label>
+          <input type="number" id="startingPoints" name="startingPoints" placeholder="100" value="100" min="50" max="500">
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">Board Size</label>
+          <select id="boardSize" name="boardSize" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
+            <option value="small">Small (8x8) - 64 tiles</option>
+            <option value="medium" selected>Medium (10x10) - 100 tiles</option>
+            <option value="large">Large (12x12) - 144 tiles</option>
+          </select>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-top: 16px;">
+          <button onclick="createNewGame()" style="flex: 1; padding: 10px; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">🚀 Create Game</button>
+          <button onclick="this.closest('.modal').remove()" style="flex: 1; padding: 10px; background: #6b7280; color: white; border: none; border-radius: 6px; cursor: pointer;">❌ Cancel</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+
+  // Create new game
+  async function createNewGame() {
+    const name = document.getElementById('newGameName').value;
+    const scenario = document.getElementById('workScenario').value;
+    const startingPoints = parseInt(document.getElementById('startingPoints').value) || 100;
+    const boardSize = document.getElementById('boardSize').value;
+    
+    if (!name.trim()) {
+      alert('Please enter a game name');
+      return;
+    }
+    
+    // Update game state
+    businessState.currentGame = {
+      name: name,
+      managerCode: 'DEMO_' + Date.now(),
+      scenario: scenario,
+      startingPoints: startingPoints
+    };
+    
+    // Update board size
+    const sizes = { small: 8, medium: 10, large: 12 };
+    businessState.board.w = businessState.board.h = sizes[boardSize] || 10;
+    
+    // Reset employees with new starting points
+    businessState.employees.forEach(emp => {
+      emp.points = startingPoints;
+      emp.balance = startingPoints;
+    });
+    
+    // Reinitialize board
+    initializeGameBoard();
+    updateDisplay();
+    
+    // Save to cloud
+    await saveCloudGame();
+    
+    document.querySelector('.modal').remove();
+    alert('✅ New game created!');
   }
 
   // Initialize when page loads
