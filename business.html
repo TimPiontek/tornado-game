@@ -142,6 +142,16 @@
         <textarea id="rosterPaste" placeholder="Paste employee names (one per line)" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--panel); color:var(--text); min-height:80px"></textarea>
         <button class="pill" onclick="createRosterFromPaste()" style="background:#22c55e;color:#fff">Create/Update Roster</button>
         <div class="minor">Manager Code: <span id="managerCodeDisplay">—</span> <button class="pill" onclick="copyManagerCode()">Copy</button></div>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <label class="minor">Teams:</label>
+          <select id="teamSplit" class="pill" onchange="setTeamSplitMode(this.value)">
+            <option value="individual">Individual</option>
+            <option value="2">2 Teams</option>
+            <option value="3">3 Teams</option>
+            <option value="4">4 Teams</option>
+          </select>
+          <button class="pill" onclick="autoAssignTeams()" style="background:#3b82f6;color:#fff">Auto-Assign Teams</button>
+        </div>
       </div>
       <div id="employeeList" style="display: flex; flex-direction: column; gap: 6px; max-height: calc(100vh - 300px); overflow: auto;">
         <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(59, 130, 246, 0.1);">
@@ -549,46 +559,11 @@
       businessState = { ...businessState, ...JSON.parse(savedGame) };
     }
     
-    // Initialize with sample employees if none exist
+    // Initialize with sample employees if none exist (default 8)
     if (businessState.employees.length === 0) {
-      businessState.employees = [
-        {
-          id: 'emp_1',
-          name: 'Alice Johnson',
-          team: 'Alpha',
-          points: 100,
-          credits: 0,
-          balance: 100,
-          headquarters: null
-        },
-        {
-          id: 'emp_2',
-          name: 'Bob Smith',
-          team: 'Beta',
-          points: 100,
-          credits: 0,
-          balance: 100,
-          headquarters: null
-        },
-        {
-          id: 'emp_3',
-          name: 'Carol Davis',
-          team: 'Alpha',
-          points: 100,
-          credits: 0,
-          balance: 100,
-          headquarters: null
-        },
-        {
-          id: 'emp_4',
-          name: 'David Wilson',
-          team: 'Gamma',
-          points: 100,
-          credits: 0,
-          balance: 100,
-          headquarters: null
-        }
-      ];
+      const defaults = ['Alice Johnson','Bob Smith','Carol Davis','David Wilson','Eve Clark','Frank Nguyen','Grace Patel','Hank Lee'];
+      const teams = ['Alpha','Beta','Gamma','Delta'];
+      businessState.employees = defaults.map((n,i)=>({ id:'emp_'+(i+1), name:n, team: teams[i%teams.length], points:100, credits:0, balance:100, headquarters:null }));
     }
     
     // Update UI with loaded data
@@ -1402,6 +1377,9 @@
       return;
     }
     
+    const split = businessState.teamSplit || 'individual';
+    const teamOptions = split==='2'? ['Alpha','Beta'] : split==='3'? ['Alpha','Beta','Gamma'] : split==='4'? ['Alpha','Beta','Gamma','Delta'] : [];
+
     employeeList.innerHTML = businessState.employees.map(employee => {
       const isSelected = businessState.selectedEmployee && businessState.selectedEmployee.id === employee.id;
       const teamColors = {
@@ -1419,11 +1397,32 @@
           cursor: pointer;
           ${isSelected ? 'outline: 2px solid var(--accent);' : ''}
         ">
-          <div style="font-weight: 600; color: ${isSelected ? 'var(--accent)' : 'var(--text)'};">${employee.name}</div>
-          <div style="font-size: 11px; color: var(--muted);">${employee.team} Team • ${employee.points || 0} pts • ${employee.credits || 0} credits</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;">
+            <div style="font-weight:600;color:${isSelected ? 'var(--accent)' : 'var(--text)'}">${employee.name}</div>
+            ${split==='individual' ? '<span class="minor">Individual</span>' : `
+            <select onchange=\"changeEmployeeTeam('${employee.id}', this.value)\" class=\"pill\" style=\"padding:2px 6px;font-size:11px\">${teamOptions.map(t=>`<option ${employee.team===t?'selected':''}>${t}</option>`).join('')}</select>`}
+          </div>
+          <div style="font-size:11px;color:var(--muted)">${employee.team ? employee.team+' Team • ' : ''}${employee.points || 0} pts • ${employee.credits || 0} credits</div>
         </div>
       `;
     }).join('');
+  }
+
+  function setTeamSplitMode(mode) {
+    businessState.teamSplit = mode; updateEmployeeDisplay(); saveGameData();
+  }
+
+  function changeEmployeeTeam(id, team) {
+    const emp = businessState.employees.find(e=>e.id===id); if (!emp) return; emp.team = team; updateEmployeeDisplay(); saveGameData();
+  }
+
+  function autoAssignTeams() {
+    const split = document.getElementById('teamSplit')?.value || 'individual';
+    if (split==='individual') { businessState.employees.forEach(e=>e.team=''); updateEmployeeDisplay(); saveGameData(); return; }
+    const count = Number(split);
+    const names = ['Alpha','Beta','Gamma','Delta'];
+    businessState.employees.forEach((e,i)=>{ e.team = names[i%count]; });
+    updateEmployeeDisplay(); saveGameData();
   }
 
   function selectEmployee(employeeId) {
