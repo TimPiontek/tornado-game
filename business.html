@@ -1208,7 +1208,20 @@
     try {
       const gameId = businessState.currentGame?.id || businessState.currentGame?.managerCode;
       if (gameId) await supabase.from('announcements').insert({ game_id: gameId, title, body });
+      // webhook broadcast
+      await postWebhooks(`[Announcement] ${title}`, body);
     } catch(e) { console.warn('[cloud] announcement save failed', e); }
+  }
+
+  async function postWebhooks(title, text) {
+    try {
+      const { data } = await supabase.from('integrations').select('*').in('type', ['slack','teams']);
+      const hooks = (data||[]).filter(r => r.status === 'Connected' && r.token);
+      await Promise.all(hooks.map(h => fetch(h.token, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(h.type === 'slack' ? { text: `*${title}*\n${text}` } : { title, text })
+      }).catch(()=>{})));
+    } catch (e) { console.warn('[webhook] post failed', e); }
   }
 
   function saveGameSettings() {
