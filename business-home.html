@@ -11,7 +11,8 @@
     header { position:sticky; top:0; z-index:2; background:#0d1628cc; backdrop-filter: blur(6px); border-bottom:1px solid var(--border); }
     .bar { display:flex; gap:8px; align-items:center; padding:12px 16px }
     .wrap { max-width:1100px; margin:0 auto; padding:16px }
-    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:12px }
+    .grid { display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; justify-items:center; }
+    .grid .tile { width:100%; max-width:240px; }
     .tile { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:16px; cursor:pointer; text-decoration:none; color:var(--text); transition: transform .12s ease, border-color .12s ease }
     .tile:hover { transform: translateY(-2px); border-color:#334155 }
     .tile h3 { margin:8px 0 6px; font-size:16px }
@@ -88,15 +89,15 @@
         <h3>Recognition Feed</h3>
         <p>React to wins with 👍 👏 🎉 and praise posts.</p>
       </a>
-      <a class="tile featured" href="/business.html">
-        <div>🗺️</div>
-        <h3>Tornado Business War</h3>
-        <p>Open the strategy map to run live competitions and battles between teams.</p>
-      </a>
       <a class="tile" href="/quiz.html?mode=business">
         <div>🧩</div>
         <h3>Tornado Quiz</h3>
         <p>Launch a quiz and award points for correct answers.</p>
+      </a>
+      <a class="tile featured" href="/business.html">
+        <div>🗺️</div>
+        <h3>Tornado Business War</h3>
+        <p>Open the strategy map to run live competitions and battles between teams.</p>
       </a>
       
     </div>
