@@ -647,6 +647,11 @@
     
     // Load roster selector
     loadRosterSelector();
+    
+    // Initialize the game board after loading data
+    setTimeout(() => {
+      initializeGameBoard();
+    }, 100);
   }
 
   async function saveDemoRosterToSupabase() {
@@ -673,9 +678,18 @@
     // Add roster selector to the UI
     const rosterSection = document.querySelector('.panel h3');
     if (rosterSection && rosterSection.textContent.includes('EMPLOYEES')) {
+      // Check if selector already exists
+      if (document.getElementById('rosterSelector')) return;
+      
       const selector = document.createElement('select');
       selector.id = 'rosterSelector';
       selector.style.marginBottom = '8px';
+      selector.style.width = '100%';
+      selector.style.padding = '8px';
+      selector.style.border = '1px solid var(--border)';
+      selector.style.borderRadius = '6px';
+      selector.style.background = '#081125';
+      selector.style.color = 'var(--text)';
       selector.innerHTML = '<option value="">Select Roster</option>';
       
       // Load available rosters from Supabase
@@ -852,6 +866,9 @@
   }
 
   function initializeGameBoard() {
+    console.log('Initializing game board...');
+    console.log('Employees:', businessState.employees);
+    
     // Calculate board size based on employee count (minimum 8x8)
     const employeeCount = businessState.employees.length || 8; // Default to 8 if no employees
     const w = Math.max(8, Math.ceil(Math.sqrt(employeeCount * 2)));
@@ -974,7 +991,17 @@
 
   function updateGridDisplay() {
     const gridEl = document.getElementById('grid');
-    if (!gridEl || !businessState.board || !businessState.board.tiles) {
+    console.log('updateGridDisplay called');
+    console.log('gridEl:', gridEl);
+    console.log('businessState.board:', businessState.board);
+    
+    if (!gridEl) {
+      console.error('Grid element not found!');
+      return;
+    }
+    
+    if (!businessState.board || !businessState.board.tiles) {
+      console.error('Board or tiles not found!');
       return;
     }
     
