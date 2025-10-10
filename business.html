@@ -572,20 +572,70 @@
     setupEventListeners();
   }
 
-  function loadGameData() {
-    // Load from localStorage or create new game
-    const savedGame = localStorage.getItem('businessGame');
-    if (savedGame) {
-      businessState = { ...businessState, ...JSON.parse(savedGame) };
+  async function loadGameData() {
+    try {
+      // Try to load from Supabase first
+      const { data: employees } = await supabase.from('employees').select('*');
+      
+      if (employees && employees.length > 0) {
+        // Group employees by game_id to create rosters
+        const rosterMap = {};
+        employees.forEach(emp => {
+          const gameId = emp.game_id || 'default';
+          if (!rosterMap[gameId]) {
+            rosterMap[gameId] = {
+              id: gameId,
+              name: `Game ${gameId}`,
+              employees: []
+            };
+          }
+          rosterMap[gameId].employees.push(emp);
+        });
+        
+        const rosters = Object.values(rosterMap);
+        if (rosters.length > 0) {
+          // Use the first roster
+          const defaultRoster = rosters[0];
+          businessState.employees = defaultRoster.employees.map(emp => ({
+            id: emp.id || emp.name.toLowerCase().replace(/[^a-z0-9]+/g, '_'),
+            name: emp.name,
+            team: emp.team || 'Individual',
+            points: emp.points || 100,
+            credits: emp.credits || 0,
+            balance: emp.points || 100,
+            headquarters: null
+          }));
+          businessState.currentGame = {
+            id: defaultRoster.id,
+            name: defaultRoster.name,
+            managerCode: 'CODE' + Math.random().toString(36).slice(2, 7).toUpperCase()
+          };
+        }
+      }
+    } catch (error) {
+      console.warn('Failed to load from Supabase:', error);
     }
     
-    // Ensure we always have a starting roster (default 8)
+    // If no rosters exist, create default demo roster
     if (!Array.isArray(businessState.employees) || businessState.employees.length === 0) {
       const defaults = ['Alice Johnson','Bob Smith','Carol Davis','David Wilson','Eve Clark','Frank Nguyen','Grace Patel','Hank Lee'];
       const teams = ['Alpha','Beta','Gamma','Delta'];
-      businessState.employees = defaults.map((n,i)=>({ id:'emp_'+(i+1), name:n, team: teams[i%teams.length], points:100, credits:0, balance:100, headquarters:null }));
-      // Persist seeded roster so reloads keep them
-      saveGameData();
+      businessState.employees = defaults.map((n,i)=>({ 
+        id:'emp_'+(i+1), 
+        name:n, 
+        team: teams[i%teams.length], 
+        points:100, 
+        credits:0, 
+        balance:100, 
+        headquarters:null 
+      }));
+      businessState.currentGame = {
+        name: 'Demo Business Competition',
+        managerCode: 'DEMO' + Math.random().toString(36).slice(2, 7).toUpperCase()
+      };
+      
+      // Save demo roster to Supabase
+      await saveDemoRosterToSupabase();
     }
     
     // Update UI with loaded data
@@ -593,6 +643,115 @@
       document.getElementById('gameName').value = businessState.currentGame.name || '';
       document.getElementById('managerCode').value = businessState.currentGame.managerCode || 'DEMO';
       document.getElementById('gameTitle').textContent = `🏢 ${businessState.currentGame.name || 'Business Competition'}`;
+    }
+    
+    // Load roster selector
+    loadRosterSelector();
+  }
+
+  async function saveDemoRosterToSupabase() {
+    try {
+      const gameId = 'demo_' + Date.now();
+      const employeesToSave = businessState.employees.map(emp => ({
+        id: emp.id,
+        game_id: gameId,
+        name: emp.name,
+        team: emp.team,
+        points: emp.points,
+        credits: emp.credits
+      }));
+      
+      await supabase.from('employees').upsert(employeesToSave);
+      businessState.currentGame.id = gameId;
+      console.log('Demo roster saved to Supabase');
+    } catch (error) {
+      console.warn('Failed to save demo roster to Supabase:', error);
+    }
+  }
+
+  function loadRosterSelector() {
+    // Add roster selector to the UI
+    const rosterSection = document.querySelector('.panel h3');
+    if (rosterSection && rosterSection.textContent.includes('EMPLOYEES')) {
+      const selector = document.createElement('select');
+      selector.id = 'rosterSelector';
+      selector.style.marginBottom = '8px';
+      selector.innerHTML = '<option value="">Select Roster</option>';
+      
+      // Load available rosters from Supabase
+      loadAvailableRosters(selector);
+      
+      rosterSection.parentNode.insertBefore(selector, rosterSection.nextSibling);
+    }
+  }
+
+  async function loadAvailableRosters(selector) {
+    try {
+      const { data: employees } = await supabase.from('employees').select('*');
+      
+      if (employees && employees.length > 0) {
+        // Group by game_id
+        const rosterMap = {};
+        employees.forEach(emp => {
+          const gameId = emp.game_id || 'default';
+          if (!rosterMap[gameId]) {
+            rosterMap[gameId] = {
+              id: gameId,
+              name: `Game ${gameId}`,
+              count: 0
+            };
+          }
+          rosterMap[gameId].count++;
+        });
+        
+        Object.values(rosterMap).forEach(roster => {
+          const option = document.createElement('option');
+          option.value = roster.id;
+          option.textContent = `${roster.name} (${roster.count} employees)`;
+          selector.appendChild(option);
+        });
+        
+        selector.onchange = function() {
+          if (this.value) {
+            loadRosterFromSupabase(this.value);
+          }
+        };
+      }
+    } catch (error) {
+      console.warn('Failed to load rosters:', error);
+    }
+  }
+
+  async function loadRosterFromSupabase(gameId) {
+    try {
+      const { data: employees } = await supabase.from('employees').select('*').eq('game_id', gameId);
+      
+      if (employees && employees.length > 0) {
+        businessState.employees = employees.map(emp => ({
+          id: emp.id,
+          name: emp.name,
+          team: emp.team || 'Individual',
+          points: emp.points || 100,
+          credits: emp.credits || 0,
+          balance: emp.points || 100,
+          headquarters: null
+        }));
+        
+        businessState.currentGame = {
+          id: gameId,
+          name: `Game ${gameId}`,
+          managerCode: 'CODE' + Math.random().toString(36).slice(2, 7).toUpperCase()
+        };
+        
+        updateEmployeeDisplay();
+        initializeGameBoard();
+        saveGameData();
+        
+        alert(`Loaded roster with ${employees.length} employees`);
+      }
+    } catch (error) {
+      console.error('Failed to load roster:', error);
+      alert('Failed to load roster from cloud');
     }
     
     if (businessState.rewards.team) {
@@ -637,17 +796,48 @@
       const defaults = ['Alice Johnson','Bob Smith','Carol Davis','David Wilson','Eve Clark','Frank Nguyen','Grace Patel','Hank Lee'];
       names.push(...defaults);
     }
+    
     // Ensure game + code exist
     if (!businessState.currentGame) {
-      businessState.currentGame = { name:'Business Competition', managerCode: 'CODE'+Math.random().toString(36).slice(2,7).toUpperCase() };
+      businessState.currentGame = { 
+        name:'Business Competition', 
+        managerCode: 'CODE'+Math.random().toString(36).slice(2,7).toUpperCase() 
+      };
     }
+    
     const gid = businessState.currentGame.id || businessState.currentGame.managerCode;
-    // Upsert employees
-    const rows = names.map(n => ({ id: 'emp_'+n.toLowerCase().replace(/[^a-z0-9]+/g,'_'), game_id: gid, name: n, team: 'Alpha', points: 0, credits: 0, balance: 0 }));
-    businessState.employees = rows.map(r=>({ id:r.id, name:r.name, team:r.team, points:0, credits:0, balance:0 }));
+    
+    // Create employees with proper structure
+    const employees = names.map((n, i) => ({
+      id: 'emp_'+n.toLowerCase().replace(/[^a-z0-9]+/g,'_'),
+      name: n,
+      team: ['Alpha','Beta','Gamma','Delta'][i % 4],
+      points: 100,
+      credits: 0,
+      balance: 100,
+      headquarters: null
+    }));
+    
+    businessState.employees = employees;
     updateEmployeeDisplay();
     saveGameData();
-    try { await supabase.from('employees').upsert(rows); } catch(e) { console.warn('[cloud] roster upsert failed', e); }
+    
+    // Save to Supabase with proper structure
+    try {
+      const rows = employees.map(emp => ({
+        id: emp.id,
+        game_id: gid,
+        name: emp.name,
+        team: emp.team,
+        points: emp.points,
+        credits: emp.credits
+      }));
+      await supabase.from('employees').upsert(rows);
+      console.log('Roster saved to Supabase successfully');
+    } catch(e) { 
+      console.warn('[cloud] roster upsert failed', e); 
+    }
+    
     document.getElementById('managerCodeDisplay').textContent = businessState.currentGame.managerCode;
     alert('Roster saved. Share the Manager Code with employees.');
   }
