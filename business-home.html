@@ -23,8 +23,205 @@
     .tile.featured p { color:#e0e7ff; }
     .pill { padding:8px 12px; border:1px solid var(--border); border-radius:10px; background:var(--panel); color:var(--text); cursor:pointer; }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
+    const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+    const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
     function go(path) { window.location.href = path; }
+    
+    function showAnnouncementsPopup() {
+      const modal = document.getElementById('announcementsModal');
+      modal.style.display = 'block';
+    }
+    
+    function hideAnnouncementsPopup() {
+      const modal = document.getElementById('announcementsModal');
+      modal.style.display = 'none';
+    }
+    
+    async function postAnnouncement() {
+      const title = document.getElementById('announcementTitle').value;
+      const content = document.getElementById('announcementContent').value;
+      
+      if (!title || !content) {
+        alert('Please fill in both title and content');
+        return;
+      }
+      
+      try {
+        await supabase.from('announcements').insert({
+          title,
+          content,
+          created_at: new Date().toISOString(),
+          author: 'Manager'
+        });
+        
+        alert('Announcement posted successfully!');
+        hideAnnouncementsPopup();
+        document.getElementById('announcementTitle').value = '';
+        document.getElementById('announcementContent').value = '';
+      } catch (error) {
+        console.error('Post announcement error:', error);
+        alert('Failed to post announcement: ' + error.message);
+      }
+    }
+    
+    function showLeaderboardPopup() {
+      const modal = document.getElementById('leaderboardModal');
+      modal.style.display = 'block';
+      loadLeaderboard();
+    }
+    
+    function hideLeaderboardPopup() {
+      const modal = document.getElementById('leaderboardModal');
+      modal.style.display = 'none';
+    }
+    
+    async function loadLeaderboard() {
+      try {
+        const { data: employees } = await supabase.from('employees').select('*').order('points', { ascending: false });
+        const container = document.getElementById('leaderboardContent');
+        
+        if (!employees?.length) {
+          container.innerHTML = '<div style="text-align:center; color:var(--muted);">No employees found</div>';
+          return;
+        }
+        
+        const html = employees.map((emp, index) => `
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; border-bottom:1px solid var(--border);">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="font-weight:600; color:var(--accent);">#${index + 1}</div>
+              <div>
+                <div style="font-weight:600;">${emp.name}</div>
+                <div style="font-size:12px; color:var(--muted);">${emp.team || 'Individual'}</div>
+              </div>
+            </div>
+            <div style="font-weight:600; color:#22c55e;">${emp.points || 0} pts</div>
+          </div>
+        `).join('');
+        
+        container.innerHTML = html;
+      } catch (error) {
+        console.error('Load leaderboard error:', error);
+        document.getElementById('leaderboardContent').innerHTML = '<div style="text-align:center; color:var(--muted);">Failed to load leaderboard</div>';
+      }
+    }
+    
+    function showMetricsPopup() {
+      const modal = document.getElementById('metricsModal');
+      modal.style.display = 'block';
+      loadMetrics();
+    }
+    
+    function hideMetricsPopup() {
+      const modal = document.getElementById('metricsModal');
+      modal.style.display = 'none';
+    }
+    
+    async function loadMetrics() {
+      try {
+        const { data: metrics } = await supabase.from('metrics').select('*');
+        const container = document.getElementById('metricsContent');
+        
+        if (!metrics?.length) {
+          container.innerHTML = '<div style="text-align:center; color:var(--muted);">No metrics found</div>';
+          return;
+        }
+        
+        const html = metrics.map(metric => `
+          <div style="border:1px solid var(--border); border-radius:8px; padding:12px; margin-bottom:8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <input type="text" value="${metric.name}" style="background:#081125; border:1px solid var(--border); border-radius:4px; padding:4px 8px; color:#e5e7eb; flex:1; margin-right:8px;" onchange="updateMetricName('${metric.id}', this.value)">
+              <button onclick="deleteMetric('${metric.id}')" style="background:#dc2626; color:#fff; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;">Delete</button>
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+              <div>
+                <label style="font-size:12px; color:var(--muted);">Current Value</label>
+                <input type="number" value="${metric.value || 0}" style="width:100%; background:#081125; border:1px solid var(--border); border-radius:4px; padding:4px 8px; color:#e5e7eb;" onchange="updateMetricValue('${metric.id}', this.value)">
+              </div>
+              <div>
+                <label style="font-size:12px; color:var(--muted);">Target</label>
+                <input type="number" value="${metric.target || 0}" style="width:100%; background:#081125; border:1px solid var(--border); border-radius:4px; padding:4px 8px; color:#e5e7eb;" onchange="updateMetricTarget('${metric.id}', this.value)">
+              </div>
+            </div>
+            <div style="margin-top:8px;">
+              <label style="font-size:12px; color:var(--muted);">Unit</label>
+              <input type="text" value="${metric.unit || ''}" placeholder="e.g., deals, hours, %" style="width:100%; background:#081125; border:1px solid var(--border); border-radius:4px; padding:4px 8px; color:#e5e7eb;" onchange="updateMetricUnit('${metric.id}', this.value)">
+            </div>
+          </div>
+        `).join('');
+        
+        container.innerHTML = html;
+      } catch (error) {
+        console.error('Load metrics error:', error);
+        document.getElementById('metricsContent').innerHTML = '<div style="text-align:center; color:var(--muted);">Failed to load metrics</div>';
+      }
+    }
+    
+    async function updateMetricName(id, name) {
+      try {
+        await supabase.from('metrics').update({ name }).eq('id', id);
+      } catch (error) {
+        console.error('Update metric name error:', error);
+      }
+    }
+    
+    async function updateMetricValue(id, value) {
+      try {
+        await supabase.from('metrics').update({ value: parseFloat(value) }).eq('id', id);
+      } catch (error) {
+        console.error('Update metric value error:', error);
+      }
+    }
+    
+    async function updateMetricTarget(id, target) {
+      try {
+        await supabase.from('metrics').update({ target: parseFloat(target) }).eq('id', id);
+      } catch (error) {
+        console.error('Update metric target error:', error);
+      }
+    }
+    
+    async function updateMetricUnit(id, unit) {
+      try {
+        await supabase.from('metrics').update({ unit }).eq('id', id);
+      } catch (error) {
+        console.error('Update metric unit error:', error);
+      }
+    }
+    
+    async function deleteMetric(id) {
+      if (!confirm('Are you sure you want to delete this metric?')) return;
+      
+      try {
+        await supabase.from('metrics').delete().eq('id', id);
+        loadMetrics();
+      } catch (error) {
+        console.error('Delete metric error:', error);
+        alert('Failed to delete metric');
+      }
+    }
+    
+    async function addNewMetric() {
+      const name = prompt('Enter metric name:');
+      if (!name) return;
+      
+      try {
+        await supabase.from('metrics').insert({
+          name,
+          value: 0,
+          target: 100,
+          unit: '',
+          source: 'manual'
+        });
+        loadMetrics();
+      } catch (error) {
+        console.error('Add metric error:', error);
+        alert('Failed to add metric');
+      }
+    }
   </script>
 </head>
 <body>
@@ -39,26 +236,26 @@
 
   <div class="wrap">
     <div class="grid">
-      <a class="tile" href="/business.html#leaderboard">
+      <div class="tile" onclick="showLeaderboardPopup()">
         <div>📊</div>
         <h3>Leaderboard</h3>
         <p>See teams and employees ranked by points and progress.</p>
-      </a>
-      <a class="tile" href="/business.html#metrics">
+      </div>
+      <div class="tile" onclick="showMetricsPopup()">
         <div>📈</div>
         <h3>Metrics</h3>
         <p>Track sales, products, satisfaction, features and more.</p>
-      </a>
-      <a class="tile" href="/assignments-library.html">
+      </div>
+      <a class="tile" href="/teacher-assignments.html">
         <div>📝</div>
         <h3>Assignments</h3>
-        <p>Browse, edit and assign quizzes or tasks to employees.</p>
+        <p>Create, edit and assign quizzes or tasks to employees.</p>
       </a>
-      <a class="tile" href="/business.html#announcements">
+      <div class="tile" onclick="showAnnouncementsPopup()">
         <div>📣</div>
-        <h3>Announcements</h3>
-        <p>Post updates and notify your teams.</p>
-      </a>
+        <h3>Announcements & Recognition</h3>
+        <p>Post updates, recognize achievements and notify your teams.</p>
+      </div>
       <a class="tile" href="/business-integrations.html">
         <div>🔌</div>
         <h3>Integrations</h3>
@@ -84,11 +281,6 @@
         <h3>Rules & Automation</h3>
         <p>Define triggers to auto-award points and notify.</p>
       </a>
-      <a class="tile" href="/business.html#leaderboard">
-        <div>🎉</div>
-        <h3>Recognition Feed</h3>
-        <p>React to wins with 👍 👏 🎉 and praise posts.</p>
-      </a>
       <a class="tile featured" href="/business.html">
         <div>🗺️</div>
         <h3>Tornado Business War</h3>
@@ -100,6 +292,47 @@
         <p>Launch a quiz and award points for correct answers.</p>
       </a>
       
+    </div>
+  </div>
+
+  <!-- Announcements Modal -->
+  <div id="announcementsModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; display:flex; align-items:center; justify-content:center;">
+    <div style="background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:24px; width:500px; max-width:90vw;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h2 style="margin:0; font-size:18px;">📣 New Announcement</h2>
+        <button onclick="hideAnnouncementsPopup()" style="background:none; border:none; color:var(--muted); cursor:pointer; font-size:20px;">×</button>
+      </div>
+      <input id="announcementTitle" placeholder="Title" style="width:100%; padding:12px; border:1px solid var(--border); border-radius:8px; background:#081125; color:#e5e7eb; margin-bottom:12px;">
+      <textarea id="announcementContent" placeholder="Write your announcement..." style="width:100%; padding:12px; border:1px solid var(--border); border-radius:8px; background:#081125; color:#e5e7eb; height:120px; resize:vertical; margin-bottom:16px;"></textarea>
+      <div style="display:flex; gap:8px; justify-content:flex-end;">
+        <button onclick="hideAnnouncementsPopup()" style="padding:8px 16px; border:1px solid var(--border); border-radius:8px; background:var(--panel); color:var(--text); cursor:pointer;">Cancel</button>
+        <button onclick="postAnnouncement()" style="padding:8px 16px; border:none; border-radius:8px; background:#3b82f6; color:#fff; cursor:pointer;">Post</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaderboard Modal -->
+  <div id="leaderboardModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; display:flex; align-items:center; justify-content:center;">
+    <div style="background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:24px; width:600px; max-width:90vw; max-height:80vh; overflow-y:auto;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h2 style="margin:0; font-size:18px;">📊 Leaderboard</h2>
+        <button onclick="hideLeaderboardPopup()" style="background:none; border:none; color:var(--muted); cursor:pointer; font-size:20px;">×</button>
+      </div>
+      <div id="leaderboardContent"></div>
+    </div>
+  </div>
+
+  <!-- Metrics Modal -->
+  <div id="metricsModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; display:flex; align-items:center; justify-content:center;">
+    <div style="background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:24px; width:700px; max-width:90vw; max-height:80vh; overflow-y:auto;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h2 style="margin:0; font-size:18px;">📈 Edit Metrics</h2>
+        <div style="display:flex; gap:8px;">
+          <button onclick="addNewMetric()" style="padding:6px 12px; border:1px solid var(--border); border-radius:6px; background:var(--panel); color:var(--text); cursor:pointer; font-size:12px;">+ Add Metric</button>
+          <button onclick="hideMetricsPopup()" style="background:none; border:none; color:var(--muted); cursor:pointer; font-size:20px;">×</button>
+        </div>
+      </div>
+      <div id="metricsContent"></div>
     </div>
   </div>
 </body>

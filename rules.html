@@ -91,32 +91,72 @@
   </header>
   <div class="wrap">
     <div class="card">
-      <h3 style="margin-top:0">Add Rule</h3>
-      <div style="display:grid; gap:8px">
-        <select id="ruleType" onchange="updateRuleForm()">
-          <option value="badge">Badge Award</option>
-          <option value="points">Points Award</option>
-          <option value="notification">Notification</option>
-          <option value="attribution">Data Attribution</option>
-        </select>
-        <input id="metric" placeholder="metric_name (e.g., closed_deal)" />
-        <input id="condition" placeholder="condition (e.g., value >= 1)" />
-        <div id="badgeField">
-          <input id="badge" placeholder="badge_id (e.g., closer)" />
+      <h3 style="margin-top:0">Quick Rule Builder</h3>
+      <div style="display:grid; gap:12px">
+        <div>
+          <label style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">When this happens:</label>
+          <select id="ruleType" onchange="updateRuleForm()" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:10px; background:#081125; color:var(--text)">
+            <option value="points">Employee earns points</option>
+            <option value="badge">Employee gets a badge</option>
+            <option value="notification">Send notification</option>
+            <option value="attribution">Auto-assign data to employee</option>
+          </select>
         </div>
+        
+        <div>
+          <label style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Metric name:</label>
+          <input id="metric" placeholder="e.g., sales_deal, task_completed" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:10px; background:#081125; color:var(--text)" />
+        </div>
+        
+        <div>
+          <label style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Condition:</label>
+          <select id="condition" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:10px; background:#081125; color:var(--text)">
+            <option value="value >= 1">Value is 1 or more</option>
+            <option value="value >= 5">Value is 5 or more</option>
+            <option value="value >= 10">Value is 10 or more</option>
+            <option value="value >= 100">Value is 100 or more</option>
+            <option value="value == 1">Value equals exactly 1</option>
+            <option value="value > 0">Value is greater than 0</option>
+          </select>
+        </div>
+        
+        <div id="badgeField">
+          <label style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Badge name:</label>
+          <input id="badge" placeholder="e.g., Sales Champion, Task Master" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:10px; background:#081125; color:var(--text)" />
+        </div>
+        
         <div id="employeeField" style="display:none;">
-          <select id="employee">
+          <label style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Assign to employee:</label>
+          <select id="employee" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:10px; background:#081125; color:var(--text)">
             <option value="">Select Employee</option>
           </select>
         </div>
-        <input id="points" type="number" placeholder="points (e.g., 50)" />
-        <label><input id="notify" type="checkbox" /> Auto-notify Slack/Teams</label>
-        <button class="btn" onclick="addRule()">Save Rule</button>
+        
+        <div>
+          <label style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Points to award:</label>
+          <input id="points" type="number" placeholder="e.g., 50" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:10px; background:#081125; color:var(--text)" />
+        </div>
+        
+        <label style="display:flex; align-items:center; gap:8px; margin-top:8px;">
+          <input id="notify" type="checkbox" />
+          <span style="font-size:12px; color:var(--muted);">Send notification to Slack/Teams</span>
+        </label>
+        
+        <button class="btn" onclick="addRule()" style="background:#3b82f6; color:#fff; padding:12px; font-size:14px; font-weight:600;">Create Rule</button>
       </div>
     </div>
     <div class="card">
       <h3 style="margin-top:0">How it works</h3>
-      <p>When an event is logged with a matching metric_name, the rule condition is evaluated using <code>value</code>. If true, the system will award points and optionally notify webhook integrations.</p>
+      <p>Rules automatically trigger when employees complete actions. For example: "When someone closes a deal (sales_deal), give them 50 points and the Sales Champion badge."</p>
+      
+      <div style="margin-top:16px;">
+        <h4 style="margin-bottom:8px;">Examples:</h4>
+        <ul style="margin:0; padding-left:20px; font-size:13px; color:var(--muted);">
+          <li>Close 1 deal → Get 50 points + "Deal Closer" badge</li>
+          <li>Complete 5 tasks → Get 25 points + "Task Master" badge</li>
+          <li>Reach 100 points → Get "Century Club" badge</li>
+        </ul>
+      </div>
     </div>
   </div>
 </body>
