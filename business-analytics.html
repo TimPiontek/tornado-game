@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tornado Business – Analytics</title>
+  <style>
+    :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
+    * { box-sizing: border-box }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    header { position:sticky; top:0; z-index:2; background:#0d1628cc; border-bottom:1px solid var(--border); }
+    .bar { display:flex; gap:8px; align-items:center; padding:12px 16px }
+    .wrap { max-width:1160px; margin:0 auto; padding:16px }
+    .grid { display:grid; grid-template-columns: repeat(4, 1fr); gap:12px }
+    .card { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:14px }
+    .kpi { font-size:22px; font-weight:700 }
+    .muted { color:var(--muted); font-size:12px }
+    @media (max-width: 900px) { .grid { grid-template-columns: repeat(2,1fr) } }
+    @media (max-width: 600px) { .grid { grid-template-columns: 1fr } }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+    const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    async function loadAnalytics() {
+      const kpiTotalPoints = document.getElementById('kpiTotalPoints');
+      const kpiAvgEngagement = document.getElementById('kpiAvgEngagement');
+      const kpiTopTeam = document.getElementById('kpiTopTeam');
+      const kpiTopBadge = document.getElementById('kpiTopBadge');
+
+      // Mocked from existing tables (best effort)
+      const { data: employees } = await supabase.from('employees').select('team, points');
+      const total = (employees||[]).reduce((s,e)=>s+(e.points||0),0);
+      kpiTotalPoints.textContent = total.toLocaleString();
+
+      const byTeam = {};
+      (employees||[]).forEach(e=>{ byTeam[e.team]= (byTeam[e.team]||0)+(e.points||0) });
+      const topTeam = Object.entries(byTeam).sort((a,b)=>b[1]-a[1])[0];
+      kpiTopTeam.textContent = topTeam? `${topTeam[0]} (${topTeam[1]} pts)` : '—';
+
+      kpiAvgEngagement.textContent = employees && employees.length? Math.round(total/ employees.length) + ' pts / user' : '—';
+      kpiTopBadge.textContent = 'Closer Badge (mock)';
+
+      // Simple bar data text (placeholder for charts)
+      const bars = document.getElementById('barTeams');
+      bars.innerHTML = Object.entries(byTeam).map(([team,pts])=>`<div class="card"><div>${team}</div><div class="muted">${pts} pts</div><div style="height:6px;background:#1e293b;border-radius:4px"><div style="height:6px;width:${Math.min(100, pts/ (total||1)*100)}%;background:#22c55e;border-radius:4px"></div></div></div>`).join('');
+    }
+    document.addEventListener('DOMContentLoaded', loadAnalytics);
+  </script>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <h1 style="margin:0; font-size:18px;">📈 Analytics</h1>
+      <div style="flex:1"></div>
+      <button class="btn" style="padding:8px 12px;border:1px solid var(--border);border-radius:10px;background:#0b1932;color:#fff;cursor:pointer;font-size:12px" onclick="window.location.href='business-home.html'">← Manager Hub</button>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="grid">
+      <div class="card"><div class="muted">Total Points</div><div id="kpiTotalPoints" class="kpi">—</div></div>
+      <div class="card"><div class="muted">Average Engagement</div><div id="kpiAvgEngagement" class="kpi">—</div></div>
+      <div class="card"><div class="muted">Top Team</div><div id="kpiTopTeam" class="kpi">—</div></div>
+      <div class="card"><div class="muted">Most Awarded Badge</div><div id="kpiTopBadge" class="kpi">—</div></div>
+    </div>
+    <h3 style="margin:16px 0">Points by Team</h3>
+    <div id="barTeams" class="grid"></div>
+  </div>
+</body>
+</html>
+

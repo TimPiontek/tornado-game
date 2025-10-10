@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tornado Business – Integrations</title>
+  <style>
+    :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
+    * { box-sizing: border-box }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    header { position:sticky; top:0; z-index:2; background:#0d1628cc; border-bottom:1px solid var(--border); }
+    .bar { display:flex; gap:8px; align-items:center; padding:12px 16px }
+    .wrap { max-width:1100px; margin:0 auto; padding:16px }
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap:12px }
+    .tile { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:16px; }
+    .tile h3 { margin:6px 0 6px; font-size:16px }
+    .tile p { margin:0 0 10px; color:var(--muted); font-size:12px; line-height:1.4 }
+    .btn { padding:8px 12px; border:1px solid var(--border); border-radius:10px; background:#0b1932; color:#fff; cursor:pointer; font-size:12px }
+    .status { font-size:11px; color:var(--muted) }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+    const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    const INTEGRATIONS = [
+      { key: 'salesforce', name: 'Salesforce', desc: 'Connect Opportunities, Accounts, Leads', kind: 'oauth' },
+      { key: 'hubspot', name: 'HubSpot', desc: 'Import Deals and Tasks', kind: 'oauth' },
+      { key: 'dynamics', name: 'Microsoft Dynamics 365', desc: 'Token placeholder', kind: 'token' },
+      { key: 'sheets', name: 'Google Sheets / CSV', desc: 'Upload CSV (already supported)', kind: 'csv' },
+      { key: 'powerbi', name: 'Power BI / Tableau', desc: 'Export dataset + embed', kind: 'export' },
+      { key: 'slack', name: 'Slack Webhook', desc: 'Announcements to Slack', kind: 'webhook' },
+      { key: 'teams', name: 'Microsoft Teams Webhook', desc: 'Announcements to Teams', kind: 'webhook' }
+    ];
+
+    async function loadStatus() {
+      const container = document.getElementById('tiles');
+      const { data } = await supabase.from('integrations').select('*');
+      const byType = Object.fromEntries((data||[]).map(r => [r.type, r]));
+      container.innerHTML = INTEGRATIONS.map(intg => {
+        const row = byType[intg.key];
+        const status = row?.status || 'Not Connected';
+        return `<div class="tile">
+          <div class="status">${status}</div>
+          <h3>${intg.name}</h3>
+          <p>${intg.desc}</p>
+          ${intg.kind==='webhook' ? `<input id="inp_${intg.key}" placeholder="Webhook URL" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:8px;background:#081125;color:#e5e7eb;margin-bottom:8px;" />` : ''}
+          <button class="btn" onclick="connect('${intg.key}','${intg.kind}')">${status==='Connected'?'Reconnect':'Connect'}</button>
+        </div>`;
+      }).join('');
+    }
+
+    async function connect(key, kind) {
+      let token = null; let settings = {};
+      if (kind === 'webhook') {
+        token = document.getElementById('inp_'+key)?.value || '';
+        if (!token) { alert('Enter webhook URL'); return; }
+      }
+      await supabase.from('integrations').upsert({ type: key, status: 'Connected', token, settings });
+      await loadStatus();
+      alert(`${key} connected`);
+    }
+
+    document.addEventListener('DOMContentLoaded', loadStatus);
+  </script>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <h1 style="margin:0; font-size:18px;">🔌 Integrations</h1>
+      <div style="flex:1"></div>
+      <button class="btn" onclick="window.location.href='business-home.html'">← Manager Hub</button>
+    </div>
+  </header>
+  <div class="wrap">
+    <div id="tiles" class="grid"></div>
+  </div>
+</body>
+</html>
+

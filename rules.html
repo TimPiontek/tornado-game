@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tornado Business – Rules</title>
+  <style>
+    :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
+    * { box-sizing: border-box }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    header { position:sticky; top:0; z-index:2; background:#0d1628cc; border-bottom:1px solid var(--border); }
+    .bar { display:flex; gap:8px; align-items:center; padding:12px 16px }
+    .wrap { max-width:800px; margin:0 auto; padding:16px }
+    .card { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:14px; margin-bottom:12px }
+    input, textarea, select { width:100%; padding:10px; border:1px solid var(--border); border-radius:10px; background:#081125; color:var(--text) }
+    .btn { padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:#0b1932; color:#fff; cursor:pointer; font-size:12px }
+  </style>
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+    import { saveRule } from './lib/rulesEngine.js';
+    const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+    const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
+    async function addRule(){
+      const rule = {
+        metric_name: document.getElementById('metric').value,
+        condition: document.getElementById('condition').value,
+        badge_id: document.getElementById('badge').value,
+        points: parseInt(document.getElementById('points').value||'0',10),
+        notify: document.getElementById('notify').checked
+      };
+      await saveRule(supabase, rule);
+      alert('Rule saved');
+      location.reload();
+    }
+    window.addRule = addRule;
+  </script>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <h1 style="margin:0; font-size:18px;">⚙️ Rules & Automation</h1>
+      <div style="flex:1"></div>
+      <button class="btn" onclick="window.location.href='business-home.html'">← Manager Hub</button>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="card">
+      <h3 style="margin-top:0">Add Rule</h3>
+      <div style="display:grid; gap:8px">
+        <input id="metric" placeholder="metric_name (e.g., closed_deal)" />
+        <input id="condition" placeholder="condition (e.g., value >= 1)" />
+        <input id="badge" placeholder="badge_id (e.g., closer)" />
+        <input id="points" type="number" placeholder="points (e.g., 50)" />
+        <label><input id="notify" type="checkbox" /> Auto-notify Slack/Teams</label>
+        <button class="btn" onclick="addRule()">Save Rule</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">How it works</h3>
+      <p>When an event is logged with a matching metric_name, the rule condition is evaluated using <code>value</code>. If true, the system will award points and optionally notify webhook integrations.</p>
+    </div>
+  </div>
+</body>
+</html>
+
