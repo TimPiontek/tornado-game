@@ -1,0 +1,354 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tornado Business – Roster Management</title>
+  <style>
+    :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
+    * { box-sizing: border-box }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    header { position:sticky; top:0; z-index:2; background:#0d1628cc; border-bottom:1px solid var(--border); }
+    .bar { display:flex; gap:8px; align-items:center; padding:12px 16px }
+    .wrap { max-width:1200px; margin:0 auto; padding:16px }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px }
+    .card { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:16px }
+    .btn { padding:8px 12px; border:1px solid var(--border); border-radius:10px; background:#0b1932; color:#fff; cursor:pointer; font-size:12px }
+    .btn-primary { background:#3b82f6; }
+    .btn-success { background:#059669; }
+    .btn-danger { background:#dc2626; }
+    input, textarea, select { width:100%; padding:10px; border:1px solid var(--border); border-radius:10px; background:#081125; color:var(--text); margin-bottom:8px }
+    .roster-card { border:1px solid var(--border); border-radius:8px; padding:12px; margin-bottom:8px; }
+    .roster-card.active { border-color:#3b82f6; background:#1e3a8a20; }
+    .employee-list { max-height:200px; overflow-y:auto; border:1px solid var(--border); border-radius:8px; padding:8px; background:#081125; }
+    .employee-item { display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border); }
+    .employee-item:last-child { border-bottom:none; }
+    .team-selector { display:flex; gap:8px; align-items:center; margin-bottom:12px; }
+    .team-option { padding:4px 8px; border:1px solid var(--border); border-radius:6px; background:var(--panel); color:var(--text); cursor:pointer; font-size:11px; }
+    .team-option.active { background:#3b82f6; color:#fff; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+    const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    let rosters = [];
+    let currentRoster = null;
+    let teamMode = 'individual';
+
+    async function loadRosters() {
+      try {
+        const { data } = await supabase.from('employees').select('*');
+        // Group employees by game_id to create rosters
+        const rosterMap = {};
+        (data || []).forEach(emp => {
+          const gameId = emp.game_id || 'default';
+          if (!rosterMap[gameId]) {
+            rosterMap[gameId] = {
+              id: gameId,
+              name: `Game ${gameId}`,
+              employees: []
+            };
+          }
+          rosterMap[gameId].employees.push(emp);
+        });
+        
+        rosters = Object.values(rosterMap);
+        renderRosters();
+      } catch (error) {
+        console.error('Load rosters error:', error);
+      }
+    }
+
+    function renderRosters() {
+      const container = document.getElementById('rostersContainer');
+      
+      if (rosters.length === 0) {
+        container.innerHTML = '<div class="card"><div style="text-align:center; color:var(--muted);">No rosters found. Create your first roster below.</div></div>';
+        return;
+      }
+
+      const html = rosters.map(roster => `
+        <div class="roster-card ${currentRoster?.id === roster.id ? 'active' : ''}" onclick="selectRoster('${roster.id}')">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <h3 style="margin:0; font-size:16px;">${roster.name}</h3>
+            <div style="display:flex; gap:4px;">
+              <button class="btn" onclick="event.stopPropagation(); editRoster('${roster.id}')" style="padding:4px 8px; font-size:10px;">Edit</button>
+              <button class="btn btn-danger" onclick="event.stopPropagation(); deleteRoster('${roster.id}')" style="padding:4px 8px; font-size:10px;">Delete</button>
+            </div>
+          </div>
+          <div style="font-size:12px; color:var(--muted);">
+            ${roster.employees.length} employees
+          </div>
+          <div class="employee-list">
+            ${roster.employees.map(emp => `
+              <div class="employee-item">
+                <span>${emp.name}</span>
+                <span style="font-size:11px; color:var(--muted);">${emp.team || 'Individual'}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      container.innerHTML = html;
+    }
+
+    function selectRoster(rosterId) {
+      currentRoster = rosters.find(r => r.id === rosterId);
+      renderRosters();
+      loadRosterDetails();
+    }
+
+    function loadRosterDetails() {
+      if (!currentRoster) {
+        document.getElementById('rosterDetails').innerHTML = '<div class="card"><div style="text-align:center; color:var(--muted);">Select a roster to view details</div></div>';
+        return;
+      }
+
+      const html = `
+        <div class="card">
+          <h3 style="margin-top:0;">${currentRoster.name}</h3>
+          <div style="margin-bottom:16px;">
+            <label style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Roster Name:</label>
+            <input type="text" id="rosterName" value="${currentRoster.name}" style="margin-bottom:12px;">
+            <button class="btn btn-primary" onclick="updateRosterName()">Update Name</button>
+          </div>
+          
+          <div style="margin-bottom:16px;">
+            <label style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Team Configuration:</label>
+            <div class="team-selector">
+              <div class="team-option ${teamMode === 'individual' ? 'active' : ''}" onclick="setTeamMode('individual')">Individual</div>
+              <div class="team-option ${teamMode === '2' ? 'active' : ''}" onclick="setTeamMode('2')">2 Teams</div>
+              <div class="team-option ${teamMode === '3' ? 'active' : ''}" onclick="setTeamMode('3')">3 Teams</div>
+              <div class="team-option ${teamMode === '4' ? 'active' : ''}" onclick="setTeamMode('4')">4 Teams</div>
+            </div>
+            <button class="btn btn-success" onclick="autoAssignTeams()">Auto-Assign Teams</button>
+          </div>
+
+          <div style="margin-bottom:16px;">
+            <label style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Add Employee:</label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="newEmployeeName" placeholder="Employee name" style="flex:1;">
+              <button class="btn btn-primary" onclick="addEmployee()">Add</button>
+            </div>
+          </div>
+
+          <div>
+            <h4 style="margin-bottom:8px;">Employees (${currentRoster.employees.length})</h4>
+            <div class="employee-list">
+              ${currentRoster.employees.map(emp => `
+                <div class="employee-item">
+                  <div>
+                    <input type="text" value="${emp.name}" onchange="updateEmployeeName('${emp.id}', this.value)" style="background:transparent; border:none; color:var(--text); padding:2px 4px; font-size:12px;">
+                    <div style="font-size:11px; color:var(--muted);">${emp.team || 'Individual'} • ${emp.points || 0} pts</div>
+                  </div>
+                  <div style="display:flex; gap:4px;">
+                    ${teamMode !== 'individual' ? `
+                      <select onchange="updateEmployeeTeam('${emp.id}', this.value)" style="padding:2px 4px; font-size:10px; background:#081125; border:1px solid var(--border); border-radius:4px; color:var(--text);">
+                        ${getTeamOptions().map(team => `<option value="${team}" ${emp.team === team ? 'selected' : ''}>${team}</option>`).join('')}
+                      </select>
+                    ` : ''}
+                    <button class="btn btn-danger" onclick="removeEmployee('${emp.id}')" style="padding:2px 6px; font-size:10px;">×</button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('rosterDetails').innerHTML = html;
+    }
+
+    function getTeamOptions() {
+      const teamNames = ['Alpha', 'Beta', 'Gamma', 'Delta'];
+      const count = parseInt(teamMode) || 0;
+      return teamNames.slice(0, count);
+    }
+
+    function setTeamMode(mode) {
+      teamMode = mode;
+      loadRosterDetails();
+    }
+
+    async function autoAssignTeams() {
+      if (teamMode === 'individual') {
+        // Remove all team assignments
+        for (const emp of currentRoster.employees) {
+          await supabase.from('employees').update({ team: null }).eq('id', emp.id);
+        }
+      } else {
+        const teamNames = getTeamOptions();
+        for (let i = 0; i < currentRoster.employees.length; i++) {
+          const emp = currentRoster.employees[i];
+          const team = teamNames[i % teamNames.length];
+          await supabase.from('employees').update({ team }).eq('id', emp.id);
+        }
+      }
+      
+      await loadRosters();
+      loadRosterDetails();
+    }
+
+    async function addEmployee() {
+      const name = document.getElementById('newEmployeeName').value.trim();
+      if (!name) return;
+
+      try {
+        const { data } = await supabase.from('employees').insert({
+          name,
+          game_id: currentRoster.id,
+          team: teamMode === 'individual' ? null : getTeamOptions()[0],
+          points: 100,
+          credits: 0
+        }).select().single();
+
+        currentRoster.employees.push(data);
+        document.getElementById('newEmployeeName').value = '';
+        loadRosterDetails();
+      } catch (error) {
+        console.error('Add employee error:', error);
+        alert('Failed to add employee: ' + error.message);
+      }
+    }
+
+    async function updateEmployeeName(id, name) {
+      try {
+        await supabase.from('employees').update({ name }).eq('id', id);
+        const emp = currentRoster.employees.find(e => e.id === id);
+        if (emp) emp.name = name;
+      } catch (error) {
+        console.error('Update employee name error:', error);
+      }
+    }
+
+    async function updateEmployeeTeam(id, team) {
+      try {
+        await supabase.from('employees').update({ team: team || null }).eq('id', id);
+        const emp = currentRoster.employees.find(e => e.id === id);
+        if (emp) emp.team = team;
+      } catch (error) {
+        console.error('Update employee team error:', error);
+      }
+    }
+
+    async function removeEmployee(id) {
+      if (!confirm('Remove this employee from the roster?')) return;
+
+      try {
+        await supabase.from('employees').delete().eq('id', id);
+        currentRoster.employees = currentRoster.employees.filter(e => e.id !== id);
+        loadRosterDetails();
+      } catch (error) {
+        console.error('Remove employee error:', error);
+        alert('Failed to remove employee: ' + error.message);
+      }
+    }
+
+    async function updateRosterName() {
+      const name = document.getElementById('rosterName').value.trim();
+      if (!name) return;
+
+      try {
+        // Update all employees in this roster with the new game name
+        await supabase.from('employees').update({ game_name: name }).eq('game_id', currentRoster.id);
+        currentRoster.name = name;
+        renderRosters();
+        loadRosterDetails();
+      } catch (error) {
+        console.error('Update roster name error:', error);
+        alert('Failed to update roster name: ' + error.message);
+      }
+    }
+
+    async function createNewRoster() {
+      const name = document.getElementById('newRosterName').value.trim();
+      if (!name) {
+        alert('Please enter a roster name');
+        return;
+      }
+
+      try {
+        const gameId = 'game_' + Date.now();
+        
+        // Create a sample employee to establish the roster
+        const { data } = await supabase.from('employees').insert({
+          name: 'Sample Employee',
+          game_id: gameId,
+          game_name: name,
+          team: null,
+          points: 100,
+          credits: 0
+        }).select().single();
+
+        const newRoster = {
+          id: gameId,
+          name: name,
+          employees: [data]
+        };
+
+        rosters.push(newRoster);
+        document.getElementById('newRosterName').value = '';
+        renderRosters();
+        selectRoster(gameId);
+      } catch (error) {
+        console.error('Create roster error:', error);
+        alert('Failed to create roster: ' + error.message);
+      }
+    }
+
+    async function deleteRoster(id) {
+      if (!confirm('Delete this roster and all employees? This cannot be undone.')) return;
+
+      try {
+        await supabase.from('employees').delete().eq('game_id', id);
+        rosters = rosters.filter(r => r.id !== id);
+        currentRoster = null;
+        renderRosters();
+        loadRosterDetails();
+      } catch (error) {
+        console.error('Delete roster error:', error);
+        alert('Failed to delete roster: ' + error.message);
+      }
+    }
+
+    function editRoster(id) {
+      selectRoster(id);
+    }
+
+    document.addEventListener('DOMContentLoaded', loadRosters);
+  </script>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <h1 style="margin:0; font-size:18px;">👥 Business Roster Management</h1>
+      <div style="flex:1"></div>
+      <button class="btn" onclick="window.location.href='business-home.html'">← Manager Hub</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <div class="card">
+          <h3 style="margin-top:0;">Create New Roster</h3>
+          <input type="text" id="newRosterName" placeholder="Roster name (e.g., Q1 Sales Team)">
+          <button class="btn btn-primary" onclick="createNewRoster()">Create Roster</button>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-top:0;">Existing Rosters</h3>
+          <div id="rostersContainer"></div>
+        </div>
+      </div>
+
+      <div>
+        <div id="rosterDetails"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
