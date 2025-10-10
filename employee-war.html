@@ -612,16 +612,58 @@
     if (modal) {
       modal.style.display = 'flex';
       
-      // Load assignments
-      const assignmentsList = document.getElementById('assignmentsList');
-      assignmentsList.innerHTML = `
-        <div style="text-align: center; color: var(--muted); padding: 2rem;">
-          <h4 style="color: var(--text); margin-bottom: 1rem;">📋 My Assignments</h4>
-          <p style="margin-bottom: 1rem;">No assignments assigned yet</p>
-          <p style="font-size: 12px;">Your manager will assign tasks and projects here.</p>
-        </div>
-      `;
+      // Load assignments from cloud
+      loadEmployeeAssignments();
     }
+  }
+
+  async function loadEmployeeAssignments() {
+    try {
+      const list = document.getElementById('assignmentsList');
+      if (!employeeState.gameData || !employeeState.currentEmployee) {
+        list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:2rem">No game joined</div>';
+        return;
+      }
+      const gameId = employeeState.gameData.id;
+      // Audience: all or team-specific
+      const { data: rows } = await supabase
+        .from('assignments')
+        .select('*')
+        .eq('game_id', gameId)
+        .order('created_at', { ascending: false })
+        .limit(50);
+      const myTeam = employeeState.team;
+      const filtered = (rows||[]).filter(a => a.audience === 'all' || a.audience === `team:${myTeam}`);
+      if (filtered.length === 0) {
+        list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:2rem">No assignments yet</div>';
+        return;
+      }
+      list.innerHTML = filtered.map(a => `
+        <div style="border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px;">
+          <div style="font-weight:600">${a.title}</div>
+          <div style="font-size:12px;color:var(--muted);margin:4px 0">${a.body||''}</div>
+          ${a.due_at ? `<div style=\"font-size:11px;color:var(--muted)\">Due: ${new Date(a.due_at).toLocaleDateString()}</div>` : ''}
+          <div style="margin-top:6px;display:flex;gap:8px;">
+            <button onclick="markAssignmentComplete('${a.id}')" class="pill" style="background:#10b981;color:#fff">Mark Complete</button>
+          </div>
+        </div>
+      `).join('');
+    } catch (e) {
+      console.warn('[emp] load assignments failed', e);
+    }
+  }
+
+  async function markAssignmentComplete(id) {
+    try {
+      await supabase.from('assignment_submissions').insert({
+        assignment_id: id,
+        game_id: employeeState.gameData.id,
+        employee_id: employeeState.currentEmployee.id,
+        status: 'completed'
+      });
+      alert('✅ Marked complete');
+      loadEmployeeAssignments();
+    } catch (e) { console.warn('[emp] submit assignment failed', e); }
   }
 
   function closeAssignmentModal() {

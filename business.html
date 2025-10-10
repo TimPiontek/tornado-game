@@ -304,8 +304,9 @@
       <!-- Announcements Tab -->
       <div id="tab-announcements" class="business-tab-panel">
         <div class="title">Company Updates</div>
-        <div style="margin-bottom: 8px;">
+        <div style="margin-bottom: 8px; display:grid; gap:6px;">
           <button id="newAnnouncementBtn" onclick="showNewAnnouncementModal()" style="width: 100%; padding: 6px; background: #8b5cf6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">+ New Announcement</button>
+          <button id="newAssignmentBtn" onclick="showNewAssignmentModal()" style="width: 100%; padding: 6px; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">📝 Assign Task</button>
         </div>
         <div id="announcementsList">
           <div style="font-size: 11px; color: var(--muted);">No announcements yet...</div>
@@ -1663,6 +1664,45 @@
 
   // Initialize when page loads
   document.addEventListener('DOMContentLoaded', initializeBusinessMode);
+
+  function showNewAssignmentModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal show';
+    const teamOptions = [...new Set(businessState.employees.map(e => e.team).filter(Boolean))];
+    modal.innerHTML = `
+      <div class="card" style="width: 560px;">
+        <div class="closeX" onclick="this.closest('.modal').remove()">×</div>
+        <h2>📝 Assign Task</h2>
+        <div style="display:grid; gap:8px;">
+          <input id="asTitle" placeholder="Title (e.g., Call 20 prospects)" />
+          <textarea id="asBody" placeholder="Description..." style="min-height:100px"></textarea>
+          <div class="grid2">
+            <select id="asAudience">
+              <option value="all">All Employees</option>
+              ${teamOptions.map(t => `<option value="team:${t}">Team: ${t}</option>`).join('')}
+            </select>
+            <input id="asDue" type="date" />
+          </div>
+          <button onclick="saveAssignment()" style="padding:10px; background:#10b981; color:#fff; border:none; border-radius:8px; cursor:pointer;">Assign</button>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+  }
+
+  async function saveAssignment() {
+    const title = (document.getElementById('asTitle')?.value||'').trim();
+    const body  = (document.getElementById('asBody')?.value||'').trim();
+    const audience = document.getElementById('asAudience')?.value||'all';
+    const due = document.getElementById('asDue')?.value||null;
+    if (!title) { alert('Please enter a title'); return; }
+    try {
+      const gameId = businessState.currentGame?.id || businessState.currentGame?.managerCode;
+      const payload = { game_id: gameId, title, body, audience, due_at: due };
+      await supabase.from('assignments').insert(payload);
+      document.querySelector('.modal')?.remove();
+      alert('✅ Task assigned');
+    } catch (e) { console.warn('[cloud] assignment save failed', e); alert('Could not save to cloud'); }
+  }
 </script>
 </body>
 </html>
