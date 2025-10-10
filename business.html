@@ -15,7 +15,7 @@
     .employee-card { background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:8px; margin-bottom:8px; cursor:pointer; transition:all 0.2s; }
     .employee-card:hover { border-color:var(--accent); }
     .employee-card.selected { border-color:var(--accent); background:rgba(34,211,238,0.1); }
-    .grid { display:grid; gap:2px; background:var(--border); padding:8px; border-radius:8px; }
+    .grid { display:grid; gap:2px; background:var(--border); padding:8px; border-radius:8px; max-height:70vh; overflow:auto; }
     .tile { aspect-ratio:1; background:var(--panel); border:1px solid var(--border); border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s; font-size:10px; position:relative; }
     .tile:hover { border-color:var(--accent); }
     .tile.owned { background:var(--accent); color:var(--bg); }
@@ -37,8 +37,12 @@
     <div class="panel">
       <div class="title">EMPLOYEES</div>
       <div style="margin-bottom:12px;">
-        <label for="rosterPaste" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Employee Names:</label>
-        <textarea id="rosterPaste" name="rosterPaste" placeholder="Paste employee names (one per line)" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--panel); color:var(--text); min-height:80px"></textarea>
+        <label for="rosterSelect" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Select Roster:</label>
+        <select id="rosterSelect" name="rosterSelect" onchange="loadSelectedRoster()" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--panel); color:var(--text); margin-bottom:8px;">
+          <option value="">Choose a roster...</option>
+        </select>
+        <label for="rosterPaste" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Or paste new names:</label>
+        <textarea id="rosterPaste" name="rosterPaste" placeholder="Paste employee names (one per line)" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--panel); color:var(--text); min-height:60px"></textarea>
         <button class="pill" onclick="createRosterFromPaste()" style="background:#22c55e;color:#fff">Create/Update Roster</button>
       </div>
       
@@ -141,6 +145,7 @@
   // Initialize the game
   function init() {
     loadGameData();
+    loadRosterSelector();
     initializeGameBoard();
     updateDisplay();
   }
@@ -177,6 +182,47 @@
     document.getElementById('managerCode').value = businessState.currentGame?.managerCode || 'DEMO';
   }
 
+  // Load roster selector dropdown
+  function loadRosterSelector() {
+    const selector = document.getElementById('rosterSelect');
+    const savedRosters = localStorage.getItem('businessRosters');
+    
+    selector.innerHTML = '<option value="">Choose a roster...</option>';
+    
+    if (savedRosters) {
+      const rosters = JSON.parse(savedRosters);
+      rosters.forEach(roster => {
+        const option = document.createElement('option');
+        option.value = roster.id;
+        option.textContent = roster.name;
+        selector.appendChild(option);
+      });
+    }
+  }
+
+  // Load selected roster
+  function loadSelectedRoster() {
+    const selector = document.getElementById('rosterSelect');
+    const selectedId = selector.value;
+    
+    if (!selectedId) return;
+    
+    const savedRosters = localStorage.getItem('businessRosters');
+    if (savedRosters) {
+      const rosters = JSON.parse(savedRosters);
+      const selectedRoster = rosters.find(r => r.id === selectedId);
+      
+      if (selectedRoster) {
+        businessState.employees = selectedRoster.roster || [];
+        businessState.currentGame = { name: selectedRoster.name, managerCode: 'DEMO' };
+        
+        // Reinitialize board with new employees
+        initializeGameBoard();
+        updateDisplay();
+      }
+    }
+  }
+
   // Initialize the game board
   function initializeGameBoard() {
     const board = businessState.board;
@@ -188,7 +234,7 @@
           id: `${x}-${y}`,
           x, y,
           owner: null,
-          cost: Math.floor(Math.random() * 20) + 10,
+          cost: Math.floor(Math.random() * 50) + 25,
           isHeadquarters: false
         });
       }
@@ -280,6 +326,10 @@
       
       if (tile.isHeadquarters) {
         div.classList.add('headquarters');
+        const owner = businessState.employees.find(e => e.id === tile.owner);
+        if (owner) {
+          div.textContent = owner.name.split(' ')[0];
+        }
       }
       
       if (!tile.owner) {
@@ -399,6 +449,9 @@
       roster: businessState.employees
     };
     localStorage.setItem('businessRosters', JSON.stringify([roster]));
+    
+    // Refresh roster selector
+    loadRosterSelector();
     
     // Reinitialize board with new employees
     initializeGameBoard();
