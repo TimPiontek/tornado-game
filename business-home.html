@@ -16,6 +16,10 @@
     .tile:hover { transform: translateY(-2px); border-color:#334155 }
     .tile h3 { margin:8px 0 6px; font-size:16px }
     .tile p { margin:0; color:var(--muted); font-size:13px; line-height:1.4 }
+    .tile.featured { grid-column: span 2; background:linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); border-color:#60a5fa; }
+    .tile.featured:hover { border-color:#93c5fd; transform: translateY(-4px); }
+    .tile.featured h3 { font-size:20px; color:#fff; }
+    .tile.featured p { color:#e0e7ff; }
     .pill { padding:8px 12px; border:1px solid var(--border); border-radius:10px; background:var(--panel); color:var(--text); cursor:pointer; }
   </style>
   <script>
@@ -84,14 +88,14 @@
         <h3>Recognition Feed</h3>
         <p>React to wins with 👍 👏 🎉 and praise posts.</p>
       </a>
-      <a class="tile" href="/business.html">
+      <a class="tile featured" href="/business.html">
         <div>🗺️</div>
-        <h3>Start Tornado Business War</h3>
-        <p>Open the strategy map to run live competitions.</p>
+        <h3>Tornado Business War</h3>
+        <p>Open the strategy map to run live competitions and battles between teams.</p>
       </a>
       <a class="tile" href="/quiz.html?mode=business">
         <div>🧩</div>
-        <h3>Start Tornado Quiz</h3>
+        <h3>Tornado Quiz</h3>
         <p>Launch a quiz and award points for correct answers.</p>
       </a>
       
