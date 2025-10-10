@@ -338,11 +338,11 @@
         <div class="title">Rewards & Incentives</div>
         <div style="margin-bottom: 8px;">
           <label style="display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px;">Winning Team Gets:</label>
-          <input type="text" id="rewardTeam" placeholder="e.g., Team dinner" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
+          <input type="text" id="rewardTeam" name="rewardTeam" placeholder="e.g., Team dinner" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
         </div>
         <div style="margin-bottom: 8px;">
           <label style="display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px;">Top Player Gets:</label>
-          <input type="text" id="rewardPlayer" placeholder="e.g., 1 PTO day" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
+          <input type="text" id="rewardPlayer" name="rewardPlayer" placeholder="e.g., 1 PTO day" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
         </div>
         <div style="margin-top: 8px;">
           <button id="saveRewardsBtn" onclick="saveRewards()" style="width: 100%; padding: 6px; background: #f59e0b; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">Save Rewards</button>
@@ -353,7 +353,7 @@
           <div class="title">Privacy Settings</div>
           <div style="margin-bottom: 8px;">
             <label style="display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px;">Leaderboard Visibility:</label>
-            <select id="privacyLevel" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
+            <select id="privacyLevel" name="privacyLevel" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
               <option value="TEAM_PUBLIC">Team Public - Show team names and scores</option>
               <option value="INDIVIDUAL_PRIVATE">Individual Private - Hide individual names</option>
               <option value="MIXED">Mixed - Teams public, individuals private</option>
@@ -380,28 +380,32 @@
             <select id="qAudience" name="qAudience"><option value="all">All Employees</option><option value="team:Alpha">Team: Alpha</option><option value="team:Beta">Team: Beta</option><option value="team:Gamma">Team: Gamma</option></select>
           </div>
           <div class="grid2">
-            <select id="qType">
+            <label for="qType" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Quest Type:</label>
+            <select id="qType" name="qType">
               <option value="one_time">One-time</option>
               <option value="weekly">Weekly</option>
               <option value="seasonal">Seasonal</option>
             </select>
-            <input id="qTime" type="time" value="09:00" />
+            <label for="qTime" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Time:</label>
+            <input id="qTime" name="qTime" type="time" value="09:00" />
           </div>
           <div>
             <label style="font-size:12px;color:var(--muted)">Weekdays</label>
             <div style="display:flex; gap:6px; flex-wrap:wrap;">
-              <label><input type="checkbox" class="qwd" value="Mon" checked /> Mon</label>
-              <label><input type="checkbox" class="qwd" value="Tue" checked /> Tue</label>
-              <label><input type="checkbox" class="qwd" value="Wed" checked /> Wed</label>
-              <label><input type="checkbox" class="qwd" value="Thu" checked /> Thu</label>
-              <label><input type="checkbox" class="qwd" value="Fri" checked /> Fri</label>
-              <label><input type="checkbox" class="qwd" value="Sat" /> Sat</label>
-              <label><input type="checkbox" class="qwd" value="Sun" /> Sun</label>
+              <label><input type="checkbox" class="qwd" name="qwd_mon" value="Mon" checked /> Mon</label>
+              <label><input type="checkbox" class="qwd" name="qwd_tue" value="Tue" checked /> Tue</label>
+              <label><input type="checkbox" class="qwd" name="qwd_wed" value="Wed" checked /> Wed</label>
+              <label><input type="checkbox" class="qwd" name="qwd_thu" value="Thu" checked /> Thu</label>
+              <label><input type="checkbox" class="qwd" name="qwd_fri" value="Fri" checked /> Fri</label>
+              <label><input type="checkbox" class="qwd" name="qwd_sat" value="Sat" /> Sat</label>
+              <label><input type="checkbox" class="qwd" name="qwd_sun" value="Sun" /> Sun</label>
             </div>
           </div>
           <div class="grid2">
-            <input id="qStart" type="date" />
-            <input id="qEnd" type="date" />
+            <label for="qStart" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Start Date:</label>
+            <input id="qStart" name="qStart" type="date" />
+            <label for="qEnd" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">End Date:</label>
+            <input id="qEnd" name="qEnd" type="date" />
           </div>
           <button class="pill" onclick="saveQuest()" style="background:#10b981;color:#fff">Save Quest</button>
         </div>
@@ -1256,7 +1260,7 @@
         <h3 style="margin: 0 0 1rem 0; color: var(--text);">Add Performance Metric</h3>
         <div style="margin-bottom: 1rem;">
           <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Metric Name:</label>
-          <select id="metricSelect" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
+          <select id="metricSelect" name="metricSelect" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
             <option value="">Select from Top 25...</option>
             ${TOP_25_METRICS.map(metric => `<option value="${metric}">${metric}</option>`).join('')}
             <option value="custom">Custom Metric</option>
@@ -1264,11 +1268,11 @@
         </div>
         <div style="margin-bottom: 1rem;">
           <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Custom Name:</label>
-          <input type="text" id="customMetricName" placeholder="Enter custom metric name" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);" disabled>
+          <input type="text" id="customMetricName" name="customMetricName" placeholder="Enter custom metric name" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);" disabled>
         </div>
         <div style="margin-bottom: 1rem;">
           <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Weight:</label>
-          <input type="number" id="metricWeight" value="1" min="0.1" max="10" step="0.1" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
+          <input type="number" id="metricWeight" name="metricWeight" value="1" min="0.1" max="10" step="0.1" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
         </div>
         <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
           <button onclick="this.closest('div').parentElement.remove()" style="padding: 0.5rem 1rem; background: var(--border); color: var(--text); border: none; border-radius: 4px; cursor: pointer;">Cancel</button>
@@ -1350,7 +1354,7 @@
         <h3 style="margin: 0 0 1rem 0; color: var(--text);">📊 CSV Import</h3>
         <div style="margin-bottom: 1rem;">
           <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Select CSV File:</label>
-          <input type="file" id="csvFile" accept=".csv" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
+          <input type="file" id="csvFile" name="csvFile" accept=".csv" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
         </div>
         <div style="margin-bottom: 1rem;">
           <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Expected Format:</label>
@@ -1438,8 +1442,10 @@
         <div class="closeX" onclick="this.closest('.modal').remove()">×</div>
         <h2>📣 New Announcement</h2>
         <div style="display:grid; gap:8px;">
-          <input id="annTitle" placeholder="Title" />
-          <textarea id="annBody" placeholder="Write your announcement..." style="min-height:120px"></textarea>
+          <label for="annTitle" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Title:</label>
+          <input id="annTitle" name="annTitle" placeholder="Title" />
+          <label for="annBody" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Message:</label>
+          <textarea id="annBody" name="annBody" placeholder="Write your announcement..." style="min-height:120px"></textarea>
           <div style="display:flex; gap:8px;">
             <button onclick="saveAnnouncement()" style="flex:1; padding:10px; background:#8b5cf6; color:#fff; border:none; border-radius:8px; cursor:pointer;">Post</button>
             <button onclick="this.closest('.modal').remove()" style="flex:1; padding:10px; background:#6b7280; color:#fff; border:none; border-radius:8px; cursor:pointer;">Cancel</button>
@@ -1685,40 +1691,40 @@
         <div style="margin-bottom: 16px;">
           <label style="display: block; margin-bottom: 4px; font-weight: 600;">🎯 Main Goal (Sales)</label>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <input type="number" id="salesCurrent" placeholder="Current ($)" value="${businessState.teamMetrics.sales.current}">
-            <input type="number" id="salesTarget" placeholder="Target ($)" value="${businessState.teamMetrics.sales.target}">
+            <input type="number" id="salesCurrent" name="salesCurrent" placeholder="Current ($)" value="${businessState.teamMetrics.sales.current}">
+            <input type="number" id="salesTarget" name="salesTarget" placeholder="Target ($)" value="${businessState.teamMetrics.sales.target}">
           </div>
         </div>
         
         <div style="margin-bottom: 16px;">
           <label style="display: block; margin-bottom: 4px; font-weight: 600;">📦 Products Sold</label>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <input type="number" id="productsCurrent" placeholder="Current" value="${businessState.teamMetrics.products.current}">
-            <input type="number" id="productsTarget" placeholder="Target" value="${businessState.teamMetrics.products.target}">
+            <input type="number" id="productsCurrent" name="productsCurrent" placeholder="Current" value="${businessState.teamMetrics.products.current}">
+            <input type="number" id="productsTarget" name="productsTarget" placeholder="Target" value="${businessState.teamMetrics.products.target}">
           </div>
         </div>
         
         <div style="margin-bottom: 16px;">
           <label style="display: block; margin-bottom: 4px; font-weight: 600;">😊 Customer Satisfaction</label>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <input type="number" step="0.1" id="satisfactionCurrent" placeholder="Current" value="${businessState.teamMetrics.satisfaction.current}">
-            <input type="number" step="0.1" id="satisfactionTarget" placeholder="Target" value="${businessState.teamMetrics.satisfaction.target}">
+            <input type="number" step="0.1" id="satisfactionCurrent" name="satisfactionCurrent" placeholder="Current" value="${businessState.teamMetrics.satisfaction.current}">
+            <input type="number" step="0.1" id="satisfactionTarget" name="satisfactionTarget" placeholder="Target" value="${businessState.teamMetrics.satisfaction.target}">
           </div>
         </div>
         
         <div style="margin-bottom: 16px;">
           <label style="display: block; margin-bottom: 4px; font-weight: 600;">🚀 Features Shipped</label>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <input type="number" id="featuresCurrent" placeholder="Current" value="${businessState.teamMetrics.features.current}">
-            <input type="number" id="featuresTarget" placeholder="Target" value="${businessState.teamMetrics.features.target}">
+            <input type="number" id="featuresCurrent" name="featuresCurrent" placeholder="Current" value="${businessState.teamMetrics.features.current}">
+            <input type="number" id="featuresTarget" name="featuresTarget" placeholder="Target" value="${businessState.teamMetrics.features.target}">
           </div>
         </div>
         
         <div style="margin-bottom: 16px;">
           <label style="display: block; margin-bottom: 4px; font-weight: 600;">🐛 Bugs Resolved</label>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <input type="number" id="bugsCurrent" placeholder="Current" value="${businessState.teamMetrics.bugs.current}">
-            <input type="number" id="bugsTarget" placeholder="Target" value="${businessState.teamMetrics.bugs.target}">
+            <input type="number" id="bugsCurrent" name="bugsCurrent" placeholder="Current" value="${businessState.teamMetrics.bugs.current}">
+            <input type="number" id="bugsTarget" name="bugsTarget" placeholder="Target" value="${businessState.teamMetrics.bugs.target}">
           </div>
         </div>
         
@@ -1770,12 +1776,12 @@
         
         <div style="margin-bottom: 16px;">
           <label style="display: block; margin-bottom: 4px; font-weight: 600;">Game Name</label>
-          <input type="text" id="newGameName" placeholder="e.g., Q4 Sales Challenge" value="Business Competition">
+          <input type="text" id="newGameName" name="newGameName" placeholder="e.g., Q4 Sales Challenge" value="Business Competition">
         </div>
         
         <div style="margin-bottom: 16px;">
           <label style="display: block; margin-bottom: 4px; font-weight: 600;">Work Scenario</label>
-          <select id="workScenario" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
+          <select id="workScenario" name="workScenario" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
             <option value="individual">👤 Individual Competition - Everyone works alone</option>
             <option value="pairs">👥 Pair Competition - Teams of 2 employees</option>
             <option value="teams3">🏢 Team Competition - Teams of 3 employees</option>
@@ -1786,12 +1792,12 @@
         
         <div style="margin-bottom: 16px;">
           <label style="display: block; margin-bottom: 4px; font-weight: 600;">Starting Points per Employee</label>
-          <input type="number" id="startingPoints" placeholder="100" value="100" min="50" max="500">
+          <input type="number" id="startingPoints" name="startingPoints" placeholder="100" value="100" min="50" max="500">
         </div>
         
         <div style="margin-bottom: 16px;">
           <label style="display: block; margin-bottom: 4px; font-weight: 600;">Board Size</label>
-          <select id="boardSize" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
+          <select id="boardSize" name="boardSize" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
             <option value="small">Small (8x8) - 64 tiles</option>
             <option value="medium" selected>Medium (10x10) - 100 tiles</option>
             <option value="large">Large (12x12) - 144 tiles</option>
@@ -1951,14 +1957,18 @@
         <div class="closeX" onclick="this.closest('.modal').remove()">×</div>
         <h2>📝 Assign Task</h2>
         <div style="display:grid; gap:8px;">
-          <input id="asTitle" placeholder="Title (e.g., Call 20 prospects)" />
-          <textarea id="asBody" placeholder="Description..." style="min-height:100px"></textarea>
+          <label for="asTitle" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Title:</label>
+          <input id="asTitle" name="asTitle" placeholder="Title (e.g., Call 20 prospects)" />
+          <label for="asBody" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Description:</label>
+          <textarea id="asBody" name="asBody" placeholder="Description..." style="min-height:100px"></textarea>
           <div class="grid2">
-            <select id="asAudience">
+            <label for="asAudience" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Audience:</label>
+            <select id="asAudience" name="asAudience">
               <option value="all">All Employees</option>
               ${teamOptions.map(t => `<option value="team:${t}">Team: ${t}</option>`).join('')}
             </select>
-            <input id="asDue" type="date" />
+            <label for="asDue" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Due Date:</label>
+            <input id="asDue" name="asDue" type="date" />
           </div>
           <button onclick="saveAssignment()" style="padding:10px; background:#10b981; color:#fff; border:none; border-radius:8px; cursor:pointer;">Assign</button>
         </div>
