@@ -1,0 +1,2109 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; object-src 'none';">
+  <title>Tornado Business – Manager Dashboard</title>
+  <style>
+    :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
+    * { box-sizing: border-box }
+    html, body { height:100% }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    header { position:sticky; top:0; z-index:3; background:#0d1628cc; backdrop-filter: blur(6px); border-bottom:1px solid var(--border); }
+    .bar { display:flex; gap:8px; align-items:center; padding:10px 14px; flex-wrap:wrap }
+    .bar h1 { font-size:18px; margin:0 8px 0 0; }
+    .pill { padding:8px 12px; border:1px solid var(--border); border-radius:10px; background:var(--panel); color:var(--text); cursor:pointer; }
+    .pill[disabled] { opacity:.6; cursor:not-allowed }
+    .muted { color:var(--muted) }
+    .wrap { display:grid; grid-template-columns: 400px 1fr 300px; gap:12px; padding:12px; }
+    .panel { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:12px; }
+    .title { font-size:14px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0 0 8px; }
+    #gamesList { width: 100%; }
+    #roster { display:flex; flex-direction:column; gap:3px; max-height: calc(100vh - 220px); overflow:auto; }
+    .row { display:grid; grid-template-columns: 1fr auto; gap:3px; align-items:center; padding:2px 4px; border:1px solid var(--border); border-radius:6px; cursor:pointer; font-size:11px; }
+    .row-actions { display:flex; flex-wrap:wrap; gap:2px; justify-content:flex-end; }
+    .row.sel { outline:2px solid var(--accent) }
+    .bal { font-variant-numeric: tabular-nums; }
+    .chip { padding:1px 4px; border:1px solid var(--border); border-radius:4px; font-size:10px; color:var(--muted) }
+    .plus { padding:1px 3px; border:1px solid var(--border); border-radius:4px; background:#12223a; cursor:pointer; font-size:9px }
+    #board { width:100%; aspect-ratio: 0.8 / 1; background:#0a1220; border:1px solid var(--border); border-radius:12px; overflow:hidden; max-height: 60vh; }
+    #grid { width:100%; height:100%; display:grid; }
+    .cell { border:1px solid #0d1930; display:flex; align-items:center; justify-content:center; font-size:12px; user-select:none; position:relative; }
+    @media (max-height: 800px) { #board { height: 75vh; } }
+    .headquarters { font-weight:bold; filter: drop-shadow(0 1px 0 #0008) }
+    .section { margin: 10px 0 0 }
+    input, textarea, select { width:100%; padding:10px; border:1px solid var(--border); border-radius:10px; background:#081125; color:var(--text) }
+    textarea { min-height: 160px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap:8px; }
+    table { width:100%; border-collapse: collapse; }
+    th, td { padding:6px 4px; border-bottom: 1px solid var(--border); text-align:left; font-size:14px }
+    .minor { font-size:12px; color:var(--muted) }
+    .ok { color:#86efac } .warn { color:#facc15 } .err { color:#f87171 }
+    
+    /* Modal styles */
+    .modal { position:fixed; inset:0; background:#0009; display:none; place-items:center; z-index:50; }
+    .modal.show { display:grid; }
+    .card { width:min(600px,92vw); max-height:82vh; overflow:auto; background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:18px; }
+    .card h2 { margin:0 0 8px }
+    .card p, .card li { color:#cbd5e1; line-height:1.5 }
+    .closeX { float:right; font-size:14px; opacity:.8; cursor:pointer; padding:6px 8px; border:1px solid var(--border); border-radius:8px; }
+    
+    /* Business Mode specific styles */
+    .business-header {
+      background: linear-gradient(135deg, #64748b, #475569);
+      color: white;
+      padding: 1rem;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin: 0.5rem;
+    }
+    
+    .business-tab {
+      flex: 1;
+      padding: 6px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 11px;
+      transition: all 0.2s ease;
+    }
+    
+    .business-tab.active {
+      background: #64748b;
+      color: white;
+    }
+    
+    .business-tab:hover {
+      background: #4b5563;
+    }
+    
+    .business-tab-panel {
+      display: none;
+    }
+    
+    .business-tab-panel.active {
+      display: block;
+    }
+    
+    .metric-card {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 8px;
+      padding: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .metric-name {
+      font-weight: 600;
+      color: #60a5fa;
+      font-size: 12px;
+    }
+    
+    .metric-weight {
+      color: var(--muted);
+      font-size: 10px;
+    }
+    
+    .credits-display {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+      font-weight: bold;
+      color: #fbbf24;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <h1 style="cursor: pointer;" onclick="window.location.href = '/'">TORNADO BUSINESS</h1>
+    <button class="pill" id="btnHelp">How to Play</button>
+    <button class="pill" id="btnNewGame" onclick="showNewGameModal()" style="background: #dc2626; color: white;">🔄 New Game</button>
+    <div style="flex:1"></div>
+    <span id="who" class="muted">Manager Mode</span>
+    <button class="pill" onclick="window.location.href='/'">← Back to Home</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- LEFT: Employee Management -->
+  <div class="panel">
+    <div class="section">
+      <div class="title">Employees</div>
+      <div style="display:grid; gap:6px; margin-bottom:6px;">
+        <label for="rosterPaste" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Employee Names:</label>
+        <textarea id="rosterPaste" name="rosterPaste" placeholder="Paste employee names (one per line)" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--panel); color:var(--text); min-height:80px"></textarea>
+        <button class="pill" onclick="createRosterFromPaste()" style="background:#22c55e;color:#fff">Create/Update Roster</button>
+        <div class="minor">Manager Code: <span id="managerCodeDisplay">—</span> <button class="pill" onclick="copyManagerCode()">Copy</button></div>
+        
+      </div>
+      <div id="employeeList" style="display: flex; flex-direction: column; gap: 6px; max-height: calc(100vh - 300px); overflow: auto;">
+        <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(59, 130, 246, 0.1);">
+          <div style="font-weight: 600; color: #60a5fa;">Alice Johnson</div>
+          <div style="font-size: 11px; color: var(--muted);">Alpha Team • 150 pts • 25 credits</div>
+        </div>
+        <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(16, 185, 129, 0.1);">
+          <div style="font-weight: 600; color: #34d399;">Bob Smith</div>
+          <div style="font-size: 11px; color: var(--muted);">Beta Team • 140 pts • 22 credits</div>
+        </div>
+        <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(139, 92, 246, 0.1);">
+          <div style="font-weight: 600; color: #a78bfa;">Carol Davis</div>
+          <div style="font-size: 11px; color: var(--muted);">Alpha Team • 135 pts • 20 credits</div>
+        </div>
+        <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(245, 158, 11, 0.1);">
+          <div style="font-weight: 600; color: #fbbf24;">David Wilson</div>
+          <div style="font-size: 11px; color: var(--muted);">Gamma Team • 130 pts • 18 credits</div>
+        </div>
+      </div>
+      <div style="margin-top: 8px;">
+        <button class="pill" onclick="addEmployee()" style="background: #10b981; color: white; font-size: 11px; width: 100%;">+ Add Employee</button>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="title">Quick Actions</div>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <button class="pill" onclick="awardPoints(1)" style="background: #10b981; color: white; font-size: 11px;">+1 Point</button>
+        <button class="pill" onclick="awardPoints(5)" style="background: #10b981; color: white; font-size: 11px;">+5 Points</button>
+        <button class="pill" onclick="awardPoints(10)" style="background: #10b981; color: white; font-size: 11px;">+10 Points</button>
+        <button class="pill" onclick="awardPoints(-1)" style="background: #dc2626; color: white; font-size: 11px;">-1 Point</button>
+        <button class="pill" onclick="awardPoints(-10)" style="background: #dc2626; color: white; font-size: 11px;">-10 Points</button>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="title">Game Settings</div>
+      <div style="margin-bottom: 8px;">
+        <label style="display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px;">Game Name:</label>
+        <input type="text" id="gameName" name="gameName" placeholder="Q4 Performance Challenge" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
+      </div>
+      <div style="margin-bottom: 8px;">
+        <label style="display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px;">Manager Code:</label>
+        <input type="text" id="managerCode" name="managerCode" placeholder="DEMO" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
+      </div>
+      <button class="pill" onclick="saveGameSettings()" style="background: #3b82f6; color: white; font-size: 11px; width: 100%;">Save Settings</button>
+    </div>
+  </div>
+
+  <!-- CENTER: Game Board -->
+  <div class="panel">
+    <div class="business-header" id="gameTitle">
+      🏢 Business Competition
+    </div>
+    <div id="teamScoreboards" style="margin-bottom: 1rem;"></div>
+    <div id="board">
+      <div id="grid"></div>
+    </div>
+    <div class="minor" id="tip">Tip: click an employee name, then click a tile.</div>
+  </div>
+  
+  <!-- RIGHT: Business Tools -->
+  <div class="panel">
+    <div class="title">Business Tools</div>
+    
+    <!-- Tab Navigation -->
+    <div style="display: flex; gap: 4px; margin-bottom: 12px;">
+      <button class="business-tab active" data-tab="leaderboard" onclick="switchTab('leaderboard')">Leaderboard</button>
+      <button class="business-tab" data-tab="metrics" onclick="switchTab('metrics')">Metrics</button>
+      <button class="business-tab" data-tab="announcements" onclick="switchTab('announcements')">Announcements</button>
+      <button class="business-tab" data-tab="rewards" onclick="switchTab('rewards')">Rewards</button>
+      <button class="business-tab" data-tab="quests" onclick="switchTab('quests')">Quests</button>
+    </div>
+    
+    <!-- Tab Content -->
+    <div id="businessTabContent">
+      <!-- Leaderboard Tab (default) -->
+      <div id="tab-leaderboard" class="business-tab-panel active">
+        <div class="title">Team Rankings</div>
+        <div id="businessLeaderboard">
+          <div style="font-size: 11px; color: var(--muted);">Team rankings will appear here...</div>
+        </div>
+        <div class="section">
+          <div class="title">Recent Activity</div>
+          <div id="activityFeed" style="max-height: 240px; overflow:auto; border: 1px solid var(--border); border-radius: 8px; padding: 8px;">
+            <div style="font-size: 11px; color: var(--muted);">No activity yet</div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="title">Recognition Feed</div>
+          <div style="display:grid; gap:6px; margin-bottom:8px;">
+            <label for="recogText" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Recognition Message:</label>
+            <input id="recogText" name="recogText" placeholder="Praise a teammate (e.g., Alice closed ACME!)" style="width:100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text); font-size: 12px;" />
+            <button class="pill" onclick="postRecognition()" style="background:#22c55e;color:#fff">Post Recognition</button>
+          </div>
+          <div id="recognitionFeed" style="max-height: 260px; overflow:auto; border:1px solid var(--border); border-radius:8px; padding:8px;">
+            <div style="font-size: 11px; color: var(--muted);">No recognitions yet</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Metrics Tab -->
+      <div id="tab-metrics" class="business-tab-panel">
+        <div class="title">Team Metrics Dashboard</div>
+        
+        <!-- Main Team Goal Progress -->
+        <div style="margin-bottom: 16px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: rgba(34, 197, 94, 0.1);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <h4 style="margin: 0; color: #22c55e; font-size: 14px;">🎯 Q4 Sales Goal</h4>
+            <span style="font-size: 12px; color: var(--muted);">$847,500 / $1,000,000</span>
+          </div>
+          <div style="background: #1e293b; border-radius: 6px; height: 20px; overflow: hidden; position: relative;">
+            <div id="mainProgressBar" style="background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%); height: 100%; width: 84.75%; transition: width 0.5s ease; position: relative;">
+              <div style="position: absolute; right: -1px; top: 0; height: 100%; width: 2px; background: #fff; box-shadow: 0 0 4px rgba(255,255,255,0.5);"></div>
+            </div>
+            <div id="mainProgressText" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 10px; font-weight: bold; color: #fff; text-shadow: 0 0 2px rgba(0,0,0,0.8);">84.75%</div>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-top: 4px; font-size: 10px; color: var(--muted);">
+            <span>Target: $1,000,000</span>
+            <span id="remainingAmount">Remaining: $152,500</span>
+          </div>
+        </div>
+
+        <!-- Individual Metrics Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+          <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(59, 130, 246, 0.1);">
+            <div style="font-weight: 600; color: #60a5fa; font-size: 12px;">Products Sold</div>
+            <div id="productsValue" style="font-size: 18px; font-weight: bold; color: #60a5fa; margin: 4px 0;">2,847</div>
+            <div style="font-size: 10px; color: var(--muted);">Target: 3,000</div>
+            <div style="background: #1e293b; border-radius: 4px; height: 6px; margin-top: 4px;">
+              <div id="productsProgress" style="background: #3b82f6; height: 100%; width: 94.9%; border-radius: 4px; transition: width 0.3s ease;"></div>
+            </div>
+          </div>
+          
+          <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(168, 85, 247, 0.1);">
+            <div style="font-weight: 600; color: #a78bfa; font-size: 12px;">Customer Satisfaction</div>
+            <div id="satisfactionValue" style="font-size: 18px; font-weight: bold; color: #a78bfa; margin: 4px 0;">4.7/5</div>
+            <div style="font-size: 10px; color: var(--muted);">Target: 4.5/5</div>
+            <div style="background: #1e293b; border-radius: 4px; height: 6px; margin-top: 4px;">
+              <div id="satisfactionProgress" style="background: #a855f7; height: 100%; width: 94%; border-radius: 4px; transition: width 0.3s ease;"></div>
+            </div>
+          </div>
+          
+          <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(245, 158, 11, 0.1);">
+            <div style="font-weight: 600; color: #f59e0b; font-size: 12px;">Features Shipped</div>
+            <div id="featuresValue" style="font-size: 18px; font-weight: bold; color: #f59e0b; margin: 4px 0;">47</div>
+            <div style="font-size: 10px; color: var(--muted);">Target: 50</div>
+            <div style="background: #1e293b; border-radius: 4px; height: 6px; margin-top: 4px;">
+              <div id="featuresProgress" style="background: #f59e0b; height: 100%; width: 94%; border-radius: 4px; transition: width 0.3s ease;"></div>
+            </div>
+          </div>
+          
+          <div style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(239, 68, 68, 0.1);">
+            <div style="font-weight: 600; color: #ef4444; font-size: 12px;">Bugs Resolved</div>
+            <div id="bugsValue" style="font-size: 18px; font-weight: bold; color: #ef4444; margin: 4px 0;">156</div>
+            <div style="font-size: 10px; color: var(--muted);">Target: 200</div>
+            <div style="background: #1e293b; border-radius: 4px; height: 6px; margin-top: 4px;">
+              <div id="bugsProgress" style="background: #ef4444; height: 100%; width: 78%; border-radius: 4px; transition: width 0.3s ease;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div style="display: flex; gap: 6px; margin-bottom: 12px;">
+          <button class="pill" onclick="updateMetric('sales', 1000)" style="background: #22c55e; color: white; font-size: 10px; flex: 1;">+$1K Sales</button>
+          <button class="pill" onclick="updateMetric('products', 10)" style="background: #3b82f6; color: white; font-size: 10px; flex: 1;">+10 Products</button>
+          <button class="pill" onclick="updateMetric('features', 1)" style="background: #f59e0b; color: white; font-size: 10px; flex: 1;">+1 Feature</button>
+        </div>
+
+        <!-- Management Controls -->
+        <div style="margin-top: 12px;">
+          <button class="pill" onclick="showMetricEditor()" style="background: #8b5cf6; color: white; font-size: 11px; width: 100%; margin-bottom: 6px;">⚙️ Edit Metrics</button>
+          <button class="pill" onclick="showCsvImportModal()" style="background: #3b82f6; color: white; font-size: 11px; width: 100%;">📊 Import CSV Data</button>
+        </div>
+      </div>
+      
+      <!-- Announcements Tab -->
+      <div id="tab-announcements" class="business-tab-panel">
+        <div class="title">Company Updates</div>
+        <div style="margin-bottom: 8px; display:grid; gap:6px;">
+          <button id="newAnnouncementBtn" onclick="showNewAnnouncementModal()" style="width: 100%; padding: 6px; background: #8b5cf6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">+ New Announcement</button>
+          <button id="newAssignmentBtn" onclick="showNewAssignmentModal()" style="width: 100%; padding: 6px; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">📝 Assign Task</button>
+        </div>
+        <div id="announcementsList">
+          <div style="font-size: 11px; color: var(--muted);">No announcements yet...</div>
+        </div>
+      </div>
+      
+      <!-- Rewards Tab -->
+      <div id="tab-rewards" class="business-tab-panel">
+        <div class="title">Rewards & Incentives</div>
+        <div style="margin-bottom: 8px;">
+          <label style="display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px;">Winning Team Gets:</label>
+          <input type="text" id="rewardTeam" name="rewardTeam" placeholder="e.g., Team dinner" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
+        </div>
+        <div style="margin-bottom: 8px;">
+          <label style="display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px;">Top Player Gets:</label>
+          <input type="text" id="rewardPlayer" name="rewardPlayer" placeholder="e.g., 1 PTO day" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
+        </div>
+        <div style="margin-top: 8px;">
+          <button id="saveRewardsBtn" onclick="saveRewards()" style="width: 100%; padding: 6px; background: #f59e0b; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">Save Rewards</button>
+        </div>
+        
+        <!-- Privacy Controls -->
+        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);">
+          <div class="title">Privacy Settings</div>
+          <div style="margin-bottom: 8px;">
+            <label style="display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px;">Leaderboard Visibility:</label>
+            <select id="privacyLevel" name="privacyLevel" style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text); font-size: 11px;">
+              <option value="TEAM_PUBLIC">Team Public - Show team names and scores</option>
+              <option value="INDIVIDUAL_PRIVATE">Individual Private - Hide individual names</option>
+              <option value="MIXED">Mixed - Teams public, individuals private</option>
+            </select>
+          </div>
+          <div style="margin-top: 8px;">
+            <button id="savePrivacyBtn" onclick="savePrivacySettings()" style="width: 100%; padding: 6px; background: #6366f1; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">Save Privacy Settings</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quests Tab -->
+      <div id="tab-quests" class="business-tab-panel">
+        <div class="title">Quests</div>
+        <div style="display:grid; gap:8px; margin-bottom:8px;">
+          <label for="qTitle" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Quest Title:</label>
+          <input id="qTitle" name="qTitle" placeholder="Quest title (e.g., Friday Wrap-Up Calls)" />
+          <label for="qBody" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Quest Description:</label>
+          <textarea id="qBody" name="qBody" placeholder="Quest description..." style="min-height:90px"></textarea>
+          <div class="grid2">
+            <label for="qPoints" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Points:</label>
+            <input id="qPoints" name="qPoints" type="number" placeholder="Points (e.g., 25)" />
+            <label for="qAudience" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Audience:</label>
+            <select id="qAudience" name="qAudience"><option value="all">All Employees</option><option value="team:Alpha">Team: Alpha</option><option value="team:Beta">Team: Beta</option><option value="team:Gamma">Team: Gamma</option></select>
+          </div>
+          <div class="grid2">
+            <label for="qType" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Quest Type:</label>
+            <select id="qType" name="qType">
+              <option value="one_time">One-time</option>
+              <option value="weekly">Weekly</option>
+              <option value="seasonal">Seasonal</option>
+            </select>
+            <label for="qTime" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Time:</label>
+            <input id="qTime" name="qTime" type="time" value="09:00" />
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--muted)">Weekdays</label>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <label><input type="checkbox" class="qwd" name="qwd_mon" value="Mon" checked /> Mon</label>
+              <label><input type="checkbox" class="qwd" name="qwd_tue" value="Tue" checked /> Tue</label>
+              <label><input type="checkbox" class="qwd" name="qwd_wed" value="Wed" checked /> Wed</label>
+              <label><input type="checkbox" class="qwd" name="qwd_thu" value="Thu" checked /> Thu</label>
+              <label><input type="checkbox" class="qwd" name="qwd_fri" value="Fri" checked /> Fri</label>
+              <label><input type="checkbox" class="qwd" name="qwd_sat" value="Sat" /> Sat</label>
+              <label><input type="checkbox" class="qwd" name="qwd_sun" value="Sun" /> Sun</label>
+            </div>
+          </div>
+          <div class="grid2">
+            <label for="qStart" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Start Date:</label>
+            <input id="qStart" name="qStart" type="date" />
+            <label for="qEnd" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">End Date:</label>
+            <input id="qEnd" name="qEnd" type="date" />
+          </div>
+          <button class="pill" onclick="saveQuest()" style="background:#10b981;color:#fff">Save Quest</button>
+        </div>
+        <div class="title">Upcoming Runs</div>
+        <div id="questPreview" style="font-size:12px;color:var(--muted)">No preview yet</div>
+        <div class="title" style="margin-top:10px">Scheduled Quests</div>
+        <div id="questList" style="font-size:12px;color:var(--muted)">Loading...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script>
+  // Removed Supabase dependency - using localStorage only
+
+  async function saveCloudActivity(action, detail) {
+    // Using localStorage - no cloud save needed
+    console.log('[local] activity:', action, detail);
+  }
+  
+  async function sendWebhookNotifications(action, detail) {
+    // Using localStorage - no webhooks needed
+    console.log('[local] webhook:', action, detail);
+  }
+
+  async function saveCloudGame() {
+    try {
+      if (!businessState.currentGame) return;
+      // upsert game
+      const { data: g } = await supabase.from('games').upsert({
+        id: businessState.currentGame.id,
+        code: businessState.currentGame.managerCode,
+        name: businessState.currentGame.name,
+        scenario: businessState.currentGame.scenario,
+        starting_points: businessState.currentGame.startingPoints,
+        board_w: businessState.board?.w,
+        board_h: businessState.board?.h
+      }).select().single();
+      if (g && !businessState.currentGame.id) businessState.currentGame.id = g.id;
+
+      // upsert employees
+      if (businessState.employees?.length) {
+        const rows = businessState.employees.map(e => ({
+          id: e.id, game_id: businessState.currentGame.id || businessState.currentGame.managerCode,
+          name: e.name, team: e.team, points: e.points||0, credits: e.credits||0, balance: e.balance||0
+        }));
+        await supabase.from('employees').upsert(rows);
+      }
+
+      // upsert tiles (bulk)
+      if (businessState.board?.tiles?.length) {
+        const rows = businessState.board.tiles.map(t => ({
+          game_id: businessState.currentGame.id || businessState.currentGame.managerCode,
+          tile_id: t.id, x: t.x, y: t.y, owner_employee_id: t.owner, is_headquarters: !!t.isHeadquarters, cost: t.cost
+        }));
+        await supabase.from('tiles').upsert(rows, { onConflict: 'game_id,tile_id' });
+      }
+    } catch (e) { console.warn('[cloud] game save failed', e); }
+  }
+
+  async function saveCloudMetrics() {
+    try {
+      if (!businessState.currentGame) return;
+      const entries = Object.entries(businessState.teamMetrics||{}).map(([key, m]) => ({
+        game_id: businessState.currentGame.id || businessState.currentGame.managerCode,
+        key, name: key, unit: m.unit||'', target: m.target||0, current: m.current||0
+      }));
+      if (entries.length) await supabase.from('metrics').upsert(entries, { onConflict: 'game_id,key' });
+    } catch (e) { console.warn('[cloud] metrics save failed', e); }
+  }
+
+  // Business Mode State
+  let businessState = {
+    currentGame: null,
+    employees: [],
+    metrics: [],
+    announcements: [],
+    rewards: {
+      team: '',
+      player: ''
+    },
+    privacyLevel: 'TEAM_PUBLIC',
+    scoreEvents: [],
+    board: { w: 0, h: 0, tiles: [] },
+    selectedEmployee: null,
+    teamMetrics: {
+      sales: { current: 847500, target: 1000000, unit: '$' },
+      products: { current: 2847, target: 3000, unit: '' },
+      satisfaction: { current: 4.7, target: 5.0, unit: '/5' },
+      features: { current: 47, target: 50, unit: '' },
+      bugs: { current: 156, target: 200, unit: '' }
+    }
+  };
+
+  // Top 25 Business Metrics
+  const TOP_25_METRICS = [
+    'Features shipped',
+    'Bugs resolved', 
+    'Code quality score',
+    'Test coverage %',
+    'CSAT/NPS delta',
+    'Revenue influenced',
+    'Deals closed',
+    'Hours saved via automation',
+    'Knowledge shares hosted',
+    'Mentoring sessions',
+    'Delivery time delta',
+    'On-time task rate %',
+    'Escalations handled',
+    'Training hours',
+    'Certifications earned',
+    'New clients onboarded',
+    'Retention rate improvement',
+    'Innovation proposals',
+    'Security issues resolved',
+    'Downtime reduced',
+    'Documentation completed',
+    'Cross-team collaborations',
+    'Product demos delivered',
+    'Feedback surveys completed',
+    'Peer kudos / votes'
+  ];
+
+  // Initialize Business Mode
+  function initializeBusinessMode() {
+    // Load existing game data
+    loadGameData();
+    
+    // Initialize game board
+    initializeGameBoard();
+    
+    // Load initial data
+    loadMetricsTab();
+    loadAnnouncementsTab();
+    loadRewardsTab();
+    loadBusinessLeaderboard();
+    
+    // Set up event listeners
+    setupEventListeners();
+  }
+
+  async function loadGameData() {
+    // Load from localStorage like the student game
+    const saved = localStorage.getItem('businessRosters');
+    const rosters = saved ? JSON.parse(saved) : [];
+    
+    if (rosters.length > 0) {
+      // Use the first roster
+      const defaultRoster = rosters[0];
+      businessState.employees = defaultRoster.employees.map(emp => ({
+        id: emp.name.toLowerCase().replace(/[^a-z0-9]+/g, '_'),
+        name: emp.name,
+        team: emp.team || 'Individual',
+        points: emp.points || 100,
+        credits: emp.credits || 0,
+        balance: emp.points || 100,
+        headquarters: null
+      }));
+      businessState.currentGame = {
+        name: defaultRoster.name,
+        managerCode: 'CODE' + Math.random().toString(36).slice(2, 7).toUpperCase()
+      };
+    } else {
+      // Create default demo roster
+      const defaults = ['Alice Johnson','Bob Smith','Carol Davis','David Wilson','Eve Clark','Frank Nguyen','Grace Patel','Hank Lee'];
+      const teams = ['Alpha','Beta','Gamma','Delta'];
+      businessState.employees = defaults.map((n,i)=>({ 
+        id:'emp_'+(i+1), 
+        name:n, 
+        team: teams[i%teams.length], 
+        points:100, 
+        credits:0, 
+        balance:100, 
+        headquarters:null 
+      }));
+      businessState.currentGame = {
+        name: 'Demo Business Competition',
+        managerCode: 'DEMO' + Math.random().toString(36).slice(2, 7).toUpperCase()
+      };
+      
+      // Save to localStorage like the student game
+      const demoRoster = {
+        id: 'demo_' + Date.now(),
+        name: 'Demo Business Competition',
+        employees: businessState.employees,
+        lastModified: new Date().toISOString()
+      };
+      localStorage.setItem('businessRosters', JSON.stringify([demoRoster]));
+    }
+    
+    // Update UI with loaded data
+    if (businessState.currentGame) {
+      document.getElementById('gameName').value = businessState.currentGame.name || '';
+      document.getElementById('managerCode').value = businessState.currentGame.managerCode || 'DEMO';
+      document.getElementById('gameTitle').textContent = `🏢 ${businessState.currentGame.name || 'Business Competition'}`;
+    }
+    
+    // Load roster selector
+    loadRosterSelector();
+    
+    // Initialize the game board after loading data
+    setTimeout(() => {
+      initializeGameBoard();
+    }, 100);
+  }
+
+
+  function loadRosterSelector() {
+    // Add roster selector to the UI like the student game
+    const rosterSection = document.querySelector('.panel h3');
+    if (rosterSection && rosterSection.textContent.includes('EMPLOYEES')) {
+      // Check if selector already exists
+      if (document.getElementById('rosterSelector')) return;
+      
+      const selector = document.createElement('select');
+      selector.id = 'rosterSelector';
+      selector.name = 'rosterSelector';
+      selector.style.marginBottom = '8px';
+      selector.style.width = '100%';
+      selector.style.padding = '8px';
+      selector.style.border = '1px solid var(--border)';
+      selector.style.borderRadius = '6px';
+      selector.style.background = '#081125';
+      selector.style.color = 'var(--text)';
+      selector.innerHTML = '<option value="">Select Roster</option>';
+      
+      // Load available rosters from localStorage
+      loadAvailableRosters(selector);
+      
+      rosterSection.parentNode.insertBefore(selector, rosterSection.nextSibling);
+    }
+  }
+
+  function loadAvailableRosters(selector) {
+    const saved = localStorage.getItem('businessRosters');
+    const rosters = saved ? JSON.parse(saved) : [];
+    
+    rosters.forEach(roster => {
+      const option = document.createElement('option');
+      option.value = roster.id;
+      option.textContent = `${roster.name} (${roster.employees.length} employees)`;
+      selector.appendChild(option);
+    });
+    
+    selector.onchange = function() {
+      if (this.value) {
+        loadRosterFromLocalStorage(this.value);
+      }
+    };
+  }
+
+  function loadRosterFromLocalStorage(rosterId) {
+    const saved = localStorage.getItem('businessRosters');
+    const rosters = saved ? JSON.parse(saved) : [];
+    const roster = rosters.find(r => r.id === rosterId);
+    
+    if (roster) {
+      businessState.employees = roster.employees.map(emp => ({
+        id: emp.name.toLowerCase().replace(/[^a-z0-9]+/g, '_'),
+        name: emp.name,
+        team: emp.team || 'Individual',
+        points: emp.points || 100,
+        credits: emp.credits || 0,
+        balance: emp.points || 100,
+        headquarters: null
+      }));
+      
+      businessState.currentGame = {
+        name: roster.name,
+        managerCode: 'CODE' + Math.random().toString(36).slice(2, 7).toUpperCase()
+      };
+      
+      updateEmployeeDisplay();
+      initializeGameBoard();
+      saveGameData();
+      
+      alert(`Loaded roster with ${roster.employees.length} employees`);
+    }
+    
+    if (businessState.rewards.team) {
+      document.getElementById('rewardTeam').value = businessState.rewards.team;
+    }
+    if (businessState.rewards.player) {
+      document.getElementById('rewardPlayer').value = businessState.rewards.player;
+    }
+    
+    if (businessState.privacyLevel) {
+      document.getElementById('privacyLevel').value = businessState.privacyLevel;
+    }
+    
+    // Update employee display
+    updateEmployeeDisplay();
+    
+    // Update metrics display
+    updateMetricsDisplay();
+
+    // Show manager code if available
+    const mcd = document.getElementById('managerCodeDisplay');
+    if (mcd && businessState.currentGame?.managerCode) mcd.textContent = businessState.currentGame.managerCode;
+  }
+
+  function saveGameData() {
+    localStorage.setItem('businessGame', JSON.stringify(businessState));
+    // best-effort cloud persist
+    saveCloudGame();
+    saveCloudMetrics();
+  }
+
+  function copyManagerCode() {
+    const code = businessState.currentGame?.managerCode || 'DEMO';
+    navigator.clipboard.writeText(code).then(()=>alert('Manager code copied')); 
+  }
+
+  async function createRosterFromPaste() {
+    const text = document.getElementById('rosterPaste')?.value||'';
+    const names = text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+    if (names.length === 0) {
+      alert('Paste names (one per line) to create a roster. Using default sample roster.');
+      const defaults = ['Alice Johnson','Bob Smith','Carol Davis','David Wilson','Eve Clark','Frank Nguyen','Grace Patel','Hank Lee'];
+      names.push(...defaults);
+    }
+    
+    // Ensure game + code exist
+    if (!businessState.currentGame) {
+      businessState.currentGame = { 
+        name:'Business Competition', 
+        managerCode: 'CODE'+Math.random().toString(36).slice(2,7).toUpperCase() 
+      };
+    }
+    
+    const gid = businessState.currentGame.id || businessState.currentGame.managerCode;
+    
+    // Create employees with proper structure
+    const employees = names.map((n, i) => ({
+      id: 'emp_'+n.toLowerCase().replace(/[^a-z0-9]+/g,'_'),
+      name: n,
+      team: ['Alpha','Beta','Gamma','Delta'][i % 4],
+      points: 100,
+      credits: 0,
+      balance: 100,
+      headquarters: null
+    }));
+    
+    businessState.employees = employees;
+    updateEmployeeDisplay();
+    saveGameData();
+    
+    // Save to localStorage like the student game
+    const roster = {
+      id: gid,
+      name: businessState.currentGame.name,
+      employees: employees,
+      lastModified: new Date().toISOString()
+    };
+    
+    const saved = localStorage.getItem('businessRosters');
+    const rosters = saved ? JSON.parse(saved) : [];
+    rosters.push(roster);
+    localStorage.setItem('businessRosters', JSON.stringify(rosters));
+    
+    console.log('Roster saved to localStorage successfully');
+    
+    document.getElementById('managerCodeDisplay').textContent = businessState.currentGame.managerCode;
+    alert('Roster saved. Share the Manager Code with employees.');
+  }
+
+  function setupEventListeners() {
+    // Auto-save on input changes
+    document.getElementById('gameName').addEventListener('input', saveGameData);
+    document.getElementById('managerCode').addEventListener('input', saveGameData);
+    document.getElementById('rewardTeam').addEventListener('input', saveGameData);
+    document.getElementById('rewardPlayer').addEventListener('input', saveGameData);
+    document.getElementById('privacyLevel').addEventListener('change', saveGameData);
+  }
+
+  function initializeGameBoard() {
+    console.log('Initializing game board...');
+    console.log('Employees:', businessState.employees);
+    
+    // Calculate board size based on employee count (minimum 8x8)
+    const employeeCount = businessState.employees.length || 8; // Default to 8 if no employees
+    const w = Math.max(8, Math.ceil(Math.sqrt(employeeCount * 2)));
+    const h = Math.max(8, Math.ceil(Math.sqrt(employeeCount * 2)));
+    
+    console.log('Calculated board size:', { employeeCount, w, h });
+    
+    // Create board tiles
+    const tiles = [];
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        tiles.push({
+          id: `tile_${x}_${y}`,
+          x: x,
+          y: y,
+          owner: null,
+          cost: calculateTilePrice(x, y, w, h),
+          isHeadquarters: false
+        });
+      }
+    }
+    
+    businessState.board = { w, h, tiles };
+    
+    // Assign starting headquarters to employees
+    assignStartingHeadquarters();
+    
+    // Update grid display
+    updateGridDisplay();
+  }
+
+  function assignStartingHeadquarters() {
+    const { w, h } = businessState.board;
+    const employeeCount = businessState.employees.length;
+    
+    let startingPositions = [];
+    
+    if (employeeCount === 4) {
+      // 4 employees: place in corners
+      startingPositions = [
+        { x: 0, y: 0 },           // Top-left
+        { x: w - 1, y: 0 },       // Top-right
+        { x: 0, y: h - 1 },       // Bottom-left
+        { x: w - 1, y: h - 1 }    // Bottom-right
+      ];
+    } else if (employeeCount === 3) {
+      // 3 employees: place in corners (skip one corner)
+      startingPositions = [
+        { x: 0, y: 0 },           // Top-left
+        { x: w - 1, y: 0 },       // Top-right
+        { x: w - 1, y: h - 1 }    // Bottom-right
+      ];
+    } else if (employeeCount === 2) {
+      // 2 employees: place in opposite corners
+      startingPositions = [
+        { x: 0, y: 0 },           // Top-left
+        { x: w - 1, y: h - 1 }    // Bottom-right
+      ];
+    } else {
+      // More than 4 employees: place evenly around edges
+      const edgePositions = [];
+      
+      // Top edge (left to right)
+      for (let x = 0; x < w; x++) {
+        edgePositions.push({ x, y: 0 });
+      }
+      
+      // Right edge (top to bottom, excluding corners)
+      for (let y = 1; y < h - 1; y++) {
+        edgePositions.push({ x: w - 1, y });
+      }
+      
+      // Bottom edge (right to left)
+      for (let x = w - 1; x >= 0; x--) {
+        edgePositions.push({ x, y: h - 1 });
+      }
+      
+      // Left edge (bottom to top, excluding corners)
+      for (let y = h - 2; y >= 1; y--) {
+        edgePositions.push({ x: 0, y });
+      }
+      
+      // Select evenly spaced positions
+      const step = Math.floor(edgePositions.length / employeeCount);
+      startingPositions = [];
+      for (let i = 0; i < employeeCount; i++) {
+        const index = (i * step) % edgePositions.length;
+        startingPositions.push(edgePositions[index]);
+      }
+    }
+    
+    // Assign headquarters to employees
+    businessState.employees.forEach((employee, index) => {
+      if (index < startingPositions.length) {
+        const pos = startingPositions[index];
+        const tile = businessState.board.tiles.find(t => t.x === pos.x && t.y === pos.y);
+        if (tile) {
+          tile.owner = employee.id;
+          tile.isHeadquarters = true;
+          employee.headquarters = tile.id;
+          console.log(`Assigned headquarters to ${employee.name} at (${pos.x}, ${pos.y})`);
+        }
+      }
+    });
+    
+    console.log(`Assigned ${startingPositions.length} headquarters to ${employeeCount} employees`);
+  }
+
+  function calculateTilePrice(x, y, boardW, boardH) {
+    const centerX = (boardW - 1) / 2;
+    const centerY = (boardH - 1) / 2;
+    const distanceFromCenter = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+    const maxDistance = Math.sqrt(Math.pow(boardW / 2, 2) + Math.pow(boardH / 2, 2));
+    
+    const ringLevel = Math.floor((1 - distanceFromCenter / maxDistance) * 6);
+    let price = 20 + (ringLevel * 10);
+    
+    return Math.max(10, price);
+  }
+
+  function updateGridDisplay() {
+    const gridEl = document.getElementById('grid');
+    console.log('updateGridDisplay called');
+    console.log('gridEl:', gridEl);
+    console.log('businessState.board:', businessState.board);
+    
+    if (!gridEl) {
+      console.error('Grid element not found!');
+      return;
+    }
+    
+    if (!businessState.board || !businessState.board.tiles) {
+      console.error('Board or tiles not found!');
+      return;
+    }
+    
+    console.log('updateGridDisplay: updating grid with', businessState.board.tiles.length, 'tiles');
+    
+    gridEl.style.gridTemplateColumns = `repeat(${businessState.board.w}, 1fr)`;
+    gridEl.style.gridTemplateRows = `repeat(${businessState.board.h}, 1fr)`;
+    
+    gridEl.innerHTML = businessState.board.tiles.map(tile => {
+      const owner = tile.owner;
+      const employee = businessState.employees.find(emp => emp.id === owner);
+      const cost = !owner ? tile.cost : 0;
+      const costText = !owner ? `💰${cost}` : '';
+      
+      // Different styling for headquarters vs regular owned tiles
+      const isHeadquarters = tile.isHeadquarters;
+      const backgroundColor = owner ? (isHeadquarters ? '#1e40af' : '#1e3a8a') : '#1e293b';
+      const icon = isHeadquarters ? '🏢' : (owner ? '🏢' : '');
+      
+      return `
+        <div class="cell ${isHeadquarters ? 'headquarters' : ''}" onclick="selectTile('${tile.id}')" style="
+          background: ${backgroundColor};
+          cursor: pointer;
+          position: relative;
+          ${isHeadquarters ? 'border: 2px solid #fbbf24;' : ''}
+        ">
+          <div style="font-size: 10px; text-align: center;">
+            ${icon}
+            <div style="font-size: 8px; color: var(--muted);">${costText}</div>
+            ${employee ? `<div style="font-size: 7px; color: var(--accent); margin-top: 2px;">${employee.name.split(' ')[0]}</div>` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    console.log('Grid updated with', businessState.board.tiles.length, 'tiles');
+  }
+
+  function selectTile(tileId) {
+    if (!businessState.selectedEmployee) {
+      alert('Please select an employee first!');
+      return;
+    }
+    
+    const tile = businessState.board.tiles.find(t => t.id === tileId);
+    if (!tile) return;
+    
+    if (tile.owner) {
+      // Tile is owned - check if it's owned by the selected employee
+      if (tile.owner === businessState.selectedEmployee.id) {
+        // Own tile - show headquarters upgrade options
+        showHeadquartersOptions(tile);
+      } else {
+        // Owned by someone else - show attack options
+        showAttackOptions(tile);
+      }
+      return;
+    }
+    
+    // Check if employee has enough balance
+    const employeeBalance = businessState.selectedEmployee.balance || 0;
+    if (employeeBalance >= tile.cost) {
+      tile.owner = businessState.selectedEmployee.id;
+      businessState.selectedEmployee.balance -= tile.cost;
+      businessState.selectedEmployee.points = (businessState.selectedEmployee.points || 0) + tile.cost;
+      
+      updateGridDisplay();
+      updateEmployeeDisplay();
+      saveGameData();
+      saveCloudActivity('purchase_tile', { tileId, cost: tile.cost });
+      
+      alert(`${businessState.selectedEmployee.name} claimed this tile for ${tile.cost} points! Balance: ${businessState.selectedEmployee.balance}`);
+    } else {
+      alert(`Insufficient balance! Need ${tile.cost} points but only have ${employeeBalance}.`);
+    }
+  }
+
+  function showHeadquartersOptions(tile) {
+    const options = ['Build Headquarters (100 points)', 'Upgrade Headquarters (200 points)', 'Cancel'];
+    const choice = prompt(`Headquarters Options:\n\n1. ${options[0]}\n2. ${options[1]}\n3. ${options[2]}\n\nEnter choice (1-3):`);
+    
+    if (choice === '1') {
+      if (businessState.selectedEmployee.balance >= 100) {
+        tile.isHeadquarters = true;
+        businessState.selectedEmployee.balance -= 100;
+        businessState.selectedEmployee.points = (businessState.selectedEmployee.points || 0) + 100;
+        updateGridDisplay();
+        updateEmployeeDisplay();
+        saveGameData();
+        alert(`${businessState.selectedEmployee.name} built headquarters for 100 points!`);
+      } else {
+        alert('Insufficient balance! Need 100 points.');
+      }
+    } else if (choice === '2' && tile.isHeadquarters) {
+      if (businessState.selectedEmployee.balance >= 200) {
+        businessState.selectedEmployee.balance -= 200;
+        businessState.selectedEmployee.points = (businessState.selectedEmployee.points || 0) + 200;
+        updateGridDisplay();
+        updateEmployeeDisplay();
+        saveGameData();
+        alert(`${businessState.selectedEmployee.name} upgraded headquarters for 200 points!`);
+      } else {
+        alert('Insufficient balance! Need 200 points.');
+      }
+    }
+  }
+
+  function showAttackOptions(tile) {
+    const owner = businessState.employees.find(emp => emp.id === tile.owner);
+    const attackCost = tile.cost * 2; // Attack costs double the tile cost
+    
+    if (businessState.selectedEmployee.balance >= attackCost) {
+      const confirmAttack = confirm(`${businessState.selectedEmployee.name} wants to attack ${owner.name}'s territory!\n\nAttack cost: ${attackCost} points\nCurrent balance: ${businessState.selectedEmployee.balance}\n\nProceed with attack?`);
+      
+      if (confirmAttack) {
+        // Simple attack logic - 70% chance of success
+        const success = Math.random() < 0.7;
+        
+        if (success) {
+          // Attack successful
+          tile.owner = businessState.selectedEmployee.id;
+          tile.isHeadquarters = false; // Remove headquarters if it was one
+          businessState.selectedEmployee.balance -= attackCost;
+          businessState.selectedEmployee.points = (businessState.selectedEmployee.points || 0) + attackCost;
+          
+          // Award points to defender for losing
+          owner.balance += Math.floor(attackCost / 2);
+          owner.points = (owner.points || 0) + Math.floor(attackCost / 2);
+          
+          updateGridDisplay();
+          updateEmployeeDisplay();
+          saveGameData();
+          saveCloudActivity('attack_success', { tileId: tile.id, attackCost, defender: owner.id });
+          
+          alert(`🎉 Attack successful! ${businessState.selectedEmployee.name} captured the territory!\nCost: ${attackCost} points`);
+        } else {
+          // Attack failed
+          businessState.selectedEmployee.balance -= attackCost;
+          businessState.selectedEmployee.points = (businessState.selectedEmployee.points || 0) + attackCost;
+          
+          updateEmployeeDisplay();
+          saveGameData();
+          saveCloudActivity('attack_failed', { tileId: tile.id, attackCost, defender: owner.id });
+          
+          alert(`💥 Attack failed! ${businessState.selectedEmployee.name} lost ${attackCost} points.\nBetter luck next time!`);
+        }
+      }
+    } else {
+      alert(`Insufficient balance! Need ${attackCost} points but only have ${businessState.selectedEmployee.balance}.`);
+    }
+  }
+
+  function switchTab(tabName) {
+    // Update active tab
+    document.querySelectorAll('.business-tab').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    document.querySelectorAll('.business-tab-panel').forEach(panel => {
+      panel.classList.remove('active');
+    });
+    
+    const tabButton = document.querySelector(`.business-tab[data-tab="${tabName}"]`);
+    const tabPanel = document.getElementById(`tab-${tabName}`);
+    if (tabButton) tabButton.classList.add('active');
+    if (tabPanel) tabPanel.classList.add('active');
+    
+    // Update URL hash for deep link
+    if (location.hash !== `#${tabName}`) {
+      history.replaceState(null, '', `#${tabName}`);
+    }
+  }
+  
+  // On load: open tab from hash if present
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabFromHash = (location.hash || '').replace('#','');
+    if (tabFromHash) {
+      switchTab(tabFromHash);
+    }
+    subscribeActivity();
+    loadRecognitionFeed();
+  });
+
+  function loadMetricsTab() {
+    const metricsList = document.getElementById('metricsList');
+    if (!metricsList) return;
+    
+    if (businessState.metrics.length === 0) {
+      metricsList.innerHTML = '<div style="font-size: 11px; color: var(--muted);">Select metrics to track performance...</div>';
+      return;
+    }
+    
+    metricsList.innerHTML = businessState.metrics.map(metric => `
+      <div class="metric-card">
+        <div class="metric-name">${metric.name}</div>
+        <div class="metric-weight">Weight: ${metric.weight}</div>
+      </div>
+    `).join('');
+  }
+
+  function loadAnnouncementsTab() {
+    const announcementsList = document.getElementById('announcementsList');
+    if (!announcementsList) return;
+    
+    if (businessState.announcements.length === 0) {
+      announcementsList.innerHTML = '<div style="font-size: 11px; color: var(--muted);">No announcements yet...</div>';
+      // also try to load from cloud
+      loadCloudAnnouncements();
+      return;
+    }
+    
+    announcementsList.innerHTML = businessState.announcements.map(announcement => `
+      <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 6px; padding: 8px; margin-bottom: 8px;">
+        <div style="font-weight: 600; color: #a78bfa; font-size: 12px;">${announcement.title}</div>
+        <div style="color: var(--text); font-size: 11px; margin-top: 4px;">${announcement.body}</div>
+        <div style="color: var(--muted); font-size: 10px; margin-top: 4px;">${new Date(announcement.createdAt).toLocaleString()}</div>
+      </div>
+    `).join('');
+  }
+
+  async function loadCloudAnnouncements() {
+    try {
+      if (!businessState.currentGame) return;
+      const gameId = businessState.currentGame.id || businessState.currentGame.managerCode;
+      const { data: rows } = await supabase
+        .from('announcements')
+        .select('*')
+        .eq('game_id', gameId)
+        .order('created_at', { ascending: false })
+        .limit(25);
+      if (rows) {
+        businessState.announcements = rows.map(r => ({ id: r.id, title: r.title, body: r.body, createdAt: r.created_at }));
+        loadAnnouncementsTab();
+      }
+    } catch (e) { console.warn('[cloud] announcements load failed', e); }
+  }
+
+  function loadRewardsTab() {
+    // Rewards are loaded in loadGameData()
+  }
+
+  function loadBusinessLeaderboard() {
+    const businessLeaderboard = document.getElementById('businessLeaderboard');
+    if (!businessLeaderboard) return;
+    
+    // Mock leaderboard data
+    const mockData = [
+      { name: 'Alice Johnson', team: 'Alpha', points: 150, credits: 25 },
+      { name: 'Bob Smith', team: 'Beta', points: 140, credits: 22 },
+      { name: 'Carol Davis', team: 'Alpha', points: 135, credits: 20 },
+      { name: 'David Wilson', team: 'Gamma', points: 130, credits: 18 }
+    ];
+    
+    let displayData = mockData;
+    
+    if (businessState.privacyLevel === 'INDIVIDUAL_PRIVATE') {
+      displayData = mockData.map((item, index) => ({
+        ...item,
+        name: `Employee ${index + 1}`,
+        team: item.team
+      }));
+    } else if (businessState.privacyLevel === 'MIXED') {
+      displayData = mockData.map((item, index) => ({
+        ...item,
+        name: `${item.team} Member ${index + 1}`,
+        team: item.team
+      }));
+    }
+    
+    businessLeaderboard.innerHTML = `
+      <div style="font-size: 11px;">
+        ${displayData.map((item, index) => `
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid var(--border);">
+            <div>
+              <span style="font-weight: 600;">${index + 1}. ${item.name}</span>
+              <span style="color: var(--muted); font-size: 10px;">(${item.team})</span>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 600;">${item.points} pts</div>
+              <div style="color: var(--muted); font-size: 10px;">${item.credits} credits</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function showAddMetricModal() {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    `;
+    
+    modal.innerHTML = `
+      <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; max-width: 500px; width: 90%;">
+        <h3 style="margin: 0 0 1rem 0; color: var(--text);">Add Performance Metric</h3>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Metric Name:</label>
+          <select id="metricSelect" name="metricSelect" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
+            <option value="">Select from Top 25...</option>
+            ${TOP_25_METRICS.map(metric => `<option value="${metric}">${metric}</option>`).join('')}
+            <option value="custom">Custom Metric</option>
+          </select>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Custom Name:</label>
+          <input type="text" id="customMetricName" name="customMetricName" placeholder="Enter custom metric name" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);" disabled>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Weight:</label>
+          <input type="number" id="metricWeight" name="metricWeight" value="1" min="0.1" max="10" step="0.1" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
+        </div>
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+          <button onclick="this.closest('div').parentElement.remove()" style="padding: 0.5rem 1rem; background: var(--border); color: var(--text); border: none; border-radius: 4px; cursor: pointer;">Cancel</button>
+          <button onclick="addMetric()" style="padding: 0.5rem 1rem; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer;">Add Metric</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Handle metric selection
+    const metricSelect = document.getElementById('metricSelect');
+    const customMetricName = document.getElementById('customMetricName');
+    
+    metricSelect.onchange = () => {
+      if (metricSelect.value === 'custom') {
+        customMetricName.disabled = false;
+        customMetricName.focus();
+      } else {
+        customMetricName.disabled = true;
+        customMetricName.value = '';
+      }
+    };
+  }
+
+  function addMetric() {
+    const metricSelect = document.getElementById('metricSelect');
+    const customMetricName = document.getElementById('customMetricName');
+    const metricWeight = document.getElementById('metricWeight');
+    
+    let metricName = metricSelect.value;
+    if (metricName === 'custom') {
+      metricName = customMetricName.value.trim();
+      if (!metricName) {
+        alert('Please enter a custom metric name.');
+        return;
+      }
+    }
+    
+    if (!metricName) {
+      alert('Please select or enter a metric name.');
+      return;
+    }
+    
+    // Add metric to state
+    businessState.metrics.push({
+      id: 'metric_' + Date.now(),
+      name: metricName,
+      weight: parseFloat(metricWeight.value) || 1,
+      source: 'MANUAL',
+      createdAt: new Date().toISOString()
+    });
+    
+    // Close modal and refresh metrics list
+    document.querySelector('[onclick*="addMetric()"]').closest('div').parentElement.remove();
+    loadMetricsTab();
+    saveGameData();
+    
+    alert(`Metric "${metricName}" added successfully!`);
+  }
+
+  function showCsvImportModal() {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    `;
+    
+    modal.innerHTML = `
+      <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; max-width: 600px; width: 90%; max-height: 80%; overflow-y: auto;">
+        <h3 style="margin: 0 0 1rem 0; color: var(--text);">📊 CSV Import</h3>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Select CSV File:</label>
+          <input type="file" id="csvFile" name="csvFile" accept=".csv" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--text);">
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--muted);">Expected Format:</label>
+          <div style="background: #1e293b; padding: 0.5rem; border-radius: 4px; font-family: monospace; font-size: 11px; color: var(--text);">
+            email,team,metric,amount,date,note<br>
+            john@company.com,Alpha,Features shipped,5,2024-01-15,Completed user login<br>
+            jane@company.com,Beta,Bugs resolved,3,2024-01-15,Fixed payment bug
+          </div>
+        </div>
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+          <button onclick="this.closest('div').parentElement.remove()" style="padding: 0.5rem 1rem; background: var(--border); color: var(--text); border: none; border-radius: 4px; cursor: pointer;">Cancel</button>
+          <button onclick="importCsvData()" style="padding: 0.5rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer;">Import Data</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+  }
+
+  function importCsvData() {
+    const csvFile = document.getElementById('csvFile');
+    
+    if (!csvFile.files[0]) {
+      alert('Please select a CSV file first.');
+      return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const csvContent = e.target.result;
+      const lines = csvContent.split('\n').filter(line => line.trim());
+      
+      let importedCount = 0;
+      let errorCount = 0;
+      
+      // Skip header row
+      for (let i = 1; i < lines.length; i++) {
+        const columns = lines[i].split(',');
+        
+        try {
+          const email = columns[0]?.trim();
+          const team = columns[1]?.trim();
+          const metric = columns[2]?.trim();
+          const amount = parseFloat(columns[3]?.trim());
+          
+          if (email && team && metric && !isNaN(amount)) {
+            // Create score event
+            const scoreEvent = {
+              id: 'csv_' + Date.now() + '_' + i,
+              email: email,
+              team: team,
+              metric: metric,
+              points: amount,
+              source: 'CSV',
+              note: `Imported: ${metric}`,
+              createdAt: new Date().toISOString()
+            };
+            
+            businessState.scoreEvents.push(scoreEvent);
+            importedCount++;
+          } else {
+            errorCount++;
+          }
+        } catch (error) {
+          errorCount++;
+        }
+      }
+      
+      // Close modal and show results
+      document.querySelector('[onclick*="importCsvData()"]').closest('div').parentElement.remove();
+      
+      alert(`CSV Import Complete!\n\nImported: ${importedCount} records\nErrors: ${errorCount} records\n\nData has been added to the game.`);
+      
+      saveGameData();
+    };
+    
+    reader.readAsText(csvFile.files[0]);
+  }
+
+  function showNewAnnouncementModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal show';
+    modal.innerHTML = `
+      <div class="card" style="width: 560px;">
+        <div class="closeX" onclick="this.closest('.modal').remove()">×</div>
+        <h2>📣 New Announcement</h2>
+        <div style="display:grid; gap:8px;">
+          <label for="annTitle" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Title:</label>
+          <input id="annTitle" name="annTitle" placeholder="Title" />
+          <label for="annBody" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Message:</label>
+          <textarea id="annBody" name="annBody" placeholder="Write your announcement..." style="min-height:120px"></textarea>
+          <div style="display:flex; gap:8px;">
+            <button onclick="saveAnnouncement()" style="flex:1; padding:10px; background:#8b5cf6; color:#fff; border:none; border-radius:8px; cursor:pointer;">Post</button>
+            <button onclick="this.closest('.modal').remove()" style="flex:1; padding:10px; background:#6b7280; color:#fff; border:none; border-radius:8px; cursor:pointer;">Cancel</button>
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+  }
+
+  async function saveAnnouncement() {
+    const title = (document.getElementById('annTitle')?.value || '').trim();
+    const body  = (document.getElementById('annBody')?.value || '').trim();
+    if (!title || !body) { alert('Please enter a title and body'); return; }
+    const ann = { id: 'ann_'+Date.now(), title, body, createdAt: new Date().toISOString() };
+    businessState.announcements.unshift(ann);
+    loadAnnouncementsTab();
+    document.querySelector('.modal')?.remove();
+    // cloud persist
+    try {
+      const gameId = businessState.currentGame?.id || businessState.currentGame?.managerCode;
+      if (gameId) await supabase.from('announcements').insert({ game_id: gameId, title, body });
+      // webhook broadcast
+      await postWebhooks(`[Announcement] ${title}`, body);
+    } catch(e) { console.warn('[cloud] announcement save failed', e); }
+  }
+
+  async function postWebhooks(title, text) {
+    try {
+      const { data } = await supabase.from('integrations').select('*').in('type', ['slack','teams']);
+      const hooks = (data||[]).filter(r => r.status === 'Connected' && r.token);
+      await Promise.all(hooks.map(h => fetch(h.token, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(h.type === 'slack' ? { text: `*${title}*\n${text}` } : { title, text })
+      }).catch(()=>{})));
+    } catch (e) { console.warn('[webhook] post failed', e); }
+  }
+
+  function saveGameSettings() {
+    const gameName = document.getElementById('gameName').value;
+    const managerCode = document.getElementById('managerCode').value;
+    
+    businessState.currentGame = {
+      name: gameName,
+      managerCode: managerCode,
+      createdAt: new Date().toISOString()
+    };
+    
+    document.getElementById('gameTitle').textContent = `🏢 ${gameName || 'Business Competition'}`;
+    
+    saveGameData();
+    alert('Game settings saved successfully!');
+  }
+
+  function saveRewards() {
+    const teamReward = document.getElementById('rewardTeam').value;
+    const playerReward = document.getElementById('rewardPlayer').value;
+    
+    businessState.rewards = {
+      team: teamReward,
+      player: playerReward
+    };
+    
+    saveGameData();
+    alert('Rewards saved successfully!');
+  }
+
+  function savePrivacySettings() {
+    const privacyLevel = document.getElementById('privacyLevel').value;
+    
+    businessState.privacyLevel = privacyLevel;
+    
+    // Update leaderboard display
+    loadBusinessLeaderboard();
+    
+    saveGameData();
+    alert('Privacy settings saved successfully!');
+  }
+
+  function awardPoints(points) {
+    if (!businessState.selectedEmployee) {
+      alert('Please select an employee first!');
+      return;
+    }
+    
+    // Award points to selected employee
+    businessState.selectedEmployee.points = (businessState.selectedEmployee.points || 0) + points;
+    businessState.selectedEmployee.balance = (businessState.selectedEmployee.balance || 0) + points;
+    
+    updateEmployeeDisplay();
+    saveGameData();
+    
+    alert(`Awarded ${points} points to ${businessState.selectedEmployee.name}!`);
+  }
+
+  function addEmployee() {
+    const name = prompt('Enter employee name:');
+    if (!name) return;
+    
+    const team = prompt('Enter team name (Alpha, Beta, Gamma):') || 'Alpha';
+    
+    // Use starting points from current game, or default to 100
+    const startingPoints = businessState.currentGame?.startingPoints || 100;
+    
+    const newEmployee = {
+      id: 'emp_' + Date.now(),
+      name: name,
+      team: team,
+      points: startingPoints,
+      credits: 0,
+      balance: startingPoints,
+      headquarters: null
+    };
+    
+    businessState.employees.push(newEmployee);
+    
+    // Reinitialize board to assign new headquarters
+    initializeGameBoard();
+    updateEmployeeDisplay();
+    saveGameData();
+    
+    alert(`Employee ${name} added to ${team} team with ${startingPoints} starting points!`);
+  }
+
+  function updateEmployeeDisplay() {
+    const employeeList = document.getElementById('employeeList');
+    if (!employeeList) return;
+    
+    if (businessState.employees.length === 0) {
+      employeeList.innerHTML = '<div style="text-align: center; color: var(--muted); padding: 2rem;">No employees yet</div>';
+      return;
+    }
+    
+    const split = 'individual';
+    employeeList.innerHTML = businessState.employees.map(employee => {
+      const isSelected = businessState.selectedEmployee && businessState.selectedEmployee.id === employee.id;
+      const teamColors = {
+        'Alpha': 'rgba(59, 130, 246, 0.1)',
+        'Beta': 'rgba(16, 185, 129, 0.1)',
+        'Gamma': 'rgba(139, 92, 246, 0.1)'
+      };
+      
+      return `
+        <div onclick="selectEmployee('${employee.id}')" style="
+          padding: 8px; 
+          border: 1px solid var(--border); 
+          border-radius: 6px; 
+          background: ${teamColors[employee.team] || 'rgba(245, 158, 11, 0.1)'};
+          cursor: pointer;
+          ${isSelected ? 'outline: 2px solid var(--accent);' : ''}
+        ">
+          <div style="font-weight:600;color:${isSelected ? 'var(--accent)' : 'var(--text)'}">${employee.name}</div>
+          <div style="font-size:11px;color:var(--muted)">${employee.team ? employee.team+' Team • ' : 'Individual • '}${employee.points || 0} pts • ${employee.credits || 0} credits</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+
+  function selectEmployee(employeeId) {
+    businessState.selectedEmployee = businessState.employees.find(emp => emp.id === employeeId);
+    updateEmployeeDisplay();
+    
+    if (businessState.selectedEmployee) {
+      console.log('Selected employee:', businessState.selectedEmployee.name);
+    }
+  }
+
+  function updateMetric(metricType, amount) {
+    if (!businessState.teamMetrics[metricType]) return;
+    
+    const metric = businessState.teamMetrics[metricType];
+    metric.current += amount;
+    
+    // Update UI
+    updateMetricsDisplay();
+    saveGameData();
+    
+    // Show success message
+    const metricNames = {
+      sales: 'Sales',
+      products: 'Products Sold',
+      features: 'Features Shipped',
+      bugs: 'Bugs Resolved'
+    };
+    
+    alert(`✅ Updated ${metricNames[metricType]}: +${amount}${metric.unit}`);
+  }
+
+  function updateMetricsDisplay() {
+    const metrics = businessState.teamMetrics;
+    
+    // Update main sales progress
+    const salesProgress = (metrics.sales.current / metrics.sales.target) * 100;
+    const mainProgressBar = document.getElementById('mainProgressBar');
+    const mainProgressText = document.getElementById('mainProgressText');
+    const remainingAmount = document.getElementById('remainingAmount');
+    
+    if (mainProgressBar) {
+      mainProgressBar.style.width = `${Math.min(salesProgress, 100)}%`;
+    }
+    if (mainProgressText) {
+      mainProgressText.textContent = `${salesProgress.toFixed(1)}%`;
+    }
+    if (remainingAmount) {
+      const remaining = metrics.sales.target - metrics.sales.current;
+      remainingAmount.textContent = `Remaining: $${remaining.toLocaleString()}`;
+    }
+    
+    // Update individual metrics
+    updateMetricCard('products', metrics.products);
+    updateMetricCard('satisfaction', metrics.satisfaction);
+    updateMetricCard('features', metrics.features);
+    updateMetricCard('bugs', metrics.bugs);
+  }
+
+  function updateMetricCard(metricType, metric) {
+    const valueElement = document.getElementById(`${metricType}Value`);
+    const progressElement = document.getElementById(`${metricType}Progress`);
+    
+    if (valueElement) {
+      if (metricType === 'satisfaction') {
+        valueElement.textContent = `${metric.current}${metric.unit}`;
+      } else {
+        valueElement.textContent = metric.current.toLocaleString();
+      }
+    }
+    
+    if (progressElement) {
+      const progress = (metric.current / metric.target) * 100;
+      progressElement.style.width = `${Math.min(progress, 100)}%`;
+    }
+  }
+
+  function showMetricEditor() {
+    console.log('showMetricEditor called');
+    const modal = document.createElement('div');
+    modal.className = 'modal show';
+    modal.innerHTML = `
+      <div class="card" style="width: 500px;">
+        <div class="closeX" onclick="this.closest('.modal').remove()">×</div>
+        <h2>⚙️ Edit Team Metrics</h2>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">🎯 Main Goal (Sales)</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <input type="number" id="salesCurrent" name="salesCurrent" placeholder="Current ($)" value="${businessState.teamMetrics.sales.current}">
+            <input type="number" id="salesTarget" name="salesTarget" placeholder="Target ($)" value="${businessState.teamMetrics.sales.target}">
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">📦 Products Sold</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <input type="number" id="productsCurrent" name="productsCurrent" placeholder="Current" value="${businessState.teamMetrics.products.current}">
+            <input type="number" id="productsTarget" name="productsTarget" placeholder="Target" value="${businessState.teamMetrics.products.target}">
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">😊 Customer Satisfaction</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <input type="number" step="0.1" id="satisfactionCurrent" name="satisfactionCurrent" placeholder="Current" value="${businessState.teamMetrics.satisfaction.current}">
+            <input type="number" step="0.1" id="satisfactionTarget" name="satisfactionTarget" placeholder="Target" value="${businessState.teamMetrics.satisfaction.target}">
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">🚀 Features Shipped</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <input type="number" id="featuresCurrent" name="featuresCurrent" placeholder="Current" value="${businessState.teamMetrics.features.current}">
+            <input type="number" id="featuresTarget" name="featuresTarget" placeholder="Target" value="${businessState.teamMetrics.features.target}">
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">🐛 Bugs Resolved</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <input type="number" id="bugsCurrent" name="bugsCurrent" placeholder="Current" value="${businessState.teamMetrics.bugs.current}">
+            <input type="number" id="bugsTarget" name="bugsTarget" placeholder="Target" value="${businessState.teamMetrics.bugs.target}">
+          </div>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-top: 16px;">
+          <button onclick="saveMetricChanges()" style="flex: 1; padding: 10px; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">💾 Save Changes</button>
+          <button onclick="this.closest('.modal').remove()" style="flex: 1; padding: 10px; background: #6b7280; color: white; border: none; border-radius: 6px; cursor: pointer;">❌ Cancel</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    console.log('Modal added to DOM:', modal);
+  }
+
+  function saveMetricChanges() {
+    // Update metrics from form inputs
+    businessState.teamMetrics.sales.current = parseInt(document.getElementById('salesCurrent').value) || 0;
+    businessState.teamMetrics.sales.target = parseInt(document.getElementById('salesTarget').value) || 1;
+    
+    businessState.teamMetrics.products.current = parseInt(document.getElementById('productsCurrent').value) || 0;
+    businessState.teamMetrics.products.target = parseInt(document.getElementById('productsTarget').value) || 1;
+    
+    businessState.teamMetrics.satisfaction.current = parseFloat(document.getElementById('satisfactionCurrent').value) || 0;
+    businessState.teamMetrics.satisfaction.target = parseFloat(document.getElementById('satisfactionTarget').value) || 1;
+    
+    businessState.teamMetrics.features.current = parseInt(document.getElementById('featuresCurrent').value) || 0;
+    businessState.teamMetrics.features.target = parseInt(document.getElementById('featuresTarget').value) || 1;
+    
+    businessState.teamMetrics.bugs.current = parseInt(document.getElementById('bugsCurrent').value) || 0;
+    businessState.teamMetrics.bugs.target = parseInt(document.getElementById('bugsTarget').value) || 1;
+    
+    // Update display
+    updateMetricsDisplay();
+    saveGameData();
+    
+    // Close modal
+    document.querySelector('.modal').remove();
+    
+    alert('✅ Metrics updated successfully!');
+  }
+
+  function showNewGameModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal show';
+    modal.innerHTML = `
+      <div class="card" style="width: 600px;">
+        <div class="closeX" onclick="this.closest('.modal').remove()">×</div>
+        <h2>🔄 Create New Work Scenario</h2>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">Game Name</label>
+          <input type="text" id="newGameName" name="newGameName" placeholder="e.g., Q4 Sales Challenge" value="Business Competition">
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">Work Scenario</label>
+          <select id="workScenario" name="workScenario" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
+            <option value="individual">👤 Individual Competition - Everyone works alone</option>
+            <option value="pairs">👥 Pair Competition - Teams of 2 employees</option>
+            <option value="teams3">🏢 Team Competition - Teams of 3 employees</option>
+            <option value="teams4">🏢 Team Competition - Teams of 4 employees</option>
+            <option value="mixed">🎯 Mixed Mode - Individual + Team challenges</option>
+          </select>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">Starting Points per Employee</label>
+          <input type="number" id="startingPoints" name="startingPoints" placeholder="100" value="100" min="50" max="500">
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">Board Size</label>
+          <select id="boardSize" name="boardSize" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
+            <option value="small">Small (8x8) - 64 tiles</option>
+            <option value="medium" selected>Medium (10x10) - 100 tiles</option>
+            <option value="large">Large (12x12) - 144 tiles</option>
+          </select>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 4px; font-weight: 600;">Game Duration</label>
+          <select id="gameDuration" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
+            <option value="1week">1 Week Sprint</option>
+            <option value="2weeks" selected>2 Week Sprint</option>
+            <option value="1month">1 Month Challenge</option>
+            <option value="quarterly">Quarterly Competition</option>
+          </select>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-top: 16px;">
+          <button onclick="createNewGame()" style="flex: 1; padding: 10px; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">🚀 Create Game</button>
+          <button onclick="this.closest('.modal').remove()" style="flex: 1; padding: 10px; background: #6b7280; color: white; border: none; border-radius: 6px; cursor: pointer;">❌ Cancel</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+  }
+
+  function createNewGame() {
+    const gameName = document.getElementById('newGameName').value || 'Business Competition';
+    const workScenario = document.getElementById('workScenario').value;
+    const startingPoints = parseInt(document.getElementById('startingPoints').value) || 100;
+    const boardSize = document.getElementById('boardSize').value;
+    const gameDuration = document.getElementById('gameDuration').value;
+    
+    // Determine board dimensions
+    let boardDimensions;
+    switch (boardSize) {
+      case 'small': boardDimensions = { w: 8, h: 8 }; break;
+      case 'medium': boardDimensions = { w: 10, h: 10 }; break;
+      case 'large': boardDimensions = { w: 12, h: 12 }; break;
+      default: boardDimensions = { w: 10, h: 10 };
+    }
+    
+    // Create new game state
+    businessState.currentGame = {
+      name: gameName,
+      scenario: workScenario,
+      startingPoints: startingPoints,
+      boardSize: boardDimensions,
+      duration: gameDuration,
+      managerCode: 'DEMO' + Math.random().toString(36).substr(2, 4).toUpperCase(),
+      createdAt: new Date().toISOString()
+    };
+    
+    // Reset employees and board
+    businessState.employees = [];
+    businessState.board = { w: 0, h: 0, tiles: [] };
+    businessState.selectedEmployee = null;
+    
+    // Reset metrics
+    businessState.teamMetrics = {
+      sales: { current: 0, target: 1000000, unit: '$' },
+      products: { current: 0, target: 3000, unit: '' },
+      satisfaction: { current: 0, target: 5.0, unit: '/5' },
+      features: { current: 0, target: 50, unit: '' },
+      bugs: { current: 0, target: 200, unit: '' }
+    };
+    
+    // Update UI
+    document.getElementById('gameTitle').textContent = `🏢 ${gameName}`;
+    document.getElementById('gameName').value = gameName;
+    document.getElementById('managerCode').value = businessState.currentGame.managerCode;
+    
+    // Close modal
+    document.querySelector('.modal').remove();
+    
+    // Show success message with next steps
+    alert(`🎉 New game "${gameName}" created!\n\nScenario: ${getScenarioDescription(workScenario)}\nStarting Points: ${startingPoints}\nBoard Size: ${boardDimensions.w}x${boardDimensions.h}\nDuration: ${getDurationDescription(gameDuration)}\n\nNext: Add employees to start playing!`);
+    
+    saveGameData();
+  }
+
+  function getScenarioDescription(scenario) {
+    const descriptions = {
+      individual: 'Individual Competition - Everyone works alone',
+      pairs: 'Pair Competition - Teams of 2 employees',
+      teams3: 'Team Competition - Teams of 3 employees',
+      teams4: 'Team Competition - Teams of 4 employees',
+      mixed: 'Mixed Mode - Individual + Team challenges'
+    };
+    return descriptions[scenario] || scenario;
+  }
+
+  function getDurationDescription(duration) {
+    const descriptions = {
+      '1week': '1 Week Sprint',
+      '2weeks': '2 Week Sprint',
+      '1month': '1 Month Challenge',
+      'quarterly': 'Quarterly Competition'
+    };
+    return descriptions[duration] || duration;
+  }
+
+  async function loadActivityFeed() {
+    try {
+      if (!businessState.currentGame) return;
+      const gameId = businessState.currentGame.id || businessState.currentGame.managerCode;
+      const { data: rows } = await supabase
+        .from('activity_feed')
+        .select('*')
+        .eq('game_id', gameId)
+        .order('created_at', { ascending: false })
+        .limit(50);
+      const feed = document.getElementById('activityFeed');
+      if (!feed) return;
+      if (!rows || rows.length === 0) {
+        feed.innerHTML = '<div style="font-size:11px;color:var(--muted)">No activity yet</div>';
+        return;
+      }
+      feed.innerHTML = rows.map(r => renderActivityRow(r)).join('');
+    } catch (e) { console.warn('[cloud] activity load failed', e); }
+  }
+
+  function renderActivityRow(r) {
+    const ts = new Date(r.created_at || Date.now()).toLocaleString();
+    const action = r.action || 'event';
+    let desc = '';
+    if (action === 'purchase_tile') desc = `Purchased tile ${r.detail?.tileId || ''}`;
+    else if (action === 'attack_success') desc = `Won attack on tile ${r.detail?.tileId || ''}`;
+    else if (action === 'attack_failed') desc = `Lost attack on tile ${r.detail?.tileId || ''}`;
+    else desc = JSON.stringify(r.detail || {});
+    return `<div style="padding:6px;border-bottom:1px solid var(--border);font-size:12px">
+      <div style="color:var(--text)">${desc}</div>
+      <div style="color:var(--muted);font-size:10px">${ts}</div>
+    </div>`;
+  }
+
+  // Periodically refresh activity feed
+  setInterval(loadActivityFeed, 5000);
+
+  function subscribeActivity() {
+    try {
+      if (!businessState.currentGame) return;
+      const gid = businessState.currentGame.id || businessState.currentGame.managerCode;
+      const channel = supabase.channel('mgr_activity_'+gid);
+      channel.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'activity_feed', filter: `game_id=eq.${gid}` }, () => {
+        loadActivityFeed();
+      }).subscribe();
+    } catch (e) { console.warn('[cloud] activity subscribe failed', e); }
+  }
+
+  function showNewAssignmentModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal show';
+    const teamOptions = [...new Set(businessState.employees.map(e => e.team).filter(Boolean))];
+    modal.innerHTML = `
+      <div class="card" style="width: 560px;">
+        <div class="closeX" onclick="this.closest('.modal').remove()">×</div>
+        <h2>📝 Assign Task</h2>
+        <div style="display:grid; gap:8px;">
+          <label for="asTitle" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Title:</label>
+          <input id="asTitle" name="asTitle" placeholder="Title (e.g., Call 20 prospects)" />
+          <label for="asBody" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Description:</label>
+          <textarea id="asBody" name="asBody" placeholder="Description..." style="min-height:100px"></textarea>
+          <div class="grid2">
+            <label for="asAudience" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Audience:</label>
+            <select id="asAudience" name="asAudience">
+              <option value="all">All Employees</option>
+              ${teamOptions.map(t => `<option value="team:${t}">Team: ${t}</option>`).join('')}
+            </select>
+            <label for="asDue" style="display:block; margin-bottom:4px; font-size:12px; color:var(--muted);">Due Date:</label>
+            <input id="asDue" name="asDue" type="date" />
+          </div>
+          <button onclick="saveAssignment()" style="padding:10px; background:#10b981; color:#fff; border:none; border-radius:8px; cursor:pointer;">Assign</button>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+  }
+
+  async function saveAssignment() {
+    const title = (document.getElementById('asTitle')?.value||'').trim();
+    const body  = (document.getElementById('asBody')?.value||'').trim();
+    const audience = document.getElementById('asAudience')?.value||'all';
+    const due = document.getElementById('asDue')?.value||null;
+    if (!title) { alert('Please enter a title'); return; }
+    try {
+      const gameId = businessState.currentGame?.id || businessState.currentGame?.managerCode;
+      const payload = { game_id: gameId, title, body, audience, due_at: due };
+      await supabase.from('assignments').insert(payload);
+      document.querySelector('.modal')?.remove();
+      alert('✅ Task assigned');
+    } catch (e) { console.warn('[cloud] assignment save failed', e); alert('Could not save to cloud'); }
+  }
+
+  async function loadRecognitionFeed() {
+    try {
+      if (!businessState.currentGame) return;
+      const gid = businessState.currentGame.id || businessState.currentGame.managerCode;
+      const { data: rows } = await supabase
+        .from('recognitions')
+        .select('*')
+        .eq('game_id', gid)
+        .order('created_at', { ascending: false })
+        .limit(50);
+      const feed = document.getElementById('recognitionFeed');
+      if (!feed) return;
+      if (!rows || rows.length === 0) { feed.innerHTML = '<div style="font-size:11px;color:var(--muted)">No recognitions yet</div>'; return; }
+      feed.innerHTML = rows.map(r => renderRecognition(r)).join('');
+    } catch (e) { console.warn('[cloud] recognition load failed', e); }
+  }
+
+  function renderRecognition(r) {
+    const ts = new Date(r.created_at).toLocaleString();
+    const reacts = r.reactions || { '+1':0, 'clap':0, 'tada':0 };
+    return `<div style="padding:6px;border-bottom:1px solid var(--border);font-size:12px">
+      <div style="color:var(--text)">${r.text}</div>
+      <div style="color:var(--muted);font-size:10px">${ts}</div>
+      <div style="margin-top:6px; display:flex; gap:6px;">
+        <button class="pill" onclick="reactRecognition('${r.id}','+1')">👍 ${reacts['+1']||0}</button>
+        <button class="pill" onclick="reactRecognition('${r.id}','clap')">👏 ${reacts['clap']||0}</button>
+        <button class="pill" onclick="reactRecognition('${r.id}','tada')">🎉 ${reacts['tada']||0}</button>
+      </div>
+    </div>`;
+  }
+
+  async function postRecognition() {
+    try {
+      const text = (document.getElementById('recogText')?.value||'').trim();
+      if (!text) return;
+      const gid = businessState.currentGame?.id || businessState.currentGame?.managerCode;
+      await supabase.from('recognitions').insert({ game_id: gid, text, reactions: { '+1':0, 'clap':0, 'tada':0 } });
+      document.getElementById('recogText').value = '';
+      loadRecognitionFeed();
+    } catch (e) { console.warn('[cloud] recognition post failed', e); }
+  }
+
+  async function reactRecognition(id, emoji) {
+    try {
+      const { data } = await supabase.from('recognitions').select('reactions').eq('id', id).single();
+      const reactions = data?.reactions || {}; reactions[emoji] = (reactions[emoji]||0) + 1;
+      await supabase.from('recognitions').update({ reactions }).eq('id', id);
+      loadRecognitionFeed();
+    } catch (e) { console.warn('[cloud] react failed', e); }
+  }
+
+  setInterval(loadRecognitionFeed, 7000);
+
+  function getSelectedWeekdays() {
+    return Array.from(document.querySelectorAll('.qwd:checked')).map(cb => cb.value);
+  }
+
+  function computeNextRuns({ type, weekdays, time, startDate, endDate }, count = 3) {
+    const runs = [];
+    const now = new Date();
+    let cursor = new Date(startDate || now);
+    const end = endDate ? new Date(endDate) : new Date(now.getFullYear()+1, 0, 1);
+    const toW = d => ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()];
+    while (runs.length < count && cursor <= end) {
+      const dayOk = type === 'one_time' ? true : weekdays.includes(toW(cursor));
+      if (dayOk) {
+        const [hh,mm] = (time||'09:00').split(':').map(Number);
+        const next = new Date(cursor.getFullYear(), cursor.getMonth(), cursor.getDate(), hh, mm, 0);
+        if (next >= now) runs.push(next);
+      }
+      cursor.setDate(cursor.getDate()+1);
+    }
+    return runs;
+  }
+
+  async function saveQuest() {
+    const title = (document.getElementById('qTitle')?.value||'').trim();
+    const body = (document.getElementById('qBody')?.value||'').trim();
+    const points = parseInt(document.getElementById('qPoints')?.value||'0',10);
+    const audience = document.getElementById('qAudience')?.value||'all';
+    const type = document.getElementById('qType')?.value||'one_time';
+    const time = document.getElementById('qTime')?.value||'09:00';
+    const weekdays = getSelectedWeekdays();
+    const startDate = document.getElementById('qStart')?.value||null;
+    const endDate = document.getElementById('qEnd')?.value||null;
+    const runs = computeNextRuns({ type, weekdays, time, startDate, endDate }, 1);
+    const next_run_at = runs[0] ? runs[0].toISOString() : null;
+    const gameId = businessState.currentGame?.id || businessState.currentGame?.managerCode;
+    await supabase.from('quests').upsert({
+      game_id: gameId, title, body, points, audience, recurrence_type: type, weekdays, time_of_day: time, start_date: startDate, end_date: endDate, next_run_at, status: 'active'
+    });
+    alert('✅ Quest saved');
+    loadQuests();
+    previewQuest();
+  }
+
+  function previewQuest() {
+    const type = document.getElementById('qType')?.value||'one_time';
+    const time = document.getElementById('qTime')?.value||'09:00';
+    const weekdays = getSelectedWeekdays();
+    const startDate = document.getElementById('qStart')?.value||null;
+    const endDate = document.getElementById('qEnd')?.value||null;
+    const runs = computeNextRuns({ type, weekdays, time, startDate, endDate }, 3);
+    const el = document.getElementById('questPreview');
+    el.textContent = runs.length ? runs.map(d => d.toLocaleString()).join('  •  ') : 'No upcoming runs';
+  }
+
+  ['qType','qTime','qStart','qEnd'].forEach(id => {
+    document.addEventListener('DOMContentLoaded', () => document.getElementById(id)?.addEventListener('change', previewQuest));
+  });
+  document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('.qwd').forEach(cb => cb.addEventListener('change', previewQuest)));
+
+  async function loadQuests() {
+    const list = document.getElementById('questList'); if (!list) return;
+    const gid = businessState.currentGame?.id || businessState.currentGame?.managerCode; if (!gid) return;
+    const { data: rows } = await supabase.from('quests').select('*').eq('game_id', gid).order('next_run_at', { ascending: true });
+    if (!rows || rows.length === 0) { list.textContent = 'No quests yet'; return; }
+    list.innerHTML = rows.map(q => `<div style=\"padding:8px;border-bottom:1px solid var(--border)\"><b>${q.title}</b> • ${q.recurrence_type} • next: ${q.next_run_at ? new Date(q.next_run_at).toLocaleString() : '—'}</div>`).join('');
+  }
+
+  async function questSchedulerTick() {
+    try {
+      const gid = businessState.currentGame?.id || businessState.currentGame?.managerCode; if (!gid) return;
+      const nowIso = new Date().toISOString();
+      const { data: due } = await supabase.from('quests').select('*').eq('game_id', gid).eq('status','active').lte('next_run_at', nowIso);
+      if (!due || due.length === 0) return;
+      for (const q of due) {
+        // resolve audience
+        let audienceEmployees = businessState.employees||[];
+        if (q.audience && q.audience.startsWith('team:')) {
+          const team = q.audience.split(':')[1];
+          audienceEmployees = audienceEmployees.filter(e => e.team === team);
+        }
+        const assignments = audienceEmployees.map(e => ({
+          quest_id: q.id, game_id: gid, employee_id: e.id, status: 'pending', sent_at: new Date().toISOString(), due_at: null
+        }));
+        if (assignments.length) await supabase.from('quest_assignments').insert(assignments);
+        // compute next run
+        const runs = computeNextRuns({ type: q.recurrence_type, weekdays: q.weekdays||[], time: q.time_of_day, startDate: q.start_date, endDate: q.end_date }, 2);
+        const next = runs.find(d => d.toISOString() > nowIso);
+        await supabase.from('quests').update({ last_run_at: nowIso, next_run_at: next ? next.toISOString() : null }).eq('id', q.id);
+      }
+      loadQuests();
+    } catch (e) { console.warn('[quests] scheduler failed', e); }
+  }
+
+  setInterval(questSchedulerTick, 60000);
+  document.addEventListener('DOMContentLoaded', () => { previewQuest(); loadQuests(); });
+</script>
+</body>
+</html>
+
