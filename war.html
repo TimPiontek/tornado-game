@@ -3203,12 +3203,27 @@
         });
       });
       
+      console.log('Business scenario territories:', { 
+        totalTerritories: allTerritories.length, 
+        factionKeys, 
+        sampleTerritories: allTerritories.slice(0, 5).map(t => t.name) 
+      });
+      
       // Use tile position to deterministically assign territories
       // This ensures each tile gets a unique territory
       const tileIndex = tile.y * mapWidth + tile.x;
       const territoryIndex = tileIndex % allTerritories.length;
       
-      return allTerritories[territoryIndex] || null;
+      const result = allTerritories[territoryIndex] || null;
+      console.log('Territory assignment:', { 
+        tile: { x: tile.x, y: tile.y }, 
+        tileIndex, 
+        territoryIndex, 
+        territoryName: result?.name,
+        totalTerritories: allTerritories.length 
+      });
+      
+      return result;
     }
     
     // Original logic for other scenarios
@@ -3295,6 +3310,9 @@
         if (territoryData) {
           territoryName = territoryData.name;
           territoryCost = territoryData.cost || tileCost;
+        } else {
+          // Debug: log when territory data is missing
+          console.log('No territory data for tile:', { x: tile.x, y: tile.y, scenario: state.scenario.id, type: state.scenario.type });
         }
       }
       
