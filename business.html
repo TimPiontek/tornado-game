@@ -177,15 +177,23 @@
     </div>
   </div>
 
-  <!-- Supabase temporarily disabled - using localStorage approach -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script> -->
+  <!-- Supabase for cloud persistence -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
-  // Supabase client for cloud persistence (temporarily disabled)
+  // Supabase client for cloud persistence
   const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
   const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
   
-  let supabase = null; // Disabled for now
-  console.log('[DEBUG] Supabase disabled - using localStorage only');
+  let supabase = null;
+  
+  // Initialize Supabase client
+  try {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+    console.log('[DEBUG] Supabase client initialized successfully');
+  } catch (error) {
+    console.error('[DEBUG] Failed to initialize Supabase:', error);
+    supabase = null;
+  }
 
   // Business game state (adapted from working student war game)
   let businessState = {
@@ -400,6 +408,75 @@
         option.textContent = roster.name;
         selector.appendChild(option);
       });
+    }
+  }
+
+  // Save game state to Supabase
+  async function saveCloudGame() {
+    if (!supabase || !businessState.currentGame) return;
+    
+    try {
+      // Save game
+      const gameData = {
+        id: businessState.currentGame.id || 'current',
+        name: businessState.currentGame.name,
+        mode: 'business',
+        code: businessState.currentGame.managerCode || 'DEMO'
+      };
+      
+      const { error: gameError } = await supabase
+        .from('games')
+        .upsert(gameData);
+      
+      if (gameError) {
+        console.error('Failed to save game to cloud:', gameError);
+        return;
+      }
+      
+      // Save employees
+      for (const employee of businessState.employees) {
+        const employeeData = {
+          id: employee.id,
+          game_id: gameData.id,
+          name: employee.name,
+          team: employee.team,
+          balance: employee.balance || 100,
+          tiles_owned: employee.tilesOwned || 0
+        };
+        
+        const { error: empError } = await supabase
+          .from('employees')
+          .upsert(employeeData);
+        
+        if (empError) {
+          console.error('Failed to save employee to cloud:', empError);
+        }
+      }
+      
+      // Save tiles
+      for (const tile of businessState.board.tiles) {
+        const tileData = {
+          tile_id: tile.id,
+          game_id: gameData.id,
+          x: tile.x,
+          y: tile.y,
+          owner_employee_id: tile.owner_game_student_id,
+          cost: tile.cost,
+          is_headquarters: tile.headquarters_level > 0
+        };
+        
+        const { error: tileError } = await supabase
+          .from('tiles')
+          .upsert(tileData);
+        
+        if (tileError) {
+          console.error('Failed to save tile to cloud:', tileError);
+        }
+      }
+      
+      console.log('[cloud] Game state saved to Supabase successfully');
+    } catch (error) {
+      console.error('[cloud] Failed to save game state:', error);
     }
   }
 
