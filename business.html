@@ -479,17 +479,35 @@
     
     if (employees.length === 0) return;
     
-    // Place headquarters in corners for better gameplay
-    const corners = [
+    // Create starting positions around the edge of the board
+    const edgePositions = [];
+    
+    // Add corner positions first
+    edgePositions.push(
       { x: 0, y: 0 },
       { x: board.w - 1, y: 0 },
       { x: 0, y: board.h - 1 },
       { x: board.w - 1, y: board.h - 1 }
-    ];
+    );
+    
+    // Add edge positions for more employees
+    if (employees.length > 4) {
+      // Top and bottom edges
+      for (let x = 1; x < board.w - 1; x += 2) {
+        edgePositions.push({ x, y: 0 });
+        edgePositions.push({ x, y: board.h - 1 });
+      }
+      
+      // Left and right edges
+      for (let y = 1; y < board.h - 1; y += 2) {
+        edgePositions.push({ x: 0, y });
+        edgePositions.push({ x: board.w - 1, y });
+      }
+    }
     
     employees.forEach((emp, i) => {
-      if (corners[i]) {
-        const tile = board.tiles.find(t => t.x === corners[i].x && t.y === corners[i].y);
+      if (edgePositions[i]) {
+        const tile = board.tiles.find(t => t.x === edgePositions[i].x && t.y === edgePositions[i].y);
         if (tile) {
           tile.owner_game_student_id = emp.id;
           tile.headquarters_level = 1; // Level 1 headquarters
@@ -497,6 +515,8 @@
         }
       }
     });
+    
+    console.log('[DEBUG] Assigned headquarters to', employees.length, 'employees');
   }
 
   // Update the grid display (adapted from working student war game)
@@ -1386,8 +1406,8 @@
         <div style="margin-bottom: 16px;">
           <label style="display: block; margin-bottom: 4px; font-weight: 600;">Board Size</label>
           <select id="boardSize" name="boardSize" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--text);">
-            <option value="small">Small (8x8) - 64 tiles</option>
-            <option value="medium" selected>Medium (10x10) - 100 tiles</option>
+            <option value="small" selected>Small (8x8) - 64 tiles</option>
+            <option value="medium">Medium (10x10) - 100 tiles</option>
             <option value="large">Large (12x12) - 144 tiles</option>
           </select>
         </div>
