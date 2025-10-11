@@ -232,7 +232,7 @@
           tile_id: t.id,
           x: t.x,
           y: t.y,
-          owner_employee_id: t.owner,
+          owner_employee_id: t.owner_game_student_id,
           is_headquarters: !!t.isHeadquarters,
           cost: t.cost
         }));
@@ -270,7 +270,7 @@
             id: t.tile_id,
             x: t.x,
             y: t.y,
-            owner: t.owner_employee_id,
+            owner_game_student_id: t.owner_employee_id,
             cost: t.cost,
             isHeadquarters: !!t.is_headquarters
           }));

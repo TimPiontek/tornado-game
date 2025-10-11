@@ -333,7 +333,7 @@
         // Load tiles
         const { data: tiles } = await supabase.from('tiles').select('*').eq('game_id', employeeState.gameData.id);
         const w = employeeState.gameData.board_w || 10; const h = employeeState.gameData.board_h || 10;
-        employeeState.board = { w, h, tiles: (tiles||[]).map(t => ({ id: t.tile_id, x: t.x, y: t.y, owner: t.owner_employee_id, isHeadquarters: !!t.is_headquarters, cost: t.cost||20 })) };
+        employeeState.board = { w, h, tiles: (tiles||[]).map(t => ({ id: t.tile_id, x: t.x, y: t.y, owner_game_student_id: t.owner_employee_id, isHeadquarters: !!t.is_headquarters, cost: t.cost||20 })) };
         // Realtime subscriptions
         subscribeTiles();
         subscribeNotifications();
@@ -347,13 +347,13 @@
     grid.style.gridTemplateColumns = `repeat(${employeeState.board.w}, 1fr)`;
     grid.style.gridTemplateRows = `repeat(${employeeState.board.h}, 1fr)`;
     grid.innerHTML = employeeState.board.tiles.map(tile => {
-      const owner = employeeState.employees.find(e => e.id === tile.owner);
+      const owner = employeeState.employees.find(e => e.id === tile.owner_game_student_id);
       const isHQ = tile.isHeadquarters;
-      const bg = tile.owner ? (isHQ ? '#1e40af' : '#1e3a8a') : '#1e293b';
-      const icon = tile.owner ? '🏢' : '';
+      const bg = tile.owner_game_student_id ? (isHQ ? '#1e40af' : '#1e3a8a') : '#1e293b';
+      const icon = tile.owner_game_student_id ? '🏢' : '';
       const name = owner ? (owner.name.split(' ')[0]) : '';
       return `<div class="cell" onclick="handleTileClick('${tile.id}')" style="background:${bg};position:relative;cursor:pointer;${isHQ?'border:2px solid #fbbf24;':''}">
-        <div style="font-size:10px;text-align:center;">${icon}<div style="font-size:8px;color:var(--muted);">${!tile.owner?`💰${tile.cost||20}`:''}</div>${name?`<div style=\"font-size:7px;color:var(--accent)\">${name}</div>`:''}</div>
+        <div style="font-size:10px;text-align:center;">${icon}<div style="font-size:8px;color:var(--muted);">${!tile.owner_game_student_id?`💰${tile.cost||20}`:''}</div>${name?`<div style=\"font-size:7px;color:var(--accent)\">${name}</div>`:''}</div>
       </div>`;
     }).join('');
   }
@@ -367,10 +367,10 @@
         if (!r) return;
         const idx = employeeState.board.tiles.findIndex(t => t.id === r.tile_id);
         if (idx >= 0) {
-          employeeState.board.tiles[idx].owner = r.owner_employee_id;
+          employeeState.board.tiles[idx].owner_game_student_id = r.owner_employee_id;
           employeeState.board.tiles[idx].isHeadquarters = !!r.is_headquarters;
         } else {
-          employeeState.board.tiles.push({ id: r.tile_id, x: r.x, y: r.y, owner: r.owner_employee_id, isHeadquarters: !!r.is_headquarters, cost: r.cost||20 });
+          employeeState.board.tiles.push({ id: r.tile_id, x: r.x, y: r.y, owner_game_student_id: r.owner_employee_id, isHeadquarters: !!r.is_headquarters, cost: r.cost||20 });
         }
         renderBoardFromState();
       }).subscribe();
@@ -404,10 +404,10 @@
     const myRow = employeeState.employees.find(e => e.id === me.id) || { id: me.id, name: me.name };
 
     // Claim empty tile (deduct points)
-    if (!tile.owner) {
+    if (!tile.owner_game_student_id) {
       const cost = tile.cost || 20;
       if ((employeeState.points||0) < cost) { alert(`Insufficient points (${cost} needed)`); return; }
-      tile.owner = me.id;
+      tile.owner_game_student_id = me.id;
       employeeState.points -= cost;
       // Persist
       await supabase.from('tiles').upsert({ game_id: employeeState.gameData.id, tile_id: tile.id, x: tile.x, y: tile.y, owner_employee_id: me.id, is_headquarters: tile.isHeadquarters||false, cost });
@@ -419,15 +419,15 @@
     }
 
     // Attack enemy tile
-    if (tile.owner && tile.owner !== me.id) {
-      const defender = employeeState.employees.find(e => e.id === tile.owner);
+    if (tile.owner_game_student_id && tile.owner_game_student_id !== me.id) {
+      const defender = employeeState.employees.find(e => e.id === tile.owner_game_student_id);
       const attackCost = (tile.cost||20) * 2;
       if ((employeeState.points||0) < attackCost) { alert(`Need ${attackCost} points to attack`); return; }
       if (!confirm(`Attack ${defender?.name || 'opponent'}'s tile for ${attackCost} points?`)) return;
       // Resolve locally (optimistic) and notify
       const success = Math.random() < 0.7;
       employeeState.points -= attackCost;
-      if (success) tile.owner = me.id;
+      if (success) tile.owner_game_student_id = me.id;
       await supabase.from('notifications').insert({
         game_id: employeeState.gameData.id,
         to_employee_id: defender?.id,
@@ -435,7 +435,7 @@
         kind: 'attack',
         payload: { tile_id: tile.id, attack_cost: attackCost, success }
       });
-      await supabase.from('tiles').upsert({ game_id: employeeState.gameData.id, tile_id: tile.id, x: tile.x, y: tile.y, owner_employee_id: tile.owner, is_headquarters: tile.isHeadquarters||false, cost: tile.cost||20 });
+      await supabase.from('tiles').upsert({ game_id: employeeState.gameData.id, tile_id: tile.id, x: tile.x, y: tile.y, owner_employee_id: tile.owner_game_student_id, is_headquarters: tile.isHeadquarters||false, cost: tile.cost||20 });
       await supabase.from('employees').upsert({ id: myRow.id, game_id: employeeState.gameData.id, name: myRow.name, team: myRow.team||employeeState.team, points: employeeState.points, credits: employeeState.credits, balance: employeeState.points });
       await saveActivity(success?'attack_success':'attack_failed', { tileId: tile.id, defender: defender?.id, attackCost });
       updateEmployeeDashboard();
