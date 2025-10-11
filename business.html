@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://dmbbsrcwqpmdxqtzvtqj.supabase.co; style-src 'self' 'unsafe-inline' data:; font-src 'self' data:; img-src 'self' data:; connect-src 'self' https://dmbbsrcwqpmdxqtzvtqj.supabase.co; object-src 'none';">
   <title>Tornado Business – Manager Dashboard</title>
   <style>
     :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
@@ -181,7 +182,15 @@
   // Supabase client for cloud persistence
   const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
   const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+  
+  let supabase;
+  try {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+    console.log('[DEBUG] Supabase client initialized successfully');
+  } catch (error) {
+    console.error('[DEBUG] Failed to initialize Supabase client:', error);
+    supabase = null;
+  }
 
   // Business game state (adapted from working student war game)
   let businessState = {
@@ -220,6 +229,11 @@
   }
   
   async function saveCloudGame() {
+    if (!supabase) {
+      console.warn('[DEBUG] Supabase not available, skipping cloud save');
+      return;
+    }
+    
     try {
       if (!businessState.currentGame) return;
       
@@ -278,7 +292,12 @@
   // Load game data from Supabase
   async function loadGameData() {
     try {
-      // Try to load from Supabase first
+      // Try to load from Supabase first (if available)
+      if (!supabase) {
+        console.warn('[DEBUG] Supabase not available, using localStorage only');
+        throw new Error('Supabase not available');
+      }
+      
       const { data: games } = await supabase.from('games').select('*').eq('mode', 'business').limit(1);
       
       if (games && games.length > 0) {
