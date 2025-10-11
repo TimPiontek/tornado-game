@@ -4099,19 +4099,24 @@ The Beatles
         handleHash();
 
         // Re-render My Library on auth state change
+        // Consolidated auth state change handler
         supabaseClient.auth.onAuthStateChange(async (event, session) => {
           console.log('Auth state change:', event, session?.user);
+          
+          // Handle library navigation
           const hash = window.location.hash;
           if (hash.includes("my-library")) {
             await showLibrary("my");
           } else if (hash.includes("public-library")) {
             await showLibrary("public");
           }
-          // Update navigation for new auth state
+          
+          // Update the entire homepage for the new auth state
           try {
-            updateNavigationDirect();
+            await updateHomepageForUser();
+            console.log('Homepage updated after auth state change');
           } catch (error) {
-            console.error('Error updating navigation after auth state change:', error);
+            console.error('Error updating homepage after auth state change:', error);
           }
         });
 
@@ -4336,14 +4341,28 @@ The Beatles
         }
         
         // Initialize homepage based on current user state
-        // Add a small delay to allow Supabase to restore the session
-        setTimeout(() => {
-          updateHomepageForUser();
-        }, 100);
-        
-        // Consolidated login button handler - attach once after DOM is ready
+        // Initialize auth state and login button on page load
         document.addEventListener('DOMContentLoaded', function() {
+          console.log('DOM loaded, initializing auth state...');
+          
+          // Attach login button handler
           attachLoginButtonHandler();
+          
+          // Check auth state with multiple attempts to ensure it's detected
+          setTimeout(() => {
+            console.log('First auth check...');
+            updateHomepageForUser();
+          }, 100);
+          
+          setTimeout(() => {
+            console.log('Second auth check...');
+            updateHomepageForUser();
+          }, 1000);
+          
+          setTimeout(() => {
+            console.log('Final auth check...');
+            updateHomepageForUser();
+          }, 3000);
         });
         
         function attachLoginButtonHandler() {
@@ -4501,6 +4520,39 @@ The Beatles
           }
         };
         
+        // Debug function to check current auth state
+        window.debugAuthState = async function() {
+          console.log('=== DEBUGGING AUTH STATE ===');
+          
+          try {
+            // Check Supabase session
+            const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
+            console.log('Supabase session:', session);
+            console.log('Session error:', sessionError);
+            
+            // Check Supabase user
+            const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+            console.log('Supabase user:', user);
+            console.log('User error:', userError);
+            
+            // Check localStorage
+            const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+            console.log('Current student:', currentStudent);
+            
+            // Check login button state
+            const loginBtn = document.getElementById("loginLogoutBtn");
+            console.log('Login button text:', loginBtn ? loginBtn.textContent : 'Not found');
+            console.log('Login button title:', loginBtn ? loginBtn.title : 'Not found');
+            
+            // Force update homepage
+            console.log('Forcing homepage update...');
+            await updateHomepageForUser();
+            
+          } catch (error) {
+            console.error('Error debugging auth state:', error);
+          }
+        };
+        
         // Simple function to show auth modal
         window.showLoginModal = function() {
           console.log('Manually showing login modal...');
@@ -4533,24 +4585,7 @@ The Beatles
           });
         };
         
-        supabaseClient.auth.onAuthStateChange(async (event, session) => {
-          const btn = document.getElementById("loginLogoutBtn");
-          if (event === "SIGNED_IN") {
-            hideAuthModal();
-            const user = session.user;
-            if (user && btn) {
-              btn.textContent = "Logout";
-              btn.style.background = "#fff";
-              btn.style.color = "#e57373";
-              btn.title = user.email || "";
-            }
-          } else if (event === "SIGNED_OUT") {
-            btn.textContent = "👨‍🏫 Teacher Login";
-            btn.style.background = "#fff";
-            btn.style.color = "#6F5C91";
-            btn.title = "";
-          }
-        });
+        // Duplicate auth state change handler removed - using consolidated handler above
 
         // === BEGIN YOUR GAME/QUIZ LOGIC (leave untouched) ===
         // State
