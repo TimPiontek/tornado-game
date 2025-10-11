@@ -71,6 +71,7 @@
     <button class="pill" id="signin">Sign in with Google</button>
     <button class="pill" id="signout" style="background: #dc2626; color: white; display: none;">Sign Out</button>
     <button class="pill" id="playOffline" style="background: #10b981; color: white;">Play Offline</button>
+    <button class="pill" id="checkAuth" style="background: #f59e0b; color: white; margin-left: 8px;" onclick="updateAuth()">Check Auth</button>
   </div>
 </header>
 
@@ -687,7 +688,10 @@
   const playOfflineBtn = document.getElementById("playOffline");
 
   async function updateAuth() {
-    const { data: { session } } = await supabase.auth.getSession();
+    console.log('updateAuth called');
+    const { data: { session }, error } = await supabase.auth.getSession();
+    console.log('Session data:', session);
+    console.log('Session error:', error);
     state.session = session;
     console.log('War game auth update:', session ? 'Logged in as ' + session.user.email : 'Not logged in');
     
@@ -782,8 +786,18 @@
 
   // Initialize auth
   (async () => {
+    console.log('Initializing auth...');
     await updateAuth();
-    supabase.auth.onAuthStateChange(() => updateAuth());
+    supabase.auth.onAuthStateChange((event, session) => {
+      console.log('Auth state change:', event, session ? 'Logged in as ' + session.user.email : 'Not logged in');
+      updateAuth();
+    });
+    
+    // Additional check after a delay to ensure session is loaded
+    setTimeout(async () => {
+      console.log('Delayed auth check...');
+      await updateAuth();
+    }, 1000);
   })();
 
   // === ECONOMY PANEL WIRING ===
