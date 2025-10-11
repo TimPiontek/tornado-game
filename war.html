@@ -6604,18 +6604,27 @@
     // Check for URL parameters to auto-select scenario
     const urlParams = new URLSearchParams(window.location.search);
     const scenarioParam = urlParams.get('scenario');
+    const businessModeParam = urlParams.get('businessMode');
     
-    if (scenarioParam === 'businessMode') {
-      // Auto-select Business Mode scenario
-      setTimeout(() => {
-        showScenarioSelectionModal();
-        // Pre-select Business Mode in the dropdown
-        const scenarioSelect = document.getElementById('scenarioSelect');
-        if (scenarioSelect) {
-          scenarioSelect.value = 'businessMode';
-          updateScenarioDetails();
-        }
-      }, 500);
+    if (scenarioParam === 'businessMode' || businessModeParam === 'true') {
+      // Check if there's already a game running
+      if (state.board && state.board.tiles && state.board.tiles.length > 0) {
+        // Game already exists, just ensure Business Mode tools are visible
+        console.log('[DEBUG] Game already exists, showing Business Mode tools');
+        toggleBusinessTools();
+      } else {
+        // No game exists, show scenario selection modal
+        console.log('[DEBUG] No game exists, showing scenario selection');
+        setTimeout(() => {
+          showScenarioSelectionModal();
+          // Pre-select Business Mode in the dropdown
+          const scenarioSelect = document.getElementById('scenarioSelect');
+          if (scenarioSelect) {
+            scenarioSelect.value = 'businessMode';
+            updateScenarioDetails();
+          }
+        }, 500);
+      }
     }
   }
   
