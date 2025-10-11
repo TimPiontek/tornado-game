@@ -43,32 +43,63 @@
     async function loadRosters() {
       try {
         // Try to load from Supabase first
-        const { data, error } = await supabase
+        const { data: games, error: gamesError } = await supabase
           .from('games')
           .select('*')
           .eq('mode', 'business');
         
-        if (error) throw error;
+        if (gamesError) {
+          console.error('Failed to load games from cloud:', gamesError);
+          throw gamesError;
+        }
         
-        if (data && data.length > 0) {
-          // Convert Supabase games to roster format
-          businessRosters = data.map(game => ({
-            id: game.id,
-            name: game.name,
-            employees: game.employees || [],
-            teamMode: game.team_mode || 'individual',
-            createdAt: game.created_at
-          }));
+        if (games && games.length > 0) {
+          // Load employees for each game
+          const rostersWithEmployees = [];
+          
+          for (const game of games) {
+            const { data: employees, error: empError } = await supabase
+              .from('employees')
+              .select('*')
+              .eq('game_id', game.id);
+            
+            if (empError) {
+              console.error('Failed to load employees for game:', game.id, empError);
+              continue;
+            }
+            
+            // Convert Supabase data to roster format
+            const roster = {
+              id: game.id,
+              name: game.name,
+              teamMode: game.team_mode || 'individual',
+              employees: employees || [],
+              createdAt: game.created_at,
+              updatedAt: game.updated_at
+            };
+            
+            rostersWithEmployees.push(roster);
+          }
+          
+          businessRosters = rostersWithEmployees;
+          console.log('Loaded rosters from cloud:', businessRosters.length);
         } else {
-          // Fallback to localStorage
-          const saved = localStorage.getItem('businessRosters');
-          businessRosters = saved ? JSON.parse(saved) : [];
+          // No cloud data, try localStorage
+          const savedRosters = localStorage.getItem('businessRosters');
+          if (savedRosters) {
+            businessRosters = JSON.parse(savedRosters);
+            console.log('Loaded rosters from localStorage:', businessRosters.length);
+          }
         }
       } catch (error) {
-        console.log('Supabase load failed, using localStorage:', error);
+        console.error('Failed to load rosters from cloud, trying localStorage:', error);
+        
         // Fallback to localStorage
-        const saved = localStorage.getItem('businessRosters');
-        businessRosters = saved ? JSON.parse(saved) : [];
+        const savedRosters = localStorage.getItem('businessRosters');
+        if (savedRosters) {
+          businessRosters = JSON.parse(savedRosters);
+          console.log('Loaded rosters from localStorage fallback:', businessRosters.length);
+        }
       }
       
       renderRosters();
@@ -80,23 +111,48 @@
         // Save to localStorage as backup
         localStorage.setItem('businessRosters', JSON.stringify(businessRosters));
         
-        // Save to Supabase
+        // Save to Supabase - separate games and employees tables
         for (const roster of businessRosters) {
+          // First, save the game record
           const gameData = {
             id: roster.id,
             name: roster.name,
             mode: 'business',
-            employees: roster.employees,
             team_mode: roster.teamMode,
             created_at: roster.createdAt || new Date().toISOString(),
             updated_at: new Date().toISOString()
           };
           
-          const { error } = await supabase
+          const { error: gameError } = await supabase
             .from('games')
             .upsert(gameData);
           
-          if (error) throw error;
+          if (gameError) {
+            console.error('Failed to save game to cloud:', gameError);
+            continue;
+          }
+          
+          // Then, save each employee separately
+          for (const employee of roster.employees) {
+            const employeeData = {
+              id: employee.id,
+              game_id: roster.id,
+              name: employee.name,
+              team: employee.team,
+              balance: employee.balance || 100,
+              tiles_owned: employee.tilesOwned || 0,
+              created_at: employee.createdAt || new Date().toISOString(),
+              updated_at: new Date().toISOString()
+            };
+            
+            const { error: empError } = await supabase
+              .from('employees')
+              .upsert(employeeData);
+            
+            if (empError) {
+              console.error('Failed to save employee to cloud:', empError);
+            }
+          }
         }
         
         console.log('Rosters saved to cloud successfully');
