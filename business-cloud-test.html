@@ -1,0 +1,546 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tornado Business – Cloud Persistence Test</title>
+  <style>
+    :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
+    * { box-sizing: border-box }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, sans-serif; }
+    .container { max-width:1200px; margin:0 auto; padding:20px; }
+    .test-section { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:20px; }
+    .test-title { font-size:18px; font-weight:600; margin-bottom:15px; color:var(--accent); }
+    .test-result { padding:10px; border-radius:8px; margin:10px 0; }
+    .test-result.success { background:#065f46; border:1px solid #10b981; color:#d1fae5; }
+    .test-result.error { background:#7f1d1d; border:1px solid #dc2626; color:#fecaca; }
+    .test-result.warning { background:#78350f; border:1px solid #f59e0b; color:#fef3c7; }
+    .btn { padding:10px 20px; border:none; border-radius:8px; cursor:pointer; font-size:14px; margin:5px; }
+    .btn-primary { background:#3b82f6; color:white; }
+    .btn-success { background:#10b981; color:white; }
+    .btn-danger { background:#dc2626; color:white; }
+    .btn-warning { background:#f59e0b; color:white; }
+    .data-display { background:#081125; border:1px solid var(--border); border-radius:8px; padding:15px; margin:10px 0; font-family:monospace; font-size:12px; max-height:300px; overflow:auto; }
+    .status-indicator { display:inline-block; width:12px; height:12px; border-radius:50%; margin-right:8px; }
+    .status-success { background:#10b981; }
+    .status-error { background:#dc2626; }
+    .status-warning { background:#f59e0b; }
+    .status-pending { background:#6b7280; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>🌪️ Tornado Business – Cloud Persistence Test Suite</h1>
+    
+    <!-- Connection Test -->
+    <div class="test-section">
+      <div class="test-title">🔌 Database Connection Test</div>
+      <div id="connectionResult" class="test-result">
+        <span class="status-indicator status-pending"></span>Testing Supabase connection...
+      </div>
+      <button class="btn btn-primary" onclick="testConnection()">Test Connection</button>
+    </div>
+
+    <!-- Schema Test -->
+    <div class="test-section">
+      <div class="test-title">📋 Database Schema Test</div>
+      <div id="schemaResult" class="test-result">
+        <span class="status-indicator status-pending"></span>Checking required tables...
+      </div>
+      <button class="btn btn-primary" onclick="testSchema()">Test Schema</button>
+    </div>
+
+    <!-- Game Data Test -->
+    <div class="test-section">
+      <div class="test-title">🎮 Game Data Persistence Test</div>
+      <div id="gameDataResult" class="test-result">
+        <span class="status-indicator status-pending"></span>Testing game data operations...
+      </div>
+      <button class="btn btn-success" onclick="testGameData()">Test Game Data</button>
+      <button class="btn btn-danger" onclick="cleanupTestData()">Cleanup Test Data</button>
+    </div>
+
+    <!-- Employee Data Test -->
+    <div class="test-section">
+      <div class="test-title">👥 Employee Data Test</div>
+      <div id="employeeResult" class="test-result">
+        <span class="status-indicator status-pending"></span>Testing employee operations...
+      </div>
+      <button class="btn btn-success" onclick="testEmployeeData()">Test Employee Data</button>
+    </div>
+
+    <!-- Tile Data Test -->
+    <div class="test-section">
+      <div class="test-title">🏢 Tile Data Test</div>
+      <div id="tileResult" class="test-result">
+        <span class="status-indicator status-pending"></span>Testing tile operations...
+      </div>
+      <button class="btn btn-success" onclick="testTileData()">Test Tile Data</button>
+    </div>
+
+    <!-- Activity Feed Test -->
+    <div class="test-section">
+      <div class="test-title">📊 Activity Feed Test</div>
+      <div id="activityResult" class="test-result">
+        <span class="status-indicator status-pending"></span>Testing activity feed...
+      </div>
+      <button class="btn btn-success" onclick="testActivityFeed()">Test Activity Feed</button>
+    </div>
+
+    <!-- Realtime Test -->
+    <div class="test-section">
+      <div class="test-title">⚡ Realtime Subscription Test</div>
+      <div id="realtimeResult" class="test-result">
+        <span class="status-indicator status-pending"></span>Testing realtime subscriptions...
+      </div>
+      <button class="btn btn-success" onclick="testRealtime()">Test Realtime</button>
+    </div>
+
+    <!-- Data Display -->
+    <div class="test-section">
+      <div class="test-title">📊 Test Data Display</div>
+      <div id="dataDisplay" class="data-display">No test data yet...</div>
+      <button class="btn btn-primary" onclick="refreshDataDisplay()">Refresh Data</button>
+    </div>
+
+    <!-- Full Integration Test -->
+    <div class="test-section">
+      <div class="test-title">🚀 Full Integration Test</div>
+      <div id="integrationResult" class="test-result">
+        <span class="status-indicator status-pending"></span>Ready to run full integration test...
+      </div>
+      <button class="btn btn-warning" onclick="runFullIntegrationTest()">Run Full Test</button>
+    </div>
+  </div>
+
+  <script>
+    // Supabase client
+    const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+    const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    let testGameId = null;
+    let testEmployeeId = null;
+
+    // Generate UUID for testing
+    function generateUUID() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0;
+        const v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+
+    // Update result display
+    function updateResult(elementId, status, message) {
+      const element = document.getElementById(elementId);
+      const indicator = element.querySelector('.status-indicator');
+      
+      indicator.className = `status-indicator status-${status}`;
+      element.className = `test-result ${status}`;
+      element.innerHTML = `<span class="status-indicator status-${status}"></span>${message}`;
+    }
+
+    // Test database connection
+    async function testConnection() {
+      try {
+        updateResult('connectionResult', 'pending', 'Testing Supabase connection...');
+        
+        const { data, error } = await supabase
+          .from('games')
+          .select('count')
+          .limit(1);
+        
+        if (error) throw error;
+        
+        updateResult('connectionResult', 'success', '✅ Supabase connection successful!');
+      } catch (error) {
+        updateResult('connectionResult', 'error', `❌ Connection failed: ${error.message}`);
+      }
+    }
+
+    // Test database schema
+    async function testSchema() {
+      try {
+        updateResult('schemaResult', 'pending', 'Checking required tables...');
+        
+        const requiredTables = ['games', 'employees', 'tiles', 'activity_feed', 'notifications', 'metrics'];
+        const results = [];
+        
+        for (const table of requiredTables) {
+          try {
+            const { data, error } = await supabase
+              .from(table)
+              .select('*')
+              .limit(1);
+            
+            if (error) throw error;
+            results.push(`✅ ${table}`);
+          } catch (error) {
+            results.push(`❌ ${table}: ${error.message}`);
+          }
+        }
+        
+        const allSuccess = results.every(r => r.startsWith('✅'));
+        const status = allSuccess ? 'success' : 'error';
+        const message = allSuccess ? 
+          '✅ All required tables exist!' : 
+          `❌ Schema issues found:\n${results.join('\n')}`;
+        
+        updateResult('schemaResult', status, message);
+      } catch (error) {
+        updateResult('schemaResult', 'error', `❌ Schema test failed: ${error.message}`);
+      }
+    }
+
+    // Test game data operations
+    async function testGameData() {
+      try {
+        updateResult('gameDataResult', 'pending', 'Testing game data operations...');
+        
+        // Create test game
+        testGameId = generateUUID();
+        const testGame = {
+          id: testGameId,
+          code: `TEST_${Date.now()}`,
+          name: 'Cloud Test Game',
+          mode: 'business',
+          scenario: 'individual',
+          starting_points: 100,
+          board_w: 6,
+          board_h: 6,
+          created_at: new Date().toISOString()
+        };
+        
+        const { data: gameData, error: gameError } = await supabase
+          .from('games')
+          .insert(testGame)
+          .select()
+          .single();
+        
+        if (gameError) throw gameError;
+        
+        // Read game data
+        const { data: readGame, error: readError } = await supabase
+          .from('games')
+          .select('*')
+          .eq('id', testGameId)
+          .single();
+        
+        if (readError) throw readError;
+        
+        // Update game data
+        const { error: updateError } = await supabase
+          .from('games')
+          .update({ name: 'Updated Test Game' })
+          .eq('id', testGameId);
+        
+        if (updateError) throw updateError;
+        
+        updateResult('gameDataResult', 'success', '✅ Game data operations successful!');
+        refreshDataDisplay();
+      } catch (error) {
+        updateResult('gameDataResult', 'error', `❌ Game data test failed: ${error.message}`);
+      }
+    }
+
+    // Test employee data operations
+    async function testEmployeeData() {
+      try {
+        updateResult('employeeResult', 'pending', 'Testing employee operations...');
+        
+        if (!testGameId) {
+          throw new Error('Please run game data test first');
+        }
+        
+        // Create test employee
+        testEmployeeId = generateUUID();
+        const testEmployee = {
+          id: testEmployeeId,
+          game_id: testGameId,
+          name: 'Test Employee',
+          team: 'Test Team',
+          points: 100,
+          credits: 0,
+          balance: 100
+        };
+        
+        const { data: empData, error: empError } = await supabase
+          .from('employees')
+          .insert(testEmployee)
+          .select()
+          .single();
+        
+        if (empError) throw empError;
+        
+        // Update employee data
+        const { error: updateError } = await supabase
+          .from('employees')
+          .update({ points: 150, balance: 150 })
+          .eq('id', testEmployeeId)
+          .eq('game_id', testGameId);
+        
+        if (updateError) throw updateError;
+        
+        updateResult('employeeResult', 'success', '✅ Employee data operations successful!');
+        refreshDataDisplay();
+      } catch (error) {
+        updateResult('employeeResult', 'error', `❌ Employee data test failed: ${error.message}`);
+      }
+    }
+
+    // Test tile data operations
+    async function testTileData() {
+      try {
+        updateResult('tileResult', 'pending', 'Testing tile operations...');
+        
+        if (!testGameId || !testEmployeeId) {
+          throw new Error('Please run game and employee data tests first');
+        }
+        
+        // Create test tiles
+        const testTiles = [
+          {
+            game_id: testGameId,
+            tile_id: '0-0',
+            x: 0,
+            y: 0,
+            owner_employee_id: testEmployeeId,
+            is_headquarters: true,
+            cost: 0
+          },
+          {
+            game_id: testGameId,
+            tile_id: '1-0',
+            x: 1,
+            y: 0,
+            owner_employee_id: null,
+            is_headquarters: false,
+            cost: 25
+          }
+        ];
+        
+        const { data: tilesData, error: tilesError } = await supabase
+          .from('tiles')
+          .upsert(testTiles)
+          .select();
+        
+        if (tilesError) throw tilesError;
+        
+        // Update tile ownership
+        const { error: updateError } = await supabase
+          .from('tiles')
+          .update({ owner_employee_id: testEmployeeId })
+          .eq('game_id', testGameId)
+          .eq('tile_id', '1-0');
+        
+        if (updateError) throw updateError;
+        
+        updateResult('tileResult', 'success', '✅ Tile data operations successful!');
+        refreshDataDisplay();
+      } catch (error) {
+        updateResult('tileResult', 'error', `❌ Tile data test failed: ${error.message}`);
+      }
+    }
+
+    // Test activity feed
+    async function testActivityFeed() {
+      try {
+        updateResult('activityResult', 'pending', 'Testing activity feed...');
+        
+        if (!testGameId || !testEmployeeId) {
+          throw new Error('Please run game and employee data tests first');
+        }
+        
+        // Create test activity
+        const testActivity = {
+          game_id: testGameId,
+          employee_id: testEmployeeId,
+          action: 'test_action',
+          detail: { test: 'data' },
+          created_at: new Date().toISOString()
+        };
+        
+        const { data: activityData, error: activityError } = await supabase
+          .from('activity_feed')
+          .insert(testActivity)
+          .select()
+          .single();
+        
+        if (activityError) throw activityError;
+        
+        updateResult('activityResult', 'success', '✅ Activity feed operations successful!');
+        refreshDataDisplay();
+      } catch (error) {
+        updateResult('activityResult', 'error', `❌ Activity feed test failed: ${error.message}`);
+      }
+    }
+
+    // Test realtime subscriptions
+    async function testRealtime() {
+      try {
+        updateResult('realtimeResult', 'pending', 'Testing realtime subscriptions...');
+        
+        if (!testGameId) {
+          throw new Error('Please run game data test first');
+        }
+        
+        let subscriptionReceived = false;
+        
+        // Subscribe to tiles changes
+        const channel = supabase.channel('test_tiles')
+          .on('postgres_changes', 
+            { event: '*', schema: 'public', table: 'tiles', filter: `game_id=eq.${testGameId}` },
+            (payload) => {
+              subscriptionReceived = true;
+              updateResult('realtimeResult', 'success', '✅ Realtime subscription working!');
+            }
+          )
+          .subscribe();
+        
+        // Wait a moment for subscription to establish
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Trigger a change
+        const { error } = await supabase
+          .from('tiles')
+          .update({ cost: 30 })
+          .eq('game_id', testGameId)
+          .eq('tile_id', '0-0');
+        
+        if (error) throw error;
+        
+        // Wait for subscription to fire
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        if (!subscriptionReceived) {
+          updateResult('realtimeResult', 'warning', '⚠️ Realtime subscription may not be working properly');
+        }
+        
+        // Cleanup subscription
+        await supabase.removeChannel(channel);
+        
+      } catch (error) {
+        updateResult('realtimeResult', 'error', `❌ Realtime test failed: ${error.message}`);
+      }
+    }
+
+    // Refresh data display
+    async function refreshDataDisplay() {
+      try {
+        const display = document.getElementById('dataDisplay');
+        display.textContent = 'Loading data...';
+        
+        let data = {};
+        
+        if (testGameId) {
+          // Get game data
+          const { data: gameData } = await supabase
+            .from('games')
+            .select('*')
+            .eq('id', testGameId)
+            .single();
+          data.game = gameData;
+          
+          // Get employees
+          const { data: employees } = await supabase
+            .from('employees')
+            .select('*')
+            .eq('game_id', testGameId);
+          data.employees = employees;
+          
+          // Get tiles
+          const { data: tiles } = await supabase
+            .from('tiles')
+            .select('*')
+            .eq('game_id', testGameId);
+          data.tiles = tiles;
+          
+          // Get activity
+          const { data: activity } = await supabase
+            .from('activity_feed')
+            .select('*')
+            .eq('game_id', testGameId)
+            .order('created_at', { ascending: false })
+            .limit(5);
+          data.activity = activity;
+        }
+        
+        display.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        document.getElementById('dataDisplay').textContent = `Error loading data: ${error.message}`;
+      }
+    }
+
+    // Cleanup test data
+    async function cleanupTestData() {
+      try {
+        if (testGameId) {
+          // Delete in correct order (due to foreign key constraints)
+          await supabase.from('activity_feed').delete().eq('game_id', testGameId);
+          await supabase.from('tiles').delete().eq('game_id', testGameId);
+          await supabase.from('employees').delete().eq('game_id', testGameId);
+          await supabase.from('games').delete().eq('id', testGameId);
+          
+          testGameId = null;
+          testEmployeeId = null;
+          
+          updateResult('gameDataResult', 'success', '✅ Test data cleaned up successfully!');
+          refreshDataDisplay();
+        }
+      } catch (error) {
+        updateResult('gameDataResult', 'error', `❌ Cleanup failed: ${error.message}`);
+      }
+    }
+
+    // Run full integration test
+    async function runFullIntegrationTest() {
+      try {
+        updateResult('integrationResult', 'pending', 'Running full integration test...');
+        
+        // Run all tests in sequence
+        await testConnection();
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        await testSchema();
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        await testGameData();
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        await testEmployeeData();
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        await testTileData();
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        await testActivityFeed();
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        await testRealtime();
+        
+        // Check if all tests passed
+        const results = document.querySelectorAll('.test-result');
+        const allPassed = Array.from(results).every(result => 
+          result.classList.contains('success') || result.classList.contains('warning')
+        );
+        
+        if (allPassed) {
+          updateResult('integrationResult', 'success', '🎉 All integration tests passed! Business cloud persistence is working correctly.');
+        } else {
+          updateResult('integrationResult', 'error', '❌ Some tests failed. Check individual test results above.');
+        }
+        
+      } catch (error) {
+        updateResult('integrationResult', 'error', `❌ Integration test failed: ${error.message}`);
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('Business Cloud Test Suite loaded');
+    });
+  </script>
+</body>
+</html>
