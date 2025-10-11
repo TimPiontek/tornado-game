@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://dmbbsrcwqpmdxqtzvtqj.supabase.co; style-src 'self' 'unsafe-inline' data:; font-src 'self' data:; img-src 'self' data:; connect-src 'self' https://dmbbsrcwqpmdxqtzvtqj.supabase.co; object-src 'none';">
   <title>Tornado Business – Manager Dashboard</title>
   <style>
     :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
@@ -418,6 +417,10 @@
 
   // Initialize the game board (adapted from working student war game)
   function initializeGameBoard() {
+    console.log('[DEBUG] initializeGameBoard called');
+    console.log('[DEBUG] Employees:', businessState.employees);
+    console.log('[DEBUG] Board config:', businessState.board);
+    
     const board = businessState.board;
     board.tiles = [];
     
@@ -432,6 +435,8 @@
         });
       }
     }
+    
+    console.log('[DEBUG] Created tiles:', board.tiles.length);
     
     // Assign starting headquarters (castles)
     assignStartingHeadquarters();
@@ -484,8 +489,17 @@
 
   // Update the grid display (adapted from working student war game)
   function updateGridDisplay() {
+    console.log('[DEBUG] updateGridDisplay called');
     const board = businessState.board;
     const grid = document.getElementById('gameBoard');
+    
+    console.log('[DEBUG] Grid element:', grid);
+    console.log('[DEBUG] Board tiles:', board.tiles.length);
+    
+    if (!grid) {
+      console.error('[DEBUG] gameBoard element not found!');
+      return;
+    }
     
     // Set grid size
     grid.style.gridTemplateColumns = `repeat(${board.w}, 1fr)`;
