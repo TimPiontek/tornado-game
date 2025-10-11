@@ -615,8 +615,11 @@
     }
   }
 
-  await updateAuth();
-  supabase.auth.onAuthStateChange(() => updateAuth());
+  // Initialize auth
+  (async () => {
+    await updateAuth();
+    supabase.auth.onAuthStateChange(() => updateAuth());
+  })();
 
   // === ECONOMY PANEL WIRING ===
   function loadEconomyPanel(){
