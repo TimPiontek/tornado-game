@@ -199,7 +199,7 @@
       <div class="title">🏢 Business Tools</div>
       
       <!-- Team Metrics Dashboard -->
-      <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+      <div id="businessMetricsDashboard" style="background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
         <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: #fff;">📊 TEAM METRICS DASHBOARD</div>
         
         <!-- Q4 Sales Goal Progress -->
@@ -304,7 +304,7 @@
       </div>
       
       <!-- Rewards & Incentives -->
-      <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px;">
+      <div id="businessRewardsSection" style="background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px;">
         <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">🏆 Rewards & Incentives</div>
         <div style="margin-bottom: 8px;">
           <input type="text" id="winningTeamReward" placeholder="Winning team gets..." style="width: 100%; margin-bottom: 4px; font-size: 12px;">
@@ -12060,13 +12060,35 @@ REQUIREMENTS:
     const isBusinessMode = state.scenario && state.scenario.id === 'businessMode';
     
     if (businessTools) {
-      businessTools.style.display = isBusinessMode ? 'block' : 'none';
+      // Always show the container, but hide business-specific sections
+      businessTools.style.display = 'block';
+      
+      // Hide/show business-specific sections using IDs
+      const metricsDashboard = document.getElementById('businessMetricsDashboard');
+      const rewardsSection = document.getElementById('businessRewardsSection');
+      
+      if (metricsDashboard) {
+        metricsDashboard.style.display = isBusinessMode ? 'block' : 'none';
+      }
+      
+      if (rewardsSection) {
+        rewardsSection.style.display = isBusinessMode ? 'block' : 'none';
+      }
+      
+      // Update title based on mode
+      const titleElement = businessTools.querySelector('.title');
+      if (titleElement) {
+        titleElement.textContent = isBusinessMode ? '🏢 Business Tools' : '📢 Announcements & Recognition';
+      }
     }
     
     if (isBusinessMode) {
       updateBusinessMetricsDisplay();
       loadBusinessAnnouncements();
       loadBusinessRewards();
+    } else {
+      // Still load announcements for non-business modes
+      loadBusinessAnnouncements();
     }
   }
   
