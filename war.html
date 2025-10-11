@@ -198,47 +198,79 @@
       <div class="title">🏢 Business Tools</div>
       
       <!-- Team Metrics Dashboard -->
-      <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 12px;">
-        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">📊 Team Performance Metrics</div>
+      <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+        <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: #fff;">📊 TEAM METRICS DASHBOARD</div>
         
-        <!-- Main Goal Progress -->
-        <div style="margin-bottom: 12px;">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-            <span style="font-size: 12px;">Sales Target Progress</span>
-            <span style="font-size: 12px; color: var(--accent);" id="salesProgress">0%</span>
+        <!-- Q4 Sales Goal Progress -->
+        <div style="margin-bottom: 20px;">
+          <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px; color: #fff;">Q4 Sales Goal</div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span style="font-size: 24px; font-weight: bold; color: #fff;" id="salesAmount">$847,500</span>
+            <span style="font-size: 24px; font-weight: bold; color: #10b981;" id="salesProgress">84.8%</span>
           </div>
-          <div style="background: #1f2937; border-radius: 4px; height: 8px; overflow: hidden;">
-            <div id="salesProgressBar" style="background: linear-gradient(90deg, #10b981, #22d3ee); height: 100%; width: 0%; transition: width 0.3s ease;"></div>
+          <div style="background: #333; border-radius: 8px; height: 12px; overflow: hidden; margin-bottom: 8px;">
+            <div id="salesProgressBar" style="background: linear-gradient(90deg, #10b981, #22d3ee); height: 100%; width: 84.8%; transition: width 0.3s ease;"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: #ccc;">
+            <span>Target: $1,000,000</span>
+            <span>Remaining: $152,500</span>
           </div>
         </div>
         
-        <!-- Individual Metrics -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px;">
-          <div style="text-align: center; padding: 8px; background: #1f2937; border-radius: 6px;">
-            <div style="font-size: 18px; font-weight: bold; color: #22d3ee;" id="productsSold">0</div>
-            <div style="font-size: 10px; color: var(--muted);">Products Sold</div>
+        <!-- Individual Metrics Cards -->
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 20px;">
+          <!-- Products Sold -->
+          <div style="background: #2a2a2a; border-radius: 8px; padding: 16px; border-left: 4px solid #3b82f6;">
+            <div style="font-size: 20px; font-weight: bold; color: #3b82f6; margin-bottom: 4px;" id="productsSold">2,847</div>
+            <div style="font-size: 12px; color: #ccc; margin-bottom: 8px;">Products Sold</div>
+            <div style="background: #333; border-radius: 4px; height: 6px; overflow: hidden;">
+              <div style="background: #3b82f6; height: 100%; width: 95%;"></div>
+            </div>
+            <div style="font-size: 10px; color: #999; margin-top: 4px;">Target: 3,000</div>
           </div>
-          <div style="text-align: center; padding: 8px; background: #1f2937; border-radius: 6px;">
-            <div style="font-size: 18px; font-weight: bold; color: #10b981;" id="customerSatisfaction">0%</div>
-            <div style="font-size: 10px; color: var(--muted);">Customer Satisfaction</div>
+          
+          <!-- Customer Satisfaction -->
+          <div style="background: #2a2a2a; border-radius: 8px; padding: 16px; border-left: 4px solid #8b5cf6;">
+            <div style="font-size: 20px; font-weight: bold; color: #8b5cf6; margin-bottom: 4px;" id="customerSatisfaction">4.7/5</div>
+            <div style="font-size: 12px; color: #ccc; margin-bottom: 8px;">Customer Satisfaction</div>
+            <div style="background: #333; border-radius: 4px; height: 6px; overflow: hidden;">
+              <div style="background: #8b5cf6; height: 100%; width: 100%;"></div>
+            </div>
+            <div style="font-size: 10px; color: #999; margin-top: 4px;">Target: 4.5/5</div>
           </div>
-          <div style="text-align: center; padding: 8px; background: #1f2937; border-radius: 6px;">
-            <div style="font-size: 18px; font-weight: bold; color: #f59e0b;" id="featuresShipped">0</div>
-            <div style="font-size: 10px; color: var(--muted);">Features Shipped</div>
+          
+          <!-- Features Shipped -->
+          <div style="background: #2a2a2a; border-radius: 8px; padding: 16px; border-left: 4px solid #f59e0b;">
+            <div style="font-size: 20px; font-weight: bold; color: #f59e0b; margin-bottom: 4px;" id="featuresShipped">47</div>
+            <div style="font-size: 12px; color: #ccc; margin-bottom: 8px;">Features Shipped</div>
+            <div style="background: #333; border-radius: 4px; height: 6px; overflow: hidden;">
+              <div style="background: #f59e0b; height: 100%; width: 94%;"></div>
+            </div>
+            <div style="font-size: 10px; color: #999; margin-top: 4px;">Target: 50</div>
           </div>
-          <div style="text-align: center; padding: 8px; background: #1f2937; border-radius: 6px;">
-            <div style="font-size: 18px; font-weight: bold; color: #ef4444;" id="bugsResolved">0</div>
-            <div style="font-size: 10px; color: var(--muted);">Bugs Resolved</div>
+          
+          <!-- Bugs Resolved -->
+          <div style="background: #2a2a2a; border-radius: 8px; padding: 16px; border-left: 4px solid #ef4444;">
+            <div style="font-size: 20px; font-weight: bold; color: #ef4444; margin-bottom: 4px;" id="bugsResolved">156</div>
+            <div style="font-size: 12px; color: #ccc; margin-bottom: 8px;">Bugs Resolved</div>
+            <div style="background: #333; border-radius: 4px; height: 6px; overflow: hidden;">
+              <div style="background: #ef4444; height: 100%; width: 78%;"></div>
+            </div>
+            <div style="font-size: 10px; color: #999; margin-top: 4px;">Target: 200</div>
           </div>
         </div>
         
-        <!-- Quick Actions -->
-        <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
-          <button class="pill" onclick="updateMetric('productsSold', 1)" style="background: #22d3ee; color: white; font-size: 11px;">+1 Product</button>
-          <button class="pill" onclick="updateMetric('customerSatisfaction', 5)" style="background: #10b981; color: white; font-size: 11px;">+5% Satisfaction</button>
-          <button class="pill" onclick="updateMetric('featuresShipped', 1)" style="background: #f59e0b; color: white; font-size: 11px;">+1 Feature</button>
-          <button class="pill" onclick="updateMetric('bugsResolved', 1)" style="background: #ef4444; color: white; font-size: 11px;">+1 Bug Fixed</button>
-          <button class="pill" onclick="showEditMetricsModal()" style="background: #8b5cf6; color: white; font-size: 11px;">Edit Metrics</button>
+        <!-- Quick Action Buttons -->
+        <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+          <button onclick="updateMetric('salesAmount', 1000)" style="background: #10b981; color: white; border: none; border-radius: 6px; padding: 8px 16px; font-size: 12px; cursor: pointer;">+$1K Sales</button>
+          <button onclick="updateMetric('productsSold', 10)" style="background: #3b82f6; color: white; border: none; border-radius: 6px; padding: 8px 16px; font-size: 12px; cursor: pointer;">+10 Products</button>
+          <button onclick="updateMetric('featuresShipped', 1)" style="background: #f59e0b; color: white; border: none; border-radius: 6px; padding: 8px 16px; font-size: 12px; cursor: pointer;">+1 Feature</button>
+        </div>
+        
+        <!-- Management Buttons -->
+        <div style="display: flex; gap: 12px;">
+          <button onclick="showEditMetricsModal()" style="background: #8b5cf6; color: white; border: none; border-radius: 6px; padding: 12px 24px; font-size: 14px; cursor: pointer; flex: 1;">⚙️ Edit Metrics</button>
+          <button onclick="showCSVImportModal()" style="background: #3b82f6; color: white; border: none; border-radius: 6px; padding: 12px 24px; font-size: 14px; cursor: pointer; flex: 1;">📊 Import CSV Data</button>
         </div>
       </div>
       
@@ -11808,11 +11840,16 @@ REQUIREMENTS:
   
   // Business Mode Tools Functions
   let businessMetrics = {
-    productsSold: 0,
-    customerSatisfaction: 0,
-    featuresShipped: 0,
-    bugsResolved: 0,
-    salesTarget: 100
+    salesAmount: 847500,
+    salesTarget: 1000000,
+    productsSold: 2847,
+    productsTarget: 3000,
+    customerSatisfaction: 4.7,
+    satisfactionTarget: 4.5,
+    featuresShipped: 47,
+    featuresTarget: 50,
+    bugsResolved: 156,
+    bugsTarget: 200
   };
   
   let businessAnnouncements = [];
@@ -11848,16 +11885,34 @@ REQUIREMENTS:
   
   // Update business metrics display
   function updateBusinessMetricsDisplay() {
+    // Update sales metrics
+    document.getElementById('salesAmount').textContent = '$' + businessMetrics.salesAmount.toLocaleString();
+    const salesProgress = Math.min((businessMetrics.salesAmount / businessMetrics.salesTarget) * 100, 100);
+    document.getElementById('salesProgress').textContent = salesProgress.toFixed(1) + '%';
+    document.getElementById('salesProgressBar').style.width = salesProgress + '%';
+    
     // Update individual metrics
-    document.getElementById('productsSold').textContent = businessMetrics.productsSold;
-    document.getElementById('customerSatisfaction').textContent = businessMetrics.customerSatisfaction + '%';
+    document.getElementById('productsSold').textContent = businessMetrics.productsSold.toLocaleString();
+    document.getElementById('customerSatisfaction').textContent = businessMetrics.customerSatisfaction + '/5';
     document.getElementById('featuresShipped').textContent = businessMetrics.featuresShipped;
     document.getElementById('bugsResolved').textContent = businessMetrics.bugsResolved;
     
-    // Calculate and update sales progress
-    const progress = Math.min((businessMetrics.productsSold / businessMetrics.salesTarget) * 100, 100);
-    document.getElementById('salesProgress').textContent = Math.round(progress) + '%';
-    document.getElementById('salesProgressBar').style.width = progress + '%';
+    // Update progress bars for individual metrics
+    const productsProgress = Math.min((businessMetrics.productsSold / businessMetrics.productsTarget) * 100, 100);
+    const satisfactionProgress = Math.min((businessMetrics.customerSatisfaction / businessMetrics.satisfactionTarget) * 100, 100);
+    const featuresProgress = Math.min((businessMetrics.featuresShipped / businessMetrics.featuresTarget) * 100, 100);
+    const bugsProgress = Math.min((businessMetrics.bugsResolved / businessMetrics.bugsTarget) * 100, 100);
+    
+    // Update progress bar widths
+    const productsBar = document.querySelector('#productsSold').parentElement.querySelector('div[style*="background: #3b82f6"]');
+    const satisfactionBar = document.querySelector('#customerSatisfaction').parentElement.querySelector('div[style*="background: #8b5cf6"]');
+    const featuresBar = document.querySelector('#featuresShipped').parentElement.querySelector('div[style*="background: #f59e0b"]');
+    const bugsBar = document.querySelector('#bugsResolved').parentElement.querySelector('div[style*="background: #ef4444"]');
+    
+    if (productsBar) productsBar.style.width = productsProgress + '%';
+    if (satisfactionBar) satisfactionBar.style.width = satisfactionProgress + '%';
+    if (featuresBar) featuresBar.style.width = featuresProgress + '%';
+    if (bugsBar) bugsBar.style.width = bugsProgress + '%';
   }
   
   // Show edit metrics modal
@@ -12004,12 +12059,117 @@ REQUIREMENTS:
     }
   }
   
+  // CSV Import Modal
+  function showCSVImportModal() {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `;
+    
+    modal.innerHTML = `
+      <div style="background: #1a1a1a; border-radius: 12px; padding: 24px; max-width: 600px; width: 90%; max-height: 80%; overflow-y: auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 style="margin: 0; color: #fff; font-size: 20px;">📊 Import CSV Data</h2>
+          <button onclick="this.closest('div').parentElement.remove()" style="background: #ef4444; color: white; border: none; border-radius: 6px; padding: 8px 12px; cursor: pointer;">✕</button>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; margin-bottom: 8px; color: #fff; font-weight: 600;">Upload CSV File:</label>
+          <input type="file" id="csvFileInput" accept=".csv" style="width: 100%; padding: 12px; border: 1px solid #333; border-radius: 6px; background: #2a2a2a; color: #fff;">
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; margin-bottom: 8px; color: #fff; font-weight: 600;">Column Mapping:</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label style="display: block; margin-bottom: 4px; color: #ccc; font-size: 12px;">Sales Amount Column:</label>
+              <select id="salesColumn" style="width: 100%; padding: 8px; border: 1px solid #333; border-radius: 4px; background: #2a2a2a; color: #fff;">
+                <option value="">Select column...</option>
+              </select>
+            </div>
+            <div>
+              <label style="display: block; margin-bottom: 4px; color: #ccc; font-size: 12px;">Products Column:</label>
+              <select id="productsColumn" style="width: 100%; padding: 8px; border: 1px solid #333; border-radius: 4px; background: #2a2a2a; color: #fff;">
+                <option value="">Select column...</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display: flex; gap: 12px;">
+          <button onclick="processCSVImport()" style="background: #10b981; color: white; border: none; border-radius: 6px; padding: 12px 24px; cursor: pointer; flex: 1;">📊 Import Data</button>
+          <button onclick="this.closest('div').parentElement.remove()" style="background: #6b7280; color: white; border: none; border-radius: 6px; padding: 12px 24px; cursor: pointer; flex: 1;">Cancel</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Handle file input
+    document.getElementById('csvFileInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const csv = e.target.result;
+          const lines = csv.split('\n');
+          if (lines.length > 0) {
+            const headers = lines[0].split(',').map(h => h.trim());
+            populateColumnSelects(headers);
+          }
+        };
+        reader.readAsText(file);
+      }
+    });
+  }
+  
+  function populateColumnSelects(headers) {
+    const salesSelect = document.getElementById('salesColumn');
+    const productsSelect = document.getElementById('productsColumn');
+    
+    // Clear existing options
+    salesSelect.innerHTML = '<option value="">Select column...</option>';
+    productsSelect.innerHTML = '<option value="">Select column...</option>';
+    
+    // Add header options
+    headers.forEach((header, index) => {
+      const option1 = document.createElement('option');
+      option1.value = index;
+      option1.textContent = header;
+      salesSelect.appendChild(option1);
+      
+      const option2 = document.createElement('option');
+      option2.value = index;
+      option2.textContent = header;
+      productsSelect.appendChild(option2);
+    });
+  }
+  
+  function processCSVImport() {
+    // Placeholder for CSV processing logic
+    alert('CSV import functionality would be implemented here. This would parse the CSV file and update the business metrics based on the column mappings.');
+    
+    // Close modal
+    const modal = document.querySelector('div[style*="position: fixed"]');
+    if (modal) modal.remove();
+  }
+  
   // Make functions globally accessible
   window.updateMetric = updateMetric;
   window.showEditMetricsModal = showEditMetricsModal;
   window.saveBusinessMetrics = saveBusinessMetrics;
   window.postAnnouncement = postAnnouncement;
   window.updateRewards = updateRewards;
+  window.showCSVImportModal = showCSVImportModal;
   window.toggleBusinessTools = toggleBusinessTools;
   
   // Simplified decision making functions
