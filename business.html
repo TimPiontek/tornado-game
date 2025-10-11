@@ -290,7 +290,11 @@
     }
     
     await loadGameData();
+    
+    // Load roster selector AFTER saving demo data
+    console.log('[DEBUG] Calling loadRosterSelector()');
     loadRosterSelector();
+    
     initializeGameBoard();
     updateDisplay();
     
@@ -380,10 +384,17 @@
 
   // Load roster selector dropdown
   function loadRosterSelector() {
+    console.log('[DEBUG] loadRosterSelector() called');
     const selector = document.getElementById('rosterSelect');
     const savedRosters = localStorage.getItem('businessRosters');
     
     console.log('[DEBUG] Loading roster selector, saved rosters:', savedRosters);
+    console.log('[DEBUG] Selector element:', selector);
+    
+    if (!selector) {
+      console.error('[DEBUG] rosterSelect element not found!');
+      return;
+    }
     
     selector.innerHTML = '<option value="">Choose a roster...</option>';
     
@@ -396,15 +407,19 @@
         option.value = roster.id;
         option.textContent = roster.name;
         selector.appendChild(option);
+        console.log('[DEBUG] Added option:', roster.name, 'with value:', roster.id);
       });
       
       // Auto-select the first roster (demo roster)
       if (rosters.length > 0) {
         selector.value = rosters[0].id;
-        console.log('[DEBUG] Auto-selected roster:', rosters[0].name);
+        console.log('[DEBUG] Auto-selected roster:', rosters[0].name, 'with value:', rosters[0].id);
         // Trigger the change event to load the roster
+        console.log('[DEBUG] Calling loadSelectedRoster()');
         loadSelectedRoster();
       }
+    } else {
+      console.log('[DEBUG] No saved rosters found in localStorage');
     }
   }
 
@@ -479,25 +494,43 @@
 
   // Load selected roster
   function loadSelectedRoster() {
+    console.log('[DEBUG] loadSelectedRoster() called');
     const selector = document.getElementById('rosterSelect');
     const selectedId = selector.value;
     
-    if (!selectedId) return;
+    console.log('[DEBUG] Selected roster ID:', selectedId);
+    
+    if (!selectedId) {
+      console.log('[DEBUG] No roster selected, returning');
+      return;
+    }
     
     const savedRosters = localStorage.getItem('businessRosters');
+    console.log('[DEBUG] Saved rosters from localStorage:', savedRosters);
+    
     if (savedRosters) {
       const rosters = JSON.parse(savedRosters);
       const selectedRoster = rosters.find(r => r.id === selectedId);
+      
+      console.log('[DEBUG] Found selected roster:', selectedRoster);
       
       if (selectedRoster) {
         // Handle both 'roster' and 'employees' property names for compatibility
         businessState.employees = selectedRoster.roster || selectedRoster.employees || [];
         businessState.currentGame = { name: selectedRoster.name, managerCode: 'DEMO' };
         
+        console.log('[DEBUG] Loaded employees:', businessState.employees.length, businessState.employees);
+        
         // Reinitialize board with new employees
+        console.log('[DEBUG] Calling initializeGameBoard()');
         initializeGameBoard();
+        console.log('[DEBUG] Calling updateDisplay()');
         updateDisplay();
+      } else {
+        console.error('[DEBUG] Selected roster not found in saved rosters');
       }
+    } else {
+      console.error('[DEBUG] No saved rosters found in localStorage');
     }
   }
 
