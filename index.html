@@ -3214,16 +3214,7 @@ The Beatles
             }
             
             // Re-attach login button event listener
-            const loginBtn = document.getElementById("loginLogoutBtn");
-            if (loginBtn) {
-              loginBtn.onclick = function() {
-                if (this.textContent === "Logout" || this.textContent.includes("Logout")) {
-                  supabaseClient.auth.signOut();
-                } else {
-                  showAuthModal();
-                }
-              };
-            }
+            attachLoginButtonHandler();
             
           } catch (error) {
             console.error('Error updating navigation:', error);
@@ -4320,19 +4311,7 @@ The Beatles
           }
           
           // Re-attach login button event listener
-          const loginBtn = document.getElementById("loginLogoutBtn");
-          if (loginBtn) {
-            loginBtn.onclick = function (e) {
-              if (loginBtn.textContent === "👨‍🏫 Teacher Login" || loginBtn.textContent === "Login") {
-                showAuthModal();
-              } else {
-                // Logout - clear both Supabase and student sessions
-                supabaseClient.auth.signOut();
-                localStorage.removeItem('currentStudent');
-                updateHomepageForUser();
-              }
-            };
-          }
+          attachLoginButtonHandler();
         }
 
         function updateContentVisibility(isTeacher, isStudent) {
@@ -4362,21 +4341,32 @@ The Beatles
           updateHomepageForUser();
         }, 100);
         
-        // Also try to attach login button listener immediately
-        setTimeout(() => {
+        // Consolidated login button handler - attach once after DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+          attachLoginButtonHandler();
+        });
+        
+        function attachLoginButtonHandler() {
           const loginBtn = document.getElementById("loginLogoutBtn");
-          if (loginBtn) {
+          if (loginBtn && !loginBtn.hasAttribute('data-handler-attached')) {
+            loginBtn.setAttribute('data-handler-attached', 'true');
             loginBtn.onclick = function (e) {
-              if (loginBtn.textContent === "👨‍🏫 Teacher Login" || loginBtn.textContent === "Login") {
+              e.preventDefault();
+              console.log('Login button clicked, text:', this.textContent);
+              
+              if (this.textContent === "👨‍🏫 Teacher Login" || this.textContent === "Login") {
+                console.log('Showing auth modal...');
                 showAuthModal();
               } else {
+                console.log('Logging out...');
                 supabaseClient.auth.signOut();
                 localStorage.removeItem('currentStudent');
                 updateHomepageForUser();
               }
             };
+            console.log('Login button handler attached');
           }
-        }, 500);
+        }
         
         // Temporary manual logout function for testing
         window.manualLogout = async function() {
@@ -4477,6 +4467,7 @@ The Beatles
           console.log('Login button found:', loginBtn);
           console.log('Login button text:', loginBtn ? loginBtn.textContent : 'Not found');
           console.log('Login button onclick:', loginBtn ? loginBtn.onclick : 'No onclick');
+          console.log('Handler attached:', loginBtn ? loginBtn.hasAttribute('data-handler-attached') : 'No button');
           
           const modal = document.getElementById("authModal");
           console.log('Auth modal found:', modal);
@@ -4486,6 +4477,27 @@ The Beatles
           if (modal) {
             console.log('Manually showing auth modal...');
             showAuthModal();
+          }
+          
+          // Try clicking the button programmatically
+          if (loginBtn) {
+            console.log('Clicking login button programmatically...');
+            loginBtn.click();
+          }
+        };
+        
+        // Debug function to check auth modal
+        window.debugAuthModal = function() {
+          const modal = document.getElementById("authModal");
+          console.log('Auth modal element:', modal);
+          console.log('Auth modal classes:', modal ? modal.className : 'Not found');
+          console.log('Auth modal style display:', modal ? modal.style.display : 'Not found');
+          console.log('Auth modal computed display:', modal ? window.getComputedStyle(modal).display : 'Not found');
+          
+          if (modal) {
+            console.log('Manually setting modal to visible...');
+            modal.style.display = 'flex';
+            modal.classList.remove('hidden');
           }
         };
         

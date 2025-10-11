@@ -8,4 +8,4 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://dmbbsrcwqpmdxqtzvtqj.supabase.co; style-src 'self' 'unsafe-inline' data:; font-src 'self' data:; img-src 'self' data:; connect-src 'self' https://dmbbsrcwqpmdxqtzvtqj.supabase.co; object-src 'none';"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://dmbbsrcwqpmdxqtzvtqj.supabase.co; style-src 'self' 'unsafe-inline' data: https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://dmbbsrcwqpmdxqtzvtqj.supabase.co; object-src 'none';"
