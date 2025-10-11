@@ -602,7 +602,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>👥 Manage Roster <span style="color: red; font-size: 0.7em;">[LOCAL DEV VERSION]</span></h1>
+            <h1>👥 Manage Roster</h1>
             <a href="/" class="back-btn">
                 ← Back to Home
             </a>
@@ -620,6 +620,7 @@
         
         <!-- Action Buttons -->
         <div class="action-buttons">
+            <button class="btn btn-primary" onclick="scrollToNewRoster()">➕ New Roster</button>
             <button class="btn btn-secondary" onclick="exportRosters()">📤 Export All</button>
             <button class="btn btn-secondary" onclick="importRosters()">📥 Import Rosters</button>
         </div>
@@ -630,7 +631,7 @@
         </div>
         
         <!-- Create New Roster Section -->
-        <div class="create-new-section">
+        <div id="createNewRosterSection" class="create-new-section">
             <h2>➕ Create New Roster</h2>
             <div class="form-group">
                 <label for="newRosterName">Roster Name</label>
@@ -958,6 +959,26 @@
         let editingPointsRosterId = null;
         let editingPointsStudentId = null;
         let selectedScenario = null;
+        
+        // === UTILITY FUNCTIONS ===
+        
+        // Scroll to the create new roster section
+        function scrollToNewRoster() {
+            const element = document.getElementById('createNewRosterSection');
+            if (element) {
+                element.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                // Focus on the roster name input
+                setTimeout(() => {
+                    const nameInput = document.getElementById('newRosterName');
+                    if (nameInput) {
+                        nameInput.focus();
+                    }
+                }, 500);
+            }
+        }
         
         // === INITIALIZATION ===
         document.addEventListener('DOMContentLoaded', function() {
