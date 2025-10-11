@@ -6467,7 +6467,9 @@
   }
   
   // Start the app
-  initializeApp();
+  (async () => {
+    await initializeApp();
+  })();
 
   // Listen for roster updates from student war game
   window.addEventListener('storage', async function(e) {
