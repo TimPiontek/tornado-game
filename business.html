@@ -1243,13 +1243,18 @@
 
   // Create roster from pasted text
   function createRosterFromPaste() {
+    console.log('[DEBUG] createRosterFromPaste() called');
     const text = document.getElementById('rosterPaste').value;
+    console.log('[DEBUG] Pasted text:', text);
+    
     if (!text.trim()) {
       alert('Please paste employee names');
       return;
     }
     
     const names = text.split('\n').filter(name => name.trim());
+    console.log('[DEBUG] Parsed names:', names);
+    
     businessState.employees = names.map((name, i) => ({
       id: `emp_${i + 1}`,
       name: name.trim(),
@@ -1260,22 +1265,30 @@
       tilesOwned: 0
     }));
     
+    console.log('[DEBUG] Created employees:', businessState.employees);
+    
     // Save to localStorage
     const roster = {
       id: 'current',
       name: 'Current Business Roster',
-      roster: businessState.employees
+      employees: businessState.employees
     };
     localStorage.setItem('businessRosters', JSON.stringify([roster]));
+    console.log('[DEBUG] Saved roster to localStorage');
     
     // Refresh roster selector
+    console.log('[DEBUG] Calling loadRosterSelector()');
     loadRosterSelector();
     
     // Reinitialize board with new employees
+    console.log('[DEBUG] Calling initializeGameBoard()');
     initializeGameBoard();
+    
+    console.log('[DEBUG] Calling updateDisplay()');
     updateDisplay();
     
     alert(`Created roster with ${businessState.employees.length} employees`);
+    console.log('[DEBUG] createRosterFromPaste() completed');
   }
 
   // Show tab
