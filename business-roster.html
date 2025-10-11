@@ -118,8 +118,7 @@
             id: roster.id,
             name: roster.name,
             mode: 'business',
-            created_at: roster.createdAt || new Date().toISOString(),
-            updated_at: new Date().toISOString()
+            created_at: roster.createdAt || new Date().toISOString()
           };
           
           const { error: gameError } = await supabase
@@ -140,8 +139,7 @@
               team: employee.team,
               balance: employee.balance || 100,
               tiles_owned: employee.tilesOwned || 0,
-              created_at: employee.createdAt || new Date().toISOString(),
-              updated_at: new Date().toISOString()
+              created_at: employee.createdAt || new Date().toISOString()
             };
             
             const { error: empError } = await supabase
