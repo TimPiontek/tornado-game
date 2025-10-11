@@ -26,8 +26,8 @@
     .employee-card { background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:8px; margin-bottom:8px; cursor:pointer; transition:all 0.2s; }
     .employee-card:hover { border-color:var(--accent); }
     .employee-card.selected { border-color:var(--accent); background:rgba(34,211,238,0.1); }
-    .grid { display:grid; gap:2px; background:var(--border); padding:8px; border-radius:8px; max-height:70vh; overflow:auto; }
-    .tile { aspect-ratio:1; background:var(--panel); border:1px solid var(--border); border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s; font-size:10px; position:relative; }
+    .grid { display:grid; gap:3px; background:var(--border); padding:4px; border-radius:8px; max-height:60vh; overflow:auto; }
+    .tile { aspect-ratio:1; background:var(--panel); border:1px solid var(--border); border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s; font-size:11px; position:relative; min-height:58px; padding:4px; text-align:center; }
     .tile:hover { border-color:var(--accent); }
     .tile.owned { background:var(--accent); color:var(--bg); }
     .tile.headquarters { background:#f59e0b; color:var(--bg); }
@@ -157,11 +157,11 @@
   const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-  // Business game state
+  // Business game state (adapted from working student war game)
   let businessState = {
     employees: [],
     selectedEmployee: null,
-    board: { w: 8, h: 8, tiles: [] },
+    board: { w: 6, h: 6, tiles: [] }, // Smaller grid like student game
     currentGame: null,
     teamMetrics: {
       sales: { current: 45000, target: 100000 },
@@ -169,6 +169,12 @@
       satisfaction: { current: 4.2, target: 5.0 },
       features: { current: 8, target: 15 },
       bugs: { current: 3, target: 0 }
+    },
+    costs: {
+      tile: 10,
+      castleL1: 25,
+      castleL2: 50,
+      castleL3: 100
     }
   };
 
@@ -296,10 +302,10 @@
     // Create demo roster if none exists
     if (businessState.employees.length === 0) {
       businessState.employees = [
-        { id: '1', name: 'Alice Johnson', team: 'Alpha Team', points: 150, credits: 25, balance: 150 },
-        { id: '2', name: 'Bob Smith', team: 'Beta Team', points: 140, credits: 22, balance: 140 },
-        { id: '3', name: 'Carol Davis', team: 'Alpha Team', points: 135, credits: 20, balance: 135 },
-        { id: '4', name: 'David Wilson', team: 'Gamma Team', points: 130, credits: 18, balance: 130 }
+        { id: '1', name: 'Alice Johnson', team: 'Alpha Team', points: 100, credits: 25, balance: 100, tilesOwned: 0 },
+        { id: '2', name: 'Bob Smith', team: 'Beta Team', points: 100, credits: 22, balance: 100, tilesOwned: 0 },
+        { id: '3', name: 'Carol Davis', team: 'Alpha Team', points: 100, credits: 20, balance: 100, tilesOwned: 0 },
+        { id: '4', name: 'David Wilson', team: 'Gamma Team', points: 100, credits: 18, balance: 100, tilesOwned: 0 }
       ];
       
       businessState.currentGame = { name: 'Demo Business Roster', managerCode: 'DEMO' };
@@ -365,7 +371,7 @@
     }
   }
 
-  // Initialize the game board
+  // Initialize the game board (adapted from working student war game)
   function initializeGameBoard() {
     const board = businessState.board;
     board.tiles = [];
@@ -375,76 +381,63 @@
         board.tiles.push({
           id: `${x}-${y}`,
           x, y,
-          owner: null,
-          cost: Math.floor(Math.random() * 50) + 25,
-          isHeadquarters: false
+          owner_game_student_id: null, // Use same property name as student game
+          castle_level: 0,
+          cost: calculateTilePrice(x, y, board.w, board.h)
         });
       }
     }
     
-    // Assign starting headquarters
+    // Assign starting headquarters (castles)
     assignStartingHeadquarters();
     updateGridDisplay();
   }
 
-  // Assign starting headquarters to employees
+  // Calculate tile price (from working student game)
+  function calculateTilePrice(x, y, boardWidth, boardHeight) {
+    const centerX = Math.floor(boardWidth / 2);
+    const centerY = Math.floor(boardHeight / 2);
+    const distanceFromCenter = Math.abs(x - centerX) + Math.abs(y - centerY);
+    
+    // Base cost increases with distance from center
+    let baseCost = 10 + (distanceFromCenter * 2);
+    
+    // Add some randomness
+    const randomFactor = Math.random() * 0.4 + 0.8; // 0.8 to 1.2
+    return Math.floor(baseCost * randomFactor);
+  }
+
+  // Assign starting headquarters to employees (adapted from working student game)
   function assignStartingHeadquarters() {
     const employees = businessState.employees;
     const board = businessState.board;
     
     // Clear existing headquarters
-    board.tiles.forEach(tile => tile.isHeadquarters = false);
+    board.tiles.forEach(tile => tile.castle_level = 0);
     
     if (employees.length === 0) return;
     
-    // For 4 or fewer employees, place in corners
-    if (employees.length <= 4) {
-      const corners = [
-        { x: 0, y: 0 },
-        { x: board.w - 1, y: 0 },
-        { x: 0, y: board.h - 1 },
-        { x: board.w - 1, y: board.h - 1 }
-      ];
-      
-      employees.forEach((emp, i) => {
-        if (corners[i]) {
-          const tile = board.tiles.find(t => t.x === corners[i].x && t.y === corners[i].y);
-          if (tile) {
-            tile.owner = emp.id;
-            tile.isHeadquarters = true;
-            tile.cost = 0;
-          }
-        }
-      });
-    } else {
-      // For more employees, place evenly around edges
-      const edgePositions = [];
-      const w = board.w, h = board.h;
-      
-      // Top and bottom edges
-      for (let x = 1; x < w - 1; x++) {
-        edgePositions.push({ x, y: 0 });
-        edgePositions.push({ x, y: h - 1 });
-      }
-      // Left and right edges
-      for (let y = 1; y < h - 1; y++) {
-        edgePositions.push({ x: 0, y });
-        edgePositions.push({ x: w - 1, y });
-      }
-      
-      employees.forEach((emp, i) => {
-        const pos = edgePositions[i % edgePositions.length];
-        const tile = board.tiles.find(t => t.x === pos.x && t.y === pos.y);
+    // Place headquarters in corners for better gameplay
+    const corners = [
+      { x: 0, y: 0 },
+      { x: board.w - 1, y: 0 },
+      { x: 0, y: board.h - 1 },
+      { x: board.w - 1, y: board.h - 1 }
+    ];
+    
+    employees.forEach((emp, i) => {
+      if (corners[i]) {
+        const tile = board.tiles.find(t => t.x === corners[i].x && t.y === corners[i].y);
         if (tile) {
-          tile.owner = emp.id;
-          tile.isHeadquarters = true;
-          tile.cost = 0;
+          tile.owner_game_student_id = emp.id;
+          tile.castle_level = 1; // Level 1 headquarters
+          tile.cost = 0; // Free starting tile
         }
-      });
-    }
+      }
+    });
   }
 
-  // Update the grid display
+  // Update the grid display (adapted from working student war game)
   function updateGridDisplay() {
     const board = businessState.board;
     const grid = document.getElementById('gameBoard');
@@ -456,25 +449,23 @@
     board.tiles.forEach(tile => {
       const div = document.createElement('div');
       div.className = 'tile';
-      div.onclick = () => selectTile(tile);
+      div.onclick = () => handleTileClick(tile.id);
       
-      if (tile.owner) {
+      const owner = tile.owner_game_student_id ? 
+        businessState.employees.find(e => e.id === tile.owner_game_student_id) : null;
+      
+      if (owner) {
         div.classList.add('owned');
-        const owner = businessState.employees.find(e => e.id === tile.owner);
-        if (owner) {
-          div.textContent = owner.name.split(' ')[0];
+        div.textContent = owner.name.split(' ')[0];
+        
+        if (tile.castle_level > 0) {
+          div.classList.add('headquarters');
+          div.innerHTML = `
+            <div style="font-weight:bold; font-size:10px;">${owner.name.split(' ')[0]}</div>
+            <div style="font-size:8px;">🏢</div>
+          `;
         }
-      }
-      
-      if (tile.isHeadquarters) {
-        div.classList.add('headquarters');
-        const owner = businessState.employees.find(e => e.id === tile.owner);
-        if (owner) {
-          div.textContent = owner.name.split(' ')[0];
-        }
-      }
-      
-      if (!tile.owner) {
+      } else {
         div.textContent = `$${tile.cost}`;
       }
       
@@ -482,49 +473,168 @@
     });
   }
 
-  // Select a tile
-  async function selectTile(tile) {
+  // Handle tile click (adapted from working student war game)
+  window.handleTileClick = function(tileId) {
+    console.log('handleTileClick called with tileId:', tileId, 'selectedEmployee:', businessState.selectedEmployee);
+    
     if (!businessState.selectedEmployee) {
-      alert('Please select an employee first');
+      alert("Please select an employee first by clicking on their name in the roster.");
       return;
     }
-    
-    if (tile.owner === businessState.selectedEmployee.id) {
-      alert('You already own this tile');
+
+    const tile = businessState.board.tiles.find(t => t.id === tileId);
+    if (!tile) {
+      console.log('Tile not found:', tileId);
       return;
     }
-    
-    if (tile.owner && tile.owner !== businessState.selectedEmployee.id) {
-      // Attack mode
-      if (confirm(`Attack ${tile.owner}'s tile for $${tile.cost * 2}?`)) {
-        if (businessState.selectedEmployee.balance >= tile.cost * 2) {
-          businessState.selectedEmployee.balance -= tile.cost * 2;
-          tile.owner = businessState.selectedEmployee.id;
-          updateDisplay();
-          
-          // Save to cloud
-          await saveCloudGame();
-          await saveCloudActivity('attack_tile', { tileId: tile.id, cost: tile.cost * 2 });
-          
-          alert('Attack successful!');
-        } else {
-          alert('Not enough points for attack');
-        }
+
+    const selectedEmployee = businessState.selectedEmployee;
+    console.log('Handling tile click:', { tile, selectedEmployee });
+
+    if (!tile.owner_game_student_id) {
+      // Empty tile - buy it (check adjacency)
+      if (!canEmployeeAttackTile(selectedEmployee.id, tile)) {
+        alert(`Cannot claim this territory! You can only claim territories that are adjacent to your own territories.`);
+        return;
       }
-    } else {
-      // Claim mode
-      if (businessState.selectedEmployee.balance >= tile.cost) {
-        businessState.selectedEmployee.balance -= tile.cost;
-        tile.owner = businessState.selectedEmployee.id;
+      
+      const cost = tile.cost;
+      if (selectedEmployee.balance >= cost) {
+        tile.owner_game_student_id = selectedEmployee.id;
+        selectedEmployee.balance -= cost;
+        updateGridDisplay();
         updateDisplay();
         
         // Save to cloud
-        await saveCloudGame();
-        await saveCloudActivity('claim_tile', { tileId: tile.id, cost: tile.cost });
+        saveCloudGame();
+        saveCloudActivity('claim_tile', { tileId: tile.id, cost: cost });
+        
+        alert(`${selectedEmployee.name} bought the tile for ${cost} points!`);
       } else {
-        alert('Not enough points to claim this tile');
+        alert(`Insufficient funds! Need ${cost} points.`);
+      }
+    } else if (tile.owner_game_student_id === selectedEmployee.id) {
+      // Own tile - show castle options
+      if (tile.castle_level > 0) {
+        // Has castle - show upgrade/sell options
+        const upgradeCost = tile.castle_level === 1 ? businessState.costs.castleL2 : 
+                           tile.castle_level === 2 ? businessState.costs.castleL3 : 0;
+        const sellValue = tile.castle_level === 1 ? businessState.costs.castleL1 : 
+                         tile.castle_level === 2 ? businessState.costs.castleL2 : 
+                         tile.castle_level === 3 ? businessState.costs.castleL3 : 0;
+        
+        const options = [];
+        if (upgradeCost > 0) {
+          options.push(`Upgrade to Level ${tile.castle_level + 1} (${upgradeCost} points)`);
+        }
+        options.push(`Sell castle (${sellValue} points)`);
+        
+        const choice = prompt(`Castle Level ${tile.castle_level} Options:\n${options.join('\n')}\n\nEnter your choice (1-${options.length}):`);
+        const choiceIndex = parseInt(choice) - 1;
+        
+        if (choiceIndex >= 0 && choiceIndex < options.length) {
+          if (choiceIndex === 0 && upgradeCost > 0) {
+            // Upgrade
+            if (selectedEmployee.balance >= upgradeCost) {
+              tile.castle_level++;
+              selectedEmployee.balance -= upgradeCost;
+              updateGridDisplay();
+              updateDisplay();
+              saveCloudGame();
+              alert(`Castle upgraded to Level ${tile.castle_level}!`);
+            } else {
+              alert(`Insufficient funds! Need ${upgradeCost} points.`);
+            }
+          } else {
+            // Sell
+            tile.castle_level = 0;
+            selectedEmployee.balance += sellValue;
+            updateGridDisplay();
+            updateDisplay();
+            saveCloudGame();
+            alert(`Castle sold for ${sellValue} points!`);
+          }
+        }
+      } else {
+        // No castle - offer to build
+        const buildCost = businessState.costs.castleL1;
+        if (confirm(`Build headquarters (castle) for ${buildCost} points?`)) {
+          if (selectedEmployee.balance >= buildCost) {
+            tile.castle_level = 1;
+            selectedEmployee.balance -= buildCost;
+            updateGridDisplay();
+            updateDisplay();
+            saveCloudGame();
+            alert(`Headquarters built!`);
+          } else {
+            alert(`Insufficient funds! Need ${buildCost} points.`);
+          }
+        }
+      }
+    } else {
+      // Enemy tile - attack it
+      const defender = businessState.employees.find(e => e.id === tile.owner_game_student_id);
+      if (!defender) return;
+      
+      if (!canEmployeeAttackTile(selectedEmployee.id, tile)) {
+        alert(`Cannot attack this territory! You can only attack territories that are adjacent to your own territories.`);
+        return;
+      }
+      
+      const attackCost = tile.cost * 2;
+      if (confirm(`Attack ${defender.name}'s territory for ${attackCost} points?`)) {
+        if (selectedEmployee.balance >= attackCost) {
+          // 70% chance of success
+          const success = Math.random() < 0.7;
+          
+          if (success) {
+            // Attack successful
+            tile.owner_game_student_id = selectedEmployee.id;
+            tile.castle_level = 0; // Reset castle on capture
+            selectedEmployee.balance -= attackCost;
+            updateGridDisplay();
+            updateDisplay();
+            saveCloudGame();
+            saveCloudActivity('attack_success', { tileId: tile.id, defender: defender.id, cost: attackCost });
+            alert(`Attack successful! ${selectedEmployee.name} captured the territory!`);
+          } else {
+            // Attack failed
+            selectedEmployee.balance -= attackCost;
+            updateDisplay();
+            saveCloudGame();
+            saveCloudActivity('attack_failed', { tileId: tile.id, defender: defender.id, cost: attackCost });
+            alert(`Attack failed! ${defender.name} defended successfully.`);
+          }
+        } else {
+          alert(`Insufficient funds! Need ${attackCost} points to attack.`);
+        }
       }
     }
+  };
+
+  // Check if employee can attack/claim a tile based on adjacency (from working student game)
+  function canEmployeeAttackTile(employeeId, targetTile) {
+    // If employee has no territories, they can claim any unowned tile (initial placement)
+    const employeeTiles = businessState.board.tiles.filter(t => t.owner_game_student_id === employeeId);
+    if (employeeTiles.length === 0) {
+      return true; // Initial placement - can claim any unowned tile
+    }
+    
+    // Check if target tile is adjacent to any of the employee's tiles
+    for (const employeeTile of employeeTiles) {
+      if (isAdjacent(employeeTile, targetTile)) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+
+  // Check if two tiles are adjacent (from working student game)
+  function isAdjacent(tile1, tile2) {
+    const dx = Math.abs(tile1.x - tile2.x);
+    const dy = Math.abs(tile1.y - tile2.y);
+    return (dx <= 1 && dy <= 1) && !(dx === 0 && dy === 0);
   }
 
   // Update all displays
@@ -590,7 +700,8 @@
       team: `Team ${String.fromCharCode(65 + (i % 3))}`,
       points: 100,
       credits: 0,
-      balance: 100
+      balance: 100,
+      tilesOwned: 0
     }));
     
     // Save to localStorage
