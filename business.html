@@ -277,6 +277,16 @@
         { id: '4', name: 'David Wilson', team: 'Gamma Team', points: 100, credits: 18, balance: 100, tilesOwned: 0 }
       ];
       businessState.currentGame = { name: 'Demo Business Roster', managerCode: 'DEMO' };
+      
+      // Save demo roster to localStorage so it appears in selector
+      const demoRoster = {
+        id: 'demo',
+        name: 'Demo Business Roster',
+        employees: businessState.employees,
+        managerCode: 'DEMO'
+      };
+      localStorage.setItem('businessRosters', JSON.stringify([demoRoster]));
+      console.log('[DEBUG] Saved demo roster to localStorage');
     }
     
     await loadGameData();
@@ -387,6 +397,14 @@
         option.textContent = roster.name;
         selector.appendChild(option);
       });
+      
+      // Auto-select the first roster (demo roster)
+      if (rosters.length > 0) {
+        selector.value = rosters[0].id;
+        console.log('[DEBUG] Auto-selected roster:', rosters[0].name);
+        // Trigger the change event to load the roster
+        loadSelectedRoster();
+      }
     }
   }
 
