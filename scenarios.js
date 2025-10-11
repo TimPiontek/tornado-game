@@ -121,28 +121,28 @@ const SCENARIOS = {
       }
     },
     weapons: [
-      { name: 'Market Strategy', cost: 15, description: 'Competitive market positioning', power: 3 },
-      { name: 'Price War', cost: 12, description: 'Aggressive pricing tactics', power: 2 },
-      { name: 'Strategic Partnership', cost: 20, description: 'Alliance with key partners', power: 4 },
-      { name: 'Competitive Intelligence', cost: 18, description: 'Market research & analysis', power: 3 },
-      { name: 'Digital Transformation', cost: 25, description: 'Technology modernization', power: 5 },
-      { name: 'Customer Acquisition', cost: 16, description: 'New customer growth', power: 3 },
-      { name: 'Process Optimization', cost: 14, description: 'Efficiency improvements', power: 2 },
-      { name: 'Brand Recognition', cost: 22, description: 'Marketing & awareness', power: 4 },
-      { name: 'Innovation Pipeline', cost: 30, description: 'R&D investment', power: 6 },
-      { name: 'Market Domination', cost: 35, description: 'Complete market control', power: 7 }
+      { name: 'Legal Team', cost: 15, description: 'Corporate lawyers for hostile takeovers', power: 3 },
+      { name: 'Cyber Security', cost: 12, description: 'Digital warfare specialists', power: 2 },
+      { name: 'Talent Acquisition', cost: 20, description: 'Poach key executives', power: 4 },
+      { name: 'Market Intelligence', cost: 18, description: 'Competitive research & espionage', power: 3 },
+      { name: 'Technology Transfer', cost: 25, description: 'Steal proprietary technology', power: 5 },
+      { name: 'Customer Poaching', cost: 16, description: 'Steal competitor clients', power: 3 },
+      { name: 'Supply Chain Disruption', cost: 14, description: 'Sabotage competitor operations', power: 2 },
+      { name: 'Brand Sabotage', cost: 22, description: 'Damage competitor reputation', power: 4 },
+      { name: 'Patent Warfare', cost: 30, description: 'Intellectual property battles', power: 6 },
+      { name: 'Market Manipulation', cost: 35, description: 'Stock manipulation & insider trading', power: 7 }
     ],
     mercenaries: [
-      { name: 'Consultant', cost: 8, description: 'Expert advice & strategy', power: 2 },
-      { name: 'Contractor', cost: 6, description: 'Specialized skills', power: 1 },
-      { name: 'Freelancer', cost: 4, description: 'Flexible workforce', power: 1 },
-      { name: 'Advisor', cost: 10, description: 'Strategic guidance', power: 3 },
-      { name: 'Specialist', cost: 12, description: 'Domain expertise', power: 3 }
+      { name: 'Executive', cost: 8, description: 'Senior management talent', power: 2 },
+      { name: 'Specialist', cost: 6, description: 'Domain expert employee', power: 1 },
+      { name: 'Consultant', cost: 4, description: 'External advisor', power: 1 },
+      { name: 'Analyst', cost: 10, description: 'Strategic intelligence officer', power: 3 },
+      { name: 'Manager', cost: 12, description: 'Operations specialist', power: 3 }
     ],
     castleLevels: [
-      { level: 1, name: 'Outpost', cost: 20, description: 'Small regional office', defense: 2 },
-      { level: 2, name: 'Regional Office', cost: 40, description: 'Division headquarters', defense: 4 },
-      { level: 3, name: 'Corporate HQ', cost: 80, description: 'Global command center', defense: 8 }
+      { level: 1, name: 'Factory', cost: 20, description: 'Small manufacturing facility', defense: 2 },
+      { level: 2, name: 'Headquarters', cost: 40, description: 'Regional corporate center', defense: 4 },
+      { level: 3, name: 'Corporate Empire', cost: 80, description: 'Global business conglomerate', defense: 8 }
     ],
     victoryConditions: {
       territorial: 'Control 60% of all departments',

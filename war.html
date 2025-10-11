@@ -372,15 +372,15 @@
     <ul>
       <li><b>Select a participant:</b> Click their name in the roster to highlight their territories</li>
       <li><b>Buy territories:</b> Click empty tiles to purchase them</li>
-      <li><b>Upgrade castles:</b> Click your territories to build defenses (Level 1-3)</li>
+      <li><b>Upgrade castles/factories:</b> Click your territories to build defenses (Level 1-3)</li>
       <li><b>Attack enemies:</b> Select attacker → click enemy tile → choose weapons → resolve battle</li>
     </ul>
     
     <h3>⚔️ Combat System</h3>
     <ul>
       <li><b>Weapons cost points:</b> Higher levels = better attack power</li>
-      <li><b>Castles provide defense:</b> Higher levels = harder to capture</li>
-      <li><b>Successful attacks:</b> Destroy enemy castle and capture territory</li>
+      <li><b>Castles/factories provide defense:</b> Higher levels = harder to capture</li>
+      <li><b>Successful attacks:</b> Destroy enemy castle/factory and capture territory</li>
       <li><b>Failed attacks:</b> Lose weapons and points</li>
     </ul>
     
@@ -527,7 +527,7 @@
           <div id="defenderSpellsList" style="margin-top: 8px;"></div>
         </div>
         <div class="section">
-          <div class="title">Castle Defense</div>
+          <div class="title" id="defenseTitle">Castle Defense</div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <button class="pill" id="defenderCastle1" style="background: #10b981;">Wooden Keep</button>
             <button class="pill" id="defenderCastle2" style="background: #3b82f6;">Stone Fortress</button>
@@ -3297,7 +3297,7 @@
       }
       const ownerName = owner ? (isAI ? `${owner.characterName} (AI)` : shortenName(owner.name)) : '';
       const castleLevel = tile.castle_level || 0;
-      const castleText = castleLevel > 0 ? (state.scenario?.type === 'business' ? `🏢${castleLevel}` : `🏰${castleLevel}`) : '';
+      const castleText = castleLevel > 0 ? (state.scenario?.type === 'business' ? `🏭${castleLevel}` : `🏰${castleLevel}`) : '';
       
       // Calculate tile cost based on distance from center
       const tileCost = !owner ? calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h) : 0;
@@ -3418,6 +3418,12 @@
       
       const territoryPercentage = (teamTiles.length / totalTiles) * 100;
       const castles = teamTiles.reduce((total, tile) => total + (tile.castle_level || 0), 0);
+    
+    // Update castle label for business mode
+    const castlesLabel = document.getElementById('castlesLabel');
+    if (castlesLabel && state.scenario?.type === 'business') {
+      castlesLabel.innerHTML = `Factories: <strong>${castles}</strong>`;
+    }
       
       teamStats[teamId] = {
         ...team,
@@ -3450,7 +3456,7 @@
           </div>
           <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem;">
             <span>Territories: <strong>${stats.tilesOwned}/${totalTiles}</strong></span>
-            <span>Castles: <strong>${stats.castles}</strong></span>
+            <span id="castlesLabel">Castles: <strong>${stats.castles}</strong></span>
             <span>Students: <strong>${stats.participants.length}</strong></span>
           </div>
           <div style="
@@ -4091,9 +4097,15 @@
         alert(`Insufficient funds! Need ${cost} points.`);
       }
     } else if (tile.owner_game_student_id === selectedStudent.gsId) {
-      // Own tile - show castle options
+      // Own tile - show castle/factory options
+      const isBusinessMode = state.scenario?.type === 'business';
+      const structureName = isBusinessMode ? 'factory' : 'castle';
+      const structureNames = isBusinessMode ? 
+        ['', 'Factory', 'Headquarters', 'Corporate Empire'] : 
+        ['', 'Wooden Keep', 'Stone Fortress', 'Iron Citadel'];
+      
       if (tile.castle_level > 0) {
-        // Has castle - show upgrade/sell options
+        // Has castle/factory - show upgrade/sell options
         const upgradeCost = tile.castle_level === 1 ? state.costs.castleL2 : 
                            tile.castle_level === 2 ? state.costs.castleL3 : 0;
         const sellValue = tile.castle_level === 1 ? state.costs.castleL1 : 
@@ -4102,13 +4114,13 @@
         
         const options = [];
         if (upgradeCost > 0) {
-          options.push(`Upgrade to level ${tile.castle_level + 1} (${upgradeCost} points)`);
+          options.push(`Upgrade to ${structureNames[tile.castle_level + 1]} (${upgradeCost} points)`);
         } else {
-          options.push("Castle is at maximum level");
+          options.push(`${structureNames[tile.castle_level]} is at maximum level`);
         }
-        options.push(`Sell castle (get back ${sellValue} points)`);
+        options.push(`Sell ${structureName} (get back ${sellValue} points)`);
         
-        const choice = prompt(`Castle Level ${tile.castle_level} Options:\n\n${options.map((opt, i) => `${i + 1}. ${opt}`).join('\n')}\n\nEnter choice (1-${options.length}):`);
+        const choice = prompt(`${structureNames[tile.castle_level]} Level ${tile.castle_level} Options:\n\n${options.map((opt, i) => `${i + 1}. ${opt}`).join('\n')}\n\nEnter choice (1-${options.length}):`);
         
         if (choice === '1' && upgradeCost > 0) {
           // Upgrade
@@ -4117,27 +4129,27 @@
             selectedStudent.balance -= upgradeCost;
             updateGridDisplay();
             renderRoster();
-            alert(`${selectedStudent.name} upgraded castle to level ${tile.castle_level} for ${upgradeCost} points!`);
+            alert(`${selectedStudent.name} upgraded ${structureName} to ${structureNames[tile.castle_level]} for ${upgradeCost} points!`);
           } else {
             alert(`Insufficient funds! Need ${upgradeCost} points.`);
           }
         } else if (choice === '2' || (choice === '1' && upgradeCost === 0)) {
-          // Sell castle
+          // Sell castle/factory
           tile.castle_level = 0;
           selectedStudent.balance += sellValue;
           updateGridDisplay();
           renderRoster();
-          alert(`${selectedStudent.name} sold castle and got back ${sellValue} points!`);
+          alert(`${selectedStudent.name} sold ${structureName} and got back ${sellValue} points!`);
         }
       } else {
-        // No castle - build one
+        // No castle/factory - build one
         const buildCost = state.costs.castleL1;
         if (selectedStudent.balance >= buildCost) {
           tile.castle_level = 1;
           selectedStudent.balance -= buildCost;
           updateGridDisplay();
           renderRoster();
-          alert(`${selectedStudent.name} built a castle for ${buildCost} points!`);
+          alert(`${selectedStudent.name} built a ${structureName} for ${buildCost} points!`);
         } else {
           alert(`Insufficient funds! Need ${buildCost} points.`);
         }
@@ -5220,10 +5232,29 @@
       document.getElementById('defenderCastle2'),
       document.getElementById('defenderCastle3')
     ];
-    // Update castle buttons with active economy costs
-    if (defenderCastleButtons[0]) defenderCastleButtons[0].textContent = `Wooden Keep (${getActiveEconomy().castleL1} pts)`;
-    if (defenderCastleButtons[1]) defenderCastleButtons[1].textContent = `Stone Fortress (${getActiveEconomy().castleL2} pts)`;
-    if (defenderCastleButtons[2]) defenderCastleButtons[2].textContent = `Iron Citadel (${getActiveEconomy().castleL3} pts)`;
+    // Update castle/factory buttons with active economy costs
+    const isBusinessMode = state.scenario?.type === 'business';
+    if (defenderCastleButtons[0]) {
+      defenderCastleButtons[0].textContent = isBusinessMode ? 
+        `🏭 Factory (${getActiveEconomy().castleL1} pts)` : 
+        `Wooden Keep (${getActiveEconomy().castleL1} pts)`;
+    }
+    if (defenderCastleButtons[1]) {
+      defenderCastleButtons[1].textContent = isBusinessMode ? 
+        `🏢 Headquarters (${getActiveEconomy().castleL2} pts)` : 
+        `Stone Fortress (${getActiveEconomy().castleL2} pts)`;
+    }
+    if (defenderCastleButtons[2]) {
+      defenderCastleButtons[2].textContent = isBusinessMode ? 
+        `🏛️ Corporate Empire (${getActiveEconomy().castleL3} pts)` : 
+        `Iron Citadel (${getActiveEconomy().castleL3} pts)`;
+    }
+    
+    // Update defense title
+    const defenseTitle = document.getElementById('defenseTitle');
+    if (defenseTitle) {
+      defenseTitle.textContent = isBusinessMode ? 'Factory Defense' : 'Castle Defense';
+    }
     
     // Toggle allies/spells visibility by scenario
     const showAllies = Array.isArray(battleItems.allies) && battleItems.allies.length > 0;
@@ -5289,10 +5320,15 @@
       }
     });
     
-    // Update defender castle buttons
+    // Update defender castle/factory buttons
+    const isBusinessMode = state.scenario?.type === 'business';
     battleItems.castles.forEach((castle, index) => {
       if (defenderCastleButtons[index]) {
-        defenderCastleButtons[index].textContent = `${castle.icon} ${castle.name} (${castle.cost} pts)`;
+        const businessIcon = isBusinessMode ? '🏭' : castle.icon;
+        const businessName = isBusinessMode ? 
+          (index === 0 ? 'Factory' : index === 1 ? 'Headquarters' : 'Corporate Empire') : 
+          castle.name;
+        defenderCastleButtons[index].textContent = `${businessIcon} ${businessName} (${castle.cost} pts)`;
         defenderCastleButtons[index].setAttribute('data-castle-id', castle.id);
         defenderCastleButtons[index].setAttribute('data-castle-cost', castle.cost);
         defenderCastleButtons[index].setAttribute('data-castle-power', castle.power);
@@ -5419,9 +5455,12 @@
     document.getElementById('attackerWeaponList').innerHTML = '';
     document.getElementById('defenderWeaponList').innerHTML = '';
     
-    // Show pre-built castle if it exists
+    // Show pre-built castle/factory if it exists
     if (tile.castle_level > 0) {
-      const castleNames = ['', 'Wooden Keep', 'Stone Fortress', 'Iron Citadel'];
+      const isBusinessMode = state.scenario?.type === 'business';
+      const castleNames = isBusinessMode ? 
+        ['', 'Factory', 'Headquarters', 'Corporate Empire'] : 
+        ['', 'Wooden Keep', 'Stone Fortress', 'Iron Citadel'];
       document.getElementById('defenderCastle').textContent = `${castleNames[tile.castle_level]} (Pre-built)`;
     } else {
       document.getElementById('defenderCastle').textContent = 'None';
