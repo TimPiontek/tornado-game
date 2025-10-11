@@ -324,7 +324,22 @@
         throw new Error('Supabase not available');
       }
       
-      const { data: games } = await supabase.from('games').select('*').eq('mode', 'business').limit(1);
+      console.log('[DEBUG] Making Supabase games query...');
+      const gamesPromise = supabase.from('games').select('*').eq('mode', 'business').limit(1);
+      
+      // Add timeout to prevent hanging
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Supabase query timeout')), 3000)
+      );
+      
+      const { data: games, error: gamesError } = await Promise.race([gamesPromise, timeoutPromise]);
+      
+      if (gamesError) {
+        console.warn('[DEBUG] Supabase games query failed:', gamesError);
+        throw new Error('Supabase query failed');
+      }
+      
+      console.log('[DEBUG] Supabase games query completed, found:', games?.length || 0, 'games');
       
       if (games && games.length > 0) {
         const game = games[0];
