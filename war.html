@@ -6600,6 +6600,23 @@
     
     // Load business data
     loadBusinessData();
+    
+    // Check for URL parameters to auto-select scenario
+    const urlParams = new URLSearchParams(window.location.search);
+    const scenarioParam = urlParams.get('scenario');
+    
+    if (scenarioParam === 'businessMode') {
+      // Auto-select Business Mode scenario
+      setTimeout(() => {
+        showScenarioSelectionModal();
+        // Pre-select Business Mode in the dropdown
+        const scenarioSelect = document.getElementById('scenarioSelect');
+        if (scenarioSelect) {
+          scenarioSelect.value = 'businessMode';
+          updateScenarioDetails();
+        }
+      }, 500);
+    }
   }
   
   // Start the app
@@ -6937,6 +6954,9 @@
             margin-bottom: 1rem;
           ">
             <option value="">Select a scenario...</option>
+            <optgroup label="🏢 Business">
+              <option value="businessMode">Business Competition Mode</option>
+            </optgroup>
             <optgroup label="🏛️ Historical Wars">
               <option value="americanRevolution">American Revolutionary War</option>
               <option value="civilWar">American Civil War</option>
