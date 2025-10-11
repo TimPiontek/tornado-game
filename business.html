@@ -26,8 +26,34 @@
     .employee-card { background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:8px; margin-bottom:8px; cursor:pointer; transition:all 0.2s; }
     .employee-card:hover { border-color:var(--accent); }
     .employee-card.selected { border-color:var(--accent); background:rgba(34,211,238,0.1); }
-    .grid { display:grid; gap:3px; background:var(--border); padding:4px; border-radius:8px; max-height:60vh; overflow:auto; }
-    .tile { aspect-ratio:1; background:var(--panel); border:1px solid var(--border); border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s; font-size:11px; position:relative; min-height:58px; padding:4px; text-align:center; }
+    .grid { 
+      display:grid; 
+      gap:3px; 
+      background:var(--border); 
+      padding:4px; 
+      border-radius:8px; 
+      max-height:85vh; 
+      overflow:auto; 
+    }
+    .tile { 
+      aspect-ratio:1; 
+      background:var(--panel); 
+      border:1px solid #0d1930; 
+      border-radius:8px; 
+      display:flex; 
+      flex-direction:column;
+      align-items:center; 
+      justify-content:center; 
+      cursor:pointer; 
+      transition:all 0.2s; 
+      font-size:11px; 
+      position:relative; 
+      min-height:58px; 
+      padding:4px; 
+      text-align:center; 
+      box-shadow: inset 0 0 0 1px #00000020;
+      overflow-wrap:anywhere;
+    }
     .tile:hover { border-color:var(--accent); }
     .tile.owned { background:var(--accent); color:var(--bg); }
     .tile.headquarters { background:#f59e0b; color:var(--bg); }
@@ -399,12 +425,12 @@
     const centerY = Math.floor(boardHeight / 2);
     const distanceFromCenter = Math.abs(x - centerX) + Math.abs(y - centerY);
     
-    // Base cost increases with distance from center
-    let baseCost = 10 + (distanceFromCenter * 2);
+    // Much higher base cost increases with distance from center
+    let baseCost = 50 + (distanceFromCenter * 15); // 50-200+ range
     
     // Add some randomness
-    const randomFactor = Math.random() * 0.4 + 0.8; // 0.8 to 1.2
-    return Math.floor(baseCost * randomFactor);
+    const randomFactor = Math.random() * 20 + 10; // 10-30 point variation
+    return Math.floor(baseCost + randomFactor);
   }
 
   // Assign starting headquarters to employees (adapted from working student game)
@@ -444,33 +470,65 @@
     
     // Set grid size
     grid.style.gridTemplateColumns = `repeat(${board.w}, 1fr)`;
+    grid.style.gridTemplateRows = `repeat(${board.h}, 1fr)`;
     
-    grid.innerHTML = '';
-    board.tiles.forEach(tile => {
-      const div = document.createElement('div');
-      div.className = 'tile';
-      div.onclick = () => handleTileClick(tile.id);
-      
+    // Get attackable tiles for the selected employee
+    const attackableTiles = businessState.selectedEmployee ? 
+      board.tiles.filter(tile => canEmployeeAttackTile(businessState.selectedEmployee.id, tile)) : [];
+    const attackableTileIds = new Set(attackableTiles.map(t => t.id));
+    
+    grid.innerHTML = board.tiles.map(tile => {
       const owner = tile.owner_game_student_id ? 
         businessState.employees.find(e => e.id === tile.owner_game_student_id) : null;
       
-      if (owner) {
-        div.classList.add('owned');
-        div.textContent = owner.name.split(' ')[0];
-        
-        if (tile.headquarters_level > 0) {
-          div.classList.add('headquarters');
-          div.innerHTML = `
-            <div style="font-weight:bold; font-size:10px;">${owner.name.split(' ')[0]}</div>
-            <div style="font-size:8px;">🏢</div>
-          `;
-        }
-      } else {
-        div.textContent = `$${tile.cost}`;
-      }
+      const ownerName = owner ? owner.name.split(' ')[0] : '';
+      const headquartersLevel = tile.headquarters_level || 0;
+      const headquartersText = headquartersLevel > 0 ? `🏢${headquartersLevel}` : '';
       
-      grid.appendChild(div);
-    });
+      // Calculate tile cost based on distance from center
+      const tileCost = !owner ? calculateTilePrice(tile.x, tile.y, board.w, board.h) : 0;
+      
+      // Get territory name
+      const territoryName = getBusinessTerritoryName(tile);
+      const displayName = territoryName || ownerName || '';
+      const displayCost = !owner ? tileCost : 0;
+      const costText = !owner ? `💰${displayCost}` : '';
+      
+      // Compute visual styles for the tile
+      const isOwnedBySelected = !!(owner && owner.id === businessState.selectedEmployee?.id);
+      const isAttackable = attackableTileIds.has(tile.id) && !isOwnedBySelected;
+      const teamColor = owner ? '#22d3ee' : '#0b1220'; // Use accent color for owned tiles
+      const backgroundColor = owner ? teamColor : '#0b1220';
+      const borderStyle = isOwnedBySelected
+        ? '2px solid #f59e0b'
+        : (isAttackable ? '2px dashed #f59e0b' : `1px solid ${teamColor}`);
+      
+      return `<div class="tile" data-tile-id="${tile.id}" data-x="${tile.x}" data-y="${tile.y}" 
+                style="background: ${backgroundColor}; 
+                       color: ${owner ? '#fff' : '#b3b8c6'}; 
+                       cursor: pointer;
+                       border: ${borderStyle};
+                       display: flex;
+                       flex-direction: column;
+                       align-items: center;
+                       justify-content: center;
+                       min-height: 58px;
+                       padding: 4px;
+                       font-size: 11px;
+                       text-align: center;
+                       transition: transform .15s ease, box-shadow .15s ease;"
+                onclick="handleTileClick('${tile.id}')"
+                title="${owner ? `Owned by ${ownerName}${owner.team ? ` - Team: ${owner.team}` : ''}` : `Click to buy ${territoryName} for ${displayCost} points`}${isAttackable && !isOwnedBySelected ? ' (Attackable!)' : ''}">
+                ${owner ? `
+                  ${ownerName ? `<div style="font-weight: 700; font-size: 11px; line-height: 1.1; letter-spacing:.2px;">${ownerName}</div>` : ''}
+                  ${territoryName ? `<div style="font-size: 8px; color: #d6d9e1; line-height: 1.1; margin-top: 2px; opacity:.85;">${territoryName}</div>` : ''}
+                ` : `
+                  <div style="font-weight: 600; font-size: 10px; line-height: 1.1; letter-spacing:.2px;">${displayName}</div>
+                  <div style="font-size: 9px; line-height: 1.1; margin-top: 2px; color:#98a2b3;">${costText}</div>
+                `}
+                <div style="font-size: 8px; margin-top: 1px;">${headquartersText || ''}</div>
+              </div>`;
+    }).join('');
   }
 
   // Handle tile click (adapted from working student war game)
@@ -912,6 +970,22 @@
     document.querySelector('.modal').remove();
     window.battleState = null;
   };
+
+  // Business territory names for each tile
+  const BUSINESS_TERRITORIES = [
+    'Corporate HQ', 'Marketing', 'Sales', 'Finance', 'HR', 'IT',
+    'Research', 'Production', 'Warehouse', 'Distribution', 'Customer Service', 'Legal',
+    'Executive Suite', 'Boardroom', 'Conference', 'Training', 'Innovation', 'Quality',
+    'Supply Chain', 'Business Dev', 'Strategy', 'Risk Mgmt', 'Compliance', 'Audit',
+    'PR', 'Media', 'Investor Relations', 'Partnerships', 'M&A', 'International',
+    'Regional Office', 'Branch', 'Satellite', 'Remote', 'Co-working', 'Virtual'
+  ];
+
+  // Get business territory name for a tile
+  function getBusinessTerritoryName(tile) {
+    const index = (tile.x * businessState.board.h + tile.y) % BUSINESS_TERRITORIES.length;
+    return BUSINESS_TERRITORIES[index];
+  }
 
   // Update all displays
   function updateDisplay() {
