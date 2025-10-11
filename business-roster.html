@@ -108,12 +108,17 @@
 
     // Save rosters to Supabase and localStorage
     async function saveRosters() {
+      console.log('[DEBUG] saveRosters() called');
       try {
         // Save to localStorage as backup
+        console.log('[DEBUG] Saving to localStorage:', businessRosters);
         localStorage.setItem('businessRosters', JSON.stringify(businessRosters));
+        console.log('[DEBUG] Saved to localStorage successfully');
         
         // Save to Supabase - separate games and employees tables
+        console.log('[DEBUG] Starting Supabase save process...');
         for (const roster of businessRosters) {
+          console.log('[DEBUG] Saving roster:', roster.name);
           // First, save the game record
           const gameData = {
             id: roster.id,
@@ -121,16 +126,19 @@
             mode: 'business'
           };
           
+          console.log('[DEBUG] Saving game data:', gameData);
           const { error: gameError } = await supabase
             .from('games')
             .upsert(gameData);
           
           if (gameError) {
-            console.error('Failed to save game to cloud:', gameError);
+            console.error('[DEBUG] Failed to save game to cloud:', gameError);
             continue;
           }
+          console.log('[DEBUG] Game saved to cloud successfully');
           
           // Then, save each employee separately
+          console.log('[DEBUG] Saving employees for roster:', roster.name);
           for (const employee of roster.employees) {
             const employeeData = {
               id: employee.id,
@@ -141,21 +149,25 @@
               tiles_owned: employee.tilesOwned || 0
             };
             
+            console.log('[DEBUG] Saving employee:', employee.name);
             const { error: empError } = await supabase
               .from('employees')
               .upsert(employeeData);
             
             if (empError) {
-              console.error('Failed to save employee to cloud:', empError);
+              console.error('[DEBUG] Failed to save employee to cloud:', empError);
+            } else {
+              console.log('[DEBUG] Employee saved to cloud successfully');
             }
           }
         }
         
-        console.log('Rosters saved to cloud successfully');
+        console.log('[DEBUG] Rosters saved to cloud successfully');
       } catch (error) {
-        console.error('Failed to save rosters to cloud:', error);
+        console.error('[DEBUG] Failed to save rosters to cloud:', error);
         // Still saved to localStorage as backup
       }
+      console.log('[DEBUG] saveRosters() completed');
     }
 
     function renderRosters() {
