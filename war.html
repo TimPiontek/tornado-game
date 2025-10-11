@@ -203,7 +203,7 @@
         
         <!-- Q4 Sales Goal Progress -->
         <div style="margin-bottom: 20px;">
-          <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px; color: #fff;">Q4 Sales Goal</div>
+          <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px; color: #fff;" id="salesTitle">Q4 Sales Goal</div>
           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
             <span style="font-size: 24px; font-weight: bold; color: #fff;" id="salesAmount">$847,500</span>
             <span style="font-size: 24px; font-weight: bold; color: #10b981;" id="salesProgress">84.8%</span>
@@ -222,7 +222,7 @@
           <!-- Products Sold -->
           <div style="background: #2a2a2a; border-radius: 8px; padding: 16px; border-left: 4px solid #3b82f6;">
             <div style="font-size: 20px; font-weight: bold; color: #3b82f6; margin-bottom: 4px;" id="productsSold">2,847</div>
-            <div style="font-size: 12px; color: #ccc; margin-bottom: 8px;">Products Sold</div>
+            <div style="font-size: 12px; color: #ccc; margin-bottom: 8px;" id="productsTitle">Products Sold</div>
             <div style="background: #333; border-radius: 4px; height: 6px; overflow: hidden;">
               <div style="background: #3b82f6; height: 100%; width: 95%;"></div>
             </div>
@@ -232,7 +232,7 @@
           <!-- Customer Satisfaction -->
           <div style="background: #2a2a2a; border-radius: 8px; padding: 16px; border-left: 4px solid #8b5cf6;">
             <div style="font-size: 20px; font-weight: bold; color: #8b5cf6; margin-bottom: 4px;" id="customerSatisfaction">4.7/5</div>
-            <div style="font-size: 12px; color: #ccc; margin-bottom: 8px;">Customer Satisfaction</div>
+            <div style="font-size: 12px; color: #ccc; margin-bottom: 8px;" id="satisfactionTitle">Customer Satisfaction</div>
             <div style="background: #333; border-radius: 4px; height: 6px; overflow: hidden;">
               <div style="background: #8b5cf6; height: 100%; width: 100%;"></div>
             </div>
@@ -242,7 +242,7 @@
           <!-- Features Shipped -->
           <div style="background: #2a2a2a; border-radius: 8px; padding: 16px; border-left: 4px solid #f59e0b;">
             <div style="font-size: 20px; font-weight: bold; color: #f59e0b; margin-bottom: 4px;" id="featuresShipped">47</div>
-            <div style="font-size: 12px; color: #ccc; margin-bottom: 8px;">Features Shipped</div>
+            <div style="font-size: 12px; color: #ccc; margin-bottom: 8px;" id="featuresTitle">Features Shipped</div>
             <div style="background: #333; border-radius: 4px; height: 6px; overflow: hidden;">
               <div style="background: #f59e0b; height: 100%; width: 94%;"></div>
             </div>
@@ -252,7 +252,7 @@
           <!-- Bugs Resolved -->
           <div style="background: #2a2a2a; border-radius: 8px; padding: 16px; border-left: 4px solid #ef4444;">
             <div style="font-size: 20px; font-weight: bold; color: #ef4444; margin-bottom: 4px;" id="bugsResolved">156</div>
-            <div style="font-size: 12px; color: #ccc; margin-bottom: 8px;">Bugs Resolved</div>
+            <div style="font-size: 12px; color: #ccc; margin-bottom: 8px;" id="bugsTitle">Bugs Resolved</div>
             <div style="background: #333; border-radius: 4px; height: 6px; overflow: hidden;">
               <div style="background: #ef4444; height: 100%; width: 78%;"></div>
             </div>
@@ -8040,12 +8040,12 @@
         box-shadow: 0 20px 40px rgba(0,0,0,0.3);
       ">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-          <h2 style="margin: 0; color: #1e293b; font-size: 1.5rem;">⚙️ Choose Difficulty</h2>
+          <h2 style="margin: 0; color: #1e293b; font-size: 1.5rem;">⚙️ Choose Game Length</h2>
           <button onclick="closeDifficultySelectionModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
         </div>
         
         <p style="margin-bottom: 1.5rem; color: #64748b;">
-          Select the difficulty level for your ${gameType === 'regular' ? 'regular' : 'scenario'} game. This affects the cost of territories, weapons, mercenaries, and upgrades.
+          Select the game length and difficulty for your ${gameType === 'regular' ? 'regular' : 'scenario'} game. This affects the cost of territories, weapons, mercenaries, and upgrades.
         </p>
         
         <!-- Starting Points Configuration -->
@@ -8084,15 +8084,16 @@
           " onmouseover="this.style.borderColor='#10b981'; this.style.backgroundColor='#f0fdf4'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.backgroundColor='#f8fafc'">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <div>
-                <h3 style="margin: 0 0 0.5rem 0; color: #1e293b;">🟢 Easy</h3>
+                <h3 style="margin: 0 0 0.5rem 0; color: #1e293b;">🟢 Short Game</h3>
                 <p style="margin: 0; color: #64748b; font-size: 0.9rem;">
-                  Lower costs for territories, weapons, and upgrades. Perfect for shorter games or younger participants.
+                  Lower costs for faster gameplay. Perfect for shorter sessions or younger participants.
                 </p>
                 <div style="margin-top: 0.5rem; font-size: 0.8rem; color: #059669;">
                   • Territory costs: 50% of normal<br>
                   • Weapons: 50% of normal<br>
                   • Mercenaries: 50% of normal<br>
-                  • Castle upgrades: 50% of normal
+                  • Castle upgrades: 50% of normal<br>
+                  • Game duration: ~30-45 minutes
                 </div>
               </div>
               <div style="font-size: 1.5rem;">🟢</div>
@@ -8109,7 +8110,7 @@
           " onmouseover="this.style.borderColor='#1d4ed8'; this.style.backgroundColor='#dbeafe'" onmouseout="this.style.borderColor='#3b82f6'; this.style.backgroundColor='#eff6ff'">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <div>
-                <h3 style="margin: 0 0 0.5rem 0; color: #1e293b;">🔵 Medium</h3>
+                <h3 style="margin: 0 0 0.5rem 0; color: #1e293b;">🔵 Standard Game</h3>
                 <p style="margin: 0; color: #64748b; font-size: 0.9rem;">
                   Standard costs for balanced gameplay. Recommended for most classroom situations.
                 </p>
@@ -8117,7 +8118,8 @@
                   • Territory costs: 100% of normal<br>
                   • Weapons: 100% of normal<br>
                   • Mercenaries: 100% of normal<br>
-                  • Castle upgrades: 100% of normal
+                  • Castle upgrades: 100% of normal<br>
+                  • Game duration: ~60-90 minutes
                 </div>
               </div>
               <div style="font-size: 1.5rem;">🔵</div>
@@ -8134,15 +8136,16 @@
           " onmouseover="this.style.borderColor='#dc2626'; this.style.backgroundColor='#fef2f2'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.backgroundColor='#f8fafc'">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <div>
-                <h3 style="margin: 0 0 0.5rem 0; color: #1e293b;">🔴 Hard</h3>
+                <h3 style="margin: 0 0 0.5rem 0; color: #1e293b;">🔴 Long Game</h3>
                 <p style="margin: 0; color: #64748b; font-size: 0.9rem;">
-                  Higher costs for challenging gameplay. Great for advanced participants or longer game sessions.
+                  Higher costs for extended gameplay. Perfect for longer sessions or advanced participants.
                 </p>
                 <div style="margin-top: 0.5rem; font-size: 0.8rem; color: #dc2626;">
-                  • Territory costs: 150% of normal<br>
-                  • Weapons: 150% of normal<br>
-                  • Mercenaries: 150% of normal<br>
-                  • Castle upgrades: 150% of normal
+                  • Territory costs: 200% of normal<br>
+                  • Weapons: 200% of normal<br>
+                  • Mercenaries: 200% of normal<br>
+                  • Castle upgrades: 200% of normal<br>
+                  • Game duration: ~90-120 minutes
                 </div>
               </div>
               <div style="font-size: 1.5rem;">🔴</div>
@@ -11986,14 +11989,19 @@ REQUIREMENTS:
   let businessMetrics = {
     salesAmount: 847500,
     salesTarget: 1000000,
+    salesTitle: 'Q4 Sales Goal',
     productsSold: 2847,
     productsTarget: 3000,
+    productsTitle: 'Products Sold',
     customerSatisfaction: 4.7,
     satisfactionTarget: 4.5,
+    satisfactionTitle: 'Customer Satisfaction',
     featuresShipped: 47,
     featuresTarget: 50,
+    featuresTitle: 'Features Shipped',
     bugsResolved: 156,
-    bugsTarget: 200
+    bugsTarget: 200,
+    bugsTitle: 'Bugs Resolved'
   };
   
   let businessAnnouncements = [];
@@ -12029,6 +12037,19 @@ REQUIREMENTS:
   
   // Update business metrics display
   function updateBusinessMetricsDisplay() {
+    // Update metric titles
+    const salesTitleEl = document.getElementById('salesTitle');
+    const productsTitleEl = document.getElementById('productsTitle');
+    const satisfactionTitleEl = document.getElementById('satisfactionTitle');
+    const featuresTitleEl = document.getElementById('featuresTitle');
+    const bugsTitleEl = document.getElementById('bugsTitle');
+    
+    if (salesTitleEl) salesTitleEl.textContent = businessMetrics.salesTitle;
+    if (productsTitleEl) productsTitleEl.textContent = businessMetrics.productsTitle;
+    if (satisfactionTitleEl) satisfactionTitleEl.textContent = businessMetrics.satisfactionTitle;
+    if (featuresTitleEl) featuresTitleEl.textContent = businessMetrics.featuresTitle;
+    if (bugsTitleEl) bugsTitleEl.textContent = businessMetrics.bugsTitle;
+    
     // Update sales metrics
     document.getElementById('salesAmount').textContent = '$' + businessMetrics.salesAmount.toLocaleString();
     const salesProgress = Math.min((businessMetrics.salesAmount / businessMetrics.salesTarget) * 100, 100);
@@ -12067,27 +12088,93 @@ REQUIREMENTS:
       <div class="card">
         <button class="closeX" onclick="this.closest('.modal').remove()">Close</button>
         <h2>Edit Business Metrics</h2>
-        <div style="margin-bottom: 12px;">
-          <label style="display: block; margin-bottom: 4px;">Sales Target:</label>
-          <input type="number" id="salesTargetInput" value="${businessMetrics.salesTarget}" style="width: 100%;">
+        
+        <!-- Sales Metrics -->
+        <div style="margin-bottom: 20px; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <h3 style="margin: 0 0 12px 0; color: #1e293b; font-size: 14px;">Sales Metrics</h3>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px; font-weight: 600;">Metric Title:</label>
+            <input type="text" id="salesTitleInput" value="${businessMetrics.salesTitle}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px;">Current Amount:</label>
+            <input type="number" id="salesAmountInput" value="${businessMetrics.salesAmount}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px;">Target:</label>
+            <input type="number" id="salesTargetInput" value="${businessMetrics.salesTarget}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
         </div>
-        <div style="margin-bottom: 12px;">
-          <label style="display: block; margin-bottom: 4px;">Products Sold:</label>
-          <input type="number" id="productsSoldInput" value="${businessMetrics.productsSold}" style="width: 100%;">
+        
+        <!-- Products Metrics -->
+        <div style="margin-bottom: 20px; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <h3 style="margin: 0 0 12px 0; color: #1e293b; font-size: 14px;">Products Metrics</h3>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px; font-weight: 600;">Metric Title:</label>
+            <input type="text" id="productsTitleInput" value="${businessMetrics.productsTitle}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px;">Current Amount:</label>
+            <input type="number" id="productsSoldInput" value="${businessMetrics.productsSold}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px;">Target:</label>
+            <input type="number" id="productsTargetInput" value="${businessMetrics.productsTarget}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
         </div>
-        <div style="margin-bottom: 12px;">
-          <label style="display: block; margin-bottom: 4px;">Customer Satisfaction (%):</label>
-          <input type="number" id="customerSatisfactionInput" value="${businessMetrics.customerSatisfaction}" style="width: 100%;">
+        
+        <!-- Customer Satisfaction Metrics -->
+        <div style="margin-bottom: 20px; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <h3 style="margin: 0 0 12px 0; color: #1e293b; font-size: 14px;">Customer Satisfaction Metrics</h3>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px; font-weight: 600;">Metric Title:</label>
+            <input type="text" id="satisfactionTitleInput" value="${businessMetrics.satisfactionTitle}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px;">Current Rating:</label>
+            <input type="number" id="customerSatisfactionInput" value="${businessMetrics.customerSatisfaction}" step="0.1" min="0" max="5" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px;">Target Rating:</label>
+            <input type="number" id="satisfactionTargetInput" value="${businessMetrics.satisfactionTarget}" step="0.1" min="0" max="5" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
         </div>
-        <div style="margin-bottom: 12px;">
-          <label style="display: block; margin-bottom: 4px;">Features Shipped:</label>
-          <input type="number" id="featuresShippedInput" value="${businessMetrics.featuresShipped}" style="width: 100%;">
+        
+        <!-- Features Metrics -->
+        <div style="margin-bottom: 20px; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <h3 style="margin: 0 0 12px 0; color: #1e293b; font-size: 14px;">Features Metrics</h3>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px; font-weight: 600;">Metric Title:</label>
+            <input type="text" id="featuresTitleInput" value="${businessMetrics.featuresTitle}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px;">Current Amount:</label>
+            <input type="number" id="featuresShippedInput" value="${businessMetrics.featuresShipped}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px;">Target:</label>
+            <input type="number" id="featuresTargetInput" value="${businessMetrics.featuresTarget}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
         </div>
-        <div style="margin-bottom: 12px;">
-          <label style="display: block; margin-bottom: 4px;">Bugs Resolved:</label>
-          <input type="number" id="bugsResolvedInput" value="${businessMetrics.bugsResolved}" style="width: 100%;">
+        
+        <!-- Bugs Metrics -->
+        <div style="margin-bottom: 20px; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <h3 style="margin: 0 0 12px 0; color: #1e293b; font-size: 14px;">Bugs Metrics</h3>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px; font-weight: 600;">Metric Title:</label>
+            <input type="text" id="bugsTitleInput" value="${businessMetrics.bugsTitle}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px;">Current Amount:</label>
+            <input type="number" id="bugsResolvedInput" value="${businessMetrics.bugsResolved}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px;">Target:</label>
+            <input type="number" id="bugsTargetInput" value="${businessMetrics.bugsTarget}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
         </div>
-        <button class="pill" onclick="saveBusinessMetrics()" style="background: #10b981; color: white;">Save Changes</button>
+        
+        <button class="pill" onclick="saveBusinessMetrics()" style="background: #10b981; color: white; width: 100%; padding: 12px; font-size: 16px; font-weight: 600;">Save Changes</button>
       </div>
     `;
     document.body.appendChild(modal);
@@ -12095,11 +12182,24 @@ REQUIREMENTS:
   
   // Save business metrics
   function saveBusinessMetrics() {
+    // Save titles
+    businessMetrics.salesTitle = document.getElementById('salesTitleInput').value.trim() || 'Q4 Sales Goal';
+    businessMetrics.productsTitle = document.getElementById('productsTitleInput').value.trim() || 'Products Sold';
+    businessMetrics.satisfactionTitle = document.getElementById('satisfactionTitleInput').value.trim() || 'Customer Satisfaction';
+    businessMetrics.featuresTitle = document.getElementById('featuresTitleInput').value.trim() || 'Features Shipped';
+    businessMetrics.bugsTitle = document.getElementById('bugsTitleInput').value.trim() || 'Bugs Resolved';
+    
+    // Save values
+    businessMetrics.salesAmount = parseInt(document.getElementById('salesAmountInput').value) || 0;
     businessMetrics.salesTarget = parseInt(document.getElementById('salesTargetInput').value) || 100;
     businessMetrics.productsSold = parseInt(document.getElementById('productsSoldInput').value) || 0;
-    businessMetrics.customerSatisfaction = parseInt(document.getElementById('customerSatisfactionInput').value) || 0;
+    businessMetrics.productsTarget = parseInt(document.getElementById('productsTargetInput').value) || 0;
+    businessMetrics.customerSatisfaction = parseFloat(document.getElementById('customerSatisfactionInput').value) || 0;
+    businessMetrics.satisfactionTarget = parseFloat(document.getElementById('satisfactionTargetInput').value) || 0;
     businessMetrics.featuresShipped = parseInt(document.getElementById('featuresShippedInput').value) || 0;
+    businessMetrics.featuresTarget = parseInt(document.getElementById('featuresTargetInput').value) || 0;
     businessMetrics.bugsResolved = parseInt(document.getElementById('bugsResolvedInput').value) || 0;
+    businessMetrics.bugsTarget = parseInt(document.getElementById('bugsTargetInput').value) || 0;
     
     updateBusinessMetricsDisplay();
     saveBusinessData();
