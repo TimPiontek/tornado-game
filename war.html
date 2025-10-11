@@ -449,7 +449,7 @@
           </div>
         </div>
         <div class="section">
-          <div class="title">Weapons</div>
+          <div class="title" id="attackerWeaponsTitle">Weapons</div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <button class="pill" id="attackerSpear" style="background: #8b5cf6;">Spear</button>
             <button class="pill" id="attackerCrossbow" style="background: #3b82f6;">Crossbow</button>
@@ -497,7 +497,7 @@
           </div>
         </div>
         <div class="section">
-          <div class="title">Weapons</div>
+          <div class="title" id="defenderWeaponsTitle">Weapons</div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <button class="pill" id="defenderSpear" style="background: #8b5cf6;">Spear</button>
             <button class="pill" id="defenderCrossbow" style="background: #3b82f6;">Crossbow</button>
@@ -5433,12 +5433,20 @@
     const isBusinessMode = state.scenario?.type === 'business';
     const attackerMercTitle = document.getElementById('attackerMercTitle');
     const defenderMercTitle = document.getElementById('defenderMercTitle');
+    const attackerWeaponsTitle = document.getElementById('attackerWeaponsTitle');
+    const defenderWeaponsTitle = document.getElementById('defenderWeaponsTitle');
     
     if (attackerMercTitle) {
       attackerMercTitle.textContent = isBusinessMode ? 'Employees' : 'Mercenaries';
     }
     if (defenderMercTitle) {
       defenderMercTitle.textContent = isBusinessMode ? 'Employees' : 'Mercenaries';
+    }
+    if (attackerWeaponsTitle) {
+      attackerWeaponsTitle.textContent = isBusinessMode ? 'Business Resources' : 'Weapons';
+    }
+    if (defenderWeaponsTitle) {
+      defenderWeaponsTitle.textContent = isBusinessMode ? 'Business Resources' : 'Weapons';
     }
     
     // Update weapon button text for business mode
@@ -10464,7 +10472,7 @@ REQUIREMENTS:
         box-shadow: 0 20px 40px rgba(0,0,0,0.3);
       ">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-          <h2 style="margin: 0; color: #1e293b; font-size: 1.5rem;">🛒 Student Market - ${student.name}</h2>
+          <h2 style="margin: 0; color: #1e293b; font-size: 1.5rem;">🛒 ${state.scenario?.type === 'business' ? 'Employee Market' : 'Student Market'} - ${student.name}</h2>
           <button onclick="closeStudentMarket()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
         </div>
         
@@ -10477,8 +10485,8 @@ REQUIREMENTS:
             <div style="text-align: right;">
               <div style="font-size: 0.875rem; color: #64748b;">Current Items:</div>
               <div style="font-size: 0.75rem; color: #64748b;">
-                ⚔️ ${student.purchasedItems.weapons.length} weapons | 
-                👥 ${student.purchasedItems.mercenaries} mercenaries | 
+                ⚔️ ${student.purchasedItems.weapons.length} ${state.scenario?.type === 'business' ? 'resources' : 'weapons'} | 
+                👥 ${student.purchasedItems.mercenaries} ${state.scenario?.type === 'business' ? 'employees' : 'mercenaries'} | 
                 🧙 ${student.purchasedItems.allies.length} allies | 
                 ✨ ${student.purchasedItems.spells.length} spells
               </div>
@@ -10489,7 +10497,7 @@ REQUIREMENTS:
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 1.5rem;">
           <!-- Weapons Section -->
           <div>
-            <h3 style="margin: 0 0 1rem 0; color: #1e293b;">⚔️ Weapons</h3>
+            <h3 style="margin: 0 0 1rem 0; color: #1e293b;">⚔️ ${state.scenario?.type === 'business' ? 'Business Resources' : 'Weapons'}</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
               ${marketItems.weapons.map(weapon => `
                 <div class="market-item" data-type="weapon" data-item="${weapon.name.toLowerCase().replace(/\s+/g, '_')}" data-cost="${weapon.cost}" style="
@@ -10514,7 +10522,7 @@ REQUIREMENTS:
           
           <!-- Mercenaries & Allies Section -->
           <div>
-            <h3 style="margin: 0 0 1rem 0; color: #1e293b;">👥 Mercenaries & Allies</h3>
+            <h3 style="margin: 0 0 1rem 0; color: #1e293b;">👥 ${state.scenario?.type === 'business' ? 'Employees & Allies' : 'Mercenaries & Allies'}</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
               <div class="market-item" data-type="mercenary" data-item="mercenary" data-cost="15" style="
                 background: #f8fafc;
@@ -10526,8 +10534,8 @@ REQUIREMENTS:
               " onmouseover="this.style.backgroundColor='#f0f9ff'" onmouseout="this.style.backgroundColor='#f8fafc'">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <div>
-                    <div style="font-weight: 600; color: #1e293b;">Mercenary</div>
-                    <div style="font-size: 0.75rem; color: #64748b;">+10 attack power each</div>
+                    <div style="font-weight: 600; color: #1e293b;">${state.scenario?.type === 'business' ? 'Employee' : 'Mercenary'}</div>
+                    <div style="font-size: 0.75rem; color: #64748b;">+10 ${state.scenario?.type === 'business' ? 'corporate' : 'attack'} power each</div>
                   </div>
                   <div style="font-weight: 600; color: #059669;">15 pts</div>
                 </div>
