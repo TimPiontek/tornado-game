@@ -2462,9 +2462,10 @@
     console.log('Resetting game to defaults for roster:', state.currentRoster.name);
 
     // Reset all participants to default state
+    const startingPoints = state.startingPoints || 10; // Use configured starting points or default to 10
     state.roster.forEach(student => {
       student.tilesOwned = 0;
-      student.balance = 10; // Default starting balance - enough for a mercenary
+      student.balance = startingPoints; // Use configured starting points
       student.weapons = [];
       student.mercenaries = 0;
       student.wizard = false;
@@ -6908,7 +6909,7 @@
     
     businessBtn.onclick = () => {
       closeNewGameModal();
-      showBusinessModeModal();
+      showBusinessStartingPointsModal();
     };
   }
   
@@ -6917,6 +6918,115 @@
     if (modal) {
       modal.remove();
     }
+  }
+  
+  function showBusinessStartingPointsModal() {
+    const modal = document.createElement('div');
+    modal.id = 'businessStartingPointsModal';
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    `;
+    
+    modal.innerHTML = `
+      <div style="
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 500px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      ">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h2 style="margin: 0; color: #1e293b; font-size: 1.5rem;">🏢 Business Competition Setup</h2>
+          <button onclick="closeBusinessStartingPointsModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+        </div>
+        
+        <p style="margin-bottom: 1.5rem; color: #64748b;">
+          Configure starting points for your business competition game.
+        </p>
+        
+        <!-- Starting Points Configuration -->
+        <div style="margin-bottom: 1.5rem; padding: 1rem; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <h3 style="margin: 0 0 0.5rem 0; color: #1e293b; font-size: 1rem;">💰 Starting Points</h3>
+          <p style="margin: 0 0 0.5rem 0; color: #64748b; font-size: 0.9rem;">
+            Set how many points each participant starts with:
+          </p>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <input type="number" id="businessStartingPointsInput" value="25" min="1" max="1000" style="
+              width: 80px;
+              padding: 0.5rem;
+              border: 1px solid #d1d5db;
+              border-radius: 4px;
+              font-size: 1rem;
+              text-align: center;
+            ">
+            <span style="color: #64748b; font-size: 0.9rem;">points per participant</span>
+          </div>
+          <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem;">
+            <button onclick="setBusinessStartingPoints(10)" style="background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 4px; padding: 0.25rem 0.5rem; font-size: 0.8rem; cursor: pointer;">Quick: 10</button>
+            <button onclick="setBusinessStartingPoints(25)" style="background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 4px; padding: 0.25rem 0.5rem; font-size: 0.8rem; cursor: pointer;">Quick: 25</button>
+            <button onclick="setBusinessStartingPoints(50)" style="background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 4px; padding: 0.25rem 0.5rem; font-size: 0.8rem; cursor: pointer;">Quick: 50</button>
+            <button onclick="setBusinessStartingPoints(100)" style="background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 4px; padding: 0.25rem 0.5rem; font-size: 0.8rem; cursor: pointer;">Quick: 100</button>
+          </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <button onclick="proceedToBusinessMode()" style="
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+          ">Continue to Game Setup</button>
+          <button onclick="closeBusinessStartingPointsModal()" style="
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+          ">Cancel</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+  }
+  
+  function closeBusinessStartingPointsModal() {
+    const modal = document.getElementById('businessStartingPointsModal');
+    if (modal) {
+      modal.remove();
+    }
+  }
+  
+  function setBusinessStartingPoints(points) {
+    const input = document.getElementById('businessStartingPointsInput');
+    if (input) {
+      input.value = points;
+    }
+  }
+  
+  function proceedToBusinessMode() {
+    const startingPoints = parseInt(document.getElementById('businessStartingPointsInput').value) || 25;
+    state.startingPoints = startingPoints;
+    closeBusinessStartingPointsModal();
+    showBusinessModeModal();
   }
   
   function startRegularGame() {
@@ -7938,6 +8048,31 @@
           Select the difficulty level for your ${gameType === 'regular' ? 'regular' : 'scenario'} game. This affects the cost of territories, weapons, mercenaries, and upgrades.
         </p>
         
+        <!-- Starting Points Configuration -->
+        <div style="margin-bottom: 1.5rem; padding: 1rem; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <h3 style="margin: 0 0 0.5rem 0; color: #1e293b; font-size: 1rem;">💰 Starting Points</h3>
+          <p style="margin: 0 0 0.5rem 0; color: #64748b; font-size: 0.9rem;">
+            Set how many points each participant starts with:
+          </p>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <input type="number" id="startingPointsInput" value="10" min="1" max="1000" style="
+              width: 80px;
+              padding: 0.5rem;
+              border: 1px solid #d1d5db;
+              border-radius: 4px;
+              font-size: 1rem;
+              text-align: center;
+            ">
+            <span style="color: #64748b; font-size: 0.9rem;">points per participant</span>
+          </div>
+          <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem;">
+            <button onclick="setStartingPoints(5)" style="background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 4px; padding: 0.25rem 0.5rem; font-size: 0.8rem; cursor: pointer;">Quick: 5</button>
+            <button onclick="setStartingPoints(10)" style="background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 4px; padding: 0.25rem 0.5rem; font-size: 0.8rem; cursor: pointer;">Quick: 10</button>
+            <button onclick="setStartingPoints(25)" style="background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 4px; padding: 0.25rem 0.5rem; font-size: 0.8rem; cursor: pointer;">Quick: 25</button>
+            <button onclick="setStartingPoints(50)" style="background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 4px; padding: 0.25rem 0.5rem; font-size: 0.8rem; cursor: pointer;">Quick: 50</button>
+          </div>
+        </div>
+        
         <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
           <div class="difficulty-option" data-difficulty="easy" style="
             border: 2px solid #e2e8f0;
@@ -8035,8 +8170,9 @@
     modal.querySelectorAll('.difficulty-option').forEach(option => {
       option.onclick = () => {
         const difficulty = option.dataset.difficulty;
+        const startingPoints = parseInt(document.getElementById('startingPointsInput').value) || 10;
         closeDifficultySelectionModal();
-        startGameWithDifficulty(gameType, difficulty);
+        startGameWithDifficulty(gameType, difficulty, startingPoints);
       };
     });
   }
@@ -8047,10 +8183,18 @@
       modal.remove();
     }
   }
+  
+  function setStartingPoints(points) {
+    const input = document.getElementById('startingPointsInput');
+    if (input) {
+      input.value = points;
+    }
+  }
 
-  function startGameWithDifficulty(gameType, difficulty) {
-    // Store difficulty in state
+  function startGameWithDifficulty(gameType, difficulty, startingPoints = 10) {
+    // Store difficulty and starting points in state
     state.gameDifficulty = difficulty;
+    state.startingPoints = startingPoints;
     
     if (gameType === 'regular') {
       startRegularGame();
