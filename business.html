@@ -163,12 +163,17 @@
   const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
   const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
   
+  // Initialize Supabase client
   let supabase = null;
   
-  // Initialize Supabase client
   try {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-    console.log('[DEBUG] Supabase client initialized successfully');
+    // Use window.supabase to avoid CSP eval issues
+    if (window.supabase && window.supabase.createClient) {
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+      console.log('[DEBUG] Supabase client initialized successfully');
+    } else {
+      console.warn('[DEBUG] Supabase not available, using localStorage fallback');
+    }
   } catch (error) {
     console.error('[DEBUG] Failed to initialize Supabase:', error);
     supabase = null;
@@ -541,25 +546,37 @@
     console.log('[DEBUG] Board config:', businessState.board);
     
     const board = businessState.board;
+    console.log('[DEBUG] Board before tiles creation:', board);
+    
     board.tiles = [];
+    
+    console.log('[DEBUG] Starting tile creation loop for', board.w, 'x', board.h);
     
     for (let y = 0; y < board.h; y++) {
       for (let x = 0; x < board.w; x++) {
-        board.tiles.push({
+        const tile = {
           id: `${x}-${y}`,
           x, y,
           owner_game_student_id: null, // Use same property name as student game
           headquarters_level: 0,
           cost: calculateTilePrice(x, y, board.w, board.h)
-        });
+        };
+        board.tiles.push(tile);
+        console.log('[DEBUG] Created tile:', tile.id, 'at', x, y);
       }
     }
     
     console.log('[DEBUG] Created tiles:', board.tiles.length);
+    console.log('[DEBUG] Board after tiles creation:', board);
     
     // Assign starting headquarters (castles)
+    console.log('[DEBUG] Calling assignStartingHeadquarters()');
     assignStartingHeadquarters();
+    
+    console.log('[DEBUG] Calling updateGridDisplay()');
     updateGridDisplay();
+    
+    console.log('[DEBUG] initializeGameBoard completed');
   }
 
   // Calculate tile price (from working student game)
