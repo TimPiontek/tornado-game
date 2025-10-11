@@ -4,6 +4,196 @@
 console.log('Loading scenarios.js file...');
 
 const SCENARIOS = {
+  // BUSINESS MODE
+  businessMode: {
+    id: 'businessMode',
+    name: 'Business Competition Mode',
+    type: 'business',
+    description: 'Corporate competition with departments, headquarters, and market strategies.',
+    inspirationalQuote: {
+      text: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+      author: "Winston Churchill",
+      context: "Business leadership philosophy"
+    },
+    factionOrder: ['teamA','teamB','teamC','teamD'],
+    factions: {
+      teamA: {
+        name: 'Alpha Division',
+        color: '#1e40af', // Blue
+        description: 'Leading market division',
+        territories: [
+          { name: 'Marketing Department', cost: 20, description: 'Brand & advertising hub' },
+          { name: 'Sales Department', cost: 25, description: 'Revenue generation center' },
+          { name: 'Product Development', cost: 22, description: 'Innovation & R&D' },
+          { name: 'Customer Success', cost: 18, description: 'Client satisfaction team' },
+          { name: 'Operations Center', cost: 15, description: 'Process optimization' },
+          { name: 'Finance Department', cost: 16, description: 'Budget & accounting' },
+          { name: 'HR Department', cost: 20, description: 'Talent management' },
+          { name: 'IT Department', cost: 14, description: 'Technology infrastructure' },
+          { name: 'Legal Department', cost: 12, description: 'Compliance & contracts' },
+          { name: 'Executive Suite', cost: 10, description: 'Strategic leadership' }
+        ],
+        characters: [
+          {
+            name: 'CEO',
+            role: 'Chief Executive Officer',
+            startingCoins: 100,
+            startingWeapons: ['market_strategy', 'competitive_advantage'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'strategic',
+            quotes: [
+              "Innovation distinguishes between a leader and a follower.",
+              "The way to get started is to quit talking and begin doing.",
+              "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+              "Don't be afraid to give up the good to go for the great.",
+              "The future belongs to those who believe in the beauty of their dreams."
+            ]
+          }
+        ]
+      },
+      teamB: {
+        name: 'Beta Division',
+        color: '#dc2626', // Red
+        description: 'Growth-focused division',
+        territories: [
+          { name: 'Digital Marketing', cost: 20, description: 'Online presence & SEO' },
+          { name: 'Business Development', cost: 25, description: 'Partnerships & expansion' },
+          { name: 'Data Analytics', cost: 22, description: 'Insights & reporting' },
+          { name: 'Quality Assurance', cost: 18, description: 'Testing & validation' },
+          { name: 'Supply Chain', cost: 15, description: 'Logistics & procurement' },
+          { name: 'Risk Management', cost: 16, description: 'Compliance & security' },
+          { name: 'Training Center', cost: 20, description: 'Employee development' },
+          { name: 'Research Lab', cost: 14, description: 'Innovation & testing' },
+          { name: 'Customer Support', cost: 12, description: 'Service excellence' },
+          { name: 'Strategic Planning', cost: 10, description: 'Long-term vision' }
+        ],
+        characters: [
+          {
+            name: 'VP Operations',
+            role: 'Vice President of Operations',
+            startingCoins: 100,
+            startingWeapons: ['process_optimization', 'efficiency_gains'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'analytical',
+            quotes: [
+              "Efficiency is doing things right; effectiveness is doing the right things.",
+              "Quality is not an act, it is a habit.",
+              "The only way to do great work is to love what you do.",
+              "Innovation is the ability to see change as an opportunity.",
+              "Excellence is not a skill, it's an attitude."
+            ]
+          }
+        ]
+      },
+      teamC: {
+        name: 'Gamma Division',
+        color: '#059669', // Green
+        description: 'Innovation-driven division',
+        territories: [
+          { name: 'R&D Department', cost: 20, description: 'Research & development' },
+          { name: 'Innovation Lab', cost: 25, description: 'Future technologies' },
+          { name: 'Design Studio', cost: 22, description: 'User experience' },
+          { name: 'Engineering', cost: 18, description: 'Technical implementation' },
+          { name: 'Testing Facility', cost: 15, description: 'Quality validation' },
+          { name: 'Prototype Center', cost: 16, description: 'Rapid prototyping' },
+          { name: 'Patent Office', cost: 20, description: 'Intellectual property' },
+          { name: 'Collaboration Hub', cost: 14, description: 'Cross-functional teams' },
+          { name: 'Knowledge Base', cost: 12, description: 'Documentation & learning' },
+          { name: 'Innovation Center', cost: 10, description: 'Creative workspace' }
+        ],
+        characters: [
+          {
+            name: 'CTO',
+            role: 'Chief Technology Officer',
+            startingCoins: 100,
+            startingWeapons: ['tech_innovation', 'digital_transformation'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'innovative',
+            quotes: [
+              "Technology is nothing. What's important is that you have faith in people.",
+              "Innovation distinguishes between a leader and a follower.",
+              "The best way to predict the future is to invent it.",
+              "Simplicity is the ultimate sophistication.",
+              "Stay hungry, stay foolish."
+            ]
+          }
+        ]
+      },
+      teamD: {
+        name: 'Delta Division',
+        color: '#7c3aed', // Purple
+        description: 'Customer-focused division',
+        territories: [
+          { name: 'Customer Experience', cost: 20, description: 'Client satisfaction' },
+          { name: 'Account Management', cost: 25, description: 'Relationship building' },
+          { name: 'Support Center', cost: 22, description: 'Customer service' },
+          { name: 'Feedback Hub', cost: 18, description: 'Voice of customer' },
+          { name: 'Retention Team', cost: 15, description: 'Customer loyalty' },
+          { name: 'Onboarding Center', cost: 16, description: 'New customer success' },
+          { name: 'Community Hub', cost: 20, description: 'User engagement' },
+          { name: 'Training Academy', cost: 14, description: 'Customer education' },
+          { name: 'Success Metrics', cost: 12, description: 'Performance tracking' },
+          { name: 'Advocacy Program', cost: 10, description: 'Customer champions' }
+        ],
+        characters: [
+          {
+            name: 'VP Customer Success',
+            role: 'Vice President of Customer Success',
+            startingCoins: 100,
+            startingWeapons: ['customer_retention', 'satisfaction_growth'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'customer-focused',
+            quotes: [
+              "The customer's perception is your reality.",
+              "Your most unhappy customers are your greatest source of learning.",
+              "Customer service is not a department, it's everyone's job.",
+              "Make your product easier to buy than not.",
+              "The purpose of a business is to create a customer."
+            ]
+          }
+        ]
+      }
+    },
+    weapons: [
+      { name: 'Market Strategy', cost: 15, description: 'Competitive market positioning', power: 3 },
+      { name: 'Price War', cost: 12, description: 'Aggressive pricing tactics', power: 2 },
+      { name: 'Strategic Partnership', cost: 20, description: 'Alliance with key partners', power: 4 },
+      { name: 'Competitive Intelligence', cost: 18, description: 'Market research & analysis', power: 3 },
+      { name: 'Digital Transformation', cost: 25, description: 'Technology modernization', power: 5 },
+      { name: 'Customer Acquisition', cost: 16, description: 'New customer growth', power: 3 },
+      { name: 'Process Optimization', cost: 14, description: 'Efficiency improvements', power: 2 },
+      { name: 'Brand Recognition', cost: 22, description: 'Marketing & awareness', power: 4 },
+      { name: 'Innovation Pipeline', cost: 30, description: 'R&D investment', power: 6 },
+      { name: 'Market Domination', cost: 35, description: 'Complete market control', power: 7 }
+    ],
+    mercenaries: [
+      { name: 'Consultant', cost: 8, description: 'Expert advice & strategy', power: 2 },
+      { name: 'Contractor', cost: 6, description: 'Specialized skills', power: 1 },
+      { name: 'Freelancer', cost: 4, description: 'Flexible workforce', power: 1 },
+      { name: 'Advisor', cost: 10, description: 'Strategic guidance', power: 3 },
+      { name: 'Specialist', cost: 12, description: 'Domain expertise', power: 3 }
+    ],
+    castleLevels: [
+      { level: 1, name: 'Outpost', cost: 20, description: 'Small regional office', defense: 2 },
+      { level: 2, name: 'Regional Office', cost: 40, description: 'Division headquarters', defense: 4 },
+      { level: 3, name: 'Corporate HQ', cost: 80, description: 'Global command center', defense: 8 }
+    ],
+    victoryConditions: {
+      territorial: 'Control 60% of all departments',
+      economic: 'Accumulate 500 performance points',
+      strategic: 'Control all headquarters in your division'
+    },
+    specialRules: [
+      'Business metrics affect territory control',
+      'Customer satisfaction impacts revenue',
+      'Innovation drives competitive advantage',
+      'Strategic partnerships provide bonuses'
+    ]
+  },
   // HISTORICAL WARS
   americanRevolution: {
     id: 'americanRevolution',

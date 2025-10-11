@@ -192,6 +192,91 @@
       <div id="grid"></div>
     </div>
     <div class="minor" id="tip">Tip: click a roster name, then click a tile.</div>
+    
+    <!-- Business Mode Tools (only visible when Business Mode scenario is selected) -->
+    <div id="businessTools" style="display: none; margin-top: 1rem;">
+      <div class="title">🏢 Business Tools</div>
+      
+      <!-- Team Metrics Dashboard -->
+      <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">📊 Team Performance Metrics</div>
+        
+        <!-- Main Goal Progress -->
+        <div style="margin-bottom: 12px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="font-size: 12px;">Sales Target Progress</span>
+            <span style="font-size: 12px; color: var(--accent);" id="salesProgress">0%</span>
+          </div>
+          <div style="background: #1f2937; border-radius: 4px; height: 8px; overflow: hidden;">
+            <div id="salesProgressBar" style="background: linear-gradient(90deg, #10b981, #22d3ee); height: 100%; width: 0%; transition: width 0.3s ease;"></div>
+          </div>
+        </div>
+        
+        <!-- Individual Metrics -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px;">
+          <div style="text-align: center; padding: 8px; background: #1f2937; border-radius: 6px;">
+            <div style="font-size: 18px; font-weight: bold; color: #22d3ee;" id="productsSold">0</div>
+            <div style="font-size: 10px; color: var(--muted);">Products Sold</div>
+          </div>
+          <div style="text-align: center; padding: 8px; background: #1f2937; border-radius: 6px;">
+            <div style="font-size: 18px; font-weight: bold; color: #10b981;" id="customerSatisfaction">0%</div>
+            <div style="font-size: 10px; color: var(--muted);">Customer Satisfaction</div>
+          </div>
+          <div style="text-align: center; padding: 8px; background: #1f2937; border-radius: 6px;">
+            <div style="font-size: 18px; font-weight: bold; color: #f59e0b;" id="featuresShipped">0</div>
+            <div style="font-size: 10px; color: var(--muted);">Features Shipped</div>
+          </div>
+          <div style="text-align: center; padding: 8px; background: #1f2937; border-radius: 6px;">
+            <div style="font-size: 18px; font-weight: bold; color: #ef4444;" id="bugsResolved">0</div>
+            <div style="font-size: 10px; color: var(--muted);">Bugs Resolved</div>
+          </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="pill" onclick="updateMetric('productsSold', 1)" style="background: #22d3ee; color: white; font-size: 11px;">+1 Product</button>
+          <button class="pill" onclick="updateMetric('customerSatisfaction', 5)" style="background: #10b981; color: white; font-size: 11px;">+5% Satisfaction</button>
+          <button class="pill" onclick="updateMetric('featuresShipped', 1)" style="background: #f59e0b; color: white; font-size: 11px;">+1 Feature</button>
+          <button class="pill" onclick="updateMetric('bugsResolved', 1)" style="background: #ef4444; color: white; font-size: 11px;">+1 Bug Fixed</button>
+          <button class="pill" onclick="showEditMetricsModal()" style="background: #8b5cf6; color: white; font-size: 11px;">Edit Metrics</button>
+        </div>
+      </div>
+      
+      <!-- Announcements & Recognition -->
+      <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">📢 Announcements & Recognition</div>
+        <div style="margin-bottom: 8px;">
+          <input type="text" id="announcementTitle" placeholder="Announcement title..." style="width: 100%; margin-bottom: 4px; font-size: 12px;">
+          <textarea id="announcementBody" placeholder="Announcement message..." style="width: 100%; height: 60px; font-size: 12px; margin-bottom: 8px;"></textarea>
+          <div style="display: flex; gap: 4px;">
+            <select id="announcementAudience" style="flex: 1; font-size: 12px;">
+              <option value="all">All Teams</option>
+              <option value="teamA">Alpha Division</option>
+              <option value="teamB">Beta Division</option>
+              <option value="teamC">Gamma Division</option>
+              <option value="teamD">Delta Division</option>
+            </select>
+            <button class="pill" onclick="postAnnouncement()" style="background: #3b82f6; color: white; font-size: 11px;">Post</button>
+          </div>
+        </div>
+        <div id="announcementsFeed" style="max-height: 120px; overflow-y: auto; font-size: 11px;">
+          <!-- Announcements will appear here -->
+        </div>
+      </div>
+      
+      <!-- Rewards & Incentives -->
+      <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px;">
+        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">🏆 Rewards & Incentives</div>
+        <div style="margin-bottom: 8px;">
+          <input type="text" id="winningTeamReward" placeholder="Winning team gets..." style="width: 100%; margin-bottom: 4px; font-size: 12px;">
+          <input type="text" id="topPlayerReward" placeholder="Top player gets..." style="width: 100%; margin-bottom: 8px; font-size: 12px;">
+          <button class="pill" onclick="updateRewards()" style="background: #f59e0b; color: white; font-size: 11px;">Update Rewards</button>
+        </div>
+        <div id="rewardsStatus" style="font-size: 11px; color: var(--muted);">
+          <!-- Rewards status will appear here -->
+        </div>
+      </div>
+    </div>
   </div>
   </div>
 
@@ -239,14 +324,14 @@
     
     <h3>🎯 Getting Started</h3>
     <ul>
-      <li><b>Create or select a roster:</b> Use the "Manage Roster" button to create student lists</li>
+      <li><b>Create or select a roster:</b> Use the "Manage Roster" button to create participant lists</li>
       <li><b>Set victory percentage:</b> Choose what % of territories needed to win</li>
-      <li><b>Click "Create Game":</b> Students start with 10 points each</li>
+      <li><b>Click "Create Game":</b> Participants start with 10 points each</li>
     </ul>
     
     <h3>🎮 Basic Gameplay</h3>
     <ul>
-      <li><b>Select a student:</b> Click their name in the roster to highlight their territories</li>
+      <li><b>Select a participant:</b> Click their name in the roster to highlight their territories</li>
       <li><b>Buy territories:</b> Click empty tiles to purchase them</li>
       <li><b>Upgrade castles:</b> Click your territories to build defenses (Level 1-3)</li>
       <li><b>Attack enemies:</b> Select attacker → click enemy tile → choose weapons → resolve battle</li>
@@ -269,9 +354,9 @@
     
     <h3>🌪️ Special Actions</h3>
     <ul>
-      <li><b>Award points:</b> Give students extra points for good answers</li>
+      <li><b>Award points:</b> Give participants extra points for good answers</li>
       <li><b>Buy tornado:</b> Spend 50 points to randomly affect territories</li>
-      <li><b>Batch actions:</b> Award points to multiple students at once</li>
+      <li><b>Batch actions:</b> Award points to multiple participants at once</li>
     </ul>
     
     <h3>🏆 Winning</h3>
@@ -835,7 +920,7 @@
         const quickRosterData = {
           id: 'quick-roster',
           name: quickData.name || 'Quick Roster',
-          roster: quickData.students.map(name => ({ name, points: 0 })),
+          roster: quickData.participants.map(name => ({ name, points: 0 })),
           isQuickRoster: true,
           created: new Date().toISOString()
         };
@@ -856,7 +941,7 @@
     }
     
     rosterList.innerHTML = `<option value="">Select Roster…</option>` + (state.rosters.map(r =>
-      `<option value="${r.id}">${r.name} (${r.roster ? r.roster.length : 0} students)${r.isQuickRoster ? ' 🎮' : ''}</option>`
+      `<option value="${r.id}">${r.name} (${r.roster ? r.roster.length : 0} participants)${r.isQuickRoster ? ' 🎮' : ''}</option>`
     ).join(""));
     
     if (selectNewest && state.rosters.length) {
@@ -915,7 +1000,7 @@
     if (roster.teams && roster.teams.length > 0) {
       state.roster.forEach(student => {
         const team = roster.teams.find(t => 
-          t.students && t.students.includes(student.name)
+          t.participants && t.participants.includes(student.name)
         );
         if (team) {
           student.teamId = team.id;
@@ -1096,7 +1181,7 @@
       }
     });
     
-    // Assign teams to AI players (same logic as students)
+    // Assign teams to AI players (same logic as participants)
     if (state.aiPlayers) {
       state.aiPlayers.forEach(aiPlayer => {
         if (aiPlayer.characterName && aiPlayer.characterFaction) {
@@ -1160,7 +1245,7 @@
     updateTeamScoreboards();
   }
 
-  // Class vs AI: auto-assign students to characters and create equal number of AI players
+  // Class vs AI: auto-assign participants to characters and create equal number of AI players
   function assignClassVsAITeams(scenarioData) {
     try {
       console.log('assignClassVsAITeams called with:', scenarioData);
@@ -1228,9 +1313,9 @@
       const aiAssignments = {};
       const studentCount = state.roster.length;
       
-      console.log(`Creating Class vs AI matchup: ${studentCount} students vs ${studentCount} AI players`);
+      console.log(`Creating Class vs AI matchup: ${studentCount} participants vs ${studentCount} AI players`);
 
-      // Shuffle students array to ensure true randomization
+      // Shuffle participants array to ensure true randomization
       const shuffledStudents = [...state.roster];
       for (let i = shuffledStudents.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -1267,10 +1352,10 @@
         }
       }
       
-      console.log(`Good factions for students: ${goodFactions.join(', ')}`);
+      console.log(`Good factions for participants: ${goodFactions.join(', ')}`);
       console.log(`Bad factions for AI: ${badFactions.join(', ')}`);
       
-      // Get characters for students (good factions only)
+      // Get characters for participants (good factions only)
       const studentCharacters = allCharacters.filter(char => 
         goodFactions.includes(char.factionName) && !char.isControversial
       );
@@ -1280,11 +1365,11 @@
         badFactions.includes(char.factionName) || char.isControversial
       );
       
-      console.log(`Characters for students: ${studentCharacters.length}`);
+      console.log(`Characters for participants: ${studentCharacters.length}`);
       console.log(`Characters for AI: ${aiCharacters.length}`);
       
       if (studentCharacters.length === 0) {
-        console.warn('No good faction characters found for students! Using first faction...');
+        console.warn('No good faction characters found for participants! Using first faction...');
         const firstFaction = Object.keys(scenario.factions)[0];
         studentCharacters.push(...allCharacters.filter(char => char.factionName === firstFaction));
       }
@@ -1316,7 +1401,7 @@
         console.log(`✅ Assigned student ${student.name} to GOOD character ${pick.name} (${pick.factionName})`);
       });
 
-      // Create exactly the same number of AI players as students
+      // Create exactly the same number of AI players as participants
       // Use bad faction characters for AI
       const studentCharacterNames = Object.values(roleAssignments);
       
@@ -1359,7 +1444,7 @@
       state.scenario.aiAssignments = aiAssignments;
 
       console.log('Class vs AI assignments:', {
-        students: Object.keys(roleAssignments).length,
+        participants: Object.keys(roleAssignments).length,
         ai: Object.keys(aiAssignments).length,
         studentFactions: [...new Set(Object.values(roleAssignments).map(name => 
           shuffledStudentCharacters.find(c => c.name === name)?.factionName
@@ -1966,7 +2051,7 @@
   
   // Initialize scenario data
   function assignRandomCharacters(scenarioData) {
-    console.log('Assigning random characters to students');
+    console.log('Assigning random characters to participants');
     
     // Get all available characters from all factions, prioritizing main characters
     const allCharacters = [];
@@ -2028,7 +2113,7 @@
       [allCharacters[i], allCharacters[j]] = [allCharacters[j], allCharacters[i]];
     }
     
-    // Assign characters to students - ensure balanced teams
+    // Assign characters to participants - ensure balanced teams
     const roleAssignments = {};
     
     // Group characters by faction for balanced assignment
@@ -2046,30 +2131,30 @@
       factionCounts[faction] = 0;
     });
     
-    // Assign characters to students with perfectly balanced faction distribution
+    // Assign characters to participants with perfectly balanced faction distribution
     const totalStudents = state.roster.length;
     const numFactions = factionNames.length;
     
-    // Calculate how many students each faction should get
-    const studentsPerFaction = Math.floor(totalStudents / numFactions);
+    // Calculate how many participants each faction should get
+    const participantsPerFaction = Math.floor(totalStudents / numFactions);
     const extraStudents = totalStudents % numFactions;
     
     // Create a balanced assignment array
     const factionAssignments = [];
     factionNames.forEach((factionName, factionIndex) => {
-      const studentsForThisFaction = studentsPerFaction + (factionIndex < extraStudents ? 1 : 0);
-      for (let i = 0; i < studentsForThisFaction; i++) {
+      const participantsForThisFaction = participantsPerFaction + (factionIndex < extraStudents ? 1 : 0);
+      for (let i = 0; i < participantsForThisFaction; i++) {
         factionAssignments.push(factionName);
       }
     });
     
-    // Shuffle the assignments to randomize which students get which factions
+    // Shuffle the assignments to randomize which participants get which factions
     for (let i = factionAssignments.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [factionAssignments[i], factionAssignments[j]] = [factionAssignments[j], factionAssignments[i]];
     }
     
-    // Shuffle students array to ensure true randomization
+    // Shuffle participants array to ensure true randomization
     const shuffledStudents = [...state.roster];
     for (let i = shuffledStudents.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -2168,6 +2253,9 @@
     
     // Update game theme title
     updateGameThemeTitle();
+    
+    // Toggle business tools if Business Mode scenario is selected
+    toggleBusinessTools();
     const id = scenarioData.scenarioId || scenarioData.id;
     if (id === 'harryPotter') {
       // Slight discount for spells theme; keep core prices
@@ -2317,7 +2405,7 @@
       state.board = { w, h, tiles };
       state.truces = [];
       
-      // Assign starting tiles to students (2 tiles each on outer edges)
+      // Assign starting tiles to participants (2 tiles each on outer edges)
       assignStartingTiles();
       
       // Place starting castles for characters who have them
@@ -2341,7 +2429,7 @@
 
     console.log('Resetting game to defaults for roster:', state.currentRoster.name);
 
-    // Reset all students to default state
+    // Reset all participants to default state
     state.roster.forEach(student => {
       student.tilesOwned = 0;
       student.balance = 10; // Default starting balance - enough for a mercenary
@@ -2375,7 +2463,7 @@
     }
     state.board = { w, h, tiles };
 
-    // Assign starting tiles to students
+    // Assign starting tiles to participants
     assignStartingTiles();
     
     // Place starting castles for characters who have them
@@ -2395,7 +2483,7 @@
     // Save the reset state
     autoSaveWarPoints();
 
-    alert('Game reset successfully! All students start fresh with 10 coins and new starting territories.');
+    alert('Game reset successfully! All participants start fresh with 10 coins and new starting territories.');
   }
 
   // Helper function to determine if a team is "good guys" based on scenario
@@ -2429,7 +2517,7 @@
   function assignStartingTiles() {
     if (!state.roster || state.roster.length === 0) return;
     
-    console.log('Assigning starting tiles to', state.roster.length, 'students');
+    console.log('Assigning starting tiles to', state.roster.length, 'participants');
     
     const { w, h } = state.board;
     
@@ -2443,7 +2531,7 @@
       const aiTeams = {};
       const studentTeams = {};
       
-      // Process students from roster
+      // Process participants from roster
       state.roster.forEach(student => {
         const teamId = student.teamId || 'individual';
         if (student.isAI) {
@@ -2473,7 +2561,7 @@
       // Combine teams with AI teams first, then student teams
       teamGroups = { ...aiTeams, ...studentTeams };
     } else {
-      // Regular game: Just group all students by team
+      // Regular game: Just group all participants by team
       state.roster.forEach(student => {
         const teamId = student.teamId || 'individual';
         if (!teamGroups[teamId]) {
@@ -2656,8 +2744,8 @@
     // We populate this based on where teams are actually placed, not on assumed order
     state.regionFactionMap = { 0: null, 2: null };
     
-    Object.entries(teamGroups).forEach(([teamId, students], index) => {
-      console.log(`Assigning positions for team ${teamId} with ${students.length} students`);
+    Object.entries(teamGroups).forEach(([teamId, participants], index) => {
+      console.log(`Assigning positions for team ${teamId} with ${participants.length} participants`);
       
       // Choose positions based on scenario mapping first; otherwise fall back to formation rules
       let teamPositions = positionsByTeamId[teamId] || [];
@@ -2668,7 +2756,7 @@
       
       if (isAIVsStudents) {
         // For AI vs Students games, check if this team has AI players
-        isAITeam = students.some(s => s.isAI || (state.aiPlayers && state.aiPlayers.some(ai => ai.gsId === s.gsId)));
+        isAITeam = participants.some(s => s.isAI || (state.aiPlayers && state.aiPlayers.some(ai => ai.gsId === s.gsId)));
         isStudentTeam = !isAITeam;
       }
       
@@ -2734,8 +2822,8 @@
       }
       
       let positionIndex = 0;
-      students.forEach(student => {
-        // Each student gets 1 tile if 10+ students, otherwise 2 tiles
+      participants.forEach(student => {
+        // Each student gets 1 tile if 10+ participants, otherwise 2 tiles
         const tilesPerStudent = state.roster.length >= 10 ? 1 : 2;
         const assignedTiles = [];
         
@@ -2800,7 +2888,7 @@
     
     console.log('Placing starting castles with fair distribution...');
     
-    // Group students by team to ensure fair castle distribution
+    // Group participants by team to ensure fair castle distribution
     const teamGroups = {};
     state.roster.forEach(student => {
       const teamId = student.teamId || 'individual';
@@ -2812,8 +2900,8 @@
     
     // Calculate total castles per team
     const teamCastleCounts = {};
-    Object.entries(teamGroups).forEach(([teamId, students]) => {
-      teamCastleCounts[teamId] = students.reduce((total, student) => total + (student.startingCastles || 0), 0);
+    Object.entries(teamGroups).forEach(([teamId, participants]) => {
+      teamCastleCounts[teamId] = participants.reduce((total, student) => total + (student.startingCastles || 0), 0);
     });
     
     console.log('Team castle counts:', teamCastleCounts);
@@ -2863,7 +2951,7 @@
       }
     }
     
-    // Place castles on students' territories
+    // Place castles on participants' territories
     state.roster.forEach(student => {
       if (student.startingCastles > 0) {
         // Find student's first territory (lowest coordinates)
@@ -3184,18 +3272,18 @@
     const scoreboardsEl = document.getElementById('teamScoreboards');
     if (!scoreboardsEl) return;
     
-    // Group students by team
+    // Group participants by team
     const teamGroups = {};
     state.roster.forEach(student => {
       const teamId = student.teamId || 'individual';
       if (!teamGroups[teamId]) {
         teamGroups[teamId] = {
-          students: [],
+          participants: [],
           teamName: student.teamName || 'Individual Players',
           teamColor: student.teamColor || '#6b7280'
         };
       }
-      teamGroups[teamId].students.push(student);
+      teamGroups[teamId].participants.push(student);
     });
     
     // Calculate team statistics
@@ -3216,7 +3304,7 @@
         tilesOwned: teamTiles.length,
         territoryPercentage: territoryPercentage,
         castles: castles,
-        students: team.students
+        participants: team.participants
       };
     });
     
@@ -3243,7 +3331,7 @@
           <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem;">
             <span>Territories: <strong>${stats.tilesOwned}/${totalTiles}</strong></span>
             <span>Castles: <strong>${stats.castles}</strong></span>
-            <span>Students: <strong>${stats.students.length}</strong></span>
+            <span>Students: <strong>${stats.participants.length}</strong></span>
           </div>
           <div style="
             background: #e5e7eb;
@@ -3698,10 +3786,10 @@
     }
   }
   
-  async function awardPoints(students, amount, actionText) {
-    if (!students || students.length === 0) return;
+  async function awardPoints(participants, amount, actionText) {
+    if (!participants || participants.length === 0) return;
     
-    students.forEach(studentData => {
+    participants.forEach(studentData => {
       const student = state.roster.find(s => s.gsId === studentData.gsId);
       if (student) {
         // Awarded/earned points should increment earnedPoints only
@@ -3982,10 +4070,10 @@
       
       const defender = state.roster.find(r => r.gsId === tile.owner_game_student_id);
       if (defender) {
-        // Check if students are teammates (automatic truce in scenario games)
+        // Check if participants are teammates (automatic truce in scenario games)
         const areTeammates = state.scenario && selectedStudent.teamId && defender.teamId && selectedStudent.teamId === defender.teamId;
         
-        // Check if students are in a manual truce (for non-team games)
+        // Check if participants are in a manual truce (for non-team games)
         const areInTruce = state.truces.some(truce => 
           (truce.student1 === selectedStudent.gsId && truce.student2 === defender.gsId) ||
           (truce.student1 === defender.gsId && truce.student2 === selectedStudent.gsId)
@@ -5169,7 +5257,7 @@
     addCharacterStartingWeapons(attacker, true); // true for attacker
     addCharacterStartingWeapons(defender, false); // false for defender
     
-    // Check if students are in a truce
+    // Check if participants are in a truce
     const areInTruce = state.truces.some(truce => 
       (truce.student1 === attacker.gsId && truce.student2 === defender.gsId) ||
       (truce.student1 === defender.gsId && truce.student2 === attacker.gsId)
@@ -5184,7 +5272,7 @@
     document.getElementById('attackerBalance').textContent = attacker.balance;
     document.getElementById('defenderBalance').textContent = defender.balance;
     
-    // Add truce indicator if students are in a truce
+    // Add truce indicator if participants are in a truce
     if (areInTruce) {
       const truceIndicator = document.createElement('div');
       truceIndicator.style.cssText = `
@@ -5481,7 +5569,7 @@
                               defenderItemCount >= 2 ? 1.1 : 1;
     const defenderPower = defenderBaseTotal * defenderComboBonus;
     
-    // Check if students are in a truce
+    // Check if participants are in a truce
     const areInTruce = state.truces.some(truce => 
       (truce.student1 === currentBattle.attacker.gsId && truce.student2 === currentBattle.defender.gsId) ||
       (truce.student1 === currentBattle.defender.gsId && truce.student2 === currentBattle.attacker.gsId)
@@ -5560,7 +5648,7 @@
        currentBattle.defenderBattleCastle === 2 ? getActiveEconomy().castleL2 : 
        currentBattle.defenderBattleCastle === 3 ? getActiveEconomy().castleL3 : 0);
     
-    // If students are in a truce, allow resource sharing with limits
+    // If participants are in a truce, allow resource sharing with limits
     if (areInTruce) {
       const totalCost = attackerCost + defenderCost;
       const attackerBalance = currentBattle.attacker.balance;
@@ -5850,7 +5938,7 @@
        currentBattle.defenderBattleCastle === 2 ? getActiveEconomy().castleL2 : 
        currentBattle.defenderBattleCastle === 3 ? getActiveEconomy().castleL3 : 0);
     
-    // Check if students are in a truce and implement resource sharing
+    // Check if participants are in a truce and implement resource sharing
     const areInTruce = state.truces.some(truce => 
       (truce.student1 === currentBattle.attacker.gsId && truce.student2 === currentBattle.defender.gsId) ||
       (truce.student1 === currentBattle.defender.gsId && truce.student2 === currentBattle.attacker.gsId)
@@ -5879,7 +5967,7 @@
       }
     }
     
-    // Check if students/teams have enough points for the battle
+    // Check if participants/teams have enough points for the battle
     let attackerCanAfford = false;
     let defenderCanAfford = false;
     
@@ -6102,7 +6190,7 @@
        currentBattle.defenderBattleCastle === 3 ? getActiveEconomy().castleL3 : 0);
     
     // Apply battle results to current roster system
-    // Check if students are in a truce for resource sharing
+    // Check if participants are in a truce for resource sharing
     const areInTruce = state.truces.some(truce => 
       (truce.student1 === currentBattle.attacker.gsId && truce.student2 === currentBattle.defender.gsId) ||
       (truce.student1 === currentBattle.defender.gsId && truce.student2 === currentBattle.attacker.gsId)
@@ -6292,7 +6380,7 @@
           team.color = newColor;
         }
         
-        // Update all students in this team
+        // Update all participants in this team
         currentGame.roster.forEach(r => {
           if (r.teamId === student.teamId) {
             r.teamColor = newColor;
@@ -6390,7 +6478,7 @@
     
     // Update UI
     rosterList.innerHTML = `<option value="">Select Roster…</option>` + (state.rosters.map(r =>
-      `<option value="${r.id}">${r.name} (${r.roster ? r.roster.length : 0} students)${r.isQuickRoster ? ' 🎮' : ''}</option>`
+      `<option value="${r.id}">${r.name} (${r.roster ? r.roster.length : 0} participants)${r.isQuickRoster ? ' 🎮' : ''}</option>`
     ).join(""));
     
     // Select the default roster
@@ -6401,7 +6489,7 @@
   }
   function createRandomTeams() {
     if (!state.roster || state.roster.length < 2) {
-      alert('Need at least 2 students to create teams!');
+      alert('Need at least 2 participants to create teams!');
       return;
     }
     
@@ -6409,7 +6497,7 @@
     if (!numTeams || numTeams < 2 || numTeams > 6) return;
     
     const numTeamsInt = parseInt(numTeams);
-    const students = [...state.roster];
+    const participants = [...state.roster];
     const teams = [];
     
     // Define team colors
@@ -6421,15 +6509,15 @@
         id: String.fromCharCode(65 + i), // A, B, C, etc.
         name: `Team ${String.fromCharCode(65 + i)}`,
         color: teamColors[i] || '#6b7280',
-        students: []
+        participants: []
       });
     }
     
-    // Randomly assign students to teams
-    const shuffled = [...students].sort(() => Math.random() - 0.5);
+    // Randomly assign participants to teams
+    const shuffled = [...participants].sort(() => Math.random() - 0.5);
     shuffled.forEach((student, index) => {
       const teamIndex = index % numTeamsInt;
-      teams[teamIndex].students.push(student.name);
+      teams[teamIndex].participants.push(student.name);
       
       // Update student data
       student.teamId = teams[teamIndex].id;
@@ -6451,7 +6539,7 @@
     renderRoster();
     updateGridDisplay();
     
-    alert(`Teams created! ${teams.map(t => `${t.name}: ${t.students.join(', ')}`).join('\n')}`);
+    alert(`Teams created! ${teams.map(t => `${t.name}: ${t.participants.join(', ')}`).join('\n')}`);
   }
   
   // Show scenario information
@@ -6509,6 +6597,9 @@
         await createDefaultRoster();
       }
     }
+    
+    // Load business data
+    loadBusinessData();
   }
   
   // Start the app
@@ -6929,11 +7020,11 @@
               <div style="margin-bottom: 0.5rem;">
                 <label style="display: flex; align-items: center; margin-bottom: 0.5rem;">
                   <input type="radio" name="roleAssignment" value="random" checked style="margin-right: 0.5rem;">
-                  <span style="color: #1e293b;">Randomly assign students to factions</span>
+                  <span style="color: #1e293b;">Randomly assign participants to factions</span>
                 </label>
                 <label style="display: flex; align-items: center; margin-bottom: 0.5rem;">
                   <input type="radio" name="roleAssignment" value="manual" style="margin-right: 0.5rem;">
-                  <span style="color: #1e293b;">Manually assign students to roles</span>
+                  <span style="color: #1e293b;">Manually assign participants to roles</span>
                 </label>
               </div>
             </div>
@@ -7234,7 +7325,7 @@
     });
   }
 
-  // Apply story event effects to students
+  // Apply story event effects to participants
   function applyStoryEvent(sceneId) {
     // Find the current scenario and scene
     let currentScenario = null;
@@ -7318,7 +7409,7 @@
     console.log(`Applied ${points} to ${characterName}: earned ${oldEarned} → ${newEarned} (${reason})`);
   }
 
-  // Apply points to all students in a team/faction
+  // Apply points to all participants in a team/faction
   function applyTeamPoints(teamName, points, reason) {
     if (!state.roster || state.roster.length === 0) return;
     const isMatch = (student) => {
@@ -7343,7 +7434,7 @@
     console.log(`Applied ${points} points to team ${teamName}: ${reason}`);
   }
 
-  // Ensure important story characters are present by assigning them to unassigned students
+  // Ensure important story characters are present by assigning them to unassigned participants
   function ensurePriorityCharactersForScenario(scenarioId) {
     if (!STORY_EVENTS[scenarioId] || !state.roster) return;
     const scenes = STORY_EVENTS[scenarioId].scenes || [];
@@ -7428,7 +7519,7 @@
               <div>
                 <h3 style="margin: 0 0 0.5rem 0; color: #1e293b;">🟢 Easy</h3>
                 <p style="margin: 0; color: #64748b; font-size: 0.9rem;">
-                  Lower costs for territories, weapons, and upgrades. Perfect for shorter games or younger students.
+                  Lower costs for territories, weapons, and upgrades. Perfect for shorter games or younger participants.
                 </p>
                 <div style="margin-top: 0.5rem; font-size: 0.8rem; color: #059669;">
                   • Territory costs: 50% of normal<br>
@@ -7478,7 +7569,7 @@
               <div>
                 <h3 style="margin: 0 0 0.5rem 0; color: #1e293b;">🔴 Hard</h3>
                 <p style="margin: 0; color: #64748b; font-size: 0.9rem;">
-                  Higher costs for challenging gameplay. Great for advanced students or longer game sessions.
+                  Higher costs for challenging gameplay. Great for advanced participants or longer game sessions.
                 </p>
                 <div style="margin-top: 0.5rem; font-size: 0.8rem; color: #dc2626;">
                   • Territory costs: 150% of normal<br>
@@ -7601,7 +7692,7 @@
       // If AI is enabled, check assignment type
       if (settings.enableAI) {
         if (settings.roleAssignment === 'random') {
-          // Random assignment with AI - proceed directly (students vs AI)
+          // Random assignment with AI - proceed directly (participants vs AI)
           initializeScenario(scenarioData);
           resetGameToDefaults();
           showScenarioInfo(scenarioData);
@@ -7842,11 +7933,11 @@
   }
   
   function initializeAIDragDrop() {
-    const studentsList = document.getElementById('aiStudentsList');
+    const participantsList = document.getElementById('aiStudentsList');
     const rolesList = document.getElementById('aiRolesList');
     
-    // Make students draggable
-    studentsList.querySelectorAll('.ai-student-card').forEach(card => {
+    // Make participants draggable
+    participantsList.querySelectorAll('.ai-student-card').forEach(card => {
       card.addEventListener('dragstart', function(e) {
         e.dataTransfer.setData('text/plain', this.dataset.studentId);
         e.dataTransfer.effectAllowed = 'move';
@@ -7907,10 +7998,10 @@
   
   window.autoAssignBadGuys = function() {
     const antagonistRoles = Array.from(document.querySelectorAll('.ai-role-card[data-is-antagonist="true"]')).filter(card => !card.dataset.assignedStudent);
-    const students = Array.from(document.querySelectorAll('.ai-student-card')).filter(card => card.draggable);
+    const participants = Array.from(document.querySelectorAll('.ai-student-card')).filter(card => card.draggable);
     
-    // Assign students to antagonist roles
-    students.forEach((student, index) => {
+    // Assign participants to antagonist roles
+    participants.forEach((student, index) => {
       if (index < antagonistRoles.length) {
         const role = antagonistRoles[index];
         const studentId = student.dataset.studentId;
@@ -7942,17 +8033,17 @@
   }
   
   window.randomizeAIRoles = function() {
-    const students = Array.from(document.querySelectorAll('.ai-student-card')).filter(card => card.draggable);
+    const participants = Array.from(document.querySelectorAll('.ai-student-card')).filter(card => card.draggable);
     const roles = Array.from(document.querySelectorAll('.ai-role-card')).filter(card => !card.dataset.assignedStudent);
     
-    // Shuffle students
-    for (let i = students.length - 1; i > 0; i--) {
+    // Shuffle participants
+    for (let i = participants.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [students[i], students[j]] = [students[j], students[i]];
+      [participants[i], participants[j]] = [participants[j], participants[i]];
     }
     
-    // Assign students to roles
-    students.forEach((student, index) => {
+    // Assign participants to roles
+    participants.forEach((student, index) => {
       if (index < roles.length) {
         const role = roles[index];
         const studentId = student.dataset.studentId;
@@ -8735,11 +8826,11 @@ REQUIREMENTS:
   }
   
   function initializeCustomDragDrop() {
-    const studentsList = document.getElementById('customStudentsList');
+    const participantsList = document.getElementById('customStudentsList');
     const rolesList = document.getElementById('customRolesList');
     
-    // Make students draggable
-    studentsList.querySelectorAll('.custom-student-card').forEach(card => {
+    // Make participants draggable
+    participantsList.querySelectorAll('.custom-student-card').forEach(card => {
       card.addEventListener('dragstart', function(e) {
         e.dataTransfer.setData('text/plain', this.dataset.studentId);
         e.dataTransfer.effectAllowed = 'move';
@@ -8764,17 +8855,17 @@ REQUIREMENTS:
   }
   
   function randomizeCustomRoles() {
-    const students = Array.from(document.querySelectorAll('.custom-student-card')).filter(card => card.draggable);
+    const participants = Array.from(document.querySelectorAll('.custom-student-card')).filter(card => card.draggable);
     const roles = Array.from(document.querySelectorAll('.custom-role-card')).filter(card => !card.dataset.assignedStudent);
     
-    // Shuffle students
-    for (let i = students.length - 1; i > 0; i--) {
+    // Shuffle participants
+    for (let i = participants.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [students[i], students[j]] = [students[j], students[i]];
+      [participants[i], participants[j]] = [participants[j], participants[i]];
     }
     
-    // Assign students to roles
-    students.forEach((student, index) => {
+    // Assign participants to roles
+    participants.forEach((student, index) => {
       if (index < roles.length) {
         const role = roles[index];
         const studentId = student.dataset.studentId;
@@ -9037,14 +9128,14 @@ REQUIREMENTS:
         </div>
         
         <p style="margin-bottom: 1.5rem; color: #64748b;">
-          Drag students to assign them to specific roles in the ${scenario.name} scenario:
+          Drag participants to assign them to specific roles in the ${scenario.name} scenario:
         </p>
         
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 1.5rem;">
           <!-- Students Column -->
           <div>
             <h3 style="margin: 0 0 1rem 0; color: #1e293b;">Students</h3>
-            <div id="studentsList" style="
+            <div id="participantsList" style="
               border: 2px dashed #e2e8f0;
               border-radius: 8px;
               padding: 1rem;
@@ -9151,11 +9242,11 @@ REQUIREMENTS:
   }
   
   function initializeRoleAssignmentDragDrop() {
-    const studentsList = document.getElementById('studentsList');
+    const participantsList = document.getElementById('participantsList');
     const rolesList = document.getElementById('rolesList');
     
-    // Make students draggable
-    studentsList.querySelectorAll('.student-card').forEach(card => {
+    // Make participants draggable
+    participantsList.querySelectorAll('.student-card').forEach(card => {
       card.addEventListener('dragstart', function(e) {
         e.dataTransfer.setData('text/plain', this.dataset.studentId);
         e.dataTransfer.effectAllowed = 'move';
@@ -9237,17 +9328,17 @@ REQUIREMENTS:
   });
   
   function randomizeAllRoles() {
-    const students = Array.from(document.querySelectorAll('.student-card')).filter(card => card.draggable);
+    const participants = Array.from(document.querySelectorAll('.student-card')).filter(card => card.draggable);
     const roles = Array.from(document.querySelectorAll('.role-card')).filter(card => !card.dataset.assignedStudent);
     
-    // Shuffle students
-    for (let i = students.length - 1; i > 0; i--) {
+    // Shuffle participants
+    for (let i = participants.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [students[i], students[j]] = [students[j], students[i]];
+      [participants[i], participants[j]] = [participants[j], participants[i]];
     }
     
-    // Assign students to roles
-    students.forEach((student, index) => {
+    // Assign participants to roles
+    participants.forEach((student, index) => {
       if (index < roles.length) {
         const role = roles[index];
         const studentId = student.dataset.studentId;
@@ -9787,7 +9878,7 @@ REQUIREMENTS:
       inv.fromStudentId === selectedStudent.gsId
     );
 
-    // Get students this student can send truce to (not already in truce, not self, not already invited)
+    // Get participants this student can send truce to (not already in truce, not self, not already invited)
     const availableStudents = state.roster.filter(student => 
       student.gsId !== selectedStudent.gsId &&
       !currentTruces.some(truce => 
@@ -9892,7 +9983,7 @@ REQUIREMENTS:
         </div>
         ` : currentTruces.length >= 3 ? 
           '<p style="color: #ef4444; font-style: italic;">This student has reached the maximum of 3 truces</p>' :
-          '<p style="color: var(--muted); font-style: italic;">No students available for truce</p>'
+          '<p style="color: var(--muted); font-style: italic;">No participants available for truce</p>'
         }
 
         <button onclick="this.parentElement.parentElement.remove()" 
@@ -9990,7 +10081,7 @@ REQUIREMENTS:
       );
       
       if (fromStudentTruces.length >= 3 || toStudentTruces.length >= 3) {
-        alert('One of the students has reached the maximum of 3 truces.');
+        alert('One of the participants has reached the maximum of 3 truces.');
         // Remove invitation
         state.truceInvitations = state.truceInvitations.filter(inv => inv.id !== invitationId);
         return;
@@ -10831,7 +10922,7 @@ REQUIREMENTS:
           {
             id: 'house_system',
             title: 'Hogwarts Houses',
-            fact: 'Hogwarts students are sorted into four houses: Gryffindor (bravery), Hufflepuff (loyalty), Ravenclaw (wisdom), and Slytherin (ambition).',
+            fact: 'Hogwarts participants are sorted into four houses: Gryffindor (bravery), Hufflepuff (loyalty), Ravenclaw (wisdom), and Slytherin (ambition).',
             context: 'Each house has its own values and characteristics.'
           }
         ]
@@ -11314,6 +11405,212 @@ REQUIREMENTS:
 
   // Make nextAIAction globally accessible
   window.nextAIAction = nextAIAction;
+  
+  // Business Mode Tools Functions
+  let businessMetrics = {
+    productsSold: 0,
+    customerSatisfaction: 0,
+    featuresShipped: 0,
+    bugsResolved: 0,
+    salesTarget: 100
+  };
+  
+  let businessAnnouncements = [];
+  let businessRewards = {
+    winningTeam: '',
+    topPlayer: ''
+  };
+  
+  // Show/hide business tools based on scenario
+  function toggleBusinessTools() {
+    const businessTools = document.getElementById('businessTools');
+    const isBusinessMode = state.scenario && state.scenario.id === 'businessMode';
+    
+    if (businessTools) {
+      businessTools.style.display = isBusinessMode ? 'block' : 'none';
+    }
+    
+    if (isBusinessMode) {
+      updateBusinessMetricsDisplay();
+      loadBusinessAnnouncements();
+      loadBusinessRewards();
+    }
+  }
+  
+  // Update business metrics
+  function updateMetric(metric, value) {
+    if (businessMetrics.hasOwnProperty(metric)) {
+      businessMetrics[metric] += value;
+      updateBusinessMetricsDisplay();
+      saveBusinessData();
+    }
+  }
+  
+  // Update business metrics display
+  function updateBusinessMetricsDisplay() {
+    // Update individual metrics
+    document.getElementById('productsSold').textContent = businessMetrics.productsSold;
+    document.getElementById('customerSatisfaction').textContent = businessMetrics.customerSatisfaction + '%';
+    document.getElementById('featuresShipped').textContent = businessMetrics.featuresShipped;
+    document.getElementById('bugsResolved').textContent = businessMetrics.bugsResolved;
+    
+    // Calculate and update sales progress
+    const progress = Math.min((businessMetrics.productsSold / businessMetrics.salesTarget) * 100, 100);
+    document.getElementById('salesProgress').textContent = Math.round(progress) + '%';
+    document.getElementById('salesProgressBar').style.width = progress + '%';
+  }
+  
+  // Show edit metrics modal
+  function showEditMetricsModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal show';
+    modal.innerHTML = `
+      <div class="card">
+        <button class="closeX" onclick="this.closest('.modal').remove()">Close</button>
+        <h2>Edit Business Metrics</h2>
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; margin-bottom: 4px;">Sales Target:</label>
+          <input type="number" id="salesTargetInput" value="${businessMetrics.salesTarget}" style="width: 100%;">
+        </div>
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; margin-bottom: 4px;">Products Sold:</label>
+          <input type="number" id="productsSoldInput" value="${businessMetrics.productsSold}" style="width: 100%;">
+        </div>
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; margin-bottom: 4px;">Customer Satisfaction (%):</label>
+          <input type="number" id="customerSatisfactionInput" value="${businessMetrics.customerSatisfaction}" style="width: 100%;">
+        </div>
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; margin-bottom: 4px;">Features Shipped:</label>
+          <input type="number" id="featuresShippedInput" value="${businessMetrics.featuresShipped}" style="width: 100%;">
+        </div>
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; margin-bottom: 4px;">Bugs Resolved:</label>
+          <input type="number" id="bugsResolvedInput" value="${businessMetrics.bugsResolved}" style="width: 100%;">
+        </div>
+        <button class="pill" onclick="saveBusinessMetrics()" style="background: #10b981; color: white;">Save Changes</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+  
+  // Save business metrics
+  function saveBusinessMetrics() {
+    businessMetrics.salesTarget = parseInt(document.getElementById('salesTargetInput').value) || 100;
+    businessMetrics.productsSold = parseInt(document.getElementById('productsSoldInput').value) || 0;
+    businessMetrics.customerSatisfaction = parseInt(document.getElementById('customerSatisfactionInput').value) || 0;
+    businessMetrics.featuresShipped = parseInt(document.getElementById('featuresShippedInput').value) || 0;
+    businessMetrics.bugsResolved = parseInt(document.getElementById('bugsResolvedInput').value) || 0;
+    
+    updateBusinessMetricsDisplay();
+    saveBusinessData();
+    document.querySelector('.modal').remove();
+  }
+  
+  // Post announcement
+  function postAnnouncement() {
+    const title = document.getElementById('announcementTitle').value.trim();
+    const body = document.getElementById('announcementBody').value.trim();
+    const audience = document.getElementById('announcementAudience').value;
+    
+    if (!title || !body) {
+      alert('Please enter both title and message.');
+      return;
+    }
+    
+    const announcement = {
+      id: Date.now(),
+      title,
+      body,
+      audience,
+      timestamp: new Date().toLocaleString(),
+      author: state.currentUser?.email || 'Manager'
+    };
+    
+    businessAnnouncements.unshift(announcement);
+    
+    // Clear form
+    document.getElementById('announcementTitle').value = '';
+    document.getElementById('announcementBody').value = '';
+    
+    loadBusinessAnnouncements();
+    saveBusinessData();
+  }
+  
+  // Load business announcements
+  function loadBusinessAnnouncements() {
+    const feed = document.getElementById('announcementsFeed');
+    if (!feed) return;
+    
+    feed.innerHTML = businessAnnouncements.slice(0, 5).map(ann => `
+      <div style="padding: 8px; border-bottom: 1px solid var(--border); margin-bottom: 4px;">
+        <div style="font-weight: 600; font-size: 12px;">${ann.title}</div>
+        <div style="font-size: 11px; color: var(--muted); margin: 2px 0;">${ann.body}</div>
+        <div style="font-size: 10px; color: var(--muted);">${ann.audience} • ${ann.timestamp}</div>
+      </div>
+    `).join('');
+  }
+  
+  // Update rewards
+  function updateRewards() {
+    const winningTeamReward = document.getElementById('winningTeamReward').value.trim();
+    const topPlayerReward = document.getElementById('topPlayerReward').value.trim();
+    
+    businessRewards.winningTeam = winningTeamReward;
+    businessRewards.topPlayer = topPlayerReward;
+    
+    // Clear form
+    document.getElementById('winningTeamReward').value = '';
+    document.getElementById('topPlayerReward').value = '';
+    
+    loadBusinessRewards();
+    saveBusinessData();
+  }
+  
+  // Load business rewards
+  function loadBusinessRewards() {
+    const status = document.getElementById('rewardsStatus');
+    if (!status) return;
+    
+    let statusText = '';
+    if (businessRewards.winningTeam) {
+      statusText += `Winning Team: ${businessRewards.winningTeam}<br>`;
+    }
+    if (businessRewards.topPlayer) {
+      statusText += `Top Player: ${businessRewards.topPlayer}`;
+    }
+    
+    status.innerHTML = statusText || 'No rewards set yet.';
+  }
+  
+  // Save business data to localStorage
+  function saveBusinessData() {
+    const businessData = {
+      metrics: businessMetrics,
+      announcements: businessAnnouncements,
+      rewards: businessRewards
+    };
+    localStorage.setItem('businessData', JSON.stringify(businessData));
+  }
+  
+  // Load business data from localStorage
+  function loadBusinessData() {
+    const saved = localStorage.getItem('businessData');
+    if (saved) {
+      const businessData = JSON.parse(saved);
+      businessMetrics = { ...businessMetrics, ...businessData.metrics };
+      businessAnnouncements = businessData.announcements || [];
+      businessRewards = { ...businessRewards, ...businessData.rewards };
+    }
+  }
+  
+  // Make functions globally accessible
+  window.updateMetric = updateMetric;
+  window.showEditMetricsModal = showEditMetricsModal;
+  window.saveBusinessMetrics = saveBusinessMetrics;
+  window.postAnnouncement = postAnnouncement;
+  window.updateRewards = updateRewards;
+  window.toggleBusinessTools = toggleBusinessTools;
   
   // Simplified decision making functions
   function makeAggressiveDecision(actions) {
