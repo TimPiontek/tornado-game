@@ -3176,8 +3176,6 @@
     // Create a logical map layout based on factions and territories
     const mapWidth = state.board.w;
     const mapHeight = state.board.h;
-    const centerX = Math.floor(mapWidth / 2);
-    const centerY = Math.floor(mapHeight / 2);
     
     // Get faction territories organized by faction
     const factionTerritories = {};
@@ -3188,8 +3186,34 @@
     // Add neutral territories
     const neutralTerritories = scenario.neutralTerritories || [];
     
-    // Create a more logical territory distribution
-    // Group territories by creating regions on the map
+    // For business scenarios with 4 teams, distribute all 64 territories uniquely
+    if (scenario.type === 'business') {
+      const factionKeys = Object.keys(factionTerritories);
+      const allTerritories = [];
+      
+      // Collect all territories from all factions
+      factionKeys.forEach(factionId => {
+        const territories = factionTerritories[factionId] || [];
+        territories.forEach(territory => {
+          allTerritories.push({
+            ...territory,
+            factionName: scenario.factions[factionId].name,
+            factionColor: scenario.factions[factionId].color
+          });
+        });
+      });
+      
+      // Use tile position to deterministically assign territories
+      // This ensures each tile gets a unique territory
+      const tileIndex = tile.y * mapWidth + tile.x;
+      const territoryIndex = tileIndex % allTerritories.length;
+      
+      return allTerritories[territoryIndex] || null;
+    }
+    
+    // Original logic for other scenarios
+    const centerX = Math.floor(mapWidth / 2);
+    const centerY = Math.floor(mapHeight / 2);
     
     // Calculate which region this tile belongs to
     const regionSize = Math.max(2, Math.floor(Math.min(mapWidth, mapHeight) / 3));
@@ -3258,7 +3282,7 @@
       }
       const ownerName = owner ? (isAI ? `${owner.characterName} (AI)` : shortenName(owner.name)) : '';
       const castleLevel = tile.castle_level || 0;
-      const castleText = castleLevel > 0 ? `🏰${castleLevel}` : '';
+      const castleText = castleLevel > 0 ? (state.scenario?.type === 'business' ? `🏢${castleLevel}` : `🏰${castleLevel}`) : '';
       
       // Calculate tile cost based on distance from center
       const tileCost = !owner ? calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h) : 0;
