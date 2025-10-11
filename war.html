@@ -570,6 +570,7 @@
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
   // === BUSINESS MODE VARIABLES ===
+  let isBusinessMode = false; // Global variable for business mode detection
   let businessMetrics = {
     salesAmount: 847500,
     salesTarget: 1000000,
@@ -4098,7 +4099,7 @@
       }
     } else if (tile.owner_game_student_id === selectedStudent.gsId) {
       // Own tile - show castle/factory options
-      const isBusinessMode = state.scenario?.type === 'business';
+      isBusinessMode = state.scenario?.type === 'business';
       const structureName = isBusinessMode ? 'factory' : 'castle';
       const structureNames = isBusinessMode ? 
         ['', 'Factory', 'Headquarters', 'Corporate Empire'] : 
@@ -5233,7 +5234,7 @@
       document.getElementById('defenderCastle3')
     ];
     // Update castle/factory buttons with active economy costs
-    const isBusinessMode = state.scenario?.type === 'business';
+    isBusinessMode = state.scenario?.type === 'business';
     if (defenderCastleButtons[0]) {
       defenderCastleButtons[0].textContent = isBusinessMode ? 
         `🏭 Factory (${getActiveEconomy().castleL1} pts)` : 
@@ -5321,7 +5322,7 @@
     });
     
     // Update defender castle/factory buttons
-    const isBusinessMode = state.scenario?.type === 'business';
+    isBusinessMode = state.scenario?.type === 'business';
     battleItems.castles.forEach((castle, index) => {
       if (defenderCastleButtons[index]) {
         const businessIcon = isBusinessMode ? '🏭' : castle.icon;
@@ -5457,7 +5458,7 @@
     
     // Show pre-built castle/factory if it exists
     if (tile.castle_level > 0) {
-      const isBusinessMode = state.scenario?.type === 'business';
+      isBusinessMode = state.scenario?.type === 'business';
       const castleNames = isBusinessMode ? 
         ['', 'Factory', 'Headquarters', 'Corporate Empire'] : 
         ['', 'Wooden Keep', 'Stone Fortress', 'Iron Citadel'];
@@ -12114,7 +12115,7 @@ REQUIREMENTS:
   // Show/hide business tools based on scenario
   function toggleBusinessTools() {
     const businessTools = document.getElementById('businessTools');
-    const isBusinessMode = state.scenario && state.scenario.id === 'businessMode';
+    isBusinessMode = state.scenario && state.scenario.id === 'businessMode';
     
     if (businessTools) {
       // Always show the container, but hide business-specific sections
