@@ -634,9 +634,11 @@
     
     console.log('[DEBUG] Grid element:', grid);
     console.log('[DEBUG] Board tiles:', board.tiles.length);
+    console.log('[DEBUG] All elements with id="grid":', document.querySelectorAll('#grid'));
     
     if (!grid) {
       console.error('[DEBUG] grid element not found!');
+      console.error('[DEBUG] Available elements:', document.querySelectorAll('div[id]'));
       return;
     }
     
@@ -1561,7 +1563,10 @@
   }
 
   // Initialize when page loads
-  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('DOMContentLoaded', () => {
+    // Add a small delay to ensure DOM is fully ready
+    setTimeout(init, 100);
+  });
   </script>
 </body>
 </html>
