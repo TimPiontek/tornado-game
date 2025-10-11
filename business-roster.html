@@ -28,21 +28,82 @@
     .team-option { padding:4px 8px; border:1px solid var(--border); border-radius:6px; background:var(--panel); color:var(--text); cursor:pointer; font-size:11px; }
     .team-option.active { background:#3b82f6; color:#fff; }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
+    // Supabase client for cloud persistence
+    const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+    const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
     let businessRosters = [];
     let currentRoster = null;
     let teamMode = 'individual';
 
-    // Load rosters from localStorage
-    function loadRosters() {
-      const saved = localStorage.getItem('businessRosters');
-      businessRosters = saved ? JSON.parse(saved) : [];
+    // Load rosters from Supabase with localStorage fallback
+    async function loadRosters() {
+      try {
+        // Try to load from Supabase first
+        const { data, error } = await supabase
+          .from('games')
+          .select('*')
+          .eq('mode', 'business');
+        
+        if (error) throw error;
+        
+        if (data && data.length > 0) {
+          // Convert Supabase games to roster format
+          businessRosters = data.map(game => ({
+            id: game.id,
+            name: game.name,
+            employees: game.employees || [],
+            teamMode: game.team_mode || 'individual',
+            createdAt: game.created_at
+          }));
+        } else {
+          // Fallback to localStorage
+          const saved = localStorage.getItem('businessRosters');
+          businessRosters = saved ? JSON.parse(saved) : [];
+        }
+      } catch (error) {
+        console.log('Supabase load failed, using localStorage:', error);
+        // Fallback to localStorage
+        const saved = localStorage.getItem('businessRosters');
+        businessRosters = saved ? JSON.parse(saved) : [];
+      }
+      
       renderRosters();
     }
 
-    // Save rosters to localStorage
-    function saveRosters() {
-      localStorage.setItem('businessRosters', JSON.stringify(businessRosters));
+    // Save rosters to Supabase and localStorage
+    async function saveRosters() {
+      try {
+        // Save to localStorage as backup
+        localStorage.setItem('businessRosters', JSON.stringify(businessRosters));
+        
+        // Save to Supabase
+        for (const roster of businessRosters) {
+          const gameData = {
+            id: roster.id,
+            name: roster.name,
+            mode: 'business',
+            employees: roster.employees,
+            team_mode: roster.teamMode,
+            created_at: roster.createdAt || new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          };
+          
+          const { error } = await supabase
+            .from('games')
+            .upsert(gameData);
+          
+          if (error) throw error;
+        }
+        
+        console.log('Rosters saved to cloud successfully');
+      } catch (error) {
+        console.error('Failed to save rosters to cloud:', error);
+        // Still saved to localStorage as backup
+      }
     }
 
     function renderRosters() {
@@ -176,7 +237,7 @@
       loadRosterDetails();
     }
 
-    function addEmployee() {
+    async function addEmployee() {
       const name = document.getElementById('newEmployeeName').value.trim();
       if (!name) {
         alert('Please enter an employee name');
@@ -190,20 +251,23 @@
       }
 
       const newEmployee = {
+        id: generateUUID(),
         name,
         team: teamMode === 'individual' ? null : getTeamOptions()[0],
         points: 100,
-        credits: 0
+        credits: 0,
+        balance: 100,
+        tilesOwned: 0
       };
 
       currentRoster.employees.push(newEmployee);
       document.getElementById('newEmployeeName').value = '';
-      saveRosters();
+      await saveRosters();
       loadRosterDetails();
       alert('Employee added successfully!');
     }
 
-    function addBulkEmployees() {
+    async function addBulkEmployees() {
       const bulkText = document.getElementById('bulkEmployeeNames').value.trim();
       if (!bulkText) {
         alert('Please enter employee names (one per line)');
@@ -225,51 +289,63 @@
         // Check for duplicates
         if (!currentRoster.employees.some(emp => emp.name.toLowerCase() === name.toLowerCase())) {
           newEmployees.push({
+            id: generateUUID(),
             name,
             team: teamMode === 'individual' ? null : teamNames[index % teamNames.length],
             points: 100,
-            credits: 0
+            credits: 0,
+            balance: 100,
+            tilesOwned: 0
           });
         }
       });
 
       currentRoster.employees.push(...newEmployees);
       document.getElementById('bulkEmployeeNames').value = '';
-      saveRosters();
+      await saveRosters();
       loadRosterDetails();
       alert(`Successfully added ${newEmployees.length} employees!`);
     }
 
-    function updateEmployeeName(index, name) {
+    async function updateEmployeeName(index, name) {
       currentRoster.employees[index].name = name;
-      saveRosters();
+      await saveRosters();
     }
 
-    function updateEmployeeTeam(index, team) {
+    async function updateEmployeeTeam(index, team) {
       currentRoster.employees[index].team = team || null;
-      saveRosters();
+      await saveRosters();
     }
 
-    function removeEmployee(index) {
+    async function removeEmployee(index) {
       if (!confirm('Remove this employee from the roster?')) return;
 
       currentRoster.employees.splice(index, 1);
-      saveRosters();
+      await saveRosters();
       loadRosterDetails();
     }
 
-    function updateRosterName() {
+    async function updateRosterName() {
       const name = document.getElementById('rosterName').value.trim();
       if (!name) return;
 
       currentRoster.name = name;
-      saveRosters();
+      await saveRosters();
       renderRosters();
       loadRosterDetails();
       alert('Roster name updated successfully!');
     }
 
-    function createNewRoster() {
+    // Generate UUID for database compatibility
+    function generateUUID() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0;
+        const v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+
+    async function createNewRoster() {
       const name = document.getElementById('newRosterName').value.trim();
       if (!name) {
         alert('Please enter a roster name');
@@ -277,28 +353,29 @@
       }
 
       const newRoster = {
-        id: Date.now().toString(),
+        id: generateUUID(),
         name: name,
         employees: [],
-        lastModified: new Date().toISOString()
+        teamMode: 'individual',
+        createdAt: new Date().toISOString()
       };
 
       businessRosters.push(newRoster);
       document.getElementById('newRosterName').value = '';
-      saveRosters();
+      await saveRosters();
       renderRosters();
       selectRoster(newRoster.id);
       alert('Roster created successfully! Add employees to get started.');
     }
 
-    function deleteRoster(rosterId) {
+    async function deleteRoster(rosterId) {
       if (!confirm('Delete this roster and all employees? This cannot be undone.')) return;
 
       businessRosters = businessRosters.filter(r => r.id !== rosterId);
       if (currentRoster && currentRoster.id === rosterId) {
         currentRoster = null;
       }
-      saveRosters();
+      await saveRosters();
       renderRosters();
       loadRosterDetails();
       alert('Roster deleted successfully!');
@@ -309,7 +386,9 @@
     }
 
     // Initialize on page load
-    document.addEventListener('DOMContentLoaded', loadRosters);
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadRosters();
+    });
   </script>
 </head>
 <body>
