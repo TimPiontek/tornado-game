@@ -72,7 +72,7 @@
             const roster = {
               id: game.id,
               name: game.name,
-              teamMode: game.team_mode || 'individual',
+              teamMode: 'individual', // Default to individual since team_mode not in schema
               employees: employees || [],
               createdAt: game.created_at,
               updatedAt: game.updated_at
@@ -118,7 +118,6 @@
             id: roster.id,
             name: roster.name,
             mode: 'business',
-            team_mode: roster.teamMode,
             created_at: roster.createdAt || new Date().toISOString(),
             updated_at: new Date().toISOString()
           };
