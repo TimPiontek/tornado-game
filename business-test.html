@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tornado Business Test - No Supabase</title>
+  <style>
+    :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
+    * { box-sizing: border-box }
+    html, body { height:100%; margin:0; padding:0; font-family:system-ui, -apple-system, sans-serif; background:var(--bg); color:var(--text); }
+    
+    .container { display:grid; grid-template-columns:300px 1fr 300px; height:100vh; gap:16px; padding:16px; }
+    .panel { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px; }
+    
+    .grid { display:grid; gap:2px; background:#0a1220; padding:4px; border-radius:8px; max-height:85vh; overflow:auto; }
+    .tile { background:#0b1220; border:1px solid #0d1930; border-radius:6px; font-size:10px; min-height:50px; padding:3px; cursor:pointer; transition:all 0.2s; }
+    .tile:hover { background:#1a2332; }
+    .tile.owned { background:#1e3a8a; }
+    .tile.headquarters { background:#059669; }
+    
+    .employee-list { margin-bottom:16px; }
+    .employee { padding:8px; margin:4px 0; background:var(--bg); border-radius:4px; cursor:pointer; }
+    .employee.selected { background:var(--accent); color:var(--bg); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <h3>Employees</h3>
+      <div class="employee-list" id="employeeList"></div>
+    </div>
+    
+    <div class="panel">
+      <h3>Business Competition</h3>
+      <div class="grid" id="gameBoard"></div>
+    </div>
+    
+    <div class="panel">
+      <h3>Debug Info</h3>
+      <div id="debugInfo"></div>
+    </div>
+  </div>
+
+  <script>
+    console.log('[TEST] Starting business test page');
+    
+    // Test state
+    let testState = {
+      employees: [
+        { id: '1', name: 'Alice Johnson', team: 'Alpha Team', balance: 100 },
+        { id: '2', name: 'Bob Smith', team: 'Beta Team', balance: 100 },
+        { id: '3', name: 'Carol Davis', team: 'Alpha Team', balance: 100 },
+        { id: '4', name: 'David Wilson', team: 'Gamma Team', balance: 100 }
+      ],
+      selectedEmployee: null,
+      board: { w: 8, h: 8, tiles: [] }
+    };
+    
+    // Initialize board
+    function initializeBoard() {
+      console.log('[TEST] Initializing board...');
+      const board = testState.board;
+      board.tiles = [];
+      
+      for (let y = 0; y < board.h; y++) {
+        for (let x = 0; x < board.w; x++) {
+          board.tiles.push({
+            id: `${x}-${y}`,
+            x, y,
+            owner: null,
+            cost: Math.floor(Math.random() * 100) + 50
+          });
+        }
+      }
+      
+      // Place starting headquarters
+      const corners = [
+        { x: 0, y: 0 },
+        { x: board.w - 1, y: 0 },
+        { x: 0, y: board.h - 1 },
+        { x: board.w - 1, y: board.h - 1 }
+      ];
+      
+      testState.employees.forEach((emp, i) => {
+        if (corners[i]) {
+          const tile = board.tiles.find(t => t.x === corners[i].x && t.y === corners[i].y);
+          if (tile) {
+            tile.owner = emp.id;
+            tile.isHeadquarters = true;
+          }
+        }
+      });
+      
+      console.log('[TEST] Board initialized with', board.tiles.length, 'tiles');
+      renderBoard();
+    }
+    
+    // Render board
+    function renderBoard() {
+      console.log('[TEST] Rendering board...');
+      const grid = document.getElementById('gameBoard');
+      const board = testState.board;
+      
+      grid.style.gridTemplateColumns = `repeat(${board.w}, 1fr)`;
+      grid.style.gridTemplateRows = `repeat(${board.h}, 1fr)`;
+      
+      grid.innerHTML = '';
+      
+      board.tiles.forEach(tile => {
+        const div = document.createElement('div');
+        div.className = 'tile';
+        div.id = `tile-${tile.id}`;
+        
+        if (tile.owner) {
+          div.classList.add('owned');
+          const owner = testState.employees.find(e => e.id === tile.owner);
+          if (owner) {
+            div.textContent = owner.name.split(' ')[0];
+            if (tile.isHeadquarters) {
+              div.classList.add('headquarters');
+              div.textContent += ' 🏢';
+            }
+          }
+        } else {
+          div.textContent = `$${tile.cost}`;
+        }
+        
+        div.onclick = () => handleTileClick(tile);
+        grid.appendChild(div);
+      });
+      
+      console.log('[TEST] Board rendered successfully');
+    }
+    
+    // Handle tile click
+    function handleTileClick(tile) {
+      if (!testState.selectedEmployee) {
+        alert('Please select an employee first');
+        return;
+      }
+      
+      if (tile.owner === testState.selectedEmployee.id) {
+        alert('You already own this tile');
+        return;
+      }
+      
+      if (tile.owner) {
+        alert(`This tile is owned by ${testState.employees.find(e => e.id === tile.owner).name}`);
+        return;
+      }
+      
+      if (testState.selectedEmployee.balance >= tile.cost) {
+        tile.owner = testState.selectedEmployee.id;
+        testState.selectedEmployee.balance -= tile.cost;
+        renderBoard();
+        renderEmployees();
+        updateDebugInfo();
+        alert(`${testState.selectedEmployee.name} bought the tile for ${tile.cost} points!`);
+      } else {
+        alert(`Insufficient funds! Need ${tile.cost} points.`);
+      }
+    }
+    
+    // Render employees
+    function renderEmployees() {
+      const container = document.getElementById('employeeList');
+      container.innerHTML = '';
+      
+      testState.employees.forEach(emp => {
+        const div = document.createElement('div');
+        div.className = 'employee';
+        if (testState.selectedEmployee && testState.selectedEmployee.id === emp.id) {
+          div.classList.add('selected');
+        }
+        div.textContent = `${emp.name} - $${emp.balance}`;
+        div.onclick = () => {
+          testState.selectedEmployee = emp;
+          renderEmployees();
+          updateDebugInfo();
+        };
+        container.appendChild(div);
+      });
+    }
+    
+    // Update debug info
+    function updateDebugInfo() {
+      const debug = document.getElementById('debugInfo');
+      debug.innerHTML = `
+        <p><strong>Selected:</strong> ${testState.selectedEmployee ? testState.selectedEmployee.name : 'None'}</p>
+        <p><strong>Board Size:</strong> ${testState.board.w}x${testState.board.h}</p>
+        <p><strong>Tiles:</strong> ${testState.board.tiles.length}</p>
+        <p><strong>Owned Tiles:</strong> ${testState.board.tiles.filter(t => t.owner).length}</p>
+      `;
+    }
+    
+    // Initialize everything
+    function init() {
+      console.log('[TEST] Initializing test page...');
+      initializeBoard();
+      renderEmployees();
+      updateDebugInfo();
+      console.log('[TEST] Test page initialized successfully');
+    }
+    
+    // Start when page loads
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
