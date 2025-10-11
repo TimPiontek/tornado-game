@@ -569,6 +569,31 @@
 
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
+  // === BUSINESS MODE VARIABLES ===
+  let businessMetrics = {
+    salesAmount: 847500,
+    salesTarget: 1000000,
+    salesTitle: 'Q4 Sales Goal',
+    productsSold: 2847,
+    productsTarget: 3000,
+    productsTitle: 'Products Sold',
+    customerSatisfaction: 4.7,
+    satisfactionTarget: 4.5,
+    satisfactionTitle: 'Customer Satisfaction',
+    featuresShipped: 47,
+    featuresTarget: 50,
+    featuresTitle: 'Features Shipped',
+    bugsResolved: 156,
+    bugsTarget: 200,
+    bugsTitle: 'Bugs Resolved'
+  };
+  
+  let businessAnnouncements = [];
+  let businessRewards = {
+    winningTeam: '',
+    topPlayer: ''
+  };
+
   // === STORY EVENTS DATA (moved to top to avoid temporal dead zone) ===
   const STORY_EVENTS = {
     'romeo_juliet': {
@@ -12004,31 +12029,6 @@ REQUIREMENTS:
 
   // Make nextAIAction globally accessible
   window.nextAIAction = nextAIAction;
-  
-  // Business Mode Tools Functions
-  let businessMetrics = {
-    salesAmount: 847500,
-    salesTarget: 1000000,
-    salesTitle: 'Q4 Sales Goal',
-    productsSold: 2847,
-    productsTarget: 3000,
-    productsTitle: 'Products Sold',
-    customerSatisfaction: 4.7,
-    satisfactionTarget: 4.5,
-    satisfactionTitle: 'Customer Satisfaction',
-    featuresShipped: 47,
-    featuresTarget: 50,
-    featuresTitle: 'Features Shipped',
-    bugsResolved: 156,
-    bugsTarget: 200,
-    bugsTitle: 'Bugs Resolved'
-  };
-  
-  let businessAnnouncements = [];
-  let businessRewards = {
-    winningTeam: '',
-    topPlayer: ''
-  };
   
   // Show/hide business tools based on scenario
   function toggleBusinessTools() {
