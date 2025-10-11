@@ -529,9 +529,9 @@
         <div class="section">
           <div class="title" id="defenseTitle">Castle Defense</div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <button class="pill" id="defenderCastle1" style="background: #10b981;">Wooden Keep</button>
-            <button class="pill" id="defenderCastle2" style="background: #3b82f6;">Stone Fortress</button>
-            <button class="pill" id="defenderCastle3" style="background: #8b5cf6;">Iron Citadel</button>
+            <button class="pill" id="defenderCastle1" style="background: #10b981;">Factory</button>
+            <button class="pill" id="defenderCastle2" style="background: #3b82f6;">Headquarters</button>
+            <button class="pill" id="defenderCastle3" style="background: #8b5cf6;">Corporate Empire</button>
           </div>
           <div class="minor">Selected: <span id="defenderCastle">None</span> <button class="pill" id="removeDefenderCastle" style="background: #ef4444; color: white; font-size: 12px; padding: 4px 8px; margin-left: 8px;">Remove</button></div>
         </div>
@@ -4103,7 +4103,7 @@
       const structureName = isBusinessMode ? 'factory' : 'castle';
       const structureNames = isBusinessMode ? 
         ['', 'Factory', 'Headquarters', 'Corporate Empire'] : 
-        ['', 'Wooden Keep', 'Stone Fortress', 'Iron Citadel'];
+        ['', 'Factory', 'Headquarters', 'Corporate Empire'];
       
       if (tile.castle_level > 0) {
         // Has castle/factory - show upgrade/sell options
@@ -4818,9 +4818,9 @@
           { id: 'catapult', name: 'Catapult', cost: 100, power: 30, icon: '🏰' }
         ],
         castles: [
-          { id: 'wooden', name: 'Wooden Keep', cost: 50, power: 75, icon: '🏠' },
-          { id: 'stone', name: 'Stone Fortress', cost: 100, power: 150, icon: '🏰' },
-          { id: 'iron', name: 'Iron Citadel', cost: 200, power: 300, icon: '🏯' }
+          { id: 'wooden', name: 'Factory', cost: 50, power: 75, icon: '🏭' },
+          { id: 'stone', name: 'Headquarters', cost: 100, power: 150, icon: '🏢' },
+          { id: 'iron', name: 'Corporate Empire', cost: 200, power: 300, icon: '🏙️' }
         ]
       };
     }
@@ -4839,9 +4839,9 @@
           { id: 'catapult', name: 'Catapult', cost: 100, power: 30, icon: '🏰' }
         ],
         castles: [
-          { id: 'wooden', name: 'Wooden Keep', cost: 50, power: 75, icon: '🏠' },
-          { id: 'stone', name: 'Stone Fortress', cost: 100, power: 150, icon: '🏰' },
-          { id: 'iron', name: 'Iron Citadel', cost: 200, power: 300, icon: '🏯' }
+          { id: 'wooden', name: 'Factory', cost: 50, power: 75, icon: '🏭' },
+          { id: 'stone', name: 'Headquarters', cost: 100, power: 150, icon: '🏢' },
+          { id: 'iron', name: 'Corporate Empire', cost: 200, power: 300, icon: '🏙️' }
         ]
       };
     }
@@ -5238,17 +5238,17 @@
     if (defenderCastleButtons[0]) {
       defenderCastleButtons[0].textContent = isBusinessMode ? 
         `🏭 Factory (${getActiveEconomy().castleL1} pts)` : 
-        `Wooden Keep (${getActiveEconomy().castleL1} pts)`;
+        `Factory (${getActiveEconomy().castleL1} pts)`;
     }
     if (defenderCastleButtons[1]) {
       defenderCastleButtons[1].textContent = isBusinessMode ? 
         `🏢 Headquarters (${getActiveEconomy().castleL2} pts)` : 
-        `Stone Fortress (${getActiveEconomy().castleL2} pts)`;
+        `Headquarters (${getActiveEconomy().castleL2} pts)`;
     }
     if (defenderCastleButtons[2]) {
       defenderCastleButtons[2].textContent = isBusinessMode ? 
         `🏛️ Corporate Empire (${getActiveEconomy().castleL3} pts)` : 
-        `Iron Citadel (${getActiveEconomy().castleL3} pts)`;
+        `Corporate Empire (${getActiveEconomy().castleL3} pts)`;
     }
     
     // Update defense title
@@ -5505,7 +5505,7 @@
       isBusinessMode = state.scenario?.type === 'business';
       const castleNames = isBusinessMode ? 
         ['', 'Factory', 'Headquarters', 'Corporate Empire'] : 
-        ['', 'Wooden Keep', 'Stone Fortress', 'Iron Citadel'];
+        ['', 'Factory', 'Headquarters', 'Corporate Empire'];
       document.getElementById('defenderCastle').textContent = `${castleNames[tile.castle_level]} (Pre-built)`;
     } else {
       document.getElementById('defenderCastle').textContent = 'None';
@@ -6052,19 +6052,19 @@
   // Defender castles (battle-screen castles)
   document.getElementById('defenderCastle1').onclick = () => {
     currentBattle.defenderBattleCastle = 1;
-    document.getElementById('defenderCastle').textContent = 'Wooden Keep (Battle)';
+    document.getElementById('defenderCastle').textContent = 'Factory (Competition)';
     updateBattleSummary();
   };
   
   document.getElementById('defenderCastle2').onclick = () => {
     currentBattle.defenderBattleCastle = 2;
-    document.getElementById('defenderCastle').textContent = 'Stone Fortress (Battle)';
+    document.getElementById('defenderCastle').textContent = 'Headquarters (Competition)';
     updateBattleSummary();
   };
   
   document.getElementById('defenderCastle3').onclick = () => {
     currentBattle.defenderBattleCastle = 3;
-    document.getElementById('defenderCastle').textContent = 'Iron Citadel (Battle)';
+    document.getElementById('defenderCastle').textContent = 'Corporate Empire (Competition)';
     updateBattleSummary();
   };
   // Simulate war button
