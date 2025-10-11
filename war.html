@@ -440,7 +440,7 @@
           <div>💰 Balance: <span id="attackerBalance">0</span></div>
         </div>
         <div class="section">
-          <div class="title">Mercenaries</div>
+          <div class="title" id="attackerMercTitle">Mercenaries</div>
           <div style="display: flex; gap: 10px; align-items: center;">
             <button class="pill" id="attackerMercMinus">-</button>
             <span id="attackerMercCount">0</span>
@@ -488,7 +488,7 @@
           <div>💰 Balance: <span id="defenderBalance">0</span></div>
         </div>
         <div class="section">
-          <div class="title">Mercenaries</div>
+          <div class="title" id="defenderMercTitle">Mercenaries</div>
           <div style="display: flex; gap: 10px; align-items: center;">
             <button class="pill" id="defenderMercMinus">-</button>
             <span id="defenderMercCount">0</span>
@@ -3457,7 +3457,7 @@
           </div>
           <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem;">
             <span>Territories: <strong>${stats.tilesOwned}/${totalTiles}</strong></span>
-            <span id="castlesLabel">Castles: <strong>${stats.castles}</strong></span>
+            <span id="castlesLabel">${state.scenario?.type === 'business' ? 'Factories' : 'Castles'}: <strong>${stats.castles}</strong></span>
             <span>Students: <strong>${stats.participants.length}</strong></span>
           </div>
           <div style="
@@ -5429,6 +5429,42 @@
     document.getElementById('attackerBalance').textContent = attacker.balance;
     document.getElementById('defenderBalance').textContent = defender.balance;
     
+    // Update terminology for business mode
+    const isBusinessMode = state.scenario?.type === 'business';
+    const attackerMercTitle = document.getElementById('attackerMercTitle');
+    const defenderMercTitle = document.getElementById('defenderMercTitle');
+    
+    if (attackerMercTitle) {
+      attackerMercTitle.textContent = isBusinessMode ? 'Employees' : 'Mercenaries';
+    }
+    if (defenderMercTitle) {
+      defenderMercTitle.textContent = isBusinessMode ? 'Employees' : 'Mercenaries';
+    }
+    
+    // Update weapon button text for business mode
+    const attackerSpear = document.getElementById('attackerSpear');
+    const attackerCrossbow = document.getElementById('attackerCrossbow');
+    const attackerCatapult = document.getElementById('attackerCatapult');
+    const defenderSpear = document.getElementById('defenderSpear');
+    const defenderCrossbow = document.getElementById('defenderCrossbow');
+    const defenderCatapult = document.getElementById('defenderCatapult');
+    
+    if (isBusinessMode) {
+      if (attackerSpear) attackerSpear.textContent = 'Legal Team';
+      if (attackerCrossbow) attackerCrossbow.textContent = 'Cyber Security';
+      if (attackerCatapult) attackerCatapult.textContent = 'Talent Acquisition';
+      if (defenderSpear) defenderSpear.textContent = 'Legal Team';
+      if (defenderCrossbow) defenderCrossbow.textContent = 'Cyber Security';
+      if (defenderCatapult) defenderCatapult.textContent = 'Talent Acquisition';
+    } else {
+      if (attackerSpear) attackerSpear.textContent = 'Spear';
+      if (attackerCrossbow) attackerCrossbow.textContent = 'Crossbow';
+      if (attackerCatapult) attackerCatapult.textContent = 'Catapult';
+      if (defenderSpear) defenderSpear.textContent = 'Spear';
+      if (defenderCrossbow) defenderCrossbow.textContent = 'Crossbow';
+      if (defenderCatapult) defenderCatapult.textContent = 'Catapult';
+    }
+    
     // Add truce indicator if participants are in a truce
     if (areInTruce) {
       const truceIndicator = document.createElement('div');
@@ -5551,7 +5587,9 @@
             weaponCost = weaponButton.getAttribute('data-weapon-cost') + ' pts';
           } else {
             // Fallback for generic weapons
-        const weaponNames = { spear: 'Spear', crossbow: 'Crossbow', catapult: 'Catapult' };
+        const weaponNames = isBusinessMode ? 
+          { spear: 'Legal Team', crossbow: 'Cyber Security', catapult: 'Talent Acquisition' } :
+          { spear: 'Spear', crossbow: 'Crossbow', catapult: 'Catapult' };
         const weaponCosts = ECONOMY.weapons;
             weaponName = weaponNames[weapon] || weapon;
             weaponCost = weaponCosts[weapon] + ' pts';
@@ -7699,6 +7737,8 @@
       
       // Set up the scenario
       state.scenario = scenarioData;
+      // Ensure scenarioId is set for market items
+      state.scenario.scenarioId = scenarioData.id;
       
       if (mode === 'individual') {
         // Individual mode - no teams
@@ -10194,6 +10234,19 @@ REQUIREMENTS:
           ]
         };
       
+      case 'businessMode':
+        return {
+          weapons: [
+            { name: 'Legal Team', description: '+15 corporate power', cost: economy.weapons.spear },
+            { name: 'Cyber Security', description: '+20 corporate power', cost: economy.weapons.crossbow },
+            { name: 'Talent Acquisition', description: '+30 corporate power', cost: economy.weapons.catapult }
+          ],
+          allies: [
+            { name: 'Executive', description: 'Senior management talent', cost: Math.round(150 * (economy.weapons.spear / 40)) },
+            { name: 'Consultant', description: 'External business advisor', cost: Math.round(200 * (economy.weapons.spear / 40)) }
+          ]
+        };
+      
       case 'romeoJuliet':
         return {
           weapons: [
@@ -12115,7 +12168,7 @@ REQUIREMENTS:
   // Show/hide business tools based on scenario
   function toggleBusinessTools() {
     const businessTools = document.getElementById('businessTools');
-    isBusinessMode = state.scenario && state.scenario.id === 'businessMode';
+    isBusinessMode = state.scenario && state.scenario.type === 'business';
     
     if (businessTools) {
       // Always show the container, but hide business-specific sections
