@@ -268,9 +268,15 @@
         </div>
         
         <!-- Management Buttons -->
-        <div style="display: flex; gap: 12px;">
+        <div style="display: flex; gap: 12px; margin-bottom: 12px;">
           <button onclick="showEditMetricsModal()" style="background: #8b5cf6; color: white; border: none; border-radius: 6px; padding: 12px 24px; font-size: 14px; cursor: pointer; flex: 1;">⚙️ Edit Metrics</button>
           <button onclick="showCSVImportModal()" style="background: #3b82f6; color: white; border: none; border-radius: 6px; padding: 12px 24px; font-size: 14px; cursor: pointer; flex: 1;">📊 Import CSV Data</button>
+        </div>
+        
+        <!-- Game & Team Customization -->
+        <div style="display: flex; gap: 12px;">
+          <button onclick="showGameSettingsModal()" style="background: #f59e0b; color: white; border: none; border-radius: 6px; padding: 12px 24px; font-size: 14px; cursor: pointer; flex: 1;">🎮 Game Settings</button>
+          <button onclick="showTeamNamesModal()" style="background: #10b981; color: white; border: none; border-radius: 6px; padding: 12px 24px; font-size: 14px; cursor: pointer; flex: 1;">👥 Team Names</button>
         </div>
       </div>
       
@@ -12410,6 +12416,99 @@ REQUIREMENTS:
   // Make functions globally accessible
   window.updateMetric = updateMetric;
   window.showEditMetricsModal = showEditMetricsModal;
+  
+  // Show game settings modal
+  function showGameSettingsModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal show';
+    modal.innerHTML = `
+      <div class="card">
+        <button class="closeX" onclick="this.closest('.modal').remove()">Close</button>
+        <h2>🎮 Game Settings</h2>
+        
+        <div style="margin-bottom: 20px; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <h3 style="margin: 0 0 12px 0; color: #1e293b; font-size: 14px;">Game Title</h3>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px; font-weight: 600;">Custom Game Title:</label>
+            <input type="text" id="gameTitleInput" value="${state.scenario?.scenarioName || 'Business Competition Mode'}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
+          <p style="margin: 0; color: #64748b; font-size: 12px;">This will replace the default "Business Competition Mode" title.</p>
+        </div>
+        
+        <button class="pill" onclick="saveGameSettings()" style="background: #10b981; color: white; width: 100%; padding: 12px; font-size: 16px; font-weight: 600;">Save Settings</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+  
+  // Save game settings
+  function saveGameSettings() {
+    const gameTitle = document.getElementById('gameTitleInput').value.trim();
+    if (gameTitle) {
+      if (state.scenario) {
+        state.scenario.scenarioName = gameTitle;
+      }
+      updateGameThemeTitle();
+      saveBusinessData();
+    }
+    document.querySelector('.modal').remove();
+  }
+  
+  // Show team names modal
+  function showTeamNamesModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal show';
+    modal.innerHTML = `
+      <div class="card">
+        <button class="closeX" onclick="this.closest('.modal').remove()">Close</button>
+        <h2>👥 Team Names</h2>
+        
+        <div style="margin-bottom: 20px; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <h3 style="margin: 0 0 12px 0; color: #1e293b; font-size: 14px;">Customize Team Names</h3>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px; font-weight: 600;">Alpha Division:</label>
+            <input type="text" id="teamANameInput" value="${state.scenario?.factions?.teamA?.name || 'Alpha Division'}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px; font-weight: 600;">Beta Division:</label>
+            <input type="text" id="teamBNameInput" value="${state.scenario?.factions?.teamB?.name || 'Beta Division'}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px; font-weight: 600;">Gamma Division:</label>
+            <input type="text" id="teamCNameInput" value="${state.scenario?.factions?.teamC?.name || 'Gamma Division'}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 4px; font-weight: 600;">Delta Division:</label>
+            <input type="text" id="teamDNameInput" value="${state.scenario?.factions?.teamD?.name || 'Delta Division'}" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+          </div>
+          <p style="margin: 0; color: #64748b; font-size: 12px;">These names will appear in the game interface and roster.</p>
+        </div>
+        
+        <button class="pill" onclick="saveTeamNames()" style="background: #10b981; color: white; width: 100%; padding: 12px; font-size: 16px; font-weight: 600;">Save Team Names</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+  
+  // Save team names
+  function saveTeamNames() {
+    if (state.scenario && state.scenario.factions) {
+      const teamAName = document.getElementById('teamANameInput').value.trim();
+      const teamBName = document.getElementById('teamBNameInput').value.trim();
+      const teamCName = document.getElementById('teamCNameInput').value.trim();
+      const teamDName = document.getElementById('teamDNameInput').value.trim();
+      
+      if (teamAName) state.scenario.factions.teamA.name = teamAName;
+      if (teamBName) state.scenario.factions.teamB.name = teamBName;
+      if (teamCName) state.scenario.factions.teamC.name = teamCName;
+      if (teamDName) state.scenario.factions.teamD.name = teamDName;
+      
+      // Update roster display
+      renderRoster();
+      saveBusinessData();
+    }
+    document.querySelector('.modal').remove();
+  }
   window.saveBusinessMetrics = saveBusinessMetrics;
   window.postAnnouncement = postAnnouncement;
   window.updateRewards = updateRewards;
