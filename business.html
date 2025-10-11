@@ -282,10 +282,26 @@
 
   // Initialize the game
   async function init() {
+    console.log('[DEBUG] init() called');
+    
+    // Force create demo data immediately to test board rendering
+    if (businessState.employees.length === 0) {
+      console.log('[DEBUG] Creating demo employees immediately');
+      businessState.employees = [
+        { id: '1', name: 'Alice Johnson', team: 'Alpha Team', points: 100, credits: 25, balance: 100, tilesOwned: 0 },
+        { id: '2', name: 'Bob Smith', team: 'Beta Team', points: 100, credits: 22, balance: 100, tilesOwned: 0 },
+        { id: '3', name: 'Carol Davis', team: 'Alpha Team', points: 100, credits: 20, balance: 100, tilesOwned: 0 },
+        { id: '4', name: 'David Wilson', team: 'Gamma Team', points: 100, credits: 18, balance: 100, tilesOwned: 0 }
+      ];
+      businessState.currentGame = { name: 'Demo Business Roster', managerCode: 'DEMO' };
+    }
+    
     await loadGameData();
     loadRosterSelector();
     initializeGameBoard();
     updateDisplay();
+    
+    console.log('[DEBUG] init() completed');
   }
 
   // Load game data from Supabase
