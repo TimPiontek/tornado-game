@@ -28,8 +28,8 @@
     .employee-card.selected { border-color:var(--accent); background:rgba(34,211,238,0.1); }
     .grid { 
       display:grid; 
-      gap:3px; 
-      background:var(--border); 
+      gap:2px; 
+      background:#0a1220; 
       padding:4px; 
       border-radius:8px; 
       max-height:85vh; 
@@ -37,19 +37,19 @@
     }
     .tile { 
       aspect-ratio:1; 
-      background:var(--panel); 
+      background:#0b1220; 
       border:1px solid #0d1930; 
-      border-radius:8px; 
+      border-radius:6px; 
       display:flex; 
       flex-direction:column;
       align-items:center; 
       justify-content:center; 
       cursor:pointer; 
       transition:all 0.2s; 
-      font-size:11px; 
+      font-size:10px; 
       position:relative; 
-      min-height:58px; 
-      padding:4px; 
+      min-height:50px; 
+      padding:3px; 
       text-align:center; 
       box-shadow: inset 0 0 0 1px #00000020;
       overflow-wrap:anywhere;
@@ -187,7 +187,7 @@
   let businessState = {
     employees: [],
     selectedEmployee: null,
-    board: { w: 6, h: 6, tiles: [] }, // Smaller grid like student game
+    board: { w: 8, h: 8, tiles: [] }, // 8x8 grid like student game
     currentGame: null,
     teamMetrics: {
       sales: { current: 45000, target: 100000 },
@@ -512,21 +512,21 @@
                        flex-direction: column;
                        align-items: center;
                        justify-content: center;
-                       min-height: 58px;
-                       padding: 4px;
-                       font-size: 11px;
+                       min-height: 50px;
+                       padding: 3px;
+                       font-size: 10px;
                        text-align: center;
                        transition: transform .15s ease, box-shadow .15s ease;"
                 onclick="handleTileClick('${tile.id}')"
                 title="${owner ? `Owned by ${ownerName}${owner.team ? ` - Team: ${owner.team}` : ''}` : `Click to buy ${territoryName} for ${displayCost} points`}${isAttackable && !isOwnedBySelected ? ' (Attackable!)' : ''}">
                 ${owner ? `
-                  ${ownerName ? `<div style="font-weight: 700; font-size: 11px; line-height: 1.1; letter-spacing:.2px;">${ownerName}</div>` : ''}
-                  ${territoryName ? `<div style="font-size: 8px; color: #d6d9e1; line-height: 1.1; margin-top: 2px; opacity:.85;">${territoryName}</div>` : ''}
+                  ${ownerName ? `<div style="font-weight: 700; font-size: 9px; line-height: 1.1; letter-spacing:.1px;">${ownerName}</div>` : ''}
+                  ${territoryName ? `<div style="font-size: 7px; color: #d6d9e1; line-height: 1.1; margin-top: 1px; opacity:.85;">${territoryName}</div>` : ''}
                 ` : `
-                  <div style="font-weight: 600; font-size: 10px; line-height: 1.1; letter-spacing:.2px;">${displayName}</div>
-                  <div style="font-size: 9px; line-height: 1.1; margin-top: 2px; color:#98a2b3;">${costText}</div>
+                  <div style="font-weight: 600; font-size: 8px; line-height: 1.1; letter-spacing:.1px;">${displayName}</div>
+                  <div style="font-size: 7px; line-height: 1.1; margin-top: 1px; color:#98a2b3;">${costText}</div>
                 `}
-                <div style="font-size: 8px; margin-top: 1px;">${headquartersText || ''}</div>
+                <div style="font-size: 7px; margin-top: 1px;">${headquartersText || ''}</div>
               </div>`;
     }).join('');
   }
