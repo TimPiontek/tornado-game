@@ -23,643 +23,101 @@ const SCENARIOS = {
         color: '#1e40af', // Blue
         description: 'Leading market division',
         territories: [
-          { name: 'New York Financial District', cost: 55, description: 'Global finance capital' },
-          { name: 'San Francisco Bay Area', cost: 52, description: 'Tech innovation hub' },
-          { name: 'Los Angeles Entertainment Hub', cost: 48, description: 'Media & entertainment' },
-          { name: 'Chicago Business Center', cost: 45, description: 'Midwest commerce hub' },
-          { name: 'Miami International Gateway', cost: 42, description: 'Latin America gateway' },
-          { name: 'Las Vegas Convention Center', cost: 38, description: 'Events & hospitality' },
-          { name: 'Phoenix Business District', cost: 35, description: 'Southwest commerce' },
-          { name: 'San Diego Innovation Hub', cost: 32, description: 'Biotech & defense' },
-          { name: 'San Antonio Business Quarter', cost: 28, description: 'Military & healthcare' },
-          { name: 'Dallas Tech Corridor', cost: 25, description: 'Texas business hub' },
-          { name: 'Houston Energy District', cost: 22, description: 'Oil & gas capital' },
-          { name: 'Orlando Tourism Hub', cost: 18, description: 'Entertainment & tourism' }
+          // North America
+          { name: 'One World Trade Center', cost: 65, description: 'NYC financial tower' },
+          { name: 'Empire State Building', cost: 60, description: 'NYC landmark office' },
+          { name: 'Chrysler Building', cost: 55, description: 'NYC art deco tower' },
+          { name: 'Bank of America Tower', cost: 50, description: 'NYC banking HQ' },
+          { name: 'Apple Park Campus', cost: 58, description: 'Cupertino tech HQ' },
+          { name: 'Googleplex', cost: 56, description: 'Mountain View campus' },
+          { name: 'Facebook Meta Campus', cost: 52, description: 'Menlo Park HQ' },
+          { name: 'Tesla Gigafactory', cost: 48, description: 'Fremont manufacturing' },
+          { name: 'Hollywood Studios', cost: 45, description: 'LA entertainment hub' },
+          { name: 'Beverly Hills Rodeo Drive', cost: 42, description: 'LA luxury retail' },
+          { name: 'Sears Tower', cost: 40, description: 'Chicago skyscraper' },
+          { name: 'Chicago Board of Trade', cost: 38, description: 'Chicago finance' },
+          { name: 'Miami Brickell District', cost: 35, description: 'Miami finance hub' },
+          { name: 'Las Vegas Strip', cost: 32, description: 'Vegas entertainment' },
+          { name: 'Phoenix Sky Harbor', cost: 28, description: 'Phoenix airport district' },
+          { name: 'San Diego Gaslamp', cost: 25, description: 'San Diego downtown' }
         ],
-        characters: [
-          {
-            name: 'CEO',
-            role: 'Chief Executive Officer',
-            startingCoins: 100,
-            startingWeapons: ['market_strategy', 'competitive_advantage'],
-            startingMercenaries: 3,
-            startingCastles: 1,
-            personality: 'strategic',
-            quotes: [
-              "Innovation distinguishes between a leader and a follower.",
-              "The way to get started is to quit talking and begin doing.",
-              "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-              "Don't be afraid to give up the good to go for the great.",
-              "The future belongs to those who believe in the beauty of their dreams."
-            ]
-          },
-          {
-            name: 'CTO',
-            role: 'Chief Technology Officer',
-            startingCoins: 90,
-            startingWeapons: ['tech_disruption', 'digital_transformation'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'innovative',
-            quotes: [
-              "Technology is best when it brings people together.",
-              "The future is already here – it's just not evenly distributed.",
-              "Innovation is the ability to see change as an opportunity.",
-              "The best way to predict the future is to invent it."
-            ]
-          },
-          {
-            name: 'CFO',
-            role: 'Chief Financial Officer',
-            startingCoins: 95,
-            startingWeapons: ['financial_leverage', 'cost_optimization'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'analytical',
-            quotes: [
-              "Revenue is vanity, profit is sanity, but cash is king.",
-              "Numbers have an important story to tell.",
-              "The goal is not to be perfect, but to be profitable.",
-              "Risk comes from not knowing what you're doing."
-            ]
-          },
-          {
-            name: 'CMO',
-            role: 'Chief Marketing Officer',
-            startingCoins: 85,
-            startingWeapons: ['brand_equity', 'market_penetration'],
-            startingMercenaries: 3,
-            startingCastles: 1,
-            personality: 'creative',
-            quotes: [
-              "Marketing is not the art of finding clever ways to dispose of what you make.",
-              "The aim of marketing is to know and understand the customer so well.",
-              "Your brand is what other people say about you when you're not in the room.",
-              "Content is fire, social media is gasoline."
-            ]
-          },
-          {
-            name: 'COO',
-            role: 'Chief Operating Officer',
-            startingCoins: 88,
-            startingWeapons: ['operational_excellence', 'process_improvement'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'systematic',
-            quotes: [
-              "Operations keeps the lights on, strategy provides a light at the end of the tunnel.",
-              "The devil is in the details, but the angels are in the execution.",
-              "Efficiency is doing things right; effectiveness is doing the right things.",
-              "Quality is not an act, it is a habit."
-            ]
-          },
-          {
-            name: 'Sarah Chen',
-            role: 'VP of Engineering',
-            startingCoins: 92,
-            startingWeapons: ['technical_excellence', 'system_architecture'],
-            startingMercenaries: 3,
-            startingCastles: 1,
-            personality: 'technical',
-            quotes: [
-              "Code is like humor. When you have to explain it, it's bad.",
-              "The best code is no code at all.",
-              "Premature optimization is the root of all evil.",
-              "Simplicity is the ultimate sophistication."
-            ]
-          },
-          {
-            name: 'Marcus Rodriguez',
-            role: 'VP of Sales',
-            startingCoins: 94,
-            startingWeapons: ['revenue_growth', 'customer_acquisition'],
-            startingMercenaries: 4,
-            startingCastles: 1,
-            personality: 'persuasive',
-            quotes: [
-              "Sales is not about selling anymore, but about building trust and educating.",
-              "The best salespeople don't sell, they help customers buy.",
-              "Every 'no' gets you closer to a 'yes'.",
-              "People buy with their hearts, not their heads."
-            ]
-          },
-          {
-            name: 'Jennifer Kim',
-            role: 'VP of Marketing',
-            startingCoins: 87,
-            startingWeapons: ['brand_awareness', 'market_expansion'],
-            startingMercenaries: 3,
-            startingCastles: 1,
-            personality: 'creative',
-            quotes: [
-              "Marketing is not the art of finding clever ways to dispose of what you make.",
-              "The aim of marketing is to know and understand the customer so well.",
-              "Your brand is what other people say about you when you're not in the room.",
-              "Content is fire, social media is gasoline."
-            ]
-          },
-          {
-            name: 'David Thompson',
-            role: 'VP of Finance',
-            startingCoins: 93,
-            startingWeapons: ['financial_analysis', 'budget_control'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'methodical',
-            quotes: [
-              "Revenue is vanity, profit is sanity, but cash is king.",
-              "Numbers have an important story to tell.",
-              "The goal is not to be perfect, but to be profitable.",
-              "Risk comes from not knowing what you're doing."
-            ]
-          },
-          {
-            name: 'Lisa Park',
-            role: 'VP of Human Resources',
-            startingCoins: 82,
-            startingWeapons: ['talent_acquisition', 'employee_engagement'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'empathetic',
-            quotes: [
-              "Employees are a company's greatest asset.",
-              "The way to get started is to quit talking and begin doing.",
-              "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-              "Don't be afraid to give up the good to go for the great."
-            ]
-          },
-          {
-            name: 'Robert Johnson',
-            role: 'VP of Legal',
-            startingCoins: 86,
-            startingWeapons: ['compliance_management', 'risk_mitigation'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'analytical',
-            quotes: [
-              "The law is not a light for you or any man to see by; the law is not an instrument of any kind.",
-              "Justice delayed is justice denied.",
-              "In matters of truth and justice, there is no difference between large and small problems.",
-              "The good lawyer is not the man who has an eye to every side and angle of contingency."
-            ]
-          },
-          {
-            name: 'Amanda Foster',
-            role: 'VP of Strategy',
-            startingCoins: 89,
-            startingWeapons: ['strategic_planning', 'market_analysis'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'strategic',
-            quotes: [
-              "Strategy is about making choices, trade-offs; it's about deliberately choosing to be different.",
-              "The essence of strategy is choosing what not to do.",
-              "Without strategy, execution is aimless. Without execution, strategy is useless.",
-              "Strategy is a pattern in a stream of decisions."
-            ]
-          }
-        ]
+        characters: []
       },
       teamB: {
         name: 'Beta Division',
         color: '#dc2626', // Red
         description: 'Growth-focused division',
         territories: [
-          { name: 'Silicon Valley Hub', cost: 50, description: 'Tech innovation center' },
-          { name: 'Wall Street District', cost: 45, description: 'Financial markets hub' },
-          { name: 'London Financial Center', cost: 40, description: 'European finance capital' },
-          { name: 'Tokyo Business District', cost: 35, description: 'Asian market gateway' },
-          { name: 'Singapore Tech Hub', cost: 30, description: 'Southeast Asian tech center' },
-          { name: 'Dubai Business Center', cost: 25, description: 'Middle East commerce hub' },
-          { name: 'Shanghai Financial District', cost: 28, description: 'Chinese economic powerhouse' },
-          { name: 'Berlin Startup Hub', cost: 22, description: 'European innovation center' },
-          { name: 'Toronto Tech Corridor', cost: 20, description: 'North American tech hub' },
-          { name: 'Sydney Business Quarter', cost: 18, description: 'Asia-Pacific business center' },
-          { name: 'Mumbai Financial District', cost: 15, description: 'Indian economic center' },
-          { name: 'São Paulo Business Hub', cost: 12, description: 'South American commerce center' }
+          // Europe
+          { name: 'Canary Wharf', cost: 62, description: 'London financial district' },
+          { name: 'The Shard', cost: 58, description: 'London skyscraper' },
+          { name: 'La Défense', cost: 55, description: 'Paris business district' },
+          { name: 'Tour Montparnasse', cost: 52, description: 'Paris office tower' },
+          { name: 'Frankfurt Stock Exchange', cost: 48, description: 'German finance hub' },
+          { name: 'Commerzbank Tower', cost: 45, description: 'Frankfurt banking' },
+          { name: 'Potsdamer Platz', cost: 42, description: 'Berlin business center' },
+          { name: 'Sony Center', cost: 38, description: 'Berlin media hub' },
+          { name: 'Parco Sempione', cost: 35, description: 'Milan business district' },
+          { name: 'Torre Velasca', cost: 32, description: 'Milan landmark tower' },
+          { name: 'Plaza Mayor', cost: 30, description: 'Madrid financial center' },
+          { name: 'Torre Picasso', cost: 28, description: 'Madrid office tower' },
+          { name: 'Damrak District', cost: 26, description: 'Amsterdam finance' },
+          { name: 'Zuidas', cost: 24, description: 'Amsterdam business hub' },
+          { name: 'Stockholm City Center', cost: 22, description: 'Swedish finance' },
+          { name: 'Kista Science City', cost: 20, description: 'Stockholm tech hub' }
         ],
-        characters: [
-          {
-            name: 'VP Operations',
-            role: 'Vice President of Operations',
-            startingCoins: 100,
-            startingWeapons: ['process_optimization', 'efficiency_gains'],
-            startingMercenaries: 3,
-            startingCastles: 1,
-            personality: 'analytical',
-            quotes: [
-              "Efficiency is doing things right; effectiveness is doing the right things.",
-              "Quality is not an act, it is a habit.",
-              "The only way to do great work is to love what you do.",
-              "Innovation is the ability to see change as an opportunity.",
-              "Excellence is not a skill, it's an attitude."
-            ]
-          },
-          {
-            name: 'VP Sales',
-            role: 'Vice President of Sales',
-            startingCoins: 92,
-            startingWeapons: ['revenue_growth', 'customer_acquisition'],
-            startingMercenaries: 4,
-            startingCastles: 1,
-            personality: 'persuasive',
-            quotes: [
-              "Sales is not about selling anymore, but about building trust and educating.",
-              "The best salespeople don't sell, they help customers buy.",
-              "Every 'no' gets you closer to a 'yes'.",
-              "People buy with their hearts, not their heads."
-            ]
-          },
-          {
-            name: 'VP Marketing',
-            role: 'Vice President of Marketing',
-            startingCoins: 87,
-            startingWeapons: ['brand_awareness', 'market_expansion'],
-            startingMercenaries: 3,
-            startingCastles: 1,
-            personality: 'creative',
-            quotes: [
-              "Marketing is not the art of finding clever ways to dispose of what you make.",
-              "The aim of marketing is to know and understand the customer so well.",
-              "Your brand is what other people say about you when you're not in the room.",
-              "Content is fire, social media is gasoline."
-            ]
-          },
-          {
-            name: 'VP Finance',
-            role: 'Vice President of Finance',
-            startingCoins: 94,
-            startingWeapons: ['financial_analysis', 'budget_control'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'methodical',
-            quotes: [
-              "Revenue is vanity, profit is sanity, but cash is king.",
-              "Numbers have an important story to tell.",
-              "The goal is not to be perfect, but to be profitable.",
-              "Risk comes from not knowing what you're doing."
-            ]
-          },
-          {
-            name: 'VP HR',
-            role: 'Vice President of Human Resources',
-            startingCoins: 83,
-            startingWeapons: ['talent_acquisition', 'employee_engagement'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'empathetic',
-            quotes: [
-              "Employees are a company's greatest asset.",
-              "The way to get started is to quit talking and begin doing.",
-              "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-              "Don't be afraid to give up the good to go for the great."
-            ]
-          },
-          {
-            name: 'Elena Vasquez',
-            role: 'VP of International Business',
-            startingCoins: 96,
-            startingWeapons: ['global_expansion', 'market_penetration'],
-            startingMercenaries: 3,
-            startingCastles: 1,
-            personality: 'ambitious',
-            quotes: [
-              "Think globally, act locally.",
-              "The world is a book, and those who do not travel read only one page.",
-              "Opportunities don't happen. You create them.",
-              "Success is walking from failure to failure with no loss of enthusiasm."
-            ]
-          },
-          {
-            name: 'James Mitchell',
-            role: 'VP of Strategic Partnerships',
-            startingCoins: 88,
-            startingWeapons: ['partnership_development', 'alliance_building'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'collaborative',
-            quotes: [
-              "Alone we can do so little; together we can do so much.",
-              "Coming together is a beginning; keeping together is progress; working together is success.",
-              "The way to get started is to quit talking and begin doing.",
-              "Great things in business are never done by one person."
-            ]
-          },
-          {
-            name: 'Priya Patel',
-            role: 'VP of Digital Transformation',
-            startingCoins: 91,
-            startingWeapons: ['digital_strategy', 'technology_adoption'],
-            startingMercenaries: 3,
-            startingCastles: 1,
-            personality: 'innovative',
-            quotes: [
-              "The future is digital, and the future is now.",
-              "Digital transformation is not about technology, it's about people.",
-              "Innovation distinguishes between a leader and a follower.",
-              "The best way to predict the future is to invent it."
-            ]
-          },
-          {
-            name: 'Michael Chen',
-            role: 'VP of Customer Experience',
-            startingCoins: 85,
-            startingWeapons: ['customer_journey', 'experience_design'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'customer-focused',
-            quotes: [
-              "The customer's perception is your reality.",
-              "Your most unhappy customers are your greatest source of learning.",
-              "Customer service is not a department, it's everyone's job.",
-              "Make your product easier to buy than not."
-            ]
-          },
-          {
-            name: 'Sophie Laurent',
-            role: 'VP of Brand Strategy',
-            startingCoins: 89,
-            startingWeapons: ['brand_positioning', 'market_differentiation'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'creative',
-            quotes: [
-              "Your brand is what other people say about you when you're not in the room.",
-              "A brand is the set of expectations, memories, stories and relationships.",
-              "Brand is not what you say it is. It's what they say it is.",
-              "Content is fire, social media is gasoline."
-            ]
-          },
-          {
-            name: 'Alex Rivera',
-            role: 'VP of Operations Excellence',
-            startingCoins: 87,
-            startingWeapons: ['process_optimization', 'efficiency_improvement'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'systematic',
-            quotes: [
-              "Efficiency is doing things right; effectiveness is doing the right things.",
-              "The devil is in the details, but the angels are in the execution.",
-              "Quality is not an act, it is a habit.",
-              "Excellence is not a skill, it's an attitude."
-            ]
-          },
-          {
-            name: 'Rachel Green',
-            role: 'VP of Talent Development',
-            startingCoins: 84,
-            startingWeapons: ['skill_development', 'career_growth'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'developmental',
-            quotes: [
-              "The only way to do great work is to love what you do.",
-              "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-              "Don't be afraid to give up the good to go for the great.",
-              "The future belongs to those who believe in the beauty of their dreams."
-            ]
-          }
-        ]
+        characters: []
       },
       teamC: {
         name: 'Gamma Division',
         color: '#059669', // Green
         description: 'Innovation-driven division',
         territories: [
-          { name: 'Seattle Tech Hub', cost: 48, description: 'Cloud computing capital' },
-          { name: 'Austin Innovation District', cost: 42, description: 'Tech startup ecosystem' },
-          { name: 'Boston Research Corridor', cost: 38, description: 'Biotech & AI research' },
-          { name: 'Denver Tech Center', cost: 35, description: 'Mountain tech hub' },
-          { name: 'Portland Creative District', cost: 32, description: 'Design & innovation' },
-          { name: 'Raleigh Research Triangle', cost: 28, description: 'Tech research cluster' },
-          { name: 'Salt Lake City Tech Valley', cost: 25, description: 'Silicon Slopes' },
-          { name: 'Nashville Tech Corridor', cost: 22, description: 'Healthcare technology' },
-          { name: 'Columbus Innovation Hub', cost: 20, description: 'Smart city technology' },
-          { name: 'Kansas City Tech District', cost: 18, description: 'Midwest tech center' },
-          { name: 'Pittsburgh Robotics Hub', cost: 15, description: 'AI & robotics research' },
-          { name: 'Detroit Mobility Hub', cost: 12, description: 'Automotive innovation' }
+          // Asia
+          { name: 'Tokyo Skytree District', cost: 60, description: 'Tokyo business hub' },
+          { name: 'Shibuya Crossing', cost: 55, description: 'Tokyo tech center' },
+          { name: 'Marina Bay Sands', cost: 52, description: 'Singapore landmark' },
+          { name: 'One Raffles Place', cost: 48, description: 'Singapore finance' },
+          { name: 'Shanghai Tower', cost: 45, description: 'Shanghai skyscraper' },
+          { name: 'Lujiazui Financial District', cost: 42, description: 'Shanghai finance' },
+          { name: 'Hong Kong Central', cost: 40, description: 'HK financial district' },
+          { name: 'International Finance Centre', cost: 38, description: 'HK banking hub' },
+          { name: 'Gangnam District', cost: 35, description: 'Seoul business center' },
+          { name: 'Lotte World Tower', cost: 32, description: 'Seoul landmark' },
+          { name: 'Bandra Kurla Complex', cost: 30, description: 'Mumbai finance' },
+          { name: 'Cyber City', cost: 28, description: 'Gurgaon tech hub' },
+          { name: 'Bangalore IT Park', cost: 26, description: 'Indian tech center' },
+          { name: 'Electronic City', cost: 24, description: 'Bangalore tech hub' },
+          { name: 'Kuala Lumpur City Center', cost: 22, description: 'Malaysian finance' },
+          { name: 'Petronas Towers', cost: 20, description: 'KL landmark towers' }
         ],
-        characters: [
-          {
-            name: 'CTO',
-            role: 'Chief Technology Officer',
-            startingCoins: 100,
-            startingWeapons: ['tech_innovation', 'digital_transformation'],
-            startingMercenaries: 3,
-            startingCastles: 1,
-            personality: 'innovative',
-            quotes: [
-              "Technology is nothing. What's important is that you have faith in people.",
-              "Innovation distinguishes between a leader and a follower.",
-              "The best way to predict the future is to invent it.",
-              "Simplicity is the ultimate sophistication.",
-              "Stay hungry, stay foolish."
-            ]
-          },
-          {
-            name: 'VP Engineering',
-            role: 'Vice President of Engineering',
-            startingCoins: 91,
-            startingWeapons: ['technical_excellence', 'system_architecture'],
-            startingMercenaries: 3,
-            startingCastles: 1,
-            personality: 'technical',
-            quotes: [
-              "Code is like humor. When you have to explain it, it's bad.",
-              "The best code is no code at all.",
-              "Premature optimization is the root of all evil.",
-              "Simplicity is the ultimate sophistication."
-            ]
-          },
-          {
-            name: 'VP Product',
-            role: 'Vice President of Product',
-            startingCoins: 89,
-            startingWeapons: ['product_strategy', 'user_research'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'strategic',
-            quotes: [
-              "The customer's perception is your reality.",
-              "If you're not embarrassed by the first version of your product, you've launched too late.",
-              "Design is not just what it looks like and feels like. Design is how it works.",
-              "The best products are those that solve real problems."
-            ]
-          },
-          {
-            name: 'VP Data',
-            role: 'Vice President of Data',
-            startingCoins: 86,
-            startingWeapons: ['data_insights', 'analytics_platform'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'analytical',
-            quotes: [
-              "Data is the new oil, but AI is the new electricity.",
-              "In God we trust, all others bring data.",
-              "The goal is to turn data into information, and information into insight.",
-              "Without data, you're just another person with an opinion."
-            ]
-          },
-          {
-            name: 'VP Security',
-            role: 'Vice President of Security',
-            startingCoins: 93,
-            startingWeapons: ['cyber_defense', 'risk_mitigation'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'vigilant',
-            quotes: [
-              "Security is not a product, but a process.",
-              "The only secure system is one that's unplugged.",
-              "Security is always excessive until it's not enough.",
-              "Trust but verify."
-            ]
-          }
-        ]
+        characters: []
       },
       teamD: {
         name: 'Delta Division',
         color: '#7c3aed', // Purple
         description: 'Customer-focused division',
         territories: [
-          { name: 'Amsterdam Business Hub', cost: 46, description: 'European commerce center' },
-          { name: 'Stockholm Innovation District', cost: 43, description: 'Nordic tech hub' },
-          { name: 'Zurich Financial Center', cost: 40, description: 'Swiss banking capital' },
-          { name: 'Copenhagen Business Quarter', cost: 37, description: 'Scandinavian commerce' },
-          { name: 'Vienna International Hub', cost: 34, description: 'Central European gateway' },
-          { name: 'Brussels EU District', cost: 31, description: 'European Union capital' },
-          { name: 'Frankfurt Financial Center', cost: 28, description: 'German banking hub' },
-          { name: 'Munich Innovation Hub', cost: 25, description: 'German tech center' },
-          { name: 'Hamburg Port District', cost: 22, description: 'Northern European gateway' },
-          { name: 'Madrid Business Center', cost: 19, description: 'Iberian commerce hub' },
-          { name: 'Barcelona Innovation Hub', cost: 16, description: 'Mediterranean tech center' },
-          { name: 'Lisbon Startup District', cost: 13, description: 'Portuguese tech hub' }
+          // Middle East & Africa
+          { name: 'Burj Khalifa', cost: 58, description: 'Dubai landmark tower' },
+          { name: 'Dubai International Financial Centre', cost: 55, description: 'Dubai finance hub' },
+          { name: 'Abu Dhabi Corniche', cost: 52, description: 'UAE business district' },
+          { name: 'Doha West Bay', cost: 48, description: 'Qatar finance center' },
+          { name: 'Riyadh King Abdullah Financial District', cost: 45, description: 'Saudi finance' },
+          { name: 'Tel Aviv Diamond Exchange', cost: 42, description: 'Israeli finance' },
+          { name: 'Cairo New Administrative Capital', cost: 38, description: 'Egyptian business hub' },
+          { name: 'Casablanca Finance City', cost: 35, description: 'Moroccan finance' },
+          { name: 'Lagos Victoria Island', cost: 32, description: 'Nigerian finance' },
+          { name: 'Johannesburg Sandton', cost: 30, description: 'South African finance' },
+          { name: 'Nairobi Upper Hill', cost: 28, description: 'Kenyan business district' },
+          { name: 'Accra Airport City', cost: 26, description: 'Ghanaian finance' },
+          // Oceania
+          { name: 'Sydney Opera House District', cost: 24, description: 'Sydney business hub' },
+          { name: 'Melbourne Docklands', cost: 22, description: 'Melbourne finance' },
+          { name: 'Perth CBD', cost: 20, description: 'Perth business center' },
+          { name: 'Auckland Viaduct', cost: 18, description: 'New Zealand finance' }
         ],
-        characters: [
-          {
-            name: 'VP Customer Success',
-            role: 'Vice President of Customer Success',
-            startingCoins: 100,
-            startingWeapons: ['customer_retention', 'satisfaction_growth'],
-            startingMercenaries: 3,
-            startingCastles: 1,
-            personality: 'customer-focused',
-            quotes: [
-              "The customer's perception is your reality.",
-              "Your most unhappy customers are your greatest source of learning.",
-              "Customer service is not a department, it's everyone's job.",
-              "Make your product easier to buy than not.",
-              "The purpose of a business is to create a customer."
-            ]
-          },
-          {
-            name: 'Isabella Rodriguez',
-            role: 'VP of Client Relations',
-            startingCoins: 92,
-            startingWeapons: ['relationship_building', 'client_retention'],
-            startingMercenaries: 3,
-            startingCastles: 1,
-            personality: 'relationship-focused',
-            quotes: [
-              "Relationships are the foundation of business success.",
-              "Trust is the glue of life. It's the most essential ingredient.",
-              "The way to get started is to quit talking and begin doing.",
-              "Success is not final, failure is not fatal: it is the courage to continue that counts."
-            ]
-          },
-          {
-            name: 'Thomas Anderson',
-            role: 'VP of Customer Support',
-            startingCoins: 88,
-            startingWeapons: ['support_excellence', 'problem_resolution'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'helpful',
-            quotes: [
-              "Help others achieve their dreams and you will achieve yours.",
-              "The best way to find yourself is to lose yourself in the service of others.",
-              "Service to others is the rent you pay for your room here on earth.",
-              "We make a living by what we get, but we make a life by what we give."
-            ]
-          },
-          {
-            name: 'Maria Santos',
-            role: 'VP of User Experience',
-            startingCoins: 91,
-            startingWeapons: ['ux_design', 'user_research'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'user-centric',
-            quotes: [
-              "Design is not just what it looks like and feels like. Design is how it works.",
-              "The user's experience is the product.",
-              "Good design is obvious. Great design is transparent.",
-              "Simplicity is the ultimate sophistication."
-            ]
-          },
-          {
-            name: 'Kevin O\'Brien',
-            role: 'VP of Community Engagement',
-            startingCoins: 86,
-            startingWeapons: ['community_building', 'user_advocacy'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'community-focused',
-            quotes: [
-              "Community is about doing something together that makes belonging matter.",
-              "The greatness of a community is most accurately measured by the compassionate actions of its members.",
-              "Alone we can do so little; together we can do so much.",
-              "Coming together is a beginning; keeping together is progress; working together is success."
-            ]
-          },
-          {
-            name: 'Natasha Volkov',
-            role: 'VP of Customer Analytics',
-            startingCoins: 89,
-            startingWeapons: ['data_insights', 'customer_intelligence'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'analytical',
-            quotes: [
-              "In God we trust, all others bring data.",
-              "The goal is to turn data into information, and information into insight.",
-              "Without data, you're just another person with an opinion.",
-              "Data is the new oil, but AI is the new electricity."
-            ]
-          },
-          {
-            name: 'Carlos Mendez',
-            role: 'VP of Customer Onboarding',
-            startingCoins: 84,
-            startingWeapons: ['onboarding_excellence', 'customer_education'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'educational',
-            quotes: [
-              "Education is the most powerful weapon which you can use to change the world.",
-              "The more that you read, the more things you will know. The more that you learn, the more places you'll go.",
-              "Learning never exhausts the mind.",
-              "Tell me and I forget, teach me and I may remember, involve me and I learn."
-            ]
-          },
-          {
-            name: 'Yuki Tanaka',
-            role: 'VP of Customer Feedback',
-            startingCoins: 87,
-            startingWeapons: ['feedback_collection', 'voice_of_customer'],
-            startingMercenaries: 2,
-            startingCastles: 1,
-            personality: 'listening-focused',
-            quotes: [
-              "The most important thing in communication is hearing what isn't said.",
-              "Listen with the intent to understand, not the intent to reply.",
-              "Feedback is the breakfast of champions.",
-              "Your most unhappy customers are your greatest source of learning."
-            ]
-          }
-        ]
+        characters: []
       }
     },
     weapons: [
