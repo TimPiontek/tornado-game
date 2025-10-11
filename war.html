@@ -6812,6 +6812,26 @@
           </p>
         </div>
         
+        <div style="margin-bottom: 1.5rem;">
+          <button id="businessGameBtn" style="
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #f59e0b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+          ">🏢 Business Competition Mode</button>
+          
+          <p style="margin: 0 0 1rem 0; color: #64748b; font-size: 0.9rem;">
+            Corporate competition with departments, headquarters, and market strategies. Perfect for workplace team building and performance tracking.
+          </p>
+        </div>
+        
         <div style="text-align: center; margin-top: 1.5rem;">
           <button onclick="closeNewGameModal()" style="
             background: #64748b;
@@ -6831,11 +6851,14 @@
     // Add hover effects
     const regularBtn = document.getElementById('regularGameBtn');
     const scenarioBtn = document.getElementById('scenarioGameBtn');
+    const businessBtn = document.getElementById('businessGameBtn');
     
     regularBtn.onmouseover = () => regularBtn.style.transform = 'translateY(-2px)';
     regularBtn.onmouseout = () => regularBtn.style.transform = 'translateY(0)';
     scenarioBtn.onmouseover = () => scenarioBtn.style.transform = 'translateY(-2px)';
     scenarioBtn.onmouseout = () => scenarioBtn.style.transform = 'translateY(0)';
+    businessBtn.onmouseover = () => businessBtn.style.transform = 'translateY(-2px)';
+    businessBtn.onmouseout = () => businessBtn.style.transform = 'translateY(0)';
     
     // Add click handlers
     regularBtn.onclick = () => {
@@ -6849,6 +6872,11 @@
       setTimeout(() => {
       showScenarioSelectionModal();
       }, 100);
+    };
+    
+    businessBtn.onclick = () => {
+      closeNewGameModal();
+      showBusinessModeModal();
     };
   }
   
@@ -7126,6 +7154,349 @@
       modal.remove();
     }
   }
+  
+  function showBusinessModeModal() {
+    // Clear any existing scenario data when opening business mode
+    if (state.currentRoster && state.currentRoster.scenario) {
+      console.log('Clearing existing scenario data before business mode');
+      delete state.currentRoster.scenario;
+      state.scenario = null;
+      
+      // Clear character assignments
+      state.roster.forEach(student => {
+        student.characterName = null;
+        student.characterRole = null;
+        student.characterFaction = null;
+        student.teamId = null;
+        student.teamName = null;
+        student.teamColor = null;
+      });
+      
+      // Clear AI players
+      state.aiPlayers = [];
+      
+      // Update game theme title
+      updateGameThemeTitle();
+      
+      // Save the cleared roster (if function exists)
+      if (typeof saveRoster === 'function') {
+        saveRoster();
+      }
+    }
+    
+    const modal = document.createElement('div');
+    modal.id = 'businessModeModal';
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    `;
+    
+    modal.innerHTML = `
+      <div style="
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 500px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      ">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h2 style="margin: 0; color: #1e293b; font-size: 1.5rem;">🏢 Business Competition Mode</h2>
+          <button onclick="closeBusinessModeModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+        </div>
+        
+        <p style="margin-bottom: 1.5rem; color: #64748b;">
+          How would you like to organize your participants for business competition?
+        </p>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <button id="individualBusinessBtn" style="
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+          ">👤 Individual Competition</button>
+          
+          <p style="margin: 0 0 1rem 0; color: #64748b; font-size: 0.9rem;">
+            Each participant competes individually for personal performance metrics and territory control.
+          </p>
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <button id="teamsBusinessBtn" style="
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+          ">👥 Team Competition</button>
+          
+          <p style="margin: 0 0 1rem 0; color: #64748b; font-size: 0.9rem;">
+            Organize participants into teams for collaborative business competition and department-based gameplay.
+          </p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <button onclick="closeBusinessModeModal()" style="
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 1rem;
+          ">Cancel</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Add hover effects
+    const individualBtn = document.getElementById('individualBusinessBtn');
+    const teamsBtn = document.getElementById('teamsBusinessBtn');
+    
+    individualBtn.onmouseover = () => individualBtn.style.transform = 'translateY(-2px)';
+    individualBtn.onmouseout = () => individualBtn.style.transform = 'translateY(0)';
+    teamsBtn.onmouseover = () => teamsBtn.style.transform = 'translateY(-2px)';
+    teamsBtn.onmouseout = () => teamsBtn.style.transform = 'translateY(0)';
+    
+    // Add click handlers
+    individualBtn.onclick = () => {
+      closeBusinessModeModal();
+      startBusinessMode('individual');
+    };
+    
+    teamsBtn.onclick = () => {
+      closeBusinessModeModal();
+      showBusinessTeamArrangementModal();
+    };
+  }
+  
+  function closeBusinessModeModal() {
+    const modal = document.getElementById('businessModeModal');
+    if (modal) {
+      modal.remove();
+    }
+  }
+  
+  function showBusinessTeamArrangementModal() {
+    const modal = document.createElement('div');
+    modal.id = 'businessTeamArrangementModal';
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    `;
+    
+    modal.innerHTML = `
+      <div style="
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      ">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h2 style="margin: 0; color: #1e293b; font-size: 1.5rem;">👥 Arrange Business Teams</h2>
+          <button onclick="closeBusinessTeamArrangementModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+        </div>
+        
+        <p style="margin-bottom: 1.5rem; color: #64748b;">
+          Choose how many teams to create and how to assign participants:
+        </p>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">Number of Teams:</label>
+          <select id="businessTeamCount" style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; margin-bottom: 1rem;">
+            <option value="2">2 Teams</option>
+            <option value="3">3 Teams</option>
+            <option value="4">4 Teams</option>
+          </select>
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">Assignment Method:</label>
+          <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+            <button id="randomBusinessTeamsBtn" style="
+              flex: 1;
+              padding: 0.75rem;
+              background: #8b5cf6;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.2s ease;
+            ">🎲 Random Assignment</button>
+            
+            <button id="manualBusinessTeamsBtn" style="
+              flex: 1;
+              padding: 0.75rem;
+              background: #f59e0b;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.2s ease;
+            ">✋ Manual Assignment</button>
+          </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <button onclick="closeBusinessTeamArrangementModal()" style="
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 1rem;
+          ">Cancel</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Add hover effects
+    const randomBtn = document.getElementById('randomBusinessTeamsBtn');
+    const manualBtn = document.getElementById('manualBusinessTeamsBtn');
+    
+    randomBtn.onmouseover = () => randomBtn.style.transform = 'translateY(-2px)';
+    randomBtn.onmouseout = () => randomBtn.style.transform = 'translateY(0)';
+    manualBtn.onmouseover = () => manualBtn.style.transform = 'translateY(-2px)';
+    manualBtn.onmouseout = () => manualBtn.style.transform = 'translateY(0)';
+    
+    // Add click handlers
+    randomBtn.onclick = () => {
+      const teamCount = parseInt(document.getElementById('businessTeamCount').value);
+      closeBusinessTeamArrangementModal();
+      startBusinessMode('teams', teamCount, 'random');
+    };
+    
+    manualBtn.onclick = () => {
+      const teamCount = parseInt(document.getElementById('businessTeamCount').value);
+      closeBusinessTeamArrangementModal();
+      startBusinessMode('teams', teamCount, 'manual');
+    };
+  }
+  
+  function closeBusinessTeamArrangementModal() {
+    const modal = document.getElementById('businessTeamArrangementModal');
+    if (modal) {
+      modal.remove();
+    }
+  }
+  
+  function startBusinessMode(mode, teamCount = null, assignmentMethod = null) {
+    // Load the business scenario
+    if (typeof SCENARIOS !== 'undefined' && SCENARIOS.businessMode) {
+      const scenarioData = SCENARIOS.businessMode;
+      
+      // Set up the scenario
+      state.scenario = scenarioData;
+      
+      if (mode === 'individual') {
+        // Individual mode - no teams
+        state.roster.forEach(student => {
+          student.teamId = null;
+          student.teamName = null;
+          student.teamColor = null;
+        });
+      } else if (mode === 'teams') {
+        // Team mode - assign teams
+        if (assignmentMethod === 'random') {
+          createRandomBusinessTeams(teamCount);
+        } else if (assignmentMethod === 'manual') {
+          showBusinessManualTeamAssignment(teamCount);
+          return; // Don't start game yet, wait for manual assignment
+        }
+      }
+      
+      // Initialize the scenario
+      initializeScenario(scenarioData);
+      
+      // Show business tools
+      toggleBusinessTools();
+      
+      // Start the game
+      resetGameToDefaults();
+      
+      alert('🏢 Business Competition Mode started! Participants can now compete for territory control and business metrics.');
+    } else {
+      alert('Error: Business scenario not found. Please ensure scenarios.js is loaded.');
+    }
+  }
+  
+  function createRandomBusinessTeams(teamCount) {
+    const teamNames = ['Alpha Division', 'Beta Division', 'Gamma Division', 'Delta Division'];
+    const teamColors = ['#1e40af', '#dc2626', '#16a34a', '#ca8a04'];
+    
+    // Clear existing team assignments
+    state.roster.forEach(student => {
+      student.teamId = null;
+      student.teamName = null;
+      student.teamColor = null;
+    });
+    
+    // Shuffle roster
+    const shuffledRoster = [...state.roster].sort(() => Math.random() - 0.5);
+    
+    // Assign teams
+    shuffledRoster.forEach((student, index) => {
+      const teamIndex = index % teamCount;
+      student.teamId = `team${String.fromCharCode(65 + teamIndex)}`;
+      student.teamName = teamNames[teamIndex];
+      student.teamColor = teamColors[teamIndex];
+    });
+    
+    // Update display
+    renderRoster();
+    updateTeamScoreboards();
+  }
+  
+  function showBusinessManualTeamAssignment(teamCount) {
+    // This would show a drag-and-drop interface for manual team assignment
+    // For now, we'll use random assignment as a fallback
+    createRandomBusinessTeams(teamCount);
+    startBusinessMode('teams', teamCount, 'random');
+  }
+  
   function updateScenarioDetails() {
     const scenarioId = document.getElementById('scenarioSelect').value;
     const scenarioDetails = document.getElementById('scenarioDetails');
