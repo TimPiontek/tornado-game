@@ -445,6 +445,47 @@
 
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
+  // === STORY EVENTS DATA (moved to top to avoid temporal dead zone) ===
+  const STORY_EVENTS = {
+    'romeo_juliet': {
+      name: 'Romeo & Juliet',
+      scenes: [
+        {
+          id: 'act1_scene1',
+          name: 'Act 1, Scene 1: The Street Fight',
+          description: 'Sampson and Gregory (Capulets) provoke Abram and Balthasar (Montagues) into a street brawl.',
+          effects: {
+            character_points: [
+              { character: 'Sampson', points: 15, reason: 'Started the fight with witty insults' },
+              { character: 'Gregory', points: 10, reason: 'Backed up Sampson in the confrontation' },
+              { character: 'Abram', points: 8, reason: 'Defended Montague honor' },
+              { character: 'Balthasar', points: 5, reason: 'Supported Abram in the fight' }
+            ],
+            team_points: [
+              { team: 'Capulet', points: 25, reason: 'Initiated and dominated the street fight' },
+              { team: 'Montague', points: 13, reason: 'Defended themselves but were outnumbered' }
+            ]
+          }
+        },
+        {
+          id: 'act1_scene2',
+          name: 'Act 1, Scene 2: Capulet\'s Feast Invitation',
+          description: 'Capulet sends out invitations to his feast, including to Romeo (a Montague).',
+          effects: {
+            character_points: [
+              { character: 'Capulet', points: 20, reason: 'Organized the grand feast and extended hospitality' },
+              { character: 'Paris', points: 15, reason: 'Shows interest in Juliet, gaining Capulet\'s favor' },
+              { character: 'Romeo', points: 10, reason: 'Gets invited to the feast despite being a Montague' }
+            ],
+            team_points: [
+              { team: 'Capulet', points: 35, reason: 'Hosting the feast and showing social power' }
+            ]
+          }
+        }
+      ]
+    }
+  };
+
   // === ECONOMY PROFILE (editable / scenario-overridable) ===
   const ECONOMY = {
     mercCost: 15,
