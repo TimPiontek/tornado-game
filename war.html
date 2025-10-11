@@ -5430,7 +5430,7 @@
     document.getElementById('defenderBalance').textContent = defender.balance;
     
     // Update terminology for business mode
-    const isBusinessMode = state.scenario?.type === 'business';
+    isBusinessMode = state.scenario?.type === 'business';
     const attackerMercTitle = document.getElementById('attackerMercTitle');
     const defenderMercTitle = document.getElementById('defenderMercTitle');
     const attackerWeaponsTitle = document.getElementById('attackerWeaponsTitle');
