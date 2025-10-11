@@ -294,13 +294,22 @@
       console.log('[DEBUG] Saved demo roster to localStorage');
     }
     
-    await loadGameData();
+    console.log('[DEBUG] About to call loadGameData()');
+    try {
+      await loadGameData();
+      console.log('[DEBUG] loadGameData() completed successfully');
+    } catch (error) {
+      console.error('[DEBUG] loadGameData() failed:', error);
+    }
     
     // Load roster selector AFTER saving demo data
     console.log('[DEBUG] Calling loadRosterSelector()');
     loadRosterSelector();
     
+    console.log('[DEBUG] Calling initializeGameBoard()');
     initializeGameBoard();
+    
+    console.log('[DEBUG] Calling updateDisplay()');
     updateDisplay();
     
     console.log('[DEBUG] init() completed');
