@@ -3711,7 +3711,9 @@
       if (winningTeam) {
         state.roster.forEach(student => {
           if (student.teamId === winningTeam.teamId) {
-            student.balance += victoryBonus;
+            // Update earnedPoints to ensure cloud saving
+            student.earnedPoints = (student.earnedPoints || 0) + victoryBonus;
+            student.balance = (student.startingPoints || 0) + student.earnedPoints;
             // Update roster
             const rosterIndex = state.currentRoster.roster.findIndex(r => r.name === student.name);
             if (rosterIndex >= 0) {
@@ -3725,7 +3727,9 @@
       // Award points to individual winner
       const winner = state.roster.find(s => s.name === winnerName);
       if (winner) {
-        winner.balance += victoryBonus;
+        // Update earnedPoints to ensure cloud saving
+        winner.earnedPoints = (winner.earnedPoints || 0) + victoryBonus;
+        winner.balance = (winner.startingPoints || 0) + winner.earnedPoints;
         // Update roster
         const rosterIndex = state.currentRoster.roster.findIndex(r => r.name === winnerName);
         if (rosterIndex >= 0) {
@@ -4088,7 +4092,9 @@
       const cost = calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h);
       if (selectedStudent.balance >= cost) {
         tile.owner_game_student_id = selectedStudent.gsId;
-        selectedStudent.balance -= cost;
+        // Update earnedPoints to ensure cloud saving
+        selectedStudent.earnedPoints = Math.max(0, (selectedStudent.earnedPoints || 0) - cost);
+        selectedStudent.balance = (selectedStudent.startingPoints || 0) + selectedStudent.earnedPoints;
         selectedStudent.tilesOwned += 1;
         updateGridDisplay();
         syncTileCounts();
@@ -4127,7 +4133,9 @@
           // Upgrade
           if (selectedStudent.balance >= upgradeCost) {
             tile.castle_level += 1;
-            selectedStudent.balance -= upgradeCost;
+            // Update earnedPoints to ensure cloud saving
+            selectedStudent.earnedPoints = Math.max(0, (selectedStudent.earnedPoints || 0) - upgradeCost);
+            selectedStudent.balance = (selectedStudent.startingPoints || 0) + selectedStudent.earnedPoints;
             updateGridDisplay();
             renderRoster();
             alert(`${selectedStudent.name} upgraded ${structureName} to ${structureNames[tile.castle_level]} for ${upgradeCost} points!`);
@@ -4135,9 +4143,10 @@
             alert(`Insufficient funds! Need ${upgradeCost} points.`);
           }
         } else if (choice === '2' || (choice === '1' && upgradeCost === 0)) {
-          // Sell castle/factory
+          // Sell castle/factory - update earnedPoints to ensure cloud saving
           tile.castle_level = 0;
-          selectedStudent.balance += sellValue;
+          selectedStudent.earnedPoints = (selectedStudent.earnedPoints || 0) + sellValue;
+          selectedStudent.balance = (selectedStudent.startingPoints || 0) + selectedStudent.earnedPoints;
           updateGridDisplay();
           renderRoster();
           alert(`${selectedStudent.name} sold ${structureName} and got back ${sellValue} points!`);
@@ -4147,7 +4156,9 @@
         const buildCost = state.costs.castleL1;
         if (selectedStudent.balance >= buildCost) {
           tile.castle_level = 1;
-          selectedStudent.balance -= buildCost;
+          // Update earnedPoints to ensure cloud saving
+          selectedStudent.earnedPoints = Math.max(0, (selectedStudent.earnedPoints || 0) - buildCost);
+          selectedStudent.balance = (selectedStudent.startingPoints || 0) + selectedStudent.earnedPoints;
           updateGridDisplay();
           renderRoster();
           alert(`${selectedStudent.name} built a ${structureName} for ${buildCost} points!`);
@@ -4545,7 +4556,10 @@
   window.quickAward = async (amount) => {
     if (!state.roster || state.roster.length === 0) return alert("No roster loaded.");
     state.roster.forEach(student => {
-      student.balance = Math.max(0, student.balance + amount); // Prevent negative points
+      // Update earnedPoints instead of balance directly to ensure cloud saving
+      student.earnedPoints = (student.earnedPoints || 0) + amount;
+      // Recalculate balance from startingPoints + earnedPoints
+      student.balance = (student.startingPoints || 0) + student.earnedPoints;
     });
     renderRoster();
     autoSaveWarPoints();
@@ -6437,16 +6451,18 @@
         // Team mode - deduct from team resources
         deductTeamCost(currentBattle.attacker.teamId, attackerCost, 'attack');
       } else {
-        // Individual mode - deduct from individual balance
-        currentBattle.attacker.balance -= attackerCost;
+        // Individual mode - deduct from individual balance (update earnedPoints for cloud saving)
+        currentBattle.attacker.earnedPoints = Math.max(0, (currentBattle.attacker.earnedPoints || 0) - attackerCost);
+        currentBattle.attacker.balance = (currentBattle.attacker.startingPoints || 0) + currentBattle.attacker.earnedPoints;
       }
       
       if (state.teamMode && currentBattle.defender.teamId) {
         // Team mode - deduct from team resources
         deductTeamCost(currentBattle.defender.teamId, defenderCost, 'defense');
       } else {
-        // Individual mode - deduct from individual balance
-        currentBattle.defender.balance -= defenderCost;
+        // Individual mode - deduct from individual balance (update earnedPoints for cloud saving)
+        currentBattle.defender.earnedPoints = Math.max(0, (currentBattle.defender.earnedPoints || 0) - defenderCost);
+        currentBattle.defender.balance = (currentBattle.defender.startingPoints || 0) + currentBattle.defender.earnedPoints;
       }
     }
     
@@ -10591,8 +10607,9 @@ REQUIREMENTS:
           return;
         }
         
-        // Purchase item
-        student.balance -= cost;
+        // Purchase item - update earnedPoints to ensure cloud saving
+        student.earnedPoints = Math.max(0, (student.earnedPoints || 0) - cost);
+        student.balance = (student.startingPoints || 0) + student.earnedPoints;
         
         if (type === 'weapon') {
           student.purchasedItems.weapons.push(itemName);
