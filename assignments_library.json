@@ -1,287 +1,2000 @@
 [
   {
-    "id": "rj-act1-s1",
-    "title": "Romeo and Juliet Act 1 Scene 1 - Reading Check",
-    "description": "Comprehension and analysis for A1S1 (street brawl, prince's decree).",
+    "id": "part1",
+    "title": "1984 Part 1",
+    "description": "Comprehensive assignment for Part1 covering key concepts and analysis.",
     "subject": "ELA",
-    "work": "Romeo and Juliet",
-    "act_scenes": "Act 1 Scene 1",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4"],
-    "multiple_choice": [
-      {
-        "q": "Who starts the quarrel among the servants? [STD: RL.9-10.1]",
-        "choices": ["A) Gregory", "B) Sampson", "C) Abram", "D) Benvolio"],
-        "answer": "B",
-        "points": 5
-      },
-      {
-        "q": "What role does Benvolio play in this scene? [STD: RL.9-10.3]",
-        "choices": ["A) Instigator", "B) Peacekeeper", "C) Messenger", "D) Judge"],
-        "answer": "B",
-        "points": 5
-      },
-      {
-        "q": "What decree does the Prince make about further brawls? [STD: RL.9-10.1]",
-        "choices": ["A) Exile", "B) Imprisonment", "C) Death", "D) Fine"],
-        "answer": "C",
-        "points": 5
-      }
+    "work": "1984",
+    "act_scenes": "Part1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "How does this public brawl establish the conflict of the play? [STD: RL.9-10.2]", "maxPoints": 10 },
-      { "q": "What do Benvolio and Tybalt's contrasting actions reveal about their characters? [STD: RL.9-10.3]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "1984-unit/assignments/part1.html"
   },
   {
-    "id": "rj-act1-s4-5",
-    "title": "Romeo and Juliet Act 1 Scenes 4-5 - Party Scenes",
-    "description": "Character, motif, and theme development at the Capulet feast.",
+    "id": "part2",
+    "title": "1984 Part 2",
+    "description": "Comprehensive assignment for Part2 covering key concepts and analysis.",
     "subject": "ELA",
-    "work": "Romeo and Juliet",
-    "act_scenes": "Act 1 Scenes 4-5",
-    "standards": ["RL.9-10.1", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5"],
-    "multiple_choice": [
-      { "q": "Mercutio's Queen Mab speech primarily reveals his view on what? [STD: RL.9-10.4]", "choices": ["A) Dreams as truthful", "B) Dreams as foolish fantasies", "C) Fate's certainty", "D) Love's nobility"], "answer": "B", "points": 5 },
-      { "q": "What literary device dominates Romeo's first description of Juliet? [STD: RL.9-10.4]", "choices": ["A) Hyperbole", "B) Personification", "C) Simile", "D) Metaphor"], "answer": "D", "points": 5 }
+    "work": "1984",
+    "act_scenes": "Part2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "How does the party scene accelerate the plot structurally? [STD: RL.9-10.5]", "maxPoints": 10 },
-      { "q": "Explain how Tybalt's reaction foreshadows later conflict. [STD: RL.9-10.2]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "1984-unit/assignments/part2.html"
   },
   {
-    "id": "rj-act2-s1-2",
-    "title": "Romeo and Juliet Act 2 Scenes 1-2 - Balcony Scene",
-    "description": "Close reading questions on identity, imagery, and structure.",
+    "id": "part3",
+    "title": "1984 Part 3",
+    "description": "Comprehensive assignment for Part3 covering key concepts and analysis.",
     "subject": "ELA",
-    "work": "Romeo and Juliet",
-    "act_scenes": "Act 2 Scenes 1-2",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
-    "multiple_choice": [
-      { "q": "What does Juliet argue about names? [STD: RL.9-10.2, RL.9-10.6]", "choices": ["A) Names define essence", "B) Names are arbitrary", "C) Names decide fate", "D) Names belong to family"], "answer": "B", "points": 5 }
+    "work": "1984",
+    "act_scenes": "Part3",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "Analyze the function of celestial imagery in the scene. [STD: RL.9-10.4, RL.9-10.5]", "maxPoints": 10 },
-      { "q": "How do Romeo's and Juliet's tones differ and why does it matter? [STD: RL.9-10.3]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "1984-unit/assignments/part3.html"
   },
   {
-    "id": "rj-act3-s1-2",
-    "title": "Romeo and Juliet Act 3 Scenes 1-2 - Turning Point",
-    "description": "Duel, banishment, and rising tragic stakes.",
+    "id": "chapter1",
+    "title": "Animal Farm Chapter 1",
+    "description": "Comprehensive assignment for Chapter1 covering key concepts and analysis.",
     "subject": "ELA",
-    "work": "Romeo and Juliet",
-    "act_scenes": "Act 3 Scenes 1-2",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5"],
-    "multiple_choice": [
-      { "q": "Why does Romeo refuse Tybalt's challenge initially? [STD: RL.9-10.3]", "choices": ["A) He fears Tybalt", "B) He's now family", "C) He lost his sword", "D) He promised the Prince"], "answer": "B", "points": 5 },
-      { "q": "Mercutio's 'plague' speech serves as what? [STD: RL.9-10.2, RL.9-10.4]", "choices": ["A) Comic relief", "B) Exposition", "C) Curse/foreshadowing", "D) Epilogue"], "answer": "C", "points": 5 }
+    "work": "Animal Farm",
+    "act_scenes": "Chapter1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "Explain how banishment escalates the tragic structure. [STD: RL.9-10.5]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "animal-farm-unit/assignments/chapter1.html"
   },
   {
-    "id": "rj-act4-s3-5",
-    "title": "Romeo and Juliet Act 4 Scenes 3-5 - Potion and Fallout",
-    "description": "False death, irony, and tonal shift.",
+    "id": "chapter10",
+    "title": "Animal Farm Chapter 10",
+    "description": "Comprehensive assignment for Chapter10 covering key concepts and analysis.",
     "subject": "ELA",
-    "work": "Romeo and Juliet",
-    "act_scenes": "Act 4 Scenes 3-5",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
-    "multiple_choice": [
-      { "q": "Juliet's fears before drinking the vial center on what? [STD: RL.9-10.2]", "choices": ["A) Social shame", "B) Potion failing/poison/tomb terror", "C) Romeo's loyalty", "D) Nurse's betrayal"], "answer": "B", "points": 5 }
+    "work": "Animal Farm",
+    "act_scenes": "Chapter10",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "How does the wedding-to-funeral reversal function structurally? [STD: RL.9-10.5]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "animal-farm-unit/assignments/chapter10.html"
   },
   {
-    "id": "rj-act5-s1-3",
-    "title": "Romeo and Juliet Act 5 Scenes 1-3 - Catastrophe",
-    "description": "Final recognition, timing, and resolution of the feud.",
+    "id": "chapter2",
+    "title": "Animal Farm Chapter 2",
+    "description": "Comprehensive assignment for Chapter2 covering key concepts and analysis.",
     "subject": "ELA",
-    "work": "Romeo and Juliet",
-    "act_scenes": "Act 5 Scenes 1-3",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.5"],
-    "multiple_choice": [
-      { "q": "Why does the Friar's letter fail to reach Romeo? [STD: RL.9-10.1]", "choices": ["A) Lost at sea", "B) Messenger detained by quarantine", "C) Robbed", "D) Wrong address"], "answer": "B", "points": 5 }
+    "work": "Animal Farm",
+    "act_scenes": "Chapter2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "How does missed timing drive the catastrophe? [STD: RL.9-10.5]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "animal-farm-unit/assignments/chapter2.html"
   },
   {
-    "id": "ody-bk1-2",
-    "title": "The Odyssey Books 1-2 - Telemachus' Call to Action",
-    "description": "Telemachus, Athena's counsel, and the suitors in Ithaca.",
+    "id": "chapter3",
+    "title": "Animal Farm Chapter 3",
+    "description": "Comprehensive assignment for Chapter3 covering key concepts and analysis.",
     "subject": "ELA",
-    "work": "The Odyssey",
-    "books": "1-2",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.5", "RL.9-10.6"],
-    "multiple_choice": [
-      { "q": "Whom does Athena support and who opposes Odysseus? [STD: RL.9-10.1]", "choices": ["A) Zeus / Ares", "B) Athena / Poseidon", "C) Hermes / Apollo", "D) Hera / Artemis"], "answer": "B", "points": 5 },
-      { "q": "Penelope delays the suitors with what ruse? [STD: RL.9-10.1]", "choices": ["A) Feigned illness", "B) A vow of silence", "C) Weaving and unweaving a shroud", "D) A voyage"], "answer": "C", "points": 5 }
+    "work": "Animal Farm",
+    "act_scenes": "Chapter3",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "Explain how in medias res and divine council frame the epic's opening. [STD: RL.9-10.5, RL.9-10.6]", "maxPoints": 10 },
-      { "q": "How does Telemachus develop across these books? [STD: RL.9-10.3]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "animal-farm-unit/assignments/chapter3.html"
   },
   {
-    "id": "ody-bk3-4",
-    "title": "The Odyssey Books 3-4 - Nestor and Menelaus",
-    "description": "Hospitality, embedded tales, and news of Odysseus.",
+    "id": "chapter4",
+    "title": "Animal Farm Chapter 4",
+    "description": "Comprehensive assignment for Chapter4 covering key concepts and analysis.",
     "subject": "ELA",
-    "work": "The Odyssey",
-    "books": "3-4",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.5", "RL.9-10.6"],
-    "multiple_choice": [
-      { "q": "Which hosts model ideal xenia? [STD: RL.9-10.2]", "choices": ["A) Nestor and Menelaus", "B) Aeolus and Circe", "C) Polyphemus and Calypso", "D) Laertes and Eumaeus"], "answer": "A", "points": 5 }
+    "work": "Animal Farm",
+    "act_scenes": "Chapter4",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "How do embedded narratives expand scope and theme? [STD: RL.9-10.5, RL.9-10.6]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "animal-farm-unit/assignments/chapter4.html"
   },
   {
-    "id": "ody-bk5-6",
-    "title": "The Odyssey Books 5-6 - From Calypso to Nausicaa",
-    "description": "Release from Ogygia, shipwreck, and Phaeacian hospitality.",
+    "id": "chapter5",
+    "title": "Animal Farm Chapter 5",
+    "description": "Comprehensive assignment for Chapter5 covering key concepts and analysis.",
     "subject": "ELA",
-    "work": "The Odyssey",
-    "books": "5-6",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5"],
-    "multiple_choice": [
-      { "q": "What decree frees Odysseus from Calypso? [STD: RL.9-10.1]", "choices": ["A) Hermes' will", "B) Zeus' order", "C) Athena's plan", "D) Poseidon's mercy"], "answer": "B", "points": 5 }
+    "work": "Animal Farm",
+    "act_scenes": "Chapter5",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "Analyze epic similes and divine aid in these books. [STD: RL.9-10.4, RL.9-10.5]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "animal-farm-unit/assignments/chapter5.html"
   },
   {
-    "id": "ody-bk7-8",
-    "title": "The Odyssey Books 7-8 - Phaeacian Court",
-    "description": "Supplication to Arete, Demodocus' songs, and athletic games.",
+    "id": "chapter6",
+    "title": "Animal Farm Chapter 6",
+    "description": "Comprehensive assignment for Chapter6 covering key concepts and analysis.",
     "subject": "ELA",
-    "work": "The Odyssey",
-    "books": "7-8",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
-    "multiple_choice": [
-      { "q": "Why do Demodocus' songs move Odysseus to tears? [STD: RL.9-10.6]", "choices": ["A) Fear of gods", "B) Homesickness and identity", "C) Anger at hosts", "D) Pride in victories"], "answer": "B", "points": 5 }
+    "work": "Animal Farm",
+    "act_scenes": "Chapter6",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "Explain the role of song/poetry in epic identity. [STD: RL.9-10.2, RL.9-10.6]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "animal-farm-unit/assignments/chapter6.html"
   },
   {
-    "id": "ody-bk9-10",
-    "title": "The Odyssey Books 9-10 - Cyclops and Circe",
-    "description": "Temptation, hubris, and leadership challenges.",
+    "id": "chapter7",
+    "title": "Animal Farm Chapter 7",
+    "description": "Comprehensive assignment for Chapter7 covering key concepts and analysis.",
     "subject": "ELA",
-    "work": "The Odyssey",
-    "books": "9-10",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.5"],
-    "multiple_choice": [
-      { "q": "How does Odysseus escape Polyphemus? [STD: RL.9-10.1]", "choices": ["A) Hides under rams", "B) Digs a tunnel", "C) Bribes him", "D) Flees by sea at night"], "answer": "A", "points": 5 }
+    "work": "Animal Farm",
+    "act_scenes": "Chapter7",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "Evaluate Odysseus' leadership in 9-10 with evidence. [STD: RL.9-10.1, RL.9-10.3]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "animal-farm-unit/assignments/chapter7.html"
   },
   {
-    "id": "ody-bk11-12",
-    "title": "The Odyssey Books 11-12 - Hades to Thrinacia",
-    "description": "Prophecy, perils, and disobedience.",
+    "id": "chapter8",
+    "title": "Animal Farm Chapter 8",
+    "description": "Comprehensive assignment for Chapter8 covering key concepts and analysis.",
     "subject": "ELA",
-    "work": "The Odyssey",
-    "books": "11-12",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.4", "RL.9-10.5"],
-    "multiple_choice": [
-      { "q": "What warning does Tiresias give? [STD: RL.9-10.1]", "choices": ["A) Avoid Phaeacia", "B) Do not harm Helios' cattle", "C) Never reveal your name", "D) Shun the Sirens"], "answer": "B", "points": 5 }
+    "work": "Animal Farm",
+    "act_scenes": "Chapter8",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "How do imagery and structure heighten terror in 11-12? [STD: RL.9-10.4, RL.9-10.5]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "animal-farm-unit/assignments/chapter8.html"
   },
   {
-    "id": "ody-bk13-16",
-    "title": "The Odyssey Books 13-16 - Return and Recognition (I)",
-    "description": "Disguise, loyalty, and reunion with Telemachus.",
+    "id": "chapter9",
+    "title": "Animal Farm Chapter 9",
+    "description": "Comprehensive assignment for Chapter9 covering key concepts and analysis.",
     "subject": "ELA",
-    "work": "The Odyssey",
-    "books": "13-16",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.5"],
-    "multiple_choice": [
-      { "q": "Who shelters Odysseus and exemplifies xenia? [STD: RL.9-10.3]", "choices": ["A) Antinous", "B) Eumaeus", "C) Melanthius", "D) Philoetius"], "answer": "B", "points": 5 }
+    "work": "Animal Farm",
+    "act_scenes": "Chapter9",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "What structural role does disguise play across 13-16? [STD: RL.9-10.5]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "animal-farm-unit/assignments/chapter9.html"
   },
   {
-    "id": "ody-bk17-20",
-    "title": "The Odyssey Books 17-20 - In the Hall",
-    "description": "Irus fight, omens, and rising tension before the bow contest.",
+    "id": "act1",
+    "title": "Hamlet Act 1",
+    "description": "Comprehensive assignment for Act1 covering key concepts and analysis.",
     "subject": "ELA",
-    "work": "The Odyssey",
-    "books": "17-20",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.5", "RL.9-10.6"],
-    "multiple_choice": [
-      { "q": "Which omen foreshadows doom for the suitors? [STD: RL.9-10.6]", "choices": ["A) Solar eclipse", "B) Zeus' thunder", "C) A blood-red moon", "D) Falling stars"], "answer": "B", "points": 5 }
+    "work": "Hamlet",
+    "act_scenes": "Act1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "How do recognition cues build toward justice in 17-20? [STD: RL.9-10.2, RL.9-10.5]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "hamlet-unit/assignments/act1.html"
   },
   {
-    "id": "mac-act1-s1-3",
-    "title": "Macbeth Act 1 Scenes 1-3 - Witches and Prophecies",
-    "description": "Supernatural elements, prophecies, and character introduction.",
+    "id": "act2",
+    "title": "Hamlet Act 2",
+    "description": "Comprehensive assignment for Act2 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Hamlet",
+    "act_scenes": "Act2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "hamlet-unit/assignments/act2.html"
+  },
+  {
+    "id": "act3",
+    "title": "Hamlet Act 3",
+    "description": "Comprehensive assignment for Act3 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Hamlet",
+    "act_scenes": "Act3",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "hamlet-unit/assignments/act3.html"
+  },
+  {
+    "id": "act4",
+    "title": "Hamlet Act 4",
+    "description": "Comprehensive assignment for Act4 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Hamlet",
+    "act_scenes": "Act4",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "hamlet-unit/assignments/act4.html"
+  },
+  {
+    "id": "act5",
+    "title": "Hamlet Act 5",
+    "description": "Comprehensive assignment for Act5 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Hamlet",
+    "act_scenes": "Act5",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "hamlet-unit/assignments/act5.html"
+  },
+  {
+    "id": "american_revolution",
+    "title": "American Revolution",
+    "description": "Comprehensive assignment for American Revolution covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "American Revolution",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/american-revolution.html"
+  },
+  {
+    "id": "ancient_greece_art_architecture",
+    "title": "Ancient Greece - Art and Architecture",
+    "description": "Comprehensive assignment for Art Architecture covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Art Architecture",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/ancient-greece-art-architecture.html"
+  },
+  {
+    "id": "world_war_ii_causes",
+    "title": "World War II - Causes and Origins",
+    "description": "Comprehensive assignment for Causes covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Causes",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/world-war-ii-causes.html"
+  },
+  {
+    "id": "american_revolution_causes",
+    "title": "American Revolution - Causes and Tensions",
+    "description": "Comprehensive assignment for Causes covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Causes",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/american-revolution-causes.html"
+  },
+  {
+    "id": "ancient_greece_classical_period",
+    "title": "Ancient Greece - Classical Period",
+    "description": "Comprehensive assignment for Classical Period covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Classical Period",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/ancient-greece-classical-period.html"
+  },
+  {
+    "id": "civil_rights_cultural_impact",
+    "title": "Civil Rights Movement - Cultural Impact",
+    "description": "Comprehensive assignment for Cultural Impact covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Cultural Impact",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/civil-rights-cultural-impact.html"
+  },
+  {
+    "id": "american_revolution_declaration",
+    "title": "American Revolution - Declaration of Independence",
+    "description": "Comprehensive assignment for Declaration covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Declaration",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/american-revolution-declaration.html"
+  },
+  {
+    "id": "american_revolution_early_battles",
+    "title": "American Revolution - Early Battles",
+    "description": "Comprehensive assignment for Early Battles covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Early Battles",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/american-revolution-early-battles.html"
+  },
+  {
+    "id": "civil_rights_economic_impact",
+    "title": "Civil Rights Movement - Economic Impact",
+    "description": "Comprehensive assignment for Economic Impact covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Economic Impact",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/civil-rights-economic-impact.html"
+  },
+  {
+    "id": "world_war_ii_european_theater",
+    "title": "World War II - European Theater",
+    "description": "Comprehensive assignment for European Theater covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "European Theater",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/world-war-ii-european-theater.html"
+  },
+  {
+    "id": "american_revolution_founding_documents",
+    "title": "American Revolution - Founding Documents",
+    "description": "Comprehensive assignment for Founding Documents covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Founding Documents",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/american-revolution-founding-documents.html"
+  },
+  {
+    "id": "ancient_greece_hellenistic_period",
+    "title": "Ancient Greece - Hellenistic Period",
+    "description": "Comprehensive assignment for Hellenistic Period covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Hellenistic Period",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/ancient-greece-hellenistic-period.html"
+  },
+  {
+    "id": "world_war_ii_holocaust",
+    "title": "World War II - The Holocaust",
+    "description": "Comprehensive assignment for Holocaust covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Holocaust",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/world-war-ii-holocaust.html"
+  },
+  {
+    "id": "world_war_ii_home_front",
+    "title": "World War II - Home Front",
+    "description": "Comprehensive assignment for Home Front covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Home Front",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/world-war-ii-home-front.html"
+  },
+  {
+    "id": "civil_rights_legal_victories",
+    "title": "Civil Rights Movement - Legal Victories",
+    "description": "Comprehensive assignment for Legal Victories covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Legal Victories",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/civil-rights-legal-victories.html"
+  },
+  {
+    "id": "ancient_greece_literature_drama",
+    "title": "Ancient Greece - Literature and Drama",
+    "description": "Comprehensive assignment for Literature Drama covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Literature Drama",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/ancient-greece-literature-drama.html"
+  },
+  {
+    "id": "american_revolution_major_battles",
+    "title": "American Revolution - Major Battles",
+    "description": "Comprehensive assignment for Major Battles covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Major Battles",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/american-revolution-major-battles.html"
+  },
+  {
+    "id": "world_war_ii_major_battles",
+    "title": "World War II - Major Battles",
+    "description": "Comprehensive assignment for Major Battles covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Major Battles",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/world-war-ii-major-battles.html"
+  },
+  {
+    "id": "civil_rights_major_events",
+    "title": "Civil Rights Movement - Major Events",
+    "description": "Comprehensive assignment for Major Events covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Major Events",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/civil-rights-major-events.html"
+  },
+  {
+    "id": "ancient_greece_military_warfare",
+    "title": "Ancient Greece - Military and Warfare",
+    "description": "Comprehensive assignment for Military Warfare covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Military Warfare",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/ancient-greece-military-warfare.html"
+  },
+  {
+    "id": "civil_rights_origins",
+    "title": "Civil Rights Movement - Origins and Early Leaders",
+    "description": "Comprehensive assignment for Origins covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Origins",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/civil-rights-origins.html"
+  },
+  {
+    "id": "ancient_greece_origins",
+    "title": "Ancient Greece - Origins and Early Development",
+    "description": "Comprehensive assignment for Origins covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Origins",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/ancient-greece-origins.html"
+  },
+  {
+    "id": "world_war_ii_pacific_theater",
+    "title": "World War II - Pacific Theater",
+    "description": "Comprehensive assignment for Pacific Theater covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Pacific Theater",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/world-war-ii-pacific-theater.html"
+  },
+  {
+    "id": "ancient_greece_philosophy_science",
+    "title": "Ancient Greece - Philosophy and Science",
+    "description": "Comprehensive assignment for Philosophy Science covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Philosophy Science",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/ancient-greece-philosophy-science.html"
+  },
+  {
+    "id": "civil_rights_political_impact",
+    "title": "Civil Rights Movement - Political Impact",
+    "description": "Comprehensive assignment for Political Impact covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Political Impact",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/civil-rights-political-impact.html"
+  },
+  {
+    "id": "american_revolution_revolutionary_leaders",
+    "title": "American Revolution - Revolutionary Leaders",
+    "description": "Comprehensive assignment for Revolutionary Leaders covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Revolutionary Leaders",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/american-revolution-revolutionary-leaders.html"
+  },
+  {
+    "id": "civil_rights_social_impact",
+    "title": "Civil Rights Movement - Social Impact",
+    "description": "Comprehensive assignment for Social Impact covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Social Impact",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/civil-rights-social-impact.html"
+  },
+  {
+    "id": "world_war_ii_technology_innovation",
+    "title": "World War II - Technology and Innovation",
+    "description": "Comprehensive assignment for Technology Innovation covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Technology Innovation",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/world-war-ii-technology-innovation.html"
+  },
+  {
+    "id": "american_revolution_treaty_paris",
+    "title": "American Revolution - Treaty of Paris",
+    "description": "Comprehensive assignment for Treaty Paris covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "Treaty Paris",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/american-revolution-treaty-paris.html"
+  },
+  {
+    "id": "american_revolution_war_impact",
+    "title": "American Revolution - Revolutionary War Impact",
+    "description": "Comprehensive assignment for War Impact covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "War Impact",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/american-revolution-war-impact.html"
+  },
+  {
+    "id": "world_war_ii",
+    "title": "World War II",
+    "description": "Comprehensive assignment for World War Ii covering key concepts and analysis.",
+    "subject": "Social Studies",
+    "work": "History",
+    "act_scenes": "World War Ii",
+    "standards": [
+      "RH.9-10.1",
+      "RH.9-10.2",
+      "RH.9-10.3",
+      "RH.9-10.4",
+      "RH.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "historical-unit/assignments/world-war-ii.html"
+  },
+  {
+    "id": "act1_scene1",
+    "title": "Julius Caesar - Act 1, Scene 1 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act1 Scene1 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act1 Scene1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act1-scene1.html"
+  },
+  {
+    "id": "act1_scene2",
+    "title": "Julius Caesar - Act 1, Scene 2 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act1 Scene2 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act1 Scene2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act1-scene2.html"
+  },
+  {
+    "id": "act1_scene3",
+    "title": "Julius Caesar - Act 1, Scene 3 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act1 Scene3 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act1 Scene3",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act1-scene3.html"
+  },
+  {
+    "id": "act2_scene1",
+    "title": "Julius Caesar - Act 2, Scene 1 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act2 Scene1 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act2 Scene1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act2-scene1.html"
+  },
+  {
+    "id": "act2_scene2",
+    "title": "Julius Caesar - Act 2, Scene 2 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act2 Scene2 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act2 Scene2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act2-scene2.html"
+  },
+  {
+    "id": "act2_scene3",
+    "title": "Julius Caesar - Act 2, Scene 3 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act2 Scene3 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act2 Scene3",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act2-scene3.html"
+  },
+  {
+    "id": "act2_scene4",
+    "title": "Julius Caesar - Act 2, Scene 4 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act2 Scene4 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act2 Scene4",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act2-scene4.html"
+  },
+  {
+    "id": "act3_scene1",
+    "title": "Julius Caesar - Act 3, Scene 1 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act3 Scene1 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act3 Scene1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act3-scene1.html"
+  },
+  {
+    "id": "act3_scene2",
+    "title": "Julius Caesar - Act 3, Scene 2 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act3 Scene2 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act3 Scene2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act3-scene2.html"
+  },
+  {
+    "id": "act3_scene3",
+    "title": "Julius Caesar - Act 3, Scene 3 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act3 Scene3 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act3 Scene3",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act3-scene3.html"
+  },
+  {
+    "id": "act4_scene1",
+    "title": "Julius Caesar - Act 4, Scene 1 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act4 Scene1 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act4 Scene1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act4-scene1.html"
+  },
+  {
+    "id": "act4_scene2",
+    "title": "Julius Caesar - Act 4, Scene 2 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act4 Scene2 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act4 Scene2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act4-scene2.html"
+  },
+  {
+    "id": "act4_scene3",
+    "title": "Julius Caesar - Act 4, Scene 3 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act4 Scene3 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act4 Scene3",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act4-scene3.html"
+  },
+  {
+    "id": "act5_scene1",
+    "title": "Julius Caesar - Act 5, Scene 1 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act5 Scene1 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act5 Scene1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act5-scene1.html"
+  },
+  {
+    "id": "act5_scene2",
+    "title": "Julius Caesar - Act 5, Scene 2 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act5 Scene2 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act5 Scene2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act5-scene2.html"
+  },
+  {
+    "id": "act5_scene3",
+    "title": "Julius Caesar - Act 5, Scene 3 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act5 Scene3 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act5 Scene3",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act5-scene3.html"
+  },
+  {
+    "id": "act5_scene4",
+    "title": "Julius Caesar - Act 5, Scene 4 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act5 Scene4 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act5 Scene4",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act5-scene4.html"
+  },
+  {
+    "id": "act5_scene5",
+    "title": "Julius Caesar - Act 5, Scene 5 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act5 Scene5 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Julius Caesar",
+    "act_scenes": "Act5 Scene5",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "julius-caesar-unit/assignments/act5-scene5.html"
+  },
+  {
+    "id": "act1_scene1",
+    "title": "Macbeth Act 1 Scene 1",
+    "description": "Comprehensive assignment for Act1 Scene1 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Macbeth",
-    "act_scenes": "Act 1 Scenes 1-3",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
-    "multiple_choice": [
-      { "q": "What supernatural elements open the play? [STD: RL.9-10.1, RL.9-10.4]", "choices": ["A) Ghosts", "B) Three witches on a heath", "C) Demons", "D) Angels"], "answer": "B", "points": 5 },
-      { "q": "What prophecy do the witches give Macbeth? [STD: RL.9-10.1]", "choices": ["A) He will be defeated", "B) He will be Thane of Cawdor and King", "C) He will die young", "D) He will be betrayed"], "answer": "B", "points": 5 }
+    "act_scenes": "Act1 Scene1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "How does the supernatural atmosphere set the tone for the play? [STD: RL.9-10.2, RL.9-10.5]", "maxPoints": 10 },
-      { "q": "What does Macbeth's reaction to the prophecies reveal about his character? [STD: RL.9-10.3]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act1-scene1.html"
   },
   {
-    "id": "mac-act1-s4-7",
-    "title": "Macbeth Act 1 Scenes 4-7 - Ambition and Manipulation",
-    "description": "Lady Macbeth's influence and the murder plot.",
+    "id": "act1_scene2",
+    "title": "Macbeth Act 1 Scene 2",
+    "description": "Comprehensive assignment for Act1 Scene2 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Macbeth",
-    "act_scenes": "Act 1 Scenes 4-7",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
-    "multiple_choice": [
-      { "q": "What does Duncan announce about Malcolm? [STD: RL.9-10.1]", "choices": ["A) He is banished", "B) He names Malcolm Prince of Cumberland", "C) He is executed", "D) He is promoted"], "answer": "B", "points": 5 },
-      { "q": "How does Lady Macbeth manipulate Macbeth? [STD: RL.9-10.3]", "choices": ["A) With threats", "B) Questions his manhood and love", "C) With bribes", "D) With flattery"], "answer": "B", "points": 5 }
+    "act_scenes": "Act1 Scene2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "Analyze the gender role reversal in these scenes. [STD: RL.9-10.2, RL.9-10.6]", "maxPoints": 10 },
-      { "q": "What internal conflict does Macbeth express in his soliloquy? [STD: RL.9-10.2, RL.9-10.3]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act1-scene2.html"
   },
   {
-    "id": "mac-act2-s1-4",
-    "title": "Macbeth Act 2 Scenes 1-4 - The Murder and Aftermath",
-    "description": "Duncan's murder, guilt, and the Porter scene.",
+    "id": "act1_scene3",
+    "title": "Macbeth Act 1 Scene 3",
+    "description": "Comprehensive assignment for Act1 Scene3 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Macbeth",
-    "act_scenes": "Act 2 Scenes 1-4",
-    "standards": ["RL.9-10.1", "RL.9-10.2", "RL.9-10.3", "RL.9-10.4", "RL.9-10.5", "RL.9-10.6"],
-    "multiple_choice": [
-      { "q": "What does Macbeth see before killing Duncan? [STD: RL.9-10.1, RL.9-10.4]", "choices": ["A) A ghost", "B) A floating dagger", "C) Blood", "D) Fire"], "answer": "B", "points": 5 },
-      { "q": "What does the Porter scene provide? [STD: RL.9-10.2, RL.9-10.5]", "choices": ["A) Exposition", "B) Comic relief and thematic commentary", "C) Character development", "D) Plot advancement"], "answer": "B", "points": 5 }
+    "act_scenes": "Act1 Scene3",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
     ],
-    "short_answer": [
-      { "q": "How does the dagger soliloquy reveal Macbeth's psychological state? [STD: RL.9-10.3, RL.9-10.4]", "maxPoints": 10 },
-      { "q": "What theme emerges from the murder and its aftermath? [STD: RL.9-10.2]", "maxPoints": 10 }
-    ]
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act1-scene3.html"
+  },
+  {
+    "id": "act1_scene4",
+    "title": "Macbeth Act 1 Scene 4",
+    "description": "Comprehensive assignment for Act1 Scene4 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act1 Scene4",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act1-scene4.html"
+  },
+  {
+    "id": "act1_scene5",
+    "title": "Macbeth Act 1 Scene 5",
+    "description": "Comprehensive assignment for Act1 Scene5 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act1 Scene5",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act1-scene5.html"
+  },
+  {
+    "id": "act1_scene6",
+    "title": "Macbeth Act 1 Scene 6",
+    "description": "Comprehensive assignment for Act1 Scene6 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act1 Scene6",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act1-scene6.html"
+  },
+  {
+    "id": "act1_scene7",
+    "title": "Macbeth Act 1 Scene 7",
+    "description": "Comprehensive assignment for Act1 Scene7 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act1 Scene7",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act1-scene7.html"
+  },
+  {
+    "id": "act2_scene1",
+    "title": "Macbeth - Act 2, Scene 1 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act2 Scene1 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act2 Scene1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act2-scene1.html"
+  },
+  {
+    "id": "act2_scene2",
+    "title": "Macbeth - Act 2, Scene 2 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act2 Scene2 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act2 Scene2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act2-scene2.html"
+  },
+  {
+    "id": "act2_scene3",
+    "title": "Macbeth - Act 2, Scene 3 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act2 Scene3 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act2 Scene3",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act2-scene3.html"
+  },
+  {
+    "id": "act2_scene4",
+    "title": "Macbeth - Act 2, Scene 4 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act2 Scene4 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act2 Scene4",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act2-scene4.html"
+  },
+  {
+    "id": "act3_scene1",
+    "title": "Macbeth - Act 3, Scene 1 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act3 Scene1 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act3 Scene1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act3-scene1.html"
+  },
+  {
+    "id": "act3_scene2",
+    "title": "Macbeth - Act 3, Scene 2 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act3 Scene2 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act3 Scene2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act3-scene2.html"
+  },
+  {
+    "id": "act3_scene3",
+    "title": "Macbeth - Act 3, Scene 3 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act3 Scene3 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act3 Scene3",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act3-scene3.html"
+  },
+  {
+    "id": "act3_scene4",
+    "title": "Macbeth - Act 3, Scene 4 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act3 Scene4 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act3 Scene4",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act3-scene4.html"
+  },
+  {
+    "id": "act3_scene5",
+    "title": "Macbeth - Act 3, Scene 5 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act3 Scene5 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act3 Scene5",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act3-scene5.html"
+  },
+  {
+    "id": "act3_scene6",
+    "title": "Macbeth - Act 3, Scene 6 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act3 Scene6 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act3 Scene6",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act3-scene6.html"
+  },
+  {
+    "id": "act4_scene1",
+    "title": "Macbeth - Act 4, Scene 1 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act4 Scene1 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act4 Scene1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act4-scene1.html"
+  },
+  {
+    "id": "act4_scene2",
+    "title": "Macbeth - Act 4, Scene 2 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act4 Scene2 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act4 Scene2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act4-scene2.html"
+  },
+  {
+    "id": "act4_scene3",
+    "title": "Macbeth - Act 4, Scene 3 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act4 Scene3 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act4 Scene3",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act4-scene3.html"
+  },
+  {
+    "id": "act5_scene1",
+    "title": "Macbeth - Act 5, Scene 1 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act5 Scene1 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act5 Scene1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act5-scene1.html"
+  },
+  {
+    "id": "act5_scene2",
+    "title": "Macbeth - Act 5, Scene 2 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act5 Scene2 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act5 Scene2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act5-scene2.html"
+  },
+  {
+    "id": "act5_scene3",
+    "title": "Macbeth - Act 5, Scene 3 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act5 Scene3 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act5 Scene3",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act5-scene3.html"
+  },
+  {
+    "id": "act5_scene4",
+    "title": "Macbeth - Act 5, Scene 4 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act5 Scene4 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act5 Scene4",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act5-scene4.html"
+  },
+  {
+    "id": "act5_scene5",
+    "title": "Macbeth - Act 5, Scene 5 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act5 Scene5 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act5 Scene5",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act5-scene5.html"
+  },
+  {
+    "id": "act5_scene6",
+    "title": "Macbeth - Act 5, Scene 6 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act5 Scene6 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act5 Scene6",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act5-scene6.html"
+  },
+  {
+    "id": "act5_scene7",
+    "title": "Macbeth - Act 5, Scene 7 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act5 Scene7 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act5 Scene7",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act5-scene7.html"
+  },
+  {
+    "id": "act5_scene8",
+    "title": "Macbeth - Act 5, Scene 8 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act5 Scene8 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Macbeth",
+    "act_scenes": "Act5 Scene8",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "macbeth-unit/assignments/act5-scene8.html"
+  },
+  {
+    "id": "day1_act1_scene1",
+    "title": "Romeo & Juliet - Day 1: Act 1, Scene 1 | Play Tornado",
+    "description": "Comprehensive assignment for Day1 Act1 Scene1 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Romeo and Juliet",
+    "act_scenes": "Day1 Act1 Scene1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "romeo-juliet-unit/assignments/day1-act1-scene1.html"
+  },
+  {
+    "id": "day2_act1_scenes2_3",
+    "title": "Romeo & Juliet - Day 2: Act 1, Scenes 2-3 | Play Tornado",
+    "description": "Comprehensive assignment for Day2 Act1 Scenes2 3 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "Romeo and Juliet",
+    "act_scenes": "Day2 Act1 Scenes2 3",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "romeo-juliet-unit/assignments/day2-act1-scenes2-3.html"
+  },
+  {
+    "id": "act1",
+    "title": "The Crucible Act 1",
+    "description": "Comprehensive assignment for Act1 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "The Crucible",
+    "act_scenes": "Act1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "the-crucible-unit/assignments/act1.html"
+  },
+  {
+    "id": "act1_scene1",
+    "title": "The Crucible - Act 1, Scene 1 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act1 Scene1 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "The Crucible",
+    "act_scenes": "Act1 Scene1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "the-crucible-unit/assignments/act1-scene1.html"
+  },
+  {
+    "id": "act1_scene2",
+    "title": "The Crucible - Act 1, Scene 2 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act1 Scene2 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "The Crucible",
+    "act_scenes": "Act1 Scene2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "the-crucible-unit/assignments/act1-scene2.html"
+  },
+  {
+    "id": "act1_scene3",
+    "title": "The Crucible - Act 1, Scene 3 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act1 Scene3 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "The Crucible",
+    "act_scenes": "Act1 Scene3",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "the-crucible-unit/assignments/act1-scene3.html"
+  },
+  {
+    "id": "act2_scene1",
+    "title": "The Crucible - Act 2, Scene 1 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act2 Scene1 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "The Crucible",
+    "act_scenes": "Act2 Scene1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "the-crucible-unit/assignments/act2-scene1.html"
+  },
+  {
+    "id": "act2_scene2",
+    "title": "The Crucible - Act 2, Scene 2 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act2 Scene2 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "The Crucible",
+    "act_scenes": "Act2 Scene2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "the-crucible-unit/assignments/act2-scene2.html"
+  },
+  {
+    "id": "act3_scene1",
+    "title": "The Crucible - Act 3, Scene 1 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act3 Scene1 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "The Crucible",
+    "act_scenes": "Act3 Scene1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "the-crucible-unit/assignments/act3-scene1.html"
+  },
+  {
+    "id": "act3_scene2",
+    "title": "The Crucible - Act 3, Scene 2 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act3 Scene2 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "The Crucible",
+    "act_scenes": "Act3 Scene2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "the-crucible-unit/assignments/act3-scene2.html"
+  },
+  {
+    "id": "act4_scene1",
+    "title": "The Crucible - Act 4, Scene 1 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act4 Scene1 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "The Crucible",
+    "act_scenes": "Act4 Scene1",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "the-crucible-unit/assignments/act4-scene1.html"
+  },
+  {
+    "id": "act4_scene2",
+    "title": "The Crucible - Act 4, Scene 2 | Classroom Assignment",
+    "description": "Comprehensive assignment for Act4 Scene2 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "The Crucible",
+    "act_scenes": "Act4 Scene2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "the-crucible-unit/assignments/act4-scene2.html"
+  },
+  {
+    "id": "books1_2",
+    "title": "The Odyssey - Books 1-2 | Classroom Assignment",
+    "description": "Comprehensive assignment for Books1 2 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "The Odyssey",
+    "act_scenes": "Books1 2",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "the-odyssey-unit/assignments/books1-2.html"
+  },
+  {
+    "id": "books21_22",
+    "title": "The Odyssey - Books 21-22 | Classroom Assignment",
+    "description": "Comprehensive assignment for Books21 22 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "The Odyssey",
+    "act_scenes": "Books21 22",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "the-odyssey-unit/assignments/books21-22.html"
+  },
+  {
+    "id": "books23_24",
+    "title": "The Odyssey - Books 23-24 | Classroom Assignment",
+    "description": "Comprehensive assignment for Books23 24 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "The Odyssey",
+    "act_scenes": "Books23 24",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "the-odyssey-unit/assignments/books23-24.html"
+  },
+  {
+    "id": "books9_10",
+    "title": "The Odyssey - Books 9-10 | Classroom Assignment",
+    "description": "Comprehensive assignment for Books9 10 covering key concepts and analysis.",
+    "subject": "ELA",
+    "work": "The Odyssey",
+    "act_scenes": "Books9 10",
+    "standards": [
+      "RL.9-10.1",
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.5"
+    ],
+    "multiple_choice": [],
+    "short_answer": [],
+    "file_path": "the-odyssey-unit/assignments/books9-10.html"
   }
 ]
