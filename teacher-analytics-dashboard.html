@@ -611,6 +611,92 @@
             </div>
         </div>
         
+        <!-- Student Grouping Tab -->
+        <div id="student-grouping-tab" class="tab-content">
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>👥 Student Grouping</h3>
+                    <div id="studentGrouping">
+                        <div class="mb-3">
+                            <label class="form-label">Grouping Strategy:</label>
+                            <select class="form-select" id="groupingStrategy">
+                                <option value="performance">Performance-Based Groups</option>
+                                <option value="mixed_ability">Mixed-Ability Groups</option>
+                                <option value="learning_style">Learning Style Groups</option>
+                                <option value="interest">Interest-Based Groups</option>
+                                <option value="intervention">Intervention Groups</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-primary" onclick="generateStudentGroups()">
+                                <i class="fas fa-users"></i> Generate Groups
+                            </button>
+                            <button class="btn btn-outline-secondary ms-2" onclick="viewGroupHistory()">
+                                <i class="fas fa-history"></i> View History
+                            </button>
+                        </div>
+                        <div id="groupingResults">
+                            <!-- Generated groups will appear here -->
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>📋 Differentiation Plans</h3>
+                    <div id="differentiationPlans">
+                        <div class="mb-3">
+                            <button class="btn btn-success" onclick="generateDifferentiationPlans()">
+                                <i class="fas fa-graduation-cap"></i> Generate Plans
+                            </button>
+                            <button class="btn btn-outline-primary ms-2" onclick="exportGroupData()">
+                                <i class="fas fa-download"></i> Export Data
+                            </button>
+                        </div>
+                        <div id="differentiationResults">
+                            <!-- Differentiation plans will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Predictive Analytics Tab -->
+        <div id="predictive-analytics-tab" class="tab-content">
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>🔮 Predictive Analytics</h3>
+                    <div id="predictiveAnalytics">
+                        <div class="mb-3">
+                            <button class="btn btn-primary" onclick="runPredictiveAnalysis()">
+                                <i class="fas fa-chart-line"></i> Run Analysis
+                            </button>
+                            <button class="btn btn-outline-secondary ms-2" onclick="viewAnalyticsHistory()">
+                                <i class="fas fa-history"></i> View History
+                            </button>
+                        </div>
+                        <div id="analyticsResults">
+                            <!-- Analysis results will appear here -->
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>⚠️ Risk Alerts</h3>
+                    <div id="riskAlerts">
+                        <div class="mb-3">
+                            <button class="btn btn-warning" onclick="generateRiskReport()">
+                                <i class="fas fa-exclamation-triangle"></i> Generate Risk Report
+                            </button>
+                            <button class="btn btn-outline-danger ms-2" onclick="exportAnalyticsData()">
+                                <i class="fas fa-download"></i> Export Data
+                            </button>
+                        </div>
+                        <div id="riskResults">
+                            <!-- Risk alerts will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- Export Controls -->
         <div class="export-controls">
             <button class="btn" onclick="exportStudentReports()">📄 Student Reports</button>
@@ -633,10 +719,14 @@
     <script src="lib/cloudDataSync.js"></script>
     <script src="lib/interventionEngine.js"></script>
     <script src="lib/parentCommunication.js"></script>
+    <script src="lib/studentGrouping.js"></script>
+    <script src="lib/predictiveAnalytics.js"></script>
     <script>
         // Initialize intervention recommendation engine
         const interventionEngine = new InterventionRecommendationEngine();
         const parentCommunication = new ParentCommunicationSystem();
+        const studentGrouping = new StudentGroupingSystem();
+        const predictiveAnalytics = new PredictiveAnalyticsSystem();
 
         // Enhanced analytics with real data integration and cloud sync
         let currentRosterId = null;
@@ -1201,6 +1291,694 @@
                 });
                 typesContainer.innerHTML = typesHtml || '<div class="text-muted">No communications sent yet</div>';
             }
+        }
+
+        /**
+         * Generate student groups based on selected strategy
+         */
+        function generateStudentGroups() {
+            if (!rosterData || !rosterData.roster) {
+                alert('No roster data available');
+                return;
+            }
+
+            const strategy = document.getElementById('groupingStrategy').value;
+            const groups = studentGrouping.generateGroups(rosterData.roster, strategy);
+            displayStudentGroups(groups);
+        }
+
+        /**
+         * Display generated student groups
+         */
+        function displayStudentGroups(groups) {
+            const container = document.getElementById('groupingResults');
+            if (!container) return;
+
+            let html = `
+                <div class="alert alert-info mb-3">
+                    <h6><i class="fas fa-info-circle"></i> ${groups.strategy}</h6>
+                    <p class="mb-0">${groups.description}</p>
+                    <small>Total Students: ${groups.totalStudents} | Groups: ${groups.groupCount} | Avg Size: ${groups.averageGroupSize}</small>
+                </div>
+            `;
+
+            groups.groups.forEach((group, index) => {
+                const masteryColor = group.averageMastery >= 80 ? 'success' : 
+                                   group.averageMastery >= 60 ? 'warning' : 'danger';
+                
+                html += `
+                    <div class="card mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-0">${group.name}</h6>
+                                <small class="text-muted">${group.students.length} students</small>
+                            </div>
+                            <div>
+                                <span class="badge bg-${masteryColor}">${group.averageMastery}% avg</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6>Students:</h6>
+                                    <div class="student-list">
+                                        ${group.students.map(student => `
+                                            <span class="badge bg-light text-dark me-1 mb-1">${student.name}</span>
+                                        `).join('')}
+                                    </div>
+                                    <div class="mt-2">
+                                        <small><strong>Focus:</strong> ${group.focus}</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="btn-group-vertical w-100">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="viewGroupDetails('${group.id}')">
+                                            <i class="fas fa-eye"></i> View Details
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success" onclick="generateGroupPlan('${group.id}')">
+                                            <i class="fas fa-clipboard-list"></i> Generate Plan
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        /**
+         * View detailed group information
+         */
+        function viewGroupDetails(groupId) {
+            const groups = studentGrouping.generateGroups(rosterData.roster, document.getElementById('groupingStrategy').value);
+            const group = groups.groups.find(g => g.id === groupId);
+            
+            if (!group) return;
+
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.innerHTML = `
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Group Details - ${group.name}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <h6>Group Statistics</h6>
+                                    <p><strong>Student Count:</strong> ${group.students.length}</p>
+                                    <p><strong>Average Mastery:</strong> ${group.averageMastery}%</p>
+                                    <p><strong>Focus Area:</strong> ${group.focus}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Student List</h6>
+                                    <ul class="list-group">
+                                        ${group.students.map(student => `
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                ${student.name}
+                                                <span class="badge bg-primary">${student.scores.mastery || 0}%</span>
+                                            </li>
+                                        `).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <h6>Recommended Activities</h6>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h6>Activities</h6>
+                                    <ul>
+                                        ${group.recommendations?.activities?.map(activity => `<li>${activity}</li>`).join('') || '<li>Standard activities</li>'}
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6>Resources</h6>
+                                    <ul>
+                                        ${group.recommendations?.resources?.map(resource => `<li>${resource}</li>`).join('') || '<li>Standard resources</li>'}
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6>Assessment</h6>
+                                    <p>${group.recommendations?.assessment || 'Standard assessment'}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="saveGroupPlan('${groupId}')">
+                                Save Group Plan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            const bsModal = new bootstrap.Modal(modal);
+            bsModal.show();
+            
+            modal.addEventListener('hidden.bs.modal', () => {
+                document.body.removeChild(modal);
+            });
+        }
+
+        /**
+         * Generate differentiation plans for all groups
+         */
+        function generateDifferentiationPlans() {
+            if (!rosterData || !rosterData.roster) {
+                alert('No roster data available');
+                return;
+            }
+
+            const strategy = document.getElementById('groupingStrategy').value;
+            const groups = studentGrouping.generateGroups(rosterData.roster, strategy);
+            const standards = Object.keys(standardsData.standardsByCode || {});
+            const plans = studentGrouping.generateDifferentiationPlans(groups.groups, standards);
+            
+            displayDifferentiationPlans(plans);
+        }
+
+        /**
+         * Display differentiation plans
+         */
+        function displayDifferentiationPlans(plans) {
+            const container = document.getElementById('differentiationResults');
+            if (!container) return;
+
+            let html = '';
+            plans.forEach(plan => {
+                html += `
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h6 class="mb-0">${plan.groupName}</h6>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Strategy:</strong> ${plan.overallStrategy}</p>
+                            
+                            <h6>Standards Differentiation:</h6>
+                            <div class="accordion" id="accordion-${plan.groupId}">
+                                ${Object.entries(plan.standards).map(([standard, diff], index) => `
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="heading-${plan.groupId}-${index}">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${plan.groupId}-${index}">
+                                                ${standard}
+                                            </button>
+                                        </h2>
+                                        <div id="collapse-${plan.groupId}-${index}" class="accordion-collapse collapse" data-bs-parent="#accordion-${plan.groupId}">
+                                            <div class="accordion-body">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <h6>Activities</h6>
+                                                        <ul>
+                                                            ${diff.activities.map(activity => `<li>${activity}</li>`).join('')}
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <h6>Resources</h6>
+                                                        <ul>
+                                                            ${diff.resources.map(resource => `<li>${resource}</li>`).join('')}
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <h6>Assessment</h6>
+                                                        <p>${diff.assessment}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        /**
+         * View group history
+         */
+        function viewGroupHistory() {
+            const history = studentGrouping.getGroupHistory();
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.innerHTML = `
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Group History</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            ${history.length === 0 ? 
+                                '<div class="alert alert-info">No group history available.</div>' :
+                                history.map(entry => `
+                                    <div class="card mb-3">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">${entry.strategy}</h6>
+                                            <small class="text-muted">${new Date(entry.timestamp).toLocaleString()}</small>
+                                        </div>
+                                        <div class="card-body">
+                                            <p><strong>Students:</strong> ${entry.students} | <strong>Groups:</strong> ${entry.groups.length}</p>
+                                            <div class="row">
+                                                ${entry.groups.map(group => `
+                                                    <div class="col-md-6 mb-2">
+                                                        <div class="border rounded p-2">
+                                                            <strong>${group.name}</strong><br>
+                                                            <small>${group.students.length} students, ${group.averageMastery}% avg</small>
+                                                        </div>
+                                                    </div>
+                                                `).join('')}
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')
+                            }
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            const bsModal = new bootstrap.Modal(modal);
+            bsModal.show();
+            
+            modal.addEventListener('hidden.bs.modal', () => {
+                document.body.removeChild(modal);
+            });
+        }
+
+        /**
+         * Export group data
+         */
+        function exportGroupData() {
+            if (!rosterData || !rosterData.roster) {
+                alert('No roster data available');
+                return;
+            }
+
+            const strategy = document.getElementById('groupingStrategy').value;
+            const groups = studentGrouping.generateGroups(rosterData.roster, strategy);
+            const exportData = studentGrouping.exportGroupData(groups.groups);
+            
+            // Create and download JSON file
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `student-groups-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            // Show success message
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-success alert-dismissible fade show position-fixed';
+            alert.style.top = '20px';
+            alert.style.right = '20px';
+            alert.style.zIndex = '9999';
+            alert.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <strong>Export Complete!</strong> Group data has been downloaded.
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(alert);
+            
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.parentNode.removeChild(alert);
+                }
+            }, 5000);
+        }
+
+        /**
+         * Run predictive analysis on all students
+         */
+        function runPredictiveAnalysis() {
+            if (!rosterData || !rosterData.roster) {
+                alert('No roster data available');
+                return;
+            }
+
+            const analysis = predictiveAnalytics.analyzeClassRisk(rosterData.roster);
+            displayPredictiveAnalysis(analysis);
+        }
+
+        /**
+         * Display predictive analysis results
+         */
+        function displayPredictiveAnalysis(analysis) {
+            const container = document.getElementById('analyticsResults');
+            if (!container) return;
+
+            const classInsights = analysis.classInsights;
+            
+            let html = `
+                <div class="alert alert-info mb-3">
+                    <h6><i class="fas fa-info-circle"></i> Class Risk Analysis</h6>
+                    <p class="mb-0">Analysis completed for ${classInsights.totalStudents} students</p>
+                    <small>Average Risk: ${(classInsights.classTrends.averageRisk * 100).toFixed(1)}%</small>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="text-danger">${classInsights.riskDistribution.critical}</h5>
+                                <small>Critical Risk</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="text-warning">${classInsights.riskDistribution.high}</h5>
+                                <small>High Risk</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="text-info">${classInsights.riskDistribution.medium}</h5>
+                                <small>Medium Risk</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="text-success">${classInsights.riskDistribution.low}</h5>
+                                <small>Low Risk</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Priority students
+            if (classInsights.priorityStudents.length > 0) {
+                html += `
+                    <h6>Priority Students</h6>
+                    <div class="row">
+                        ${classInsights.priorityStudents.map(student => `
+                            <div class="col-md-6 mb-2">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="card-title">${student.studentName}</h6>
+                                        <p class="card-text">
+                                            <span class="badge bg-${student.urgency === 'critical' ? 'danger' : 'warning'}">
+                                                ${(student.riskScore * 100).toFixed(1)}% Risk
+                                            </span>
+                                        </p>
+                                        <small class="text-muted">
+                                            Primary factors: ${student.primaryFactors.map(f => f.factor).join(', ')}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Class recommendations
+            if (classInsights.classRecommendations.length > 0) {
+                html += `
+                    <h6>Class Recommendations</h6>
+                    <div class="list-group">
+                        ${classInsights.classRecommendations.map(rec => `
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">${rec.action}</h6>
+                                    <span class="badge bg-${rec.priority === 'critical' ? 'danger' : rec.priority === 'high' ? 'warning' : 'info'}">
+                                        ${rec.priority}
+                                    </span>
+                                </div>
+                                <p class="mb-1">${rec.details}</p>
+                                <small>Timeframe: ${rec.timeframe}</small>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        /**
+         * Generate risk report
+         */
+        function generateRiskReport() {
+            if (!rosterData || !rosterData.roster) {
+                alert('No roster data available');
+                return;
+            }
+
+            const analysis = predictiveAnalytics.analyzeClassRisk(rosterData.roster);
+            displayRiskReport(analysis);
+        }
+
+        /**
+         * Display risk report
+         */
+        function displayRiskReport(analysis) {
+            const container = document.getElementById('riskResults');
+            if (!container) return;
+
+            const classInsights = analysis.classInsights;
+            
+            let html = `
+                <div class="alert alert-warning mb-3">
+                    <h6><i class="fas fa-exclamation-triangle"></i> Risk Assessment Report</h6>
+                    <p class="mb-0">Generated on ${new Date().toLocaleString()}</p>
+                </div>
+            `;
+
+            // Risk alerts
+            if (classInsights.alerts.length > 0) {
+                html += `
+                    <h6>Active Alerts</h6>
+                    <div class="mb-3">
+                        ${classInsights.alerts.map(alert => `
+                            <div class="alert alert-${alert.urgency === 'immediate' ? 'danger' : 'warning'}">
+                                <h6 class="alert-heading">${alert.title}</h6>
+                                <p class="mb-1">${alert.message}</p>
+                                <small><strong>Action:</strong> ${alert.action}</small>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Individual student risks
+            html += `
+                <h6>Student Risk Profiles</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Overall Risk</th>
+                                <th>Academic</th>
+                                <th>Behavioral</th>
+                                <th>Social</th>
+                                <th>Environmental</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${analysis.individualAnalyses.map(student => `
+                                <tr>
+                                    <td>${student.studentName}</td>
+                                    <td>
+                                        <span class="badge bg-${student.riskScores.overall > 0.8 ? 'danger' : student.riskScores.overall > 0.6 ? 'warning' : 'success'}">
+                                            ${(student.riskScores.overall * 100).toFixed(1)}%
+                                        </span>
+                                    </td>
+                                    <td>${(student.riskScores.academic * 100).toFixed(1)}%</td>
+                                    <td>${(student.riskScores.behavioral * 100).toFixed(1)}%</td>
+                                    <td>${(student.riskScores.social * 100).toFixed(1)}%</td>
+                                    <td>${(student.riskScores.environmental * 100).toFixed(1)}%</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="viewStudentRiskDetails('${student.studentId}')">
+                                            View Details
+                                        </button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        /**
+         * View detailed student risk analysis
+         */
+        function viewStudentRiskDetails(studentId) {
+            if (!rosterData || !rosterData.roster) {
+                alert('No roster data available');
+                return;
+            }
+
+            const student = rosterData.roster.find(s => s.id === studentId);
+            if (!student) return;
+
+            const analysis = predictiveAnalytics.analyzeStudentRisk(student);
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.innerHTML = `
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Risk Analysis - ${analysis.studentName}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <h6>Risk Scores</h6>
+                                    <div class="mb-2">
+                                        <strong>Overall:</strong> 
+                                        <span class="badge bg-${analysis.riskScores.overall > 0.8 ? 'danger' : analysis.riskScores.overall > 0.6 ? 'warning' : 'success'}">
+                                            ${(analysis.riskScores.overall * 100).toFixed(1)}%
+                                        </span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <strong>Academic:</strong> ${(analysis.riskScores.academic * 100).toFixed(1)}%
+                                    </div>
+                                    <div class="mb-2">
+                                        <strong>Behavioral:</strong> ${(analysis.riskScores.behavioral * 100).toFixed(1)}%
+                                    </div>
+                                    <div class="mb-2">
+                                        <strong>Social:</strong> ${(analysis.riskScores.social * 100).toFixed(1)}%
+                                    </div>
+                                    <div class="mb-2">
+                                        <strong>Environmental:</strong> ${(analysis.riskScores.environmental * 100).toFixed(1)}%
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Predictions</h6>
+                                    ${Object.entries(analysis.predictions).map(([key, pred]) => `
+                                        <div class="mb-2">
+                                            <strong>${pred.name}:</strong> 
+                                            <span class="badge bg-${pred.probability > 0.7 ? 'warning' : 'info'}">
+                                                ${(pred.probability * 100).toFixed(1)}%
+                                            </span>
+                                            <small class="text-muted">(${pred.confidence * 100}% confidence)</small>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            
+                            <h6>Recommendations</h6>
+                            <div class="list-group">
+                                ${analysis.recommendations.map(rec => `
+                                    <div class="list-group-item">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">${rec.action}</h6>
+                                            <span class="badge bg-${rec.priority === 'critical' ? 'danger' : rec.priority === 'high' ? 'warning' : 'info'}">
+                                                ${rec.priority}
+                                            </span>
+                                        </div>
+                                        <p class="mb-1">${rec.details}</p>
+                                        <small>Timeframe: ${rec.timeframe}</small>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            ${analysis.alerts.length > 0 ? `
+                                <h6 class="mt-3">Alerts</h6>
+                                <div class="alert alert-warning">
+                                    ${analysis.alerts.map(alert => `
+                                        <div class="mb-1">
+                                            <strong>${alert.title}:</strong> ${alert.message}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRiskAnalysis('${studentId}')">
+                                Save Analysis
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            const bsModal = new bootstrap.Modal(modal);
+            bsModal.show();
+            
+            modal.addEventListener('hidden.bs.modal', () => {
+                document.body.removeChild(modal);
+            });
+        }
+
+        /**
+         * Export analytics data
+         */
+        function exportAnalyticsData() {
+            if (!rosterData || !rosterData.roster) {
+                alert('No roster data available');
+                return;
+            }
+
+            const analysis = predictiveAnalytics.analyzeClassRisk(rosterData.roster);
+            const exportData = predictiveAnalytics.exportAnalyticsData(analysis.individualAnalyses, analysis.classInsights);
+            
+            // Create and download JSON file
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `predictive-analytics-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            // Show success message
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-success alert-dismissible fade show position-fixed';
+            alert.style.top = '20px';
+            alert.style.right = '20px';
+            alert.style.zIndex = '9999';
+            alert.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <strong>Export Complete!</strong> Analytics data has been downloaded.
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(alert);
+            
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.parentNode.removeChild(alert);
+                }
+            }, 5000);
         }
 
         function getStandardDescription(code) {
