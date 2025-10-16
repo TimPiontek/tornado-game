@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamlet Act 1 - Classroom Assignment</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .story-summary {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .story-summary h2 {
+            color: #34495e;
+            margin-top: 0;
+        }
+        .editable {
+            background-color: #fff;
+            border: 1px solid #bdc3c7;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            min-height: 20px;
+        }
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .question-type {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .multiple-choice {
+            background-color: #3498db;
+            color: white;
+        }
+        .short-answer {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .options li {
+            margin: 8px 0;
+        }
+        .options input[type="radio"] {
+            margin-right: 8px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-danger {
+            background-color: #e74c3c;
+        }
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        .btn-success {
+            background-color: #27ae60;
+        }
+        .btn-success:hover {
+            background-color: #229954;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hamlet Act 1 - Classroom Assignment</h1>
+        
+        <div class="story-summary">
+            <h2>Story Summary</h2>
+            <div class="editable" contenteditable="true" data-field="setting">
+                <strong>Setting:</strong> Elsinore Castle in Denmark. The play begins on the battlements of the castle.
+            </div>
+            <div class="editable" contenteditable="true" data-field="what-happens">
+                <strong>What Happens:</strong> The ghost of King Hamlet appears to the guards and Horatio. The ghost reveals that he was murdered by his brother Claudius, who has now become king and married Hamlet's mother Gertrude. Hamlet learns of the ghost's appearance and meets with it. The ghost tells Hamlet to avenge his murder but warns him not to harm his mother. Hamlet decides to pretend to be mad to gather information and plan his revenge. Meanwhile, Claudius and Gertrude try to convince Hamlet to stop mourning his father's death.
+            </div>
+            <div class="editable" contenteditable="true" data-field="characters">
+                <strong>Characters:</strong> Hamlet (Prince of Denmark), King Hamlet (ghost), Claudius (King of Denmark, Hamlet's uncle), Gertrude (Queen of Denmark, Hamlet's mother), Horatio (Hamlet's friend), Rosencrantz and Guildenstern (Hamlet's childhood friends), Polonius (Lord Chamberlain), Ophelia (Polonius's daughter), Laertes (Polonius's son), Marcellus and Barnardo (guards), Francisco (sentry).
+            </div>
+        </div>
+
+        <div class="question" data-question-id="1">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 1:</strong> Who appears as a ghost in Act 1?</p>
+            <ul class="options">
+                <li><input type="radio" name="q1" value="a"> Claudius</li>
+                <li><input type="radio" name="q1" value="b"> King Hamlet</li>
+                <li><input type="radio" name="q1" value="c"> Polonius</li>
+                <li><input type="radio" name="q1" value="d"> Laertes</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="2">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 2:</strong> What does the ghost tell Hamlet?</p>
+            <ul class="options">
+                <li><input type="radio" name="q2" value="a"> He died of natural causes</li>
+                <li><input type="radio" name="q2" value="b"> He was murdered by Claudius</li>
+                <li><input type="radio" name="q2" value="c"> He committed suicide</li>
+                <li><input type="radio" name="q2" value="d"> He was killed in battle</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="3">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 3:</strong> What does Hamlet decide to do after meeting the ghost?</p>
+            <ul class="options">
+                <li><input type="radio" name="q3" value="a"> Kill Claudius immediately</li>
+                <li><input type="radio" name="q3" value="b"> Pretend to be mad</li>
+                <li><input type="radio" name="q3" value="c"> Leave Denmark</li>
+                <li><input type="radio" name="q3" value="d"> Tell everyone about the ghost</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="4">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 4:</strong> What is the significance of the ghost's appearance? How does it establish the supernatural elements of the play?</p>
+            <textarea name="q4" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="5">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 5:</strong> How does Shakespeare establish the theme of appearance versus reality in Act 1? Provide specific examples.</p>
+            <textarea name="q5" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="6">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 6:</strong> What is the significance of Hamlet's relationship with his mother and uncle? How does this create conflict?</p>
+            <textarea name="q6" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="7">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 7:</strong> What does Claudius tell Hamlet about mourning?</p>
+            <ul class="options">
+                <li><input type="radio" name="q7" value="a"> He should mourn forever</li>
+                <li><input type="radio" name="q7" value="b"> He should stop mourning and accept his father's death</li>
+                <li><input type="radio" name="q7" value="c"> He should mourn in private</li>
+                <li><input type="radio" name="q7" value="d"> He should mourn with the family</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="8">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 8:</strong> What does Polonius tell Ophelia about Hamlet?</p>
+            <ul class="options">
+                <li><input type="radio" name="q8" value="a"> She should marry him</li>
+                <li><input type="radio" name="q8" value="b"> She should avoid him</li>
+                <li><input type="radio" name="q8" value="c"> She should be friends with him</li>
+                <li><input type="radio" name="q8" value="d"> She should spy on him</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="9">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 9:</strong> How does Shakespeare use the character of Horatio to establish credibility for the ghost's appearance? What is Horatio's role?</p>
+            <textarea name="q9" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="10">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 10:</strong> What is the significance of Hamlet's soliloquy in Act 1? How does it reveal his inner conflict and character?</p>
+            <textarea name="q10" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="11">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 11:</strong> What does the ghost warn Hamlet about?</p>
+            <ul class="options">
+                <li><input type="radio" name="q11" value="a"> Not to harm his mother</li>
+                <li><input type="radio" name="q11" value="b"> Not to trust anyone</li>
+                <li><input type="radio" name="q11" value="c"> Not to leave Denmark</li>
+                <li><input type="radio" name="q11" value="d"> Not to tell anyone</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="12">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 12:</strong> How does Shakespeare establish the political context of the play in Act 1? What does it reveal about the state of Denmark?</p>
+            <textarea name="q12" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="13">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 13:</strong> What does Hamlet say about his mother's marriage?</p>
+            <ul class="options">
+                <li><input type="radio" name="q13" value="a"> He approves of it</li>
+                <li><input type="radio" name="q13" value="b"> He says it happened too quickly</li>
+                <li><input type="radio" name="q13" value="c"> He doesn't care about it</li>
+                <li><input type="radio" name="q13" value="d"> He thinks it's appropriate</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="14">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 14:</strong> How does Shakespeare use the character of Polonius to establish the theme of spying and surveillance? What does this reveal about the court?</p>
+            <textarea name="q14" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="15">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 15:</strong> What is the dramatic function of Act 1? How does it establish the central conflict and themes of the play?</p>
+            <textarea name="q15" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="enableEditMode()">Edit Assignment</button>
+            <button class="btn btn-success" onclick="saveAssignment()">Save Changes</button>
+            <button class="btn btn-danger" onclick="cancelEdit()">Cancel</button>
+            <button class="btn" onclick="addNewQuestion()">Add Question</button>
+            <button class="btn btn-success" onclick="submitAssignment()">Submit Assignment</button>
+        </div>
+    </div>
+
+    <script>
+        let editMode = false;
+
+        function enableEditMode() {
+            editMode = true;
+            document.querySelectorAll('.editable').forEach(el => {
+                el.style.border = '2px solid #3498db';
+                el.style.backgroundColor = '#ecf0f1';
+            });
+        }
+
+        function editElementInline(element) {
+            if (!editMode) return;
+            
+            const newContent = prompt('Edit content:', element.textContent);
+            if (newContent !== null) {
+                element.textContent = newContent;
+            }
+        }
+
+        function saveAssignment() {
+            const assignmentData = {
+                title: 'Hamlet Act 1 - Classroom Assignment',
+                summary: {
+                    setting: document.querySelector('[data-field="setting"]').textContent,
+                    whatHappens: document.querySelector('[data-field="what-happens"]').textContent,
+                    characters: document.querySelector('[data-field="characters"]').textContent
+                },
+                questions: []
+            };
+
+            document.querySelectorAll('.question').forEach(questionEl => {
+                const questionId = questionEl.dataset.questionId;
+                const questionText = questionEl.querySelector('p strong').textContent;
+                const questionType = questionEl.querySelector('.question-type').textContent.trim();
+                
+                let answer = '';
+                if (questionType === 'Multiple Choice') {
+                    const selectedOption = questionEl.querySelector('input[type="radio"]:checked');
+                    answer = selectedOption ? selectedOption.value : '';
+                } else {
+                    answer = questionEl.querySelector('textarea').value;
+                }
+
+                assignmentData.questions.push({
+                    id: questionId,
+                    text: questionText,
+                    type: questionType,
+                    answer: answer
+                });
+            });
+
+            localStorage.setItem('hamlet-act1-assignment', JSON.stringify(assignmentData));
+            alert('Assignment saved successfully!');
+            editMode = false;
+        }
+
+        function cancelEdit() {
+            editMode = false;
+            document.querySelectorAll('.editable').forEach(el => {
+                el.style.border = '1px solid #bdc3c7';
+                el.style.backgroundColor = '#fff';
+            });
+        }
+
+        function addNewQuestion() {
+            const questionsContainer = document.querySelector('.container');
+            const newQuestionId = document.querySelectorAll('.question').length + 1;
+            
+            const newQuestion = document.createElement('div');
+            newQuestion.className = 'question';
+            newQuestion.dataset.questionId = newQuestionId;
+            newQuestion.innerHTML = `
+                <span class="question-type multiple-choice">Multiple Choice</span>
+                <p><strong>Question ${newQuestionId}:</strong> <span contenteditable="true">Enter your question here...</span></p>
+                <ul class="options">
+                    <li><input type="radio" name="q${newQuestionId}" value="a"> <span contenteditable="true">Option A</span></li>
+                    <li><input type="radio" name="q${newQuestionId}" value="b"> <span contenteditable="true">Option B</span></li>
+                    <li><input type="radio" name="q${newQuestionId}" value="c"> <span contenteditable="true">Option C</span></li>
+                    <li><input type="radio" name="q${newQuestionId}" value="d"> <span contenteditable="true">Option D</span></li>
+                </ul>
+                <button class="btn btn-danger" onclick="deleteQuestion(${newQuestionId})">Delete Question</button>
+            `;
+            
+            questionsContainer.insertBefore(newQuestion, document.querySelector('.controls'));
+        }
+
+        function deleteQuestion(questionId) {
+            const questionEl = document.querySelector(`[data-question-id="${questionId}"]`);
+            if (questionEl && confirm('Are you sure you want to delete this question?')) {
+                questionEl.remove();
+            }
+        }
+
+        function submitAssignment() {
+            const answers = {};
+            document.querySelectorAll('.question').forEach(questionEl => {
+                const questionId = questionEl.dataset.questionId;
+                const questionType = questionEl.querySelector('.question-type').textContent.trim();
+                
+                if (questionType === 'Multiple Choice') {
+                    const selectedOption = questionEl.querySelector('input[type="radio"]:checked');
+                    answers[questionId] = selectedOption ? selectedOption.value : '';
+                } else {
+                    answers[questionId] = questionEl.querySelector('textarea').value;
+                }
+            });
+
+            localStorage.setItem('hamlet-act1-answers', JSON.stringify(answers));
+            alert('Assignment submitted successfully!');
+        }
+
+        // Load saved assignment if it exists
+        window.addEventListener('load', function() {
+            const savedAssignment = localStorage.getItem('hamlet-act1-assignment');
+            if (savedAssignment) {
+                const data = JSON.parse(savedAssignment);
+                document.querySelector('[data-field="setting"]').textContent = data.summary.setting;
+                document.querySelector('[data-field="what-happens"]').textContent = data.summary.whatHappens;
+                document.querySelector('[data-field="characters"]').textContent = data.summary.characters;
+            }
+        });
+    </script>
+</body>
+</html>

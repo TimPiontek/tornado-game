@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Farm - Play Scenario</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .scenario-info {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .scenario-info h2 {
+            color: #34495e;
+            margin-top: 0;
+        }
+        .characters-section, .territories-section {
+            margin-bottom: 30px;
+        }
+        .character-card, .territory-card {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .character-card h3, .territory-card h3 {
+            color: #495057;
+            margin-top: 0;
+        }
+        .character-role {
+            font-weight: bold;
+            color: #6c757d;
+        }
+        .character-description {
+            margin-top: 10px;
+        }
+        .territory-description {
+            margin-top: 10px;
+        }
+        .territory-control {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-success {
+            background-color: #27ae60;
+        }
+        .btn-success:hover {
+            background-color: #229954;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Animal Farm - Play Scenario</h1>
+        
+        <div class="scenario-info">
+            <h2>Scenario Overview</h2>
+            <p><strong>Setting:</strong> Animal Farm, a once-prosperous farm now under animal control after the successful rebellion against Mr. Jones.</p>
+            <p><strong>Objective:</strong> Control the farm and maintain the principles of Animalism while dealing with internal power struggles and external threats.</p>
+            <p><strong>Victory Conditions:</strong> Establish dominance over the farm, control key territories, and maintain the loyalty of the animal population.</p>
+        </div>
+
+        <div class="characters-section">
+            <h2>Characters</h2>
+            
+            <div class="character-card">
+                <h3>Napoleon</h3>
+                <div class="character-role">Role: Dictator Pig</div>
+                <div class="character-description">
+                    The main antagonist who seizes power through manipulation and force. Controls the farm through fear, propaganda, and his private army of dogs. Represents Joseph Stalin.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Snowball</h3>
+                <div class="character-role">Role: Revolutionary Pig</div>
+                <div class="character-description">
+                    The idealistic pig who initially shares power with Napoleon. Advocates for education and technological advancement. Represents Leon Trotsky.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Squealer</h3>
+                <div class="character-role">Role: Propaganda Minister</div>
+                <div class="character-description">
+                    Napoleon's right-hand pig who uses persuasive language to justify the pigs' actions and maintain control over the other animals.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Boxer</h3>
+                <div class="character-role">Role: Working Class Hero</div>
+                <div class="character-description">
+                    The loyal cart-horse who represents the working class. His motto "I will work harder" shows his dedication but also his exploitation.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Clover</h3>
+                <div class="character-role">Role: Concerned Mare</div>
+                <div class="character-description">
+                    A mare who questions the pigs' actions but lacks the courage to speak out. Represents the silent majority who are aware of injustice but don't act.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Benjamin</h3>
+                <div class="character-role">Role: Cynical Donkey</div>
+                <div class="character-description">
+                    The oldest and most cynical animal who sees through the pigs' lies but chooses not to act. Represents intellectuals who remain passive.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Mollie</h3>
+                <div class="character-role">Role: Bourgeois Mare</div>
+                <div class="character-description">
+                    A white mare who represents the bourgeoisie. She cares more about her appearance and comfort than the revolution's ideals.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Moses</h3>
+                <div class="character-role">Role: Religious Raven</div>
+                <div class="character-description">
+                    A raven who spreads stories about "Sugarcandy Mountain," representing organized religion as a tool of control.
+                </div>
+            </div>
+        </div>
+
+        <div class="territories-section">
+            <h2>Territories</h2>
+            
+            <div class="territory-card">
+                <h3>The Farmhouse</h3>
+                <div class="territory-control">Controlled by: Pigs</div>
+                <div class="territory-description">
+                    The former human residence, now preserved as a museum but secretly used by the pigs. Represents the seat of power and privilege.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Barn</h3>
+                <div class="territory-control">Controlled by: All Animals</div>
+                <div class="territory-description">
+                    The central meeting place where the Seven Commandments are displayed. The site of major decisions and propaganda sessions.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Windmill</h3>
+                <div class="territory-control">Controlled by: Pigs (claimed by all)</div>
+                <div class="territory-description">
+                    The symbol of progress and hope, built through the animals' hard work. Represents industrialization and the promise of a better future.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Pasture</h3>
+                <div class="territory-control">Controlled by: Working Animals</div>
+                <div class="territory-description">
+                    The main grazing area where the animals work and live. Represents the means of production and the source of the farm's wealth.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Orchard</h3>
+                <div class="territory-control">Controlled by: Pigs</div>
+                <div class="territory-description">
+                    The source of apples, claimed by the pigs for their "brain work." Represents the unequal distribution of resources.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Dairy</h3>
+                <div class="territory-control">Controlled by: Pigs</div>
+                <div class="territory-description">
+                    Where the milk is produced and claimed by the pigs. Represents the exploitation of the working class's labor.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Kennels</h3>
+                <div class="territory-control">Controlled by: Napoleon's Dogs</div>
+                <div class="territory-description">
+                    The training ground for Napoleon's private army. Represents the use of force and intimidation to maintain power.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Forest Edge</h3>
+                <div class="territory-control">Controlled by: Neutral Territory</div>
+                <div class="territory-description">
+                    The boundary between Animal Farm and the outside world. Represents the isolation and paranoia of totalitarian regimes.
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="startGame()">Start Game</button>
+            <button class="btn btn-success" onclick="saveScenario()">Save Scenario</button>
+        </div>
+    </div>
+
+    <script>
+        function startGame() {
+            alert('Starting Animal Farm scenario! This would launch the interactive game with characters and territories.');
+        }
+
+        function saveScenario() {
+            const scenarioData = {
+                title: 'Animal Farm - Play Scenario',
+                characters: [
+                    { name: 'Napoleon', role: 'Dictator Pig', description: 'The main antagonist who seizes power through manipulation and force.' },
+                    { name: 'Snowball', role: 'Revolutionary Pig', description: 'The idealistic pig who initially shares power with Napoleon.' },
+                    { name: 'Squealer', role: 'Propaganda Minister', description: 'Napoleon\'s right-hand pig who uses persuasive language.' },
+                    { name: 'Boxer', role: 'Working Class Hero', description: 'The loyal cart-horse who represents the working class.' },
+                    { name: 'Clover', role: 'Concerned Mare', description: 'A mare who questions the pigs\' actions but lacks courage.' },
+                    { name: 'Benjamin', role: 'Cynical Donkey', description: 'The oldest and most cynical animal who sees through lies.' },
+                    { name: 'Mollie', role: 'Bourgeois Mare', description: 'A white mare who represents the bourgeoisie.' },
+                    { name: 'Moses', role: 'Religious Raven', description: 'A raven who spreads stories about Sugarcandy Mountain.' }
+                ],
+                territories: [
+                    { name: 'The Farmhouse', controller: 'Pigs', description: 'The former human residence, now the seat of power.' },
+                    { name: 'The Barn', controller: 'All Animals', description: 'The central meeting place where decisions are made.' },
+                    { name: 'The Windmill', controller: 'Pigs (claimed by all)', description: 'The symbol of progress and hope.' },
+                    { name: 'The Pasture', controller: 'Working Animals', description: 'The main grazing area where animals work.' },
+                    { name: 'The Orchard', controller: 'Pigs', description: 'The source of apples, claimed by the pigs.' },
+                    { name: 'The Dairy', controller: 'Pigs', description: 'Where milk is produced and claimed by the pigs.' },
+                    { name: 'The Kennels', controller: 'Napoleon\'s Dogs', description: 'The training ground for Napoleon\'s private army.' },
+                    { name: 'The Forest Edge', controller: 'Neutral Territory', description: 'The boundary between Animal Farm and the outside world.' }
+                ]
+            };
+
+            localStorage.setItem('animal-farm-scenario', JSON.stringify(scenarioData));
+            alert('Scenario saved successfully!');
+        }
+    </script>
+</body>
+</html>

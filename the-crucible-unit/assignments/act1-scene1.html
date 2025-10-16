@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Crucible - Act 1, Scene 1 | Classroom Assignment</title>
+  <style>
+    body{font-family:'Lexend Deca',Arial,sans-serif;background:#f7fafc;color:#333;margin:0;padding:20px}
+    .container{max-width:800px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.07);padding:2rem}
+    .header{text-align:center;margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid #6F5C91}
+    .story-summary{background:#f8f9fa;padding:1.5rem;border-radius:8px;margin-bottom:2rem;border-left:4px solid #6F5C91}
+    .question{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:1.5rem;margin-bottom:1rem}
+    .question h3{color:#6F5C91;margin-top:0}
+    .question-type{display:inline-block;background:#6F5C91;color:#fff;padding:.25rem .75rem;border-radius:12px;font-size:.8rem;margin-bottom:1rem}
+    .multiple-choice{background:#3182ce}.short-answer{background:#38a169}
+    .options{list-style:none;padding:0}.options li{margin-bottom:.5rem}.options input[type=radio]{margin-right:.5rem}
+    textarea{width:100%;min-height:160px;padding:1rem;border:2px solid #e2e8f0;border-radius:8px;font:inherit;line-height:1.5;resize:vertical}
+    .submit-btn{background:#6F5C91;color:#fff;border:none;padding:1rem 2rem;border-radius:8px;font-size:1.1rem;cursor:pointer;width:100%;margin-top:1rem}
+    .submit-btn:hover{background:#59487a}
+  </style>
+</head>
+<body>
+  <div class="container" id="assignmentContainer">
+    <div class="header">
+      <h1>The Crucible</h1>
+      <h2>Act 1, Scene 1: Rumors in Salem</h2>
+    </div>
+
+    <div class="story-summary">
+      <h3>📖 Story Summary</h3>
+      <p><strong>Setting:</strong> Reverend Parris’s house, Salem, Massachusetts, 1692</p>
+      <p><strong>What happens:</strong> Reverend Parris finds his daughter Betty inert after he discovered girls dancing in the woods. Abigail denies witchcraft, tensions with the Putnams rise, and hints of long-standing grudges surface.</p>
+      <p><strong>Key characters:</strong> Reverend Parris, Betty Parris, Abigail Williams, Thomas Putnam, Ann Putnam, Tituba</p>
+    </div>
+
+    <div class="question" data-question-id="1">
+      <span class="question-type multiple-choice">Multiple Choice</span>
+      <h3>Question 1 (5 points)</h3>
+      <p>Why is Reverend Parris concerned at the start of the play?</p>
+      <ul class="options">
+        <li><input type="radio" name="q1" value="a"> A) Betty is missing</li>
+        <li><input type="radio" name="q1" value="b"> B) Betty lies still after being seen dancing in the woods</li>
+        <li><input type="radio" name="q1" value="c"> C) Abigail confessed to witchcraft</li>
+        <li><input type="radio" name="q1" value="d"> D) The Putnams moved away</li>
+      </ul>
+    </div>
+
+    <div class="question" data-question-id="2">
+      <span class="question-type multiple-choice">Multiple Choice</span>
+      <h3>Question 2 (5 points)</h3>
+      <p>What do the Putnams suggest is the cause of the strange events?</p>
+      <ul class="options">
+        <li><input type="radio" name="q2" value="a"> A) A fever</li>
+        <li><input type="radio" name="q2" value="b"> B) Witchcraft</li>
+        <li><input type="radio" name="q2" value="c"> C) A storm</li>
+        <li><input type="radio" name="q2" value="d"> D) A curse from another town</li>
+      </ul>
+    </div>
+
+    <div class="question" data-question-id="3">
+      <span class="question-type multiple-choice">Multiple Choice</span>
+      <h3>Question 3 (5 points)</h3>
+      <p>How does Abigail respond to accusations about the woods?</p>
+      <ul class="options">
+        <li><input type="radio" name="q3" value="a"> A) She confesses fully</li>
+        <li><input type="radio" name="q3" value="b"> B) She denies witchcraft and shifts blame</li>
+        <li><input type="radio" name="q3" value="c"> C) She leaves Salem</li>
+        <li><input type="radio" name="q3" value="d"> D) She accuses Parris</li>
+      </ul>
+    </div>
+
+    <div class="question" data-question-id="4">
+      <span class="question-type multiple-choice">Multiple Choice</span>
+      <h3>Question 4 (5 points)</h3>
+      <p>What underlying community issue emerges in this scene?</p>
+      <ul class="options">
+        <li><input type="radio" name="q4" value="a"> A) Economic prosperity</li>
+        <li><input type="radio" name="q4" value="b"> B) Long-standing grudges and land disputes</li>
+        <li><input type="radio" name="q4" value="c"> C) Lack of leadership</li>
+        <li><input type="radio" name="q4" value="d"> D) Festive preparations</li>
+      </ul>
+    </div>
+
+    <div class="question" data-question-id="5">
+      <span class="question-type short-answer">Short Answer</span>
+      <h3>Question 5 (10 points)</h3>
+      <p>How do fear and reputation drive the characters’ choices in this opening? Give two examples.</p>
+      <textarea name="q5" placeholder="Your answer here..."></textarea>
+    </div>
+
+    <button class="submit-btn" onclick="submitAssignment()">Submit Assignment</button>
+  </div>
+
+  <script>
+    function submitAssignment(){
+      const answers={};
+      for(let i=1;i<=5;i++){
+        const sel=document.querySelector(`input[name=\"q${i}\"]:checked`);
+        const ta=document.querySelector(`textarea[name=\"q${i}\"]`);
+        answers[`q${i}`]= sel? sel.value : (ta? ta.value.trim(): '');
+      }
+      if(Object.values(answers).some(v=>!v)){ alert('Please answer all questions.'); return; }
+      const key='crucibleSubmissions';
+      const arr=JSON.parse(localStorage.getItem(key)||'[]');
+      arr.push({ id:'crucible-a1s1', title:'The Crucible - Act 1, Scene 1', answers, submittedAt:new Date().toISOString() });
+      localStorage.setItem(key, JSON.stringify(arr));
+      alert('Assignment submitted successfully!');
+      window.location.href='/student-assignments.html';
+    }
+  </script>
+</body>
+</html>
+
+

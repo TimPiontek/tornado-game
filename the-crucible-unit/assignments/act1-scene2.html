@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Crucible - Act 1, Scene 2 | Classroom Assignment</title>
+  <style>
+    body{font-family:'Lexend Deca',Arial,sans-serif;background:#f7fafc;color:#333;margin:0;padding:20px}
+    .container{max-width:800px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.07);padding:2rem}
+    .header{text-align:center;margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid #6F5C91}
+    .story-summary{background:#f8f9fa;padding:1.5rem;border-radius:8px;margin-bottom:2rem;border-left:4px solid #6F5C91}
+    .question{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:1.5rem;margin-bottom:1rem}
+    .question h3{color:#6F5C91;margin-top:0}
+    .question-type{display:inline-block;background:#6F5C91;color:#fff;padding:.25rem .75rem;border-radius:12px;font-size:.8rem;margin-bottom:1rem}
+    .multiple-choice{background:#3182ce}.short-answer{background:#38a169}
+    .options{list-style:none;padding:0}.options li{margin-bottom:.5rem}.options input[type=radio]{margin-right:.5rem}
+    textarea{width:100%;min-height:160px;padding:1rem;border:2px solid #e2e8f0;border-radius:8px;font:inherit;line-height:1.5;resize:vertical}
+    .submit-btn{background:#6F5C91;color:#fff;border:none;padding:1rem 2rem;border-radius:8px;font-size:1.1rem;cursor:pointer;width:100%;margin-top:1rem}
+    .submit-btn:hover{background:#59487a}
+  </style>
+</head>
+<body>
+  <div class="container" id="assignmentContainer">
+    <div class="header">
+      <h1>The Crucible</h1>
+      <h2>Act 1, Scene 2: Reverend Hale Arrives</h2>
+    </div>
+
+    <div class="story-summary">
+      <h3>📖 Story Summary</h3>
+      <p><strong>Setting:</strong> Reverend Parris's house</p>
+      <p><strong>What happens:</strong> Reverend Hale arrives to investigate witchcraft. He questions Tituba, who confesses and names others. Abigail joins in, naming more people. The hysteria begins to spread.</p>
+      <p><strong>Key characters:</strong> Reverend Hale, Tituba, Abigail Williams, Betty Parris</p>
+    </div>
+
+    <div class="question" data-question-id="1">
+      <span class="question-type multiple-choice">Multiple Choice</span>
+      <h3>Question 1 (5 points)</h3>
+      <p>Who is Reverend Hale?</p>
+      <ul class="options">
+        <li><input type="radio" name="q1" value="a"> A) A local farmer</li>
+        <li><input type="radio" name="q1" value="b"> B) A witchcraft expert called to investigate</li>
+        <li><input type="radio" name="q1" value="c"> C) A judge</li>
+        <li><input type="radio" name="q1" value="d"> D) A merchant</li>
+      </ul>
+    </div>
+
+    <div class="question" data-question-id="2">
+      <span class="question-type multiple-choice">Multiple Choice</span>
+      <h3>Question 2 (5 points)</h3>
+      <p>What does Tituba do when questioned?</p>
+      <ul class="options">
+        <li><input type="radio" name="q2" value="a"> A) She denies everything</li>
+        <li><input type="radio" name="q2" value="b"> B) She confesses and names others</li>
+        <li><input type="radio" name="q2" value="c"> C) She runs away</li>
+        <li><input type="radio" name="q2" value="d"> D) She accuses Hale</li>
+      </ul>
+    </div>
+
+    <div class="question" data-question-id="3">
+      <span class="question-type multiple-choice">Multiple Choice</span>
+      <h3>Question 3 (5 points)</h3>
+      <p>How does Abigail respond to Tituba's confession?</p>
+      <ul class="options">
+        <li><input type="radio" name="q3" value="a"> A) She defends Tituba</li>
+        <li><input type="radio" name="q3" value="b"> B) She joins in, naming more people</li>
+        <li><input type="radio" name="q3" value="c"> C) She denies knowing Tituba</li>
+        <li><input type="radio" name="q3" value="d"> D) She leaves the room</li>
+      </ul>
+    </div>
+
+    <div class="question" data-question-id="4">
+      <span class="question-type multiple-choice">Multiple Choice</span>
+      <h3>Question 4 (5 points)</h3>
+      <p>What happens to Betty when she hears the confessions?</p>
+      <ul class="options">
+        <li><input type="radio" name="q4" value="a"> A) She remains unconscious</li>
+        <li><input type="radio" name="q4" value="b"> B) She wakes up and joins the accusations</li>
+        <li><input type="radio" name="q4" value="c"> C) She dies</li>
+        <li><input type="radio" name="q4" value="d"> D) She runs away</li>
+      </ul>
+    </div>
+
+    <div class="question" data-question-id="5">
+      <span class="question-type short-answer">Short Answer</span>
+      <h3>Question 5 (10 points)</h3>
+      <p>How does this scene show how hysteria spreads? What role does fear play in the confessions?</p>
+      <textarea name="q5" placeholder="Your answer here..."></textarea>
+    </div>
+
+    <button class="submit-btn" onclick="submitAssignment()">Submit Assignment</button>
+  </div>
+
+  <script>
+    function submitAssignment(){
+      const answers={};
+      for(let i=1;i<=5;i++){
+        const sel=document.querySelector(`input[name=\"q${i}\"]:checked`);
+        const ta=document.querySelector(`textarea[name=\"q${i}\"]`);
+        answers[`q${i}`]= sel? sel.value : (ta? ta.value.trim(): '');
+      }
+      if(Object.values(answers).some(v=>!v)){ alert('Please answer all questions.'); return; }
+      const key='crucibleSubmissions';
+      const arr=JSON.parse(localStorage.getItem(key)||'[]');
+      arr.push({ id:'crucible-a1s2', title:'The Crucible - Act 1, Scene 2', answers, submittedAt:new Date().toISOString() });
+      localStorage.setItem(key, JSON.stringify(arr));
+      alert('Assignment submitted successfully!');
+      window.location.href='/student-assignments.html';
+    }
+  </script>
+</body>
+</html>

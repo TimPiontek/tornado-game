@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1984 Part 2 - Classroom Assignment</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .story-summary {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .story-summary h2 {
+            color: #34495e;
+            margin-top: 0;
+        }
+        .editable {
+            background-color: #fff;
+            border: 1px solid #bdc3c7;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            min-height: 20px;
+        }
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .question-type {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .multiple-choice {
+            background-color: #3498db;
+            color: white;
+        }
+        .short-answer {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .options li {
+            margin: 8px 0;
+        }
+        .options input[type="radio"] {
+            margin-right: 8px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-danger {
+            background-color: #e74c3c;
+        }
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        .btn-success {
+            background-color: #27ae60;
+        }
+        .btn-success:hover {
+            background-color: #229954;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>1984 Part 2 - Classroom Assignment</h1>
+        
+        <div class="story-summary">
+            <h2>Story Summary</h2>
+            <div class="editable" contenteditable="true" data-field="setting">
+                <strong>Setting:</strong> Oceania, 1984. Winston's life takes a dramatic turn as he begins a forbidden relationship and encounters what he believes to be resistance.
+            </div>
+            <div class="editable" contenteditable="true" data-field="what-happens">
+                <strong>What Happens:</strong> Winston begins a secret relationship with Julia, a woman from the Fiction Department. They meet in the countryside and rent a room above Mr. Charrington's shop. Winston meets O'Brien, who claims to be a member of the Brotherhood, a resistance movement. O'Brien gives Winston a book called "The Theory and Practice of Oligarchical Collectivism" by Emmanuel Goldstein. Winston and Julia's relationship deepens, but they are eventually betrayed and arrested by the Thought Police.
+            </div>
+            <div class="editable" contenteditable="true" data-field="characters">
+                <strong>Characters:</strong> Winston Smith (protagonist), Julia (Winston's lover), O'Brien (Party member posing as resistance leader), Mr. Charrington (shopkeeper and Thought Police agent), Emmanuel Goldstein (enemy of the state), Big Brother (leader figure), Syme (Winston's colleague), Parsons (Winston's neighbor).
+            </div>
+        </div>
+
+        <div class="question" data-question-id="1">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 1:</strong> Who does Winston begin a relationship with in Part 2?</p>
+            <ul class="options">
+                <li><input type="radio" name="q1" value="a"> O'Brien</li>
+                <li><input type="radio" name="q1" value="b"> Julia</li>
+                <li><input type="radio" name="q1" value="c"> Syme</li>
+                <li><input type="radio" name="q1" value="d"> Parsons</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="2">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 2:</strong> What does O'Brien claim to be?</p>
+            <ul class="options">
+                <li><input type="radio" name="q2" value="a"> A Party member</li>
+                <li><input type="radio" name="q2" value="b"> A member of the Brotherhood</li>
+                <li><input type="radio" name="q2" value="c"> A Thought Police agent</li>
+                <li><input type="radio" name="q2" value="d"> A prole</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="3">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 3:</strong> What book does O'Brien give Winston?</p>
+            <ul class="options">
+                <li><input type="radio" name="q3" value="a"> "1984"</li>
+                <li><input type="radio" name="q3" value="b"> "The Theory and Practice of Oligarchical Collectivism"</li>
+                <li><input type="radio" name="q3" value="c"> "Big Brother"</li>
+                <li><input type="radio" name="q3" value="d"> "Newspeak"</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="4">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 4:</strong> What is the significance of Winston and Julia's relationship? How does it represent resistance to the Party's control?</p>
+            <textarea name="q4" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="5">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 5:</strong> How does Orwell use the character of Julia to contrast with Winston? What does she represent about human nature?</p>
+            <textarea name="q5" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="6">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 6:</strong> What is the significance of the rented room above Mr. Charrington's shop? How does it function as a symbol of hope and freedom?</p>
+            <textarea name="q6" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="7">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 7:</strong> What does Winston learn about Julia's past?</p>
+            <ul class="options">
+                <li><input type="radio" name="q7" value="a"> She is a Party member</li>
+                <li><input type="radio" name="q7" value="b"> She has had many lovers</li>
+                <li><input type="radio" name="q7" value="c"> She is a spy</li>
+                <li><input type="radio" name="q7" value="d"> She is innocent</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="8">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 8:</strong> What does Winston believe about the Brotherhood?</p>
+            <ul class="options">
+                <li><input type="radio" name="q8" value="a"> It is a myth</li>
+                <li><input type="radio" name="q8" value="b"> It is a real resistance movement</li>
+                <li><input type="radio" name="q8" value="c"> It is controlled by the Party</li>
+                <li><input type="radio" name="q8" value="d"> It is dangerous</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="9">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 9:</strong> How does Orwell use the character of O'Brien to create dramatic irony? What does the reader know that Winston doesn't?</p>
+            <textarea name="q9" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="10">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 10:</strong> What is the significance of the book O'Brien gives Winston? How does it function as both hope and trap?</p>
+            <textarea name="q10" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="11">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 11:</strong> What happens to Winston and Julia at the end of Part 2?</p>
+            <ul class="options">
+                <li><input type="radio" name="q11" value="a"> They escape</li>
+                <li><input type="radio" name="q11" value="b"> They are arrested by the Thought Police</li>
+                <li><input type="radio" name="q11" value="c"> They join the Brotherhood</li>
+                <li><input type="radio" name="q11" value="d"> They are killed</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="12">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 12:</strong> How does Orwell establish the theme of betrayal in Part 2? What examples does he provide of characters being deceived?</p>
+            <textarea name="q12" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="13">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 13:</strong> What is the significance of Winston's relationship with Julia?</p>
+            <ul class="options">
+                <li><input type="radio" name="q13" value="a"> It shows his loyalty to the Party</li>
+                <li><input type="radio" name="q13" value="b"> It represents his rebellion against the Party</li>
+                <li><input type="radio" name="q13" value="c"> It proves he is innocent</li>
+                <li><input type="radio" name="q13" value="d"> It shows his weakness</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="14">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 14:</strong> How does Orwell use the character of Mr. Charrington to demonstrate the Party's surveillance? What does his true identity reveal?</p>
+            <textarea name="q14" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="15">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 15:</strong> What is the dramatic function of Part 2? How does it set up the climax and resolution that will follow in Part 3?</p>
+            <textarea name="q15" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="enableEditMode()">Edit Assignment</button>
+            <button class="btn btn-success" onclick="saveAssignment()">Save Changes</button>
+            <button class="btn btn-danger" onclick="cancelEdit()">Cancel</button>
+            <button class="btn" onclick="addNewQuestion()">Add Question</button>
+            <button class="btn btn-success" onclick="submitAssignment()">Submit Assignment</button>
+        </div>
+    </div>
+
+    <script>
+        let editMode = false;
+
+        function enableEditMode() {
+            editMode = true;
+            document.querySelectorAll('.editable').forEach(el => {
+                el.style.border = '2px solid #3498db';
+                el.style.backgroundColor = '#ecf0f1';
+            });
+        }
+
+        function editElementInline(element) {
+            if (!editMode) return;
+            
+            const newContent = prompt('Edit content:', element.textContent);
+            if (newContent !== null) {
+                element.textContent = newContent;
+            }
+        }
+
+        function saveAssignment() {
+            const assignmentData = {
+                title: '1984 Part 2 - Classroom Assignment',
+                summary: {
+                    setting: document.querySelector('[data-field="setting"]').textContent,
+                    whatHappens: document.querySelector('[data-field="what-happens"]').textContent,
+                    characters: document.querySelector('[data-field="characters"]').textContent
+                },
+                questions: []
+            };
+
+            document.querySelectorAll('.question').forEach(questionEl => {
+                const questionId = questionEl.dataset.questionId;
+                const questionText = questionEl.querySelector('p strong').textContent;
+                const questionType = questionEl.querySelector('.question-type').textContent.trim();
+                
+                let answer = '';
+                if (questionType === 'Multiple Choice') {
+                    const selectedOption = questionEl.querySelector('input[type="radio"]:checked');
+                    answer = selectedOption ? selectedOption.value : '';
+                } else {
+                    answer = questionEl.querySelector('textarea').value;
+                }
+
+                assignmentData.questions.push({
+                    id: questionId,
+                    text: questionText,
+                    type: questionType,
+                    answer: answer
+                });
+            });
+
+            localStorage.setItem('1984-part2-assignment', JSON.stringify(assignmentData));
+            alert('Assignment saved successfully!');
+            editMode = false;
+        }
+
+        function cancelEdit() {
+            editMode = false;
+            document.querySelectorAll('.editable').forEach(el => {
+                el.style.border = '1px solid #bdc3c7';
+                el.style.backgroundColor = '#fff';
+            });
+        }
+
+        function addNewQuestion() {
+            const questionsContainer = document.querySelector('.container');
+            const newQuestionId = document.querySelectorAll('.question').length + 1;
+            
+            const newQuestion = document.createElement('div');
+            newQuestion.className = 'question';
+            newQuestion.dataset.questionId = newQuestionId;
+            newQuestion.innerHTML = `
+                <span class="question-type multiple-choice">Multiple Choice</span>
+                <p><strong>Question ${newQuestionId}:</strong> <span contenteditable="true">Enter your question here...</span></p>
+                <ul class="options">
+                    <li><input type="radio" name="q${newQuestionId}" value="a"> <span contenteditable="true">Option A</span></li>
+                    <li><input type="radio" name="q${newQuestionId}" value="b"> <span contenteditable="true">Option B</span></li>
+                    <li><input type="radio" name="q${newQuestionId}" value="c"> <span contenteditable="true">Option C</span></li>
+                    <li><input type="radio" name="q${newQuestionId}" value="d"> <span contenteditable="true">Option D</span></li>
+                </ul>
+                <button class="btn btn-danger" onclick="deleteQuestion(${newQuestionId})">Delete Question</button>
+            `;
+            
+            questionsContainer.insertBefore(newQuestion, document.querySelector('.controls'));
+        }
+
+        function deleteQuestion(questionId) {
+            const questionEl = document.querySelector(`[data-question-id="${questionId}"]`);
+            if (questionEl && confirm('Are you sure you want to delete this question?')) {
+                questionEl.remove();
+            }
+        }
+
+        function submitAssignment() {
+            const answers = {};
+            document.querySelectorAll('.question').forEach(questionEl => {
+                const questionId = questionEl.dataset.questionId;
+                const questionType = questionEl.querySelector('.question-type').textContent.trim();
+                
+                if (questionType === 'Multiple Choice') {
+                    const selectedOption = questionEl.querySelector('input[type="radio"]:checked');
+                    answers[questionId] = selectedOption ? selectedOption.value : '';
+                } else {
+                    answers[questionId] = questionEl.querySelector('textarea').value;
+                }
+            });
+
+            localStorage.setItem('1984-part2-answers', JSON.stringify(answers));
+            alert('Assignment submitted successfully!');
+        }
+
+        // Load saved assignment if it exists
+        window.addEventListener('load', function() {
+            const savedAssignment = localStorage.getItem('1984-part2-assignment');
+            if (savedAssignment) {
+                const data = JSON.parse(savedAssignment);
+                document.querySelector('[data-field="setting"]').textContent = data.summary.setting;
+                document.querySelector('[data-field="what-happens"]').textContent = data.summary.whatHappens;
+                document.querySelector('[data-field="characters"]').textContent = data.summary.characters;
+            }
+        });
+    </script>
+</body>
+</html>

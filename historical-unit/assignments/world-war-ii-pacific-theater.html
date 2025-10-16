@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World War II - Pacific Theater</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .story-summary {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .story-summary h2 {
+            color: #34495e;
+            margin-top: 0;
+        }
+        .editable {
+            background-color: #fff;
+            border: 1px solid #bdc3c7;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            min-height: 20px;
+        }
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .question-type {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .multiple-choice {
+            background-color: #3498db;
+            color: white;
+        }
+        .short-answer {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .options li {
+            margin: 8px 0;
+        }
+        .options input[type="radio"] {
+            margin-right: 8px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-danger {
+            background-color: #e74c3c;
+        }
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        .btn-success {
+            background-color: #27ae60;
+        }
+        .btn-success:hover {
+            background-color: #229954;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>World War II - Pacific Theater</h1>
+        
+        <div class="story-summary">
+            <h2>Historical Context</h2>
+            <div class="editable" contenteditable="true" data-field="setting">
+                <strong>Setting:</strong> Pacific Ocean and East Asia, 1941-1945. The war between Japan and the Allied powers in the Pacific region.
+            </div>
+            <div class="editable" contenteditable="true" data-field="what-happens">
+                <strong>What Happens:</strong> The Pacific Theater begins with Japan's attack on Pearl Harbor on December 7, 1941. Japan rapidly expands across the Pacific, capturing territories including the Philippines, Singapore, and much of Southeast Asia. The Battle of Midway in 1942 marks a turning point as the US Navy defeats the Japanese fleet. The Allies begin island-hopping campaigns to retake territory. Major battles include Guadalcanal, Iwo Jima, and Okinawa. The war ends with the atomic bombings of Hiroshima and Nagasaki and Japan's surrender on September 2, 1945.
+            </div>
+            <div class="editable" contenteditable="true" data-field="characters">
+                <strong>Key Figures:</strong> Douglas MacArthur (Allied commander), Chester Nimitz (US Navy commander), Isoroku Yamamoto (Japanese admiral), Hideki Tojo (Japanese Prime Minister), Emperor Hirohito (Japanese emperor), Harry Truman (US President), Winston Churchill (British Prime Minister), Joseph Stilwell (US general), William Halsey (US admiral), Raymond Spruance (US admiral).
+            </div>
+        </div>
+
+        <div class="question" data-question-id="1">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 1:</strong> What event started the Pacific Theater of World War II?</p>
+            <ul class="options">
+                <li><input type="radio" name="q1" value="a"> The Battle of Midway</li>
+                <li><input type="radio" name="q1" value="b"> The attack on Pearl Harbor</li>
+                <li><input type="radio" name="q1" value="c"> The Battle of Guadalcanal</li>
+                <li><input type="radio" name="q1" value="d"> The invasion of the Philippines</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="2">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 2:</strong> What was the significance of the Battle of Midway?</p>
+            <ul class="options">
+                <li><input type="radio" name="q2" value="a"> It ended the war</li>
+                <li><input type="radio" name="q2" value="b"> It was a turning point in the Pacific War</li>
+                <li><input type="radio" name="q2" value="c"> It started the war</li>
+                <li><input type="radio" name="q2" value="d"> It was the last battle</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="3">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 3:</strong> What was the significance of the island-hopping strategy?</p>
+            <ul class="options">
+                <li><input type="radio" name="q3" value="a"> It ended the war</li>
+                <li><input type="radio" name="q3" value="b"> It allowed the Allies to bypass heavily defended islands</li>
+                <li><input type="radio" name="q3" value="c"> It started the war</li>
+                <li><input type="radio" name="q3" value="d"> It was the last strategy</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="4">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 4:</strong> What was the significance of the attack on Pearl Harbor? How did it change the course of World War II?</p>
+            <textarea name="q4" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="5">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 5:</strong> What was the significance of the Battle of Midway? How did it mark a turning point in the Pacific War?</p>
+            <textarea name="q5" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="6">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 6:</strong> What was the significance of the island-hopping strategy? How did it help the Allies advance toward Japan?</p>
+            <textarea name="q6" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="7">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 7:</strong> What was the significance of the Battle of Guadalcanal?</p>
+            <ul class="options">
+                <li><input type="radio" name="q7" value="a"> It ended the war</li>
+                <li><input type="radio" name="q7" value="b"> It was the first major Allied offensive in the Pacific</li>
+                <li><input type="radio" name="q7" value="c"> It started the war</li>
+                <li><input type="radio" name="q7" value="d"> It was the last battle</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="8">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 8:</strong> What was the significance of the Battle of Iwo Jima?</p>
+            <ul class="options">
+                <li><input type="radio" name="q8" value="a"> It ended the war</li>
+                <li><input type="radio" name="q8" value="b"> It provided a crucial base for bombing Japan</li>
+                <li><input type="radio" name="q8" value="c"> It started the war</li>
+                <li><input type="radio" name="q8" value="d"> It was the last battle</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="9">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 9:</strong> What was the significance of the Battle of Okinawa? How did it prepare for the invasion of Japan?</p>
+            <textarea name="q9" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="10">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 10:</strong> What was the significance of the atomic bombings of Hiroshima and Nagasaki? How did they lead to Japan's surrender?</p>
+            <textarea name="q10" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="11">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 11:</strong> What was the significance of Japan's surrender?</p>
+            <ul class="options">
+                <li><input type="radio" name="q11" value="a"> It started the war</li>
+                <li><input type="radio" name="q11" value="b"> It ended World War II</li>
+                <li><input type="radio" name="q11" value="c"> It started a new war</li>
+                <li><input type="radio" name="q11" value="d"> It was the last battle</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="12">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 12:</strong> How did the Pacific Theater differ from the European Theater? What were the unique challenges and strategies?</p>
+            <textarea name="q12" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="13">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 13:</strong> What was the significance of the Pacific Theater?</p>
+            <ul class="options">
+                <li><input type="radio" name="q13" value="a"> It was a minor conflict</li>
+                <li><input type="radio" name="q13" value="b"> It was a major theater of World War II</li>
+                <li><input type="radio" name="q13" value="c"> It was a civil war</li>
+                <li><input type="radio" name="q13" value="d"> It was a regional conflict</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="14">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 14:</strong> How did the Pacific Theater contribute to the overall outcome of World War II? What was its impact on the war's conclusion?</p>
+            <textarea name="q14" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="15">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 15:</strong> What is the historical significance of the Pacific Theater? How does it continue to influence our understanding of World War II and modern warfare?</p>
+            <textarea name="q15" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="enableEditMode()">Edit Assignment</button>
+            <button class="btn btn-success" onclick="saveAssignment()">Save Changes</button>
+            <button class="btn btn-danger" onclick="cancelEdit()">Cancel</button>
+            <button class="btn" onclick="addNewQuestion()">Add Question</button>
+            <button class="btn btn-success" onclick="submitAssignment()">Submit Assignment</button>
+        </div>
+    </div>
+
+    <script>
+        let editMode = false;
+
+        function enableEditMode() {
+            editMode = true;
+            document.querySelectorAll('.editable').forEach(el => {
+                el.style.border = '2px solid #3498db';
+                el.style.backgroundColor = '#ecf0f1';
+            });
+        }
+
+        function editElementInline(element) {
+            if (!editMode) return;
+            
+            const newContent = prompt('Edit content:', element.textContent);
+            if (newContent !== null) {
+                element.textContent = newContent;
+            }
+        }
+
+        function saveAssignment() {
+            const assignmentData = {
+                title: 'World War II - Pacific Theater',
+                summary: {
+                    setting: document.querySelector('[data-field="setting"]').textContent,
+                    whatHappens: document.querySelector('[data-field="what-happens"]').textContent,
+                    characters: document.querySelector('[data-field="characters"]').textContent
+                },
+                questions: []
+            };
+
+            document.querySelectorAll('.question').forEach(questionEl => {
+                const questionId = questionEl.dataset.questionId;
+                const questionText = questionEl.querySelector('p strong').textContent;
+                const questionType = questionEl.querySelector('.question-type').textContent.trim();
+                
+                let answer = '';
+                if (questionType === 'Multiple Choice') {
+                    const selectedOption = questionEl.querySelector('input[type="radio"]:checked');
+                    answer = selectedOption ? selectedOption.value : '';
+                } else {
+                    answer = questionEl.querySelector('textarea').value;
+                }
+
+                assignmentData.questions.push({
+                    id: questionId,
+                    text: questionText,
+                    type: questionType,
+                    answer: answer
+                });
+            });
+
+            localStorage.setItem('world-war-ii-pacific-theater-assignment', JSON.stringify(assignmentData));
+            alert('Assignment saved successfully!');
+            editMode = false;
+        }
+
+        function cancelEdit() {
+            editMode = false;
+            document.querySelectorAll('.editable').forEach(el => {
+                el.style.border = '1px solid #bdc3c7';
+                el.style.backgroundColor = '#fff';
+            });
+        }
+
+        function addNewQuestion() {
+            const questionsContainer = document.querySelector('.container');
+            const newQuestionId = document.querySelectorAll('.question').length + 1;
+            
+            const newQuestion = document.createElement('div');
+            newQuestion.className = 'question';
+            newQuestion.dataset.questionId = newQuestionId;
+            newQuestion.innerHTML = `
+                <span class="question-type multiple-choice">Multiple Choice</span>
+                <p><strong>Question ${newQuestionId}:</strong> <span contenteditable="true">Enter your question here...</span></p>
+                <ul class="options">
+                    <li><input type="radio" name="q${newQuestionId}" value="a"> <span contenteditable="true">Option A</span></li>
+                    <li><input type="radio" name="q${newQuestionId}" value="b"> <span contenteditable="true">Option B</span></li>
+                    <li><input type="radio" name="q${newQuestionId}" value="c"> <span contenteditable="true">Option C</span></li>
+                    <li><input type="radio" name="q${newQuestionId}" value="d"> <span contenteditable="true">Option D</span></li>
+                </ul>
+                <button class="btn btn-danger" onclick="deleteQuestion(${newQuestionId})">Delete Question</button>
+            `;
+            
+            questionsContainer.insertBefore(newQuestion, document.querySelector('.controls'));
+        }
+
+        function deleteQuestion(questionId) {
+            const questionEl = document.querySelector(`[data-question-id="${questionId}"]`);
+            if (questionEl && confirm('Are you sure you want to delete this question?')) {
+                questionEl.remove();
+            }
+        }
+
+        function submitAssignment() {
+            const answers = {};
+            document.querySelectorAll('.question').forEach(questionEl => {
+                const questionId = questionEl.dataset.questionId;
+                const questionType = questionEl.querySelector('.question-type').textContent.trim();
+                
+                if (questionType === 'Multiple Choice') {
+                    const selectedOption = questionEl.querySelector('input[type="radio"]:checked');
+                    answers[questionId] = selectedOption ? selectedOption.value : '';
+                } else {
+                    answers[questionId] = questionEl.querySelector('textarea').value;
+                }
+            });
+
+            localStorage.setItem('world-war-ii-pacific-theater-answers', JSON.stringify(answers));
+            alert('Assignment submitted successfully!');
+        }
+
+        // Load saved assignment if it exists
+        window.addEventListener('load', function() {
+            const savedAssignment = localStorage.getItem('world-war-ii-pacific-theater-assignment');
+            if (savedAssignment) {
+                const data = JSON.parse(savedAssignment);
+                document.querySelector('[data-field="setting"]').textContent = data.summary.setting;
+                document.querySelector('[data-field="what-happens"]').textContent = data.summary.whatHappens;
+                document.querySelector('[data-field="characters"]').textContent = data.summary.characters;
+            }
+        });
+    </script>
+</body>
+</html>

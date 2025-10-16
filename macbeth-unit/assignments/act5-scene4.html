@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Macbeth - Act 5, Scene 4 | Classroom Assignment</title>
+  <style>
+    body{font-family:'Lexend Deca',Arial,sans-serif;background:#f7fafc;color:#333;margin:0;padding:20px}
+    .container{max-width:800px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.07);padding:2rem}
+    .header{text-align:center;margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid #6F5C91}
+    .story-summary{background:#f8f9fa;padding:1.5rem;border-radius:8px;margin-bottom:2rem;border-left:4px solid #6F5C91}
+    .question{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:1.5rem;margin-bottom:1rem}
+    .question h3{color:#6F5C91;margin-top:0}
+    .question-type{display:inline-block;background:#6F5C91;color:#fff;padding:.25rem .75rem;border-radius:12px;font-size:.8rem;margin-bottom:1rem}
+    .multiple-choice{background:#3182ce}.short-answer{background:#38a169}
+    .options{list-style:none;padding:0}.options li{margin-bottom:.5rem}.options input[type=radio]{margin-right:.5rem}
+    textarea{width:100%;min-height:160px;padding:1rem;border:2px solid #e2e8f0;border-radius:8px;font:inherit;line-height:1.5;resize:vertical}
+    .submit-btn{background:#6F5C91;color:#fff;border:none;padding:1rem 2rem;border-radius:8px;font-size:1.1rem;cursor:pointer;width:100%;margin-top:1rem}
+    .submit-btn:hover{background:#59487a}
+  </style>
+</head>
+<body>
+  <div class="container" id="assignmentContainer">
+    <div class="header">
+      <h1>Macbeth</h1>
+      <h2>Act 5, Scene 4: Birnam Wood</h2>
+    </div>
+
+    <div class="story-summary">
+      <h3>📖 Story Summary</h3>
+      <p><strong>Setting:</strong> Country near Birnam Wood</p>
+      <p><strong>What happens:</strong> Malcolm orders his soldiers to cut down branches from Birnam Wood to use as camouflage. This fulfills the witches' prophecy that Macbeth will be defeated when Birnam Wood comes to Dunsinane.</p>
+      <p><strong>Key characters:</strong> Malcolm, Macduff, Siward, Soldiers</p>
+    </div>
+
+    <div class="question" data-question-id="1">
+      <span class="question-type multiple-choice">Multiple Choice</span>
+      <h3>Question 1 (5 points)</h3>
+      <p>What does Malcolm order his soldiers to do?</p>
+      <ul class="options">
+        <li><input type="radio" name="q1" value="a"> A) Attack immediately</li>
+        <li><input type="radio" name="q1" value="b"> B) Cut down branches from Birnam Wood for camouflage</li>
+        <li><input type="radio" name="q1" value="c"> C) Retreat</li>
+        <li><input type="radio" name="q1" value="d"> D) Wait for reinforcements</li>
+      </ul>
+    </div>
+
+    <div class="question" data-question-id="2">
+      <span class="question-type multiple-choice">Multiple Choice</span>
+      <h3>Question 2 (5 points)</h3>
+      <p>Why do they use the branches?</p>
+      <ul class="options">
+        <li><input type="radio" name="q2" value="a"> A) To build weapons</li>
+        <li><input type="radio" name="q2" value="b"> B) To hide their numbers from Macbeth's spies</li>
+        <li><input type="radio" name="q2" value="c"> C) To make fires</li>
+        <li><input type="radio" name="q2" value="d"> D) To build bridges</li>
+      </ul>
+    </div>
+
+    <div class="question" data-question-id="3">
+      <span class="question-type multiple-choice">Multiple Choice</span>
+      <h3>Question 3 (5 points)</h3>
+      <p>How does this fulfill the witches' prophecy?</p>
+      <ul class="options">
+        <li><input type="radio" name="q3" value="a"> A) It doesn't</li>
++        <li><input type="radio" name="q3" value="b"> B) Birnam Wood appears to move toward Dunsinane</li>
++        <li><input type="radio" name="q3" value="c"> C) The trees attack Macbeth</li>
++        <li><input type="radio" name="q3" value="d"> D) The forest burns down</li>
++      </ul>
++    </div>
++
++    <div class="question" data-question-id="4">
++      <span class="question-type multiple-choice">Multiple Choice</span>
++      <h3>Question 4 (5 points)</h3>
++      <p>What does this scene demonstrate about the witches' prophecies?</p>
++      <ul class="options">
++        <li><input type="radio" name="q4" value="a"> A) They are always literal</li>
++        <li><input type="radio" name="q4" value="b"> B) They are ambiguous and can be fulfilled in unexpected ways</li>
++        <li><input type="radio" name="q4" value="c"> C) They are false</li>
++        <li><input type="radio" name="q4" value="d"> D) They are easy to understand</li>
++      </ul>
++    </div>
++
++    <div class="question" data-question-id="5">
++      <span class="question-type short-answer">Short Answer</span>
++      <h3>Question 5 (10 points)</h3>
++      <p>How does this scene create dramatic irony? What does the audience know that Macbeth doesn't?</p>
++      <textarea name="q5" placeholder="Your answer here..."></textarea>
++    </div>
++
++    <button class="submit-btn" onclick="submitAssignment()">Submit Assignment</button>
++  </div>
++
++  <script>
++    function submitAssignment(){
++      const answers={};
++      for(let i=1;i<=5;i++){
++        const sel=document.querySelector(`input[name=\"q${i}\"]:checked`);
++        const ta=document.querySelector(`textarea[name=\"q${i}\"]`);
++        answers[`q${i}`]= sel? sel.value : (ta? ta.value.trim(): '');
++      }
++      if(Object.values(answers).some(v=>!v)){ alert('Please answer all questions.'); return; }
++      const key='macbethSubmissions';
++      const arr=JSON.parse(localStorage.getItem(key)||'[]');
++      arr.push({ id:'macbeth-a5s4', title:'Macbeth - Act 5, Scene 4', answers, submittedAt:new Date().toISOString() });
++      localStorage.setItem(key, JSON.stringify(arr));
++      alert('Assignment submitted successfully!');
++      window.location.href='/student-assignments.html';
++    }
++  </script>
++</body>
++</html>

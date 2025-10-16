@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamlet Act 5 - Classroom Assignment</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .story-summary {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .story-summary h2 {
+            color: #34495e;
+            margin-top: 0;
+        }
+        .editable {
+            background-color: #fff;
+            border: 1px solid #bdc3c7;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            min-height: 20px;
+        }
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .question-type {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .multiple-choice {
+            background-color: #3498db;
+            color: white;
+        }
+        .short-answer {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .options li {
+            margin: 8px 0;
+        }
+        .options input[type="radio"] {
+            margin-right: 8px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-danger {
+            background-color: #e74c3c;
+        }
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        .btn-success {
+            background-color: #27ae60;
+        }
+        .btn-success:hover {
+            background-color: #229954;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hamlet Act 5 - Classroom Assignment</h1>
+        
+        <div class="story-summary">
+            <h2>Story Summary</h2>
+            <div class="editable" contenteditable="true" data-field="setting">
+                <strong>Setting:</strong> Elsinore Castle, Denmark. Act 5 is the resolution of the play, containing the climactic duel and multiple deaths.
+            </div>
+            <div class="editable" contenteditable="true" data-field="what-happens">
+                <strong>What Happens:</strong> Hamlet returns to Denmark and encounters gravediggers preparing Ophelia's grave. He reflects on death and mortality while holding Yorick's skull. Ophelia's funeral takes place, and Hamlet confronts Laertes. Claudius plots with Laertes to kill Hamlet in a fencing match. The duel takes place, and both Hamlet and Laertes are wounded by the poisoned sword. Gertrude drinks the poisoned wine and dies. Hamlet kills Claudius and then dies. Fortinbras arrives and takes control of Denmark. The play ends with Hamlet's body being carried off with military honors.
+            </div>
+            <div class="editable" contenteditable="true" data-field="characters">
+                <strong>Characters:</strong> Hamlet (dying hero), Claudius (killed by Hamlet), Gertrude (poisoned), Laertes (killed in duel), Ophelia (buried), Horatio (surviving friend), Fortinbras (new king), The Gravediggers (comic relief), Osric (courtier), Yorick (skull).
+            </div>
+        </div>
+
+        <div class="question" data-question-id="1">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 1:</strong> What does Hamlet do with Yorick's skull?</p>
+            <ul class="options">
+                <li><input type="radio" name="q1" value="a"> He buries it</li>
+                <li><input type="radio" name="q1" value="b"> He holds it and reflects on death</li>
+                <li><input type="radio" name="q1" value="c"> He throws it away</li>
+                <li><input type="radio" name="q1" value="d"> He gives it to Horatio</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="2">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 2:</strong> What happens during the fencing match?</p>
+            <ul class="options">
+                <li><input type="radio" name="q2" value="a"> Hamlet wins easily</li>
+                <li><input type="radio" name="q2" value="b"> Both Hamlet and Laertes are wounded by the poisoned sword</li>
+                <li><input type="radio" name="q2" value="c"> Laertes wins</li>
+                <li><input type="radio" name="q2" value="d"> The match is cancelled</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="3">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 3:</strong> What happens to Gertrude?</p>
+            <ul class="options">
+                <li><input type="radio" name="q3" value="a"> She survives</li>
+                <li><input type="radio" name="q3" value="b"> She drinks the poisoned wine and dies</li>
+                <li><input type="radio" name="q3" value="c"> She is killed by Hamlet</li>
+                <li><input type="radio" name="q3" value="d"> She leaves Denmark</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="4">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 4:</strong> What is the significance of Hamlet's encounter with the gravediggers? How does it reflect on the themes of death and mortality?</p>
+            <textarea name="q4" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="5">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 5:</strong> What is the significance of Hamlet's reflection on Yorick's skull? How does it demonstrate his philosophical nature?</p>
+            <textarea name="q5" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="6">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 6:</strong> How does the fencing match function as the climax of the play? What does it reveal about the characters and their motivations?</p>
+            <textarea name="q6" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="7">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 7:</strong> What happens to Claudius?</p>
+            <ul class="options">
+                <li><input type="radio" name="q7" value="a"> He survives</li>
+                <li><input type="radio" name="q7" value="b"> He is killed by Hamlet</li>
+                <li><input type="radio" name="q7" value="c"> He is exiled</li>
+                <li><input type="radio" name="q7" value="d"> He becomes king</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="8">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 8:</strong> What happens to Hamlet?</p>
+            <ul class="options">
+                <li><input type="radio" name="q8" value="a"> He survives</li>
+                <li><input type="radio" name="q8" value="b"> He dies from the poisoned sword</li>
+                <li><input type="radio" name="q8" value="c"> He becomes king</li>
+                <li><input type="radio" name="q8" value="d"> He is exiled</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="9">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 9:</strong> What is the significance of Fortinbras's arrival at the end of the play? How does it provide resolution and hope?</p>
+            <textarea name="q9" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="10">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 10:</strong> How does Act 5 function as the resolution of the play? What themes are resolved and how?</p>
+            <textarea name="q10" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="11">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 11:</strong> What is the significance of Horatio's survival?</p>
+            <ul class="options">
+                <li><input type="radio" name="q11" value="a"> He becomes king</li>
+                <li><input type="radio" name="q11" value="b"> He serves as a witness to tell Hamlet's story</li>
+                <li><input type="radio" name="q11" value="c"> He is exiled</li>
+                <li><input type="radio" name="q11" value="d"> He is killed</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="12">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 12:</strong> How does the play's ending reflect the themes of revenge, justice, and the consequences of action? What message does Shakespeare convey?</p>
+            <textarea name="q12" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="13">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 13:</strong> What is the significance of Hamlet's final words?</p>
+            <ul class="options">
+                <li><input type="radio" name="q13" value="a"> They show his happiness</li>
+                <li><input type="radio" name="q13" value="b"> They show his acceptance of death and his concern for Denmark's future</li>
+                <li><input type="radio" name="q13" value="c"> They show his anger</li>
+                <li><input type="radio" name="q13" value="d"> They show his confusion</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="14">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 14:</strong> How does the gravediggers' scene provide both comic relief and serious commentary? What does it reveal about the play's themes?</p>
+            <textarea name="q14" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="15">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 15:</strong> What is the overall significance of Hamlet as a tragedy? How does Act 5 complete the tragic arc and what lessons does it offer?</p>
+            <textarea name="q15" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="enableEditMode()">Edit Assignment</button>
+            <button class="btn btn-success" onclick="saveAssignment()">Save Changes</button>
+            <button class="btn btn-danger" onclick="cancelEdit()">Cancel</button>
+            <button class="btn" onclick="addNewQuestion()">Add Question</button>
+            <button class="btn btn-success" onclick="submitAssignment()">Submit Assignment</button>
+        </div>
+    </div>
+
+    <script>
+        let editMode = false;
+
+        function enableEditMode() {
+            editMode = true;
+            document.querySelectorAll('.editable').forEach(el => {
+                el.style.border = '2px solid #3498db';
+                el.style.backgroundColor = '#ecf0f1';
+            });
+        }
+
+        function editElementInline(element) {
+            if (!editMode) return;
+            
+            const newContent = prompt('Edit content:', element.textContent);
+            if (newContent !== null) {
+                element.textContent = newContent;
+            }
+        }
+
+        function saveAssignment() {
+            const assignmentData = {
+                title: 'Hamlet Act 5 - Classroom Assignment',
+                summary: {
+                    setting: document.querySelector('[data-field="setting"]').textContent,
+                    whatHappens: document.querySelector('[data-field="what-happens"]').textContent,
+                    characters: document.querySelector('[data-field="characters"]').textContent
+                },
+                questions: []
+            };
+
+            document.querySelectorAll('.question').forEach(questionEl => {
+                const questionId = questionEl.dataset.questionId;
+                const questionText = questionEl.querySelector('p strong').textContent;
+                const questionType = questionEl.querySelector('.question-type').textContent.trim();
+                
+                let answer = '';
+                if (questionType === 'Multiple Choice') {
+                    const selectedOption = questionEl.querySelector('input[type="radio"]:checked');
+                    answer = selectedOption ? selectedOption.value : '';
+                } else {
+                    answer = questionEl.querySelector('textarea').value;
+                }
+
+                assignmentData.questions.push({
+                    id: questionId,
+                    text: questionText,
+                    type: questionType,
+                    answer: answer
+                });
+            });
+
+            localStorage.setItem('hamlet-act5-assignment', JSON.stringify(assignmentData));
+            alert('Assignment saved successfully!');
+            editMode = false;
+        }
+
+        function cancelEdit() {
+            editMode = false;
+            document.querySelectorAll('.editable').forEach(el => {
+                el.style.border = '1px solid #bdc3c7';
+                el.style.backgroundColor = '#fff';
+            });
+        }
+
+        function addNewQuestion() {
+            const questionsContainer = document.querySelector('.container');
+            const newQuestionId = document.querySelectorAll('.question').length + 1;
+            
+            const newQuestion = document.createElement('div');
+            newQuestion.className = 'question';
+            newQuestion.dataset.questionId = newQuestionId;
+            newQuestion.innerHTML = `
+                <span class="question-type multiple-choice">Multiple Choice</span>
+                <p><strong>Question ${newQuestionId}:</strong> <span contenteditable="true">Enter your question here...</span></p>
+                <ul class="options">
+                    <li><input type="radio" name="q${newQuestionId}" value="a"> <span contenteditable="true">Option A</span></li>
+                    <li><input type="radio" name="q${newQuestionId}" value="b"> <span contenteditable="true">Option B</span></li>
+                    <li><input type="radio" name="q${newQuestionId}" value="c"> <span contenteditable="true">Option C</span></li>
+                    <li><input type="radio" name="q${newQuestionId}" value="d"> <span contenteditable="true">Option D</span></li>
+                </ul>
+                <button class="btn btn-danger" onclick="deleteQuestion(${newQuestionId})">Delete Question</button>
+            `;
+            
+            questionsContainer.insertBefore(newQuestion, document.querySelector('.controls'));
+        }
+
+        function deleteQuestion(questionId) {
+            const questionEl = document.querySelector(`[data-question-id="${questionId}"]`);
+            if (questionEl && confirm('Are you sure you want to delete this question?')) {
+                questionEl.remove();
+            }
+        }
+
+        function submitAssignment() {
+            const answers = {};
+            document.querySelectorAll('.question').forEach(questionEl => {
+                const questionId = questionEl.dataset.questionId;
+                const questionType = questionEl.querySelector('.question-type').textContent.trim();
+                
+                if (questionType === 'Multiple Choice') {
+                    const selectedOption = questionEl.querySelector('input[type="radio"]:checked');
+                    answers[questionId] = selectedOption ? selectedOption.value : '';
+                } else {
+                    answers[questionId] = questionEl.querySelector('textarea').value;
+                }
+            });
+
+            localStorage.setItem('hamlet-act5-answers', JSON.stringify(answers));
+            alert('Assignment submitted successfully!');
+        }
+
+        // Load saved assignment if it exists
+        window.addEventListener('load', function() {
+            const savedAssignment = localStorage.getItem('hamlet-act5-assignment');
+            if (savedAssignment) {
+                const data = JSON.parse(savedAssignment);
+                document.querySelector('[data-field="setting"]').textContent = data.summary.setting;
+                document.querySelector('[data-field="what-happens"]').textContent = data.summary.whatHappens;
+                document.querySelector('[data-field="characters"]').textContent = data.summary.characters;
+            }
+        });
+    </script>
+</body>
+</html>

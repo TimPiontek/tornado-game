@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Crucible - Play Scenario</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .scenario-info {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .scenario-info h2 {
+            color: #34495e;
+            margin-top: 0;
+        }
+        .characters-section, .territories-section {
+            margin-bottom: 30px;
+        }
+        .character-card, .territory-card {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .character-card h3, .territory-card h3 {
+            color: #495057;
+            margin-top: 0;
+        }
+        .character-role {
+            font-weight: bold;
+            color: #6c757d;
+        }
+        .character-description {
+            margin-top: 10px;
+        }
+        .territory-description {
+            margin-top: 10px;
+        }
+        .territory-control {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-success {
+            background-color: #27ae60;
+        }
+        .btn-success:hover {
+            background-color: #229954;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>The Crucible - Play Scenario</h1>
+        
+        <div class="scenario-info">
+            <h2>Scenario Overview</h2>
+            <p><strong>Setting:</strong> Salem, Massachusetts, 1692. A Puritan community gripped by fear and suspicion during the Salem witch trials.</p>
+            <p><strong>Objective:</strong> Navigate the hysteria of the witch trials, either maintain your innocence, expose the truth, or survive the accusations.</p>
+            <p><strong>Victory Conditions:</strong> Control key territories, influence major characters, and either expose the lies or maintain your position in the community.</p>
+        </div>
+
+        <div class="characters-section">
+            <h2>Characters</h2>
+            
+            <div class="character-card">
+                <h3>John Proctor</h3>
+                <div class="character-role">Role: Protagonist and Accused</div>
+                <div class="character-description">
+                    A farmer who has committed adultery with Abigail Williams. He represents individual conscience and moral integrity. His struggle to maintain his reputation while facing false accusations drives the plot.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Abigail Williams</h3>
+                <div class="character-role">Role: Antagonist and Accuser</div>
+                <div class="character-description">
+                    A young woman who leads the accusations of witchcraft. She represents manipulation and the abuse of power. Her motivations are driven by jealousy, revenge, and the desire to control others.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Elizabeth Proctor</h3>
+                <div class="character-role">Role: John's Wife</div>
+                <div class="character-description">
+                    John Proctor's wife who is accused of witchcraft. She represents moral purity and forgiveness. Her relationship with John is central to the play's themes of sin, redemption, and forgiveness.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Reverend Hale</h3>
+                <div class="character-role">Role: Witch Expert</div>
+                <div class="character-description">
+                    A minister called to investigate witchcraft in Salem. He represents the conflict between religious authority and individual conscience. His transformation from believer to skeptic drives the play's moral complexity.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Judge Danforth</h3>
+                <div class="character-role">Role: Court Judge</div>
+                <div class="character-description">
+                    The deputy governor who presides over the witch trials. He represents the abuse of legal authority and the dangers of rigid adherence to law without justice. His refusal to admit error leads to tragedy.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Mary Warren</h3>
+                <div class="character-role">Role: Servant and Witness</div>
+                <div class="character-description">
+                    John Proctor's servant who becomes involved in the trials. She represents the common people caught in the hysteria. Her testimony is crucial to the plot's development and resolution.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Reverend Parris</h3>
+                <div class="character-role">Role: Salem Minister</div>
+                <div class="character-description">
+                    The minister of Salem who discovers the girls dancing in the woods. He represents self-interest and the corruption of religious authority. His concern for his reputation drives much of the conflict.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Tituba</h3>
+                <div class="character-role">Role: Slave and First Accused</div>
+                <div class="character-description">
+                    Reverend Parris's slave who is the first to be accused of witchcraft. She represents the scapegoating of marginalized groups and the vulnerability of those without power in society.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Giles Corey</h3>
+                <div class="character-role">Role: Elderly Farmer</div>
+                <div class="character-description">
+                    An elderly farmer who is accused of witchcraft. He represents the common people's resistance to authority and the cost of standing up for truth. His death by pressing stones symbolizes the ultimate sacrifice for principle.
+                </div>
+            </div>
+        </div>
+
+        <div class="territories-section">
+            <h2>Territories</h2>
+            
+            <div class="territory-card">
+                <h3>The Proctor Farm</h3>
+                <div class="territory-control">Controlled by: John and Elizabeth Proctor</div>
+                <div class="territory-description">
+                    The Proctor family farm where much of the play's action takes place. Represents the private sphere and the sanctity of the home in Puritan society.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Meeting House</h3>
+                <div class="territory-control">Controlled by: Reverend Parris</div>
+                <div class="territory-description">
+                    The church where religious services and community meetings are held. Represents the public sphere and the authority of the church in Puritan society.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Courtroom</h3>
+                <div class="territory-control">Controlled by: Judge Danforth</div>
+                <div class="territory-description">
+                    Where the witch trials are conducted. Represents the legal system and the abuse of judicial power. The setting for the play's climactic scenes.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Forest</h3>
+                <div class="territory-control">Controlled by: The Accused</div>
+                <div class="territory-description">
+                    Where the girls are discovered dancing, which starts the hysteria. Represents the unknown, the forbidden, and the place where the accusations begin.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Jail</h3>
+                <div class="territory-control">Controlled by: The Authorities</div>
+                <div class="territory-description">
+                    Where the accused are held before trial and execution. Represents the power of the state and the loss of individual freedom.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Gallows</h3>
+                <div class="territory-control">Controlled by: The Executioners</div>
+                <div class="territory-description">
+                    Where the accused are executed. Represents the ultimate power of the state and the cost of maintaining one's principles.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Parris House</h3>
+                <div class="territory-control">Controlled by: Reverend Parris</div>
+                <div class="territory-description">
+                    Where Reverend Parris lives and where the initial accusations begin. Represents the corruption of religious authority and the abuse of power.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Common</h3>
+                <div class="territory-control">Controlled by: The Community</div>
+                <div class="territory-description">
+                    The public square where community events take place. Represents the collective consciousness of the community and the power of public opinion.
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="startGame()">Start Game</button>
+            <button class="btn btn-success" onclick="saveScenario()">Save Scenario</button>
+        </div>
+    </div>
+
+    <script>
+        function startGame() {
+            alert('Starting The Crucible scenario! This would launch the interactive game with characters and territories.');
+        }
+
+        function saveScenario() {
+            const scenarioData = {
+                title: 'The Crucible - Play Scenario',
+                characters: [
+                    { name: 'John Proctor', role: 'Protagonist and Accused', description: 'A farmer who has committed adultery with Abigail Williams.' },
+                    { name: 'Abigail Williams', role: 'Antagonist and Accuser', description: 'A young woman who leads the accusations of witchcraft.' },
+                    { name: 'Elizabeth Proctor', role: 'John\'s Wife', description: 'John Proctor\'s wife who is accused of witchcraft.' },
+                    { name: 'Reverend Hale', role: 'Witch Expert', description: 'A minister called to investigate witchcraft in Salem.' },
+                    { name: 'Judge Danforth', role: 'Court Judge', description: 'The deputy governor who presides over the witch trials.' },
+                    { name: 'Mary Warren', role: 'Servant and Witness', description: 'John Proctor\'s servant who becomes involved in the trials.' },
+                    { name: 'Reverend Parris', role: 'Salem Minister', description: 'The minister of Salem who discovers the girls dancing in the woods.' },
+                    { name: 'Tituba', role: 'Slave and First Accused', description: 'Reverend Parris\'s slave who is the first to be accused of witchcraft.' },
+                    { name: 'Giles Corey', role: 'Elderly Farmer', description: 'An elderly farmer who is accused of witchcraft.' }
+                ],
+                territories: [
+                    { name: 'The Proctor Farm', controller: 'John and Elizabeth Proctor', description: 'The Proctor family farm where much of the play\'s action takes place.' },
+                    { name: 'The Meeting House', controller: 'Reverend Parris', description: 'The church where religious services and community meetings are held.' },
+                    { name: 'The Courtroom', controller: 'Judge Danforth', description: 'Where the witch trials are conducted.' },
+                    { name: 'The Forest', controller: 'The Accused', description: 'Where the girls are discovered dancing, which starts the hysteria.' },
+                    { name: 'The Jail', controller: 'The Authorities', description: 'Where the accused are held before trial and execution.' },
+                    { name: 'The Gallows', controller: 'The Executioners', description: 'Where the accused are executed.' },
+                    { name: 'The Parris House', controller: 'Reverend Parris', description: 'Where Reverend Parris lives and where the initial accusations begin.' },
+                    { name: 'The Common', controller: 'The Community', description: 'The public square where community events take place.' }
+                ]
+            };
+
+            localStorage.setItem('the-crucible-scenario', JSON.stringify(scenarioData));
+            alert('Scenario saved successfully!');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamlet - Play Scenario</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .scenario-info {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .scenario-info h2 {
+            color: #34495e;
+            margin-top: 0;
+        }
+        .characters-section, .territories-section {
+            margin-bottom: 30px;
+        }
+        .character-card, .territory-card {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .character-card h3, .territory-card h3 {
+            color: #495057;
+            margin-top: 0;
+        }
+        .character-role {
+            font-weight: bold;
+            color: #6c757d;
+        }
+        .character-description {
+            margin-top: 10px;
+        }
+        .territory-description {
+            margin-top: 10px;
+        }
+        .territory-control {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-success {
+            background-color: #27ae60;
+        }
+        .btn-success:hover {
+            background-color: #229954;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hamlet - Play Scenario</h1>
+        
+        <div class="scenario-info">
+            <h2>Scenario Overview</h2>
+            <p><strong>Setting:</strong> Elsinore Castle, Denmark, in the late medieval period. A kingdom torn by betrayal, revenge, and political intrigue.</p>
+            <p><strong>Objective:</strong> Navigate the complex web of relationships, uncover the truth about King Hamlet's death, and determine the fate of the Danish throne.</p>
+            <p><strong>Victory Conditions:</strong> Control key territories, influence major characters, and resolve the central conflict of revenge and justice.</p>
+        </div>
+
+        <div class="characters-section">
+            <h2>Characters</h2>
+            
+            <div class="character-card">
+                <h3>Hamlet</h3>
+                <div class="character-role">Role: Prince of Denmark</div>
+                <div class="character-description">
+                    The protagonist torn between duty and doubt. Seeks revenge for his father's murder while questioning the nature of existence. Represents the struggle between action and inaction.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Claudius</h3>
+                <div class="character-role">Role: King of Denmark</div>
+                <div class="character-description">
+                    Hamlet's uncle who murdered his brother to seize the throne. Marries Gertrude and represents corruption and ambition. The main antagonist of the play.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Gertrude</h3>
+                <div class="character-role">Role: Queen of Denmark</div>
+                <div class="character-description">
+                    Hamlet's mother who marries Claudius shortly after her husband's death. Caught between her son and new husband, representing the complexity of human relationships.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Ophelia</h3>
+                <div class="character-role">Role: Hamlet's Love Interest</div>
+                <div class="character-description">
+                    Polonius's daughter who becomes a pawn in the political games. Her madness and death represent the collateral damage of revenge and political intrigue.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Polonius</h3>
+                <div class="character-role">Role: Lord Chamberlain</div>
+                <div class="character-description">
+                    Ophelia and Laertes's father who serves as Claudius's advisor. His spying and manipulation contribute to the play's themes of surveillance and betrayal.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Laertes</h3>
+                <div class="character-role">Role: Ophelia's Brother</div>
+                <div class="character-description">
+                    Polonius's son who seeks revenge for his father's death. Represents the foil to Hamlet, showing a more direct approach to vengeance.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Horatio</h3>
+                <div class="character-role">Role: Hamlet's Friend</div>
+                <div class="character-description">
+                    Hamlet's loyal friend who serves as the voice of reason. Represents stability and truth in a world of deception and madness.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Ghost of King Hamlet</h3>
+                <div class="character-role">Role: Hamlet's Father</div>
+                <div class="character-description">
+                    The murdered king who appears to Hamlet to reveal the truth about his death. Represents the supernatural element and the weight of the past.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Rosencrantz & Guildenstern</h3>
+                <div class="character-role">Role: Hamlet's Childhood Friends</div>
+                <div class="character-description">
+                    Hamlet's former friends who spy on him for Claudius. Represent betrayal and the corruption of friendship for political gain.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Fortinbras</h3>
+                <div class="character-role">Role: Prince of Norway</div>
+                <div class="character-description">
+                    The Norwegian prince who serves as a foil to Hamlet. Represents action and decisiveness, ultimately inheriting the Danish throne.
+                </div>
+            </div>
+        </div>
+
+        <div class="territories-section">
+            <h2>Territories</h2>
+            
+            <div class="territory-card">
+                <h3>The Throne Room</h3>
+                <div class="territory-control">Controlled by: Claudius</div>
+                <div class="territory-description">
+                    The seat of power where Claudius holds court. Represents political authority and the corruption of power.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>Hamlet's Chamber</h3>
+                <div class="territory-control">Controlled by: Hamlet</div>
+                <div class="territory-description">
+                    Hamlet's private quarters where he contemplates and plans. Represents the inner world of thought and doubt.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Battlements</h3>
+                <div class="territory-control">Controlled by: Ghost of King Hamlet</div>
+                <div class="territory-description">
+                    Where the ghost appears and where the play begins. Represents the supernatural realm and the weight of the past.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>Ophelia's Chamber</h3>
+                <div class="territory-control">Controlled by: Ophelia</div>
+                <div class="territory-description">
+                    Ophelia's private space where she descends into madness. Represents innocence corrupted and the cost of political games.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Chapel</h3>
+                <div class="territory-control">Controlled by: Claudius</div>
+                <div class="territory-description">
+                    Where Claudius attempts to pray and where Hamlet considers killing him. Represents the conflict between sin and redemption.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Graveyard</h3>
+                <div class="territory-control">Controlled by: Neutral Territory</div>
+                <div class="territory-description">
+                    Where Ophelia is buried and where Hamlet contemplates mortality. Represents the inevitability of death and the futility of human ambition.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Great Hall</h3>
+                <div class="territory-control">Controlled by: Claudius</div>
+                <div class="territory-description">
+                    Where the play-within-a-play is performed and where the final duel takes place. Represents the intersection of art and reality.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Garden</h3>
+                <div class="territory-control">Controlled by: Gertrude</div>
+                <div class="territory-description">
+                    Where Polonius is killed and where Hamlet confronts his mother. Represents the hidden violence beneath the surface of courtly life.
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="startGame()">Start Game</button>
+            <button class="btn btn-success" onclick="saveScenario()">Save Scenario</button>
+        </div>
+    </div>
+
+    <script>
+        function startGame() {
+            alert('Starting Hamlet scenario! This would launch the interactive game with characters and territories.');
+        }
+
+        function saveScenario() {
+            const scenarioData = {
+                title: 'Hamlet - Play Scenario',
+                characters: [
+                    { name: 'Hamlet', role: 'Prince of Denmark', description: 'The protagonist torn between duty and doubt.' },
+                    { name: 'Claudius', role: 'King of Denmark', description: 'Hamlet\'s uncle who murdered his brother to seize the throne.' },
+                    { name: 'Gertrude', role: 'Queen of Denmark', description: 'Hamlet\'s mother who marries Claudius shortly after her husband\'s death.' },
+                    { name: 'Ophelia', role: 'Hamlet\'s Love Interest', description: 'Polonius\'s daughter who becomes a pawn in the political games.' },
+                    { name: 'Polonius', role: 'Lord Chamberlain', description: 'Ophelia and Laertes\'s father who serves as Claudius\'s advisor.' },
+                    { name: 'Laertes', role: 'Ophelia\'s Brother', description: 'Polonius\'s son who seeks revenge for his father\'s death.' },
+                    { name: 'Horatio', role: 'Hamlet\'s Friend', description: 'Hamlet\'s loyal friend who serves as the voice of reason.' },
+                    { name: 'Ghost of King Hamlet', role: 'Hamlet\'s Father', description: 'The murdered king who appears to Hamlet to reveal the truth.' },
+                    { name: 'Rosencrantz & Guildenstern', role: 'Hamlet\'s Childhood Friends', description: 'Hamlet\'s former friends who spy on him for Claudius.' },
+                    { name: 'Fortinbras', role: 'Prince of Norway', description: 'The Norwegian prince who serves as a foil to Hamlet.' }
+                ],
+                territories: [
+                    { name: 'The Throne Room', controller: 'Claudius', description: 'The seat of power where Claudius holds court.' },
+                    { name: 'Hamlet\'s Chamber', controller: 'Hamlet', description: 'Hamlet\'s private quarters where he contemplates and plans.' },
+                    { name: 'The Battlements', controller: 'Ghost of King Hamlet', description: 'Where the ghost appears and where the play begins.' },
+                    { name: 'Ophelia\'s Chamber', controller: 'Ophelia', description: 'Ophelia\'s private space where she descends into madness.' },
+                    { name: 'The Chapel', controller: 'Claudius', description: 'Where Claudius attempts to pray and where Hamlet considers killing him.' },
+                    { name: 'The Graveyard', controller: 'Neutral Territory', description: 'Where Ophelia is buried and where Hamlet contemplates mortality.' },
+                    { name: 'The Great Hall', controller: 'Claudius', description: 'Where the play-within-a-play is performed and where the final duel takes place.' },
+                    { name: 'The Garden', controller: 'Gertrude', description: 'Where Polonius is killed and where Hamlet confronts his mother.' }
+                ]
+            };
+
+            localStorage.setItem('hamlet-scenario', JSON.stringify(scenarioData));
+            alert('Scenario saved successfully!');
+        }
+    </script>
+</body>
+</html>

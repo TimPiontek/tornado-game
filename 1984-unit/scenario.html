@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1984 - Play Scenario</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .scenario-info {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .scenario-info h2 {
+            color: #34495e;
+            margin-top: 0;
+        }
+        .characters-section, .territories-section {
+            margin-bottom: 30px;
+        }
+        .character-card, .territory-card {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .character-card h3, .territory-card h3 {
+            color: #495057;
+            margin-top: 0;
+        }
+        .character-role {
+            font-weight: bold;
+            color: #6c757d;
+        }
+        .character-description {
+            margin-top: 10px;
+        }
+        .territory-description {
+            margin-top: 10px;
+        }
+        .territory-control {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-success {
+            background-color: #27ae60;
+        }
+        .btn-success:hover {
+            background-color: #229954;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>1984 - Play Scenario</h1>
+        
+        <div class="scenario-info">
+            <h2>Scenario Overview</h2>
+            <p><strong>Setting:</strong> Oceania, 1984. A totalitarian society controlled by the Party, where Big Brother watches everything and independent thought is a crime.</p>
+            <p><strong>Objective:</strong> Navigate the surveillance state, maintain your cover as a loyal Party member, and either resist the system or survive within it.</p>
+            <p><strong>Victory Conditions:</strong> Control key territories, influence major characters, and either expose the Party's lies or maintain your position in the system.</p>
+        </div>
+
+        <div class="characters-section">
+            <h2>Characters</h2>
+            
+            <div class="character-card">
+                <h3>Winston Smith</h3>
+                <div class="character-role">Role: Protagonist and Rebel</div>
+                <div class="character-description">
+                    A Party member who secretly hates the Party and begins to question its control. Works at the Ministry of Truth rewriting historical records. Represents the individual's struggle against totalitarianism.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Julia</h3>
+                <div class="character-role">Role: Winston's Lover</div>
+                <div class="character-description">
+                    A young woman who works in the Fiction Department and becomes Winston's lover. She represents personal rebellion and the human desire for love and freedom.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>O'Brien</h3>
+                <div class="character-role">Role: Party Member and Interrogator</div>
+                <div class="character-description">
+                    A high-ranking Party member who poses as a resistance leader to trap Winston. Represents the Party's power to manipulate and destroy individual thought.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Big Brother</h3>
+                <div class="character-role">Role: Supreme Leader</div>
+                <div class="character-description">
+                    The omnipresent leader of Oceania who may or may not exist. Represents the absolute power of the Party and the cult of personality in totalitarian regimes.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Syme</h3>
+                <div class="character-role">Role: Winston's Colleague</div>
+                <div class="character-description">
+                    A Party member who works on the Newspeak dictionary. Represents the Party's control over language and thought. His disappearance foreshadows Winston's fate.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Parsons</h3>
+                <div class="character-role">Role: Winston's Neighbor</div>
+                <div class="character-description">
+                    A Party member who represents the indoctrinated masses. His arrest by his own children shows the Party's success in turning family members against each other.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Emmanuel Goldstein</h3>
+                <div class="character-role">Role: Enemy of the State</div>
+                <div class="character-description">
+                    The supposed leader of the Brotherhood resistance movement. Represents the Party's need for an external enemy to maintain control and unity.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Mr. Charrington</h3>
+                <div class="character-role">Role: Shopkeeper and Thought Police</div>
+                <div class="character-description">
+                    A seemingly harmless shopkeeper who is actually a Thought Police agent. Represents the Party's ability to infiltrate every aspect of life.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>The Proles</h3>
+                <div class="character-role">Role: Working Class</div>
+                <div class="character-description">
+                    The working class who make up 85% of the population. They are largely ignored by the Party but represent the potential for revolution.
+                </div>
+            </div>
+        </div>
+
+        <div class="territories-section">
+            <h2>Territories</h2>
+            
+            <div class="territory-card">
+                <h3>Ministry of Truth</h3>
+                <div class="territory-control">Controlled by: The Party</div>
+                <div class="territory-description">
+                    Where Winston works rewriting historical records. Represents the Party's control over truth and the manipulation of information.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Winston's Apartment</h3>
+                <div class="territory-control">Controlled by: Winston (with surveillance)</div>
+                <div class="territory-description">
+                    Winston's private space where he writes in his diary and thinks forbidden thoughts. Represents the individual's inner world under surveillance.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Telescreen</h3>
+                <div class="territory-control">Controlled by: The Party</div>
+                <div class="territory-description">
+                    The omnipresent surveillance device that watches and listens to everyone. Represents the Party's total control and the loss of privacy.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>Mr. Charrington's Shop</h3>
+                <div class="territory-control">Controlled by: Thought Police</div>
+                <div class="territory-description">
+                    A seemingly innocent shop that becomes a trap for Winston and Julia. Represents the Party's ability to turn any space into a surveillance zone.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Prole District</h3>
+                <div class="territory-control">Controlled by: The Proles</div>
+                <div class="territory-description">
+                    The working-class area where Winston and Julia meet. Represents the potential for resistance and the Party's neglect of the masses.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>Room 101</h3>
+                <div class="territory-control">Controlled by: The Party</div>
+                <div class="territory-description">
+                    The ultimate torture chamber where Winston faces his greatest fear. Represents the Party's power to destroy the individual completely.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Two Minutes Hate</h3>
+                <div class="territory-control">Controlled by: The Party</div>
+                <div class="territory-description">
+                    The daily ritual where Party members express hatred for enemies. Represents the Party's use of emotional manipulation to maintain control.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Chestnut Tree Café</h3>
+                <div class="territory-control">Controlled by: The Party</div>
+                <div class="territory-description">
+                    Where Winston sits after his transformation, drinking Victory Gin. Represents the final stage of Party control and the destruction of the individual.
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="startGame()">Start Game</button>
+            <button class="btn btn-success" onclick="saveScenario()">Save Scenario</button>
+        </div>
+    </div>
+
+    <script>
+        function startGame() {
+            alert('Starting 1984 scenario! This would launch the interactive game with characters and territories.');
+        }
+
+        function saveScenario() {
+            const scenarioData = {
+                title: '1984 - Play Scenario',
+                characters: [
+                    { name: 'Winston Smith', role: 'Protagonist and Rebel', description: 'A Party member who secretly hates the Party and begins to question its control.' },
+                    { name: 'Julia', role: 'Winston\'s Lover', description: 'A young woman who works in the Fiction Department and becomes Winston\'s lover.' },
+                    { name: 'O\'Brien', role: 'Party Member and Interrogator', description: 'A high-ranking Party member who poses as a resistance leader to trap Winston.' },
+                    { name: 'Big Brother', role: 'Supreme Leader', description: 'The omnipresent leader of Oceania who may or may not exist.' },
+                    { name: 'Syme', role: 'Winston\'s Colleague', description: 'A Party member who works on the Newspeak dictionary.' },
+                    { name: 'Parsons', role: 'Winston\'s Neighbor', description: 'A Party member who represents the indoctrinated masses.' },
+                    { name: 'Emmanuel Goldstein', role: 'Enemy of the State', description: 'The supposed leader of the Brotherhood resistance movement.' },
+                    { name: 'Mr. Charrington', role: 'Shopkeeper and Thought Police', description: 'A seemingly harmless shopkeeper who is actually a Thought Police agent.' },
+                    { name: 'The Proles', role: 'Working Class', description: 'The working class who make up 85% of the population.' }
+                ],
+                territories: [
+                    { name: 'Ministry of Truth', controller: 'The Party', description: 'Where Winston works rewriting historical records.' },
+                    { name: 'Winston\'s Apartment', controller: 'Winston (with surveillance)', description: 'Winston\'s private space where he writes in his diary.' },
+                    { name: 'The Telescreen', controller: 'The Party', description: 'The omnipresent surveillance device that watches and listens to everyone.' },
+                    { name: 'Mr. Charrington\'s Shop', controller: 'Thought Police', description: 'A seemingly innocent shop that becomes a trap for Winston and Julia.' },
+                    { name: 'The Prole District', controller: 'The Proles', description: 'The working-class area where Winston and Julia meet.' },
+                    { name: 'Room 101', controller: 'The Party', description: 'The ultimate torture chamber where Winston faces his greatest fear.' },
+                    { name: 'The Two Minutes Hate', controller: 'The Party', description: 'The daily ritual where Party members express hatred for enemies.' },
+                    { name: 'The Chestnut Tree Café', controller: 'The Party', description: 'Where Winston sits after his transformation, drinking Victory Gin.' }
+                ]
+            };
+
+            localStorage.setItem('1984-scenario', JSON.stringify(scenarioData));
+            alert('Scenario saved successfully!');
+        }
+    </script>
+</body>
+</html>

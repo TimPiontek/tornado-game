@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Macbeth - Act 4, Scene 2 | Classroom Assignment</title>
+  <style>
+    body{font-family:'Lexend Deca',Arial,sans-serif;background:#f7fafc;color:#333;margin:0;padding:20px}
+    .container{max-width:800px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.07);padding:2rem}
+    .header{text-align:center;margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid #6F5C91}
+    .story-summary{background:#f8f9fa;padding:1.5rem;border-radius:8px;margin-bottom:2rem;border-left:4px solid #6F5C91}
+    .question{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:1.5rem;margin-bottom:1rem}
+    .question h3{color:#6F5C91;margin-top:0}
+    .question-type{display:inline-block;background:#6F5C91;color:#fff;padding:.25rem .75rem;border-radius:12px;font-size:.8rem;margin-bottom:1rem}
+    .multiple-choice{background:#3182ce}.short-answer{background:#38a169}
+    .options{list-style:none;padding:0}.options li{margin-bottom:.5rem}.options input[type=radio]{margin-right:.5rem}
+    textarea{width:100%;min-height:160px;padding:1rem;border:2px solid #e2e8f0;border-radius:8px;font:inherit;line-height:1.5;resize:vertical}
+    .submit-btn{background:#6F5C91;color:#fff;border:none;padding:1rem 2rem;border-radius:8px;font-size:1.1rem;cursor:pointer;width:100%;margin-top:1rem}
+    .submit-btn:hover{background:#59487a}
+  </style>
+</head>
+<body>
+  <div class="container" id="assignmentContainer">
+    <div class="header">
+      <h1>Macbeth</h1>
+      <h2>Act 4, Scene 2: The Murder of Macduff's Family</h2>
++    </div>
++
++    <div class="story-summary">
++      <h3>📖 Story Summary</h3>
++      <p><strong>Setting:</strong> Macduff's castle in Fife</p>
++      <p><strong>What happens:</strong> Lady Macduff and her son discuss Macduff's absence. Murderers arrive and kill both Lady Macduff and her son. This shows Macbeth's increasing brutality.</p>
++      <p><strong>Key characters:</strong> Lady Macduff, Macduff's Son, Murderers</p>
++    </div>
++
++    <div class="question" data-question-id="1">
++      <span class="question-type multiple-choice">Multiple Choice</span>
++      <h3>Question 1 (5 points)</h3>
++      <p>Why is Lady Macduff angry with her husband?</p>
++      <ul class="options">
++        <li><input type="radio" name="q1" value="a"> A) He left them without protection</li>
++        <li><input type="radio" name="q1" value="b"> B) He abandoned them</li>
++        <li><input type="radio" name="q1" value="c"> C) He is a traitor</li>
++        <li><input type="radio" name="q1" value="d"> D) He is dead</li>
++      </ul>
++    </div>
++
++    <div class="question" data-question-id="2">
++      <span class="question-type multiple-choice">Multiple Choice</span>
++      <h3>Question 2 (5 points)</h3>
++      <p>What does Macduff's son say about traitors?</p>
++      <ul class="options">
++        <li><input type="radio" name="q2" value="a"> A) They are good</li>
++        <li><input type="radio" name="q2" value="b"> B) They must be hanged by honest men</li>
++        <li><input type="radio" name="q2" value="c"> C) They are innocent</li>
++        <li><input type="radio" name="q2" value="d"> D) They should be forgiven</li>
++      </ul>
++    </div>
++
++    <div class="question" data-question-id="3">
++      <span class="question-type multiple-choice">Multiple Choice</span>
++      <h3>Question 3 (5 points)</h3>
++      <p>What happens to Lady Macduff and her son?</p>
++      <ul class="options">
++        <li><input type="radio" name="q3" value="a"> A) They escape</li>
++        <li><input type="radio" name="q3" value="b"> B) They are killed by murderers</li>
++        <li><input type="radio" name="q3" value="c"> C) They are captured</li>
++        <li><input type="radio" name="q3" value="d"> D) They hide</li>
++      </ul>
++    </div>
++
++    <div class="question" data-question-id="4">
++      <span class="question-type multiple-choice">Multiple Choice</span>
++      <h3>Question 4 (5 points)</h3>
++      <p>Why does Macbeth order this murder?</p>
++      <ul class="options">
++        <li><input type="radio" name="q4" value="a"> A) He is merciful</li>
++        <li><input type="radio" name="q4" value="b"> B) He wants to punish Macduff for fleeing</li>
++        <li><input type="radio" name="q4" value="c"> C) He is afraid</li>
++        <li><input type="radio" name="q4" value="d"> D) He is confused</li>
++      </ul>
++    </div>
++
++    <div class="question" data-question-id="5">
++      <span class="question-type short-answer">Short Answer</span>
++      <h3>Question 5 (10 points)</h3>
++      <p>How does this scene show Macbeth's moral deterioration? What does killing innocent women and children reveal about his character?</p>
++      <textarea name="q5" placeholder="Your answer here..."></textarea>
++    </div>
++
++    <button class="submit-btn" onclick="submitAssignment()">Submit Assignment</button>
++  </div>
++
++  <script>
++    function submitAssignment(){
++      const answers={};
++      for(let i=1;i<=5;i++){
++        const sel=document.querySelector(`input[name=\"q${i}\"]:checked`);
++        const ta=document.querySelector(`textarea[name=\"q${i}\"]`);
++        answers[`q${i}`]= sel? sel.value : (ta? ta.value.trim(): '');
++      }
++      if(Object.values(answers).some(v=>!v)){ alert('Please answer all questions.'); return; }
++      const key='macbethSubmissions';
++      const arr=JSON.parse(localStorage.getItem(key)||'[]');
++      arr.push({ id:'macbeth-a4s2', title:'Macbeth - Act 4, Scene 2', answers, submittedAt:new Date().toISOString() });
++      localStorage.setItem(key, JSON.stringify(arr));
++      alert('Assignment submitted successfully!');
++      window.location.href='/student-assignments.html';
++    }
++  </script>
++</body>
++</html>

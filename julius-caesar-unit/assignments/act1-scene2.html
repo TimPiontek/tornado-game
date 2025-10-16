@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Julius Caesar - Act 1, Scene 2 | Classroom Assignment</title>
+    <style>
+        body { font-family: 'Lexend Deca', Arial, sans-serif; background: #f7fafc; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); padding: 2rem; }
+        .header { text-align: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid #6F5C91; }
+        .story-summary { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid #6F5C91; }
+        .questions-section { margin-bottom: 2rem; }
+        .question { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+        .question h3 { color: #6F5C91; margin-top: 0; }
+        .question-type { display: inline-block; background: #6F5C91; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; margin-bottom: 1rem; }
+        .multiple-choice { background: #3182ce; }
+        .short-answer { background: #38a169; }
+        .options { list-style: none; padding: 0; }
+        .options li { margin-bottom: 0.5rem; }
+        .options input[type="radio"] { margin-right: 0.5rem; }
+        .short-answer textarea { width: 100%; min-height: 180px; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-family: inherit; font-size: 1rem; line-height: 1.5; resize: vertical; }
+        .submit-btn { background: #6F5C91; color: white; border: none; padding: 1rem 2rem; border-radius: 8px; font-size: 1.1rem; cursor: pointer; width: 100%; margin-top: 1rem; }
+        .submit-btn:hover { background: #59487a; }
+        .edit-mode .story-summary, .edit-mode .question { border: 2px dashed #6F5C91; background: #f8f9fa; }
+        .edit-controls { background: #f8f9fa; border: 1px solid #dee2e6; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .question-management { display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .edit-controls button { margin: 0 0.5rem; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; }
+        .add-question-btn { background: #28a745; color: white; }
+        .save-btn { background: #6F5C91; color: white; }
+        .cancel-btn { background: #6c757d; color: white; }
+        .delete-question-btn { background: #dc3545; color: white; padding: 0.4rem 0.8rem; font-size: 0.8rem; margin-left: 1rem; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container" id="assignmentContainer">
+        <div class="header">
+            <h1>Julius Caesar</h1>
+            <h2>Act 1, Scene 2: Lupercal, Warnings, and Persuasion</h2>
+        </div>
+
+        <div id="editControls" class="edit-controls" style="display: none;">
+            <p><strong>✏️ Edit Mode:</strong> Click highlighted text to edit. Ctrl+Enter to save.</p>
+            <div class="question-management">
+                <button class="add-question-btn" onclick="addNewQuestion()">+ Add Question</button>
+                <button class="save-btn" onclick="saveAssignment()">Save All Changes</button>
+                <button class="cancel-btn" onclick="cancelEdit()">Cancel</button>
+            </div>
+        </div>
+
+        <div class="story-summary">
+            <h3>📖 Story Summary</h3>
+            <div id="summaryContent">
+                <p><strong>Setting:</strong> <span class="editable" data-field="setting">A public place in Rome during the Feast of Lupercal</span></p>
+                <p><strong>What happens:</strong> <span class="editable" data-field="what-happens">A soothsayer warns Caesar to ‘Beware the Ides of March.’ Antony offers Caesar a crown three times; he refuses. Cassius begins persuading Brutus that Caesar’s rise threatens the Republic, planting the seeds of conspiracy.</span></p>
+                <p><strong>Key characters:</strong> <span class="editable" data-field="characters">Julius Caesar, Brutus, Cassius, Antony, Soothsayer</span></p>
+            </div>
+        </div>
+
+        <div class="questions-section">
+            <h2>📝 Assignment Questions</h2>
+            <div id="questionsContainer">
+                <div class="question" data-question-id="1">
+                    <span class="question-type multiple-choice">Multiple Choice</span>
+                    <button class="delete-question-btn" onclick="deleteQuestion(1)" style="display: none;">Delete</button>
+                    <h3>Question 1 (<span class="editable" data-field="q1-points">5</span> points)</h3>
+                    <p class="editable" data-field="q1-text">What warning does the Soothsayer give Caesar?</p>
+                    <ul class="options">
+                        <li><input type="radio" name="q1" value="a"> A) <span class="editable" data-field="q1-a">Avoid the Senate forever</span></li>
+                        <li><input type="radio" name="q1" value="b"> B) <span class="editable" data-field="q1-b">Beware the Ides of March</span></li>
+                        <li><input type="radio" name="q1" value="c"> C) <span class="editable" data-field="q1-c">Trust only Brutus</span></li>
+                        <li><input type="radio" name="q1" value="d"> D) <span class="editable" data-field="q1-d">Beware Mark Antony</span></li>
+                    </ul>
+                </div>
+
+                <div class="question" data-question-id="2">
+                    <span class="question-type multiple-choice">Multiple Choice</span>
+                    <button class="delete-question-btn" onclick="deleteQuestion(2)" style="display: none;">Delete</button>
+                    <h3>Question 2 (<span class="editable" data-field="q2-points">5</span> points)</h3>
+                    <p class="editable" data-field="q2-text">How many times does Antony offer Caesar a crown, and what happens?</p>
+                    <ul class="options">
+                        <li><input type="radio" name="q2" value="a"> A) <span class="editable" data-field="q2-a">Twice; Caesar refuses both times</span></li>
+                        <li><input type="radio" name="q2" value="b"> B) <span class="editable" data-field="q2-b">Three times; Caesar refuses each time</span></li>
+                        <li><input type="radio" name="q2" value="c"> C) <span class="editable" data-field="q2-c">Once; Caesar accepts</span></li>
+                        <li><input type="radio" name="q2" value="d"> D) <span class="editable" data-field="q2-d">Four times; Caesar accepts the last</span></li>
+                    </ul>
+                </div>
+
+                <div class="question" data-question-id="3">
+                    <span class="question-type multiple-choice">Multiple Choice</span>
+                    <button class="delete-question-btn" onclick="deleteQuestion(3)" style="display: none;">Delete</button>
+                    <h3>Question 3 (<span class="editable" data-field="q3-points">5</span> points)</h3>
+                    <p class="editable" data-field="q3-text">What concern does Brutus confess to Cassius?</p>
+                    <ul class="options">
+                        <li><input type="radio" name="q3" value="a"> A) <span class="editable" data-field="q3-a">He envies Caesar’s power</span></li>
+                        <li><input type="radio" name="q3" value="b"> B) <span class="editable" data-field="q3-b">He fears Caesar’s ambition threatens Rome</span></li>
+                        <li><input type="radio" name="q3" value="c"> C) <span class="editable" data-field="q3-c">He wants to be king himself</span></li>
+                        <li><input type="radio" name="q3" value="d"> D) <span class="editable" data-field="q3-d">He plans to leave Rome</span></li>
+                    </ul>
+                </div>
+
+                <div class="question" data-question-id="4">
+                    <span class="question-type multiple-choice">Multiple Choice</span>
+                    <button class="delete-question-btn" onclick="deleteQuestion(4)" style="display: none;">Delete</button>
+                    <h3>Question 4 (<span class="editable" data-field="q4-points">5</span> points)</h3>
+                    <p class="editable" data-field="q4-text">Which persuasive tactic does Cassius use most on Brutus?</p>
+                    <ul class="options">
+                        <li><input type="radio" name="q4" value="a"> A) <span class="editable" data-field="q4-a">Threats of violence</span></li>
+                        <li><input type="radio" name="q4" value="b"> B) <span class="editable" data-field="q4-b">Flattery and stories of Caesar’s weakness</span></li>
+                        <li><input type="radio" name="q4" value="c"> C) <span class="editable" data-field="q4-c">Promises of wealth</span></li>
+                        <li><input type="radio" name="q4" value="d"> D) <span class="editable" data-field="q4-d">Religious prophecy</span></li>
+                    </ul>
+                </div>
+
+                <div class="question" data-question-id="5">
+                    <span class="question-type short-answer">Short Answer</span>
+                    <button class="delete-question-btn" onclick="deleteQuestion(5)" style="display: none;">Delete</button>
+                    <h3>Question 5 (<span class="editable" data-field="q5-points">10</span> points)</h3>
+                    <p class="editable" data-field="q5-text">Explain how Scene 2 develops the themes of fate and rhetoric. Cite at least one line or moment.</p>
+                    <textarea name="q5" placeholder="Your answer here..."></textarea>
+                </div>
+            </div>
+
+            <button class="submit-btn" onclick="submitAssignment()">Submit Assignment</button>
+        </div>
+    </div>
+
+    <script>
+        let isEditMode = false; let originalContent = {};
+        function getCurrentTeacherId(){ let id=localStorage.getItem('currentTeacherId'); if(!id){ id='teacher_'+Math.random().toString(36).substr(2,9); localStorage.setItem('currentTeacherId',id);} return id; }
+        function loadTeacherAssignment(){ try{ const t=getCurrentTeacherId(); const saved=localStorage.getItem(`assignment_jc_a1s2_${t}`); if(saved){ const data=JSON.parse(saved); Object.keys(data.questions||{}).forEach(f=>{ const el=document.querySelector(`[data-field="${f}"]`); if(el){ el.textContent=data.questions[f]; originalContent[f]=data.questions[f]; } }); }}catch(e){ console.error(e);} }
+        window.addEventListener('load',()=>{ loadTeacherAssignment(); const p=new URLSearchParams(window.location.search); if(p.get('edit')==='true') enableEditMode(); });
+        function enableEditMode(){ isEditMode=true; document.getElementById('assignmentContainer').classList.add('edit-mode'); document.getElementById('editControls').style.display='block'; document.querySelectorAll('.delete-question-btn').forEach(b=>b.style.display='inline-block'); document.querySelectorAll('.editable').forEach(el=>{ el.style.cursor='pointer'; originalContent[el.dataset.field]=el.textContent; const fn=(e)=>{ e.preventDefault(); e.stopPropagation(); editElementInline(el); }; el.addEventListener('click',fn); el.addEventListener('dblclick',fn); }); }
+        function editElementInline(el){ const cur=el.textContent; el.classList.add('editing'); el.contentEditable=true; el.focus(); const save=()=>{ const txt=el.textContent.trim(); el.textContent=txt||cur; el.contentEditable=false; el.classList.remove('editing'); }; el.addEventListener('blur',save,{once:true}); el.addEventListener('keydown',(e)=>{ if(e.key==='Enter'&&e.ctrlKey){ e.preventDefault(); save(); } if(e.key==='Escape'){ el.textContent=cur; el.contentEditable=false; el.classList.remove('editing'); } }); }
+        window.saveAssignment=function(){ try{ const edited={}; document.querySelectorAll('.editable').forEach(el=>edited[el.dataset.field]=el.textContent); const t=getCurrentTeacherId(); const data={ id:`jc-a1s2-${t}`, teacher_id:t, title:'Julius Caesar - Act 1, Scene 2 (Custom)', type:'julius_caesar_unit', questions:edited, created_at:new Date().toISOString(), last_modified:new Date().toISOString() }; localStorage.setItem(`assignment_jc_a1s2_${t}`, JSON.stringify(data)); alert('Assignment saved successfully!'); }catch(e){ console.error(e); alert('Error saving assignment.'); } }
+        window.cancelEdit=function(){ document.querySelectorAll('.editable').forEach(el=>{ if(originalContent[el.dataset.field]) el.textContent=originalContent[el.dataset.field]; }); document.querySelectorAll('.delete-question-btn').forEach(b=>b.style.display='none'); isEditMode=false; document.getElementById('assignmentContainer').classList.remove('edit-mode'); document.getElementById('editControls').style.display='none'; }
+        window.addNewQuestion=function(){ const c=document.getElementById('questionsContainer'); const n=c.children.length+1; const d=document.createElement('div'); d.className='question'; d.setAttribute('data-question-id',n); d.innerHTML=`
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <button class="delete-question-btn" onclick="deleteQuestion(${n})" style="display: inline-block;">Delete</button>
+            <h3>Question ${n} (<span class="editable" data-field="q${n}-points">5</span> points)</h3>
+            <p class="editable" data-field="q${n}-text">Enter your question here...</p>
+            <ul class="options">
+                <li><input type=\"radio\" name=\"q${n}\" value=\"a\"> A) <span class=\"editable\" data-field=\"q${n}-a\">Option A</span></li>
+                <li><input type=\"radio\" name=\"q${n}\" value=\"b\"> B) <span class=\"editable\" data-field=\"q${n}-b\">Option B</span></li>
+                <li><input type=\"radio\" name=\"q${n}\" value=\"c\"> C) <span class=\"editable\" data-field=\"q${n}-c\">Option C</span></li>
+                <li><input type=\"radio\" name=\"q${n}\" value=\"d\"> D) <span class=\"editable\" data-field=\"q${n}-d\">Option D</span></li>
+            </ul>
+        `; c.appendChild(d); d.querySelectorAll('.editable').forEach(el=>{ el.style.cursor='pointer'; originalContent[el.dataset.field]=el.textContent; const fn=(e)=>{ e.preventDefault(); e.stopPropagation(); editElementInline(el); }; el.addEventListener('click',fn); el.addEventListener('dblclick',fn); }); }
+        window.deleteQuestion=function(id){ if(!confirm('Delete this question?')) return; const el=document.querySelector(`[data-question-id="${id}"]`); if(el){ el.remove(); document.querySelectorAll('.question').forEach((q,i)=>{ const nid=i+1; q.setAttribute('data-question-id',nid); q.querySelector('h3').innerHTML=`Question ${nid} (<span class="editable" data-field="q${nid}-points">5</span> points)`; q.querySelector('.delete-question-btn').setAttribute('onclick',`deleteQuestion(${nid})`); }); } }
+        function submitAssignment(){ const answers={}; document.querySelectorAll('.question').forEach(q=>{ const id=q.getAttribute('data-question-id'); const sel=q.querySelector(`input[name="q${id}"]:checked`); const ta=q.querySelector('textarea'); answers[`q${id}`]= sel? sel.value : (ta? ta.value.trim(): ''); }); const missing=Object.values(answers).some(v=>!v); if(missing){ alert('Please answer all questions.'); return; } const submission={ id:'julius-caesar-a1s2', title:'Julius Caesar - Act 1, Scene 2', answers, submittedAt:new Date().toISOString() }; const key='juliusCaesarSubmissions'; const arr=JSON.parse(localStorage.getItem(key)||'[]'); arr.push(submission); localStorage.setItem(key, JSON.stringify(arr)); alert('Assignment submitted successfully!'); window.location.href='/student-assignments.html'; }
+    </script>
+</body>
+</html>
+
+

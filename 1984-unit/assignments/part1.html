@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1984 Part 1 - Classroom Assignment</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .story-summary {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .story-summary h2 {
+            color: #34495e;
+            margin-top: 0;
+        }
+        .editable {
+            background-color: #fff;
+            border: 1px solid #bdc3c7;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            min-height: 20px;
+        }
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .question-type {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .multiple-choice {
+            background-color: #3498db;
+            color: white;
+        }
+        .short-answer {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .options li {
+            margin: 8px 0;
+        }
+        .options input[type="radio"] {
+            margin-right: 8px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-danger {
+            background-color: #e74c3c;
+        }
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        .btn-success {
+            background-color: #27ae60;
+        }
+        .btn-success:hover {
+            background-color: #229954;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>1984 Part 1 - Classroom Assignment</h1>
+        
+        <div class="story-summary">
+            <h2>Story Summary</h2>
+            <div class="editable" contenteditable="true" data-field="setting">
+                <strong>Setting:</strong> London, Oceania, in the year 1984. A totalitarian society controlled by the Party, led by Big Brother.
+            </div>
+            <div class="editable" contenteditable="true" data-field="what-happens">
+                <strong>What Happens:</strong> Winston Smith, a Party member who works at the Ministry of Truth rewriting historical records, begins to question the Party's control. He buys a diary illegally and starts writing his thoughts. He learns about the three slogans of the Party: "War is Peace, Freedom is Slavery, Ignorance is Strength." He becomes increasingly aware of the surveillance state through telescreens and the Thought Police. He begins to have rebellious thoughts and memories of a different time before the Party's rule.
+            </div>
+            <div class="editable" contenteditable="true" data-field="characters">
+                <strong>Characters:</strong> Winston Smith (protagonist, Party member), Big Brother (leader figure), O'Brien (Party member), Syme (Winston's colleague), Parsons (Winston's neighbor), Mrs. Parsons (Parsons' wife), Ampleforth (Winston's colleague), Charrington (shopkeeper).
+            </div>
+        </div>
+
+        <div class="question" data-question-id="1">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 1:</strong> What is the name of the totalitarian state where Winston lives?</p>
+            <ul class="options">
+                <li><input type="radio" name="q1" value="a"> Eurasia</li>
+                <li><input type="radio" name="q1" value="b"> Eastasia</li>
+                <li><input type="radio" name="q1" value="c"> Oceania</li>
+                <li><input type="radio" name="q1" value="d"> IngSoc</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="2">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 2:</strong> What does Winston do for a living?</p>
+            <ul class="options">
+                <li><input type="radio" name="q2" value="a"> He is a teacher</li>
+                <li><input type="radio" name="q2" value="b"> He works at the Ministry of Truth rewriting historical records</li>
+                <li><input type="radio" name="q2" value="c"> He is a police officer</li>
+                <li><input type="radio" name="q2" value="d"> He is a factory worker</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="3">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 3:</strong> What are the three slogans of the Party?</p>
+            <ul class="options">
+                <li><input type="radio" name="q3" value="a"> "Peace, Love, Understanding"</li>
+                <li><input type="radio" name="q3" value="b"> "War is Peace, Freedom is Slavery, Ignorance is Strength"</li>
+                <li><input type="radio" name="q3" value="c"> "Truth, Justice, Freedom"</li>
+                <li><input type="radio" name="q3" value="d"> "Work, Rest, Play"</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="4">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 4:</strong> What is the significance of Winston buying a diary? Why is this act considered illegal and dangerous?</p>
+            <textarea name="q4" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="5">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 5:</strong> How does Orwell establish the theme of surveillance and control in Part 1? What specific examples does he provide?</p>
+            <textarea name="q5" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="6">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 6:</strong> What is the purpose of the telescreens in Winston's world? How do they function as both entertainment and surveillance?</p>
+            <textarea name="q6" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="7">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 7:</strong> What is Winston's greatest fear?</p>
+            <ul class="options">
+                <li><input type="radio" name="q7" value="a"> Death</li>
+                <li><input type="radio" name="q7" value="b"> The Thought Police</li>
+                <li><input type="radio" name="q7" value="c"> Big Brother</li>
+                <li><input type="radio" name="q7" value="d"> Rats</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="8">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 8:</strong> What does Winston write in his diary?</p>
+            <ul class="options">
+                <li><input type="radio" name="q8" value="a"> His daily activities</li>
+                <li><input type="radio" name="q8" value="b"> His thoughts against the Party</li>
+                <li><input type="radio" name="q8" value="c"> His work assignments</li>
+                <li><input type="radio" name="q8" value="d"> His dreams</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="9">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 9:</strong> How does Orwell use the character of Syme to illustrate the Party's control over language? What does Syme's work reveal about Newspeak?</p>
+            <textarea name="q9" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="10">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 10:</strong> What is the significance of Winston's memories of his mother and sister? How do these memories contrast with the present?</p>
+            <textarea name="q10" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="11">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 11:</strong> What is the purpose of the Two Minutes Hate?</p>
+            <ul class="options">
+                <li><input type="radio" name="q11" value="a"> To give people a break from work</li>
+                <li><input type="radio" name="q11" value="b"> To channel people's anger and hatred toward enemies of the Party</li>
+                <li><input type="radio" name="q11" value="c"> To provide entertainment</li>
+                <li><input type="radio" name="q11" value="d"> To teach people about history</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="12">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 12:</strong> How does Orwell establish the theme of historical revisionism in Part 1? What examples does he provide of the Party's manipulation of the past?</p>
+            <textarea name="q12" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="13">
+            <span class="question-type multiple-choice">Multiple Choice</span>
+            <p><strong>Question 13:</strong> What does Winston think about O'Brien?</p>
+            <ul class="options">
+                <li><input type="radio" name="q13" value="a"> He is suspicious of him</li>
+                <li><input type="radio" name="q13" value="b"> He believes O'Brien might be a fellow rebel</li>
+                <li><input type="radio" name="q13" value="c"> He hates him</li>
+                <li><input type="radio" name="q13" value="d"> He admires him</li>
+            </ul>
+        </div>
+
+        <div class="question" data-question-id="14">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 14:</strong> How does Orwell use the character of Parsons to illustrate the effects of Party indoctrination? What does Parsons represent?</p>
+            <textarea name="q14" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="question" data-question-id="15">
+            <span class="question-type short-answer">Short Answer</span>
+            <p><strong>Question 15:</strong> What is the significance of Winston's encounter with the prole woman singing? How does this moment reveal his inner conflict?</p>
+            <textarea name="q15" placeholder="Your answer here..."></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="enableEditMode()">Edit Assignment</button>
+            <button class="btn btn-success" onclick="saveAssignment()">Save Changes</button>
+            <button class="btn btn-danger" onclick="cancelEdit()">Cancel</button>
+            <button class="btn" onclick="addNewQuestion()">Add Question</button>
+            <button class="btn btn-success" onclick="submitAssignment()">Submit Assignment</button>
+        </div>
+    </div>
+
+    <script>
+        let editMode = false;
+
+        function enableEditMode() {
+            editMode = true;
+            document.querySelectorAll('.editable').forEach(el => {
+                el.style.border = '2px solid #3498db';
+                el.style.backgroundColor = '#ecf0f1';
+            });
+        }
+
+        function editElementInline(element) {
+            if (!editMode) return;
+            
+            const newContent = prompt('Edit content:', element.textContent);
+            if (newContent !== null) {
+                element.textContent = newContent;
+            }
+        }
+
+        function saveAssignment() {
+            const assignmentData = {
+                title: '1984 Part 1 - Classroom Assignment',
+                summary: {
+                    setting: document.querySelector('[data-field="setting"]').textContent,
+                    whatHappens: document.querySelector('[data-field="what-happens"]').textContent,
+                    characters: document.querySelector('[data-field="characters"]').textContent
+                },
+                questions: []
+            };
+
+            document.querySelectorAll('.question').forEach(questionEl => {
+                const questionId = questionEl.dataset.questionId;
+                const questionText = questionEl.querySelector('p strong').textContent;
+                const questionType = questionEl.querySelector('.question-type').textContent.trim();
+                
+                let answer = '';
+                if (questionType === 'Multiple Choice') {
+                    const selectedOption = questionEl.querySelector('input[type="radio"]:checked');
+                    answer = selectedOption ? selectedOption.value : '';
+                } else {
+                    answer = questionEl.querySelector('textarea').value;
+                }
+
+                assignmentData.questions.push({
+                    id: questionId,
+                    text: questionText,
+                    type: questionType,
+                    answer: answer
+                });
+            });
+
+            localStorage.setItem('1984-part1-assignment', JSON.stringify(assignmentData));
+            alert('Assignment saved successfully!');
+            editMode = false;
+        }
+
+        function cancelEdit() {
+            editMode = false;
+            document.querySelectorAll('.editable').forEach(el => {
+                el.style.border = '1px solid #bdc3c7';
+                el.style.backgroundColor = '#fff';
+            });
+        }
+
+        function addNewQuestion() {
+            const questionsContainer = document.querySelector('.container');
+            const newQuestionId = document.querySelectorAll('.question').length + 1;
+            
+            const newQuestion = document.createElement('div');
+            newQuestion.className = 'question';
+            newQuestion.dataset.questionId = newQuestionId;
+            newQuestion.innerHTML = `
+                <span class="question-type multiple-choice">Multiple Choice</span>
+                <p><strong>Question ${newQuestionId}:</strong> <span contenteditable="true">Enter your question here...</span></p>
+                <ul class="options">
+                    <li><input type="radio" name="q${newQuestionId}" value="a"> <span contenteditable="true">Option A</span></li>
+                    <li><input type="radio" name="q${newQuestionId}" value="b"> <span contenteditable="true">Option B</span></li>
+                    <li><input type="radio" name="q${newQuestionId}" value="c"> <span contenteditable="true">Option C</span></li>
+                    <li><input type="radio" name="q${newQuestionId}" value="d"> <span contenteditable="true">Option D</span></li>
+                </ul>
+                <button class="btn btn-danger" onclick="deleteQuestion(${newQuestionId})">Delete Question</button>
+            `;
+            
+            questionsContainer.insertBefore(newQuestion, document.querySelector('.controls'));
+        }
+
+        function deleteQuestion(questionId) {
+            const questionEl = document.querySelector(`[data-question-id="${questionId}"]`);
+            if (questionEl && confirm('Are you sure you want to delete this question?')) {
+                questionEl.remove();
+            }
+        }
+
+        function submitAssignment() {
+            const answers = {};
+            document.querySelectorAll('.question').forEach(questionEl => {
+                const questionId = questionEl.dataset.questionId;
+                const questionType = questionEl.querySelector('.question-type').textContent.trim();
+                
+                if (questionType === 'Multiple Choice') {
+                    const selectedOption = questionEl.querySelector('input[type="radio"]:checked');
+                    answers[questionId] = selectedOption ? selectedOption.value : '';
+                } else {
+                    answers[questionId] = questionEl.querySelector('textarea').value;
+                }
+            });
+
+            localStorage.setItem('1984-part1-answers', JSON.stringify(answers));
+            alert('Assignment submitted successfully!');
+        }
+
+        // Load saved assignment if it exists
+        window.addEventListener('load', function() {
+            const savedAssignment = localStorage.getItem('1984-part1-assignment');
+            if (savedAssignment) {
+                const data = JSON.parse(savedAssignment);
+                document.querySelector('[data-field="setting"]').textContent = data.summary.setting;
+                document.querySelector('[data-field="what-happens"]').textContent = data.summary.whatHappens;
+                document.querySelector('[data-field="characters"]').textContent = data.summary.characters;
+            }
+        });
+    </script>
+</body>
+</html>

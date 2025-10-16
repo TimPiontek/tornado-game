@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Julius Caesar - Act 1, Scene 1 | Classroom Assignment</title>
+    <style>
+        body {
+            font-family: 'Lexend Deca', Arial, sans-serif;
+            background: #f7fafc;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 2rem;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #6F5C91;
+        }
+        .story-summary {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #6F5C91;
+        }
+        .questions-section { margin-bottom: 2rem; }
+        .question {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .question h3 { color: #6F5C91; margin-top: 0; }
+        .question-type {
+            display: inline-block;
+            background: #6F5C91;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .multiple-choice { background: #3182ce; }
+        .short-answer { background: #38a169; }
+        .options { list-style: none; padding: 0; }
+        .options li { margin-bottom: 0.5rem; }
+        .options input[type="radio"] { margin-right: 0.5rem; }
+        .short-answer textarea {
+            width: 100%;
+            min-height: 180px;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.5;
+            resize: vertical;
+        }
+        .submit-btn {
+            background: #6F5C91;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        .submit-btn:hover { background: #59487a; }
+
+        /* Edit mode styles */
+        .edit-mode .story-summary { border: 2px dashed #6F5C91; background: #f8f9fa; }
+        .edit-mode .question { border: 2px dashed #6F5C91; background: #f8f9fa; }
+        .edit-controls {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .question-management {
+            display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;
+        }
+        .edit-controls button { margin: 0 0.5rem; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; }
+        .add-question-btn { background: #28a745; color: white; }
+        .save-btn { background: #6F5C91; color: white; }
+        .cancel-btn { background: #6c757d; color: white; }
+        .delete-question-btn { background: #dc3545; color: white; padding: 0.4rem 0.8rem; font-size: 0.8rem; margin-left: 1rem; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container" id="assignmentContainer">
+        <div class="header">
+            <h1>Julius Caesar</h1>
+            <h2>Act 1, Scene 1: Commoners vs. Tribunes</h2>
+        </div>
+
+        <div id="editControls" class="edit-controls" style="display: none;">
+            <p><strong>✏️ Edit Mode:</strong> Click highlighted text to edit. Ctrl+Enter to save.</p>
+            <div class="question-management">
+                <button class="add-question-btn" onclick="addNewQuestion()">+ Add Question</button>
+                <button class="save-btn" onclick="saveAssignment()">Save All Changes</button>
+                <button class="cancel-btn" onclick="cancelEdit()">Cancel</button>
+            </div>
+        </div>
+
+        <div class="story-summary">
+            <h3>📖 Story Summary</h3>
+            <div id="summaryContent">
+                <p><strong>Setting:</strong> <span class="editable" data-field="setting">A street in Rome during a festival day</span></p>
+                <p><strong>What happens:</strong> <span class="editable" data-field="what-happens">Commoners celebrate Caesar’s triumph over Pompey’s sons. Tribunes Flavius and Marullus scold them for fickleness, drive them home, and strip decorations, revealing tension between republican ideals and Caesar’s rising power.</span></p>
+                <p><strong>Key characters introduced:</strong> <span class="editable" data-field="characters">Flavius, Marullus, Cobbler, Carpenter, Caesar (offstage)</span></p>
+            </div>
+        </div>
+
+        <div class="questions-section">
+            <h2>📝 Assignment Questions</h2>
+            <div id="questionsContainer">
+                <div class="question" data-question-id="1">
+                    <span class="question-type multiple-choice">Multiple Choice</span>
+                    <button class="delete-question-btn" onclick="deleteQuestion(1)" style="display: none;">Delete</button>
+                    <h3>Question 1 (<span class="editable" data-field="q1-points">5</span> points)</h3>
+                    <p class="editable" data-field="q1-text">Why are the commoners out in their best attire?</p>
+                    <ul class="options">
+                        <li><input type="radio" name="q1" value="a"> A) <span class="editable" data-field="q1-a">To celebrate Caesar’s triumph</span></li>
+                        <li><input type="radio" name="q1" value="b"> B) <span class="editable" data-field="q1-b">To protest Caesar’s rule</span></li>
+                        <li><input type="radio" name="q1" value="c"> C) <span class="editable" data-field="q1-c">To attend a Senate meeting</span></li>
+                        <li><input type="radio" name="q1" value="d"> D) <span class="editable" data-field="q1-d">To witness a gladiator match</span></li>
+                    </ul>
+                </div>
+
+                <div class="question" data-question-id="2">
+                    <span class="question-type multiple-choice">Multiple Choice</span>
+                    <button class="delete-question-btn" onclick="deleteQuestion(2)" style="display: none;">Delete</button>
+                    <h3>Question 2 (<span class="editable" data-field="q2-points">5</span> points)</h3>
+                    <p class="editable" data-field="q2-text">How do Flavius and Marullus react to the celebration?</p>
+                    <ul class="options">
+                        <li><input type="radio" name="q2" value="a"> A) <span class="editable" data-field="q2-a">They join the festivities</span></li>
+                        <li><input type="radio" name="q2" value="b"> B) <span class="editable" data-field="q2-b">They scold the crowd and strip decorations</span></li>
+                        <li><input type="radio" name="q2" value="c"> C) <span class="editable" data-field="q2-c">They arrest the commoners</span></li>
+                        <li><input type="radio" name="q2" value="d"> D) <span class="editable" data-field="q2-d">They ask Caesar to address the people</span></li>
+                    </ul>
+                </div>
+
+                <div class="question" data-question-id="3">
+                    <span class="question-type multiple-choice">Multiple Choice</span>
+                    <button class="delete-question-btn" onclick="deleteQuestion(3)" style="display: none;">Delete</button>
+                    <h3>Question 3 (<span class="editable" data-field="q3-points">5</span> points)</h3>
+                    <p class="editable" data-field="q3-text">What pun does the Cobbler use to mock the tribunes?</p>
+                    <ul class="options">
+                        <li><input type="radio" name="q3" value="a"> A) <span class="editable" data-field="q3-a">He is a “mender of bad soles.”</span></li>
+                        <li><input type="radio" name="q3" value="b"> B) <span class="editable" data-field="q3-b">He “lasts” longer than senators</span></li>
+                        <li><input type="radio" name="q3" value="c"> C) <span class="editable" data-field="q3-c">He can “heel” Rome</span></li>
+                        <li><input type="radio" name="q3" value="d"> D) <span class="editable" data-field="q3-d">He’s a “straight-laced” citizen</span></li>
+                    </ul>
+                </div>
+
+                <div class="question" data-question-id="4">
+                    <span class="question-type multiple-choice">Multiple Choice</span>
+                    <button class="delete-question-btn" onclick="deleteQuestion(4)" style="display: none;">Delete</button>
+                    <h3>Question 4 (<span class="editable" data-field="q4-points">5</span> points)</h3>
+                    <p class="editable" data-field="q4-text">What does stripping the decorations from Caesar’s statues symbolize?</p>
+                    <ul class="options">
+                        <li><input type="radio" name="q4" value="a"> A) <span class="editable" data-field="q4-a">Respect for tradition</span></li>
+                        <li><input type="radio" name="q4" value="b"> B) <span class="editable" data-field="q4-b">Pushback against rising autocracy</span></li>
+                        <li><input type="radio" name="q4" value="c"> C) <span class="editable" data-field="q4-c">A new holiday custom</span></li>
+                        <li><input type="radio" name="q4" value="d"> D) <span class="editable" data-field="q4-d">Preparation for Caesar’s speech</span></li>
+                    </ul>
+                </div>
+
+                <div class="question" data-question-id="5">
+                    <span class="question-type short-answer">Short Answer</span>
+                    <button class="delete-question-btn" onclick="deleteQuestion(5)" style="display: none;">Delete</button>
+                    <h3>Question 5 (<span class="editable" data-field="q5-points">10</span> points)</h3>
+                    <p class="editable" data-field="q5-text">Explain how Scene 1 establishes the play’s central political conflict. Use evidence from the dialogue.</p>
+                    <textarea name="q5" placeholder="Your answer here..."></textarea>
+                </div>
+            </div>
+
+            <button class="submit-btn" onclick="submitAssignment()">Submit Assignment</button>
+        </div>
+    </div>
+
+    <script>
+        let isEditMode = false;
+        let originalContent = {};
+
+        function getCurrentTeacherId() {
+            let teacherId = localStorage.getItem('currentTeacherId');
+            if (!teacherId) {
+                teacherId = 'teacher_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('currentTeacherId', teacherId);
+            }
+            return teacherId;
+        }
+
+        function loadTeacherAssignment() {
+            try {
+                const teacherId = getCurrentTeacherId();
+                const savedAssignment = localStorage.getItem(`assignment_jc_a1s1_${teacherId}`);
+                if (savedAssignment) {
+                    const data = JSON.parse(savedAssignment);
+                    Object.keys(data.questions || {}).forEach(field => {
+                        const el = document.querySelector(`[data-field="${field}"]`);
+                        if (el) {
+                            el.textContent = data.questions[field];
+                            originalContent[field] = data.questions[field];
+                        }
+                    });
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        window.addEventListener('load', () => {
+            loadTeacherAssignment();
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('edit') === 'true') enableEditMode();
+        });
+
+        function enableEditMode() {
+            isEditMode = true;
+            document.getElementById('assignmentContainer').classList.add('edit-mode');
+            document.getElementById('editControls').style.display = 'block';
+            document.querySelectorAll('.delete-question-btn').forEach(btn => btn.style.display = 'inline-block');
+            document.querySelectorAll('.editable').forEach(el => {
+                el.style.cursor = 'pointer';
+                originalContent[el.dataset.field] = el.textContent;
+                el.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); editElementInline(el); });
+                el.addEventListener('dblclick', (e) => { e.preventDefault(); e.stopPropagation(); editElementInline(el); });
+            });
+        }
+
+        function editElementInline(el) {
+            const currentText = el.textContent;
+            el.classList.add('editing');
+            el.contentEditable = true;
+            el.focus();
+            const saveEdit = () => {
+                const newText = el.textContent.trim();
+                el.textContent = newText || currentText;
+                el.contentEditable = false;
+                el.classList.remove('editing');
+            };
+            el.addEventListener('blur', saveEdit, { once: true });
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && e.ctrlKey) { e.preventDefault(); saveEdit(); }
+                if (e.key === 'Escape') { el.textContent = currentText; el.contentEditable = false; el.classList.remove('editing'); }
+            });
+        }
+
+        window.saveAssignment = function saveAssignment() {
+            try {
+                const editedContent = {};
+                document.querySelectorAll('.editable').forEach(el => { editedContent[el.dataset.field] = el.textContent; });
+                const teacherId = getCurrentTeacherId();
+                const assignmentData = {
+                    id: `jc-a1s1-${teacherId}`,
+                    teacher_id: teacherId,
+                    title: 'Julius Caesar - Act 1, Scene 1 (Custom)',
+                    type: 'julius_caesar_unit',
+                    questions: editedContent,
+                    created_at: new Date().toISOString(),
+                    last_modified: new Date().toISOString()
+                };
+                localStorage.setItem(`assignment_jc_a1s1_${teacherId}`, JSON.stringify(assignmentData));
+                alert('Assignment saved successfully!');
+            } catch (error) {
+                console.error('Error saving assignment:', error);
+                alert('Error saving assignment. Please try again.');
+            }
+        }
+
+        window.cancelEdit = function cancelEdit() {
+            document.querySelectorAll('.editable').forEach(el => { if (originalContent[el.dataset.field]) el.textContent = originalContent[el.dataset.field]; });
+            document.querySelectorAll('.delete-question-btn').forEach(btn => btn.style.display = 'none');
+            isEditMode = false;
+            document.getElementById('assignmentContainer').classList.remove('edit-mode');
+            document.getElementById('editControls').style.display = 'none';
+        }
+
+        window.addNewQuestion = function addNewQuestion() {
+            const container = document.getElementById('questionsContainer');
+            const count = container.children.length + 1;
+            const div = document.createElement('div');
+            div.className = 'question';
+            div.setAttribute('data-question-id', count);
+            div.innerHTML = `
+                <span class="question-type multiple-choice">Multiple Choice</span>
+                <button class="delete-question-btn" onclick="deleteQuestion(${count})" style="display: inline-block;">Delete</button>
+                <h3>Question ${count} (<span class="editable" data-field="q${count}-points">5</span> points)</h3>
+                <p class="editable" data-field="q${count}-text">Enter your question here...</p>
+                <ul class="options">
+                    <li><input type=\"radio\" name=\"q${count}\" value=\"a\"> A) <span class=\"editable\" data-field=\"q${count}-a\">Option A</span></li>
+                    <li><input type=\"radio\" name=\"q${count}\" value=\"b\"> B) <span class=\"editable\" data-field=\"q${count}-b\">Option B</span></li>
+                    <li><input type=\"radio\" name=\"q${count}\" value=\"c\"> C) <span class=\"editable\" data-field=\"q${count}-c\">Option C</span></li>
+                    <li><input type=\"radio\" name=\"q${count}\" value=\"d\"> D) <span class=\"editable\" data-field=\"q${count}-d\">Option D</span></li>
+                </ul>
+            `;
+            container.appendChild(div);
+            div.querySelectorAll('.editable').forEach(el => {
+                el.style.cursor = 'pointer';
+                originalContent[el.dataset.field] = el.textContent;
+                el.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); editElementInline(el); });
+                el.addEventListener('dblclick', (e) => { e.preventDefault(); e.stopPropagation(); editElementInline(el); });
+            });
+        }
+
+        window.deleteQuestion = function deleteQuestion(id) {
+            if (!confirm('Delete this question?')) return;
+            const el = document.querySelector(`[data-question-id="${id}"]`);
+            if (el) {
+                el.remove();
+                const questions = document.querySelectorAll('.question');
+                questions.forEach((q, index) => {
+                    const newId = index + 1;
+                    q.setAttribute('data-question-id', newId);
+                    q.querySelector('h3').innerHTML = `Question ${newId} (<span class="editable" data-field="q${newId}-points">5</span> points)`;
+                    q.querySelector('.delete-question-btn').setAttribute('onclick', `deleteQuestion(${newId})`);
+                });
+            }
+        }
+
+        function submitAssignment() {
+            const answers = {};
+            const questionEls = document.querySelectorAll('.question');
+            questionEls.forEach((q) => {
+                const id = q.getAttribute('data-question-id');
+                const selected = q.querySelector(`input[name="q${id}"]:checked`);
+                const ta = q.querySelector('textarea');
+                answers[`q${id}`] = selected ? selected.value : (ta ? ta.value.trim() : '');
+            });
+            const missing = Object.entries(answers).filter(([, v]) => !v);
+            if (missing.length) { alert('Please answer all questions.'); return; }
+            const submission = {
+                id: 'julius-caesar-a1s1',
+                title: 'Julius Caesar - Act 1, Scene 1',
+                answers,
+                submittedAt: new Date().toISOString()
+            };
+            const key = 'juliusCaesarSubmissions';
+            const arr = JSON.parse(localStorage.getItem(key) || '[]');
+            arr.push(submission);
+            localStorage.setItem(key, JSON.stringify(arr));
+            alert('Assignment submitted successfully!');
+            window.location.href = '/student-assignments.html';
+        }
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macbeth - Play Scenario</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .scenario-info {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .scenario-info h2 {
+            color: #34495e;
+            margin-top: 0;
+        }
+        .characters-section, .territories-section {
+            margin-bottom: 30px;
+        }
+        .character-card, .territory-card {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .character-card h3, .territory-card h3 {
+            color: #495057;
+            margin-top: 0;
+        }
+        .character-role {
+            font-weight: bold;
+            color: #6c757d;
+        }
+        .character-description {
+            margin-top: 10px;
+        }
+        .territory-description {
+            margin-top: 10px;
+        }
+        .territory-control {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-success {
+            background-color: #27ae60;
+        }
+        .btn-success:hover {
+            background-color: #229954;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Macbeth - Play Scenario</h1>
+        
+        <div class="scenario-info">
+            <h2>Scenario Overview</h2>
+            <p><strong>Setting:</strong> Scotland, 11th century. A kingdom torn by ambition, betrayal, and supernatural forces.</p>
+            <p><strong>Objective:</strong> Navigate the treacherous world of Scottish politics, either seize power through ambition or maintain loyalty to the crown.</p>
+            <p><strong>Victory Conditions:</strong> Control key territories, influence major characters, and either become king or restore order to the kingdom.</p>
+        </div>
+
+        <div class="characters-section">
+            <h2>Characters</h2>
+            
+            <div class="character-card">
+                <h3>Macbeth</h3>
+                <div class="character-role">Role: Protagonist and Tragic Hero</div>
+                <div class="character-description">
+                    A Scottish general who becomes consumed by ambition after hearing the witches' prophecies. He represents the corrupting nature of power and the consequences of unchecked ambition. His journey from loyal general to tyrannical king drives the play's tragic arc.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Lady Macbeth</h3>
+                <div class="character-role">Role: Macbeth's Wife and Co-conspirator</div>
+                <div class="character-description">
+                    Macbeth's ambitious wife who encourages him to murder King Duncan. She represents the corrupting influence of ambition and the consequences of violating natural order. Her eventual madness and suicide demonstrate the psychological cost of their crimes.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>King Duncan</h3>
+                <div class="character-role">Role: King of Scotland</div>
+                <div class="character-description">
+                    The virtuous and beloved king of Scotland who is murdered by Macbeth. He represents legitimate authority and the natural order that Macbeth disrupts. His murder sets in motion the play's tragic events and the kingdom's descent into chaos.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>The Three Witches</h3>
+                <div class="character-role">Role: Supernatural Forces</div>
+                <div class="character-description">
+                    Mysterious supernatural beings who prophesy Macbeth's rise to power. They represent fate, destiny, and the supernatural forces that influence human actions. Their ambiguous prophecies drive Macbeth's ambition and contribute to his downfall.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Banquo</h3>
+                <div class="character-role">Role: Macbeth's Friend and Rival</div>
+                <div class="character-description">
+                    Macbeth's loyal friend and fellow general who is also prophesied to father a line of kings. He represents moral integrity and the contrast to Macbeth's corruption. His murder and ghost symbolize Macbeth's guilt and the consequences of his actions.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Macduff</h3>
+                <div class="character-role">Role: Thane of Fife and Avenger</div>
+                <div class="character-description">
+                    A nobleman who becomes Macbeth's primary adversary. He represents justice, loyalty, and the restoration of natural order. His personal vendetta against Macbeth drives the play's resolution and the restoration of legitimate rule.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Malcolm</h3>
+                <div class="character-role">Role: Duncan's Son and Heir</div>
+                <div class="character-description">
+                    Duncan's eldest son who flees to England after his father's murder. He represents legitimate succession and the restoration of order. His return with an army leads to Macbeth's downfall and the restoration of rightful rule.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Fleance</h3>
+                <div class="character-role">Role: Banquo's Son</div>
+                <div class="character-description">
+                    Banquo's young son who escapes Macbeth's murderers. He represents the future and the fulfillment of the witches' prophecy. His survival ensures that Banquo's line will eventually produce kings, as foretold by the witches.
+                </div>
+            </div>
+
+            <div class="character-card">
+                <h3>Ross</h3>
+                <div class="character-role">Role: Scottish Nobleman</div>
+                <div class="character-description">
+                    A Scottish nobleman who serves as a messenger and observer of events. He represents the common people's perspective and the impact of Macbeth's tyranny on the kingdom. His loyalty shifts as he witnesses Macbeth's corruption.
+                </div>
+            </div>
+        </div>
+
+        <div class="territories-section">
+            <h2>Territories</h2>
+            
+            <div class="territory-card">
+                <h3>Macbeth's Castle (Inverness)</h3>
+                <div class="territory-control">Controlled by: Macbeth</div>
+                <div class="territory-description">
+                    Macbeth's home where King Duncan is murdered. Represents the corruption of the domestic sphere and the violation of hospitality. The setting for the play's most dramatic and tragic events.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>Dunsinane Castle</h3>
+                <div class="territory-control">Controlled by: Macbeth</div>
+                <div class="territory-description">
+                    Macbeth's final stronghold where he makes his last stand. Represents the isolation and paranoia of tyranny. The setting for Macbeth's final confrontation and death.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Heath</h3>
+                <div class="territory-control">Controlled by: The Witches</div>
+                <div class="territory-description">
+                    The desolate moor where the witches meet and deliver their prophecies. Represents the supernatural realm and the forces of fate. The setting for the play's opening and climactic scenes.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>Macduff's Castle</h3>
+                <div class="territory-control">Controlled by: Macduff</div>
+                <div class="territory-description">
+                    Macduff's home where his family is murdered by Macbeth's orders. Represents the cost of resistance and the brutality of tyranny. The setting for one of the play's most horrific acts.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>England</h3>
+                <div class="territory-control">Controlled by: Malcolm</div>
+                <div class="territory-description">
+                    Where Malcolm flees and gathers an army to reclaim his throne. Represents exile, preparation, and the gathering of forces for justice. The setting for Malcolm's preparation and the final invasion.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>Birnam Wood</h3>
+                <div class="territory-control">Controlled by: Malcolm's Army</div>
+                <div class="territory-description">
+                    The forest that Malcolm's army uses to disguise their approach. Represents the fulfillment of prophecy and the inevitability of Macbeth's downfall. The setting for the play's climactic battle.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Banquet Hall</h3>
+                <div class="territory-control">Controlled by: Macbeth</div>
+                <div class="territory-description">
+                    Where Macbeth hosts a feast and sees Banquo's ghost. Represents the public sphere and the psychological cost of guilt. The setting for Macbeth's public breakdown and the revelation of his guilt.
+                </div>
+            </div>
+
+            <div class="territory-card">
+                <h3>The Battlefield</h3>
+                <div class="territory-control">Controlled by: The Victorious Army</div>
+                <div class="territory-description">
+                    Where the final battle between Macbeth and Malcolm's forces takes place. Represents the resolution of conflict and the restoration of order. The setting for Macbeth's death and the play's resolution.
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="startGame()">Start Game</button>
+            <button class="btn btn-success" onclick="saveScenario()">Save Scenario</button>
+        </div>
+    </div>
+
+    <script>
+        function startGame() {
+            alert('Starting Macbeth scenario! This would launch the interactive game with characters and territories.');
+        }
+
+        function saveScenario() {
+            const scenarioData = {
+                title: 'Macbeth - Play Scenario',
+                characters: [
+                    { name: 'Macbeth', role: 'Protagonist and Tragic Hero', description: 'A Scottish general who becomes consumed by ambition after hearing the witches\' prophecies.' },
+                    { name: 'Lady Macbeth', role: 'Macbeth\'s Wife and Co-conspirator', description: 'Macbeth\'s ambitious wife who encourages him to murder King Duncan.' },
+                    { name: 'King Duncan', role: 'King of Scotland', description: 'The virtuous and beloved king of Scotland who is murdered by Macbeth.' },
+                    { name: 'The Three Witches', role: 'Supernatural Forces', description: 'Mysterious supernatural beings who prophesy Macbeth\'s rise to power.' },
+                    { name: 'Banquo', role: 'Macbeth\'s Friend and Rival', description: 'Macbeth\'s loyal friend and fellow general who is also prophesied to father a line of kings.' },
+                    { name: 'Macduff', role: 'Thane of Fife and Avenger', description: 'A nobleman who becomes Macbeth\'s primary adversary.' },
+                    { name: 'Malcolm', role: 'Duncan\'s Son and Heir', description: 'Duncan\'s eldest son who flees to England after his father\'s murder.' },
+                    { name: 'Fleance', role: 'Banquo\'s Son', description: 'Banquo\'s young son who escapes Macbeth\'s murderers.' },
+                    { name: 'Ross', role: 'Scottish Nobleman', description: 'A Scottish nobleman who serves as a messenger and observer of events.' }
+                ],
+                territories: [
+                    { name: 'Macbeth\'s Castle (Inverness)', controller: 'Macbeth', description: 'Macbeth\'s home where King Duncan is murdered.' },
+                    { name: 'Dunsinane Castle', controller: 'Macbeth', description: 'Macbeth\'s final stronghold where he makes his last stand.' },
+                    { name: 'The Heath', controller: 'The Witches', description: 'The desolate moor where the witches meet and deliver their prophecies.' },
+                    { name: 'Macduff\'s Castle', controller: 'Macduff', description: 'Macduff\'s home where his family is murdered by Macbeth\'s orders.' },
+                    { name: 'England', controller: 'Malcolm', description: 'Where Malcolm flees and gathers an army to reclaim his throne.' },
+                    { name: 'Birnam Wood', controller: 'Malcolm\'s Army', description: 'The forest that Malcolm\'s army uses to disguise their approach.' },
+                    { name: 'The Banquet Hall', controller: 'Macbeth', description: 'Where Macbeth hosts a feast and sees Banquo\'s ghost.' },
+                    { name: 'The Battlefield', controller: 'The Victorious Army', description: 'Where the final battle between Macbeth and Malcolm\'s forces takes place.' }
+                ]
+            };
+
+            localStorage.setItem('macbeth-scenario', JSON.stringify(scenarioData));
+            alert('Scenario saved successfully!');
+        }
+    </script>
+</body>
+</html>
