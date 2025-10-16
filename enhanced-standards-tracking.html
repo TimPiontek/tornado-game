@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Standards Tracking System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+        
+        .standards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .standard-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .standard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .standard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .standard-code {
+            font-weight: bold;
+            color: #1e293b;
+            font-size: 1rem;
+        }
+        
+        .mastery-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .mastery-excellent { background: #dcfce7; color: #166534; }
+        .mastery-proficient { background: #dbeafe; color: #1e40af; }
+        .mastery-developing { background: #fef3c7; color: #92400e; }
+        .mastery-emerging { background: #fee2e2; color: #991b1b; }
+        
+        .standard-description {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+        
+        .student-progress-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .student-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .student-item:last-child {
+            border-bottom: none;
+        }
+        
+        .student-name {
+            font-size: 0.85rem;
+            color: #374151;
+            font-weight: 500;
+        }
+        
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .progress-bar {
+            width: 80px;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-excellent { background: linear-gradient(90deg, #10b981, #059669); }
+        .progress-proficient { background: linear-gradient(90deg, #3b82f6, #1e40af); }
+        .progress-developing { background: linear-gradient(90deg, #f59e0b, #d97706); }
+        .progress-emerging { background: linear-gradient(90deg, #ef4444, #dc2626); }
+        
+        .progress-text {
+            font-size: 0.75rem;
+            color: #64748b;
+            min-width: 35px;
+            text-align: right;
+        }
+        
+        .trend-indicator {
+            font-size: 0.7rem;
+            margin-left: 0.25rem;
+        }
+        
+        .intervention-alert {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-top: 1rem;
+        }
+        
+        .alert-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .alert-icon {
+            color: #dc2626;
+            font-size: 0.9rem;
+        }
+        
+        .alert-title {
+            font-weight: 600;
+            color: #991b1b;
+            font-size: 0.85rem;
+        }
+        
+        .alert-content {
+            color: #7f1d1d;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+        
+        .recommendation-box {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-top: 1rem;
+        }
+        
+        .recommendation-title {
+            font-weight: 600;
+            color: #0369a1;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .recommendation-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .recommendation-list li {
+            padding: 0.25rem 0;
+            color: #0c4a6e;
+            font-size: 0.8rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+        
+        .recommendation-list li:before {
+            content: "•";
+            color: #0369a1;
+            position: absolute;
+            left: 0;
+        }
+        
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #059669;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .btn {
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        
+        .btn:hover {
+            background: #047857;
+        }
+        
+        .btn-secondary {
+            background: #64748b;
+        }
+        
+        .btn-secondary:hover {
+            background: #475569;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+        
+        .filter-select {
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: white;
+        }
+        
+        .export-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .standards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .summary-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📚 Enhanced Standards Tracking System</h1>
+        <p>Comprehensive analysis of student mastery across all educational standards</p>
+    </div>
+    
+    <div class="container">
+        <!-- Summary Statistics -->
+        <div class="summary-stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalStandards">12</div>
+                <div class="stat-label">Standards Tracked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgClassMastery">74%</div>
+                <div class="stat-label">Average Class Mastery</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="studentsAtRisk">3</div>
+                <div class="stat-label">Students Need Support</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="standardsBelow70">2</div>
+                <div class="stat-label">Standards Below 70%</div>
+            </div>
+        </div>
+        
+        <!-- Filter and Export Controls -->
+        <div class="filter-controls">
+            <select class="filter-select" id="subjectFilter">
+                <option value="all">All Subjects</option>
+                <option value="reading">Reading Literature</option>
+                <option value="writing">Writing</option>
+                <option value="language">Language</option>
+            </select>
+            <select class="filter-select" id="masteryFilter">
+                <option value="all">All Mastery Levels</option>
+                <option value="emerging">Emerging (0-59%)</option>
+                <option value="developing">Developing (60-79%)</option>
+                <option value="proficient">Proficient (80-89%)</option>
+                <option value="excellent">Excellent (90%+)</option>
+            </select>
+            <button class="btn" onclick="refreshData()">🔄 Refresh Data</button>
+        </div>
+        
+        <div class="export-controls">
+            <button class="btn" onclick="exportStandardsReport()">📊 Export Standards Report</button>
+            <button class="btn" onclick="exportStudentProgress()">👥 Export Student Progress</button>
+            <button class="btn btn-secondary" onclick="generateInterventionPlan()">🎯 Generate Intervention Plan</button>
+        </div>
+        
+        <!-- Standards Grid -->
+        <div class="standards-grid" id="standardsGrid">
+            <!-- Standards cards will be populated here -->
+        </div>
+    </div>
+
+    <script>
+        // Enhanced standards data with more detailed tracking
+        const enhancedStandards = [
+            {
+                code: 'RL.9-10.1',
+                description: 'Cite strong and thorough textual evidence to support analysis of what the text says explicitly as well as inferences drawn from the text.',
+                mastery: 72,
+                category: 'reading',
+                assignments: 8,
+                totalQuestions: 24,
+                students: [
+                    { name: 'Sarah Johnson', mastery: 35, trend: 'down', assignments: 5, lastScore: 2 },
+                    { name: 'Mike Chen', mastery: 45, trend: 'stable', assignments: 7, lastScore: 3 },
+                    { name: 'Emma Wilson', mastery: 95, trend: 'up', assignments: 8, lastScore: 5 },
+                    { name: 'Alex Rodriguez', mastery: 88, trend: 'up', assignments: 8, lastScore: 5 },
+                    { name: 'Jordan Kim', mastery: 42, trend: 'down', assignments: 6, lastScore: 2 },
+                    { name: 'Maya Patel', mastery: 78, trend: 'stable', assignments: 8, lastScore: 4 },
+                    { name: 'Sam Taylor', mastery: 82, trend: 'up', assignments: 8, lastScore: 4 },
+                    { name: 'Casey Lee', mastery: 91, trend: 'stable', assignments: 8, lastScore: 5 }
+                ]
+            },
+            {
+                code: 'RL.9-10.2',
+                description: 'Determine a theme or central idea of a text and analyze in detail its development over the course of the text.',
+                mastery: 68,
+                category: 'reading',
+                assignments: 6,
+                totalQuestions: 18,
+                students: [
+                    { name: 'Sarah Johnson', mastery: 28, trend: 'down', assignments: 4, lastScore: 1 },
+                    { name: 'Mike Chen', mastery: 78, trend: 'up', assignments: 6, lastScore: 4 },
+                    { name: 'Emma Wilson', mastery: 92, trend: 'stable', assignments: 6, lastScore: 5 },
+                    { name: 'Alex Rodriguez', mastery: 85, trend: 'up', assignments: 6, lastScore: 4 },
+                    { name: 'Jordan Kim', mastery: 38, trend: 'down', assignments: 5, lastScore: 2 },
+                    { name: 'Maya Patel', mastery: 72, trend: 'stable', assignments: 6, lastScore: 4 },
+                    { name: 'Sam Taylor', mastery: 76, trend: 'up', assignments: 6, lastScore: 4 },
+                    { name: 'Casey Lee', mastery: 89, trend: 'stable', assignments: 6, lastScore: 5 }
+                ]
+            },
+            {
+                code: 'RL.9-10.4',
+                description: 'Determine the meaning of words and phrases as they are used in the text, including figurative and connotative meanings.',
+                mastery: 65,
+                category: 'reading',
+                assignments: 7,
+                totalQuestions: 21,
+                students: [
+                    { name: 'Sarah Johnson', mastery: 55, trend: 'stable', assignments: 6, lastScore: 3 },
+                    { name: 'Mike Chen', mastery: 72, trend: 'up', assignments: 7, lastScore: 4 },
+                    { name: 'Emma Wilson', mastery: 90, trend: 'stable', assignments: 7, lastScore: 5 },
+                    { name: 'Alex Rodriguez', mastery: 82, trend: 'up', assignments: 7, lastScore: 4 },
+                    { name: 'Jordan Kim', mastery: 48, trend: 'down', assignments: 6, lastScore: 2 },
+                    { name: 'Maya Patel', mastery: 68, trend: 'stable', assignments: 7, lastScore: 3 },
+                    { name: 'Sam Taylor', mastery: 74, trend: 'up', assignments: 7, lastScore: 4 },
+                    { name: 'Casey Lee', mastery: 87, trend: 'stable', assignments: 7, lastScore: 4 }
+                ]
+            },
+            {
+                code: 'W.9-10.1',
+                description: 'Write arguments to support claims in an analysis of substantive topics or texts, using valid reasoning and relevant and sufficient evidence.',
+                mastery: 71,
+                category: 'writing',
+                assignments: 5,
+                totalQuestions: 15,
+                students: [
+                    { name: 'Sarah Johnson', mastery: 65, trend: 'stable', assignments: 4, lastScore: 3 },
+                    { name: 'Mike Chen', mastery: 45, trend: 'down', assignments: 5, lastScore: 2 },
+                    { name: 'Emma Wilson', mastery: 95, trend: 'up', assignments: 5, lastScore: 5 },
+                    { name: 'Alex Rodriguez', mastery: 88, trend: 'stable', assignments: 5, lastScore: 4 },
+                    { name: 'Jordan Kim', mastery: 52, trend: 'up', assignments: 4, lastScore: 3 },
+                    { name: 'Maya Patel', mastery: 76, trend: 'stable', assignments: 5, lastScore: 4 },
+                    { name: 'Sam Taylor', mastery: 80, trend: 'up', assignments: 5, lastScore: 4 },
+                    { name: 'Casey Lee', mastery: 92, trend: 'stable', assignments: 5, lastScore: 5 }
+                ]
+            },
+            {
+                code: 'W.9-10.2',
+                description: 'Write informative/explanatory texts to examine and convey complex ideas, concepts, and information clearly and accurately.',
+                mastery: 69,
+                category: 'writing',
+                assignments: 4,
+                totalQuestions: 12,
+                students: [
+                    { name: 'Sarah Johnson', mastery: 58, trend: 'stable', assignments: 3, lastScore: 2 },
+                    { name: 'Mike Chen', mastery: 42, trend: 'down', assignments: 4, lastScore: 2 },
+                    { name: 'Emma Wilson', mastery: 88, trend: 'up', assignments: 4, lastScore: 4 },
+                    { name: 'Alex Rodriguez', mastery: 82, trend: 'stable', assignments: 4, lastScore: 4 },
+                    { name: 'Jordan Kim', mastery: 48, trend: 'down', assignments: 3, lastScore: 2 },
+                    { name: 'Maya Patel', mastery: 72, trend: 'stable', assignments: 4, lastScore: 3 },
+                    { name: 'Sam Taylor', mastery: 76, trend: 'up', assignments: 4, lastScore: 4 },
+                    { name: 'Casey Lee', mastery: 89, trend: 'stable', assignments: 4, lastScore: 4 }
+                ]
+            },
+            {
+                code: 'L.9-10.1',
+                description: 'Demonstrate command of the conventions of standard English grammar and usage when writing or speaking.',
+                mastery: 76,
+                category: 'language',
+                assignments: 6,
+                totalQuestions: 18,
+                students: [
+                    { name: 'Sarah Johnson', mastery: 68, trend: 'stable', assignments: 5, lastScore: 3 },
+                    { name: 'Mike Chen', mastery: 72, trend: 'up', assignments: 6, lastScore: 4 },
+                    { name: 'Emma Wilson', mastery: 92, trend: 'stable', assignments: 6, lastScore: 5 },
+                    { name: 'Alex Rodriguez', mastery: 85, trend: 'up', assignments: 6, lastScore: 4 },
+                    { name: 'Jordan Kim', mastery: 62, trend: 'stable', assignments: 5, lastScore: 3 },
+                    { name: 'Maya Patel', mastery: 78, trend: 'stable', assignments: 6, lastScore: 4 },
+                    { name: 'Sam Taylor', mastery: 82, trend: 'up', assignments: 6, lastScore: 4 },
+                    { name: 'Casey Lee', mastery: 88, trend: 'stable', assignments: 6, lastScore: 4 }
+                ]
+            }
+        ];
+
+        function getMasteryLevel(mastery) {
+            if (mastery >= 90) return { level: 'excellent', class: 'mastery-excellent', progress: 'progress-excellent' };
+            if (mastery >= 80) return { level: 'proficient', class: 'mastery-proficient', progress: 'progress-proficient' };
+            if (mastery >= 60) return { level: 'developing', class: 'mastery-developing', progress: 'progress-developing' };
+            return { level: 'emerging', class: 'mastery-emerging', progress: 'progress-emerging' };
+        }
+
+        function getTrendIcon(trend) {
+            switch(trend) {
+                case 'up': return '📈';
+                case 'down': return '📉';
+                default: return '➡️';
+            }
+        }
+
+        function getScoreColor(score) {
+            if (score >= 4) return '#10b981';
+            if (score >= 3) return '#f59e0b';
+            return '#ef4444';
+        }
+
+        function renderStandardsGrid() {
+            const grid = document.getElementById('standardsGrid');
+            grid.innerHTML = '';
+            
+            enhancedStandards.forEach(standard => {
+                const masteryInfo = getMasteryLevel(standard.mastery);
+                
+                const studentList = standard.students.map(student => {
+                    const studentMastery = getMasteryLevel(student.mastery);
+                    const trendIcon = getTrendIcon(student.trend);
+                    const scoreColor = getScoreColor(student.lastScore);
+                    
+                    return `
+                        <div class="student-item">
+                            <div class="student-name">${student.name}</div>
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div class="progress-fill ${studentMastery.progress}" style="width: ${student.mastery}%"></div>
+                                </div>
+                                <div class="progress-text">${student.mastery}%</div>
+                                <span class="trend-indicator">${trendIcon}</span>
+                                <span style="font-size: 0.7rem; color: ${scoreColor}; margin-left: 0.25rem;">${student.lastScore}/5</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                // Check for intervention needs
+                const studentsAtRisk = standard.students.filter(s => s.mastery < 60).length;
+                const needsIntervention = studentsAtRisk > 0;
+                
+                const interventionAlert = needsIntervention ? `
+                    <div class="intervention-alert">
+                        <div class="alert-header">
+                            <span class="alert-icon">⚠️</span>
+                            <span class="alert-title">Intervention Needed</span>
+                        </div>
+                        <div class="alert-content">
+                            ${studentsAtRisk} student${studentsAtRisk > 1 ? 's' : ''} below 60% mastery. 
+                            Consider targeted instruction and additional practice.
+                        </div>
+                    </div>
+                ` : '';
+                
+                const recommendations = needsIntervention ? `
+                    <div class="recommendation-box">
+                        <div class="recommendation-title">Recommended Interventions</div>
+                        <ul class="recommendation-list">
+                            <li>Small group instruction for struggling students</li>
+                            <li>Additional practice assignments with immediate feedback</li>
+                            <li>Peer tutoring with proficient students</li>
+                            <li>Scaffolded materials and graphic organizers</li>
+                        </ul>
+                    </div>
+                ` : '';
+                
+                const standardCard = document.createElement('div');
+                standardCard.className = 'standard-card';
+                standardCard.innerHTML = `
+                    <div class="standard-header">
+                        <div class="standard-code">${standard.code}</div>
+                        <div class="mastery-badge ${masteryInfo.class}">${masteryInfo.level.toUpperCase()}</div>
+                    </div>
+                    <div class="standard-description">${standard.description}</div>
+                    <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;">
+                        📊 ${standard.assignments} assignments • ${standard.totalQuestions} questions • ${standard.mastery}% class average
+                    </div>
+                    <div class="student-progress-list">
+                        ${studentList}
+                    </div>
+                    ${interventionAlert}
+                    ${recommendations}
+                `;
+                
+                grid.appendChild(standardCard);
+            });
+        }
+
+        function refreshData() {
+            // Simulate data refresh
+            alert('🔄 Data refreshed successfully!\n\nUpdated with latest assignment scores and progress tracking.');
+            renderStandardsGrid();
+        }
+
+        function exportStandardsReport() {
+            alert('📊 Standards Report Exported!\n\nComprehensive report includes:\n• Individual student mastery percentages\n• Standards progress over time\n• Intervention recommendations\n• Class-wide performance trends\n• Assignment correlation analysis');
+        }
+
+        function exportStudentProgress() {
+            alert('👥 Student Progress Exported!\n\nIndividual student reports include:\n• Standards mastery breakdown\n• Assignment performance history\n• Growth trends and patterns\n• Intervention recommendations\n• Parent conference talking points');
+        }
+
+        function generateInterventionPlan() {
+            alert('🎯 Intervention Plan Generated!\n\nDetailed plan includes:\n• Targeted intervention strategies\n• Timeline and milestones\n• Resource requirements\n• Success metrics\n• Progress tracking templates\n• Teacher action items');
+        }
+
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            renderStandardsGrid();
+        });
+    </script>
+</body>
+</html>

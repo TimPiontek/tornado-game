@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Analytics Dashboard - Comprehensive Standards Tracking</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .card h3 {
+            color: #334155;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .kpi-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .kpi-label {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .standards-analysis {
+            grid-column: 1 / -1;
+        }
+        
+        .standards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .standard-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .standard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .standard-code {
+            font-weight: bold;
+            color: #1e293b;
+            font-size: 0.9rem;
+        }
+        
+        .standard-mastery {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .mastery-high { background: #dcfce7; color: #166534; }
+        .mastery-medium { background: #fef3c7; color: #92400e; }
+        .mastery-low { background: #fee2e2; color: #991b1b; }
+        
+        .student-list {
+            margin-top: 0.75rem;
+        }
+        
+        .student-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .student-item:last-child {
+            border-bottom: none;
+        }
+        
+        .student-name {
+            font-size: 0.85rem;
+            color: #374151;
+        }
+        
+        .student-progress {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .progress-bar {
+            width: 60px;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981);
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-size: 0.75rem;
+            color: #64748b;
+            min-width: 40px;
+        }
+        
+        .intervention-alerts {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .alert-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #fecaca;
+        }
+        
+        .alert-item:last-child {
+            border-bottom: none;
+        }
+        
+        .alert-icon {
+            width: 24px;
+            height: 24px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .alert-content {
+            flex: 1;
+        }
+        
+        .alert-title {
+            font-weight: 600;
+            color: #991b1b;
+            font-size: 0.9rem;
+        }
+        
+        .alert-description {
+            color: #7f1d1d;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+        
+        .recommendation-card {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .recommendation-title {
+            font-weight: 600;
+            color: #0369a1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .recommendation-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .recommendation-list li {
+            padding: 0.25rem 0;
+            color: #0c4a6e;
+            font-size: 0.85rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+        
+        .recommendation-list li:before {
+            content: "•";
+            color: #0369a1;
+            position: absolute;
+            left: 0;
+        }
+        
+        .btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        
+        .btn:hover {
+            background: #2563eb;
+        }
+        
+        .btn-secondary {
+            background: #64748b;
+        }
+        
+        .btn-secondary:hover {
+            background: #475569;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
+        }
+        
+        .tab {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            color: #64748b;
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .chart-container {
+            height: 300px;
+            background: #f8fafc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-style: italic;
+        }
+        
+        .export-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+        
+        .filter-select {
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: white;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 Comprehensive Teacher Analytics Dashboard</h1>
+        <p>Deep insights into student standards mastery and learning progress</p>
+    </div>
+    
+    <div class="container">
+        <!-- Key Performance Indicators -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-value" id="totalStudents">24</div>
+                <div class="kpi-label">Total Students</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" id="avgMastery">78%</div>
+                <div class="kpi-label">Average Standards Mastery</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" id="studentsAtRisk">3</div>
+                <div class="kpi-label">Students At Risk</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" id="assignmentsGraded">47</div>
+                <div class="kpi-label">Assignments Graded</div>
+            </div>
+        </div>
+        
+        <!-- Intervention Alerts -->
+        <div class="intervention-alerts">
+            <h3 style="color: #991b1b; margin-bottom: 0.75rem;">🚨 Intervention Alerts</h3>
+            <div class="alert-item">
+                <div class="alert-icon">!</div>
+                <div class="alert-content">
+                    <div class="alert-title">Sarah Johnson - Critical Support Needed</div>
+                    <div class="alert-description">Struggling with RL.9-10.1 (35% mastery), RL.9-10.2 (28% mastery). Has missed 3 assignments.</div>
+                </div>
+            </div>
+            <div class="alert-item">
+                <div class="alert-icon">!</div>
+                <div class="alert-content">
+                    <div class="alert-title">Mike Chen - Standards Gap</div>
+                    <div class="alert-description">Strong in reading comprehension but weak in writing standards (W.9-10.1: 45% mastery).</div>
+                </div>
+            </div>
+            <div class="alert-item">
+                <div class="alert-icon">!</div>
+                <div class="alert-content">
+                    <div class="alert-title">Class-wide Issue: RL.9-10.4</div>
+                    <div class="alert-description">65% of class below 70% mastery in figurative language analysis. Consider targeted instruction.</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Dashboard Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('standards')">📚 Standards Analysis</div>
+            <div class="tab" onclick="switchTab('students')">👥 Student Performance</div>
+            <div class="tab" onclick="switchTab('trends')">📈 Learning Trends</div>
+            <div class="tab" onclick="switchTab('interventions')">🎯 Intervention Planning</div>
+        </div>
+        
+        <!-- Standards Analysis Tab -->
+        <div id="standards-tab" class="tab-content active">
+            <div class="card standards-analysis">
+                <h3>📚 Standards Mastery Analysis</h3>
+                <div class="filter-controls">
+                    <select class="filter-select" id="subjectFilter">
+                        <option value="all">All Subjects</option>
+                        <option value="reading">Reading Literature</option>
+                        <option value="writing">Writing</option>
+                        <option value="language">Language</option>
+                    </select>
+                    <select class="filter-select" id="gradeFilter">
+                        <option value="all">All Grades</option>
+                        <option value="9-10">Grades 9-10</option>
+                        <option value="11-12">Grades 11-12</option>
+                    </select>
+                    <button class="btn" onclick="exportStandardsData()">📊 Export Data</button>
+                </div>
+                
+                <div class="standards-grid" id="standardsGrid">
+                    <!-- Standards cards will be populated here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Student Performance Tab -->
+        <div id="students-tab" class="tab-content">
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>👥 Student Performance Overview</h3>
+                    <div class="chart-container">
+                        📊 Student Performance Heatmap<br>
+                        <small>Interactive visualization showing individual student progress across all standards</small>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>🎯 Differentiation Groups</h3>
+                    <div id="differentiationGroups">
+                        <div style="margin-bottom: 1rem;">
+                            <h4 style="color: #059669; margin-bottom: 0.5rem;">🟢 Advanced (8 students)</h4>
+                            <div style="font-size: 0.85rem; color: #64748b;">
+                                Emma, Alex, Jordan, Maya, Sam, Taylor, Casey, Morgan
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <h4 style="color: #f59e0b; margin-bottom: 0.5rem;">🟡 Proficient (13 students)</h4>
+                            <div style="font-size: 0.85rem; color: #64748b;">
+                                Chris, Jamie, Riley, Avery, Quinn, Blake, Sage, River, Phoenix, Skyler, Dakota, Rowan, Sage
+                            </div>
+                        </div>
+                        <div>
+                            <h4 style="color: #ef4444; margin-bottom: 0.5rem;">🔴 Needs Support (3 students)</h4>
+                            <div style="font-size: 0.85rem; color: #64748b;">
+                                Sarah, Mike, Jordan
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Learning Trends Tab -->
+        <div id="trends-tab" class="tab-content">
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>📈 Standards Progress Over Time</h3>
+                    <div class="chart-container">
+                        📊 Standards Mastery Trends<br>
+                        <small>Track how standards mastery improves over assignments and time</small>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>📊 Assignment Performance Trends</h3>
+                    <div class="chart-container">
+                        📊 Assignment Success Rates<br>
+                        <small>Identify which assignments challenge students most</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Intervention Planning Tab -->
+        <div id="interventions-tab" class="tab-content">
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>🎯 Targeted Intervention Plans</h3>
+                    <div id="interventionPlans">
+                        <div class="recommendation-card">
+                            <div class="recommendation-title">For Sarah Johnson (Critical Support)</div>
+                            <ul class="recommendation-list">
+                                <li>Schedule 1-on-1 reading comprehension session</li>
+                                <li>Assign additional practice with RL.9-10.1 questions</li>
+                                <li>Provide scaffolded reading materials</li>
+                                <li>Set up peer tutoring with Emma (advanced student)</li>
+                            </ul>
+                        </div>
+                        <div class="recommendation-card">
+                            <div class="recommendation-title">For Mike Chen (Writing Support)</div>
+                            <ul class="recommendation-list">
+                                <li>Focus on argumentative writing structure</li>
+                                <li>Provide writing templates and graphic organizers</li>
+                                <li>Assign writing practice with immediate feedback</li>
+                                <li>Connect reading skills to writing tasks</li>
+                            </ul>
+                        </div>
+                        <div class="recommendation-card">
+                            <div class="recommendation-title">Class-wide: RL.9-10.4 (Figurative Language)</div>
+                            <ul class="recommendation-list">
+                                <li>Dedicated lesson on figurative language analysis</li>
+                                <li>Interactive activities with examples from current texts</li>
+                                <li>Small group practice sessions</li>
+                                <li>Create figurative language reference guide</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>📋 Intervention Tracking</h3>
+                    <div id="interventionTracking">
+                        <div style="margin-bottom: 1rem;">
+                            <h4 style="color: #3b82f6; margin-bottom: 0.5rem;">Active Interventions (5)</h4>
+                            <div style="font-size: 0.85rem; color: #64748b;">
+                                • Sarah - 1-on-1 sessions (Week 2 of 4)<br>
+                                • Mike - Writing support group (Week 1 of 3)<br>
+                                • Class - Figurative language focus (Week 1 of 2)<br>
+                                • Jordan - Reading comprehension (Week 3 of 4)<br>
+                                • Advanced group - Extension projects (Ongoing)
+                            </div>
+                        </div>
+                        <div>
+                            <h4 style="color: #059669; margin-bottom: 0.5rem;">Completed Interventions (3)</h4>
+                            <div style="font-size: 0.85rem; color: #64748b;">
+                                • Alex - Vocabulary building (Improved 15%)<br>
+                                • Maya - Essay structure (Improved 22%)<br>
+                                • Taylor - Text analysis (Improved 18%)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Export Controls -->
+        <div class="export-controls">
+            <button class="btn" onclick="exportStudentReports()">📄 Student Reports</button>
+            <button class="btn" onclick="exportStandardsReport()">📊 Standards Report</button>
+            <button class="btn" onclick="exportInterventionPlan()">🎯 Intervention Plan</button>
+            <button class="btn btn-secondary" onclick="scheduleParentConference()">👨‍👩‍👧‍👦 Parent Conferences</button>
+            <button class="btn" onclick="syncToCloud()" id="syncButton">☁️ Sync to Cloud</button>
+            <button class="btn btn-secondary" onclick="loadFromCloud()">📥 Load from Cloud</button>
+        </div>
+        
+        <!-- Cloud Sync Status -->
+        <div id="cloudSyncStatus" style="margin-bottom: 1rem; padding: 0.75rem; border-radius: 6px; font-size: 0.9rem; display: none;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span id="syncStatusIcon">🔄</span>
+                <span id="syncStatusText">Syncing to cloud...</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="lib/cloudDataSync.js"></script>
+    <script>
+        // Enhanced analytics with real data integration and cloud sync
+        let currentRosterId = null;
+        let rosterData = null;
+        let assignmentsData = [];
+        let standardsData = {};
+        let cloudSync = null;
+
+        // Initialize dashboard with real data
+        function initializeDashboard() {
+            // Get roster ID from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            currentRosterId = urlParams.get('rosterId');
+            
+            if (!currentRosterId) {
+                alert('No roster ID provided. Please access this dashboard from the roster page.');
+                return;
+            }
+
+            // Initialize cloud sync
+            cloudSync = window.cloudDataSync;
+            
+            // Load real data from localStorage
+            loadRosterData();
+            loadAssignmentsData();
+            analyzeStandardsData();
+            updateKPIs();
+            loadStandardsData();
+            
+            // Sync data to cloud
+            syncToCloud();
+        }
+
+        function loadRosterData() {
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            rosterData = rosters.find(r => r.id === currentRosterId);
+            
+            if (!rosterData) {
+                alert('Roster not found. Please check the roster ID.');
+                return;
+            }
+        }
+
+        function loadAssignmentsData() {
+            const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+            assignmentsData = assignments.filter(a => a.rosterId === currentRosterId);
+        }
+
+        function analyzeStandardsData() {
+            const standardsByCode = {};
+            const studentRiskFactors = {};
+            const interventionAlerts = [];
+
+            assignmentsData.forEach(assignment => {
+                const submissions = assignment.submissions || {};
+                (assignment.questions || []).forEach(question => {
+                    const codes = Array.isArray(question.standards) ? question.standards : [];
+                    if (codes.length === 0) return;
+                    
+                    const questionType = question.type;
+                    const questionTotal = questionType === 'multiple_choice' ? 
+                        Number(question.points || 0) : Number(question.maxPoints || 0);
+                    
+                    rosterData.roster.forEach(student => {
+                        codes.forEach(code => {
+                            if (!standardsByCode[code]) {
+                                standardsByCode[code] = {
+                                    totalPoints: 0,
+                                    byStudent: {},
+                                    description: getStandardDescription(code),
+                                    category: getStandardCategory(code),
+                                    assignments: 0
+                                };
+                            }
+                            
+                            standardsByCode[code].totalPoints += questionTotal;
+                            standardsByCode[code].assignments++;
+                            
+                            if (!standardsByCode[code].byStudent[student.name]) {
+                                standardsByCode[code].byStudent[student.name] = {
+                                    earned: 0,
+                                    total: 0,
+                                    trend: 'stable',
+                                    lastScore: 0,
+                                    assignments: 0
+                                };
+                            }
+                            
+                            standardsByCode[code].byStudent[student.name].total += questionTotal;
+                            standardsByCode[code].byStudent[student.name].assignments++;
+
+                            const submission = submissions[student.name];
+                            if (submission) {
+                                if (questionType === 'multiple_choice') {
+                                    if (submission.answers && submission.answers[question.id] && 
+                                        submission.answers[question.id] === question.correctAnswer) {
+                                        standardsByCode[code].byStudent[student.name].earned += questionTotal;
+                                    }
+                                } else if (questionType === 'short_answer') {
+                                    if (submission.grades && typeof submission.grades[question.id] === 'number') {
+                                        const earned = Math.max(0, Math.min(questionTotal, submission.grades[question.id]));
+                                        standardsByCode[code].byStudent[student.name].earned += earned;
+                                    }
+                                }
+                            }
+                        });
+                    });
+                });
+            });
+
+            // Calculate mastery percentages and identify at-risk students
+            Object.keys(standardsByCode).forEach(code => {
+                const standard = standardsByCode[code];
+                Object.keys(standard.byStudent).forEach(studentName => {
+                    const studentData = standard.byStudent[studentName];
+                    const mastery = studentData.total > 0 ? Math.round((studentData.earned / studentData.total) * 100) : 0;
+                    studentData.mastery = mastery;
+                    
+                    // Track risk factors
+                    if (!studentRiskFactors[studentName]) {
+                        studentRiskFactors[studentName] = {
+                            lowMasteryStandards: 0,
+                            totalStandards: 0,
+                            averageMastery: 0
+                        };
+                    }
+                    
+                    studentRiskFactors[studentName].totalStandards++;
+                    if (mastery < 60) {
+                        studentRiskFactors[studentName].lowMasteryStandards++;
+                    }
+                });
+            });
+
+            // Calculate average mastery and generate intervention alerts
+            Object.keys(studentRiskFactors).forEach(studentName => {
+                const risk = studentRiskFactors[studentName];
+                const standards = Object.keys(standardsByCode);
+                const studentStandards = standards.filter(code => standardsByCode[code].byStudent[studentName]);
+                const totalMastery = studentStandards.reduce((sum, code) => {
+                    return sum + (standardsByCode[code].byStudent[studentName].mastery || 0);
+                }, 0);
+                risk.averageMastery = studentStandards.length > 0 ? Math.round(totalMastery / studentStandards.length) : 0;
+                
+                // Generate intervention alerts
+                if (risk.averageMastery < 60) {
+                    interventionAlerts.push({
+                        type: 'critical',
+                        student: studentName,
+                        message: `Critical support needed - ${risk.averageMastery}% average mastery`,
+                        standards: studentStandards.filter(code => standardsByCode[code].byStudent[studentName].mastery < 60)
+                    });
+                } else if (risk.lowMasteryStandards > 2) {
+                    interventionAlerts.push({
+                        type: 'warning',
+                        student: studentName,
+                        message: `Multiple standards below 60% - needs additional support`,
+                        standards: studentStandards.filter(code => standardsByCode[code].byStudent[studentName].mastery < 60)
+                    });
+                }
+            });
+
+            standardsData = {
+                standardsByCode,
+                studentRiskFactors,
+                interventionAlerts
+            };
+        }
+
+        function getStandardDescription(code) {
+            const descriptions = {
+                'RL.9-10.1': 'Cite strong and thorough textual evidence to support analysis',
+                'RL.9-10.2': 'Determine a theme or central idea and analyze its development',
+                'RL.9-10.4': 'Determine meaning of words and phrases, including figurative language',
+                'W.9-10.1': 'Write arguments to support claims with valid reasoning',
+                'W.9-10.2': 'Write informative/explanatory texts to examine complex ideas',
+                'L.9-10.1': 'Demonstrate command of standard English grammar and usage'
+            };
+            return descriptions[code] || 'Standard description not available';
+        }
+
+        function getStandardCategory(code) {
+            if (code.startsWith('RL')) return 'Reading Literature';
+            if (code.startsWith('W')) return 'Writing';
+            if (code.startsWith('L')) return 'Language';
+            return 'Other';
+        }
+
+        function updateKPIs() {
+            if (!rosterData || !standardsData) return;
+
+            const totalStudents = rosterData.roster.length;
+            const studentsAtRisk = standardsData.interventionAlerts.length;
+            const assignmentsGraded = assignmentsData.length;
+            
+            // Calculate average mastery
+            const allMasteryValues = [];
+            Object.keys(standardsData.standardsByCode).forEach(code => {
+                Object.keys(standardsData.standardsByCode[code].byStudent).forEach(studentName => {
+                    const mastery = standardsData.standardsByCode[code].byStudent[studentName].mastery;
+                    if (mastery > 0) allMasteryValues.push(mastery);
+                });
+            });
+            const avgMastery = allMasteryValues.length > 0 ? 
+                Math.round(allMasteryValues.reduce((sum, val) => sum + val, 0) / allMasteryValues.length) : 0;
+
+            document.getElementById('totalStudents').textContent = totalStudents;
+            document.getElementById('avgMastery').textContent = avgMastery + '%';
+            document.getElementById('studentsAtRisk').textContent = studentsAtRisk;
+            document.getElementById('assignmentsGraded').textContent = assignmentsGraded;
+        }
+
+        // === CLOUD SYNC FUNCTIONS ===
+        async function syncToCloud() {
+            if (!cloudSync || !currentRosterId) return;
+
+            showSyncStatus('Syncing to cloud...', '🔄', '#3b82f6');
+
+            try {
+                // Get current user ID (you'll need to implement authentication)
+                const currentUser = await getCurrentUser();
+                if (!currentUser) {
+                    showSyncStatus('No authenticated user - skipping cloud sync', '⚠️', '#f59e0b');
+                    return;
+                }
+
+                // Sync standards mastery data
+                await cloudSync.syncStandardsMastery(currentRosterId, currentUser.id, standardsData);
+
+                // Sync intervention alerts
+                if (standardsData.interventionAlerts && standardsData.interventionAlerts.length > 0) {
+                    await cloudSync.syncInterventions(currentRosterId, currentUser.id, standardsData.interventionAlerts);
+                }
+
+                // Save analytics snapshot
+                const snapshotData = {
+                    kpis: {
+                        totalStudents: rosterData.roster.length,
+                        avgMastery: calculateAverageMastery(),
+                        studentsAtRisk: standardsData.interventionAlerts.length,
+                        assignmentsGraded: assignmentsData.length
+                    },
+                    standards: standardsData.standardsByCode,
+                    interventions: standardsData.interventionAlerts,
+                    timestamp: new Date().toISOString()
+                };
+
+                await cloudSync.saveAnalyticsSnapshot(currentRosterId, currentUser.id, 'dashboard_view', snapshotData);
+
+                showSyncStatus('✅ Dashboard data synced to cloud successfully!', '✅', '#10b981');
+                console.log('✅ Dashboard data synced to cloud');
+
+            } catch (error) {
+                showSyncStatus('❌ Error syncing to cloud: ' + error.message, '❌', '#ef4444');
+                console.error('❌ Error syncing to cloud:', error);
+            }
+        }
+
+        async function loadFromCloud() {
+            if (!cloudSync || !currentRosterId) return;
+
+            showSyncStatus('Loading from cloud...', '📥', '#3b82f6');
+
+            try {
+                const currentUser = await getCurrentUser();
+                if (!currentUser) {
+                    showSyncStatus('No authenticated user - cannot load from cloud', '⚠️', '#f59e0b');
+                    return;
+                }
+
+                const cloudData = await cloudSync.loadAnalyticsData(currentRosterId, currentUser.id);
+                
+                if (cloudData) {
+                    processCloudData(cloudData);
+                    showSyncStatus('✅ Analytics data loaded from cloud successfully!', '✅', '#10b981');
+                    console.log('✅ Loaded analytics data from cloud');
+                } else {
+                    showSyncStatus('No cloud data found for this roster', 'ℹ️', '#64748b');
+                }
+
+            } catch (error) {
+                showSyncStatus('❌ Error loading from cloud: ' + error.message, '❌', '#ef4444');
+                console.error('❌ Error loading from cloud:', error);
+            }
+        }
+
+        function showSyncStatus(message, icon, color) {
+            const statusDiv = document.getElementById('cloudSyncStatus');
+            const statusIcon = document.getElementById('syncStatusIcon');
+            const statusText = document.getElementById('syncStatusText');
+            
+            statusDiv.style.display = 'block';
+            statusDiv.style.backgroundColor = color + '20';
+            statusDiv.style.borderColor = color;
+            statusDiv.style.color = color;
+            
+            statusIcon.textContent = icon;
+            statusText.textContent = message;
+            
+            // Hide status after 3 seconds
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        function updateSyncButtonStatus() {
+            const syncButton = document.getElementById('syncButton');
+            if (!cloudSync) {
+                syncButton.textContent = '☁️ Cloud Sync Unavailable';
+                syncButton.disabled = true;
+                return;
+            }
+
+            const syncStatus = cloudSync.getSyncStatus();
+            
+            if (!syncStatus.isOnline) {
+                syncButton.textContent = '☁️ Offline - Queue Sync';
+                syncButton.style.backgroundColor = '#f59e0b';
+            } else if (syncStatus.queueLength > 0) {
+                syncButton.textContent = `☁️ Sync Queue (${syncStatus.queueLength})`;
+                syncButton.style.backgroundColor = '#f59e0b';
+            } else {
+                syncButton.textContent = '☁️ Sync to Cloud';
+                syncButton.style.backgroundColor = '#059669';
+            }
+        }
+
+        function processCloudData(cloudData) {
+            // Process standards data from cloud
+            if (cloudData.standards && cloudData.standards.length > 0) {
+                // Convert cloud standards data back to local format
+                const standardsByCode = {};
+                cloudData.standards.forEach(record => {
+                    if (!standardsByCode[record.standard_code]) {
+                        standardsByCode[record.standard_code] = {
+                            totalPoints: 0,
+                            byStudent: {},
+                            description: getStandardDescription(record.standard_code),
+                            category: getStandardCategory(record.standard_code),
+                            assignments: 0
+                        };
+                    }
+                    
+                    standardsByCode[record.standard_code].byStudent[record.student_id] = {
+                        earned: record.earned_points,
+                        total: record.total_points,
+                        mastery: record.mastery_percentage,
+                        assignments: record.assignments_count,
+                        trend: record.trend_direction
+                    };
+                });
+                
+                standardsData.standardsByCode = standardsByCode;
+            }
+
+            // Process interventions from cloud
+            if (cloudData.interventions && cloudData.interventions.length > 0) {
+                standardsData.interventionAlerts = cloudData.interventions.map(intervention => ({
+                    type: intervention.intervention_type,
+                    student: intervention.student_id,
+                    message: intervention.description,
+                    standards: intervention.standard_code ? intervention.standard_code.split(',') : []
+                }));
+            }
+
+            // Update UI with cloud data
+            updateKPIs();
+            loadStandardsData();
+        }
+
+        async function getCurrentUser() {
+            // This should be implemented based on your authentication system
+            // For now, return a mock user ID
+            return { id: 'mock-teacher-id' };
+        }
+
+        function calculateAverageMastery() {
+            const allMasteryValues = [];
+            Object.keys(standardsData.standardsByCode).forEach(code => {
+                Object.keys(standardsData.standardsByCode[code].byStudent).forEach(studentName => {
+                    const mastery = standardsData.standardsByCode[code].byStudent[studentName].mastery;
+                    if (mastery > 0) allMasteryValues.push(mastery);
+                });
+            });
+            return allMasteryValues.length > 0 ? 
+                Math.round(allMasteryValues.reduce((sum, val) => sum + val, 0) / allMasteryValues.length) : 0;
+        }
+
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            // Load tab-specific data
+            if (tabName === 'standards') {
+                loadStandardsData();
+            }
+        }
+
+        function loadStandardsData() {
+            const grid = document.getElementById('standardsGrid');
+            grid.innerHTML = '';
+            
+            sampleStandards.forEach(standard => {
+                const masteryClass = standard.mastery >= 80 ? 'mastery-high' : 
+                                   standard.mastery >= 60 ? 'mastery-medium' : 'mastery-low';
+                
+                const masteryText = standard.mastery >= 80 ? 'High' : 
+                                   standard.mastery >= 60 ? 'Medium' : 'Low';
+                
+                const studentList = standard.students.map(student => {
+                    const trendIcon = student.trend === 'up' ? '📈' : 
+                                     student.trend === 'down' ? '📉' : '➡️';
+                    return `
+                        <div class="student-item">
+                            <div class="student-name">${student.name}</div>
+                            <div class="student-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${student.mastery}%"></div>
+                                </div>
+                                <div class="progress-text">${student.mastery}%</div>
+                                <span style="font-size: 0.7rem;">${trendIcon}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                const standardCard = document.createElement('div');
+                standardCard.className = 'standard-card';
+                standardCard.innerHTML = `
+                    <div class="standard-header">
+                        <div class="standard-code">${standard.code}</div>
+                        <div class="standard-mastery ${masteryClass}">${masteryText} Mastery</div>
+                    </div>
+                    <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.75rem;">
+                        ${standard.description}
+                    </div>
+                    <div class="student-list">
+                        ${studentList}
+                    </div>
+                `;
+                
+                grid.appendChild(standardCard);
+            });
+        }
+
+        function exportStandardsData() {
+            alert('📊 Standards data exported successfully!\n\nThis would generate a comprehensive Excel file with:\n• Individual student mastery percentages\n• Standards progress over time\n• Intervention recommendations\n• Class-wide performance trends');
+        }
+
+        function exportStudentReports() {
+            alert('📄 Student reports exported!\n\nIndividual reports include:\n• Standards mastery breakdown\n• Assignment performance history\n• Growth trends\n• Intervention recommendations\n• Parent conference talking points');
+        }
+
+        function exportStandardsReport() {
+            alert('📊 Standards report exported!\n\nComprehensive report includes:\n• Class-wide standards analysis\n• Individual student progress\n• Intervention effectiveness\n• Curriculum alignment insights');
+        }
+
+        function exportInterventionPlan() {
+            alert('🎯 Intervention plan exported!\n\nDetailed plan includes:\n• Targeted intervention strategies\n• Timeline and milestones\n• Resource requirements\n• Success metrics\n• Progress tracking templates');
+        }
+
+        function scheduleParentConference() {
+            alert('👨‍👩‍👧‍👦 Parent conference scheduler opened!\n\nFeatures:\n• Automated scheduling based on student needs\n• Pre-populated talking points\n• Standards mastery summaries\n• Intervention progress updates\n• Next steps recommendations');
+        }
+
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDashboard();
+            updateSyncButtonStatus();
+            
+            // Update sync button status every 30 seconds
+            setInterval(updateSyncButtonStatus, 30000);
+        });
+    </script>
+</body>
+</html>

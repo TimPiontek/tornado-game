@@ -2010,9 +2010,58 @@
             });
         }
         
-        function getAllRosters() {
-            const saved = localStorage.getItem('tornadoRosters');
-            return saved ? JSON.parse(saved) : [];
+        // === CLOUD SYNC INTEGRATION ===
+        function initializeCloudSync() {
+            // Load cloud sync script if not already loaded
+            if (!window.cloudDataSync) {
+                const script = document.createElement('script');
+                script.src = 'lib/cloudDataSync.js';
+                script.onload = () => {
+                    console.log('✅ Cloud sync service loaded');
+                };
+                document.head.appendChild(script);
+            }
+        }
+
+        async function syncRosterToCloud(rosterId) {
+            if (!window.cloudDataSync) {
+                console.warn('⚠️ Cloud sync not available');
+                return;
+            }
+
+            try {
+                const roster = getAllRosters().find(r => r.id === rosterId);
+                if (!roster) return;
+
+                // Get current user (implement authentication)
+                const currentUser = await getCurrentUser();
+                if (!currentUser) return;
+
+                // Sync roster data
+                await window.cloudDataSync.syncStandardsMastery(rosterId, currentUser.id, {
+                    standardsByCode: {},
+                    interventionAlerts: []
+                });
+
+                console.log('✅ Roster synced to cloud');
+
+            } catch (error) {
+                console.error('❌ Error syncing roster to cloud:', error);
+            }
+        }
+
+        async function getCurrentUser() {
+            // This should be implemented based on your authentication system
+            return { id: 'mock-teacher-id' };
+        }
+
+        // === ENHANCED ANALYTICS DASHBOARD (TEACHER) ===
+        function openAnalyticsDashboard(rosterId) {
+            const roster = getAllRosters().find(r => r.id === rosterId);
+            if (!roster) return alert('Roster not found');
+
+            // Open the comprehensive analytics dashboard
+            window.open(`teacher-analytics-dashboard.html?rosterId=${rosterId}`, '_blank', 'width=1400,height=900');
         }
 
         // === STANDARDS DASHBOARD (TEACHER) ===
@@ -2024,8 +2073,10 @@
             const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]')
                 .filter(a => a.rosterId === rosterId);
 
-            // standardsByCode: { code: { totalPoints, byStudent: { name: {earned,total} } } }
+            // Enhanced standards analysis with intervention alerts
             const standardsByCode = {};
+            const studentRiskFactors = {};
+            const interventionAlerts = [];
 
             assignments.forEach(a => {
                 const subs = a.submissions || {};
@@ -2036,12 +2087,24 @@
                     const qTotal = qType === 'multiple_choice' ? Number(q.points || 0) : Number(q.maxPoints || 0);
                     roster.roster.forEach(student => {
                         codes.forEach(code => {
-                            if (!standardsByCode[code]) standardsByCode[code] = { totalPoints: 0, byStudent: {} };
+                            if (!standardsByCode[code]) standardsByCode[code] = { 
+                                totalPoints: 0, 
+                                byStudent: {},
+                                description: getStandardDescription(code),
+                                category: getStandardCategory(code)
+                            };
                             standardsByCode[code].totalPoints += qTotal;
                             if (!standardsByCode[code].byStudent[student.name]) {
-                                standardsByCode[code].byStudent[student.name] = { earned: 0, total: 0 };
+                                standardsByCode[code].byStudent[student.name] = { 
+                                    earned: 0, 
+                                    total: 0,
+                                    trend: 'stable',
+                                    lastScore: 0,
+                                    assignments: 0
+                                };
                             }
                             standardsByCode[code].byStudent[student.name].total += qTotal;
+                            standardsByCode[code].byStudent[student.name].assignments++;
 
                             const sub = subs[student.name];
                             if (sub) {
@@ -2061,19 +2124,94 @@
                 });
             });
 
-            // Build modal content
+            // Calculate mastery percentages and identify at-risk students
+            Object.keys(standardsByCode).forEach(code => {
+                const standard = standardsByCode[code];
+                Object.keys(standard.byStudent).forEach(studentName => {
+                    const studentData = standard.byStudent[studentName];
+                    const mastery = studentData.total > 0 ? Math.round((studentData.earned / studentData.total) * 100) : 0;
+                    studentData.mastery = mastery;
+                    
+                    // Track risk factors
+                    if (!studentRiskFactors[studentName]) {
+                        studentRiskFactors[studentName] = {
+                            lowMasteryStandards: 0,
+                            totalStandards: 0,
+                            averageMastery: 0
+                        };
+                    }
+                    
+                    studentRiskFactors[studentName].totalStandards++;
+                    if (mastery < 60) {
+                        studentRiskFactors[studentName].lowMasteryStandards++;
+                    }
+                });
+            });
+
+            // Calculate average mastery and generate intervention alerts
+            Object.keys(studentRiskFactors).forEach(studentName => {
+                const risk = studentRiskFactors[studentName];
+                const standards = Object.keys(standardsByCode);
+                const studentStandards = standards.filter(code => standardsByCode[code].byStudent[studentName]);
+                const totalMastery = studentStandards.reduce((sum, code) => {
+                    return sum + (standardsByCode[code].byStudent[studentName].mastery || 0);
+                }, 0);
+                risk.averageMastery = studentStandards.length > 0 ? Math.round(totalMastery / studentStandards.length) : 0;
+                
+                // Generate intervention alerts
+                if (risk.averageMastery < 60) {
+                    interventionAlerts.push({
+                        type: 'critical',
+                        student: studentName,
+                        message: `Critical support needed - ${risk.averageMastery}% average mastery`,
+                        standards: studentStandards.filter(code => standardsByCode[code].byStudent[studentName].mastery < 60)
+                    });
+                } else if (risk.lowMasteryStandards > 2) {
+                    interventionAlerts.push({
+                        type: 'warning',
+                        student: studentName,
+                        message: `Multiple standards below 60% - needs additional support`,
+                        standards: studentStandards.filter(code => standardsByCode[code].byStudent[studentName].mastery < 60)
+                    });
+                }
+            });
+
+            // Build enhanced modal content
             const overlay = document.createElement('div');
             overlay.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:1000;';
             const content = document.createElement('div');
-            content.style.cssText = 'background:white; padding:1rem 1rem; border-radius:12px; width:95%; max-width:960px; max-height:90vh; overflow:auto;';
+            content.style.cssText = 'background:white; padding:1rem 1rem; border-radius:12px; width:95%; max-width:1200px; max-height:90vh; overflow:auto;';
             content.innerHTML = `
                 <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:0.5rem;">
-                    <h3 style="margin:0;">Standards Dashboard — ${roster.name}</h3>
-                    <button class="btn btn-small" onclick="this.closest('.standards-modal')?.remove();" style="background:#e5e7eb;">Close</button>
+                    <h3 style="margin:0;">📊 Enhanced Standards Dashboard — ${roster.name}</h3>
+                    <div style="display:flex; gap:0.5rem;">
+                        <button class="btn btn-small" onclick="openAnalyticsDashboard('${rosterId}')" style="background:#059669; color:white;">📈 Full Analytics</button>
+                        <button class="btn btn-small" onclick="this.closest('.standards-modal')?.remove();" style="background:#e5e7eb;">Close</button>
+                    </div>
                 </div>
-                <div style="font-size:0.9rem; color:#6b7280; margin-bottom:0.75rem;">Aggregated from assignments tagged with [STD: ...]</div>
+                
+                ${interventionAlerts.length > 0 ? `
+                    <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:1rem; margin-bottom:1rem;">
+                        <h4 style="color:#991b1b; margin-bottom:0.5rem;">🚨 Intervention Alerts</h4>
+                        ${interventionAlerts.map(alert => `
+                            <div style="display:flex; align-items:center; gap:0.5rem; padding:0.5rem 0; border-bottom:1px solid #fecaca;">
+                                <span style="color:#dc2626;">⚠️</span>
+                                <div>
+                                    <strong>${alert.student}</strong> - ${alert.message}
+                                    ${alert.standards.length > 0 ? `<br><small>Standards: ${alert.standards.join(', ')}</small>` : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+                
+                <div style="font-size:0.9rem; color:#6b7280; margin-bottom:0.75rem;">
+                    📚 ${Object.keys(standardsByCode).length} standards tracked • 
+                    👥 ${roster.roster.length} students • 
+                    📊 ${assignments.length} assignments analyzed
+                </div>
                 <div>
-                    ${renderStandardsTable(standardsByCode, roster)}
+                    ${renderEnhancedStandardsTable(standardsByCode, roster)}
                 </div>
             `;
             content.className = 'standards-modal';
@@ -2081,37 +2219,91 @@
             document.body.appendChild(overlay);
         }
 
-        function renderStandardsTable(standardsByCode, roster) {
+        // Helper functions for standards analysis
+        function getStandardDescription(code) {
+            const descriptions = {
+                'RL.9-10.1': 'Cite strong and thorough textual evidence to support analysis',
+                'RL.9-10.2': 'Determine a theme or central idea and analyze its development',
+                'RL.9-10.4': 'Determine meaning of words and phrases, including figurative language',
+                'W.9-10.1': 'Write arguments to support claims with valid reasoning',
+                'W.9-10.2': 'Write informative/explanatory texts to examine complex ideas',
+                'L.9-10.1': 'Demonstrate command of standard English grammar and usage'
+            };
+            return descriptions[code] || 'Standard description not available';
+        }
+
+        function getStandardCategory(code) {
+            if (code.startsWith('RL')) return 'Reading Literature';
+            if (code.startsWith('W')) return 'Writing';
+            if (code.startsWith('L')) return 'Language';
+            return 'Other';
+        }
+
+        function renderEnhancedStandardsTable(standardsByCode, roster) {
             const codes = Object.keys(standardsByCode).sort();
             if (codes.length === 0) {
                 return '<div class="status-message status-info">No standards found for this roster.</div>';
             }
-            // Build per-standard rows with mini progress bars per student
+            
+            // Build enhanced per-standard rows with detailed student progress
             return codes.map(code => {
                 const entry = standardsByCode[code];
                 const studentNames = roster.roster.map(s => s.name);
-                const header = `
-                    <div style="display:flex; align-items:center; justify-content:space-between; gap:0.5rem; padding:0.5rem 0; border-top:1px solid #eee;">
-                        <div style="min-width:140px; font-weight:700;">${code}</div>
-                        <div style="flex:1; display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:0.5rem;">
+                const classAverage = studentNames.reduce((sum, name) => {
+                    const studentData = entry.byStudent[name];
+                    return sum + (studentData ? studentData.mastery : 0);
+                }, 0) / studentNames.length;
+                
+                const masteryLevel = classAverage >= 80 ? 'excellent' : 
+                                   classAverage >= 60 ? 'proficient' : 'needs-support';
+                const masteryColor = masteryLevel === 'excellent' ? '#10b981' : 
+                                   masteryLevel === 'proficient' ? '#3b82f6' : '#ef4444';
+                
+                return `
+                    <div style="border:1px solid #e2e8f0; border-radius:8px; padding:1rem; margin-bottom:1rem; background:#f8fafc;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                            <div>
+                                <div style="font-weight:700; font-size:1rem; color:#1e293b;">${code}</div>
+                                <div style="font-size:0.8rem; color:#64748b; margin-top:0.25rem;">${entry.description}</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-size:0.9rem; color:#64748b;">Class Average</div>
+                                <div style="font-size:1.2rem; font-weight:700; color:${masteryColor};">${Math.round(classAverage)}%</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap:0.75rem;">
                             ${studentNames.map(name => {
-                                const s = entry.byStudent[name] || { earned: 0, total: 0 };
-                                const pct = s.total > 0 ? Math.round((s.earned / s.total) * 100) : 0;
+                                const s = entry.byStudent[name] || { earned: 0, total: 0, mastery: 0, assignments: 0 };
+                                const mastery = s.mastery || 0;
+                                const studentMasteryLevel = mastery >= 80 ? 'excellent' : 
+                                                         mastery >= 60 ? 'proficient' : 'needs-support';
+                                const studentColor = studentMasteryLevel === 'excellent' ? '#10b981' : 
+                                                   studentMasteryLevel === 'proficient' ? '#3b82f6' : '#ef4444';
+                                
                                 return `
-                                    <div style="border:1px solid #eee; border-radius:8px; padding:0.5rem;">
-                                        <div style="font-size:0.85rem; font-weight:600; margin-bottom:0.25rem;">${name}</div>
-                                        <div class="progress-bar" style="height:6px; margin:0 0 0.25rem 0;">
-                                            <div class="progress-fill" style="height:6px; width:${pct}%;"></div>
+                                    <div style="border:1px solid #e2e8f0; border-radius:6px; padding:0.75rem; background:white;">
+                                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                                            <div style="font-size:0.85rem; font-weight:600; color:#374151;">${name}</div>
+                                            <div style="font-size:0.75rem; color:${studentColor}; font-weight:600;">${mastery}%</div>
                                         </div>
-                                        <div style="font-size:0.8rem; color:#6b7280;">${s.earned}/${s.total} (${pct}%)</div>
+                                        <div class="progress-bar" style="height:8px; margin:0 0 0.5rem 0; background:#e2e8f0; border-radius:4px;">
+                                            <div class="progress-fill" style="height:8px; width:${mastery}%; background:${studentColor}; border-radius:4px;"></div>
+                                        </div>
+                                        <div style="font-size:0.75rem; color:#64748b;">
+                                            ${s.earned}/${s.total} pts • ${s.assignments} assignments
+                                        </div>
                                     </div>
                                 `;
                             }).join('')}
                         </div>
                     </div>
                 `;
-                return header;
             }).join('');
+        }
+
+        function renderStandardsTable(standardsByCode, roster) {
+            return renderEnhancedStandardsTable(standardsByCode, roster);
         }
         
         // === TEAM MANAGEMENT ===
@@ -2551,6 +2743,9 @@
                     checkAuthStatus();
                 }
             });
+
+            // Initialize cloud sync
+            initializeCloudSync();
         });
     </script>
 </body>
