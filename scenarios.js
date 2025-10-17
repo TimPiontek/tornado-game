@@ -20279,9 +20279,4 @@ const EVENT_CARDS = {
 var SCENARIOS = window.SCENARIOS;
 
 // Export for use in other files (Node/CommonJS) without referencing undeclared identifiers
-if (typeof module !== 'undefined' && module.exports) {
-  const scenariosForExport = (typeof global !== 'undefined' && global.SCENARIOS)
-    ? global.SCENARIOS
-    : (typeof window !== 'undefined' ? window.SCENARIOS : undefined);
-  module.exports = { SCENARIOS: scenariosForExport, AI_PERSONALITIES, EVENT_CARDS };
-}
+// Note: In the browser we don't need CommonJS export; avoid extra syntax here
