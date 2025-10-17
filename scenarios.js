@@ -19882,13 +19882,396 @@ const EVENT_CARDS = {
       {
         id: 'boston_tea_party',
         name: 'Boston Tea Party',
-        description: 'Colonists protest British taxes by dumping tea into Boston Harbor',
-        effect: 'Patriots gain 50 coins, British lose 30 coins',
-        duration: 2
       }
     ]
+  },
+
+  // MACBETH SCENARIO
+  macbeth: {
+    id: 'macbeth',
+    name: 'Macbeth (William Shakespeare)',
+    type: 'literary',
+    description: 'A Scottish general\'s tragic descent into tyranny and madness through ambition and supernatural forces.',
+    inspirationalQuote: {
+      text: "Fair is foul, and foul is fair.",
+      author: "William Shakespeare",
+      context: "Macbeth"
+    },
+    factionOrder: ['macbeth', 'malcolm'],
+    factions: {
+      macbeth: {
+        name: 'Macbeth\'s Forces',
+        color: '#dc2626', // Red
+        description: 'Macbeth\'s tyrannical rule over Scotland',
+        territories: [
+          { name: 'Dunsinane Castle', cost: 25, description: 'Macbeth\'s fortress' },
+          { name: 'Macbeth\'s Throne Room', cost: 20, description: 'Royal court' },
+          { name: 'Banquo\'s Ghost Chamber', cost: 15, description: 'Haunted hall' },
+          { name: 'Macbeth\'s Armory', cost: 18, description: 'Weapons & armor' },
+          { name: 'Lady Macbeth\'s Chamber', cost: 16, description: 'Sleepwalking scene' },
+          { name: 'Macbeth\'s War Room', cost: 14, description: 'Battle planning' },
+          { name: 'Macbeth\'s Treasury', cost: 12, description: 'Stolen wealth' },
+          { name: 'Macbeth\'s Dungeons', cost: 10, description: 'Political prisoners' },
+          { name: 'Macbeth\'s Gardens', cost: 8, description: 'Outdoor court' },
+          { name: 'Macbeth\'s Chapel', cost: 6, description: 'False piety' }
+        ],
+        characters: [
+          {
+            name: 'Macbeth',
+            role: 'Tyrant King',
+            startingCoins: 100,
+            startingWeapons: ['dagger'],
+            startingMercenaries: 6,
+            startingCastles: 3,
+            personality: 'paranoid',
+            quotes: [
+              "Is this a dagger which I see before me?",
+              "Out, out, brief candle!",
+              "Tomorrow, and tomorrow, and tomorrow.",
+              "I am in blood stepped in so far.",
+              "Life's but a walking shadow."
+            ],
+            description: 'A once noble general corrupted by ambition and supernatural forces.'
+          },
+          {
+            name: 'Lady Macbeth',
+            role: 'Manipulator',
+            startingCoins: 80,
+            startingWeapons: ['words'],
+            startingMercenaries: 4,
+            startingCastles: 2,
+            personality: 'manipulative',
+            quotes: [
+              "Look like the innocent flower, but be the serpent under it.",
+              "Out, damned spot!",
+              "What's done cannot be undone.",
+              "A little water clears us of this deed.",
+              "Unsex me here."
+            ],
+            description: 'Macbeth\'s wife who pushes him toward murder and madness.'
+          }
+        ]
+      },
+      malcolm: {
+        name: 'Malcolm\'s Forces',
+        color: '#1e40af', // Blue
+        description: 'The rightful heir fighting to reclaim Scotland',
+        territories: [
+          { name: 'England\'s Court', cost: 25, description: 'Malcolm\'s refuge' },
+          { name: 'Malcolm\'s Camp', cost: 20, description: 'Rebel headquarters' },
+          { name: 'Macduff\'s Castle', cost: 18, description: 'Allied stronghold' },
+          { name: 'Malcolm\'s Armory', cost: 16, description: 'Rebel weapons' },
+          { name: 'Malcolm\'s Council', cost: 14, description: 'War planning' },
+          { name: 'Malcolm\'s Treasury', cost: 12, description: 'English support' },
+          { name: 'Malcolm\'s Scouts', cost: 10, description: 'Intelligence' },
+          { name: 'Malcolm\'s Healers', cost: 8, description: 'Medical aid' },
+          { name: 'Malcolm\'s Messengers', cost: 6, description: 'Communication' },
+          { name: 'Malcolm\'s Guards', cost: 4, description: 'Protection' }
+        ],
+        characters: [
+          {
+            name: 'Malcolm',
+            role: 'Rightful Heir',
+            startingCoins: 90,
+            startingWeapons: ['sword'],
+            startingMercenaries: 5,
+            startingCastles: 2,
+            personality: 'righteous',
+            quotes: [
+              "Let us seek out some desolate shade and there weep our sad bosoms empty.",
+              "This tyrant, whose sole name blisters our tongues.",
+              "I am young, but something you may deserve of him through me.",
+              "We shall not spend a large expense of time.",
+              "The night is long that never finds the day."
+            ],
+            description: 'Duncan\'s son and rightful heir to the Scottish throne.'
+          },
+          {
+            name: 'Macduff',
+            role: 'Avenger',
+            startingCoins: 85,
+            startingWeapons: ['sword'],
+            startingMercenaries: 4,
+            startingCastles: 2,
+            personality: 'vengeful',
+            quotes: [
+              "Turn, hell-hound, turn!",
+              "I have no words; my voice is in my sword.",
+              "Macduff was from his mother's womb untimely ripped.",
+              "O Scotland, Scotland!",
+              "Let us rather hold fast the mortal sword."
+            ],
+            description: 'A nobleman who seeks revenge for his family\'s murder.'
+          }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Birnam Wood', cost: 15, description: 'The moving forest' },
+      { name: 'Forres Castle', cost: 12, description: 'Duncan\'s old court' },
+      { name: 'Cawdor Castle', cost: 10, description: 'Macbeth\'s first title' },
+      { name: 'Fife', cost: 8, description: 'Macduff\'s homeland' },
+      { name: 'Scone', cost: 6, description: 'Coronation site' }
+    ]
+  },
+
+  // HAMLET SCENARIO
+  hamlet: {
+    id: 'hamlet',
+    name: 'Hamlet (William Shakespeare)',
+    type: 'literary',
+    description: 'A Danish prince\'s quest for revenge and justice in a corrupt court filled with deception and madness.',
+    inspirationalQuote: {
+      text: "To be, or not to be, that is the question.",
+      author: "William Shakespeare",
+      context: "Hamlet"
+    },
+    factionOrder: ['hamlet', 'claudius'],
+    factions: {
+      hamlet: {
+        name: 'Hamlet\'s Forces',
+        color: '#1e40af', // Blue
+        description: 'The prince and his allies seeking justice',
+        territories: [
+          { name: 'Elsinore Castle', cost: 25, description: 'Royal fortress' },
+          { name: 'Hamlet\'s Chamber', cost: 20, description: 'Prince\'s quarters' },
+          { name: 'Ophelia\'s Garden', cost: 15, description: 'Flower garden' },
+          { name: 'Hamlet\'s Study', cost: 18, description: 'Philosophy room' },
+          { name: 'Hamlet\'s Armory', cost: 16, description: 'Weapons & armor' },
+          { name: 'Hamlet\'s Library', cost: 14, description: 'Books & scrolls' },
+          { name: 'Hamlet\'s Theater', cost: 12, description: 'Play within play' },
+          { name: 'Hamlet\'s Crypt', cost: 10, description: 'Graveyard' },
+          { name: 'Hamlet\'s Chapel', cost: 8, description: 'Prayer room' },
+          { name: 'Hamlet\'s Courtyard', cost: 6, description: 'Outdoor space' }
+        ],
+        characters: [
+          {
+            name: 'Hamlet',
+            role: 'Melancholy Prince',
+            startingCoins: 95,
+            startingWeapons: ['sword'],
+            startingMercenaries: 5,
+            startingCastles: 2,
+            personality: 'melancholic',
+            quotes: [
+              "To be, or not to be, that is the question.",
+              "Something is rotten in the state of Denmark.",
+              "The lady doth protest too much.",
+              "There are more things in heaven and earth.",
+              "The rest is silence."
+            ],
+            description: 'A Danish prince consumed by grief and seeking revenge for his father\'s murder.'
+          },
+          {
+            name: 'Horatio',
+            role: 'Loyal Friend',
+            startingCoins: 70,
+            startingWeapons: ['dagger'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'loyal',
+            quotes: [
+              "There are more things in heaven and earth, Horatio.",
+              "Now cracks a noble heart.",
+              "Good night, sweet prince.",
+              "I am more an antique Roman than a Dane.",
+              "He was a man, take him for all in all."
+            ],
+            description: 'Hamlet\'s loyal friend and confidant.'
+          }
+        ]
+      },
+      claudius: {
+        name: 'Claudius\' Forces',
+        color: '#dc2626', // Red
+        description: 'The usurper king and his court',
+        territories: [
+          { name: 'Claudius\' Throne Room', cost: 25, description: 'Royal court' },
+          { name: 'Gertrude\'s Chamber', cost: 20, description: 'Queen\'s quarters' },
+          { name: 'Claudius\' Council', cost: 18, description: 'Political meetings' },
+          { name: 'Claudius\' Armory', cost: 16, description: 'Royal weapons' },
+          { name: 'Claudius\' Treasury', cost: 14, description: 'Kingdom wealth' },
+          { name: 'Claudius\' Dungeons', cost: 12, description: 'Political prisoners' },
+          { name: 'Claudius\' Chapel', cost: 10, description: 'False piety' },
+          { name: 'Claudius\' Gardens', cost: 8, description: 'Court gardens' },
+          { name: 'Claudius\' Guards', cost: 6, description: 'Royal protection' },
+          { name: 'Claudius\' Spies', cost: 4, description: 'Intelligence' }
+        ],
+        characters: [
+          {
+            name: 'Claudius',
+            role: 'Usurper King',
+            startingCoins: 100,
+            startingWeapons: ['poison'],
+            startingMercenaries: 6,
+            startingCastles: 3,
+            personality: 'deceitful',
+            quotes: [
+              "My words fly up, my thoughts remain below.",
+              "O, my offence is rank, it smells to heaven.",
+              "Do it, England.",
+              "The present death of Hamlet.",
+              "O, yet defend me, friends."
+            ],
+            description: 'Hamlet\'s uncle who murdered his brother to become king.'
+          },
+          {
+            name: 'Polonius',
+            role: 'Spymaster',
+            startingCoins: 75,
+            startingWeapons: ['words'],
+            startingMercenaries: 4,
+            startingCastles: 2,
+            personality: 'scheming',
+            quotes: [
+              "Neither a borrower nor a lender be.",
+              "To thine own self be true.",
+              "Brevity is the soul of wit.",
+              "Though this be madness, yet there is method in it.",
+              "I will be brief."
+            ],
+            description: 'The king\'s chief counselor and father of Ophelia.'
+          }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Wittenberg', cost: 15, description: 'Hamlet\'s university' },
+      { name: 'Norway', cost: 12, description: 'Fortinbras\' kingdom' },
+      { name: 'England', cost: 10, description: 'Exile destination' },
+      { name: 'The Graveyard', cost: 8, description: 'Yorick\'s skull' },
+      { name: 'The Ghost\'s Haunt', cost: 6, description: 'Spirit realm' }
+    ]
+  },
+
+  // THE CRUCIBLE SCENARIO
+  theCrucible: {
+    id: 'theCrucible',
+    name: 'The Crucible (Arthur Miller)',
+    type: 'literary',
+    description: 'A Puritan community torn apart by witchcraft accusations and mass hysteria during the Salem witch trials.',
+    inspirationalQuote: {
+      text: "I have given you my soul; leave me my name!",
+      author: "Arthur Miller",
+      context: "The Crucible"
+    },
+    factionOrder: ['accusers', 'accused'],
+    factions: {
+      accusers: {
+        name: 'The Accusers',
+        color: '#dc2626', // Red
+        description: 'Those who accuse others of witchcraft',
+        territories: [
+          { name: 'Salem Meeting House', cost: 25, description: 'Court proceedings' },
+          { name: 'Reverend Parris\' House', cost: 20, description: 'Minister\'s home' },
+          { name: 'Abigail\'s Room', cost: 15, description: 'Accuser\'s quarters' },
+          { name: 'Courtroom', cost: 18, description: 'Trial chamber' },
+          { name: 'Accusers\' Council', cost: 16, description: 'Plotting room' },
+          { name: 'Witch Hunters\' Office', cost: 14, description: 'Investigation' },
+          { name: 'Accusers\' Armory', cost: 12, description: 'Weapons & tools' },
+          { name: 'Accusers\' Treasury', cost: 10, description: 'Confiscated wealth' },
+          { name: 'Accusers\' Dungeons', cost: 8, description: 'Holding cells' },
+          { name: 'Accusers\' Chapel', cost: 6, description: 'Prayer room' }
+        ],
+        characters: [
+          {
+            name: 'Abigail Williams',
+            role: 'Lead Accuser',
+            startingCoins: 80,
+            startingWeapons: ['lies'],
+            startingMercenaries: 5,
+            startingCastles: 2,
+            personality: 'manipulative',
+            quotes: [
+              "I want to open myself!",
+              "I saw Goody Proctor with the Devil!",
+              "I want the light of God.",
+              "I want Jesus!",
+              "I danced for the Devil."
+            ],
+            description: 'A young woman who leads the witchcraft accusations.'
+          },
+          {
+            name: 'Reverend Parris',
+            role: 'Minister',
+            startingCoins: 70,
+            startingWeapons: ['words'],
+            startingMercenaries: 4,
+            startingCastles: 2,
+            personality: 'selfish',
+            quotes: [
+              "There is either obedience or the church will burn.",
+              "I have fought here three long years.",
+              "There is a faction sworn to drive me from my pulpit.",
+              "I have given you my soul.",
+              "You will confess yourself or I will take you out."
+            ],
+            description: 'The minister of Salem who supports the witch trials.'
+          }
+        ]
+      },
+      accused: {
+        name: 'The Accused',
+        color: '#1e40af', // Blue
+        description: 'Those falsely accused of witchcraft',
+        territories: [
+          { name: 'Proctor Farm', cost: 25, description: 'John Proctor\'s home' },
+          { name: 'Elizabeth\'s Kitchen', cost: 20, description: 'Wife\'s domain' },
+          { name: 'Accused\'s Refuge', cost: 15, description: 'Safe house' },
+          { name: 'Accused\'s Council', cost: 18, description: 'Defense planning' },
+          { name: 'Accused\'s Armory', cost: 16, description: 'Defense weapons' },
+          { name: 'Accused\'s Treasury', cost: 14, description: 'Hidden wealth' },
+          { name: 'Accused\'s Chapel', cost: 12, description: 'Prayer room' },
+          { name: 'Accused\'s Garden', cost: 10, description: 'Herb garden' },
+          { name: 'Accused\'s Study', cost: 8, description: 'Learning room' },
+          { name: 'Accused\'s Courtyard', cost: 6, description: 'Outdoor space' }
+        ],
+        characters: [
+          {
+            name: 'John Proctor',
+            role: 'Defiant Farmer',
+            startingCoins: 90,
+            startingWeapons: ['truth'],
+            startingMercenaries: 5,
+            startingCastles: 2,
+            personality: 'defiant',
+            quotes: [
+              "I have given you my soul; leave me my name!",
+              "Because it is my name!",
+              "I cannot mount the gibbet like a saint.",
+              "I have three children.",
+              "I am not worth the dust on the feet of them that hang."
+            ],
+            description: 'A farmer who refuses to confess to witchcraft.'
+          },
+          {
+            name: 'Elizabeth Proctor',
+            role: 'Faithful Wife',
+            startingCoins: 75,
+            startingWeapons: ['love'],
+            startingMercenaries: 4,
+            startingCastles: 2,
+            personality: 'faithful',
+            quotes: [
+              "I cannot judge you.",
+              "I have sins of my own to count.",
+              "I do not judge you.",
+              "I have been thinking.",
+              "I have been a good wife."
+            ],
+            description: 'John Proctor\'s wife who stands by him.'
+          }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'The Forest', cost: 15, description: 'Where the girls danced' },
+      { name: 'The River', cost: 12, description: 'Baptism site' },
+      { name: 'The Gallows', cost: 10, description: 'Execution site' },
+      { name: 'The Church', cost: 8, description: 'Worship place' },
+      { name: 'The Village Square', cost: 6, description: 'Public gathering' }
+    ]
   }
-};
 
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
