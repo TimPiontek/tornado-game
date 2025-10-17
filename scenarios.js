@@ -20274,6 +20274,10 @@ const EVENT_CARDS = {
     ]
   };
 
+// Provide legacy global for pages that reference SCENARIOS directly
+// without going through window.SCENARIOS
+var SCENARIOS = window.SCENARIOS;
+
 // Export for use in other files (Node/CommonJS) without referencing undeclared identifiers
 if (typeof module !== 'undefined' && module.exports) {
   const scenariosForExport = (typeof global !== 'undefined' && global.SCENARIOS)
