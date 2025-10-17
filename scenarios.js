@@ -13112,7 +13112,7 @@ const SCENARIOS = {
     description: 'Pursues personal gain above all',
     behaviors: ['economic', 'offensive', 'strategic'],
     moveFrequency: 0.8
-  };
+  }
 },
 
   // ROMEO AND JULIET SCENARIO
