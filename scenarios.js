@@ -3,7 +3,8 @@
 
 console.log('Loading scenarios.js file...');
 
-const SCENARIOS = {
+// Ensure SCENARIOS is globally available in browsers immediately
+window.SCENARIOS = {
   // BUSINESS MODE
   businessMode: {
     id: 'businessMode',
