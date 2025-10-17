@@ -561,7 +561,7 @@
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script src="scenarios.js"></script>
+<script src="scenarios.js?v=20251017-2"></script>
 <script>
   // === CONFIG ===
   const SUPABASE_URL  = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
@@ -4310,6 +4310,10 @@
 
   // Update game theme title based on current scenario
   function updateGameThemeTitle() {
+    if (typeof window !== 'undefined' && !window.SCENARIOS) {
+      console.warn('updateGameThemeTitle: SCENARIOS not ready yet');
+      return;
+    }
     const themeTitle = document.getElementById('gameThemeTitle');
     if (!themeTitle) return;
     
