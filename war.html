@@ -683,6 +683,71 @@
     if (mercNoteD) mercNoteD.textContent = `(${eco.mercCost} points each, +10 power)`;
   }
 
+  // Build consolidated scenario select options from SCENARIOS
+  function buildScenarioSelectOptions() {
+    const select = document.getElementById('scenarioSelect');
+    if (!select) return;
+    // Clear existing except the placeholder
+    select.querySelectorAll('optgroup').forEach(g => g.remove());
+
+    if (typeof SCENARIOS === 'undefined') return;
+
+    // Consolidated category mapping
+    const CATEGORY_MAP = {
+      business: '🏢 Business',
+      historical: '🏛️ Historical',
+      literary: '📚 Literature',
+      popculture: '🎬 Pop Culture',
+      gaming: '🎮 Gaming',
+      mythology: '🏛️ Mythology',
+      sports: '🏀 Sports',
+      music: '🎵 Music'
+    };
+
+    // Helper to infer category
+    function inferCategory(key, s) {
+      if (s.type) {
+        if (s.type === 'business') return 'business';
+        if (s.type === 'historical') return 'historical';
+        if (s.type === 'literary') return 'literary';
+      }
+      // Group pop culture-ish scenarios
+      const popKeys = ['avengers','starWars','dcVsMarvel','frozen','minions','toyStory','moana','disneyVsPixar','gameOfThrones','hungerGames'];
+      if (popKeys.includes(key)) return 'popculture';
+      if (['pokemon','superMario','fortniteVsMinecraft'].includes(key)) return 'gaming';
+      if (['greekMythology','romanMythology','percyJackson','monsterWars','avatar'].includes(key)) return 'mythology';
+      if (['nbaLegends','nflLegends','soccerLegends'].includes(key)) return 'sports';
+      if (['musicLegends','rockPopRap'].includes(key)) return 'music';
+      // Default buckets
+      return (s.type && CATEGORY_MAP[s.type]) ? s.type : 'popculture';
+    }
+
+    // Build grouped list
+    const groups = {};
+    Object.entries(SCENARIOS).forEach(([key, s]) => {
+      const cat = inferCategory(key, s);
+      groups[cat] = groups[cat] || [];
+      groups[cat].push({ id: key, name: s.name || s.scenarioName || key });
+    });
+
+    // Sort categories and items
+    const categoryOrder = ['business','historical','literary','popculture','gaming','mythology','sports','music'];
+    categoryOrder.forEach(cat => {
+      if (!groups[cat] || groups[cat].length === 0) return;
+      const og = document.createElement('optgroup');
+      og.label = CATEGORY_MAP[cat];
+      groups[cat]
+        .sort((a,b) => a.name.localeCompare(b.name))
+        .forEach(item => {
+          const opt = document.createElement('option');
+          opt.value = item.id;
+          opt.textContent = item.name;
+          og.appendChild(opt);
+        });
+      select.appendChild(og);
+    });
+  }
+
   // === STATE ===
   const state = {
     session: null,
@@ -7322,69 +7387,6 @@
             margin-bottom: 1rem;
           ">
             <option value="">Select a scenario...</option>
-            <optgroup label="🏢 Business">
-              <option value="businessMode">Business Competition Mode</option>
-            </optgroup>
-            <optgroup label="🏛️ Historical Wars">
-              <option value="americanRevolution">American Revolutionary War</option>
-              <option value="civilWar">American Civil War</option>
-              <option value="warOf1812">War of 1812</option>
-              <option value="mexicanAmerican">Mexican-American War</option>
-              <option value="spanishAmerican">Spanish-American War</option>
-              <option value="worldWar1">World War 1</option>
-              <option value="worldWar2">World War 2</option>
-              <option value="crusades">The Crusades</option>
-              <option value="hundredYearsWar">Hundred Years' War</option>
-              <option value="russianCivilWar">Russian Civil War</option>
-              <option value="spanishCivilWar">Spanish Civil War</option>
-            </optgroup>
-            <optgroup label="📚 Literature">
-              <option value="juliusCaesar">Julius Caesar (Shakespeare)</option>
-              <option value="animalFarm">Animal Farm (George Orwell)</option>
-              <option value="nineteenEightyFour">1984 (George Orwell)</option>
-              <option value="theIliad">The Iliad (Homer)</option>
-              <option value="romeoAndJuliet">Romeo and Juliet (Shakespeare)</option>
-              <option value="lordOfTheRings">The Lord of the Rings (J.R.R. Tolkien)</option>
-              <option value="harryPotter">Harry Potter (J.K. Rowling)</option>
-              <option value="dune">Dune (Frank Herbert)</option>
-            </optgroup>
-            <optgroup label="🎬 Movies">
-              <option value="avengers">Avengers</option>
-              <option value="starWars">Star Wars</option>
-              <option value="dcVsMarvel">DC vs Marvel</option>
-              <option value="frozen">Frozen</option>
-              <option value="minions">Minions</option>
-              <option value="toyStory">Toy Story</option>
-              <option value="moana">Moana</option>
-            </optgroup>
-            <optgroup label="🎮 Gaming">
-              <option value="pokemon">Pokemon: Fire vs Water vs Grass</option>
-              <option value="superMario">Super Mario: Heroes vs Minions</option>
-              <option value="fortniteVsMinecraft">Fortnite vs Minecraft</option>
-            </optgroup>
-            <optgroup label="🏛️ Mythology">
-              <option value="greekMythology">Greek Mythology</option>
-              <option value="romanMythology">Roman Mythology</option>
-              <option value="percyJackson">Percy Jackson</option>
-              <option value="monsterWars">Monster Wars</option>
-              <option value="avatar">Avatar: The Last Airbender</option>
-            </optgroup>
-            <optgroup label="🏀 Sports">
-              <option value="nbaLegends">NBA Legends</option>
-              <option value="nflLegends">NFL Legends</option>
-              <option value="soccerLegends">International Soccer Legends</option>
-            </optgroup>
-            <optgroup label="🎵 Music">
-              <option value="musicLegends">Rock vs Pop vs Rap</option>
-            </optgroup>
-            <optgroup label="📺 TV & Movies">
-              <option value="disneyVsPixar">Disney Vs Pixar</option>
-              <option value="gameOfThrones">Game of Thrones</option>
-              <option value="hungerGames">Hunger Games</option>
-            </optgroup>
-            <optgroup label="🎨 Custom Scenarios">
-              <option value="custom">Create Custom Scenario</option>
-            </optgroup>
           </select>
         </div>
         
@@ -7475,6 +7477,9 @@
     if (badge) badge.style.display = this.checked ? 'inline-block' : 'none';
     };
     
+    // Build consolidated scenario list into the select
+    buildScenarioSelectOptions();
+
     // Setup scenario selection change handler
     document.getElementById('scenarioSelect').onchange = updateScenarioDetails;
   }
