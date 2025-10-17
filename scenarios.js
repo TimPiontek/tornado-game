@@ -20274,14 +20274,10 @@ const EVENT_CARDS = {
     ]
   }
 
-// Export for use in other files
+// Export for use in other files (Node/CommonJS) without referencing undeclared identifiers
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { SCENARIOS, AI_PERSONALITIES, EVENT_CARDS };
-}
-
-// Make SCENARIOS available globally for browser use
-if (typeof window !== 'undefined') {
-  window.SCENARIOS = SCENARIOS;
-} else if (typeof global !== 'undefined') {
-  global.SCENARIOS = SCENARIOS;
+  const scenariosForExport = (typeof global !== 'undefined' && global.SCENARIOS)
+    ? global.SCENARIOS
+    : (typeof window !== 'undefined' ? window.SCENARIOS : undefined);
+  module.exports = { SCENARIOS: scenariosForExport, AI_PERSONALITIES, EVENT_CARDS };
 }
