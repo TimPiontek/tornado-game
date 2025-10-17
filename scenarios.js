@@ -20272,7 +20272,7 @@ const EVENT_CARDS = {
       { name: 'The Church', cost: 8, description: 'Worship place' },
       { name: 'The Village Square', cost: 6, description: 'Public gathering' }
     ]
-  }
+  };
 
 // Export for use in other files (Node/CommonJS) without referencing undeclared identifiers
 if (typeof module !== 'undefined' && module.exports) {
