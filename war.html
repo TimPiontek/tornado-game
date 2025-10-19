@@ -2318,9 +2318,15 @@
       student.characterFaction = character.factionName;
       
       // Apply character starting resources
-      student.startingPoints = character.startingCoins || student.startingPoints || 10;
-      student.earnedPoints = student.earnedPoints || 0;
-      student.balance = (student.startingPoints || 0) + (student.earnedPoints || 0);
+      if (scenarioData.keepPoints) {
+        // Keep current points - don't reset startingPoints or earnedPoints
+        student.balance = (student.startingPoints || 0) + (student.earnedPoints || 0);
+      } else {
+        // Reset points to character starting amount
+        student.startingPoints = character.startingCoins || student.startingPoints || 10;
+        student.earnedPoints = student.earnedPoints || 0;
+        student.balance = (student.startingPoints || 0) + (student.earnedPoints || 0);
+      }
       student.weapons = character.startingWeapons || [];
       student.mercenaries = character.startingMercenaries || 0;
       student.startingCastles = character.startingCastles || 0;
@@ -2573,10 +2579,9 @@
     console.log('Resetting game to defaults for roster:', state.currentRoster.name);
 
     // Reset all participants to default state
-    const startingPoints = state.startingPoints || 10; // Use configured starting points or default to 10
     state.roster.forEach(student => {
       student.tilesOwned = 0;
-      student.balance = startingPoints; // Use configured starting points
+      // Note: student.balance is handled by the calling function (startRegularGame or scenario start)
       student.weapons = [];
       student.mercenaries = 0;
       student.wizard = false;
@@ -7296,7 +7301,10 @@
   }
   
   function startRegularGame() {
-    if (!confirm('Are you sure you want to start a new regular game? This will reset ALL game progress including:\n\n• All territory ownership\n• All castle levels\n• All student balances\n• All truces\n• All game state\n\nThis action cannot be undone!')) {
+    // First, ask about points preservation
+    const keepPoints = confirm('Do you want to KEEP current student points/balances?\n\n• Click OK to keep current points\n• Click Cancel to reset all points to starting amount');
+    
+    if (!confirm('Are you sure you want to start a new regular game? This will reset ALL game progress including:\n\n• All territory ownership\n• All castle levels\n• All student balances' + (keepPoints ? ' (keeping current amounts)' : ' (resetting to starting amount)') + '\n• All truces\n• All game state\n\nThis action cannot be undone!')) {
       return;
     }
     
@@ -7316,6 +7324,12 @@
       student.startingCastles = 1; // Set to 1 for regular games
       student.weapons = [];
       student.mercenaries = 0;
+      
+      // Handle points based on user choice
+      if (!keepPoints) {
+        student.balance = state.startingPoints || 10;
+      }
+      // If keepPoints is true, leave student.balance unchanged
     });
     
     // Clear AI players
@@ -8428,6 +8442,9 @@
     if (gameType === 'regular') {
       startRegularGame();
     } else if (gameType === 'scenario') {
+      // First, ask about points preservation
+      const keepPoints = confirm('Do you want to KEEP current student points/balances?\n\n• Click OK to keep current points\n• Click Cancel to reset all points to starting amount');
+      
       // Use the stored scenario settings
       const settings = window.tempScenarioSettings;
       if (!settings) {
@@ -8462,7 +8479,7 @@
         console.log('Automatically cleared saved scenario from roster');
       }
       
-      if (!confirm('Are you sure you want to start a new scenario game? This will reset ALL game progress including:\n\n• All territory ownership\n• All castle levels\n• All student balances\n• All truces\n• All game state\n\nThis action cannot be undone!')) {
+      if (!confirm('Are you sure you want to start a new scenario game? This will reset ALL game progress including:\n\n• All territory ownership\n• All castle levels\n• All student balances' + (keepPoints ? ' (keeping current amounts)' : ' (resetting to starting amount)') + '\n• All truces\n• All game state\n\nThis action cannot be undone!')) {
         return;
       }
       
@@ -8483,7 +8500,8 @@
         randomAssignment: settings.roleAssignment === 'random',
         enableAI: settings.enableAI,
         aiDifficulty: settings.aiDifficulty,
-        gameDifficulty: difficulty
+        gameDifficulty: difficulty,
+        keepPoints: keepPoints // Pass the points preservation choice
       };
       
       // Update current roster with scenario data
