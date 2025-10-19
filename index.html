@@ -4331,7 +4331,48 @@ The Beatles
         }
 
         function updateContentVisibility(isTeacher, isStudent) {
-          // Nothing to toggle now that assignment card is removed
+          // Add welcome message for logged-in teachers
+          const gameSelectionSection = document.getElementById('gameSelectionSection');
+          if (!gameSelectionSection) return;
+          
+          // Remove existing welcome message if any
+          const existingWelcome = document.getElementById('welcomeMessage');
+          if (existingWelcome) {
+            existingWelcome.remove();
+          }
+          
+          if (isTeacher) {
+            // Add welcome message for logged-in teachers
+            const welcomeDiv = document.createElement('div');
+            welcomeDiv.id = 'welcomeMessage';
+            welcomeDiv.style.cssText = `
+              background: linear-gradient(135deg, #6f5c91, #8b7ba8);
+              color: white;
+              padding: 1.5rem;
+              border-radius: 12px;
+              margin-bottom: 2rem;
+              text-align: center;
+              box-shadow: 0 4px 16px rgba(111, 92, 145, 0.3);
+              max-width: 600px;
+              margin-left: auto;
+              margin-right: auto;
+            `;
+            
+            // Get user email from session
+            supabaseClient.auth.getUser().then(({ data: { user } }) => {
+              const userEmail = user?.email || 'Teacher';
+              welcomeDiv.innerHTML = `
+                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">👋 Welcome back!</div>
+                <div style="font-size: 1.1rem; opacity: 0.9;">Logged in as: <strong>${userEmail}</strong></div>
+                <div style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8;">
+                  Ready to create engaging learning experiences? Choose a game below to get started!
+                </div>
+              `;
+            });
+            
+            // Insert welcome message at the top of the game selection section
+            gameSelectionSection.insertBefore(welcomeDiv, gameSelectionSection.firstChild);
+          }
         }
 
         // === LOGIN BUTTON STATE ===
@@ -4339,15 +4380,19 @@ The Beatles
           const btn = document.getElementById("loginLogoutBtn");
           if (!btn) return;
           if (user) {
-            btn.textContent = "Logout";
-            btn.style.background = "#fff";
-            btn.style.color = "#e57373";
-            btn.title = user.email || "";
+            btn.textContent = "🚪 Logout";
+            btn.style.background = "#e57373";
+            btn.style.color = "#fff";
+            btn.style.border = "2px solid #e57373";
+            btn.style.fontWeight = "600";
+            btn.title = `Logged in as: ${user.email || 'Teacher'}`;
           } else {
             btn.textContent = "👨‍🏫 Teacher Login";
             btn.style.background = "#fff";
             btn.style.color = "#6F5C91";
-            btn.title = "";
+            btn.style.border = "2px solid #6F5C91";
+            btn.style.fontWeight = "600";
+            btn.title = "Click to login as a teacher";
           }
         }
         
@@ -4389,9 +4434,23 @@ The Beatles
                 showAuthModal();
               } else {
                 console.log('Logging out...');
-                supabaseClient.auth.signOut();
-                localStorage.removeItem('currentStudent');
-                updateHomepageForUser();
+                // Show confirmation dialog
+                if (confirm('Are you sure you want to logout?')) {
+                  // Clear all auth data
+                  supabaseClient.auth.signOut().then(() => {
+                    localStorage.removeItem('currentStudent');
+                    localStorage.removeItem('tornadoRosters'); // Clear local rosters for security
+                    
+                    // Show success message
+                    alert('Successfully logged out!');
+                    
+                    // Refresh the page to ensure clean state
+                    window.location.reload();
+                  }).catch(error => {
+                    console.error('Error during logout:', error);
+                    alert('Error during logout. Please try again.');
+                  });
+                }
               }
             };
             console.log('Login button handler attached');
