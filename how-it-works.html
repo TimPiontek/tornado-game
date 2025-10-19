@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How It Works - Play Tornado</title>
+    <title>How to Use Play Tornado - Teacher Guide</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <style>
@@ -24,25 +24,24 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--background);
             margin: 0;
             padding: 0;
-            min-height: 100vh;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 1rem;
         }
 
         .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: white;
             border-radius: 12px;
             padding: 1rem 2rem;
             margin-bottom: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -70,92 +69,52 @@
         }
 
         .main-content {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1rem;
-        }
-
-        .hero-section {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .hero-section h1 {
-            font-size: 2.5rem;
-            color: var(--text);
-            margin-bottom: 1rem;
-        }
-
-        .hero-section p {
-            font-size: 1.2rem;
-            color: var(--muted);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .feature-card {
             background: white;
-            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 1rem;
         }
 
-        .feature-card h3 {
-            color: var(--text);
-            margin-bottom: 1rem;
-            font-size: 1.25rem;
-        }
-
-        .feature-card p {
-            color: var(--muted);
-            line-height: 1.6;
-        }
-
-        .workflow-section {
-            margin-bottom: 3rem;
-        }
-
-        .workflow-section h2 {
-            color: var(--text);
-            text-align: center;
+        .intro {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+            border-radius: 12px;
+            padding: 2rem;
             margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .intro h1 {
+            color: var(--text);
+            margin-bottom: 1rem;
             font-size: 2rem;
         }
 
-        .workflow-steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+        .intro p {
+            color: var(--muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .workflow-step {
-            background: white;
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section h2 {
+            color: var(--text);
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .step {
+            background: #f8fafc;
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 8px;
             padding: 1.5rem;
+            margin-bottom: 1rem;
             position: relative;
         }
 
@@ -169,126 +128,53 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            position: absolute;
+            top: -15px;
+            left: 20px;
+        }
+
+        .step h3 {
+            color: var(--text);
+            margin: 0.5rem 0 1rem 0;
+            font-size: 1.2rem;
+        }
+
+        .step p {
+            color: var(--muted);
             margin-bottom: 1rem;
         }
 
-        .workflow-step h3 {
-            color: var(--text);
-            margin-bottom: 0.5rem;
-        }
-
-        .workflow-step p {
+        .step ul {
             color: var(--muted);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        .game-modes-section {
-            margin-bottom: 3rem;
-        }
-
-        .game-modes-section h2 {
-            color: var(--text);
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2rem;
-        }
-
-        .game-modes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-        }
-
-        .game-mode-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 2rem;
-        }
-
-        .game-mode-card h3 {
-            color: var(--text);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .game-mode-card .mode-icon {
-            font-size: 1.5rem;
-        }
-
-        .game-mode-card ul {
-            color: var(--muted);
-            line-height: 1.6;
             padding-left: 1.5rem;
         }
 
-        .game-mode-card li {
+        .step li {
             margin-bottom: 0.5rem;
         }
 
-        .benefits-section {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 3rem;
+        .highlight {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
         }
 
-        .benefits-section h2 {
-            color: var(--text);
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2rem;
+        .highlight strong {
+            color: var(--secondary);
         }
 
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+        .warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
         }
 
-        .benefit-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .benefit-icon {
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
-
-        .benefit-text {
-            color: var(--text);
-            font-weight: 500;
-        }
-
-        .cta-section {
-            text-align: center;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 2rem;
-        }
-
-        .cta-section h2 {
-            color: var(--text);
-            margin-bottom: 1rem;
-        }
-
-        .cta-section p {
-            color: var(--muted);
-            margin-bottom: 2rem;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
+        .warning strong {
+            color: var(--warning);
         }
 
         .btn {
@@ -304,6 +190,7 @@
             text-decoration: none;
             display: inline-block;
             font-size: 1rem;
+            margin: 0.5rem 0.5rem 0.5rem 0;
         }
 
         .btn:hover {
@@ -319,25 +206,95 @@
             background: #059669;
         }
 
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .feature-card h3 {
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .quick-start {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .quick-start h2 {
+            color: var(--text);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .quick-start-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .quick-start-item {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .quick-start-item h4 {
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-start-item p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
         @media (max-width: 768px) {
-            .hero-section h1 {
-                font-size: 2rem;
+            .container {
+                padding: 0.5rem;
             }
             
-            .hero-section p {
-                font-size: 1rem;
+            .main-content {
+                padding: 1rem;
             }
             
-            .features-grid,
-            .workflow-steps,
-            .game-modes-grid,
-            .benefits-grid {
+            .intro h1 {
+                font-size: 1.5rem;
+            }
+            
+            .feature-grid,
+            .quick-start-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
             }
             
             .header {
@@ -351,157 +308,307 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>ℹ️ How It Works</h1>
+            <h1>📚 Teacher's Guide to Play Tornado</h1>
             <a href="/" class="back-btn">← Back to Home</a>
         </div>
 
         <div class="main-content">
-            <div class="hero-section">
-                <h1>🌪️ Welcome to Play Tornado</h1>
-                <p>An integrated educational platform that combines quiz-based learning with strategic gameplay. Teachers create rosters, students earn points through quizzes and assignments, and everyone competes in strategic territory battles.</p>
+            <div class="intro">
+                <h1>🌪️ How to Use Play Tornado in Your Classroom</h1>
+                <p>A practical step-by-step guide for teachers and managers to set up and use Play Tornado effectively with your students.</p>
             </div>
 
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">👥</div>
-                    <h3>Centralized Roster Management</h3>
-                    <p>Teachers create and manage student rosters with automatic point tracking, team assignments, and class codes for easy student access.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📚</div>
-                    <h3>Interactive Quiz System</h3>
-                    <p>Engaging quiz games with customizable questions, team competitions, and automatic point rewards that transfer to strategic gameplay.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚔️</div>
-                    <h3>Strategic War Game</h3>
-                    <p>Students use earned points to buy territories, form alliances, and compete in tactical battles with historical scenarios and team collaboration.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📋</div>
-                    <h3>Assignment System</h3>
-                    <p>Teachers create multiple-choice and short-answer assignments with auto-grading, manual feedback, and automatic point integration.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎓</div>
-                    <h3>Student Dashboard</h3>
-                    <p>Individual student accounts with progress tracking, class leaderboards, assignment completion, and personalized learning journeys.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔄</div>
-                    <h3>Seamless Integration</h3>
-                    <p>All components work together - points earned in quizzes and assignments automatically transfer to the war game for strategic spending.</p>
-                </div>
-            </div>
-
-            <div class="workflow-section">
-                <h2>🚀 How It Works</h2>
-                <div class="workflow-steps">
-                    <div class="workflow-step">
-                        <div class="step-number">1</div>
-                        <h3>Teacher Setup</h3>
-                        <p>Create student rosters, organize teams, and generate class codes for easy student access to your classroom.</p>
+            <div class="quick-start">
+                <h2>⚡ Quick Start (5 Minutes)</h2>
+                <div class="quick-start-grid">
+                    <div class="quick-start-item">
+                        <h4>1. Create Roster</h4>
+                        <p>Add your students' names</p>
                     </div>
-                    <div class="workflow-step">
-                        <div class="step-number">2</div>
-                        <h3>Student Registration</h3>
-                        <p>Students create accounts, join classes using class codes, and select their names from the roster.</p>
+                    <div class="quick-start-item">
+                        <h4>2. Share Class Code</h4>
+                        <p>Students join with the code</p>
                     </div>
-                    <div class="workflow-step">
-                        <div class="step-number">3</div>
-                        <h3>Learning Activities</h3>
-                        <p>Students complete quizzes and assignments, earning points that automatically transfer to their strategic game balance.</p>
+                    <div class="quick-start-item">
+                        <h4>3. Assign Work</h4>
+                        <p>Give quizzes or assignments</p>
                     </div>
-                    <div class="workflow-step">
-                        <div class="step-number">4</div>
-                        <h3>Strategic Gameplay</h3>
-                        <p>Students spend earned points on territories, weapons, and strategic decisions in the Tornado War game.</p>
-                    </div>
-                    <div class="workflow-step">
-                        <div class="step-number">5</div>
-                        <h3>Progress Tracking</h3>
-                        <p>Teachers monitor student progress, grade assignments, and manage the classroom ecosystem through comprehensive dashboards.</p>
-                    </div>
-                    <div class="workflow-step">
-                        <div class="step-number">6</div>
-                        <h3>Continuous Learning</h3>
-                        <p>The cycle continues as students earn more points through learning activities to fuel their strategic gameplay.</p>
+                    <div class="quick-start-item">
+                        <h4>4. Play War Game</h4>
+                        <p>Students spend points strategically</p>
                     </div>
                 </div>
             </div>
 
-            <div class="game-modes-section">
-                <h2>🎮 Game Modes</h2>
-                <div class="game-modes-grid">
-                    <div class="game-mode-card">
-                        <h3><span class="mode-icon">📚</span>Tornado Quiz</h3>
-                        <ul>
-                            <li>Interactive quiz games with customizable questions</li>
-                            <li>Individual and team competition modes</li>
-                            <li>Automatic point rewards for correct answers</li>
-                            <li>Team victory bonuses for collaborative success</li>
-                            <li>Points automatically transfer to war game</li>
-                        </ul>
+            <div class="section">
+                <h2>👥 Step 1: Setting Up Your Class Roster</h2>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Go to Roster Management</h3>
+                    <p>Click "Manage Rosters" on the homepage or go directly to <a href="/roster.html" class="btn btn-outline">roster.html</a></p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Create a New Roster</h3>
+                    <p>Click "Create New Roster" and fill out:</p>
+                    <ul>
+                        <li><strong>Roster Name:</strong> e.g., "Period 3 English" or "Team Alpha"</li>
+                        <li><strong>Description:</strong> Brief description of the class</li>
+                        <li><strong>Target Percentage:</strong> How much of the map students need to control to win (default 25%)</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Add Your Students</h3>
+                    <p>In the "Add Student" section, enter each student's:</p>
+                    <ul>
+                        <li><strong>First Name</strong></li>
+                        <li><strong>Last Name</strong></li>
+                        <li><strong>Email</strong> (optional, for notifications)</li>
+                    </ul>
+                    <p>Click "Add Student" after each entry. Students will appear in the roster list.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Get Your Class Code</h3>
+                    <p>After creating the roster, you'll see a <strong>Class Code</strong> (like "ABC123"). This is what students use to join your class.</p>
+                    <div class="highlight">
+                        <strong>💡 Pro Tip:</strong> Write this code on the board or share it via email/Google Classroom. Students need this exact code to join.
                     </div>
-                    <div class="game-mode-card">
-                        <h3><span class="mode-icon">⚔️</span>Tornado War</h3>
-                        <ul>
-                            <li>Strategic territory acquisition and defense</li>
-                            <li>Historical scenarios and themed battles</li>
-                            <li>Team resource sharing and collaboration</li>
-                            <li>Weapon systems and tactical combat</li>
-                            <li>Real-time point spending and management</li>
-                        </ul>
-                    </div>
-                    <div class="game-mode-card">
-                        <h3><span class="mode-icon">📋</span>Assignments</h3>
-                        <ul>
-                            <li>Multiple-choice questions with auto-grading</li>
-                            <li>Short-answer questions with manual grading</li>
-                            <li>Customizable point values per question</li>
-                            <li>Bulk question import from text format</li>
-                            <li>Assignment to multiple rosters simultaneously</li>
-                        </ul>
-                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h3>Organize Teams (Optional)</h3>
+                    <p>You can manually assign students to teams by:</p>
+                    <ul>
+                        <li>Clicking the team color next to each student's name</li>
+                        <li>Using "Shuffle Teams" to randomly assign</li>
+                        <li>Teams will compete against each other in the war game</li>
+                    </ul>
                 </div>
             </div>
 
-            <div class="benefits-section">
-                <h2>✨ Key Benefits</h2>
-                <div class="benefits-grid">
-                    <div class="benefit-item">
-                        <div class="benefit-icon">🎯</div>
-                        <div class="benefit-text">Gamified Learning Experience</div>
+            <div class="section">
+                <h2>📚 Step 2: Creating Assignments</h2>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Access Assignment Library</h3>
+                    <p>Go to <a href="/assignments-library.html" class="btn btn-outline">Assignments Library</a> to see pre-made assignments or create your own.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Use Pre-Made Assignments</h3>
+                    <p>Browse the library for assignments like:</p>
+                    <ul>
+                        <li><strong>Literature:</strong> Romeo & Juliet, Macbeth, Hamlet, etc.</li>
+                        <li><strong>History:</strong> World Wars, Ancient Civilizations</li>
+                        <li><strong>Science:</strong> Biology, Chemistry, Physics</li>
+                        <li><strong>Math:</strong> Algebra, Geometry, Statistics</li>
+                    </ul>
+                    <p>Click on any assignment to preview questions and assign to your roster.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Assign to Students</h3>
+                    <p>When you find an assignment you like:</p>
+                    <ul>
+                        <li>Click "Assign to Roster"</li>
+                        <li>Select your roster from the dropdown</li>
+                        <li>Set point values for each question</li>
+                        <li>Choose due date (optional)</li>
+                    </ul>
+                    <div class="highlight">
+                        <strong>💡 Pro Tip:</strong> Points earned from assignments automatically transfer to the war game. Students can spend these points on territories, weapons, and strategies.
                     </div>
-                    <div class="benefit-item">
-                        <div class="benefit-icon">👥</div>
-                        <div class="benefit-text">Collaborative Team Building</div>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="benefit-icon">📊</div>
-                        <div class="benefit-text">Comprehensive Progress Tracking</div>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="benefit-icon">🔄</div>
-                        <div class="benefit-text">Seamless Point Integration</div>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="benefit-icon">🎨</div>
-                        <div class="benefit-text">Customizable Content</div>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="benefit-icon">📱</div>
-                        <div class="benefit-text">Responsive Design</div>
-                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Create Custom Assignments</h3>
+                    <p>To create your own assignments:</p>
+                    <ul>
+                        <li>Click "Create New Assignment"</li>
+                        <li>Add multiple-choice and short-answer questions</li>
+                        <li>Set point values for each question</li>
+                        <li>Save and assign to your rosters</li>
+                    </ul>
                 </div>
             </div>
 
-            <div class="cta-section">
-                <h2>Ready to Get Started?</h2>
-                <p>Join thousands of teachers and students already using Play Tornado to create engaging, gamified learning experiences.</p>
-                <div class="cta-buttons">
-                    <a href="/" class="btn">🏠 Go to Homepage</a>
-                    <a href="/roster.html" class="btn btn-secondary">👥 Manage Rosters</a>
+            <div class="section">
+                <h2>🎮 Step 3: Playing the War Game</h2>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Choose a Scenario</h3>
+                    <p>Go to <a href="/war.html" class="btn btn-outline">War Game</a> and select a scenario:</p>
+                    <ul>
+                        <li><strong>Business Mode:</strong> Corporate competition with departments</li>
+                        <li><strong>Historical Wars:</strong> World War II, Civil War, etc.</li>
+                        <li><strong>Literature:</strong> Romeo & Juliet, Macbeth, etc.</li>
+                        <li><strong>Pop Culture:</strong> Movies, music, sports</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Select Your Roster</h3>
+                    <p>Choose the roster you want to play with. The game will:</p>
+                    <ul>
+                        <li>Load all students from that roster</li>
+                        <li>Assign them to teams based on your roster settings</li>
+                        <li>Give them starting points (if they've earned any from assignments)</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Students Join the Game</h3>
+                    <p>Students need to:</p>
+                    <ul>
+                        <li>Go to <a href="/student-war.html" class="btn btn-outline">Student War Game</a></li>
+                        <li>Enter the class code you gave them</li>
+                        <li>Select their name from the roster</li>
+                        <li>Start playing!</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>How Students Play</h3>
+                    <p>Students can:</p>
+                    <ul>
+                        <li><strong>Buy Territories:</strong> Spend points to claim map territories</li>
+                        <li><strong>Attack Other Teams:</strong> Use weapons to take enemy territories</li>
+                        <li><strong>Form Alliances:</strong> Work with teammates strategically</li>
+                        <li><strong>Earn More Points:</strong> Complete assignments to get more resources</li>
+                    </ul>
+                    <div class="highlight">
+                        <strong>💡 Pro Tip:</strong> The team that controls the target percentage of territories (set in your roster) wins the game!
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h3>Monitor Progress</h3>
+                    <p>As the teacher, you can:</p>
+                    <ul>
+                        <li>Watch the game unfold in real-time</li>
+                        <li>See which students are most active</li>
+                        <li>Check assignment completion rates</li>
+                        <li>Adjust point values or game settings as needed</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📊 Step 4: Tracking Student Progress</h2>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>View Student Dashboards</h3>
+                    <p>In your roster management page, you can see:</p>
+                    <ul>
+                        <li><strong>Points Earned:</strong> Total points from assignments and quizzes</li>
+                        <li><strong>Territories Controlled:</strong> How many map territories each student owns</li>
+                        <li><strong>Assignment Status:</strong> Which assignments are completed</li>
+                        <li><strong>Team Performance:</strong> How teams are doing overall</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Grade Assignments</h3>
+                    <p>For assignments with short-answer questions:</p>
+                    <ul>
+                        <li>Go to the assignment in your roster</li>
+                        <li>Click on individual student responses</li>
+                        <li>Grade manually and award points</li>
+                        <li>Points automatically transfer to the war game</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Adjust Game Settings</h3>
+                    <p>You can modify the game at any time:</p>
+                    <ul>
+                        <li><strong>Change Target Percentage:</strong> Make the game easier or harder</li>
+                        <li><strong>Add Bonus Points:</strong> Reward students for good behavior</li>
+                        <li><strong>Reset Game:</strong> Start over if needed</li>
+                        <li><strong>Pause Game:</strong> Stop the game temporarily</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🎯 Best Practices for Teachers</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3>📅 Start Small</h3>
+                        <p>Begin with one roster and one assignment. Get comfortable with the system before expanding.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🏆 Set Clear Goals</h3>
+                        <p>Tell students exactly how to win (e.g., "Control 25% of the map" or "Complete 3 assignments").</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>⚖️ Balance Points</h3>
+                        <p>Make sure assignments give enough points for students to participate meaningfully in the war game.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🔄 Regular Updates</h3>
+                        <p>Check progress regularly and provide feedback. Students love seeing their progress!</p>
+                    </div>
+                </div>
+
+                <div class="warning">
+                    <strong>⚠️ Common Pitfalls:</strong>
+                    <ul>
+                        <li>Don't make assignments too hard - students need to earn points to play</li>
+                        <li>Make sure students know their class code - write it clearly on the board</li>
+                        <li>Start the war game after students have earned some points from assignments</li>
+                        <li>Monitor for students who aren't participating and provide extra support</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🚀 Ready to Start?</h2>
+                <p>Now that you know how to use Play Tornado, here are your next steps:</p>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Create Your First Roster</h3>
+                    <p>Start with one class. Add your students and get the class code.</p>
+                    <a href="/roster.html" class="btn">👥 Manage Rosters</a>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Browse Assignments</h3>
+                    <p>Find assignments that match your curriculum and assign them to your roster.</p>
+                    <a href="/assignments-library.html" class="btn btn-secondary">📚 Assignment Library</a>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Start the War Game</h3>
+                    <p>Once students have earned some points, launch the war game and watch the fun begin!</p>
+                    <a href="/war.html" class="btn btn-outline">⚔️ War Game</a>
+                </div>
+
+                <div class="highlight">
+                    <strong>💡 Need Help?</strong> If you run into any issues or have questions, the system is designed to be intuitive. Most teachers figure it out within 10 minutes of trying it!
                 </div>
             </div>
         </div>
