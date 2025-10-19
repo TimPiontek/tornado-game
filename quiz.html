@@ -7073,7 +7073,12 @@
                 if (targetRoster && targetRoster.roster) {
                     targetRoster.roster.forEach(student => {
                         if (studentPoints[student.name]) {
+                            // CRITICAL FIX: Update both points and balance for war game compatibility
                             student.points = (student.points || 0) + studentPoints[student.name];
+                            student.balance = student.points; // Ensure balance matches points
+                            student.earnedPoints = (student.earnedPoints || 0) + studentPoints[student.name];
+                            
+                            console.log(`Updated ${student.name}: +${studentPoints[student.name]} points (total: ${student.points})`);
                         }
                     });
                     
@@ -7087,6 +7092,10 @@
                                         const student = targetRoster.roster.find(s => s.name === studentName);
                                         if (student) {
                                             student.points = (student.points || 0) + teamVictoryBonus[team.name];
+                                            student.balance = student.points; // Ensure balance matches points
+                                            student.earnedPoints = (student.earnedPoints || 0) + teamVictoryBonus[team.name];
+                                            
+                                            console.log(`Team victory bonus: ${student.name} +${teamVictoryBonus[team.name]} points (total: ${student.points})`);
                                         }
                                     });
                                 }
@@ -7097,6 +7106,10 @@
                                 const student = targetRoster.roster.find(s => s.name === studentName);
                                 if (student) {
                                     student.points = (student.points || 0) + teamVictoryBonus[studentName];
+                                    student.balance = student.points; // Ensure balance matches points
+                                    student.earnedPoints = (student.earnedPoints || 0) + teamVictoryBonus[studentName];
+                                    
+                                    console.log(`Quick roster team victory bonus: ${student.name} +${teamVictoryBonus[studentName]} points (total: ${student.points})`);
                                 }
                             });
                         }
@@ -7110,6 +7123,31 @@
                     if (rosterIndex >= 0) {
                         rosters[rosterIndex] = targetRoster;
                         localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+                        
+                        // CRITICAL FIX: Also sync to cloud if available
+                        try {
+                            // Check if we have Supabase available
+                            if (window.supabase && window.supabase.auth && window.supabase.auth.session()) {
+                                const session = window.supabase.auth.session();
+                                if (session && session.user) {
+                                    const { error } = await window.supabase.from('rosters').upsert({
+                                        id: targetRoster.id,
+                                        teacher_id: session.user.id,
+                                        name: targetRoster.name,
+                                        data: targetRoster,
+                                        last_modified: new Date().toISOString()
+                                    });
+                                    
+                                    if (error) {
+                                        console.error('Error saving quiz points to cloud:', error);
+                                    } else {
+                                        console.log('Quiz points saved to cloud successfully');
+                                    }
+                                }
+                            }
+                        } catch (error) {
+                            console.error('Error syncing quiz points to cloud:', error);
+                        }
                     }
                 }
                 

@@ -1111,10 +1111,10 @@
         gsId: student.id || `student_${i}`,
         name: student.name,
         tilesOwned: existingStudent?.tilesOwned || 0,
-        // Split starting vs earned points
+        // Split starting vs earned points - prioritize quiz points
         startingPoints: existingStudent?.startingPoints ?? existingStudent?.startPoints ?? 10,
         earnedPoints: existingStudent?.earnedPoints ?? 0,
-        balance: (existingStudent?.startingPoints ?? existingStudent?.startPoints ?? 10) + (existingStudent?.earnedPoints ?? 0),
+        balance: student.points ?? student.balance ?? (existingStudent?.startingPoints ?? existingStudent?.startPoints ?? 10) + (existingStudent?.earnedPoints ?? 0),
         teamId: existingStudent?.teamId || null,
         teamName: existingStudent?.teamName || null,
         teamColor: existingStudent?.teamColor || null,
