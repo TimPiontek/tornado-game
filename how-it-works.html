@@ -279,6 +279,88 @@
             font-size: 0.9rem;
         }
 
+        .table-of-contents {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .table-of-contents h3 {
+            color: var(--text);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .toc-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .toc-item:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .toc-item a {
+            color: inherit;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .toc-item:hover a {
+            color: white;
+        }
+
+        .section-toggle {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+        }
+
+        .section-toggle:hover {
+            background: #7c3aed;
+        }
+
+        .section-toggle.collapsed {
+            background: var(--muted);
+        }
+
+        .section-content {
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .section-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .section-content.expanded {
+            max-height: none;
+            opacity: 1;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 0.5rem;
@@ -293,7 +375,8 @@
             }
             
             .feature-grid,
-            .quick-start-grid {
+            .quick-start-grid,
+            .toc-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -365,12 +448,37 @@
                     <div class="quick-start-item">
                         <h4>4. Play War Game</h4>
                         <p>Teams spend points strategically</p>
+                </div>
+                </div>
+            </div>
+
+            <div class="table-of-contents">
+                <h3>📋 Jump to What You Need</h3>
+                <div class="toc-grid">
+                    <div class="toc-item">
+                        <a href="#business-section">🏢 Business Use Cases</a>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#setup-roster">👥 Setting Up Rosters</a>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#assignments">📚 Creating Assignments</a>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#war-game">🎮 Playing War Game</a>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#tracking">📊 Tracking Progress</a>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#best-practices">🎯 Best Practices</a>
                     </div>
                 </div>
             </div>
 
-            <div class="section">
-                <h2>🏢 For Managers & Business Teams</h2>
+            <div class="section" id="business-section">
+                <button class="section-toggle" onclick="toggleSection('business-content')">🏢 For Managers & Business Teams</button>
+                <div class="section-content expanded" id="business-content">
                 
                 <div class="step">
                     <h3>Business Use Cases</h3>
@@ -403,10 +511,12 @@
                         <li><strong>Team Assignment:</strong> Organize by departments, projects, or skill levels</li>
                     </ul>
                 </div>
+                </div>
             </div>
 
-            <div class="section">
-                <h2>👥 Step 1: Setting Up Your Team Roster</h2>
+            <div class="section" id="setup-roster">
+                <button class="section-toggle" onclick="toggleSection('roster-content')">👥 Step 1: Setting Up Your Team Roster</button>
+                <div class="section-content expanded" id="roster-content">
                 
                 <div class="step">
                     <div class="step-number">1</div>
@@ -436,7 +546,7 @@
                         <li><strong>First Name</strong></li>
                         <li><strong>Last Name</strong></li>
                         <li><strong>Email</strong> (optional, for notifications)</li>
-                    </ul>
+                        </ul>
                     <p>Click "Add Student" after each entry. Team members will appear in the roster list.</p>
                 </div>
 
@@ -459,10 +569,12 @@
                         <li>Teams will compete against each other in the war game</li>
                     </ul>
                 </div>
+                </div>
             </div>
 
-            <div class="section">
-                <h2>📚 Step 2: Creating Assignments</h2>
+            <div class="section" id="assignments">
+                <button class="section-toggle" onclick="toggleSection('assignments-content')">📚 Step 2: Creating Assignments</button>
+                <div class="section-content expanded" id="assignments-content">
                 
                 <div class="step">
                     <div class="step-number">1</div>
@@ -493,7 +605,7 @@
                         <li>Select your roster from the dropdown</li>
                         <li>Set point values for each question</li>
                         <li>Choose due date (optional)</li>
-                    </ul>
+                        </ul>
                     <div class="highlight">
                         <strong>💡 Pro Tip:</strong> Points earned from assignments automatically transfer to the war game. Team members can spend these points on territories, weapons, and strategies.
                     </div>
@@ -508,15 +620,17 @@
                         <li>Add multiple-choice and short-answer questions</li>
                         <li>Set point values for each question</li>
                         <li>Save and assign to your rosters</li>
-                    </ul>
+                        </ul>
                     <div class="highlight">
                         <strong>💡 For Business:</strong> Create company-specific training materials, policy quizzes, product knowledge tests, or compliance assessments.
                     </div>
                 </div>
+                </div>
             </div>
 
-            <div class="section">
-                <h2>🎮 Step 3: Playing the War Game</h2>
+            <div class="section" id="war-game">
+                <button class="section-toggle" onclick="toggleSection('war-content')">🎮 Step 3: Playing the War Game</button>
+                <div class="section-content expanded" id="war-content">
                 
                 <div class="step">
                     <div class="step-number">1</div>
@@ -583,10 +697,12 @@
                         <li>Adjust point values or game settings as needed</li>
                     </ul>
                 </div>
+                </div>
             </div>
 
-            <div class="section">
-                <h2>📊 Step 4: Tracking Team Progress</h2>
+            <div class="section" id="tracking">
+                <button class="section-toggle" onclick="toggleSection('tracking-content')">📊 Step 4: Tracking Team Progress</button>
+                <div class="section-content expanded" id="tracking-content">
                 
                 <div class="step">
                     <div class="step-number">1</div>
@@ -623,10 +739,12 @@
                         <li><strong>Pause Game:</strong> Stop the game temporarily</li>
                     </ul>
                 </div>
+                </div>
             </div>
 
-            <div class="section">
-                <h2>🎯 Best Practices for Teachers & Managers</h2>
+            <div class="section" id="best-practices">
+                <button class="section-toggle" onclick="toggleSection('practices-content')">🎯 Best Practices for Teachers & Managers</button>
+                <div class="section-content expanded" id="practices-content">
                 
                 <div class="feature-grid">
                     <div class="feature-card">
@@ -655,6 +773,7 @@
                         <li>Start the war game after team members have earned some points from assignments</li>
                         <li>Monitor for team members who aren't participating and provide extra support</li>
                     </ul>
+                </div>
                 </div>
             </div>
 
@@ -689,5 +808,49 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId);
+            const button = content.previousElementSibling;
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                content.classList.add('collapsed');
+                button.classList.add('collapsed');
+                button.textContent = button.textContent.replace('▼', '▶');
+            } else {
+                content.classList.remove('collapsed');
+                content.classList.add('expanded');
+                button.classList.remove('collapsed');
+                button.textContent = button.textContent.replace('▶', '▼');
+            }
+        }
+
+        // Add collapse/expand indicators to buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.section-toggle');
+            buttons.forEach(button => {
+                button.textContent += ' ▼';
+            });
+        });
+
+        // Smooth scrolling for table of contents links
+        document.querySelectorAll('.toc-item a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                    // Expand the section if it's collapsed
+                    const content = targetElement.querySelector('.section-content');
+                    if (content && content.classList.contains('collapsed')) {
+                        toggleSection(content.id);
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
