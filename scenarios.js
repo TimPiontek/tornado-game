@@ -210,7 +210,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['lightning rod'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'diplomatic',
             quotes: [
               "An investment in knowledge pays the best interest.",
@@ -227,7 +227,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['quill pen'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'intellectual',
             quotes: [
               "We hold these truths to be self-evident...",
@@ -244,7 +244,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['horse'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'swift',
             quotes: [
               "The British are coming!",
@@ -261,7 +261,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['law book'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'argumentative',
             quotes: [
               "Facts are stubborn things.",
@@ -278,7 +278,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ambitious',
             quotes: [
               "A national debt, if it is not excessive, will be to us a national blessing.",
@@ -295,7 +295,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['wealth'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'wealthy',
             quotes: [
               "There, I guess King George will be able to read that!",
@@ -312,7 +312,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['words'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'radical',
             quotes: [
               "The liberties of our country, the freedom of our civil constitution, are worth defending.",
@@ -329,7 +329,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['words'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'passionate',
             quotes: [
               "Give me liberty, or give me death!",
@@ -346,7 +346,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'idealistic',
             quotes: [
               "Humanity has won its battle. Liberty now has a country.",
@@ -363,7 +363,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['discipline'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'disciplined',
             quotes: [
               "The American soldier, properly trained, is equal to any in the world.",
@@ -380,7 +380,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strategic',
             quotes: [
               "We fight, get beat, rise, and fight again.",
@@ -397,7 +397,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['cannon'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "We will drag these cannons to Boston!",
@@ -414,7 +414,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ambitious',
             quotes: [
               "We will take Quebec!",
@@ -431,7 +431,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['musket'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'bold',
             quotes: [
               "Come out, you old rat!",
@@ -448,7 +448,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['ship'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "I have not yet begun to fight!",
@@ -465,7 +465,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['guerilla tactics'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'elusive',
             quotes: [
               "We will strike from the swamps.",
@@ -482,7 +482,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['rifle'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'tactical',
             quotes: [
               "We will use our rifles wisely.",
@@ -499,7 +499,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'defiant',
             quotes: [
               "Live free or die!",
@@ -516,7 +516,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cautious',
             quotes: [
               "We must choose our battles carefully.",
@@ -533,7 +533,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "Don't fire until you see the whites of their eyes!",
@@ -550,7 +550,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "We will defend this hill.",
@@ -567,7 +567,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['medical knowledge'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'dedicated',
             quotes: [
               "We will heal the wounded.",
@@ -584,7 +584,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['rhetoric'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'passionate',
             quotes: [
               "The natural liberty of man is to be free from any superior power on Earth.",
@@ -597,9 +597,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Patriot Soldier', startingCoins: 50, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['For liberty!', 'Down with tyranny!', 'Freedom or death!'] },
-          { name: 'Colonial Farmer', startingCoins: 40, startingWeapons: ['pitchfork'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking', quotes: ['We will not be taxed!', 'No taxation without representation!', 'Stand up for our rights!'] },
-          { name: 'Town Militia', startingCoins: 45, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 0, personality: 'patriotic', quotes: ['Ready to fight!', 'For our homes!', 'Liberty or death!'] }
+          { name: 'Patriot Soldier', startingCoins: 50, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['For liberty!', 'Down with tyranny!', 'Freedom or death!'] },
+          { name: 'Colonial Farmer', startingCoins: 40, startingWeapons: ['pitchfork'], startingMercenaries: 0, startingCastles: 1, personality: 'hardworking', quotes: ['We will not be taxed!', 'No taxation without representation!', 'Stand up for our rights!'] },
+          { name: 'Town Militia', startingCoins: 45, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 1, personality: 'patriotic', quotes: ['Ready to fight!', 'For our homes!', 'Liberty or death!'] }
         ]
       },
       british: {
@@ -676,7 +676,7 @@ window.SCENARIOS = {
             startingCoins: 100,
             startingWeapons: ['parliamentary papers'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'political',
             quotes: [
               "The colonies must pay their fair share.",
@@ -761,7 +761,7 @@ window.SCENARIOS = {
             startingCoins: 95,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "We will hunt down the rebels.",
@@ -778,7 +778,7 @@ window.SCENARIOS = {
             startingCoins: 100,
             startingWeapons: ['naval cannon'],
             startingMercenaries: 3,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'naval',
             quotes: [
               "The Royal Navy will blockade them.",
@@ -863,7 +863,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['sword', 'cavalry'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "I will hunt them down.",
@@ -880,7 +880,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword', 'treachery'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ambitious',
             quotes: [
               "The British offer more.",
@@ -897,7 +897,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['intelligence'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'charming',
             quotes: [
               "I will gather intelligence.",
@@ -931,7 +931,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword', 'cavalry'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ruthless',
             quotes: [
               "No quarter for rebels.",
@@ -978,9 +978,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Redcoat Soldier', startingCoins: 60, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 0, personality: 'disciplined', quotes: ['For king and country!', 'God save the king!', 'We will prevail!'] },
-          { name: 'British Officer', startingCoins: 70, startingWeapons: ['sword'], startingMercenaries: 2, startingCastles: 0, personality: 'proud', quotes: ['At attention!', 'Follow orders!', 'For the empire!'] },
-          { name: 'Loyalist Colonist', startingCoins: 45, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['We are British subjects!', 'Long live the king!', 'We must maintain order!'] }
+          { name: 'Redcoat Soldier', startingCoins: 60, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 1, personality: 'disciplined', quotes: ['For king and country!', 'God save the king!', 'We will prevail!'] },
+          { name: 'British Officer', startingCoins: 70, startingWeapons: ['sword'], startingMercenaries: 2, startingCastles: 1, personality: 'proud', quotes: ['At attention!', 'Follow orders!', 'For the empire!'] },
+          { name: 'Loyalist Colonist', startingCoins: 45, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['We are British subjects!', 'Long live the king!', 'We must maintain order!'] }
         ]
       }
     },
@@ -1079,7 +1079,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['intelligence'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "I freed a thousand slaves. I could have freed a thousand more if only they knew they were slaves.",
@@ -1096,7 +1096,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['words'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'eloquent',
             quotes: [
               "If there is no struggle, there is no progress.",
@@ -1147,7 +1147,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "We will ride them down.",
@@ -1181,7 +1181,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'heroic',
             quotes: [
               "We will hold Little Round Top.",
@@ -1198,7 +1198,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 3,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'bold',
             quotes: [
               "Forward, men! Forward!",
@@ -1215,7 +1215,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'unfortunate',
             quotes: [
               "We will cross the Rappahannock.",
@@ -1232,7 +1232,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 3,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'confident',
             quotes: [
               "We will outflank Lee.",
@@ -1249,7 +1249,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "We will attack from the west.",
@@ -1266,7 +1266,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'political',
             quotes: [
               "We will occupy New Orleans.",
@@ -1283,7 +1283,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'political',
             quotes: [
               "We will fight for the Union.",
@@ -1300,7 +1300,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ambitious',
             quotes: [
               "We will take Vicksburg.",
@@ -1317,7 +1317,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 3,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'methodical',
             quotes: [
               "We will plan our moves carefully.",
@@ -1334,7 +1334,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We will serve the Union.",
@@ -1421,7 +1421,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['horse'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'dashing',
             quotes: [
               "I would rather die than be whipped.",
@@ -1438,7 +1438,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['horse'],
             startingMercenaries: 3,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ruthless',
             quotes: [
               "I got there first with the most men.",
@@ -1472,7 +1472,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "We will attack the enemy.",
@@ -1489,7 +1489,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cautious',
             quotes: [
               "We must be careful.",
@@ -1506,7 +1506,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'bold',
             quotes: [
               "We will raid the North.",
@@ -1523,7 +1523,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "We will attack with everything.",
@@ -1668,7 +1668,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['intuition'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'protective',
             quotes: [
               "Caesar, I have had a terrible dream.",
@@ -1685,7 +1685,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['charm'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'influential',
             quotes: [
               "Caesar loves me still.",
@@ -1702,7 +1702,7 @@ window.SCENARIOS = {
             startingCoins: 40,
             startingWeapons: ['loyalty'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'devoted',
             quotes: [
               "I serve Caesar faithfully.",
@@ -1719,7 +1719,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['warning'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'wise',
             quotes: [
               "Caesar, read this warning.",
@@ -1736,7 +1736,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['senate'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cautious',
             quotes: [
               "I wish your enterprise may thrive.",
@@ -1753,7 +1753,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['petition'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'deceitful',
             quotes: [
               "Caesar, grant my brother's pardon.",
@@ -1770,7 +1770,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['verses'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'artistic',
             quotes: [
               "I am Cinna the poet.",
@@ -1787,7 +1787,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['dagger'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "Speak, hands, for me!",
@@ -1804,7 +1804,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['persuasion'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'persuasive',
             quotes: [
               "Caesar, the Senate awaits you.",
@@ -1821,7 +1821,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['distraction'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cunning',
             quotes: [
               "Antony, come with me.",
@@ -1838,7 +1838,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['dedication'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'devoted',
             quotes: [
               "I am sick, but I will come.",
@@ -1855,7 +1855,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['anxiety'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'worried',
             quotes: [
               "Brutus, what troubles you?",
@@ -1872,7 +1872,7 @@ window.SCENARIOS = {
             startingCoins: 35,
             startingWeapons: ['music'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'innocent',
             quotes: [
               "Master, I will play for you.",
@@ -1889,7 +1889,7 @@ window.SCENARIOS = {
             startingCoins: 30,
             startingWeapons: ['sleep'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'sleepy',
             quotes: [
               "Master, I am tired.",
@@ -1906,7 +1906,7 @@ window.SCENARIOS = {
             startingCoins: 40,
             startingWeapons: ['loyalty'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'faithful',
             quotes: [
               "Master, I will not leave you.",
@@ -1923,7 +1923,7 @@ window.SCENARIOS = {
             startingCoins: 35,
             startingWeapons: ['refusal'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "Master, I cannot do it.",
@@ -1940,7 +1940,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['friendship'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "Brutus, my friend.",
@@ -1957,7 +1957,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['sword'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "Master, I will help you.",
@@ -1974,7 +1974,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'military',
             quotes: [
               "Brutus, the enemy approaches.",
@@ -1991,7 +1991,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "Cassius, I will scout ahead.",
@@ -2008,7 +2008,7 @@ window.SCENARIOS = {
             startingCoins: 30,
             startingWeapons: ['eyes'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'observant',
             quotes: [
               "Master, I see Titinius captured.",
@@ -2025,7 +2025,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['deception'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "I am Brutus!",
@@ -2042,7 +2042,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'patriotic',
             quotes: [
               "I am Cato's son!",
@@ -2059,7 +2059,7 @@ window.SCENARIOS = {
             startingCoins: 40,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cowardly',
             quotes: [
               "I am afraid.",
@@ -2076,7 +2076,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['authority'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'authoritarian',
             quotes: [
               "Remove Caesar's decorations.",
@@ -2093,7 +2093,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['authority'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strict',
             quotes: [
               "You blocks, you stones!",
@@ -2129,7 +2129,7 @@ window.SCENARIOS = {
             startingCoins: 100,
             startingWeapons: ['dagger'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'idealistic',
             quotes: [
               "Not that I loved Caesar less, but that I loved Rome more.",
@@ -2146,7 +2146,7 @@ window.SCENARIOS = {
             startingCoins: 95,
             startingWeapons: ['dagger'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'envious',
             quotes: [
               "The fault, dear Brutus, is not in our stars, but in ourselves.",
@@ -2163,7 +2163,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['words'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'eloquent',
             quotes: [
               "The safety of the people shall be the highest law.",
@@ -2180,7 +2180,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['integrity'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'stoic',
             quotes: [
               "Carthage must be destroyed.",
@@ -2256,7 +2256,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['words'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'manipulative',
             quotes: [
               "Surely you don't want Jones back?",
@@ -2290,7 +2290,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['vision'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'inspirational',
             quotes: [
               "Man is the only creature that consumes without producing.",
@@ -2307,7 +2307,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['verses'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'artistic',
             quotes: [
               "Friend of fatherless! Fountain of happiness!",
@@ -2324,7 +2324,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['stomach'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cautious',
             quotes: [
               "I will work harder.",
@@ -2341,7 +2341,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['negotiation'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'opportunistic',
             quotes: [
               "I can get you better prices.",
@@ -2358,7 +2358,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['farm'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'competitive',
             quotes: [
               "My farm is better than yours.",
@@ -2392,7 +2392,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['stories'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'mystical',
             quotes: [
               "Sugar Candy Mountain awaits.",
@@ -2409,7 +2409,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['literacy'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'intelligent',
             quotes: [
               "I can read the commandments.",
@@ -2426,7 +2426,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['protection'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'protective',
             quotes: [
               "I will work harder.",
@@ -2443,7 +2443,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['teeth'],
             startingMercenaries: 3,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "I will work harder.",
@@ -2460,7 +2460,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['maternal'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'nurturing',
             quotes: [
               "I will work harder.",
@@ -2496,7 +2496,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['strength'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "I will work harder.",
@@ -2513,7 +2513,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['wisdom'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cynical',
             quotes: [
               "Donkeys live a long time.",
@@ -2530,7 +2530,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['care'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'caring',
             quotes: [
               "I will work harder.",
@@ -2547,7 +2547,7 @@ window.SCENARIOS = {
             startingCoins: 40,
             startingWeapons: ['vanity'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'selfish',
             quotes: [
               "Will there still be sugar after the rebellion?",
@@ -2564,7 +2564,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['eggs'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'productive',
             quotes: [
               "I will work harder.",
@@ -2581,7 +2581,7 @@ window.SCENARIOS = {
             startingCoins: 30,
             startingWeapons: ['enthusiasm'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'innocent',
             quotes: [
               "I will work harder.",
@@ -2598,7 +2598,7 @@ window.SCENARIOS = {
             startingCoins: 35,
             startingWeapons: ['stealth'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'selfish',
             quotes: [
               "I will work harder.",
@@ -2615,7 +2615,7 @@ window.SCENARIOS = {
             startingCoins: 25,
             startingWeapons: ['numbers'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'conformist',
             quotes: [
               "I will work harder.",
@@ -2632,7 +2632,7 @@ window.SCENARIOS = {
             startingCoins: 40,
             startingWeapons: ['voice'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loud',
             quotes: [
               "I will work harder.",
@@ -2649,7 +2649,7 @@ window.SCENARIOS = {
             startingCoins: 20,
             startingWeapons: ['stealth'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'opportunistic',
             quotes: [
               "I will work harder.",
@@ -2666,7 +2666,7 @@ window.SCENARIOS = {
             startingCoins: 30,
             startingWeapons: ['flight'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'free',
             quotes: [
               "I will work harder.",
@@ -2683,7 +2683,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['wisdom'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'mystical',
             quotes: [
               "Sugar Candy Mountain awaits.",
@@ -2700,7 +2700,7 @@ window.SCENARIOS = {
             startingCoins: 40,
             startingWeapons: ['claws'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'independent',
             quotes: [
               "I will work harder.",
@@ -2717,7 +2717,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['honking'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'alert',
             quotes: [
               "I will work harder.",
@@ -2734,7 +2734,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['pride'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'proud',
             quotes: [
               "I will work harder.",
@@ -2814,7 +2814,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['time turner'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'intelligent',
             quotes: [
               "I'm not an owl!",
@@ -2831,7 +2831,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['chess set'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "I'm not going to let you down.",
@@ -2882,7 +2882,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword of gryffindor'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "I'll fight with you.",
@@ -2899,7 +2899,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['spectrespecs'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'wise',
             quotes: [
               "The things we lose have a way of coming back to us.",
@@ -2916,7 +2916,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['bat-bogey hex'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'fierce',
             quotes: [
               "I'm not going to be left behind.",
@@ -2950,7 +2950,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['werewolf strength'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'wise',
             quotes: [
               "The time will come when you have to choose between what is right and what is easy.",
@@ -2967,7 +2967,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['motherly love'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'protective',
             quotes: [
               "Not my daughter, you bitch!",
@@ -2984,7 +2984,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['muggle knowledge'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'curious',
             quotes: [
               "What exactly is the function of a rubber duck?",
@@ -3001,7 +3001,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['auror training'],
             startingMercenaries: 3,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'professional',
             quotes: [
               "We will restore order.",
@@ -3035,7 +3035,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['giant strength'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'gentle',
             quotes: [
               "I shouldn't have told you that.",
@@ -3048,9 +3048,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Luna Lovegood', startingCoins: 55, startingWeapons: ['wand'], startingMercenaries: 1, startingCastles: 0, personality: 'quirky', quotes: ['The nargles are hiding!', 'I believe in you!', 'Don\'t worry, it\'s just a wrackspurt!'] },
-          { name: 'Dean Thomas', startingCoins: 50, startingWeapons: ['wand'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['We\'re Gryffindors!', 'For Harry!', 'We stand together!'] },
-          { name: 'Seamus Finnigan', startingCoins: 50, startingWeapons: ['wand'], startingMercenaries: 1, startingCastles: 0, personality: 'enthusiastic', quotes: ['Explosive magic!', 'Let\'s blow them up!', 'For Gryffindor!'] }
+          { name: 'Luna Lovegood', startingCoins: 55, startingWeapons: ['wand'], startingMercenaries: 1, startingCastles: 1, personality: 'quirky', quotes: ['The nargles are hiding!', 'I believe in you!', 'Don\'t worry, it\'s just a wrackspurt!'] },
+          { name: 'Dean Thomas', startingCoins: 50, startingWeapons: ['wand'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['We\'re Gryffindors!', 'For Harry!', 'We stand together!'] },
+          { name: 'Seamus Finnigan', startingCoins: 50, startingWeapons: ['wand'], startingMercenaries: 1, startingCastles: 1, personality: 'enthusiastic', quotes: ['Explosive magic!', 'Let\'s blow them up!', 'For Gryffindor!'] }
         ]
       },
       deathEaters: {
@@ -3093,7 +3093,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['cruciatus curse'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cruel',
             quotes: [
               "I live to serve the Dark Lord.",
@@ -3110,7 +3110,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['slytherin ring'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'arrogant',
             quotes: [
               "Pure blood is superior.",
@@ -3127,7 +3127,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['rat form'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cowardly',
             quotes: [
               "I had no choice.",
@@ -3144,7 +3144,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['slytherin necklace'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'proud',
             quotes: [
               "My son is everything.",
@@ -3161,7 +3161,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['slytherin wand'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'conflicted',
             quotes: [
               "My father will hear about this.",
@@ -3178,7 +3178,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['silent curse'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'dangerous',
             quotes: [
               "I will not be captured.",
@@ -3195,7 +3195,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['werewolf bite'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'savage',
             quotes: [
               "I will bite you.",
@@ -3212,7 +3212,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['ministry connections'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ambitious',
             quotes: [
               "I control the Ministry.",
@@ -3229,7 +3229,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['cruciatus curse'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cruel',
             quotes: [
               "I will torture them.",
@@ -3246,7 +3246,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['venomous bite', 'horcrux'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "I serve my master.",
@@ -3280,7 +3280,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['venomous fangs', 'web trap'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'predatory',
             quotes: [
               "I will catch prey.",
@@ -3293,9 +3293,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Amycus Carrow', startingCoins: 55, startingWeapons: ['cruciatus curse'], startingMercenaries: 1, startingCastles: 0, personality: 'cruel', quotes: ['The Dark Lord will be pleased!', 'Pure blood supremacy!', 'I enjoy their pain!'] },
-          { name: 'Thorfinn Rowle', startingCoins: 50, startingWeapons: ['dark mark'], startingMercenaries: 1, startingCastles: 0, personality: 'brutal', quotes: ['For the Dark Lord!', 'We will crush them!', 'Death to the Order!'] },
-          { name: 'Walden Macnair', startingCoins: 50, startingWeapons: ['executioner axe'], startingMercenaries: 1, startingCastles: 0, personality: 'ruthless', quotes: ['I execute the Dark Lord\'s will!', 'Death to traitors!', 'Pure blood will rule!'] }
+          { name: 'Amycus Carrow', startingCoins: 55, startingWeapons: ['cruciatus curse'], startingMercenaries: 1, startingCastles: 1, personality: 'cruel', quotes: ['The Dark Lord will be pleased!', 'Pure blood supremacy!', 'I enjoy their pain!'] },
+          { name: 'Thorfinn Rowle', startingCoins: 50, startingWeapons: ['dark mark'], startingMercenaries: 1, startingCastles: 1, personality: 'brutal', quotes: ['For the Dark Lord!', 'We will crush them!', 'Death to the Order!'] },
+          { name: 'Walden Macnair', startingCoins: 50, startingWeapons: ['executioner axe'], startingMercenaries: 1, startingCastles: 1, personality: 'ruthless', quotes: ['I execute the Dark Lord\'s will!', 'Death to traitors!', 'Pure blood will rule!'] }
         ]
       }
     },
@@ -3360,7 +3360,7 @@ window.SCENARIOS = {
             startingCoins: 100,
             startingWeapons: ['vibranium shield'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'honorable',
             quotes: [
               "I can do this all day.",
@@ -3394,7 +3394,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['super strength'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'angry',
             quotes: [
               "Hulk smash!",
@@ -3411,7 +3411,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['widow\'s bite'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'skilled',
             quotes: [
               "I'm not a spy, I'm an Avenger.",
@@ -3428,7 +3428,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['bow and arrow'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'precise',
             quotes: [
               "I never miss.",
@@ -3462,7 +3462,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['web shooters'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'youthful',
             quotes: [
               "I'm Spider-Man.",
@@ -3513,7 +3513,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['pym particles'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'clever',
             quotes: [
               "I'm Ant-Man.",
@@ -3530,7 +3530,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['pym particles'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "I'm Wasp.",
@@ -3547,7 +3547,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['wings'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "I'm Falcon.",
@@ -3564,7 +3564,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['metal arm'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'reformed',
             quotes: [
               "I'm Winter Soldier.",
@@ -3581,7 +3581,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['mind stone'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'logical',
             quotes: [
               "I'm Vision.",
@@ -3594,9 +3594,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'SHIELD Agent', startingCoins: 50, startingWeapons: ['tactical gear'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['For SHIELD!', 'Protect the world!', 'We are the good guys!'] },
-          { name: 'Stark Employee', startingCoins: 45, startingWeapons: ['tech gadgets'], startingMercenaries: 0, startingCastles: 0, personality: 'innovative', quotes: ['Stark Industries!', 'Technology saves!', 'We build the future!'] },
-          { name: 'Avenger Trainee', startingCoins: 40, startingWeapons: ['training gear'], startingMercenaries: 0, startingCastles: 0, personality: 'eager', quotes: ['We want to help!', 'Teach us!', 'We can be heroes!'] }
+          { name: 'SHIELD Agent', startingCoins: 50, startingWeapons: ['tactical gear'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['For SHIELD!', 'Protect the world!', 'We are the good guys!'] },
+          { name: 'Stark Employee', startingCoins: 45, startingWeapons: ['tech gadgets'], startingMercenaries: 0, startingCastles: 1, personality: 'innovative', quotes: ['Stark Industries!', 'Technology saves!', 'We build the future!'] },
+          { name: 'Avenger Trainee', startingCoins: 40, startingWeapons: ['training gear'], startingMercenaries: 0, startingCastles: 1, personality: 'eager', quotes: ['We want to help!', 'Teach us!', 'We can be heroes!'] }
         ]
       },
       villains: {
@@ -3639,7 +3639,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['scepter'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'tricky',
             quotes: [
               "I am Loki of Asgard.",
@@ -3673,7 +3673,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['cosmic cube'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'evil',
             quotes: [
               "Hail Hydra!",
@@ -3707,7 +3707,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['vibranium suit'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'vengeful',
             quotes: [
               "I am Killmonger.",
@@ -3724,7 +3724,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['wings'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'greedy',
             quotes: [
               "I am Vulture.",
@@ -3741,7 +3741,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['illusions'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'deceptive',
             quotes: [
               "I am Mysterio.",
@@ -3809,7 +3809,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['goblin glider'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'insane',
             quotes: [
               "I am Green Goblin.",
@@ -3826,7 +3826,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['symbiote'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'hungry',
             quotes: [
               "I am Venom.",
@@ -3843,7 +3843,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['symbiote'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'murderous',
             quotes: [
               "I am Carnage.",
@@ -3860,7 +3860,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['criminal empire'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'criminal',
             quotes: [
               "I am Kingpin.",
@@ -3873,9 +3873,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Hydra Agent', startingCoins: 50, startingWeapons: ['hydra tech'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['Hail Hydra!', 'We will conquer!', 'For the cause!'] },
-          { name: 'Chitauri', startingCoins: 45, startingWeapons: ['alien tech'], startingMercenaries: 0, startingCastles: 0, personality: 'mindless', quotes: ['Serve Thanos!', 'We obey!', 'Conquer!'] },
-          { name: 'Outrider', startingCoins: 40, startingWeapons: ['claws'], startingMercenaries: 0, startingCastles: 0, personality: 'feral', quotes: ['Attack!', 'Destroy!', 'Kill!'] }
+          { name: 'Hydra Agent', startingCoins: 50, startingWeapons: ['hydra tech'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['Hail Hydra!', 'We will conquer!', 'For the cause!'] },
+          { name: 'Chitauri', startingCoins: 45, startingWeapons: ['alien tech'], startingMercenaries: 0, startingCastles: 1, personality: 'mindless', quotes: ['Serve Thanos!', 'We obey!', 'Conquer!'] },
+          { name: 'Outrider', startingCoins: 40, startingWeapons: ['claws'], startingMercenaries: 0, startingCastles: 1, personality: 'feral', quotes: ['Attack!', 'Destroy!', 'Kill!'] }
         ]
       }
     },
@@ -3923,7 +3923,7 @@ window.SCENARIOS = {
             startingCoins: 100,
             startingWeapons: ['lightsaber'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'heroic',
             quotes: [
               "I am a Jedi, like my father before me.",
@@ -3940,7 +3940,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['blaster'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strong',
             quotes: [
               "Help me, Obi-Wan Kenobi, you're my only hope.",
@@ -3957,7 +3957,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['blaster'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'rogue',
             quotes: [
               "I've got a bad feeling about this.",
@@ -4008,7 +4008,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['bowcaster'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "Rrrrrrgh!",
@@ -4025,7 +4025,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['tools'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'helpful',
             quotes: [
               "Beep boop!",
@@ -4042,7 +4042,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['protocol knowledge'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'nervous',
             quotes: [
               "I have a bad feeling about this.",
@@ -4059,7 +4059,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['blaster'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'charismatic',
             quotes: [
               "I'm a businessman.",
@@ -4076,7 +4076,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['X-wing'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "I'm with you, Red Leader.",
@@ -4093,7 +4093,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['diplomacy'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'diplomatic',
             quotes: [
               "We must unite against the Empire.",
@@ -4110,7 +4110,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['tactical knowledge'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'tactical',
             quotes: [
               "It's a trap!",
@@ -4127,7 +4127,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['X-wing'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "I'm with you, Luke.",
@@ -4144,7 +4144,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['blaster'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "I'm not afraid.",
@@ -4161,7 +4161,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['blaster'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'dedicated',
             quotes: [
               "I'm not afraid to die.",
@@ -4174,9 +4174,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Wedge Antilles', startingCoins: 50, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 0, personality: 'brave', quotes: ['For the Rebellion!', 'Red Leader standing by!', 'We will fight!'] },
-          { name: 'Biggs Darklighter', startingCoins: 55, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 0, personality: 'skilled', quotes: ['I can handle it!', 'Let\'s do this!', 'For the cause!'] },
-          { name: 'Ahsoka Tano', startingCoins: 45, startingWeapons: ['training saber'], startingMercenaries: 0, startingCastles: 0, personality: 'eager', quotes: ['I want to learn!', 'Teach me!', 'I will be a Jedi!'] }
+          { name: 'Wedge Antilles', startingCoins: 50, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 1, personality: 'brave', quotes: ['For the Rebellion!', 'Red Leader standing by!', 'We will fight!'] },
+          { name: 'Biggs Darklighter', startingCoins: 55, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 1, personality: 'skilled', quotes: ['I can handle it!', 'Let\'s do this!', 'For the cause!'] },
+          { name: 'Ahsoka Tano', startingCoins: 45, startingWeapons: ['training saber'], startingMercenaries: 0, startingCastles: 1, personality: 'eager', quotes: ['I want to learn!', 'Teach me!', 'I will be a Jedi!'] }
         ]
       },
       empire: {
@@ -4253,7 +4253,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['blaster'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ruthless',
             quotes: [
               "He's no good to me dead.",
@@ -4270,7 +4270,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['double-bladed lightsaber'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "At last we will reveal ourselves to the Jedi.",
@@ -4287,7 +4287,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['AT-AT'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'military',
             quotes: [
               "We will crush the Rebellion.",
@@ -4304,7 +4304,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['Star Destroyer'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We will hunt down the Rebels.",
@@ -4321,7 +4321,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['Star Destroyer'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'dedicated',
             quotes: [
               "We will not lose them.",
@@ -4338,7 +4338,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['Star Destroyer'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'arrogant',
             quotes: [
               "We will crush the Rebellion.",
@@ -4355,7 +4355,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['military tactics'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strategic',
             quotes: [
               "We must be strategic.",
@@ -4372,7 +4372,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['Star Destroyer'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'arrogant',
             quotes: [
               "We will crush the Rebellion.",
@@ -4389,7 +4389,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['military tactics'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strategic',
             quotes: [
               "We must be strategic.",
@@ -4406,7 +4406,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['Star Destroyer'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We will hunt down the Rebels.",
@@ -4423,7 +4423,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['military tactics'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strategic',
             quotes: [
               "We must be strategic.",
@@ -4440,7 +4440,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['Star Destroyer'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'arrogant',
             quotes: [
               "We will crush the Rebellion.",
@@ -4453,9 +4453,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Grand Moff Tarkin', startingCoins: 45, startingWeapons: ['blaster'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['For the Empire!', 'All hail the Emperor!', 'We will crush the Rebellion!'] },
-          { name: 'Admiral Piett', startingCoins: 55, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 0, personality: 'disciplined', quotes: ['At attention!', 'Follow orders!', 'For the Empire!'] },
-          { name: 'Commander Cody', startingCoins: 50, startingWeapons: ['blaster'], startingMercenaries: 0, startingCastles: 0, personality: 'skilled', quotes: ['I can handle it!', 'Let\'s do this!', 'For the Empire!'] }
+          { name: 'Grand Moff Tarkin', startingCoins: 45, startingWeapons: ['blaster'], startingMercenaries: 0, startingCastles: 1, personality: 'loyal', quotes: ['For the Empire!', 'All hail the Emperor!', 'We will crush the Rebellion!'] },
+          { name: 'Admiral Piett', startingCoins: 55, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 1, personality: 'disciplined', quotes: ['At attention!', 'Follow orders!', 'For the Empire!'] },
+          { name: 'Commander Cody', startingCoins: 50, startingWeapons: ['blaster'], startingMercenaries: 0, startingCastles: 1, personality: 'skilled', quotes: ['I can handle it!', 'Let\'s do this!', 'For the Empire!'] }
         ]
       },
       neutral: {
@@ -4481,7 +4481,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['blaster', 'jetpack'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'mercenary',
             quotes: [
               "I'm just a simple man trying to make my way in the universe.",
@@ -4498,7 +4498,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['blaster', 'millennium falcon'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'charismatic',
             quotes: [
               "I've got a bad feeling about this.",
@@ -4532,7 +4532,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['charisma', 'cloud city'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'smooth',
             quotes: [
               "I'm a businessman, not a warrior.",
@@ -4549,7 +4549,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['bowcaster', 'strength'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "Rrrrrrgh!",
@@ -4562,9 +4562,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Bounty Hunter', startingCoins: 60, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 0, personality: 'mercenary', quotes: ['Credits will do fine.', 'I work for money.', 'No questions asked.'] },
-          { name: 'Smuggler', startingCoins: 55, startingWeapons: ['blaster'], startingMercenaries: 0, startingCastles: 0, personality: 'opportunistic', quotes: ['I can get you anything.', 'For the right price.', 'Business is business.'] },
-          { name: 'Pirate', startingCoins: 50, startingWeapons: ['blaster'], startingMercenaries: 0, startingCastles: 0, personality: 'lawless', quotes: ['We take what we want!', 'No law out here!', 'Pirates don\'t ask!'] }
+          { name: 'Bounty Hunter', startingCoins: 60, startingWeapons: ['blaster'], startingMercenaries: 1, startingCastles: 1, personality: 'mercenary', quotes: ['Credits will do fine.', 'I work for money.', 'No questions asked.'] },
+          { name: 'Smuggler', startingCoins: 55, startingWeapons: ['blaster'], startingMercenaries: 0, startingCastles: 1, personality: 'opportunistic', quotes: ['I can get you anything.', 'For the right price.', 'Business is business.'] },
+          { name: 'Pirate', startingCoins: 50, startingWeapons: ['blaster'], startingMercenaries: 0, startingCastles: 1, personality: 'lawless', quotes: ['We take what we want!', 'No law out here!', 'Pirates don\'t ask!'] }
         ]
       }
     },
@@ -4642,7 +4642,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['naval cannon'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "We have met the enemy and they are ours.",
@@ -4659,7 +4659,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['quill pen'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'patriotic',
             quotes: [
               "Oh say can you see, by the dawn's early light.",
@@ -4676,7 +4676,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "We will defeat Tecumseh's confederation.",
@@ -4693,7 +4693,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strategic',
             quotes: [
               "We will defend Canada.",
@@ -4710,7 +4710,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['tomahawk'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'unifying',
             quotes: [
               "We will unite all tribes.",
@@ -4727,7 +4727,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'disciplined',
             quotes: [
               "We will train our soldiers properly.",
@@ -4744,7 +4744,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'adventurous',
             quotes: [
               "We will explore the frontier.",
@@ -4761,7 +4761,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['military strategy'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'administrative',
             quotes: [
               "We will organize our forces.",
@@ -4778,7 +4778,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['oratory'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'passionate',
             quotes: [
               "We must fight for our rights.",
@@ -4795,7 +4795,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['oratory'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'passionate',
             quotes: [
               "We must defend our sovereignty.",
@@ -4812,7 +4812,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['words'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'eloquent',
             quotes: [
               "We must unite against the British.",
@@ -4829,7 +4829,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['diplomacy'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'diplomatic',
             quotes: [
               "We must negotiate peace.",
@@ -4846,7 +4846,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['courage'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "I will save what I can.",
@@ -4859,9 +4859,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'American Soldier', startingCoins: 50, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 0, personality: 'patriotic', quotes: ['For America!', 'We will not be conquered!', 'Freedom!'] },
-          { name: 'Militia Member', startingCoins: 45, startingWeapons: ['musket'], startingMercenaries: 0, startingCastles: 0, personality: 'brave', quotes: ['Defend our homes!', 'We are ready!', 'For our families!'] },
-          { name: 'Sailor', startingCoins: 55, startingWeapons: ['cutlass'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['For the Navy!', 'Rule the seas!', 'We sail for America!'] }
+          { name: 'American Soldier', startingCoins: 50, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 1, personality: 'patriotic', quotes: ['For America!', 'We will not be conquered!', 'Freedom!'] },
+          { name: 'Militia Member', startingCoins: 45, startingWeapons: ['musket'], startingMercenaries: 0, startingCastles: 1, personality: 'brave', quotes: ['Defend our homes!', 'We are ready!', 'For our families!'] },
+          { name: 'Sailor', startingCoins: 55, startingWeapons: ['cutlass'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['For the Navy!', 'Rule the seas!', 'We sail for America!'] }
         ]
       },
       british: {
@@ -4916,7 +4916,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['tomahawk'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'unifying',
             quotes: [
               "We will unite all tribes.",
@@ -4933,7 +4933,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "We will burn Washington.",
@@ -4950,7 +4950,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "We will take New Orleans.",
@@ -4984,7 +4984,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "We will defend our homeland.",
@@ -5001,7 +5001,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['administrative power'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'administrative',
             quotes: [
               "We will govern Nova Scotia.",
@@ -5018,7 +5018,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['naval cannon'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'naval',
             quotes: [
               "We will control the Great Lakes.",
@@ -5035,7 +5035,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strategic',
             quotes: [
               "We will defend Upper Canada.",
@@ -5052,7 +5052,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "We will attack the Americans.",
@@ -5069,7 +5069,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "We will defend our position.",
@@ -5086,7 +5086,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['naval cannon'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'naval',
             quotes: [
               "We will control the St. Lawrence.",
@@ -5103,7 +5103,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['tomahawk'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We will fight for the British.",
@@ -5120,7 +5120,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['tomahawk'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "We will defend our homeland.",
@@ -5133,9 +5133,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Redcoat Soldier', startingCoins: 55, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 0, personality: 'disciplined', quotes: ['For king and country!', 'God save the king!', 'We will prevail!'] },
-          { name: 'Canadian Militia', startingCoins: 50, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['Defend Canada!', 'We are British subjects!', 'For the Crown!'] },
-          { name: 'Native Warrior', startingCoins: 45, startingWeapons: ['tomahawk'], startingMercenaries: 0, startingCastles: 0, personality: 'brave', quotes: ['For our land!', 'We will not be moved!', 'Our ancestors watch!'] }
+          { name: 'Redcoat Soldier', startingCoins: 55, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 1, personality: 'disciplined', quotes: ['For king and country!', 'God save the king!', 'We will prevail!'] },
+          { name: 'Canadian Militia', startingCoins: 50, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['Defend Canada!', 'We are British subjects!', 'For the Crown!'] },
+          { name: 'Native Warrior', startingCoins: 45, startingWeapons: ['tomahawk'], startingMercenaries: 0, startingCastles: 1, personality: 'brave', quotes: ['For our land!', 'We will not be moved!', 'Our ancestors watch!'] }
         ]
       }
     },
@@ -5229,7 +5229,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "We will secure the Southwest.",
@@ -5246,7 +5246,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['compass'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'adventurous',
             quotes: [
               "We will explore the West.",
@@ -5263,7 +5263,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['engineering tools'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'methodical',
             quotes: [
               "We will build proper fortifications.",
@@ -5280,7 +5280,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "We will fight with honor.",
@@ -5297,7 +5297,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ambitious',
             quotes: [
               "We will expand our territory.",
@@ -5314,7 +5314,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "We will fight for our country.",
@@ -5331,7 +5331,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We will serve our country.",
@@ -5348,7 +5348,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "We will attack the enemy.",
@@ -5365,7 +5365,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cautious',
             quotes: [
               "We must be careful.",
@@ -5382,7 +5382,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "We will fight for our country.",
@@ -5399,7 +5399,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'confident',
             quotes: [
               "We will defeat the enemy.",
@@ -5416,7 +5416,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strategic',
             quotes: [
               "We will use strategy.",
@@ -5429,9 +5429,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'American Soldier', startingCoins: 50, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 0, personality: 'patriotic', quotes: ['For America!', 'Manifest Destiny!', 'We will expand!'] },
-          { name: 'Texas Ranger', startingCoins: 55, startingWeapons: ['revolver'], startingMercenaries: 1, startingCastles: 0, personality: 'brave', quotes: ['Remember the Alamo!', 'We fight for Texas!', 'The Lone Star!'] },
-          { name: 'Mountain Man', startingCoins: 45, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'independent', quotes: ['We explore the West!', 'The frontier calls!', 'We are free!'] }
+          { name: 'American Soldier', startingCoins: 50, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 1, personality: 'patriotic', quotes: ['For America!', 'Manifest Destiny!', 'We will expand!'] },
+          { name: 'Texas Ranger', startingCoins: 55, startingWeapons: ['revolver'], startingMercenaries: 1, startingCastles: 1, personality: 'brave', quotes: ['Remember the Alamo!', 'We fight for Texas!', 'The Lone Star!'] },
+          { name: 'Mountain Man', startingCoins: 45, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'independent', quotes: ['We explore the West!', 'The frontier calls!', 'We are free!'] }
         ]
       },
       mexicans: {
@@ -5469,7 +5469,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'defensive',
             quotes: [
               "We will hold the border.",
@@ -5486,7 +5486,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "We will defend Monterrey.",
@@ -5503,7 +5503,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['pistol'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'pragmatic',
             quotes: [
               "We will protect New Mexico.",
@@ -5520,7 +5520,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['pistol'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'defiant',
             quotes: [
               "We will defend California.",
@@ -5537,7 +5537,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['political power'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'reformist',
             quotes: [
               "We will reform our government.",
@@ -5554,7 +5554,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['political power'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'diplomatic',
             quotes: [
               "We must negotiate peace.",
@@ -5571,7 +5571,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['political power'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'moderate',
             quotes: [
               "We will find peace.",
@@ -5588,7 +5588,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strategic',
             quotes: [
               "We will use strategy.",
@@ -5605,7 +5605,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We will serve Mexico.",
@@ -5622,7 +5622,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "We will fight bravely.",
@@ -5639,7 +5639,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "We will attack the Americans.",
@@ -5656,7 +5656,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "We will defend our homeland.",
@@ -5673,7 +5673,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'patriotic',
             quotes: [
               "We will fight for Mexico.",
@@ -5690,7 +5690,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'defensive',
             quotes: [
               "We will defend our positions.",
@@ -5703,9 +5703,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Mexican Soldier', startingCoins: 45, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['Viva Mexico!', 'We defend our homeland!', 'For our country!'] },
-          { name: 'Vaquero', startingCoins: 50, startingWeapons: ['lasso'], startingMercenaries: 0, startingCastles: 0, personality: 'proud', quotes: ['We are cowboys!', 'The land is ours!', 'We ride for Mexico!'] },
-          { name: 'Guerrilla Fighter', startingCoins: 40, startingWeapons: ['knife'], startingMercenaries: 0, startingCastles: 0, personality: 'resilient', quotes: ['We fight in the shadows!', 'Resist the invaders!', 'For freedom!'] }
+          { name: 'Mexican Soldier', startingCoins: 45, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['Viva Mexico!', 'We defend our homeland!', 'For our country!'] },
+          { name: 'Vaquero', startingCoins: 50, startingWeapons: ['lasso'], startingMercenaries: 0, startingCastles: 1, personality: 'proud', quotes: ['We are cowboys!', 'The land is ours!', 'We ride for Mexico!'] },
+          { name: 'Guerrilla Fighter', startingCoins: 40, startingWeapons: ['knife'], startingMercenaries: 0, startingCastles: 1, personality: 'resilient', quotes: ['We fight in the shadows!', 'Resist the invaders!', 'For freedom!'] }
         ]
       }
     },
@@ -5749,7 +5749,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['diary'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'rebellious',
             quotes: [
               "Freedom is the freedom to say that two plus two make four.",
@@ -5766,7 +5766,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['lipstick'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'defiant',
             quotes: [
               "I love you.",
@@ -5783,7 +5783,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['torture'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'manipulative',
             quotes: [
               "We will meet in the place where there is no darkness.",
@@ -5800,7 +5800,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['antiques'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'wise',
             quotes: [
               "The proles are human beings.",
@@ -5817,7 +5817,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['words'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'intellectual',
             quotes: [
               "The proles are human beings.",
@@ -5830,9 +5830,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Prole Worker', startingCoins: 40, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 0, personality: 'ignorant', quotes: ['We work!', 'We are free!', 'We are human!'] },
-          { name: 'Underground Member', startingCoins: 45, startingWeapons: ['secrets'], startingMercenaries: 0, startingCastles: 0, personality: 'secretive', quotes: ['We resist!', 'We are the dead!', 'We will meet!'] },
-          { name: 'Thought Criminal', startingCoins: 50, startingWeapons: ['thoughts'], startingMercenaries: 0, startingCastles: 0, personality: 'rebellious', quotes: ['We think!', 'We are free!', 'We resist!'] }
+          { name: 'Prole Worker', startingCoins: 40, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 1, personality: 'ignorant', quotes: ['We work!', 'We are free!', 'We are human!'] },
+          { name: 'Underground Member', startingCoins: 45, startingWeapons: ['secrets'], startingMercenaries: 0, startingCastles: 1, personality: 'secretive', quotes: ['We resist!', 'We are the dead!', 'We will meet!'] },
+          { name: 'Thought Criminal', startingCoins: 50, startingWeapons: ['thoughts'], startingMercenaries: 0, startingCastles: 1, personality: 'rebellious', quotes: ['We think!', 'We are free!', 'We resist!'] }
         ]
       },
       party: {
@@ -5870,7 +5870,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['propaganda'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'mysterious',
             quotes: [
               "The proles are human beings.",
@@ -5887,7 +5887,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['enthusiasm'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'fanatical',
             quotes: [
               "The proles are human beings.",
@@ -5904,7 +5904,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['poetry'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'artistic',
             quotes: [
               "The proles are human beings.",
@@ -5921,7 +5921,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['statistics'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'methodical',
             quotes: [
               "The proles are human beings.",
@@ -5938,7 +5938,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['reports'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'diligent',
             quotes: [
               "The proles are human beings.",
@@ -5955,7 +5955,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['memories'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'defiant',
             quotes: [
               "The proles are human beings.",
@@ -5972,7 +5972,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['memories'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'defiant',
             quotes: [
               "The proles are human beings.",
@@ -5989,7 +5989,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['duty'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'dutiful',
             quotes: [
               "The proles are human beings.",
@@ -6006,7 +6006,7 @@ window.SCENARIOS = {
             startingCoins: 30,
             startingWeapons: ['spying'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'fanatical',
             quotes: [
               "The proles are human beings.",
@@ -6023,7 +6023,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['fear'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'fearful',
             quotes: [
               "The proles are human beings.",
@@ -6040,7 +6040,7 @@ window.SCENARIOS = {
             startingCoins: 40,
             startingWeapons: ['song'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'free',
             quotes: [
               "The proles are human beings.",
@@ -6057,7 +6057,7 @@ window.SCENARIOS = {
             startingCoins: 35,
             startingWeapons: ['work'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ignorant',
             quotes: [
               "The proles are human beings.",
@@ -6074,7 +6074,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['surveillance'],
             startingMercenaries: 3,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'omnipresent',
             quotes: [
               "The proles are human beings.",
@@ -6091,7 +6091,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['monitoring'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'omnipresent',
             quotes: [
               "The proles are human beings.",
@@ -6108,7 +6108,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['paperwork'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'bureaucratic',
             quotes: [
               "The proles are human beings.",
@@ -6125,7 +6125,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['loyalty'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'conformist',
             quotes: [
               "The proles are human beings.",
@@ -6142,7 +6142,7 @@ window.SCENARIOS = {
             startingCoins: 100,
             startingWeapons: ['power'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'privileged',
             quotes: [
               "The proles are human beings.",
@@ -6159,7 +6159,7 @@ window.SCENARIOS = {
             startingCoins: 25,
             startingWeapons: ['innocence'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'innocent',
             quotes: [
               "The proles are human beings.",
@@ -6176,7 +6176,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['language'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'systematic',
             quotes: [
               "The proles are human beings.",
@@ -6193,7 +6193,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['destruction'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'destructive',
             quotes: [
               "The proles are human beings.",
@@ -6210,7 +6210,7 @@ window.SCENARIOS = {
             startingCoins: 40,
             startingWeapons: ['hatred'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'fanatical',
             quotes: [
               "The proles are human beings.",
@@ -6227,7 +6227,7 @@ window.SCENARIOS = {
             startingCoins: 35,
             startingWeapons: ['alcohol'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'escapist',
             quotes: [
               "The proles are human beings.",
@@ -6244,7 +6244,7 @@ window.SCENARIOS = {
             startingCoins: 30,
             startingWeapons: ['rations'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'deprived',
             quotes: [
               "The proles are human beings.",
@@ -6261,7 +6261,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['dictionary'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'systematic',
             quotes: [
               "The proles are human beings.",
@@ -6278,7 +6278,7 @@ window.SCENARIOS = {
             startingCoins: 40,
             startingWeapons: ['goods'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'entrepreneurial',
             quotes: [
               "The proles are human beings.",
@@ -6295,7 +6295,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['food'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'servile',
             quotes: [
               "The proles are human beings.",
@@ -6312,7 +6312,7 @@ window.SCENARIOS = {
             startingCoins: 35,
             startingWeapons: ['beer'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'social',
             quotes: [
               "The proles are human beings.",
@@ -6329,7 +6329,7 @@ window.SCENARIOS = {
             startingCoins: 40,
             startingWeapons: ['elevator'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'mechanical',
             quotes: [
               "The proles are human beings.",
@@ -6346,7 +6346,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['trade'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'commercial',
             quotes: [
               "The proles are human beings.",
@@ -6363,7 +6363,7 @@ window.SCENARIOS = {
             startingCoins: 40,
             startingWeapons: ['labor'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'hardworking',
             quotes: [
               "The proles are human beings.",
@@ -6380,7 +6380,7 @@ window.SCENARIOS = {
             startingCoins: 40,
             startingWeapons: ['strength'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strong',
             quotes: [
               "The proles are human beings.",
@@ -6393,9 +6393,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Party Member', startingCoins: 50, startingWeapons: ['loyalty'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['Big Brother is watching!', 'We are the Party!', 'We are the dead!'] },
-          { name: 'Thought Police', startingCoins: 55, startingWeapons: ['surveillance'], startingMercenaries: 1, startingCastles: 0, personality: 'ruthless', quotes: ['We are watching!', 'We are the dead!', 'We are the Party!'] },
-          { name: 'Inner Party', startingCoins: 60, startingWeapons: ['power'], startingMercenaries: 1, startingCastles: 0, personality: 'elite', quotes: ['We are the elite!', 'We are the Party!', 'We are the dead!'] }
+          { name: 'Party Member', startingCoins: 50, startingWeapons: ['loyalty'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['Big Brother is watching!', 'We are the Party!', 'We are the dead!'] },
+          { name: 'Thought Police', startingCoins: 55, startingWeapons: ['surveillance'], startingMercenaries: 1, startingCastles: 1, personality: 'ruthless', quotes: ['We are watching!', 'We are the dead!', 'We are the Party!'] },
+          { name: 'Inner Party', startingCoins: 60, startingWeapons: ['power'], startingMercenaries: 1, startingCastles: 1, personality: 'elite', quotes: ['We are the elite!', 'We are the Party!', 'We are the dead!'] }
         ]
       }
     },
@@ -6562,7 +6562,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['spear'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "I will fight in Achilles' armor.",
@@ -6579,7 +6579,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['spear'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'swift',
             quotes: [
               "I will outrun the Trojans.",
@@ -6596,7 +6596,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['bow'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'precise',
             quotes: [
               "I never miss my target.",
@@ -6613,7 +6613,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'noble',
             quotes: [
               "I will lead my Cretans to victory.",
@@ -6630,7 +6630,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['spear'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "I will fight alongside Idomeneus.",
@@ -6647,7 +6647,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['spear'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'youthful',
             quotes: [
               "I will prove myself in battle.",
@@ -6664,7 +6664,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['spear'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'dutiful',
             quotes: [
               "I will serve my father.",
@@ -6681,7 +6681,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['spear'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "I will fight for the Greeks.",
@@ -6694,9 +6694,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Greek Warrior', startingCoins: 50, startingWeapons: ['spear'], startingMercenaries: 1, startingCastles: 0, personality: 'brave', quotes: ['For glory!', 'We fight for honor!', 'Victory!'] },
-          { name: 'Archer', startingCoins: 45, startingWeapons: ['bow'], startingMercenaries: 0, startingCastles: 0, personality: 'skilled', quotes: ['We shoot true!', 'For the Greeks!', 'We are accurate!'] },
-          { name: 'Sailor', startingCoins: 40, startingWeapons: ['oar'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['We sail for Greece!', 'The sea is ours!', 'We are strong!'] }
+          { name: 'Greek Warrior', startingCoins: 50, startingWeapons: ['spear'], startingMercenaries: 1, startingCastles: 1, personality: 'brave', quotes: ['For glory!', 'We fight for honor!', 'Victory!'] },
+          { name: 'Archer', startingCoins: 45, startingWeapons: ['bow'], startingMercenaries: 0, startingCastles: 1, personality: 'skilled', quotes: ['We shoot true!', 'For the Greeks!', 'We are accurate!'] },
+          { name: 'Sailor', startingCoins: 40, startingWeapons: ['oar'], startingMercenaries: 0, startingCastles: 1, personality: 'loyal', quotes: ['We sail for Greece!', 'The sea is ours!', 'We are strong!'] }
         ]
       },
       trojans: {
@@ -6756,7 +6756,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['bow'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'selfish',
             quotes: [
               "Helen is mine.",
@@ -6773,7 +6773,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'pious',
             quotes: [
               "We will defend Troy.",
@@ -6790,7 +6790,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['tears'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loving',
             quotes: [
               "We will defend our city.",
@@ -6807,7 +6807,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['beauty'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'beautiful',
             quotes: [
               "I am the cause of this war.",
@@ -6824,7 +6824,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['spear'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "I will fight for Troy.",
@@ -6841,7 +6841,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['wisdom'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'wise',
             quotes: [
               "We must be strategic.",
@@ -6875,7 +6875,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['spear'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "I will fight alongside Sarpedon.",
@@ -6892,7 +6892,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['wisdom'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'diplomatic',
             quotes: [
               "We must negotiate peace.",
@@ -6909,7 +6909,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['bow'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'treacherous',
             quotes: [
               "I will break the truce.",
@@ -6926,7 +6926,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['stealth'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cowardly',
             quotes: [
               "I will spy on the Greeks.",
@@ -6943,7 +6943,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['spear'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'proud',
             quotes: [
               "I will fight for Troy.",
@@ -6973,9 +6973,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Trojan Warrior', startingCoins: 50, startingWeapons: ['spear'], startingMercenaries: 1, startingCastles: 0, personality: 'brave', quotes: ['For Troy!', 'We defend our city!', 'Victory!'] },
-          { name: 'Archer', startingCoins: 45, startingWeapons: ['bow'], startingMercenaries: 0, startingCastles: 0, personality: 'skilled', quotes: ['We shoot true!', 'For Troy!', 'We are accurate!'] },
-          { name: 'Guard', startingCoins: 40, startingWeapons: ['shield'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['We guard the walls!', 'Troy stands!', 'We are strong!'] }
+          { name: 'Trojan Warrior', startingCoins: 50, startingWeapons: ['spear'], startingMercenaries: 1, startingCastles: 1, personality: 'brave', quotes: ['For Troy!', 'We defend our city!', 'Victory!'] },
+          { name: 'Archer', startingCoins: 45, startingWeapons: ['bow'], startingMercenaries: 0, startingCastles: 1, personality: 'skilled', quotes: ['We shoot true!', 'For Troy!', 'We are accurate!'] },
+          { name: 'Guard', startingCoins: 40, startingWeapons: ['shield'], startingMercenaries: 0, startingCastles: 1, personality: 'loyal', quotes: ['We guard the walls!', 'Troy stands!', 'We are strong!'] }
         ]
       }
     },
@@ -7070,7 +7070,7 @@ window.SCENARIOS = {
             startingCoins: 95,
             startingWeapons: ['speed force'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'optimistic',
             quotes: [
               "I am the fastest man alive.",
@@ -7104,7 +7104,7 @@ window.SCENARIOS = {
             startingCoins: 95,
             startingWeapons: ['power ring'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'fearless',
             quotes: [
               "In brightest day, in blackest night.",
@@ -7121,7 +7121,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['cybernetic enhancements'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'tech-savvy',
             quotes: [
               "I am more than human.",
@@ -7138,7 +7138,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['bow and arrow'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'rebellious',
             quotes: [
               "I fight for the little guy.",
@@ -7155,7 +7155,7 @@ window.SCENARIOS = {
             startingCoins: 100,
             startingWeapons: ['telepathy'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'wise',
             quotes: [
               "I am the last of my kind.",
@@ -7172,7 +7172,7 @@ window.SCENARIOS = {
             startingCoins: 95,
             startingWeapons: ['lightning'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'youthful',
             quotes: [
               "Shazam!",
@@ -7189,7 +7189,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['canary cry'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'fierce',
             quotes: [
               "I fight for justice.",
@@ -7206,7 +7206,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['mace'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'noble',
             quotes: [
               "I fight for justice.",
@@ -7223,7 +7223,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['magic'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'mystical',
             quotes: [
               "I am mistress of magic.",
@@ -7240,7 +7240,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['escrima sticks'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'acrobatic',
             quotes: [
               "I fight for justice.",
@@ -7257,7 +7257,7 @@ window.SCENARIOS = {
             startingCoins: 100,
             startingWeapons: ['heat vision'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'heroic',
             quotes: [
               "I am Supergirl.",
@@ -7270,9 +7270,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Gotham Citizen', startingCoins: 50, startingWeapons: ['courage'], startingMercenaries: 0, startingCastles: 0, personality: 'brave', quotes: ['We trust Batman!', 'Gotham stands!', 'We are strong!'] },
-          { name: 'Metropolis Citizen', startingCoins: 55, startingWeapons: ['hope'], startingMercenaries: 0, startingCastles: 0, personality: 'hopeful', quotes: ['Superman will save us!', 'We believe!', 'Hope lives!'] },
-          { name: 'Justice League Member', startingCoins: 60, startingWeapons: ['teamwork'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['For justice!', 'We are the League!', 'Together we stand!'] }
+          { name: 'Gotham Citizen', startingCoins: 50, startingWeapons: ['courage'], startingMercenaries: 0, startingCastles: 1, personality: 'brave', quotes: ['We trust Batman!', 'Gotham stands!', 'We are strong!'] },
+          { name: 'Metropolis Citizen', startingCoins: 55, startingWeapons: ['hope'], startingMercenaries: 0, startingCastles: 1, personality: 'hopeful', quotes: ['Superman will save us!', 'We believe!', 'Hope lives!'] },
+          { name: 'Justice League Member', startingCoins: 60, startingWeapons: ['teamwork'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['For justice!', 'We are the League!', 'Together we stand!'] }
         ]
       },
       marvel: {
@@ -7293,7 +7293,7 @@ window.SCENARIOS = {
             startingCoins: 100,
             startingWeapons: ['web shooters'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'heroic',
             quotes: [
               "With great power comes great responsibility.",
@@ -7378,7 +7378,7 @@ window.SCENARIOS = {
             startingCoins: 110,
             startingWeapons: ['super strength'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'angry',
             quotes: [
               "Hulk smash!",
@@ -7395,7 +7395,7 @@ window.SCENARIOS = {
             startingCoins: 100,
             startingWeapons: ['adamantium claws'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'fierce',
             quotes: [
               "I\'m the best there is at what I do.",
@@ -7412,7 +7412,7 @@ window.SCENARIOS = {
             startingCoins: 95,
             startingWeapons: ['weather control'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'regal',
             quotes: [
               "I am Storm.",
@@ -7429,7 +7429,7 @@ window.SCENARIOS = {
             startingCoins: 105,
             startingWeapons: ['magic'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'mystical',
             quotes: [
               "I am Doctor Strange.",
@@ -7446,7 +7446,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['swords'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'chaotic',
             quotes: [
               "I am Deadpool.",
@@ -7463,7 +7463,7 @@ window.SCENARIOS = {
             startingCoins: 110,
             startingWeapons: ['cosmic energy'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'powerful',
             quotes: [
               "I am Captain Marvel.",
@@ -7480,7 +7480,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['pym particles'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'clever',
             quotes: [
               "I am Ant-Man.",
@@ -7497,7 +7497,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['pym particles'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "I am Wasp.",
@@ -7514,7 +7514,7 @@ window.SCENARIOS = {
             startingCoins: 100,
             startingWeapons: ['chaos magic'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'powerful',
             quotes: [
               "I am Scarlet Witch.",
@@ -7531,7 +7531,7 @@ window.SCENARIOS = {
             startingCoins: 95,
             startingWeapons: ['mind stone'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'logical',
             quotes: [
               "I am Vision.",
@@ -7544,9 +7544,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'New York Citizen', startingCoins: 50, startingWeapons: ['courage'], startingMercenaries: 0, startingCastles: 0, personality: 'brave', quotes: ['Spider-Man will save us!', 'We are strong!', 'New York stands!'] },
-          { name: 'Wakandan Citizen', startingCoins: 55, startingWeapons: ['pride'], startingMercenaries: 0, startingCastles: 0, personality: 'proud', quotes: ['Wakanda forever!', 'We are the future!', 'We are strong!'] },
-          { name: 'Avenger Trainee', startingCoins: 60, startingWeapons: ['training gear'], startingMercenaries: 1, startingCastles: 0, personality: 'eager', quotes: ['We want to help!', 'Teach us!', 'We can be heroes!'] }
+          { name: 'New York Citizen', startingCoins: 50, startingWeapons: ['courage'], startingMercenaries: 0, startingCastles: 1, personality: 'brave', quotes: ['Spider-Man will save us!', 'We are strong!', 'New York stands!'] },
+          { name: 'Wakandan Citizen', startingCoins: 55, startingWeapons: ['pride'], startingMercenaries: 0, startingCastles: 1, personality: 'proud', quotes: ['Wakanda forever!', 'We are the future!', 'We are strong!'] },
+          { name: 'Avenger Trainee', startingCoins: 60, startingWeapons: ['training gear'], startingMercenaries: 1, startingCastles: 1, personality: 'eager', quotes: ['We want to help!', 'Teach us!', 'We can be heroes!'] }
         ]
       }
     },
@@ -7623,7 +7623,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['hugs'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cheerful',
             quotes: [
               "I love warm hugs!",
@@ -7640,7 +7640,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['pickaxe'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "I will protect you.",
@@ -7657,7 +7657,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['antlers'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We are friends.",
@@ -7674,7 +7674,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['ice strength'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'protective',
             quotes: [
               "I will protect Elsa.",
@@ -7691,7 +7691,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['magic'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'wise',
             quotes: [
               "I will help you.",
@@ -7708,7 +7708,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['magic'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'motherly',
             quotes: [
               "I will help you.",
@@ -7725,7 +7725,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['magic'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'friendly',
             quotes: [
               "I will help you.",
@@ -7742,7 +7742,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['wind'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'playful',
             quotes: [
               "I will help you.",
@@ -7759,7 +7759,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['fire'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'curious',
             quotes: [
               "I will help you.",
@@ -7776,7 +7776,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['water'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'mysterious',
             quotes: [
               "I will help you.",
@@ -7793,7 +7793,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['earth'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ancient',
             quotes: [
               "I will help you.",
@@ -7810,7 +7810,7 @@ window.SCENARIOS = {
             startingCoins: 95,
             startingWeapons: ['memories'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'mystical',
             quotes: [
               "I will help you.",
@@ -7827,7 +7827,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['love'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loving',
             quotes: [
               "I will help you.",
@@ -7840,9 +7840,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Arendelle Citizen', startingCoins: 45, startingWeapons: ['hope'], startingMercenaries: 0, startingCastles: 0, personality: 'hopeful', quotes: ['We believe in Elsa!', 'Love will win!', 'We are strong!'] },
-          { name: 'Ice Harvester', startingCoins: 50, startingWeapons: ['pickaxe'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking', quotes: ['We work hard!', 'We are strong!', 'We harvest ice!'] },
-          { name: 'Royal Guard', startingCoins: 55, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['We protect the queen!', 'We are loyal!', 'We stand guard!'] }
+          { name: 'Arendelle Citizen', startingCoins: 45, startingWeapons: ['hope'], startingMercenaries: 0, startingCastles: 1, personality: 'hopeful', quotes: ['We believe in Elsa!', 'Love will win!', 'We are strong!'] },
+          { name: 'Ice Harvester', startingCoins: 50, startingWeapons: ['pickaxe'], startingMercenaries: 0, startingCastles: 1, personality: 'hardworking', quotes: ['We work hard!', 'We are strong!', 'We harvest ice!'] },
+          { name: 'Royal Guard', startingCoins: 55, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['We protect the queen!', 'We are loyal!', 'We stand guard!'] }
         ]
       },
       hans: {
@@ -7880,7 +7880,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['snowball'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'protective',
             quotes: [
               "I will protect the ice palace.",
@@ -7897,7 +7897,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['claws'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'predatory',
             quotes: [
               "We hunt together.",
@@ -7914,7 +7914,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['money'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'greedy',
             quotes: [
               "I will profit from this.",
@@ -7931,7 +7931,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['goods'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'opportunistic',
             quotes: [
               "I have what you need.",
@@ -7948,7 +7948,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['swords'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ambitious',
             quotes: [
               "We will take what we want.",
@@ -7965,7 +7965,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['spears'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We serve the princes.",
@@ -7982,7 +7982,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['gold'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'greedy',
             quotes: [
               "We will profit from this.",
@@ -7999,7 +7999,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['claws'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'dangerous',
             quotes: [
               "We hunt in the dark.",
@@ -8016,7 +8016,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['ice'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cold',
             quotes: [
               "We live in the ice.",
@@ -8033,7 +8033,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['snow'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We serve Marshmallow.",
@@ -8050,7 +8050,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['claws'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'predatory',
             quotes: [
               "We hunt together.",
@@ -8067,7 +8067,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['influence'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'arrogant',
             quotes: [
               "We are the nobles.",
@@ -8084,7 +8084,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['swords'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'mercenary',
             quotes: [
               "We fight for gold.",
@@ -8101,7 +8101,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['dark magic'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'evil',
             quotes: [
               "We are the dark spirits.",
@@ -8114,9 +8114,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Southern Isles Guard', startingCoins: 50, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['We serve the prince!', 'We are loyal!', 'We follow orders!'] },
-          { name: 'Mercenary', startingCoins: 45, startingWeapons: ['weapon'], startingMercenaries: 0, startingCastles: 0, personality: 'greedy', quotes: ['We fight for gold!', 'We are strong!', 'We will win!'] },
-          { name: 'Spy', startingCoins: 40, startingWeapons: ['secrets'], startingMercenaries: 0, startingCastles: 0, personality: 'sneaky', quotes: ['We gather information!', 'We are hidden!', 'We will succeed!'] }
+          { name: 'Southern Isles Guard', startingCoins: 50, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['We serve the prince!', 'We are loyal!', 'We follow orders!'] },
+          { name: 'Mercenary', startingCoins: 45, startingWeapons: ['weapon'], startingMercenaries: 0, startingCastles: 1, personality: 'greedy', quotes: ['We fight for gold!', 'We are strong!', 'We will win!'] },
+          { name: 'Spy', startingCoins: 40, startingWeapons: ['secrets'], startingMercenaries: 0, startingCastles: 1, personality: 'sneaky', quotes: ['We gather information!', 'We are hidden!', 'We will succeed!'] }
         ]
       }
     },
@@ -8172,7 +8172,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['rough riders'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "Speak softly and carry a big stick.",
@@ -8189,7 +8189,7 @@ window.SCENARIOS = {
             startingCoins: 95,
             startingWeapons: ['naval fleet'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strategic',
             quotes: [
               "You may fire when ready, Gridley.",
@@ -8206,7 +8206,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['yellow journalism'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'manipulative',
             quotes: [
               "You furnish the pictures, I'll furnish the war.",
@@ -8223,7 +8223,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['battleship'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "We will blockade Cuba.",
@@ -8240,7 +8240,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "We will charge up San Juan Hill.",
@@ -8257,7 +8257,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'disciplined',
             quotes: [
               "We will fight with discipline.",
@@ -8274,7 +8274,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strategic',
             quotes: [
               "We will use strategy.",
@@ -8291,7 +8291,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'experienced',
             quotes: [
               "We will use our experience.",
@@ -8308,7 +8308,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "We will be determined.",
@@ -8325,7 +8325,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'confederate',
             quotes: [
               "We will fight for our country.",
@@ -8342,7 +8342,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'confederate',
             quotes: [
               "We will fight for our country.",
@@ -8359,7 +8359,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['oratory'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'passionate',
             quotes: [
               "We will fight for our country.",
@@ -8376,7 +8376,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['diplomacy'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'diplomatic',
             quotes: [
               "We will use diplomacy.",
@@ -8393,7 +8393,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['military strategy'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'administrative',
             quotes: [
               "We will organize our forces.",
@@ -8406,9 +8406,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'American Soldier', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 1, startingCastles: 0, personality: 'patriotic', quotes: ['For America!', 'Remember the Maine!', 'We fight for freedom!'] },
-          { name: 'Rough Rider', startingCoins: 55, startingWeapons: ['cavalry saber'], startingMercenaries: 1, startingCastles: 0, personality: 'brave', quotes: ['Charge!', 'For Teddy!', 'We ride to victory!'] },
-          { name: 'Sailor', startingCoins: 45, startingWeapons: ['naval gun'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['Anchors aweigh!', 'We sail for glory!', 'The sea is ours!'] }
+          { name: 'American Soldier', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 1, startingCastles: 1, personality: 'patriotic', quotes: ['For America!', 'Remember the Maine!', 'We fight for freedom!'] },
+          { name: 'Rough Rider', startingCoins: 55, startingWeapons: ['cavalry saber'], startingMercenaries: 1, startingCastles: 1, personality: 'brave', quotes: ['Charge!', 'For Teddy!', 'We ride to victory!'] },
+          { name: 'Sailor', startingCoins: 45, startingWeapons: ['naval gun'], startingMercenaries: 0, startingCastles: 1, personality: 'loyal', quotes: ['Anchors aweigh!', 'We sail for glory!', 'The sea is ours!'] }
         ]
       },
       spanish: {
@@ -8446,7 +8446,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['armored cruiser'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'defensive',
             quotes: [
               "We will defend Santiago Bay.",
@@ -8463,7 +8463,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['concentration camps'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ruthless',
             quotes: [
               "We will crush the Cuban rebellion.",
@@ -8480,7 +8480,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['wooden ships'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'outmatched',
             quotes: [
               "We will defend Manila Bay.",
@@ -8497,7 +8497,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['colonial administration'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'pragmatic',
             quotes: [
               "We must maintain order in Cuba.",
@@ -8514,7 +8514,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['political power'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'conservative',
             quotes: [
               "We will defend our empire.",
@@ -8531,7 +8531,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['political power'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'liberal',
             quotes: [
               "We will defend our empire.",
@@ -8548,7 +8548,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'defensive',
             quotes: [
               "We will defend our positions.",
@@ -8565,7 +8565,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'defensive',
             quotes: [
               "We will defend Manila.",
@@ -8582,7 +8582,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['colonial administration'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'administrative',
             quotes: [
               "We will govern the Philippines.",
@@ -8599,7 +8599,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "We will fight bravely.",
@@ -8616,7 +8616,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'defensive',
             quotes: [
               "We will defend Santiago.",
@@ -8633,7 +8633,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "We will be determined.",
@@ -8650,7 +8650,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strategic',
             quotes: [
               "We will use strategy.",
@@ -8667,7 +8667,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'experienced',
             quotes: [
               "We will use our experience.",
@@ -8680,9 +8680,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Spanish Soldier', startingCoins: 45, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['For Spain!', 'We defend our empire!', 'Viva España!'] },
-          { name: 'Colonial Guard', startingCoins: 40, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'disciplined', quotes: ['We maintain order!', 'For the crown!', 'We are strong!'] },
-          { name: 'Navy Sailor', startingCoins: 50, startingWeapons: ['naval cannon'], startingMercenaries: 1, startingCastles: 0, personality: 'brave', quotes: ['We sail for Spain!', 'The sea is ours!', 'We will fight!'] }
+          { name: 'Spanish Soldier', startingCoins: 45, startingWeapons: ['musket'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['For Spain!', 'We defend our empire!', 'Viva España!'] },
+          { name: 'Colonial Guard', startingCoins: 40, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'disciplined', quotes: ['We maintain order!', 'For the crown!', 'We are strong!'] },
+          { name: 'Navy Sailor', startingCoins: 50, startingWeapons: ['naval cannon'], startingMercenaries: 1, startingCastles: 1, personality: 'brave', quotes: ['We sail for Spain!', 'The sea is ours!', 'We will fight!'] }
         ]
       }
     },
@@ -8811,7 +8811,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['logic'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'analytical',
             quotes: [
               "We will use logic and reason.",
@@ -8828,7 +8828,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['medical knowledge'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'healing',
             quotes: [
               "We will heal and protect.",
@@ -8845,7 +8845,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['crysknife'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'desert-wise',
             quotes: [
               "We will fight for the desert.",
@@ -8862,7 +8862,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['crysknife'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'fierce',
             quotes: [
               "We will fight for the desert.",
@@ -8879,7 +8879,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['ecological knowledge'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'scientific',
             quotes: [
               "We will understand the desert.",
@@ -8896,7 +8896,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['crysknife'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'proud',
             quotes: [
               "We will fight for the desert.",
@@ -8913,7 +8913,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['loyalty'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We will serve House Atreides.",
@@ -8930,7 +8930,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['logic'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'analytical',
             quotes: [
               "We will use logic and reason.",
@@ -8947,7 +8947,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['medical knowledge'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'healing',
             quotes: [
               "We will heal and protect.",
@@ -8964,7 +8964,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['loyalty'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We will serve House Atreides.",
@@ -8977,9 +8977,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Atreides Soldier', startingCoins: 50, startingWeapons: ['lasgun'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['For House Atreides!', 'We fight with honor!', 'The spice must flow!'] },
-          { name: 'Fremen Warrior', startingCoins: 55, startingWeapons: ['crysknife'], startingMercenaries: 1, startingCastles: 0, personality: 'fierce', quotes: ['We are the desert!', 'The spice is life!', 'We will not be conquered!'] },
-          { name: 'Spice Miner', startingCoins: 45, startingWeapons: ['mining tools'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking', quotes: ['We harvest the spice!', 'The desert provides!', 'We work for the Duke!'] }
+          { name: 'Atreides Soldier', startingCoins: 50, startingWeapons: ['lasgun'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['For House Atreides!', 'We fight with honor!', 'The spice must flow!'] },
+          { name: 'Fremen Warrior', startingCoins: 55, startingWeapons: ['crysknife'], startingMercenaries: 1, startingCastles: 1, personality: 'fierce', quotes: ['We are the desert!', 'The spice is life!', 'We will not be conquered!'] },
+          { name: 'Spice Miner', startingCoins: 45, startingWeapons: ['mining tools'], startingMercenaries: 0, startingCastles: 1, personality: 'hardworking', quotes: ['We harvest the spice!', 'The desert provides!', 'We work for the Duke!'] }
         ]
       },
       harkonnen: {
@@ -9051,7 +9051,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['logic'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'calculating',
             quotes: [
               "Logic will guide us to victory.",
@@ -9068,7 +9068,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['stealth'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'deceitful',
             quotes: [
               "We will strike from the shadows.",
@@ -9085,7 +9085,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['voice'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'mystical',
             quotes: [
               "We will use the voice.",
@@ -9102,7 +9102,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['lasgun'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We will serve the Baron.",
@@ -9119,7 +9119,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'disciplined',
             quotes: [
               "We will fight with discipline.",
@@ -9136,7 +9136,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['spice knowledge'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'greedy',
             quotes: [
               "We will control the spice.",
@@ -9153,7 +9153,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['logic'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'analytical',
             quotes: [
               "We will use logic.",
@@ -9170,7 +9170,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['stealth device'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'stealthy',
             quotes: [
               "We will neutralize our enemies.",
@@ -9187,7 +9187,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['truth serum'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'calculating',
             quotes: [
               "We will extract information from our enemies.",
@@ -9204,7 +9204,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['stun baton'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strict',
             quotes: [
               "We will maintain order.",
@@ -9221,7 +9221,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['ornithopter'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'skilled',
             quotes: [
               "We will fly to victory.",
@@ -9238,7 +9238,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['mining tools'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'enslaved',
             quotes: [
               "We will mine the spice.",
@@ -9251,9 +9251,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Harkonnen Soldier', startingCoins: 50, startingWeapons: ['lasgun'], startingMercenaries: 1, startingCastles: 0, personality: 'ruthless', quotes: ['For House Harkonnen!', 'We crush our enemies!', 'The spice is ours!'] },
-          { name: 'Sardaukar', startingCoins: 60, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'elite', quotes: ['We are the Emperor\'s elite!', 'We will not fail!', 'Victory is ours!'] },
-          { name: 'Mining Worker', startingCoins: 30, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking', quotes: ['We work for the Baron!', 'We must survive!', 'The spice must flow!'] }
+          { name: 'Harkonnen Soldier', startingCoins: 50, startingWeapons: ['lasgun'], startingMercenaries: 1, startingCastles: 1, personality: 'ruthless', quotes: ['For House Harkonnen!', 'We crush our enemies!', 'The spice is ours!'] },
+          { name: 'Sardaukar', startingCoins: 60, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 1, personality: 'elite', quotes: ['We are the Emperor\'s elite!', 'We will not fail!', 'Victory is ours!'] },
+          { name: 'Mining Worker', startingCoins: 30, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 1, personality: 'hardworking', quotes: ['We work for the Baron!', 'We must survive!', 'The spice must flow!'] }
         ]
       }
     },
@@ -9313,7 +9313,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['guitar'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'artistic',
             quotes: [
               "We will sing for our master!",
@@ -9330,7 +9330,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['teddy bear'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'innocent',
             quotes: [
               "We will protect our teddy!",
@@ -9347,7 +9347,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['gadgets'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'clever',
             quotes: [
               "We will invent amazing things!",
@@ -9364,7 +9364,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['strength'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strong',
             quotes: [
               "We will be strong for our master!",
@@ -9381,7 +9381,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['spatula'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cheerful',
             quotes: [
               "We will cook for our master!",
@@ -9398,7 +9398,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['rhythm'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'energetic',
             quotes: [
               "We will dance for our master!",
@@ -9415,7 +9415,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['test tubes'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'curious',
             quotes: [
               "We will experiment for our master!",
@@ -9432,7 +9432,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['watering can'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'peaceful',
             quotes: [
               "We will grow plants for our master!",
@@ -9449,7 +9449,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['hammer'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'constructive',
             quotes: [
               "We will build for our master!",
@@ -9466,7 +9466,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['flight controls'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'adventurous',
             quotes: [
               "We will fly for our master!",
@@ -9483,7 +9483,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['paintbrush'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'creative',
             quotes: [
               "We will paint for our master!",
@@ -9500,7 +9500,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['wrench'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'handy',
             quotes: [
               "We will fix things for our master!",
@@ -9517,7 +9517,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['compass'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'adventurous',
             quotes: [
               "We will explore for our master!",
@@ -9534,7 +9534,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['knowledge'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'wise',
             quotes: [
               "We will teach for our master!",
@@ -9547,9 +9547,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Minion Worker', startingCoins: 40, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking', quotes: ['We work hard!', 'Banana!', 'We help our master!'] },
-          { name: 'Minion Guard', startingCoins: 45, startingWeapons: ['shield'], startingMercenaries: 0, startingCastles: 0, personality: 'protective', quotes: ['We protect!', 'Banana!', 'We guard our master!'] },
-          { name: 'Minion Cook', startingCoins: 35, startingWeapons: ['spatula'], startingMercenaries: 0, startingCastles: 0, personality: 'cheerful', quotes: ['We cook!', 'Banana!', 'We feed our master!'] }
+          { name: 'Minion Worker', startingCoins: 40, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 1, personality: 'hardworking', quotes: ['We work hard!', 'Banana!', 'We help our master!'] },
+          { name: 'Minion Guard', startingCoins: 45, startingWeapons: ['shield'], startingMercenaries: 0, startingCastles: 1, personality: 'protective', quotes: ['We protect!', 'Banana!', 'We guard our master!'] },
+          { name: 'Minion Cook', startingCoins: 35, startingWeapons: ['spatula'], startingMercenaries: 0, startingCastles: 1, personality: 'cheerful', quotes: ['We cook!', 'Banana!', 'We feed our master!'] }
         ]
       },
       villains: {
@@ -9604,7 +9604,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['inventions'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brilliant',
             quotes: [
               "We will invent amazing weapons!",
@@ -9621,7 +9621,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['shrink ray'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'jealous',
             quotes: [
               "We will be better than Gru!",
@@ -9655,7 +9655,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['muscle'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'macho',
             quotes: [
               "We will be the strongest villain!",
@@ -9672,7 +9672,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['cuteness'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'deceptive',
             quotes: [
               "We will trick everyone!",
@@ -9689,7 +9689,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['inventions'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'inventive',
             quotes: [
               "We will invent amazing weapons!",
@@ -9706,7 +9706,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['experiments'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'mad',
             quotes: [
               "We will conduct mad experiments!",
@@ -9723,7 +9723,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['fangs'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'undead',
             quotes: [
               "We will suck the life from our enemies!",
@@ -9740,7 +9740,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['robots'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'mechanical',
             quotes: [
               "We will build robot armies!",
@@ -9757,7 +9757,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['jokes'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'silly',
             quotes: [
               "We will make everyone laugh!",
@@ -9791,7 +9791,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['evil plans'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'classic',
             quotes: [
               "We will execute evil plans!",
@@ -9808,7 +9808,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['chaos'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'chaotic',
             quotes: [
               "We will create chaos!",
@@ -9821,9 +9821,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Villain Henchman', startingCoins: 45, startingWeapons: ['weapon'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['We serve our master!', 'We will fight!', 'We are evil!'] },
-          { name: 'Evil Scientist', startingCoins: 50, startingWeapons: ['lab equipment'], startingMercenaries: 0, startingCastles: 0, personality: 'brilliant', quotes: ['We will invent!', 'Science is power!', 'We will create!'] },
-          { name: 'Villain Guard', startingCoins: 40, startingWeapons: ['shield'], startingMercenaries: 0, startingCastles: 0, personality: 'protective', quotes: ['We protect our master!', 'We will guard!', 'We are strong!'] }
+          { name: 'Villain Henchman', startingCoins: 45, startingWeapons: ['weapon'], startingMercenaries: 0, startingCastles: 1, personality: 'loyal', quotes: ['We serve our master!', 'We will fight!', 'We are evil!'] },
+          { name: 'Evil Scientist', startingCoins: 50, startingWeapons: ['lab equipment'], startingMercenaries: 0, startingCastles: 1, personality: 'brilliant', quotes: ['We will invent!', 'Science is power!', 'We will create!'] },
+          { name: 'Villain Guard', startingCoins: 40, startingWeapons: ['shield'], startingMercenaries: 0, startingCastles: 1, personality: 'protective', quotes: ['We protect our master!', 'We will guard!', 'We are strong!'] }
         ]
       }
     },
@@ -9863,25 +9863,25 @@ window.SCENARIOS = {
         characters: [
           { name: 'Woody', role: 'Sheriff', startingCoins: 100, startingWeapons: ['pullstring'], startingMercenaries: 2, startingCastles: 1, personality: 'loyal', quotes: ['You\'ve got a friend in me!', 'We stick together!', 'Andy needs us!'], description: 'Cowboy sheriff and leader of Andy\'s toys.' },
           { name: 'Buzz Lightyear', role: 'Space Ranger', startingCoins: 95, startingWeapons: ['laser'], startingMercenaries: 2, startingCastles: 1, personality: 'heroic', quotes: ['To infinity and beyond!', 'I am Buzz Lightyear!', 'We will save the day!'], description: 'Space ranger action figure with delusions of grandeur.' },
-          { name: 'Jessie', role: 'Cowgirl', startingCoins: 85, startingWeapons: ['lasso'], startingMercenaries: 1, startingCastles: 0, personality: 'brave', quotes: ['We\'re not trash!', 'We belong together!', 'We will find our way!'], description: 'Cowgirl doll who fears abandonment.' },
-          { name: 'Mr. Potato Head', role: 'Spud', startingCoins: 75, startingWeapons: ['detachable parts'], startingMercenaries: 1, startingCastles: 0, personality: 'grumpy', quotes: ['We\'re not garbage!', 'We will survive!', 'We stick together!'], description: 'Grumpy potato head with detachable parts.' },
-          { name: 'Rex', role: 'Dinosaur', startingCoins: 70, startingWeapons: ['roar'], startingMercenaries: 1, startingCastles: 0, personality: 'anxious', quotes: ['We will be brave!', 'We\'re not scary!', 'We will help!'], description: 'Anxious dinosaur who wants to be scary.' },
-          { name: 'Hamm', role: 'Piggy Bank', startingCoins: 65, startingWeapons: ['coins'], startingMercenaries: 1, startingCastles: 0, personality: 'practical', quotes: ['We will save money!', 'We are practical!', 'We will help!'], description: 'Practical piggy bank who loves money.' },
-          { name: 'Slinky Dog', role: 'Dog', startingCoins: 70, startingWeapons: ['spring'], startingMercenaries: 1, startingCastles: 0, personality: 'loyal', quotes: ['We will stretch!', 'We are loyal!', 'We will help!'], description: 'Loyal dog toy with a spring body.' },
-          { name: 'Bo Peep', role: 'Shepherdess', startingCoins: 80, startingWeapons: ['shepherd\'s crook'], startingMercenaries: 1, startingCastles: 0, personality: 'caring', quotes: ['We will care!', 'We are gentle!', 'We will help!'], description: 'Caring shepherdess doll who looks after others.' },
-          { name: 'Forky', role: 'Spork', startingCoins: 60, startingWeapons: ['trash'], startingMercenaries: 0, startingCastles: 0, personality: 'confused', quotes: ['We are trash!', 'We are confused!', 'We will help!'], description: 'Confused spork who thinks he\'s trash.' },
-          { name: 'Ducky', role: 'Duck', startingCoins: 55, startingWeapons: ['quack'], startingMercenaries: 0, startingCastles: 0, personality: 'cheerful', quotes: ['We will quack!', 'We are cheerful!', 'We will help!'], description: 'Cheerful duck toy who loves to quack.' },
-          { name: 'Bunny', role: 'Rabbit', startingCoins: 55, startingWeapons: ['hop'], startingMercenaries: 0, startingCastles: 0, personality: 'energetic', quotes: ['We will hop!', 'We are energetic!', 'We will help!'], description: 'Energetic rabbit toy who loves to hop.' },
-          { name: 'Duke Caboom', role: 'Stuntman', startingCoins: 75, startingWeapons: ['motorcycle'], startingMercenaries: 1, startingCastles: 0, personality: 'daring', quotes: ['We will stunt!', 'We are daring!', 'We will help!'], description: 'Daring stuntman toy who loves motorcycles.' },
-          { name: 'Giggle McDimples', role: 'Police Officer', startingCoins: 70, startingWeapons: ['badge'], startingMercenaries: 1, startingCastles: 0, personality: 'authoritative', quotes: ['We will enforce!', 'We are authoritative!', 'We will help!'], description: 'Authoritative police officer toy.' },
-          { name: 'Buttercup', role: 'Unicorn', startingCoins: 65, startingWeapons: ['magic'], startingMercenaries: 1, startingCastles: 0, personality: 'magical', quotes: ['We will magic!', 'We are magical!', 'We will help!'], description: 'Magical unicorn toy who believes in magic.' },
-          { name: 'Trixie', role: 'Triceratops', startingCoins: 70, startingWeapons: ['horns'], startingMercenaries: 1, startingCastles: 0, personality: 'friendly', quotes: ['We will horn!', 'We are friendly!', 'We will help!'], description: 'Friendly triceratops toy with three horns.' },
-          { name: 'Peas-in-a-Pod', role: 'Peas', startingCoins: 60, startingWeapons: ['roll'], startingMercenaries: 0, startingCastles: 0, personality: 'playful', quotes: ['We will roll!', 'We are playful!', 'We will help!'], description: 'Playful peas toy that loves to roll.' }
+          { name: 'Jessie', role: 'Cowgirl', startingCoins: 85, startingWeapons: ['lasso'], startingMercenaries: 1, startingCastles: 1, personality: 'brave', quotes: ['We\'re not trash!', 'We belong together!', 'We will find our way!'], description: 'Cowgirl doll who fears abandonment.' },
+          { name: 'Mr. Potato Head', role: 'Spud', startingCoins: 75, startingWeapons: ['detachable parts'], startingMercenaries: 1, startingCastles: 1, personality: 'grumpy', quotes: ['We\'re not garbage!', 'We will survive!', 'We stick together!'], description: 'Grumpy potato head with detachable parts.' },
+          { name: 'Rex', role: 'Dinosaur', startingCoins: 70, startingWeapons: ['roar'], startingMercenaries: 1, startingCastles: 1, personality: 'anxious', quotes: ['We will be brave!', 'We\'re not scary!', 'We will help!'], description: 'Anxious dinosaur who wants to be scary.' },
+          { name: 'Hamm', role: 'Piggy Bank', startingCoins: 65, startingWeapons: ['coins'], startingMercenaries: 1, startingCastles: 1, personality: 'practical', quotes: ['We will save money!', 'We are practical!', 'We will help!'], description: 'Practical piggy bank who loves money.' },
+          { name: 'Slinky Dog', role: 'Dog', startingCoins: 70, startingWeapons: ['spring'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['We will stretch!', 'We are loyal!', 'We will help!'], description: 'Loyal dog toy with a spring body.' },
+          { name: 'Bo Peep', role: 'Shepherdess', startingCoins: 80, startingWeapons: ['shepherd\'s crook'], startingMercenaries: 1, startingCastles: 1, personality: 'caring', quotes: ['We will care!', 'We are gentle!', 'We will help!'], description: 'Caring shepherdess doll who looks after others.' },
+          { name: 'Forky', role: 'Spork', startingCoins: 60, startingWeapons: ['trash'], startingMercenaries: 0, startingCastles: 1, personality: 'confused', quotes: ['We are trash!', 'We are confused!', 'We will help!'], description: 'Confused spork who thinks he\'s trash.' },
+          { name: 'Ducky', role: 'Duck', startingCoins: 55, startingWeapons: ['quack'], startingMercenaries: 0, startingCastles: 1, personality: 'cheerful', quotes: ['We will quack!', 'We are cheerful!', 'We will help!'], description: 'Cheerful duck toy who loves to quack.' },
+          { name: 'Bunny', role: 'Rabbit', startingCoins: 55, startingWeapons: ['hop'], startingMercenaries: 0, startingCastles: 1, personality: 'energetic', quotes: ['We will hop!', 'We are energetic!', 'We will help!'], description: 'Energetic rabbit toy who loves to hop.' },
+          { name: 'Duke Caboom', role: 'Stuntman', startingCoins: 75, startingWeapons: ['motorcycle'], startingMercenaries: 1, startingCastles: 1, personality: 'daring', quotes: ['We will stunt!', 'We are daring!', 'We will help!'], description: 'Daring stuntman toy who loves motorcycles.' },
+          { name: 'Giggle McDimples', role: 'Police Officer', startingCoins: 70, startingWeapons: ['badge'], startingMercenaries: 1, startingCastles: 1, personality: 'authoritative', quotes: ['We will enforce!', 'We are authoritative!', 'We will help!'], description: 'Authoritative police officer toy.' },
+          { name: 'Buttercup', role: 'Unicorn', startingCoins: 65, startingWeapons: ['magic'], startingMercenaries: 1, startingCastles: 1, personality: 'magical', quotes: ['We will magic!', 'We are magical!', 'We will help!'], description: 'Magical unicorn toy who believes in magic.' },
+          { name: 'Trixie', role: 'Triceratops', startingCoins: 70, startingWeapons: ['horns'], startingMercenaries: 1, startingCastles: 1, personality: 'friendly', quotes: ['We will horn!', 'We are friendly!', 'We will help!'], description: 'Friendly triceratops toy with three horns.' },
+          { name: 'Peas-in-a-Pod', role: 'Peas', startingCoins: 60, startingWeapons: ['roll'], startingMercenaries: 0, startingCastles: 1, personality: 'playful', quotes: ['We will roll!', 'We are playful!', 'We will help!'], description: 'Playful peas toy that loves to roll.' }
         ],
         generalRoles: [
-          { name: 'Toy Soldier', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'disciplined', quotes: ['We march!', 'We protect!', 'We serve!'] },
-          { name: 'Action Figure', startingCoins: 55, startingWeapons: ['superpowers'], startingMercenaries: 0, startingCastles: 0, personality: 'heroic', quotes: ['We save the day!', 'We are heroes!', 'We fight evil!'] },
-          { name: 'Stuffed Animal', startingCoins: 45, startingWeapons: ['hugs'], startingMercenaries: 0, startingCastles: 0, personality: 'cuddly', quotes: ['We give hugs!', 'We are soft!', 'We comfort!'] }
+          { name: 'Toy Soldier', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'disciplined', quotes: ['We march!', 'We protect!', 'We serve!'] },
+          { name: 'Action Figure', startingCoins: 55, startingWeapons: ['superpowers'], startingMercenaries: 0, startingCastles: 1, personality: 'heroic', quotes: ['We save the day!', 'We are heroes!', 'We fight evil!'] },
+          { name: 'Stuffed Animal', startingCoins: 45, startingWeapons: ['hugs'], startingMercenaries: 0, startingCastles: 1, personality: 'cuddly', quotes: ['We give hugs!', 'We are soft!', 'We comfort!'] }
         ]
       },
       villains: {
@@ -9898,25 +9898,25 @@ window.SCENARIOS = {
         characters: [
           { name: 'Sid', role: 'Toy Destroyer', startingCoins: 100, startingWeapons: ['tools'], startingMercenaries: 2, startingCastles: 1, personality: 'destructive', quotes: ['We will destroy!', 'We are powerful!', 'We will rule!'], description: 'Neighborhood kid who destroys toys.' },
           { name: 'Lotso', role: 'Bear Leader', startingCoins: 95, startingWeapons: ['manipulation'], startingMercenaries: 2, startingCastles: 1, personality: 'manipulative', quotes: ['We will control!', 'We are in charge!', 'We will not be replaced!'], description: 'Strawberry-scented bear who leads the daycare toys.' },
-          { name: 'Stinky Pete', role: 'Prospector', startingCoins: 85, startingWeapons: ['gold'], startingMercenaries: 1, startingCastles: 0, personality: 'greedy', quotes: ['We will be rich!', 'We deserve better!', 'We will not be forgotten!'], description: 'Greedy prospector toy who wants to be valuable.' },
-          { name: 'Al', role: 'Collector', startingCoins: 80, startingWeapons: ['money'], startingMercenaries: 1, startingCastles: 0, personality: 'greedy', quotes: ['We will profit!', 'We are valuable!', 'We will be collected!'], description: 'Toy collector who sees toys as investments.' },
+          { name: 'Stinky Pete', role: 'Prospector', startingCoins: 85, startingWeapons: ['gold'], startingMercenaries: 1, startingCastles: 1, personality: 'greedy', quotes: ['We will be rich!', 'We deserve better!', 'We will not be forgotten!'], description: 'Greedy prospector toy who wants to be valuable.' },
+          { name: 'Al', role: 'Collector', startingCoins: 80, startingWeapons: ['money'], startingMercenaries: 1, startingCastles: 1, personality: 'greedy', quotes: ['We will profit!', 'We are valuable!', 'We will be collected!'], description: 'Toy collector who sees toys as investments.' },
           { name: 'Zurg', role: 'Evil Emperor', startingCoins: 90, startingWeapons: ['death ray'], startingMercenaries: 2, startingCastles: 1, personality: 'evil', quotes: ['We will conquer!', 'We are evil!', 'We will destroy!'], description: 'Evil emperor action figure and Buzz\'s nemesis.' },
-          { name: 'Big Baby', role: 'Broken Doll', startingCoins: 80, startingWeapons: ['crying'], startingMercenaries: 1, startingCastles: 0, personality: 'broken', quotes: ['We will cry!', 'We are broken!', 'We will destroy!'], description: 'Broken baby doll who cries constantly.' },
-          { name: 'Chunk', role: 'Broken Robot', startingCoins: 75, startingWeapons: ['broken parts'], startingMercenaries: 1, startingCastles: 0, personality: 'angry', quotes: ['We will break!', 'We are angry!', 'We will destroy!'], description: 'Angry broken robot toy.' },
-          { name: 'Rocky', role: 'Broken Action Figure', startingCoins: 70, startingWeapons: ['broken arm'], startingMercenaries: 1, startingCastles: 0, personality: 'bitter', quotes: ['We will fight!', 'We are bitter!', 'We will destroy!'], description: 'Bitter broken action figure with a broken arm.' },
-          { name: 'Lenny', role: 'Broken Binoculars', startingCoins: 65, startingWeapons: ['broken lenses'], startingMercenaries: 0, startingCastles: 0, personality: 'confused', quotes: ['We will see!', 'We are confused!', 'We will destroy!'], description: 'Confused broken binoculars toy.' },
-          { name: 'Sergeant', role: 'Broken Soldier', startingCoins: 70, startingWeapons: ['broken rifle'], startingMercenaries: 1, startingCastles: 0, personality: 'defiant', quotes: ['We will fight!', 'We are defiant!', 'We will destroy!'], description: 'Defiant broken soldier toy.' },
-          { name: 'RC', role: 'Broken Car', startingCoins: 75, startingWeapons: ['broken wheels'], startingMercenaries: 1, startingCastles: 0, personality: 'reckless', quotes: ['We will drive!', 'We are reckless!', 'We will destroy!'], description: 'Reckless broken remote control car.' },
-          { name: 'Screaming Mimi', role: 'Broken Doll', startingCoins: 65, startingWeapons: ['screaming'], startingMercenaries: 0, startingCastles: 0, personality: 'loud', quotes: ['We will scream!', 'We are loud!', 'We will destroy!'], description: 'Loud broken doll who screams constantly.' },
-          { name: 'Legs', role: 'Broken Spider', startingCoins: 60, startingWeapons: ['broken legs'], startingMercenaries: 0, startingCastles: 0, personality: 'crawling', quotes: ['We will crawl!', 'We are crawling!', 'We will destroy!'], description: 'Crawling broken spider toy with missing legs.' },
-          { name: 'Ducky & Bunny', role: 'Broken Duo', startingCoins: 70, startingWeapons: ['broken teamwork'], startingMercenaries: 1, startingCastles: 0, personality: 'chaotic', quotes: ['We will chaos!', 'We are chaotic!', 'We will destroy!'], description: 'Chaotic broken duck and bunny duo.' },
-          { name: 'Gabby Gabby', role: 'Broken Doll', startingCoins: 80, startingWeapons: ['broken voice'], startingMercenaries: 1, startingCastles: 0, personality: 'manipulative', quotes: ['We will manipulate!', 'We are manipulative!', 'We will destroy!'], description: 'Manipulative broken doll with a broken voice box.' },
-          { name: 'Benson', role: 'Broken Ventriloquist', startingCoins: 75, startingWeapons: ['broken puppet'], startingMercenaries: 1, startingCastles: 0, personality: 'creepy', quotes: ['We will puppet!', 'We are creepy!', 'We will destroy!'], description: 'Creepy broken ventriloquist dummy.' }
+          { name: 'Big Baby', role: 'Broken Doll', startingCoins: 80, startingWeapons: ['crying'], startingMercenaries: 1, startingCastles: 1, personality: 'broken', quotes: ['We will cry!', 'We are broken!', 'We will destroy!'], description: 'Broken baby doll who cries constantly.' },
+          { name: 'Chunk', role: 'Broken Robot', startingCoins: 75, startingWeapons: ['broken parts'], startingMercenaries: 1, startingCastles: 1, personality: 'angry', quotes: ['We will break!', 'We are angry!', 'We will destroy!'], description: 'Angry broken robot toy.' },
+          { name: 'Rocky', role: 'Broken Action Figure', startingCoins: 70, startingWeapons: ['broken arm'], startingMercenaries: 1, startingCastles: 1, personality: 'bitter', quotes: ['We will fight!', 'We are bitter!', 'We will destroy!'], description: 'Bitter broken action figure with a broken arm.' },
+          { name: 'Lenny', role: 'Broken Binoculars', startingCoins: 65, startingWeapons: ['broken lenses'], startingMercenaries: 0, startingCastles: 1, personality: 'confused', quotes: ['We will see!', 'We are confused!', 'We will destroy!'], description: 'Confused broken binoculars toy.' },
+          { name: 'Sergeant', role: 'Broken Soldier', startingCoins: 70, startingWeapons: ['broken rifle'], startingMercenaries: 1, startingCastles: 1, personality: 'defiant', quotes: ['We will fight!', 'We are defiant!', 'We will destroy!'], description: 'Defiant broken soldier toy.' },
+          { name: 'RC', role: 'Broken Car', startingCoins: 75, startingWeapons: ['broken wheels'], startingMercenaries: 1, startingCastles: 1, personality: 'reckless', quotes: ['We will drive!', 'We are reckless!', 'We will destroy!'], description: 'Reckless broken remote control car.' },
+          { name: 'Screaming Mimi', role: 'Broken Doll', startingCoins: 65, startingWeapons: ['screaming'], startingMercenaries: 0, startingCastles: 1, personality: 'loud', quotes: ['We will scream!', 'We are loud!', 'We will destroy!'], description: 'Loud broken doll who screams constantly.' },
+          { name: 'Legs', role: 'Broken Spider', startingCoins: 60, startingWeapons: ['broken legs'], startingMercenaries: 0, startingCastles: 1, personality: 'crawling', quotes: ['We will crawl!', 'We are crawling!', 'We will destroy!'], description: 'Crawling broken spider toy with missing legs.' },
+          { name: 'Ducky & Bunny', role: 'Broken Duo', startingCoins: 70, startingWeapons: ['broken teamwork'], startingMercenaries: 1, startingCastles: 1, personality: 'chaotic', quotes: ['We will chaos!', 'We are chaotic!', 'We will destroy!'], description: 'Chaotic broken duck and bunny duo.' },
+          { name: 'Gabby Gabby', role: 'Broken Doll', startingCoins: 80, startingWeapons: ['broken voice'], startingMercenaries: 1, startingCastles: 1, personality: 'manipulative', quotes: ['We will manipulate!', 'We are manipulative!', 'We will destroy!'], description: 'Manipulative broken doll with a broken voice box.' },
+          { name: 'Benson', role: 'Broken Ventriloquist', startingCoins: 75, startingWeapons: ['broken puppet'], startingMercenaries: 1, startingCastles: 1, personality: 'creepy', quotes: ['We will puppet!', 'We are creepy!', 'We will destroy!'], description: 'Creepy broken ventriloquist dummy.' }
         ],
         generalRoles: [
-          { name: 'Broken Toy', startingCoins: 40, startingWeapons: ['sharp edges'], startingMercenaries: 0, startingCastles: 0, personality: 'angry', quotes: ['We are broken!', 'We will get revenge!', 'We will not be forgotten!'] },
-          { name: 'Evil Action Figure', startingCoins: 50, startingWeapons: ['evil powers'], startingMercenaries: 0, startingCastles: 0, personality: 'villainous', quotes: ['We are evil!', 'We will destroy!', 'We will rule!'] },
-          { name: 'Abandoned Toy', startingCoins: 35, startingWeapons: ['desperation'], startingMercenaries: 0, startingCastles: 0, personality: 'desperate', quotes: ['We need a home!', 'We will survive!', 'We will not be forgotten!'] }
+          { name: 'Broken Toy', startingCoins: 40, startingWeapons: ['sharp edges'], startingMercenaries: 0, startingCastles: 1, personality: 'angry', quotes: ['We are broken!', 'We will get revenge!', 'We will not be forgotten!'] },
+          { name: 'Evil Action Figure', startingCoins: 50, startingWeapons: ['evil powers'], startingMercenaries: 0, startingCastles: 1, personality: 'villainous', quotes: ['We are evil!', 'We will destroy!', 'We will rule!'] },
+          { name: 'Abandoned Toy', startingCoins: 35, startingWeapons: ['desperation'], startingMercenaries: 0, startingCastles: 1, personality: 'desperate', quotes: ['We need a home!', 'We will survive!', 'We will not be forgotten!'] }
         ]
       }
     },
@@ -9956,22 +9956,22 @@ window.SCENARIOS = {
           { name: 'Moana', role: 'Wayfinder', startingCoins: 100, startingWeapons: ['heart of Te Fiti'], startingMercenaries: 2, startingCastles: 1, personality: 'determined', quotes: ['We are wayfinders!', 'We will save our island!', 'The ocean chose me!'], description: 'Daughter of the chief who is chosen by the ocean.' },
           { name: 'Maui', role: 'Demigod', startingCoins: 110, startingWeapons: ['magic fishhook'], startingMercenaries: 3, startingCastles: 2, personality: 'proud', quotes: ['I am Maui!', 'We will restore the heart!', 'We are heroes!'], description: 'Demigod of the wind and sea who helps Moana.' },
           { name: 'Chief Tui', role: 'Chief', startingCoins: 90, startingWeapons: ['authority'], startingMercenaries: 2, startingCastles: 1, personality: 'protective', quotes: ['We will protect our people!', 'We stay on the island!', 'We are safe here!'], description: 'Chief of Motunui and Moana\'s father.' },
-          { name: 'Gramma Tala', role: 'Grandmother', startingCoins: 80, startingWeapons: ['wisdom'], startingMercenaries: 1, startingCastles: 0, personality: 'wise', quotes: ['We are wayfinders!', 'We will follow our hearts!', 'We will save our island!'], description: 'Moana\'s grandmother who tells the old stories.' },
-          { name: 'Heihei', role: 'Rooster', startingCoins: 60, startingWeapons: ['pecking'], startingMercenaries: 0, startingCastles: 0, personality: 'clueless', quotes: ['We are confused!', 'We will help!', 'We are here!'], description: 'Clueless rooster who accompanies Moana.' },
-          { name: 'Pua', role: 'Pig', startingCoins: 55, startingWeapons: ['snout'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['We will follow!', 'We are loyal!', 'We will help!'], description: 'Moana\'s loyal pet pig.' },
-          { name: 'Sina', role: 'Mother', startingCoins: 75, startingWeapons: ['wisdom'], startingMercenaries: 1, startingCastles: 0, personality: 'caring', quotes: ['We will protect our daughter!', 'We are mothers!', 'We will guide!'], description: 'Moana\'s mother and Chief Tui\'s wife.' },
+          { name: 'Gramma Tala', role: 'Grandmother', startingCoins: 80, startingWeapons: ['wisdom'], startingMercenaries: 1, startingCastles: 1, personality: 'wise', quotes: ['We are wayfinders!', 'We will follow our hearts!', 'We will save our island!'], description: 'Moana\'s grandmother who tells the old stories.' },
+          { name: 'Heihei', role: 'Rooster', startingCoins: 60, startingWeapons: ['pecking'], startingMercenaries: 0, startingCastles: 1, personality: 'clueless', quotes: ['We are confused!', 'We will help!', 'We are here!'], description: 'Clueless rooster who accompanies Moana.' },
+          { name: 'Pua', role: 'Pig', startingCoins: 55, startingWeapons: ['snout'], startingMercenaries: 0, startingCastles: 1, personality: 'loyal', quotes: ['We will follow!', 'We are loyal!', 'We will help!'], description: 'Moana\'s loyal pet pig.' },
+          { name: 'Sina', role: 'Mother', startingCoins: 75, startingWeapons: ['wisdom'], startingMercenaries: 1, startingCastles: 1, personality: 'caring', quotes: ['We will protect our daughter!', 'We are mothers!', 'We will guide!'], description: 'Moana\'s mother and Chief Tui\'s wife.' },
           { name: 'Ocean', role: 'Spirit', startingCoins: 95, startingWeapons: ['waves'], startingMercenaries: 2, startingCastles: 1, personality: 'mysterious', quotes: ['We choose the wayfinder!', 'We will guide!', 'We are the ocean!'], description: 'The living ocean that chose Moana.' },
           { name: 'Te Fiti', role: 'Goddess', startingCoins: 110, startingWeapons: ['creation'], startingMercenaries: 3, startingCastles: 2, personality: 'peaceful', quotes: ['We will restore balance!', 'We are creation!', 'We will heal!'], description: 'Goddess of creation and life.' },
           { name: 'Wayfinder Chief', role: 'Leader', startingCoins: 85, startingWeapons: ['navigation'], startingMercenaries: 2, startingCastles: 1, personality: 'brave', quotes: ['We will navigate!', 'We are wayfinders!', 'We will explore!'], description: 'Ancient wayfinder who led voyages.' },
-          { name: 'Coconut Villager', role: 'Farmer', startingCoins: 60, startingWeapons: ['coconut'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking', quotes: ['We will harvest!', 'We are farmers!', 'We will provide!'], description: 'Villager who tends the coconut groves.' },
-          { name: 'Fisherman Chief', role: 'Captain', startingCoins: 70, startingWeapons: ['fishing spear'], startingMercenaries: 1, startingCastles: 0, personality: 'skilled', quotes: ['We will fish!', 'We are captains!', 'We will provide!'], description: 'Chief fisherman of the village.' },
-          { name: 'Drummer', role: 'Musician', startingCoins: 50, startingWeapons: ['drum'], startingMercenaries: 0, startingCastles: 0, personality: 'rhythmic', quotes: ['We will drum!', 'We are musicians!', 'We will inspire!'], description: 'Village drummer who provides rhythm.' },
-          { name: 'Storyteller', role: 'Keeper', startingCoins: 65, startingWeapons: ['stories'], startingMercenaries: 0, startingCastles: 0, personality: 'wise', quotes: ['We will tell stories!', 'We are keepers!', 'We will remember!'], description: 'Keeper of the old stories and traditions.' }
+          { name: 'Coconut Villager', role: 'Farmer', startingCoins: 60, startingWeapons: ['coconut'], startingMercenaries: 0, startingCastles: 1, personality: 'hardworking', quotes: ['We will harvest!', 'We are farmers!', 'We will provide!'], description: 'Villager who tends the coconut groves.' },
+          { name: 'Fisherman Chief', role: 'Captain', startingCoins: 70, startingWeapons: ['fishing spear'], startingMercenaries: 1, startingCastles: 1, personality: 'skilled', quotes: ['We will fish!', 'We are captains!', 'We will provide!'], description: 'Chief fisherman of the village.' },
+          { name: 'Drummer', role: 'Musician', startingCoins: 50, startingWeapons: ['drum'], startingMercenaries: 0, startingCastles: 1, personality: 'rhythmic', quotes: ['We will drum!', 'We are musicians!', 'We will inspire!'], description: 'Village drummer who provides rhythm.' },
+          { name: 'Storyteller', role: 'Keeper', startingCoins: 65, startingWeapons: ['stories'], startingMercenaries: 0, startingCastles: 1, personality: 'wise', quotes: ['We will tell stories!', 'We are keepers!', 'We will remember!'], description: 'Keeper of the old stories and traditions.' }
         ],
         generalRoles: [
-          { name: 'Villager', startingCoins: 50, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking', quotes: ['We work hard!', 'We protect our island!', 'We are strong!'] },
-          { name: 'Fisherman', startingCoins: 55, startingWeapons: ['fishing net'], startingMercenaries: 0, startingCastles: 0, personality: 'skilled', quotes: ['We fish!', 'We provide food!', 'We are skilled!'] },
-          { name: 'Wayfinder', startingCoins: 60, startingWeapons: ['navigation'], startingMercenaries: 0, startingCastles: 0, personality: 'brave', quotes: ['We navigate!', 'We explore!', 'We are brave!'] }
+          { name: 'Villager', startingCoins: 50, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 1, personality: 'hardworking', quotes: ['We work hard!', 'We protect our island!', 'We are strong!'] },
+          { name: 'Fisherman', startingCoins: 55, startingWeapons: ['fishing net'], startingMercenaries: 0, startingCastles: 1, personality: 'skilled', quotes: ['We fish!', 'We provide food!', 'We are skilled!'] },
+          { name: 'Wayfinder', startingCoins: 60, startingWeapons: ['navigation'], startingMercenaries: 0, startingCastles: 1, personality: 'brave', quotes: ['We navigate!', 'We explore!', 'We are brave!'] }
         ]
       },
       teka: {
@@ -9987,24 +9987,24 @@ window.SCENARIOS = {
         ],
         characters: [
           { name: 'Te Kā', role: 'Fire Demon', startingCoins: 120, startingWeapons: ['lava'], startingMercenaries: 4, startingCastles: 3, personality: 'destructive', quotes: ['We will destroy!', 'We are powerful!', 'We will spread darkness!'], description: 'Corrupted form of Te Fiti, a fire demon.' },
-          { name: 'Kakamora', role: 'Pirate', startingCoins: 70, startingWeapons: ['spear'], startingMercenaries: 1, startingCastles: 0, personality: 'aggressive', quotes: ['We will steal!', 'We are pirates!', 'We will attack!'], description: 'Coconut-clad pirates who attack Moana.' },
-          { name: 'Tamatoa', role: 'Crab', startingCoins: 85, startingWeapons: ['claws'], startingMercenaries: 1, startingCastles: 0, personality: 'greedy', quotes: ['We will collect treasure!', 'We are shiny!', 'We will not be forgotten!'], description: 'Giant crab who loves treasure and shiny things.' },
-          { name: 'Darkness', role: 'Shadow', startingCoins: 80, startingWeapons: ['shadow'], startingMercenaries: 1, startingCastles: 0, personality: 'corrupting', quotes: ['We will corrupt!', 'We are darkness!', 'We will spread!'], description: 'Darkness that corrupts everything it touches.' },
-          { name: 'Lava Monster', role: 'Fire Beast', startingCoins: 75, startingWeapons: ['fire'], startingMercenaries: 1, startingCastles: 0, personality: 'destructive', quotes: ['We will burn!', 'We are fire!', 'We will destroy!'], description: 'Fire-breathing monster that spreads destruction.' },
-          { name: 'Fire Demon', role: 'Destroyer', startingCoins: 80, startingWeapons: ['flame'], startingMercenaries: 1, startingCastles: 0, personality: 'destructive', quotes: ['We will burn!', 'We are demons!', 'We will destroy!'], description: 'Demon of fire and destruction.' },
-          { name: 'Shadow Crab', role: 'Guardian', startingCoins: 70, startingWeapons: ['claws'], startingMercenaries: 1, startingCastles: 0, personality: 'greedy', quotes: ['We will guard treasure!', 'We are crabs!', 'We will collect!'], description: 'Dark crab that guards stolen treasures.' },
-          { name: 'Lava Warrior', role: 'Soldier', startingCoins: 65, startingWeapons: ['lava spear'], startingMercenaries: 1, startingCastles: 0, personality: 'aggressive', quotes: ['We will fight!', 'We are warriors!', 'We will attack!'], description: 'Warrior made of molten lava.' },
+          { name: 'Kakamora', role: 'Pirate', startingCoins: 70, startingWeapons: ['spear'], startingMercenaries: 1, startingCastles: 1, personality: 'aggressive', quotes: ['We will steal!', 'We are pirates!', 'We will attack!'], description: 'Coconut-clad pirates who attack Moana.' },
+          { name: 'Tamatoa', role: 'Crab', startingCoins: 85, startingWeapons: ['claws'], startingMercenaries: 1, startingCastles: 1, personality: 'greedy', quotes: ['We will collect treasure!', 'We are shiny!', 'We will not be forgotten!'], description: 'Giant crab who loves treasure and shiny things.' },
+          { name: 'Darkness', role: 'Shadow', startingCoins: 80, startingWeapons: ['shadow'], startingMercenaries: 1, startingCastles: 1, personality: 'corrupting', quotes: ['We will corrupt!', 'We are darkness!', 'We will spread!'], description: 'Darkness that corrupts everything it touches.' },
+          { name: 'Lava Monster', role: 'Fire Beast', startingCoins: 75, startingWeapons: ['fire'], startingMercenaries: 1, startingCastles: 1, personality: 'destructive', quotes: ['We will burn!', 'We are fire!', 'We will destroy!'], description: 'Fire-breathing monster that spreads destruction.' },
+          { name: 'Fire Demon', role: 'Destroyer', startingCoins: 80, startingWeapons: ['flame'], startingMercenaries: 1, startingCastles: 1, personality: 'destructive', quotes: ['We will burn!', 'We are demons!', 'We will destroy!'], description: 'Demon of fire and destruction.' },
+          { name: 'Shadow Crab', role: 'Guardian', startingCoins: 70, startingWeapons: ['claws'], startingMercenaries: 1, startingCastles: 1, personality: 'greedy', quotes: ['We will guard treasure!', 'We are crabs!', 'We will collect!'], description: 'Dark crab that guards stolen treasures.' },
+          { name: 'Lava Warrior', role: 'Soldier', startingCoins: 65, startingWeapons: ['lava spear'], startingMercenaries: 1, startingCastles: 1, personality: 'aggressive', quotes: ['We will fight!', 'We are warriors!', 'We will attack!'], description: 'Warrior made of molten lava.' },
           { name: 'Dark Ocean Spirit', role: 'Corruptor', startingCoins: 85, startingWeapons: ['dark waves'], startingMercenaries: 2, startingCastles: 1, personality: 'corrupting', quotes: ['We will corrupt!', 'We are darkness!', 'We will spread!'], description: 'Dark spirit that corrupts the ocean.' },
           { name: 'Volcano Guardian', role: 'Protector', startingCoins: 90, startingWeapons: ['volcanic rock'], startingMercenaries: 2, startingCastles: 1, personality: 'destructive', quotes: ['We will protect!', 'We are guardians!', 'We will destroy!'], description: 'Guardian of the volcano\'s power.' },
-          { name: 'Fire Sprite', role: 'Minion', startingCoins: 50, startingWeapons: ['spark'], startingMercenaries: 0, startingCastles: 0, personality: 'destructive', quotes: ['We will spark!', 'We are sprites!', 'We will burn!'], description: 'Small fire spirit that spreads flames.' },
-          { name: 'Shadow Beast', role: 'Hunter', startingCoins: 75, startingWeapons: ['shadow claws'], startingMercenaries: 1, startingCastles: 0, personality: 'dark', quotes: ['We will hunt!', 'We are beasts!', 'We will stalk!'], description: 'Dark beast that hunts in shadows.' },
-          { name: 'Lava Golem', role: 'Construct', startingCoins: 80, startingWeapons: ['molten fists'], startingMercenaries: 1, startingCastles: 0, personality: 'destructive', quotes: ['We will crush!', 'We are golems!', 'We will destroy!'], description: 'Giant construct made of molten rock.' },
-          { name: 'Dark Coral', role: 'Corruptor', startingCoins: 60, startingWeapons: ['dark spikes'], startingMercenaries: 0, startingCastles: 0, personality: 'corrupting', quotes: ['We will corrupt!', 'We are coral!', 'We will spread!'], description: 'Corrupted coral that spreads darkness.' }
+          { name: 'Fire Sprite', role: 'Minion', startingCoins: 50, startingWeapons: ['spark'], startingMercenaries: 0, startingCastles: 1, personality: 'destructive', quotes: ['We will spark!', 'We are sprites!', 'We will burn!'], description: 'Small fire spirit that spreads flames.' },
+          { name: 'Shadow Beast', role: 'Hunter', startingCoins: 75, startingWeapons: ['shadow claws'], startingMercenaries: 1, startingCastles: 1, personality: 'dark', quotes: ['We will hunt!', 'We are beasts!', 'We will stalk!'], description: 'Dark beast that hunts in shadows.' },
+          { name: 'Lava Golem', role: 'Construct', startingCoins: 80, startingWeapons: ['molten fists'], startingMercenaries: 1, startingCastles: 1, personality: 'destructive', quotes: ['We will crush!', 'We are golems!', 'We will destroy!'], description: 'Giant construct made of molten rock.' },
+          { name: 'Dark Coral', role: 'Corruptor', startingCoins: 60, startingWeapons: ['dark spikes'], startingMercenaries: 0, startingCastles: 1, personality: 'corrupting', quotes: ['We will corrupt!', 'We are coral!', 'We will spread!'], description: 'Corrupted coral that spreads darkness.' }
         ],
         generalRoles: [
-          { name: 'Dark Villager', startingCoins: 45, startingWeapons: ['darkness'], startingMercenaries: 0, startingCastles: 0, personality: 'corrupted', quotes: ['We are corrupted!', 'We will spread darkness!', 'We are evil!'] },
-          { name: 'Fire Spirit', startingCoins: 50, startingWeapons: ['flame'], startingMercenaries: 0, startingCastles: 0, personality: 'destructive', quotes: ['We are fire!', 'We will burn!', 'We will destroy!'] },
-          { name: 'Shadow Warrior', startingCoins: 55, startingWeapons: ['shadow blade'], startingMercenaries: 0, startingCastles: 0, personality: 'dark', quotes: ['We are shadows!', 'We will fight!', 'We are darkness!'] }
+          { name: 'Dark Villager', startingCoins: 45, startingWeapons: ['darkness'], startingMercenaries: 0, startingCastles: 1, personality: 'corrupted', quotes: ['We are corrupted!', 'We will spread darkness!', 'We are evil!'] },
+          { name: 'Fire Spirit', startingCoins: 50, startingWeapons: ['flame'], startingMercenaries: 0, startingCastles: 1, personality: 'destructive', quotes: ['We are fire!', 'We will burn!', 'We will destroy!'] },
+          { name: 'Shadow Warrior', startingCoins: 55, startingWeapons: ['shadow blade'], startingMercenaries: 0, startingCastles: 1, personality: 'dark', quotes: ['We are shadows!', 'We will fight!', 'We are darkness!'] }
         ]
       }
     },
@@ -10167,7 +10167,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "We will fight for glory!",
@@ -10184,7 +10184,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['lance'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'proud',
             quotes: [
               "We are of royal blood!",
@@ -10201,7 +10201,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'noble',
             quotes: [
               "We will fight for the cross!",
@@ -10218,7 +10218,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['lance'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cautious',
             quotes: [
               "We must be careful!",
@@ -10235,7 +10235,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['cross'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'spiritual',
             quotes: [
               "We fight for God!",
@@ -10252,7 +10252,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['words'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'charismatic',
             quotes: [
               "We will free Jerusalem!",
@@ -10286,7 +10286,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'reckless',
             quotes: [
               "We will strike the enemy!",
@@ -10303,7 +10303,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['templar sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'fanatical',
             quotes: [
               "We are God's warriors!",
@@ -10320,7 +10320,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['wisdom'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'scholarly',
             quotes: [
               "We will record our deeds!",
@@ -10367,9 +10367,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Crusader Knight', startingCoins: 60, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'devout', quotes: ['For God!', 'We fight for the cross!', 'Deus vult!'] },
-          { name: 'Templar', startingCoins: 65, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'disciplined', quotes: ['We are God\'s warriors!', 'We will not retreat!', 'For the Temple!'] },
-          { name: 'Pilgrim', startingCoins: 40, startingWeapons: ['staff'], startingMercenaries: 0, startingCastles: 0, personality: 'faithful', quotes: ['We seek the Holy Land!', 'We are pilgrims!', 'For our souls!'] }
+          { name: 'Crusader Knight', startingCoins: 60, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 1, personality: 'devout', quotes: ['For God!', 'We fight for the cross!', 'Deus vult!'] },
+          { name: 'Templar', startingCoins: 65, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 1, personality: 'disciplined', quotes: ['We are God\'s warriors!', 'We will not retreat!', 'For the Temple!'] },
+          { name: 'Pilgrim', startingCoins: 40, startingWeapons: ['staff'], startingMercenaries: 0, startingCastles: 1, personality: 'faithful', quotes: ['We seek the Holy Land!', 'We are pilgrims!', 'For our souls!'] }
         ]
       },
       muslims: {
@@ -10458,7 +10458,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['bow'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'defensive',
             quotes: [
               "We will defend our lands!",
@@ -10526,7 +10526,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['authority'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'spiritual',
             quotes: [
               "We are the spiritual leader!",
@@ -10543,7 +10543,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['wisdom'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'wise',
             quotes: [
               "We will restore our power!",
@@ -10560,7 +10560,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['authority'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'proud',
             quotes: [
               "We are the true caliph!",
@@ -10577,7 +10577,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['mysticism'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'mystical',
             quotes: [
               "We are divine!",
@@ -10594,7 +10594,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['administration'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'administrative',
             quotes: [
               "We will govern wisely!",
@@ -10611,7 +10611,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['authority'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'legitimate',
             quotes: [
               "We are the rightful ruler!",
@@ -10628,7 +10628,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['authority'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'young',
             quotes: [
               "We will prove ourselves!",
@@ -10645,7 +10645,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['wisdom'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'experienced',
             quotes: [
               "We have seen much!",
@@ -10662,7 +10662,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['authority'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "We will restore our glory!",
@@ -10679,7 +10679,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['authority'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'hopeful',
             quotes: [
               "We will bring prosperity!",
@@ -10696,7 +10696,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['authority'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'final',
             quotes: [
               "We are the last!",
@@ -10713,7 +10713,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['claim'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'pretender',
             quotes: [
               "We are the true caliph!",
@@ -10730,7 +10730,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['claim'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'persistent',
             quotes: [
               "We will not surrender!",
@@ -10747,7 +10747,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['claim'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'hopeful',
             quotes: [
               "We will restore our dynasty!",
@@ -10764,7 +10764,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['claim'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "We will not give up!",
@@ -10781,7 +10781,7 @@ window.SCENARIOS = {
             startingCoins: 40,
             startingWeapons: ['claim'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'stubborn',
             quotes: [
               "We will not yield!",
@@ -10798,7 +10798,7 @@ window.SCENARIOS = {
             startingCoins: 35,
             startingWeapons: ['claim'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'persistent',
             quotes: [
               "We will continue the fight!",
@@ -10811,9 +10811,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Mamluk Warrior', startingCoins: 55, startingWeapons: ['scimitar'], startingMercenaries: 1, startingCastles: 0, personality: 'elite', quotes: ['We are the chosen!', 'We will not fail!', 'For the sultan!'] },
-          { name: 'Bedouin Raider', startingCoins: 50, startingWeapons: ['spear'], startingMercenaries: 0, startingCastles: 0, personality: 'nomadic', quotes: ['We strike from the desert!', 'We are swift!', 'We will raid!'] },
-          { name: 'Muslim Scholar', startingCoins: 45, startingWeapons: ['wisdom'], startingMercenaries: 0, startingCastles: 0, personality: 'learned', quotes: ['We study the Quran!', 'We are wise!', 'We guide the faithful!'] }
+          { name: 'Mamluk Warrior', startingCoins: 55, startingWeapons: ['scimitar'], startingMercenaries: 1, startingCastles: 1, personality: 'elite', quotes: ['We are the chosen!', 'We will not fail!', 'For the sultan!'] },
+          { name: 'Bedouin Raider', startingCoins: 50, startingWeapons: ['spear'], startingMercenaries: 0, startingCastles: 1, personality: 'nomadic', quotes: ['We strike from the desert!', 'We are swift!', 'We will raid!'] },
+          { name: 'Muslim Scholar', startingCoins: 45, startingWeapons: ['wisdom'], startingMercenaries: 0, startingCastles: 1, personality: 'learned', quotes: ['We study the Quran!', 'We are wise!', 'We guide the faithful!'] }
         ]
       }
     },
@@ -11026,7 +11026,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['lance'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We will serve the crown!",
@@ -11043,7 +11043,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'proud',
             quotes: [
               "We are Norfolk!",
@@ -11060,7 +11060,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['spear'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'rebellious',
             quotes: [
               "We will rebel!",
@@ -11077,7 +11077,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['sword'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'steady',
             quotes: [
               "We will be steady!",
@@ -11090,9 +11090,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'English Longbowman', startingCoins: 60, startingWeapons: ['longbow'], startingMercenaries: 0, startingCastles: 0, personality: 'skilled', quotes: ['We are the best archers!', 'We will rain arrows!', 'For England!'] },
-          { name: 'English Knight', startingCoins: 65, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'chivalric', quotes: ['We fight with honor!', 'We are knights!', 'For the crown!'] },
-          { name: 'English Footman', startingCoins: 45, startingWeapons: ['spear'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['We serve the king!', 'We will fight!', 'For England!'] }
+          { name: 'English Longbowman', startingCoins: 60, startingWeapons: ['longbow'], startingMercenaries: 0, startingCastles: 1, personality: 'skilled', quotes: ['We are the best archers!', 'We will rain arrows!', 'For England!'] },
+          { name: 'English Knight', startingCoins: 65, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 1, personality: 'chivalric', quotes: ['We fight with honor!', 'We are knights!', 'For the crown!'] },
+          { name: 'English Footman', startingCoins: 45, startingWeapons: ['spear'], startingMercenaries: 0, startingCastles: 1, personality: 'loyal', quotes: ['We serve the king!', 'We will fight!', 'For England!'] }
         ]
       },
       france: {
@@ -11266,7 +11266,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['cannon'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'innovative',
             quotes: [
               "We will use cannons!",
@@ -11283,7 +11283,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'noble',
             quotes: [
               "We are Bourbon!",
@@ -11300,7 +11300,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['lance'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'chivalric',
             quotes: [
               "We will fight with honor!",
@@ -11317,7 +11317,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['sword'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We will serve Normandy!",
@@ -11334,7 +11334,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['sword'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "We will defend Dammartin!",
@@ -11347,9 +11347,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'French Knight', startingCoins: 60, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'proud', quotes: ['We are French knights!', 'We will defend!', 'For France!'] },
-          { name: 'French Crossbowman', startingCoins: 55, startingWeapons: ['crossbow'], startingMercenaries: 0, startingCastles: 0, personality: 'skilled', quotes: ['We are skilled!', 'We will shoot!', 'For the king!'] },
-          { name: 'French Peasant', startingCoins: 40, startingWeapons: ['pitchfork'], startingMercenaries: 0, startingCastles: 0, personality: 'determined', quotes: ['We will fight!', 'We are strong!', 'For our land!'] }
+          { name: 'French Knight', startingCoins: 60, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 1, personality: 'proud', quotes: ['We are French knights!', 'We will defend!', 'For France!'] },
+          { name: 'French Crossbowman', startingCoins: 55, startingWeapons: ['crossbow'], startingMercenaries: 0, startingCastles: 1, personality: 'skilled', quotes: ['We are skilled!', 'We will shoot!', 'For the king!'] },
+          { name: 'French Peasant', startingCoins: 40, startingWeapons: ['pitchfork'], startingMercenaries: 0, startingCastles: 1, personality: 'determined', quotes: ['We will fight!', 'We are strong!', 'For our land!'] }
         ]
       }
     },
@@ -11460,7 +11460,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['secret police'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ruthless',
             quotes: [
               "We will eliminate counter-revolutionaries!",
@@ -11511,7 +11511,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['political strategy'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strategic',
             quotes: [
               "We will plan our strategy!",
@@ -11528,7 +11528,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['government authority'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'administrative',
             quotes: [
               "We will govern efficiently!",
@@ -11545,7 +11545,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['ceremonial authority'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ceremonial',
             quotes: [
               "We will represent the people!",
@@ -11562,7 +11562,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['diplomatic skills'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'diplomatic',
             quotes: [
               "We will negotiate!",
@@ -11579,7 +11579,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['military command'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'military',
             quotes: [
               "We will command the army!",
@@ -11596,7 +11596,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['cavalry'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cavalry',
             quotes: [
               "We will charge!",
@@ -11613,7 +11613,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['regional influence'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'regional',
             quotes: [
               "We will organize Ukraine!",
@@ -11626,9 +11626,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Red Army Soldier', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'revolutionary', quotes: ['For the revolution!', 'We are the Red Army!', 'Workers unite!'] },
-          { name: 'Bolshevik Worker', startingCoins: 45, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 0, personality: 'dedicated', quotes: ['We work for the revolution!', 'We are workers!', 'For socialism!'] },
-          { name: 'Red Guard', startingCoins: 55, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['We protect the revolution!', 'We are guards!', 'For the party!'] }
+          { name: 'Red Army Soldier', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'revolutionary', quotes: ['For the revolution!', 'We are the Red Army!', 'Workers unite!'] },
+          { name: 'Bolshevik Worker', startingCoins: 45, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 1, personality: 'dedicated', quotes: ['We work for the revolution!', 'We are workers!', 'For socialism!'] },
+          { name: 'Red Guard', startingCoins: 55, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'loyal', quotes: ['We protect the revolution!', 'We are guards!', 'For the party!'] }
         ]
       },
       whites: {
@@ -11768,7 +11768,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['cavalry'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'eccentric',
             quotes: [
               "We will restore the monarchy!",
@@ -11785,7 +11785,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['revolutionary tactics'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'revolutionary',
             quotes: [
               "We will fight the Bolsheviks!",
@@ -11802,7 +11802,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['guerrilla tactics'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'anarchist',
             quotes: [
               "We will fight all authority!",
@@ -11819,7 +11819,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['political influence'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'liberal',
             quotes: [
               "We will establish democracy!",
@@ -11836,7 +11836,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['government authority'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'moderate',
             quotes: [
               "We will govern moderately!",
@@ -11853,7 +11853,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['monarchist ideology'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'monarchist',
             quotes: [
               "We will restore the monarchy!",
@@ -11870,7 +11870,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['diplomatic skills'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'diplomatic',
             quotes: [
               "We will find foreign support!",
@@ -11883,9 +11883,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'White Army Soldier', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['For Russia!', 'We are the White Army!', 'Down with the Reds!'] },
-          { name: 'Cossack', startingCoins: 55, startingWeapons: ['saber'], startingMercenaries: 0, startingCastles: 0, personality: 'fierce', quotes: ['We are Cossacks!', 'We will fight!', 'For the Tsar!'] },
-          { name: 'White Officer', startingCoins: 60, startingWeapons: ['sword'], startingMercenaries: 0, startingCastles: 0, personality: 'noble', quotes: ['We are officers!', 'We will lead!', 'For honor!'] }
+          { name: 'White Army Soldier', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'loyal', quotes: ['For Russia!', 'We are the White Army!', 'Down with the Reds!'] },
+          { name: 'Cossack', startingCoins: 55, startingWeapons: ['saber'], startingMercenaries: 0, startingCastles: 1, personality: 'fierce', quotes: ['We are Cossacks!', 'We will fight!', 'For the Tsar!'] },
+          { name: 'White Officer', startingCoins: 60, startingWeapons: ['sword'], startingMercenaries: 0, startingCastles: 1, personality: 'noble', quotes: ['We are officers!', 'We will lead!', 'For honor!'] }
         ]
       }
     },
@@ -12014,9 +12014,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Allied Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'brave' },
-          { name: 'Allied Officer', startingCoins: 40, startingWeapons: ['Rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'leadership' },
-          { name: 'Allied Commander', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'strategic' }
+          { name: 'Allied Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'brave' },
+          { name: 'Allied Officer', startingCoins: 40, startingWeapons: ['Rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'leadership' },
+          { name: 'Allied Commander', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'strategic' }
         ]
       },
       centralPowers: {
@@ -12123,9 +12123,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Central Powers Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'loyal' },
-          { name: 'Central Powers Officer', startingCoins: 40, startingWeapons: ['Rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'disciplined' },
-          { name: 'Central Powers Commander', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'militaristic' }
+          { name: 'Central Powers Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'loyal' },
+          { name: 'Central Powers Officer', startingCoins: 40, startingWeapons: ['Rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'disciplined' },
+          { name: 'Central Powers Commander', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'militaristic' }
         ]
       }
     },
@@ -12257,9 +12257,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Allied Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'brave' },
-          { name: 'Allied Officer', startingCoins: 40, startingWeapons: ['Rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'leadership' },
-          { name: 'Allied Commander', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'strategic' }
+          { name: 'Allied Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'brave' },
+          { name: 'Allied Officer', startingCoins: 40, startingWeapons: ['Rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'leadership' },
+          { name: 'Allied Commander', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'strategic' }
         ]
       },
       axis: {
@@ -12366,9 +12366,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Axis Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'loyal' },
-          { name: 'Axis Officer', startingCoins: 40, startingWeapons: ['Rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'disciplined' },
-          { name: 'Axis Commander', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'militaristic' }
+          { name: 'Axis Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'loyal' },
+          { name: 'Axis Officer', startingCoins: 40, startingWeapons: ['Rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'disciplined' },
+          { name: 'Axis Commander', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'militaristic' }
         ]
       }
     },
@@ -12465,7 +12465,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['revolutionary spirit'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'inspiring',
             quotes: [
               "No pasarán!",
@@ -12482,7 +12482,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['catalan nationalism'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'nationalist',
             quotes: [
               "We will defend Catalonia!",
@@ -12499,7 +12499,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['socialist policies'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'moderate',
             quotes: [
               "We will find compromise!",
@@ -12516,7 +12516,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['government authority'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'administrative',
             quotes: [
               "We will govern effectively!",
@@ -12533,7 +12533,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['communist ideology'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'revolutionary',
             quotes: [
               "We will spread communism!",
@@ -12550,7 +12550,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['anarchist ideology'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'anarchist',
             quotes: [
               "We will abolish authority!",
@@ -12567,7 +12567,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['militia command'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'revolutionary',
             quotes: [
               "We will fight for freedom!",
@@ -12584,7 +12584,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['military command'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'military',
             quotes: [
               "We will defend Madrid!",
@@ -12601,7 +12601,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['military tactics'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'strategic',
             quotes: [
               "We will use strategy!",
@@ -12618,7 +12618,7 @@ window.SCENARIOS = {
             startingCoins: 40,
             startingWeapons: ['communist army'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'disciplined',
             quotes: [
               "We will be disciplined!",
@@ -12635,7 +12635,7 @@ window.SCENARIOS = {
             startingCoins: 35,
             startingWeapons: ['military command'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We will serve the republic!",
@@ -12648,9 +12648,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Republican Soldier', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'democratic', quotes: ['For the republic!', 'We are democrats!', 'No pasarán!'] },
-          { name: 'Anarchist Militia', startingCoins: 55, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'revolutionary', quotes: ['We are anarchists!', 'We will be free!', 'Down with authority!'] },
-          { name: 'International Brigader', startingCoins: 60, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'idealistic', quotes: ['We fight fascism!', 'We are international!', 'For freedom!'] }
+          { name: 'Republican Soldier', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'democratic', quotes: ['For the republic!', 'We are democrats!', 'No pasarán!'] },
+          { name: 'Anarchist Militia', startingCoins: 55, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'revolutionary', quotes: ['We are anarchists!', 'We will be free!', 'Down with authority!'] },
+          { name: 'International Brigader', startingCoins: 60, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'idealistic', quotes: ['We fight fascism!', 'We are international!', 'For freedom!'] }
         ]
       },
       nationalists: {
@@ -12790,7 +12790,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['traditionalist ideology'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'traditionalist',
             quotes: [
               "We will restore the monarchy!",
@@ -12807,7 +12807,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['monarchist support'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'monarchist',
             quotes: [
               "We will restore the king!",
@@ -12824,7 +12824,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['military command'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "We will attack!",
@@ -12841,7 +12841,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['military tactics'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'tactical',
             quotes: [
               "We will use tactics!",
@@ -12858,7 +12858,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['military command'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "We will serve Franco!",
@@ -12875,7 +12875,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['military experience'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'experienced',
             quotes: [
               "We will use our experience!",
@@ -12892,7 +12892,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['military command'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'steady',
             quotes: [
               "We will be steady!",
@@ -12905,9 +12905,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Nationalist Soldier', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['For Spain!', 'We are nationalists!', 'Down with the reds!'] },
-          { name: 'Falangist', startingCoins: 55, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'fascist', quotes: ['We are Falangists!', 'We will win!', 'For the party!'] },
-          { name: 'Carlist', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 0, personality: 'traditionalist', quotes: ['We are Carlists!', 'For the king!', 'We will restore!'] }
+          { name: 'Nationalist Soldier', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'loyal', quotes: ['For Spain!', 'We are nationalists!', 'Down with the reds!'] },
+          { name: 'Falangist', startingCoins: 55, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'fascist', quotes: ['We are Falangists!', 'We will win!', 'For the party!'] },
+          { name: 'Carlist', startingCoins: 50, startingWeapons: ['rifle'], startingMercenaries: 0, startingCastles: 1, personality: 'traditionalist', quotes: ['We are Carlists!', 'For the king!', 'We will restore!'] }
         ]
       }
     },
@@ -13154,7 +13154,7 @@ window.SCENARIOS = {
             startingCoins: 100,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'romantic',
             quotes: [
               "But soft, what light through yonder window breaks?",
@@ -13188,7 +13188,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['wisdom'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'caring',
             quotes: [
               "O, where is Romeo?",
@@ -13205,7 +13205,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'peaceful',
             quotes: [
               "Part, fools! Put up your swords.",
@@ -13222,7 +13222,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['sword', 'wit'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "A plague o' both your houses!",
@@ -13239,7 +13239,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'dutiful',
             quotes: [
               "I serve the Montague family with honor.",
@@ -13256,7 +13256,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['dagger'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "I serve Romeo faithfully.",
@@ -13273,7 +13273,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "We defend our family honor.",
@@ -13290,7 +13290,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['club'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'proud',
             quotes: [
               "We Montagues are not to be trifled with.",
@@ -13307,7 +13307,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['staff'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'quick',
             quotes: [
               "I carry messages swiftly.",
@@ -13324,7 +13324,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'noble',
             quotes: [
               "Family bonds are sacred.",
@@ -13341,7 +13341,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['knife'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'practical',
             quotes: [
               "A well-fed family is a strong family.",
@@ -13358,7 +13358,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['wisdom'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'learned',
             quotes: [
               "Knowledge is our greatest weapon.",
@@ -13375,7 +13375,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['coin purse'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'shrewd',
             quotes: [
               "Trade builds bridges between families.",
@@ -13392,7 +13392,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['holy symbol'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'pious',
             quotes: [
               "God wills peace between families.",
@@ -13405,9 +13405,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Montague Servant', startingCoins: 40, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['For House Montague!', 'We serve our masters!', 'Peace be with us!'] },
-          { name: 'Montague Guard', startingCoins: 50, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'protective', quotes: ['We protect our family!', 'Stand guard!', 'No harm shall come!'] },
-          { name: 'Montague Ally', startingCoins: 60, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'supportive', quotes: ['We stand with Montague!', 'Friendship forever!', 'Together we are strong!'] }
+          { name: 'Montague Servant', startingCoins: 40, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 1, personality: 'loyal', quotes: ['For House Montague!', 'We serve our masters!', 'Peace be with us!'] },
+          { name: 'Montague Guard', startingCoins: 50, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 1, personality: 'protective', quotes: ['We protect our family!', 'Stand guard!', 'No harm shall come!'] },
+          { name: 'Montague Ally', startingCoins: 60, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 1, personality: 'supportive', quotes: ['We stand with Montague!', 'Friendship forever!', 'Together we are strong!'] }
         ]
       },
       capulets: {
@@ -13435,7 +13435,7 @@ window.SCENARIOS = {
             startingCoins: 100,
             startingWeapons: ['dagger'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'passionate',
             quotes: [
               "What's in a name? That which we call a rose by any other name would smell as sweet.",
@@ -13469,7 +13469,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['wisdom'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'traditional',
             quotes: [
               "We must arrange Juliet's marriage.",
@@ -13486,7 +13486,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'aggressive',
             quotes: [
               "What, drawn, and talk of peace!",
@@ -13503,7 +13503,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['wisdom'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'caring',
             quotes: [
               "What, lamb! What, ladybird!",
@@ -13520,7 +13520,7 @@ window.SCENARIOS = {
             startingCoins: 55,
             startingWeapons: ['club'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'proud',
             quotes: [
               "We Capulets are not to be trifled with.",
@@ -13537,7 +13537,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "We defend our family honor.",
@@ -13554,7 +13554,7 @@ window.SCENARIOS = {
             startingCoins: 50,
             startingWeapons: ['staff'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'quick',
             quotes: [
               "I serve the Capulet family faithfully.",
@@ -13571,7 +13571,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'noble',
             quotes: [
               "Family bonds are sacred.",
@@ -13588,7 +13588,7 @@ window.SCENARIOS = {
             startingCoins: 45,
             startingWeapons: ['knife'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'practical',
             quotes: [
               "A well-fed family is a strong family.",
@@ -13605,7 +13605,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['wisdom'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'learned',
             quotes: [
               "Knowledge is our greatest weapon.",
@@ -13622,7 +13622,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['coin purse'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'shrewd',
             quotes: [
               "Trade builds bridges between families.",
@@ -13639,7 +13639,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['holy symbol'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'pious',
             quotes: [
               "God wills peace between families.",
@@ -13656,7 +13656,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'dutiful',
             quotes: [
               "I serve the Capulet family with honor.",
@@ -13673,7 +13673,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['dagger'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "I serve Juliet faithfully.",
@@ -13686,9 +13686,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Capulet Servant', startingCoins: 40, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal', quotes: ['For House Capulet!', 'We serve our masters!', 'Honor be with us!'] },
-          { name: 'Capulet Guard', startingCoins: 50, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'protective', quotes: ['We protect our family!', 'Stand guard!', 'No dishonor shall come!'] },
-          { name: 'Capulet Ally', startingCoins: 60, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'supportive', quotes: ['We stand with Capulet!', 'Honor forever!', 'Together we are strong!'] }
+          { name: 'Capulet Servant', startingCoins: 40, startingWeapons: ['tools'], startingMercenaries: 0, startingCastles: 1, personality: 'loyal', quotes: ['For House Capulet!', 'We serve our masters!', 'Honor be with us!'] },
+          { name: 'Capulet Guard', startingCoins: 50, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 1, personality: 'protective', quotes: ['We protect our family!', 'Stand guard!', 'No dishonor shall come!'] },
+          { name: 'Capulet Ally', startingCoins: 60, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 1, personality: 'supportive', quotes: ['We stand with Capulet!', 'Honor forever!', 'Together we are strong!'] }
         ]
       }
     },
@@ -13778,7 +13778,7 @@ window.SCENARIOS = {
             startingCoins: 100,
             startingWeapons: ['bow', 'knives'],
             startingMercenaries: 3,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'agile',
             quotes: [
               "They're taking the hobbits to Isengard!",
@@ -13795,7 +13795,7 @@ window.SCENARIOS = {
             startingCoins: 95,
             startingWeapons: ['axe'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "That still only counts as one!",
@@ -13812,7 +13812,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['Sting'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'determined',
             quotes: [
               "I will take the Ring to Mordor.",
@@ -13829,7 +13829,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "I can't carry it for you, but I can carry you!",
@@ -13863,7 +13863,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'curious',
             quotes: [
               "What about second breakfast?",
@@ -13880,7 +13880,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brave',
             quotes: [
               "We\'re going to see the elves!",
@@ -13931,7 +13931,7 @@ window.SCENARIOS = {
             startingCoins: 100,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'devoted',
             quotes: [
               "I would rather share one lifetime with you than face all the ages of this world alone.",
@@ -13948,7 +13948,7 @@ window.SCENARIOS = {
             startingCoins: 90,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'fierce',
             quotes: [
               "I am no man!",
@@ -13982,7 +13982,7 @@ window.SCENARIOS = {
             startingCoins: 95,
             startingWeapons: ['sword'],
             startingMercenaries: 3,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'loyal',
             quotes: [
               "I would cut off your head if it stood but a little higher from the ground.",
@@ -13999,7 +13999,7 @@ window.SCENARIOS = {
             startingCoins: 105,
             startingWeapons: ['sword', 'bow'],
             startingMercenaries: 3,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'wise',
             quotes: [
               "I would not take this thing if it lay by the highway.",
@@ -14033,7 +14033,7 @@ window.SCENARIOS = {
             startingCoins: 120,
             startingWeapons: ['branch'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'patient',
             quotes: [
               "I am not altogether on anybody\'s side.",
@@ -14046,10 +14046,10 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Elven Warrior', startingCoins: 60, startingWeapons: ['bow'], startingMercenaries: 1, startingCastles: 0, personality: 'graceful', quotes: ['For the Elves!', 'We fight for Middle-earth!', 'The light will prevail!'] },
-          { name: 'Dwarf Warrior', startingCoins: 55, startingWeapons: ['axe'], startingMercenaries: 1, startingCastles: 0, personality: 'sturdy', quotes: ['For the Dwarves!', 'We stand strong!', 'Stone and steel!'] },
-          { name: 'Rohirrim', startingCoins: 50, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'honorable', quotes: ['For Rohan!', 'We ride to war!', 'Honor and glory!'] },
-          { name: 'Gondorian Soldier', startingCoins: 45, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'disciplined', quotes: ['For Gondor!', 'We defend the realm!', 'Duty and honor!'] }
+          { name: 'Elven Warrior', startingCoins: 60, startingWeapons: ['bow'], startingMercenaries: 1, startingCastles: 1, personality: 'graceful', quotes: ['For the Elves!', 'We fight for Middle-earth!', 'The light will prevail!'] },
+          { name: 'Dwarf Warrior', startingCoins: 55, startingWeapons: ['axe'], startingMercenaries: 1, startingCastles: 1, personality: 'sturdy', quotes: ['For the Dwarves!', 'We stand strong!', 'Stone and steel!'] },
+          { name: 'Rohirrim', startingCoins: 50, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 1, personality: 'honorable', quotes: ['For Rohan!', 'We ride to war!', 'Honor and glory!'] },
+          { name: 'Gondorian Soldier', startingCoins: 45, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 1, personality: 'disciplined', quotes: ['For Gondor!', 'We defend the realm!', 'Duty and honor!'] }
         ]
       },
       mordor: {
@@ -14125,7 +14125,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['stealth'],
             startingMercenaries: 0,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'deceitful',
             quotes: [
               "My precious!",
@@ -14142,7 +14142,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brutal',
             quotes: [
               "The age of men is over.",
@@ -14159,7 +14159,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['poison'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'treacherous',
             quotes: [
               "Theoden is weak.",
@@ -14176,7 +14176,7 @@ window.SCENARIOS = {
             startingCoins: 85,
             startingWeapons: ['sword', 'bow'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'ruthless',
             quotes: [
               "We are the fighting Uruk-hai!",
@@ -14193,7 +14193,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brutal',
             quotes: [
               "The age of men is over.",
@@ -14210,7 +14210,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cruel',
             quotes: [
               "We will find the hobbits.",
@@ -14227,7 +14227,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'greedy',
             quotes: [
               "We will take their weapons.",
@@ -14244,7 +14244,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cunning',
             quotes: [
               "We will find the Ring.",
@@ -14261,7 +14261,7 @@ window.SCENARIOS = {
             startingCoins: 80,
             startingWeapons: ['sword'],
             startingMercenaries: 2,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'disciplined',
             quotes: [
               "We are the fighting Uruk-hai!",
@@ -14278,7 +14278,7 @@ window.SCENARIOS = {
             startingCoins: 75,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'agile',
             quotes: [
               "We will track them down.",
@@ -14295,7 +14295,7 @@ window.SCENARIOS = {
             startingCoins: 60,
             startingWeapons: ['dagger'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'sneaky',
             quotes: [
               "We will find them.",
@@ -14312,7 +14312,7 @@ window.SCENARIOS = {
             startingCoins: 65,
             startingWeapons: ['sword'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'brutal',
             quotes: [
               "We will crush our enemies.",
@@ -14329,7 +14329,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['spear'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'feral',
             quotes: [
               "We will hunt them down.",
@@ -14346,7 +14346,7 @@ window.SCENARIOS = {
             startingCoins: 70,
             startingWeapons: ['whip'],
             startingMercenaries: 1,
-            startingCastles: 0,
+            startingCastles: 1,
             personality: 'cruel',
             quotes: [
               "We will make them work.",
@@ -14359,10 +14359,10 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Orc Warrior', startingCoins: 30, startingWeapons: ['sword'], startingMercenaries: 0, startingCastles: 0, personality: 'brutal', quotes: ['For Mordor!', 'We crush enemies!', 'Death to all!'] },
-          { name: 'Uruk-hai', startingCoins: 40, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 0, personality: 'fierce', quotes: ['We are Uruk-hai!', 'We fight for Saruman!', 'No mercy!'] },
-          { name: 'Nazgûl', startingCoins: 80, startingWeapons: ['morgul blade'], startingMercenaries: 1, startingCastles: 0, personality: 'terrifying', quotes: ['We serve the dark lord!', 'Fear us!', 'The Ring calls!'] },
-          { name: 'Troll', startingCoins: 60, startingWeapons: ['club'], startingMercenaries: 1, startingCastles: 0, personality: 'strong', quotes: ['We smash!', 'Big and strong!', 'Crush enemies!'] }
+          { name: 'Orc Warrior', startingCoins: 30, startingWeapons: ['sword'], startingMercenaries: 0, startingCastles: 1, personality: 'brutal', quotes: ['For Mordor!', 'We crush enemies!', 'Death to all!'] },
+          { name: 'Uruk-hai', startingCoins: 40, startingWeapons: ['sword'], startingMercenaries: 1, startingCastles: 1, personality: 'fierce', quotes: ['We are Uruk-hai!', 'We fight for Saruman!', 'No mercy!'] },
+          { name: 'Nazgûl', startingCoins: 80, startingWeapons: ['morgul blade'], startingMercenaries: 1, startingCastles: 1, personality: 'terrifying', quotes: ['We serve the dark lord!', 'Fear us!', 'The Ring calls!'] },
+          { name: 'Troll', startingCoins: 60, startingWeapons: ['club'], startingMercenaries: 1, startingCastles: 1, personality: 'strong', quotes: ['We smash!', 'Big and strong!', 'Crush enemies!'] }
         ]
       }
     },
@@ -14584,9 +14584,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Fire Trainer', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'passionate' },
-          { name: 'Fire Gym Leader', startingCoins: 40, startingWeapons: ['Fire Stone'], startingMercenaries: 0, startingCastles: 0, personality: 'determined' },
-          { name: 'Fire Elite', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'elite' }
+          { name: 'Fire Trainer', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'passionate' },
+          { name: 'Fire Gym Leader', startingCoins: 40, startingWeapons: ['Fire Stone'], startingMercenaries: 0, startingCastles: 1, personality: 'determined' },
+          { name: 'Fire Elite', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'elite' }
         ]
       },
       water: {
@@ -14778,9 +14778,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Water Trainer', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'calm' },
-          { name: 'Water Gym Leader', startingCoins: 40, startingWeapons: ['Water Stone'], startingMercenaries: 0, startingCastles: 0, personality: 'serene' },
-          { name: 'Water Elite', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'elite' }
+          { name: 'Water Trainer', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'calm' },
+          { name: 'Water Gym Leader', startingCoins: 40, startingWeapons: ['Water Stone'], startingMercenaries: 0, startingCastles: 1, personality: 'serene' },
+          { name: 'Water Elite', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'elite' }
         ]
       },
       grass: {
@@ -14972,9 +14972,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Grass Trainer', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'peaceful' },
-          { name: 'Grass Gym Leader', startingCoins: 40, startingWeapons: ['Leaf Stone'], startingMercenaries: 0, startingCastles: 0, personality: 'wise' },
-          { name: 'Grass Elite', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'elite' }
+          { name: 'Grass Trainer', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'peaceful' },
+          { name: 'Grass Gym Leader', startingCoins: 40, startingWeapons: ['Leaf Stone'], startingMercenaries: 0, startingCastles: 1, personality: 'wise' },
+          { name: 'Grass Elite', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'elite' }
         ]
       }
     },
@@ -15157,9 +15157,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Northern Lord', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'loyal' },
-          { name: 'Night\'s Watch Ranger', startingCoins: 40, startingWeapons: ['Sword'], startingMercenaries: 0, startingCastles: 0, personality: 'dutiful' },
-          { name: 'Northern Warrior', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'fierce' }
+          { name: 'Northern Lord', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'loyal' },
+          { name: 'Night\'s Watch Ranger', startingCoins: 40, startingWeapons: ['Sword'], startingMercenaries: 0, startingCastles: 1, personality: 'dutiful' },
+          { name: 'Northern Warrior', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'fierce' }
         ]
       },
       lannister: {
@@ -15317,9 +15317,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Lannister Lord', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'wealthy' },
-          { name: 'Golden Company', startingCoins: 40, startingWeapons: ['Sword'], startingMercenaries: 0, startingCastles: 0, personality: 'mercenary' },
-          { name: 'Lannister Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+          { name: 'Lannister Lord', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'wealthy' },
+          { name: 'Golden Company', startingCoins: 40, startingWeapons: ['Sword'], startingMercenaries: 0, startingCastles: 1, personality: 'mercenary' },
+          { name: 'Lannister Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'loyal' }
         ]
       },
       targaryen: {
@@ -15477,9 +15477,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Dragon Rider', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'dragon' },
-          { name: 'Valyrian Lord', startingCoins: 40, startingWeapons: ['Valyrian Steel'], startingMercenaries: 0, startingCastles: 0, personality: 'ancient' },
-          { name: 'Dragon Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+          { name: 'Dragon Rider', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'dragon' },
+          { name: 'Valyrian Lord', startingCoins: 40, startingWeapons: ['Valyrian Steel'], startingMercenaries: 0, startingCastles: 1, personality: 'ancient' },
+          { name: 'Dragon Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'loyal' }
         ]
       },
       nightsWatch: {
@@ -15637,9 +15637,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Night\'s Watch Recruit', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'new' },
-          { name: 'Night\'s Watch Ranger', startingCoins: 40, startingWeapons: ['Sword'], startingMercenaries: 0, startingCastles: 0, personality: 'dutiful' },
-          { name: 'Night\'s Watch Steward', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'servant' }
+          { name: 'Night\'s Watch Recruit', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'new' },
+          { name: 'Night\'s Watch Ranger', startingCoins: 40, startingWeapons: ['Sword'], startingMercenaries: 0, startingCastles: 1, personality: 'dutiful' },
+          { name: 'Night\'s Watch Steward', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'servant' }
         ]
       }
     },
@@ -15822,9 +15822,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Water Tribe Warrior', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'loyal' },
-          { name: 'Waterbending Student', startingCoins: 40, startingWeapons: ['Water'], startingMercenaries: 0, startingCastles: 0, personality: 'learning' },
-          { name: 'Water Tribe Elder', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'wise' }
+          { name: 'Water Tribe Warrior', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'loyal' },
+          { name: 'Waterbending Student', startingCoins: 40, startingWeapons: ['Water'], startingMercenaries: 0, startingCastles: 1, personality: 'learning' },
+          { name: 'Water Tribe Elder', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'wise' }
         ]
       },
       earthKingdom: {
@@ -15982,9 +15982,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Earth Kingdom Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'loyal' },
-          { name: 'Earthbending Student', startingCoins: 40, startingWeapons: ['Earth'], startingMercenaries: 0, startingCastles: 0, personality: 'learning' },
-          { name: 'Earth Kingdom Noble', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'wealthy' }
+          { name: 'Earth Kingdom Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'loyal' },
+          { name: 'Earthbending Student', startingCoins: 40, startingWeapons: ['Earth'], startingMercenaries: 0, startingCastles: 1, personality: 'learning' },
+          { name: 'Earth Kingdom Noble', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'wealthy' }
         ]
       },
       fireNation: {
@@ -16142,9 +16142,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Fire Nation Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'loyal' },
-          { name: 'Firebending Student', startingCoins: 40, startingWeapons: ['Fire'], startingMercenaries: 0, startingCastles: 0, personality: 'learning' },
-          { name: 'Fire Nation Noble', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'wealthy' }
+          { name: 'Fire Nation Soldier', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'loyal' },
+          { name: 'Firebending Student', startingCoins: 40, startingWeapons: ['Fire'], startingMercenaries: 0, startingCastles: 1, personality: 'learning' },
+          { name: 'Fire Nation Noble', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'wealthy' }
         ]
       },
       airNomads: {
@@ -16302,9 +16302,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Air Nomad Monk', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'peaceful' },
-          { name: 'Airbending Student', startingCoins: 40, startingWeapons: ['Air'], startingMercenaries: 0, startingCastles: 0, personality: 'learning' },
-          { name: 'Air Nomad Elder', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'wise' }
+          { name: 'Air Nomad Monk', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'peaceful' },
+          { name: 'Airbending Student', startingCoins: 40, startingWeapons: ['Air'], startingMercenaries: 0, startingCastles: 1, personality: 'learning' },
+          { name: 'Air Nomad Elder', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'wise' }
         ]
       }
     },
@@ -16521,9 +16521,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Olympian God', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'divine' },
-          { name: 'Divine Messenger', startingCoins: 40, startingWeapons: ['Divine Power'], startingMercenaries: 0, startingCastles: 0, personality: 'celestial' },
-          { name: 'Olympian Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+          { name: 'Olympian God', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'divine' },
+          { name: 'Divine Messenger', startingCoins: 40, startingWeapons: ['Divine Power'], startingMercenaries: 0, startingCastles: 1, personality: 'celestial' },
+          { name: 'Olympian Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'loyal' }
         ]
       },
       titans: {
@@ -16715,9 +16715,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Ancient Titan', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'ancient' },
-          { name: 'Titan Warrior', startingCoins: 40, startingWeapons: ['Titan Power'], startingMercenaries: 0, startingCastles: 0, personality: 'powerful' },
-          { name: 'Titan Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+          { name: 'Ancient Titan', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'ancient' },
+          { name: 'Titan Warrior', startingCoins: 40, startingWeapons: ['Titan Power'], startingMercenaries: 0, startingCastles: 1, personality: 'powerful' },
+          { name: 'Titan Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'loyal' }
         ]
       },
       mortals: {
@@ -16909,9 +16909,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Mortal Warrior', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'brave' },
-          { name: 'Hero\'s Companion', startingCoins: 40, startingWeapons: ['Sword'], startingMercenaries: 0, startingCastles: 0, personality: 'loyal' },
-          { name: 'Mortal Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'protective' }
+          { name: 'Mortal Warrior', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'brave' },
+          { name: 'Hero\'s Companion', startingCoins: 40, startingWeapons: ['Sword'], startingMercenaries: 0, startingCastles: 1, personality: 'loyal' },
+          { name: 'Mortal Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'protective' }
         ]
       }
     },
@@ -17094,9 +17094,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Career Tribute', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'trained' },
-          { name: 'Career Trainer', startingCoins: 40, startingWeapons: ['Combat Training'], startingMercenaries: 0, startingCastles: 0, personality: 'instructor' },
-          { name: 'Career Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'protective' }
+          { name: 'Career Tribute', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'trained' },
+          { name: 'Career Trainer', startingCoins: 40, startingWeapons: ['Combat Training'], startingMercenaries: 0, startingCastles: 1, personality: 'instructor' },
+          { name: 'Career Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'protective' }
         ]
       },
       midTierDistricts: {
@@ -17254,9 +17254,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Mid-Tier Tribute', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'resourceful' },
-          { name: 'District Worker', startingCoins: 40, startingWeapons: ['Tools'], startingMercenaries: 0, startingCastles: 0, personality: 'skilled' },
-          { name: 'Mid-Tier Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+          { name: 'Mid-Tier Tribute', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'resourceful' },
+          { name: 'District Worker', startingCoins: 40, startingWeapons: ['Tools'], startingMercenaries: 0, startingCastles: 1, personality: 'skilled' },
+          { name: 'Mid-Tier Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'loyal' }
         ]
       },
       outerDistricts: {
@@ -17414,9 +17414,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Outer District Tribute', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'survivor' },
-          { name: 'District Worker', startingCoins: 40, startingWeapons: ['Tools'], startingMercenaries: 0, startingCastles: 0, personality: 'hardworking' },
-          { name: 'Outer District Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+          { name: 'Outer District Tribute', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'survivor' },
+          { name: 'District Worker', startingCoins: 40, startingWeapons: ['Tools'], startingMercenaries: 0, startingCastles: 1, personality: 'hardworking' },
+          { name: 'Outer District Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'loyal' }
         ]
       },
       capitol: {
@@ -17574,9 +17574,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Capitol Citizen', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'wealthy' },
-          { name: 'Capitol Official', startingCoins: 40, startingWeapons: ['Authority'], startingMercenaries: 0, startingCastles: 0, personality: 'powerful' },
-          { name: 'Capitol Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+          { name: 'Capitol Citizen', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'wealthy' },
+          { name: 'Capitol Official', startingCoins: 40, startingWeapons: ['Authority'], startingMercenaries: 0, startingCastles: 1, personality: 'powerful' },
+          { name: 'Capitol Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'loyal' }
         ]
       }
     },
@@ -17873,9 +17873,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Disney Character', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'magical' },
-          { name: 'Disney Animator', startingCoins: 40, startingWeapons: ['Animation'], startingMercenaries: 0, startingCastles: 0, personality: 'creative' },
-          { name: 'Disney Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+          { name: 'Disney Character', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'magical' },
+          { name: 'Disney Animator', startingCoins: 40, startingWeapons: ['Animation'], startingMercenaries: 0, startingCastles: 1, personality: 'creative' },
+          { name: 'Disney Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'loyal' }
         ]
       },
       pixar: {
@@ -18152,9 +18152,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Pixar Character', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'innovative' },
-          { name: 'Pixar Animator', startingCoins: 40, startingWeapons: ['Technology'], startingMercenaries: 0, startingCastles: 0, personality: 'creative' },
-          { name: 'Pixar Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+          { name: 'Pixar Character', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'innovative' },
+          { name: 'Pixar Animator', startingCoins: 40, startingWeapons: ['Technology'], startingMercenaries: 0, startingCastles: 1, personality: 'creative' },
+          { name: 'Pixar Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'loyal' }
         ]
       }
     },
@@ -18456,9 +18456,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Mario Character', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'heroic' },
-          { name: 'Mario Hero', startingCoins: 40, startingWeapons: ['Power-Up'], startingMercenaries: 0, startingCastles: 0, personality: 'brave' },
-          { name: 'Mario Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+          { name: 'Mario Character', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'heroic' },
+          { name: 'Mario Hero', startingCoins: 40, startingWeapons: ['Power-Up'], startingMercenaries: 0, startingCastles: 1, personality: 'brave' },
+          { name: 'Mario Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'loyal' }
         ]
       },
       bowsersMinions: {
@@ -18735,9 +18735,9 @@ window.SCENARIOS = {
           }
         ],
         generalRoles: [
-          { name: 'Bowser Minion', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 0, personality: 'villainous' },
-          { name: 'Koopa Warrior', startingCoins: 40, startingWeapons: ['Shell'], startingMercenaries: 0, startingCastles: 0, personality: 'aggressive' },
-          { name: 'Bowser Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 0, personality: 'loyal' }
+          { name: 'Bowser Minion', startingCoins: 30, startingWeapons: [], startingMercenaries: 0, startingCastles: 1, personality: 'villainous' },
+          { name: 'Koopa Warrior', startingCoins: 40, startingWeapons: ['Shell'], startingMercenaries: 0, startingCastles: 1, personality: 'aggressive' },
+          { name: 'Bowser Guard', startingCoins: 35, startingWeapons: [], startingMercenaries: 1, startingCastles: 1, personality: 'loyal' }
         ]
       }
     },
