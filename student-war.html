@@ -2568,6 +2568,14 @@
     
     console.log('Placing starting castles...');
     
+    // Ensure every student has at least 1 starting castle (for regular games)
+    state.roster.forEach(student => {
+      if (!student.startingCastles || student.startingCastles === 0) {
+        student.startingCastles = 1;
+        console.log(`Set ${student.name} to have 1 starting castle (regular game)`);
+      }
+    });
+    
     state.roster.forEach(student => {
       if (student.startingCastles > 0) {
         // Find student's first territory (lowest coordinates)

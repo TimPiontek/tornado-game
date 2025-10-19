@@ -3042,6 +3042,14 @@
       teamGroups[teamId].push(student);
     });
     
+    // Ensure every student has at least 1 starting castle (for regular games)
+    state.roster.forEach(student => {
+      if (!student.startingCastles || student.startingCastles === 0) {
+        student.startingCastles = 1;
+        console.log(`Set ${student.name} to have 1 starting castle (regular game)`);
+      }
+    });
+    
     // Calculate total castles per team
     const teamCastleCounts = {};
     Object.entries(teamGroups).forEach(([teamId, participants]) => {
@@ -7294,6 +7302,24 @@
     
     // Clear any existing scenario data
     state.scenario = null;
+    
+    // Clear character assignments from roster
+    if (state.currentRoster && state.currentRoster.scenario) {
+      delete state.currentRoster.scenario;
+    }
+    
+    // Clear character assignments from all students
+    state.roster.forEach(student => {
+      student.characterName = null;
+      student.characterRole = null;
+      student.characterFaction = null;
+      student.startingCastles = 1; // Set to 1 for regular games
+      student.weapons = [];
+      student.mercenaries = 0;
+    });
+    
+    // Clear AI players
+    state.aiPlayers = [];
     
     // Update game theme title
     updateGameThemeTitle();
