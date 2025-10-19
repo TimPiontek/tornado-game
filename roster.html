@@ -1465,6 +1465,17 @@
             document.getElementById('authModal').style.display = 'none';
         }
         
+        // === ROSTER DATA MANAGEMENT ===
+        function getAllRosters() {
+            try {
+                const saved = localStorage.getItem('tornadoRosters');
+                return saved ? JSON.parse(saved) : [];
+            } catch (error) {
+                console.error('Error loading rosters from localStorage:', error);
+                return [];
+            }
+        }
+        
         function loadExistingRosters() {
             const rostersGrid = document.getElementById('rostersGrid');
             const existingRosters = getAllRosters();
