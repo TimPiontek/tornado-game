@@ -20272,7 +20272,8 @@ const EVENT_CARDS = {
       { name: 'The Church', cost: 8, description: 'Worship place' },
       { name: 'The Village Square', cost: 6, description: 'Public gathering' }
     ]
-  };
+  }
+};
 
 // Provide legacy global for pages that reference SCENARIOS directly
 // without going through window.SCENARIOS
