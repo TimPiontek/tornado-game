@@ -861,17 +861,17 @@
     
     // Sort each team's positions using wall-priority from their assigned corner
     if (teamCount === 4) {
-      team1Positions = sortByWallPriority(team1Positions, 0, 0); // Top-left corner
-      team2Positions = sortByWallPriority(team2Positions, w-1, 0); // Top-right corner
-      team3Positions = sortByWallPriority(team3Positions, 0, h-1); // Bottom-left corner
-      team4Positions = sortByWallPriority(team4Positions, w-1, h-1); // Bottom-right corner
+      sortByWallPriority(team1Positions, 0, 0); // Top-left corner
+      sortByWallPriority(team2Positions, w-1, 0); // Top-right corner
+      sortByWallPriority(team3Positions, 0, h-1); // Bottom-left corner
+      sortByWallPriority(team4Positions, w-1, h-1); // Bottom-right corner
     } else if (teamCount === 3) {
-      team1Positions = sortByWallPriority(team1Positions, w/2, h/2); // Center
-      team2Positions = sortByWallPriority(team2Positions, 0, 0); // Top-left corner
-      team3Positions = sortByWallPriority(team3Positions, w-1, h-1); // Bottom-right corner
+      sortByWallPriority(team1Positions, w/2, h/2); // Center
+      sortByWallPriority(team2Positions, 0, 0); // Top-left corner
+      sortByWallPriority(team3Positions, w-1, h-1); // Bottom-right corner
     } else if (teamCount === 2) {
-      team1Positions = sortByWallPriority(team1Positions, w/4, h/2); // Left quarter
-      team2Positions = sortByWallPriority(team2Positions, 3*w/4, h/2); // Right quarter
+      sortByWallPriority(team1Positions, w/4, h/2); // Left quarter
+      sortByWallPriority(team2Positions, 3*w/4, h/2); // Right quarter
     } else {
       // Individual players: sort by wall priority from nearest corner
       team1Positions.sort((a, b) => {
