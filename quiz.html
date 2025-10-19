@@ -9593,6 +9593,26 @@
             if (isCorrect) {
                 studentPoints[studentName] += points;
                 studentCorrectAnswers[studentName]++;
+                
+                // CRITICAL FIX: Also add points to team score
+                if (teamMode && rosterData && rosterData.teams) {
+                    // Find which team this student belongs to
+                    const studentTeam = rosterData.teams.find(team => 
+                        team.students && team.students.includes(studentName)
+                    );
+                    
+                    if (studentTeam) {
+                        // Find the team letter (A, B, C, D, etc.)
+                        const teamIndex = rosterData.teams.indexOf(studentTeam);
+                        const teamLetter = String.fromCharCode(65 + teamIndex);
+                        
+                        // Add points to team score
+                        if (!scores[teamLetter]) scores[teamLetter] = 0;
+                        scores[teamLetter] += points;
+                        
+                        console.log(`Added ${points} points to ${studentTeam.name} (Team ${teamLetter}). New team score: ${scores[teamLetter]}`);
+                    }
+                }
             }
             
             // Update the student object in roster data
@@ -9604,6 +9624,12 @@
             }
             
             console.log(`Question for ${studentName}: ${isCorrect ? 'CORRECT' : 'INCORRECT'} - Points: ${isCorrect ? points : 0}, Total: ${studentPoints[studentName]}, Correct: ${studentCorrectAnswers[studentName]}/${studentTotalQuestions[studentName]}`);
+            
+            // Update team display after awarding points
+            if (isCorrect) {
+                updateScores();
+                updateTeamDisplay();
+            }
         }
         
         function loadRosterData() {
