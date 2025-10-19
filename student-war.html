@@ -1536,10 +1536,31 @@
       });
     }
     
-    // Reset tile counts
+    // Reset tile counts and clear character data
     state.roster.forEach(student => {
       student.tilesOwned = 0;
+      
+      // Clear character assignments (for complete reset)
+      student.characterName = null;
+      student.characterRole = null;
+      student.characterFaction = null;
+      student.teamId = null;
+      student.teamName = null;
+      student.startingCastles = 1; // Default to 1 castle
     });
+    
+    // Clear scenario and AI data
+    state.scenario = null;
+    state.currentScenario = null;
+    state.aiPlayers = [];
+    
+    // Clear saved game state and scenario data from roster
+    if (state.currentRoster && state.currentRoster.gameState) {
+      delete state.currentRoster.gameState;
+    }
+    if (state.currentRoster && state.currentRoster.scenario) {
+      delete state.currentRoster.scenario;
+    }
     
     // Update display
     updateGridDisplay();
