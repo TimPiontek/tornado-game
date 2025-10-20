@@ -4234,20 +4234,36 @@ The Beatles
         // === DYNAMIC HOMEPAGE BASED ON LOGIN STATUS ===
         async function updateHomepageForUser() {
           try {
-            // Wait a moment for Supabase to restore the session
-            await new Promise(resolve => setTimeout(resolve, 200));
+            console.log('🔄 Checking authentication status...');
             
-            // Try to get the current session
-            const {
-              data: { session },
-              error: sessionError
-            } = await supabaseClient.auth.getSession();
+            // Wait longer for Supabase to restore the session
+            await new Promise(resolve => setTimeout(resolve, 500));
             
-            // Also try getUser() as a backup
-            const {
-              data: { user },
-              error: userError
-            } = await supabaseClient.auth.getUser();
+            // Try multiple methods to get the session
+            let session = null;
+            let user = null;
+            
+            // Method 1: getSession()
+            try {
+              const sessionResult = await supabaseClient.auth.getSession();
+              session = sessionResult.data?.session;
+              console.log('📋 getSession result:', session ? 'Found session' : 'No session');
+            } catch (error) {
+              console.log('⚠️ getSession error:', error.message);
+            }
+            
+            // Method 2: getUser() as backup
+            try {
+              const userResult = await supabaseClient.auth.getUser();
+              user = userResult.data?.user;
+              console.log('👤 getUser result:', user ? 'Found user' : 'No user');
+            } catch (error) {
+              console.log('⚠️ getUser error:', error.message);
+            }
+            
+            // Method 3: Check localStorage for auth tokens
+            const authToken = localStorage.getItem('sb-dmbbsrcwqpmdxqtzvtqj-auth-token');
+            console.log('🔑 Auth token in localStorage:', authToken ? 'Found' : 'Not found');
             
             // Check if user is a student (has currentStudent in localStorage)
             const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
@@ -4258,6 +4274,7 @@ The Beatles
             const teacherUser = session?.user || user;
             const isTeacher = teacherUser !== null;
             
+            console.log('🎯 Final auth state:', { isTeacher, isStudent, teacherUser: teacherUser?.email });
             
             // Update navigation and content based on actual auth status
             updateNavigationDirect();
@@ -4265,7 +4282,7 @@ The Beatles
             updateLoginBtn(teacherUser);
             
           } catch (error) {
-            console.error('Error checking auth status:', error);
+            console.error('❌ Error checking auth status:', error);
             
             // Fallback: check localStorage for any auth tokens
             const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
@@ -4404,21 +4421,26 @@ The Beatles
           // Attach login button handler
           attachLoginButtonHandler();
           
-          // Check auth state with multiple attempts to ensure it's detected
+          // Check auth state with longer delays to ensure Supabase has time to restore session
           setTimeout(() => {
-            console.log('First auth check...');
+            console.log('First auth check (100ms)...');
             updateHomepageForUser();
           }, 100);
           
           setTimeout(() => {
-            console.log('Second auth check...');
+            console.log('Second auth check (1000ms)...');
             updateHomepageForUser();
           }, 1000);
           
           setTimeout(() => {
-            console.log('Final auth check...');
+            console.log('Third auth check (2000ms)...');
             updateHomepageForUser();
-          }, 3000);
+          }, 2000);
+          
+          setTimeout(() => {
+            console.log('Final auth check (5000ms)...');
+            updateHomepageForUser();
+          }, 5000);
         });
         
         function attachLoginButtonHandler() {
@@ -4639,6 +4661,24 @@ The Beatles
         // Also listen for custom events when student logs in/out on same page
         window.addEventListener('studentLoginChange', function() {
           updateHomepageForUser();
+        });
+        
+        // Listen for page visibility changes (when user returns to tab)
+        document.addEventListener('visibilitychange', function() {
+          if (!document.hidden) {
+            console.log('📱 Page became visible, checking auth state...');
+            setTimeout(() => {
+              updateHomepageForUser();
+            }, 100);
+          }
+        });
+        
+        // Listen for focus events (when user returns to window)
+        window.addEventListener('focus', function() {
+          console.log('🎯 Window focused, checking auth state...');
+          setTimeout(() => {
+            updateHomepageForUser();
+          }, 100);
         });
         
         // Global function for assignment creation
