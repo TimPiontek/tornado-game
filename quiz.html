@@ -7033,7 +7033,7 @@
         }
         
         // === GAME INTEGRATION ===
-        function savePointsToWarGame(studentPoints, teamVictoryBonus) {
+        async function savePointsToWarGame(studentPoints, teamVictoryBonus) {
             try {
                 // Get existing rosters
                 const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
@@ -7278,7 +7278,7 @@
             console.log('Auto-created roster:', newRosterData.name);
         }
         
-        function transferQuizPointsToWar(winningTeam) {
+        async function transferQuizPointsToWar(winningTeam) {
             if (!teamMode || !rosterData) return;
             
             // Use the actual individual points students earned during the quiz
@@ -7316,7 +7316,7 @@
             }
             
             // Save points to war game
-            savePointsToWarGame(pointsToTransfer, teamVictoryBonus);
+            await savePointsToWarGame(pointsToTransfer, teamVictoryBonus);
             
             // Update student progress
             updateStudentProgressFromQuiz();
@@ -7334,7 +7334,7 @@
             }, 2000);
         }
         
-        function transferIndividualQuizPointsToWar() {
+        async function transferIndividualQuizPointsToWar() {
             if (!rosterData) return;
             
             // Use the actual individual points students earned during the quiz
@@ -7346,7 +7346,7 @@
             });
             
             // Save points to war game (no team victory bonus in individual mode)
-            savePointsToWarGame(pointsToTransfer, {});
+            await savePointsToWarGame(pointsToTransfer, {});
             
             // Update student progress
             updateStudentProgressFromQuiz();
@@ -7400,7 +7400,7 @@
             }
         }
         
-        function showEndGameResults() {
+        async function showEndGameResults() {
           console.log('🏆 showEndGameResults called - game complete!');
           // Find winner
           let winner = null;
@@ -7434,9 +7434,9 @@
           if (winner && rosterData) {
             console.log(`💰 Transferring points to roster for winner: ${winner}`);
             if (teamMode) {
-              transferQuizPointsToWar(winner);
+              await transferQuizPointsToWar(winner);
             } else {
-              transferIndividualQuizPointsToWar();
+              await transferIndividualQuizPointsToWar();
             }
           } else {
             console.log('⚠️ No winner or roster data available for point transfer');
@@ -7542,9 +7542,9 @@
             if (winner) {
                 // Transfer points to roster
                 if (teamMode) {
-                    transferQuizPointsToWar(winner);
+                    await transferQuizPointsToWar(winner);
                 } else {
-                    transferIndividualQuizPointsToWar();
+                    await transferIndividualQuizPointsToWar();
                 }
                 
                 // Show winner announcement
@@ -7552,7 +7552,7 @@
                 alert(`🏆 Game Ended!\n\nWinner: ${winnerName}\nScore: ${highestScore} points\n\nPoints have been saved to the roster and will carry over to Tornado War!`);
             } else {
                 alert('No winner determined. Points have been saved to the roster.');
-                transferIndividualQuizPointsToWar();
+                await transferIndividualQuizPointsToWar();
             }
         }
         
