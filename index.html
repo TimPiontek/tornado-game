@@ -4260,7 +4260,7 @@ The Beatles
             
             
             // Update navigation and content based on actual auth status
-            updateNavigation(isTeacher, isStudent);
+            updateNavigationDirect();
             updateContentVisibility(isTeacher, isStudent);
             updateLoginBtn(teacherUser);
             
@@ -4272,7 +4272,7 @@ The Beatles
             const isStudent = currentStudent !== null;
             
             // Default to guest mode if there's an error
-            updateNavigation(false, isStudent);
+            updateNavigationDirect();
             updateContentVisibility(false, isStudent);
             updateLoginBtn(null);
           }
@@ -4369,8 +4369,16 @@ The Beatles
         // === LOGIN BUTTON STATE ===
         async function updateLoginBtn(user) {
           const btn = document.getElementById("loginLogoutBtn");
-          if (!btn) return;
+          console.log('updateLoginBtn called with user:', user);
+          console.log('Login button found:', !!btn);
+          
+          if (!btn) {
+            console.log('Login button not found!');
+            return;
+          }
+          
           if (user) {
+            console.log('Setting button to logout state');
             btn.textContent = "🚪 Logout";
             btn.style.background = "#e57373";
             btn.style.color = "#fff";
@@ -4378,6 +4386,7 @@ The Beatles
             btn.style.fontWeight = "600";
             btn.title = `Logged in as: ${user.email || 'Teacher'}`;
           } else {
+            console.log('Setting button to login state');
             btn.textContent = "👨‍🏫 Teacher Login";
             btn.style.background = "#fff";
             btn.style.color = "#6F5C91";
