@@ -20016,132 +20016,349 @@ const EVENT_CARDS = {
     ]
   },
 
-  // HAMLET SCENARIO
+  // HAMLET SCENARIO - COMPREHENSIVE VERSION
   hamlet: {
     id: 'hamlet',
-    name: 'Hamlet (William Shakespeare)',
+    name: 'Hamlet',
+    scenarioName: 'Hamlet',
     type: 'literary',
-    description: 'A Danish prince\'s quest for revenge and justice in a corrupt court filled with deception and madness.',
+    description: 'The tragedy of Prince Hamlet\'s quest for revenge and truth in the court of Denmark',
     inspirationalQuote: {
       text: "To be, or not to be, that is the question.",
       author: "William Shakespeare",
-      context: "Hamlet"
+      context: "Hamlet, Act III, Scene I"
     },
-    factionOrder: ['hamlet', 'claudius'],
+    factionOrder: ['hamletLoyalists', 'claudiusCourt'],
     factions: {
-      hamlet: {
-        name: 'Hamlet\'s Forces',
+      hamletLoyalists: {
+        name: 'Hamlet\'s Loyalists',
         color: '#1e40af', // Blue
-        description: 'The prince and his allies seeking justice',
+        description: 'Aligned with truth, legacy, and justice',
         territories: [
-          { name: 'Elsinore Castle', cost: 25, description: 'Royal fortress' },
-          { name: 'Hamlet\'s Chamber', cost: 20, description: 'Prince\'s quarters' },
-          { name: 'Ophelia\'s Garden', cost: 15, description: 'Flower garden' },
-          { name: 'Hamlet\'s Study', cost: 18, description: 'Philosophy room' },
-          { name: 'Hamlet\'s Armory', cost: 16, description: 'Weapons & armor' },
-          { name: 'Hamlet\'s Library', cost: 14, description: 'Books & scrolls' },
-          { name: 'Hamlet\'s Theater', cost: 12, description: 'Play within play' },
-          { name: 'Hamlet\'s Crypt', cost: 10, description: 'Graveyard' },
-          { name: 'Hamlet\'s Chapel', cost: 8, description: 'Prayer room' },
-          { name: 'Hamlet\'s Courtyard', cost: 6, description: 'Outdoor space' }
+          { name: 'Hamlet\'s Quarters', cost: 85, description: 'Hamlet\'s private space — psychological center of resistance' },
+          { name: 'The Ghost\'s Platform', cost: 90, description: 'Where the truth is revealed; tied to the old king' },
+          { name: 'Graveyard', cost: 80, description: 'Symbol of mortality and philosophical power' },
+          { name: 'Wittenberg University', cost: 75, description: 'Represents Hamlet\'s intellect and allies abroad' },
+          { name: 'Old King\'s Mausoleum', cost: 88, description: 'Legacy and spiritual power of his father' },
+          { name: 'Forest Path Outside Elsinore', cost: 70, description: 'Space of reflection and plotting' },
+          { name: 'The Player\'s Wagon', cost: 65, description: 'Hamlet weaponizes truth through theater' },
+          { name: 'Chapel Ruins', cost: 82, description: 'Where Hamlet almost kills Claudius' },
+          { name: 'Gertrude\'s Inner Chamber', cost: 78, description: 'Temporarily won over during closet scene' },
+          { name: 'Ophelia\'s Grave', cost: 85, description: 'Claimed through grief and emotional dominance' },
+          { name: 'Watchtower', cost: 72, description: 'Controlled by loyalists who first see the Ghost' },
+          { name: 'Seacoast Harbor', cost: 68, description: 'Where Hamlet returns from England with resolve' },
+          { name: 'Sword Arena', cost: 90, description: 'Final battleground where Hamlet gains moral upper hand' },
+          { name: 'The Mind/Conscience', cost: 95, description: 'Hamlet\'s domain of introspection' },
+          { name: 'Letters and Seals Room', cost: 75, description: 'Hamlet intercepts power with forged letters' },
+          { name: 'Norwegian Alliance Grounds', cost: 80, description: 'Symbolic claim when Fortinbras honors Hamlet' }
         ],
         characters: [
           {
             name: 'Hamlet',
-            role: 'Melancholy Prince',
-            startingCoins: 95,
-            startingWeapons: ['sword'],
-            startingMercenaries: 5,
-            startingCastles: 2,
+            role: 'Prince of Denmark',
+            startingCoins: 100,
+            startingWeapons: ['sword', 'wit'],
+            startingMercenaries: 6,
+            startingCastles: 3,
             personality: 'melancholic',
             quotes: [
               "To be, or not to be, that is the question.",
               "Something is rotten in the state of Denmark.",
-              "The lady doth protest too much.",
-              "There are more things in heaven and earth.",
-              "The rest is silence."
+              "The play\'s the thing wherein I\'ll catch the conscience of the king.",
+              "I am but mad north-north-west.",
+              "There are more things in heaven and earth, Horatio."
             ],
-            description: 'A Danish prince consumed by grief and seeking revenge for his father\'s murder.'
+            description: 'Prince of Denmark seeking revenge for his father\'s murder.'
           },
           {
             name: 'Horatio',
-            role: 'Loyal Friend',
-            startingCoins: 70,
-            startingWeapons: ['dagger'],
-            startingMercenaries: 3,
-            startingCastles: 1,
+            role: 'Hamlet\'s Confidant',
+            startingCoins: 80,
+            startingWeapons: ['loyalty'],
+            startingMercenaries: 4,
+            startingCastles: 2,
             personality: 'loyal',
             quotes: [
               "There are more things in heaven and earth, Horatio.",
               "Now cracks a noble heart.",
               "Good night, sweet prince.",
               "I am more an antique Roman than a Dane.",
-              "He was a man, take him for all in all."
+              "What if it tempt you toward the flood?"
             ],
-            description: 'Hamlet\'s loyal friend and confidant.'
+            description: 'Hamlet\'s closest friend and confidant.'
+          },
+          {
+            name: 'The Ghost',
+            role: 'Spirit of Old King',
+            startingCoins: 90,
+            startingWeapons: ['truth'],
+            startingMercenaries: 5,
+            startingCastles: 2,
+            personality: 'vengeful',
+            quotes: [
+              "I am thy father\'s spirit.",
+              "Revenge his foul and most unnatural murder.",
+              "The serpent that did sting thy father\'s life now wears his crown.",
+              "Remember me.",
+              "Taint not thy mind."
+            ],
+            description: 'Spirit of Hamlet\'s father seeking revenge.'
+          },
+          {
+            name: 'Marcellus',
+            role: 'Loyal Officer',
+            startingCoins: 60,
+            startingWeapons: ['spear'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'dutiful',
+            quotes: [
+              "Something is rotten in the state of Denmark.",
+              "Look where it comes again!",
+              "It is offended.",
+              "We do it wrong, being so majestical.",
+              "Thou art a scholar; speak to it, Horatio."
+            ],
+            description: 'Officer who first sees the ghost with Bernardo.'
+          },
+          {
+            name: 'Bernardo',
+            role: 'Loyal Officer',
+            startingCoins: 60,
+            startingWeapons: ['spear'],
+            startingMercenaries: 3,
+            startingCastles: 1,
+            personality: 'dutiful',
+            quotes: [
+              "Who\'s there?",
+              "Long live the king!",
+              "He was about to speak when the cock crew.",
+              "It faded on the crowing of the cock.",
+              "Well, good night."
+            ],
+            description: 'Officer who first sees the ghost with Marcellus.'
+          },
+          {
+            name: 'Francisco',
+            role: 'Loyal Soldier',
+            startingCoins: 55,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'dutiful',
+            quotes: [
+              "Nay, answer me: stand, and unfold yourself.",
+              "For this relief much thanks.",
+              "Not a mouse stirring.",
+              "Give you good night.",
+              "I am sick at heart."
+            ],
+            description: 'Soldier on watch at Elsinore.'
+          },
+          {
+            name: 'Fortinbras',
+            role: 'Prince of Norway',
+            startingCoins: 85,
+            startingWeapons: ['army'],
+            startingMercenaries: 5,
+            startingCastles: 2,
+            personality: 'decisive',
+            quotes: [
+              "Let four captains bear Hamlet like a soldier to the stage.",
+              "For he was likely, had he been put on, to have proved most royal.",
+              "Take up the bodies.",
+              "Such a sight as this becomes the field.",
+              "Go, bid the soldiers shoot."
+            ],
+            description: 'Prince of Norway, parallel figure to Hamlet.'
+          },
+          {
+            name: 'Gravedigger',
+            role: 'Philosophical Clown',
+            startingCoins: 45,
+            startingWeapons: ['shovel'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'philosophical',
+            quotes: [
+              "What is he that builds stronger than either the mason, the shipwright, or the carpenter?",
+              "A grave-maker.",
+              "The houses that he makes last till doomsday.",
+              "How absolute the knave is!",
+              "I have been sexton here, man and boy, thirty years."
+            ],
+            description: 'Digs Ophelia\'s grave, speaks with Hamlet.'
           }
         ]
       },
-      claudius: {
-        name: 'Claudius\' Forces',
+      claudiusCourt: {
+        name: 'Claudius\' Court',
         color: '#dc2626', // Red
-        description: 'The usurper king and his court',
+        description: 'Aligned with manipulation, political control, and surveillance',
         territories: [
-          { name: 'Claudius\' Throne Room', cost: 25, description: 'Royal court' },
-          { name: 'Gertrude\'s Chamber', cost: 20, description: 'Queen\'s quarters' },
-          { name: 'Claudius\' Council', cost: 18, description: 'Political meetings' },
-          { name: 'Claudius\' Armory', cost: 16, description: 'Royal weapons' },
-          { name: 'Claudius\' Treasury', cost: 14, description: 'Kingdom wealth' },
-          { name: 'Claudius\' Dungeons', cost: 12, description: 'Political prisoners' },
-          { name: 'Claudius\' Chapel', cost: 10, description: 'False piety' },
-          { name: 'Claudius\' Gardens', cost: 8, description: 'Court gardens' },
-          { name: 'Claudius\' Guards', cost: 6, description: 'Royal protection' },
-          { name: 'Claudius\' Spies', cost: 4, description: 'Intelligence' }
+          { name: 'Throne Room', cost: 95, description: 'Claudius\'s center of political power' },
+          { name: 'Royal Banquet Hall', cost: 88, description: 'Used for diplomacy and manipulation' },
+          { name: 'Queen\'s State Apartment', cost: 85, description: 'Under Claudius\' influence' },
+          { name: 'Castle Gates', cost: 80, description: 'Guards loyal to Claudius control access' },
+          { name: 'War Room', cost: 90, description: 'Claudius manages threats here' },
+          { name: 'Polonius\'s Chamber', cost: 75, description: 'Polonius spreads Claudius\'s influence' },
+          { name: 'Ophelia\'s Chamber', cost: 70, description: 'Used to spy on Hamlet' },
+          { name: 'Spy Corridor', cost: 78, description: 'Where Polonius hides and is killed' },
+          { name: 'The Court Chapel', cost: 82, description: 'Seat of corrupt religion' },
+          { name: 'Rosencrantz\'s Quarters', cost: 65, description: 'Used for surveillance' },
+          { name: 'Laertes\' Training Hall', cost: 72, description: 'Laertes raised under influence' },
+          { name: 'Poison Storage Room', cost: 85, description: 'Tool of Claudius\' power' },
+          { name: 'Diplomatic Office', cost: 80, description: 'Where Claudius attempts political control' },
+          { name: 'Execution Orders Office', cost: 88, description: 'Where Claudius writes death warrants' },
+          { name: 'Ship to England', cost: 75, description: 'Claudius\'s attempt to eliminate Hamlet' },
+          { name: 'Serpent\'s Garden', cost: 90, description: 'Where Old King was murdered' }
         ],
         characters: [
           {
             name: 'Claudius',
-            role: 'Usurper King',
+            role: 'King of Denmark',
             startingCoins: 100,
-            startingWeapons: ['poison'],
+            startingWeapons: ['crown', 'poison'],
             startingMercenaries: 6,
             startingCastles: 3,
-            personality: 'deceitful',
+            personality: 'manipulative',
             quotes: [
+              "Though yet of Hamlet our dear brother\'s death the memory be green.",
+              "We have here writ to Norway.",
+              "The head is not more native to the heart.",
               "My words fly up, my thoughts remain below.",
-              "O, my offence is rank, it smells to heaven.",
-              "Do it, England.",
-              "The present death of Hamlet.",
-              "O, yet defend me, friends."
+              "It is the poison\'d cup."
             ],
-            description: 'Hamlet\'s uncle who murdered his brother to become king.'
+            description: 'King of Denmark, Hamlet\'s uncle and antagonist.'
+          },
+          {
+            name: 'Gertrude',
+            role: 'Queen of Denmark',
+            startingCoins: 85,
+            startingWeapons: ['influence'],
+            startingMercenaries: 4,
+            startingCastles: 2,
+            personality: 'conflicted',
+            quotes: [
+              "Good Hamlet, cast thy nighted colour off.",
+              "The lady doth protest too much, methinks.",
+              "O Hamlet, speak no more!",
+              "What have I done, that thou darest wag thy tongue in noise so rude against me?",
+              "The drink, the drink! I am poison\'d."
+            ],
+            description: 'Queen of Denmark, Hamlet\'s mother.'
           },
           {
             name: 'Polonius',
-            role: 'Spymaster',
+            role: 'Lord Chamberlain',
             startingCoins: 75,
-            startingWeapons: ['words'],
-            startingMercenaries: 4,
+            startingWeapons: ['spying'],
+            startingMercenaries: 3,
             startingCastles: 2,
-            personality: 'scheming',
+            personality: 'devious',
             quotes: [
               "Neither a borrower nor a lender be.",
-              "To thine own self be true.",
-              "Brevity is the soul of wit.",
-              "Though this be madness, yet there is method in it.",
-              "I will be brief."
+              "This above all: to thine own self be true.",
+              "Though this be madness, yet there is method in\'t.",
+              "I will be brief: your noble son is mad.",
+              "O, I am slain!"
             ],
-            description: 'The king\'s chief counselor and father of Ophelia.'
+            description: 'Lord Chamberlain of Claudius\'s court.'
+          },
+          {
+            name: 'Ophelia',
+            role: 'Polonius\' Daughter',
+            startingCoins: 70,
+            startingWeapons: ['innocence'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'fragile',
+            quotes: [
+              "I shall obey, my lord.",
+              "O, what a noble mind is here o\'erthrown!",
+              "There\'s rosemary, that\'s for remembrance.",
+              "Lord, we know what we are, but know not what we may be.",
+              "I cannot choose but weep."
+            ],
+            description: 'Daughter of Polonius, Hamlet\'s love interest.'
+          },
+          {
+            name: 'Laertes',
+            role: 'Polonius\' Son',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 4,
+            startingCastles: 2,
+            personality: 'hotheaded',
+            quotes: [
+              "I\'ll not be juggled with.",
+              "I am justly kill\'d with mine own treachery.",
+              "Exchange forgiveness with me, noble Hamlet.",
+              "The king, the king\'s to blame.",
+              "Mine and my father\'s death come not upon thee."
+            ],
+            description: 'Son of Polonius, foil to Hamlet.'
+          },
+          {
+            name: 'Rosencrantz',
+            role: 'Former Friend',
+            startingCoins: 60,
+            startingWeapons: ['betrayal'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'treacherous',
+            quotes: [
+              "What have you done, my lord, with the dead body?",
+              "Take you me for a sponge, my lord?",
+              "Good my lord, what is your cause of distemper?",
+              "My lord, you once did love me.",
+              "I understand you not, my lord."
+            ],
+            description: 'Former friend of Hamlet, summoned by Claudius to spy.'
+          },
+          {
+            name: 'Guildenstern',
+            role: 'Companion Spy',
+            startingCoins: 60,
+            startingWeapons: ['betrayal'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'treacherous',
+            quotes: [
+              "My honoured lord!",
+              "What should we say, my lord?",
+              "But we both obey.",
+              "My lord, we were sent for.",
+              "I have no answer for that."
+            ],
+            description: 'Companion to Rosencrantz, also spying on Hamlet.'
+          },
+          {
+            name: 'Osric',
+            role: 'Courtier',
+            startingCoins: 50,
+            startingWeapons: ['flattery'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'fawning',
+            quotes: [
+              "Your lordship is right welcome back to Denmark.",
+              "It is very hot.",
+              "It is indifferent cold, my lord, indeed.",
+              "I thank your lordship, it is very hot.",
+              "I dare not confess that, lest I should compare with him in excellence."
+            ],
+            description: 'Courtier who delivers Claudius\'s challenge to Hamlet.'
           }
         ]
       }
     },
     neutralTerritories: [
-      { name: 'Wittenberg', cost: 15, description: 'Hamlet\'s university' },
-      { name: 'Norway', cost: 12, description: 'Fortinbras\' kingdom' },
-      { name: 'England', cost: 10, description: 'Exile destination' },
-      { name: 'The Graveyard', cost: 8, description: 'Yorick\'s skull' },
-      { name: 'The Ghost\'s Haunt', cost: 6, description: 'Spirit realm' }
+      { name: 'Elsinore Castle', cost: 100, description: 'The main castle where most action occurs' },
+      { name: 'The Mousetrap Theater', cost: 60, description: 'Where the play-within-the-play is performed' },
+      { name: 'The Garden', cost: 40, description: 'Where the old king was poisoned' },
+      { name: 'The Churchyard', cost: 35, description: 'Where Ophelia is buried' },
+      { name: 'The Ship', cost: 50, description: 'Taking Hamlet to England' }
     ]
   },
 
