@@ -20035,7 +20035,7 @@ const EVENT_CARDS = {
         color: '#1e40af', // Blue
         description: 'Aligned with truth, legacy, and justice',
         territories: [
-          { name: 'Hamlet\'s Quarters', cost: 85, description: 'Hamlet\'s private space — psychological center of resistance' },
+          { name: 'Hamlet\'s Quarters', cost: 85, description: 'Hamlet\'s private space - psychological center of resistance' },
           { name: 'The Ghost\'s Platform', cost: 90, description: 'Where the truth is revealed; tied to the old king' },
           { name: 'Graveyard', cost: 80, description: 'Symbol of mortality and philosophical power' },
           { name: 'Wittenberg University', cost: 75, description: 'Represents Hamlet\'s intellect and allies abroad' },
