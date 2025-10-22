@@ -13079,13 +13079,18 @@ window.SCENARIOS = {
     ]
   },
 
-  // PERSONALITY TYPES FOR AI
-  strategic: {
-    name: 'Strategic',
-    description: 'Makes calculated moves based on long-term goals',
-    behaviors: ['defensive', 'economic', 'expansion'],
-    moveFrequency: 0.8
-  },
+  // LORD OF THE RINGS SCENARIO
+  lordOfTheRings: {
+    id: 'lordOfTheRings',
+    name: 'The Lord of the Rings (J.R.R. Tolkien)',
+    type: 'literary',
+    description: 'The epic struggle between the forces of good and evil in Middle-earth.',
+    inspirationalQuote: {
+      text: "Even the smallest person can change the course of the future.",
+      author: "J.R.R. Tolkien",
+      context: "The Lord of the Rings"
+    },
+    factionOrder: ['fellowship','mordor'],
   aggressive: {
     name: 'Aggressive',
     description: 'Prefers attacking and taking risks',
