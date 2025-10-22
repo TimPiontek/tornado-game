@@ -1099,6 +1099,8 @@
     const roster = state.rosters.find(r => r.id === rosterId);
     if (!roster) return;
     
+    console.log('[DEBUG] Selecting roster:', roster.name, 'with scenario:', roster.scenario);
+    
     state.currentRoster = roster;
     state.currentRosterId = rosterId;
     
@@ -1161,7 +1163,8 @@
     
     // Handle scenario data if present
     if (roster.scenario) {
-      console.log('Loading scenario:', roster.scenario.scenarioName);
+      console.log('[DEBUG] Loading scenario:', roster.scenario.scenarioName, 'from roster:', roster.name);
+      console.log('[DEBUG] Scenario data:', roster.scenario);
       initializeScenario(roster.scenario);
       
       // Re-apply team colors after team assignment
@@ -1172,6 +1175,7 @@
         }
       });
     } else {
+      console.log('[DEBUG] No scenario data found in roster:', roster.name);
       // Clear any existing scenario if roster has no saved scenario
       state.scenario = null;
     }
@@ -1211,6 +1215,10 @@
     renderRoster();
     updateVictoryTarget();
     updateTeamScoreboards();
+    
+    // Force refresh the game theme title to show current scenario
+    console.log('[DEBUG] Force refreshing UI after roster selection');
+    updateGameThemeTitle();
   }
   // Assign teams based on character factions
   function assignTeamsFromCharacters() {
@@ -2393,10 +2401,12 @@
     console.log('Character assignments completed:', roleAssignments);
   }
   function initializeScenario(scenarioData) {
-    console.log('Initializing scenario:', scenarioData);
+    console.log('[DEBUG] initializeScenario called with:', scenarioData);
+    console.log('[DEBUG] Current state.scenario before:', state.scenario);
     
     // Store scenario data in state
     state.scenario = scenarioData;
+    console.log('[DEBUG] state.scenario set to:', state.scenario);
     // Economy overrides per scenario; load from roster if saved
     state.economy = (state.currentRoster && state.currentRoster.economy) ? state.currentRoster.economy : { ...ECONOMY };
     
@@ -2447,6 +2457,12 @@
     // Always assign teams based on character factions
     assignTeamsFromCharacters();
     
+    // Assign characters to students if not already assigned
+    if (!scenarioData.manualRoleAssignments && !scenarioData.aiAssignments) {
+      console.log('[DEBUG] No character assignments found, assigning random characters');
+      assignRandomCharacters(scenarioData);
+    }
+    
     // Initialize AI if enabled
     if (scenarioData.enableAI && typeof initializeAIForScenario === 'function') {
       setTimeout(() => {
@@ -2484,11 +2500,106 @@
     // Initialize Story Events for this scenario
     initializeStoryEvents(scenarioData.scenarioId || scenarioData.id);
     
+    // Initialize the game board for the new scenario
+    console.log('[DEBUG] Initializing game board for new scenario');
+    initializeGameBoard();
+    
     // Final render of roster to ensure AI players are displayed
     console.log('initializeScenario: Final renderRoster call');
     console.log('initializeScenario: state.aiPlayers =', state.aiPlayers);
     console.log('initializeScenario: state.aiPlayers length =', state.aiPlayers?.length || 0);
     renderRoster();
+    
+    // Update the grid display to show new territories
+    console.log('[DEBUG] Updating grid display for new scenario');
+    updateGridDisplay();
+  }
+  
+  // Create a board based on scenario territories
+  function createScenarioBoard() {
+    if (!state.scenario || !state.scenario.factions) {
+      console.log('[DEBUG] No scenario or factions found, falling back to generic board');
+      return;
+    }
+    
+    console.log('[DEBUG] Creating scenario board for:', state.scenario.scenarioName);
+    
+    // Collect all territories from all factions
+    const allTerritories = [];
+    Object.entries(state.scenario.factions).forEach(([factionId, faction]) => {
+      if (faction.territories) {
+        faction.territories.forEach(territory => {
+          allTerritories.push({
+            ...territory,
+            factionId,
+            factionName: faction.name,
+            factionColor: faction.color
+          });
+        });
+      }
+    });
+    
+    // Add neutral territories
+    if (state.scenario.neutralTerritories) {
+      state.scenario.neutralTerritories.forEach(territory => {
+        allTerritories.push({
+          ...territory,
+          factionId: 'neutral',
+          factionName: 'Neutral',
+          factionColor: '#808080'
+        });
+      });
+    }
+    
+    console.log('[DEBUG] Total territories to create:', allTerritories.length);
+    
+    // Calculate board size based on territory count
+    const territoryCount = allTerritories.length;
+    const w = Math.max(8, Math.ceil(Math.sqrt(territoryCount * 1.5)));
+    const h = Math.max(8, Math.ceil(Math.sqrt(territoryCount * 1.5)));
+    
+    console.log('[DEBUG] Board dimensions:', { w, h, territoryCount });
+    
+    // Create tiles for each territory
+    const tiles = [];
+    allTerritories.forEach((territory, index) => {
+      // Distribute territories across the board
+      const x = index % w;
+      const y = Math.floor(index / w);
+      
+      tiles.push({
+        id: `territory_${territory.name.toLowerCase().replace(/\s+/g, '_')}`,
+        x: x,
+        y: y,
+        owner_game_student_id: null,
+        castle_level: 0,
+        territoryName: territory.name,
+        territoryDescription: territory.description,
+        territoryCost: territory.cost,
+        factionId: territory.factionId,
+        factionName: territory.factionName,
+        factionColor: territory.factionColor
+      });
+    });
+    
+    // Fill remaining spaces with generic tiles
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const existingTile = tiles.find(t => t.x === x && t.y === y);
+        if (!existingTile) {
+          tiles.push({
+            id: `tile_${x}_${y}`,
+            x: x,
+            y: y,
+            owner_game_student_id: null,
+            castle_level: 0
+          });
+        }
+      }
+    }
+    
+    state.board = { w, h, tiles };
+    console.log('[DEBUG] Created scenario board with', tiles.length, 'tiles');
   }
   
   function initializeGameBoard() {
@@ -2532,26 +2643,37 @@
     } else {
       // Create fresh board if no saved state
       console.log('No saved game state, creating fresh board');
-    const studentCount = state.roster.length;
-    const w = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
-    const h = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
-    
-    console.log('Calculated board size:', { studentCount, w, h });
-    
-      // Create fresh tiles
-      const tiles = [];
-      for (let y = 0; y < h; y++) {
-        for (let x = 0; x < w; x++) {
-          tiles.push({
-            id: `tile_${x}_${y}`,
-            x: x,
-            y: y,
-            owner_game_student_id: null,
-            castle_level: 0
-          });
+      
+      // Check if we have a scenario with territories
+      if (state.scenario && state.scenario.factions) {
+        console.log('[DEBUG] Creating scenario-specific board with territories');
+        console.log('[DEBUG] Scenario data:', state.scenario);
+        console.log('[DEBUG] Scenario factions:', state.scenario.factions);
+        createScenarioBoard();
+      } else {
+        console.log('[DEBUG] Creating generic board');
+        console.log('[DEBUG] No scenario or factions found. state.scenario:', state.scenario);
+        const studentCount = state.roster.length;
+        const w = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
+        const h = Math.max(8, Math.ceil(Math.sqrt(studentCount * 2)));
+        
+        console.log('Calculated board size:', { studentCount, w, h });
+        
+        // Create fresh tiles
+        const tiles = [];
+        for (let y = 0; y < h; y++) {
+          for (let x = 0; x < w; x++) {
+            tiles.push({
+              id: `tile_${x}_${y}`,
+              x: x,
+              y: y,
+              owner_game_student_id: null,
+              castle_level: 0
+            });
+          }
         }
+        state.board = { w, h, tiles };
       }
-      state.board = { w, h, tiles };
       state.truces = [];
       
       // Assign starting tiles to participants (2 tiles each on outer edges)
@@ -4381,14 +4503,19 @@
 
   // Update game theme title based on current scenario
   function updateGameThemeTitle() {
+    console.log('[DEBUG] updateGameThemeTitle called, state.scenario:', state.scenario);
     if (typeof window !== 'undefined' && !window.SCENARIOS) {
       console.warn('updateGameThemeTitle: SCENARIOS not ready yet');
       return;
     }
     const themeTitle = document.getElementById('gameThemeTitle');
-    if (!themeTitle) return;
+    if (!themeTitle) {
+      console.log('[DEBUG] gameThemeTitle element not found');
+      return;
+    }
     
     if (state.scenario && state.scenario.scenarioName) {
+      console.log('[DEBUG] Updating theme title to:', state.scenario.scenarioName);
       const scenarioName = state.scenario.scenarioName;
       const scenarioData = SCENARIOS[state.scenario.scenarioId];
       
@@ -10749,6 +10876,49 @@ REQUIREMENTS:
 
   // Make function globally accessible
   window.closeStudentMarket = closeStudentMarket;
+  
+  // Debug function to force update scenario
+  window.forceUpdateScenario = function() {
+    console.log('[DEBUG] Force updating scenario...');
+    if (state.scenario) {
+      console.log('[DEBUG] Current scenario:', state.scenario.scenarioName);
+      
+      // Force assign characters
+      state.roster.forEach(student => {
+        if (!student.characterName && state.scenario.factions) {
+          const allCharacters = [];
+          Object.values(state.scenario.factions).forEach(faction => {
+            if (faction.characters) {
+              faction.characters.forEach(char => {
+                allCharacters.push({
+                  name: char.name,
+                  factionName: faction.name,
+                  role: char.role
+                });
+              });
+            }
+          });
+          
+          if (allCharacters.length > 0) {
+            const randomChar = allCharacters[Math.floor(Math.random() * allCharacters.length)];
+            student.characterName = randomChar.name;
+            student.characterFaction = randomChar.factionName;
+            student.characterRole = randomChar.role;
+            console.log(`[DEBUG] Assigned character ${randomChar.name} to student ${student.name}`);
+          }
+        }
+      });
+      
+      // Force update UI
+      renderRoster();
+      updateGameThemeTitle();
+      updateGridDisplay();
+      
+      console.log('[DEBUG] Scenario update complete');
+    } else {
+      console.log('[DEBUG] No scenario active');
+    }
+  };
 
   function showTeacherTruceModal() {
     const selectedStudent = state.roster.find(s => s.gsId === state.selectedGsId);
