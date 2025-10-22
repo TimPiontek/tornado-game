@@ -2752,13 +2752,14 @@
     // Place starting castles for characters who have them
     placeStartingCastles();
 
-    // Clear saved game state and scenario data from roster
+    // Clear saved game state but preserve scenario data
     if (state.currentRoster.gameState) {
       delete state.currentRoster.gameState;
     }
-    if (state.currentRoster.scenario) {
-      delete state.currentRoster.scenario;
-    }
+    // DON'T delete scenario data - preserve it for the roster
+    // if (state.currentRoster.scenario) {
+    //   delete state.currentRoster.scenario;
+    // }
 
     // Update UI
     updateGridDisplay();
