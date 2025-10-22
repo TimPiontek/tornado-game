@@ -3311,7 +3311,7 @@ window.SCENARIOS = {
   avengers: {
     id: 'avengers',
     name: 'Avengers',
-    type: 'literary',
+    type: 'popculture',
     description: 'Earth\'s mightiest heroes vs. supervillains',
     inspirationalQuote: {
       text: "There was an idea to bring together a group of remarkable people, to see if they could become something more.",
@@ -3891,7 +3891,7 @@ window.SCENARIOS = {
   starWars: {
     id: 'starWars',
     name: 'Star Wars',
-    type: 'literary',
+    type: 'popculture',
     description: 'The eternal battle between the light and dark sides of the Force',
     inspirationalQuote: {
       text: "Do or do not, there is no try.",
@@ -6992,7 +6992,7 @@ window.SCENARIOS = {
   dcVsMarvel: {
     id: 'dcVsMarvel',
     name: 'DC vs Marvel',
-    type: 'literary',
+    type: 'popculture',
     description: 'The ultimate battle between DC and Marvel superheroes',
     inspirationalQuote: {
       text: "With great power comes great responsibility.",
@@ -7562,7 +7562,7 @@ window.SCENARIOS = {
   frozen: {
     id: 'frozen',
     name: 'Frozen',
-    type: 'literary',
+    type: 'popculture',
     description: 'The magical battle between ice and fire in Arendelle',
     inspirationalQuote: {
       text: "Let it go, let it go! Can't hold it back anymore.",
@@ -9269,7 +9269,7 @@ window.SCENARIOS = {
   minions: {
     id: 'minions',
     name: 'Minions',
-    type: 'literary',
+    type: 'popculture',
     description: 'The chaotic battle between minions and their various masters',
     inspirationalQuote: {
       text: "Banana!",
@@ -9840,7 +9840,7 @@ window.SCENARIOS = {
   toyStory: {
     id: 'toyStory',
     name: 'Toy Story',
-    type: 'literary',
+    type: 'popculture',
     description: 'The battle between toys and their quest for belonging',
     inspirationalQuote: {
       text: "To infinity and beyond!",
@@ -9932,7 +9932,7 @@ window.SCENARIOS = {
   moana: {
     id: 'moana',
     name: 'Moana',
-    type: 'literary',
+    type: 'popculture',
     description: 'The journey to restore the heart of Te Fiti and save the ocean',
     inspirationalQuote: {
       text: "I am Moana of Motunui. You will board my boat, sail across the sea, and restore the heart of Te Fiti.",
