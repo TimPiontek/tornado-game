@@ -3311,7 +3311,7 @@ window.SCENARIOS = {
   avengers: {
     id: 'avengers',
     name: 'Avengers',
-    type: 'literary',
+    type: 'popculture',
     description: 'Earth\'s mightiest heroes vs. supervillains',
     inspirationalQuote: {
       text: "There was an idea to bring together a group of remarkable people, to see if they could become something more.",
@@ -3891,7 +3891,7 @@ window.SCENARIOS = {
   starWars: {
     id: 'starWars',
     name: 'Star Wars',
-    type: 'literary',
+    type: 'popculture',
     description: 'The eternal battle between the light and dark sides of the Force',
     inspirationalQuote: {
       text: "Do or do not, there is no try.",
@@ -6992,7 +6992,7 @@ window.SCENARIOS = {
   dcVsMarvel: {
     id: 'dcVsMarvel',
     name: 'DC vs Marvel',
-    type: 'literary',
+    type: 'popculture',
     description: 'The ultimate battle between DC and Marvel superheroes',
     inspirationalQuote: {
       text: "With great power comes great responsibility.",
@@ -7562,7 +7562,7 @@ window.SCENARIOS = {
   frozen: {
     id: 'frozen',
     name: 'Frozen',
-    type: 'literary',
+    type: 'popculture',
     description: 'The magical battle between ice and fire in Arendelle',
     inspirationalQuote: {
       text: "Let it go, let it go! Can't hold it back anymore.",
@@ -9269,7 +9269,7 @@ window.SCENARIOS = {
   minions: {
     id: 'minions',
     name: 'Minions',
-    type: 'literary',
+    type: 'popculture',
     description: 'The chaotic battle between minions and their various masters',
     inspirationalQuote: {
       text: "Banana!",
@@ -9840,7 +9840,7 @@ window.SCENARIOS = {
   toyStory: {
     id: 'toyStory',
     name: 'Toy Story',
-    type: 'literary',
+    type: 'popculture',
     description: 'The battle between toys and their quest for belonging',
     inspirationalQuote: {
       text: "To infinity and beyond!",
@@ -9932,7 +9932,7 @@ window.SCENARIOS = {
   moana: {
     id: 'moana',
     name: 'Moana',
-    type: 'literary',
+    type: 'popculture',
     description: 'The journey to restore the heart of Te Fiti and save the ocean',
     inspirationalQuote: {
       text: "I am Moana of Motunui. You will board my boat, sail across the sea, and restore the heart of Te Fiti.",
@@ -12922,6 +12922,164 @@ window.SCENARIOS = {
 
   // ROMEO AND JULIET SCENARIO
   romeoAndJuliet: {
+    id: 'romeoAndJuliet',
+    name: 'Romeo and Juliet (Shakespeare)',
+    type: 'literary',
+    description: 'The tragic love story between two young lovers from feuding families',
+    inspirationalQuote: {
+      text: "What's in a name? That which we call a rose by any other name would smell as sweet.",
+      author: "William Shakespeare",
+      context: "Romeo and Juliet, Act II, Scene II"
+    },
+    factionOrder: ['montagues', 'capulets'],
+    factions: {
+      montagues: {
+        name: 'House of Montague',
+        color: '#1e40af', // Blue
+        description: 'Romeo\'s family and allies',
+        territories: [
+          { name: 'Montague Manor', cost: 25, description: 'Family estate' },
+          { name: 'Romeo\'s Chamber', cost: 20, description: 'Private quarters' },
+          { name: 'Montague Gardens', cost: 15, description: 'Family gardens' },
+          { name: 'Montague Library', cost: 18, description: 'Study and books' },
+          { name: 'Montague Armory', cost: 16, description: 'Weapons storage' },
+          { name: 'Montague Chapel', cost: 14, description: 'Family chapel' },
+          { name: 'Montague Courtyard', cost: 12, description: 'Outdoor space' },
+          { name: 'Montague Stables', cost: 10, description: 'Horse stables' }
+        ],
+        characters: [
+          {
+            name: 'Romeo',
+            role: 'Young Lover',
+            startingCoins: 80,
+            startingWeapons: ['sword'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'passionate',
+            quotes: [
+              "What's in a name? That which we call a rose by any other name would smell as sweet.",
+              "But soft, what light through yonder window breaks?",
+              "My only love sprung from my only hate!",
+              "O, I am fortune's fool!",
+              "Thus with a kiss I die."
+            ],
+            description: 'Young Montague who falls in love with Juliet Capulet.'
+          },
+          {
+            name: 'Mercutio',
+            role: 'Romeo\'s Friend',
+            startingCoins: 70,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'witty',
+            quotes: [
+              "A plague o' both your houses!",
+              "If love be rough with you, be rough with love.",
+              "True, I talk of dreams.",
+              "Ask for me tomorrow, and you shall find me a grave man.",
+              "Romeo, humors! madman! passion! lover!"
+            ],
+            description: 'Romeo\'s witty and loyal friend.'
+          },
+          {
+            name: 'Benvolio',
+            role: 'Peacemaker',
+            startingCoins: 60,
+            startingWeapons: ['sword'],
+            startingMercenaries: 2,
+            startingCastles: 1,
+            personality: 'peaceful',
+            quotes: [
+              "Part, fools! Put up your swords.",
+              "I do but keep the peace.",
+              "Romeo, away, be gone!",
+              "We talk here in the public haunt of men.",
+              "Tybalt, here slain, whom Romeo's hand did slay."
+            ],
+            description: 'Romeo\'s cousin who tries to keep the peace.'
+          }
+        ]
+      },
+      capulets: {
+        name: 'House of Capulet',
+        color: '#dc2626', // Red
+        description: 'Juliet\'s family and allies',
+        territories: [
+          { name: 'Capulet Manor', cost: 25, description: 'Family estate' },
+          { name: 'Juliet\'s Chamber', cost: 20, description: 'Private quarters' },
+          { name: 'Capulet Gardens', cost: 15, description: 'Family gardens' },
+          { name: 'Capulet Library', cost: 18, description: 'Study and books' },
+          { name: 'Capulet Armory', cost: 16, description: 'Weapons storage' },
+          { name: 'Capulet Chapel', cost: 14, description: 'Family chapel' },
+          { name: 'Capulet Courtyard', cost: 12, description: 'Outdoor space' },
+          { name: 'Capulet Stables', cost: 10, description: 'Horse stables' }
+        ],
+        characters: [
+          {
+            name: 'Juliet',
+            role: 'Young Lover',
+            startingCoins: 80,
+            startingWeapons: ['dagger'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'passionate',
+            quotes: [
+              "What's in a name? That which we call a rose by any other name would smell as sweet.",
+              "Romeo, Romeo! wherefore art thou Romeo?",
+              "My only love sprung from my only hate!",
+              "O happy dagger! This is thy sheath.",
+              "Thus with a kiss I die."
+            ],
+            description: 'Young Capulet who falls in love with Romeo Montague.'
+          },
+          {
+            name: 'Tybalt',
+            role: 'Hot-headed Cousin',
+            startingCoins: 75,
+            startingWeapons: ['sword'],
+            startingMercenaries: 3,
+            startingCastles: 2,
+            personality: 'aggressive',
+            quotes: [
+              "What, drawn, and talk of peace! I hate the word.",
+              "Romeo, the love I bear thee can afford no better term than this: thou art a villain.",
+              "Boy, this shall not excuse the injuries that thou hast done me.",
+              "Thou, wretched boy, that didst consort him here.",
+              "I will withdraw, but this intrusion shall now seeming sweet convert to bitter gall."
+            ],
+            description: 'Juliet\'s hot-headed cousin who hates the Montagues.'
+          },
+          {
+            name: 'Nurse',
+            role: 'Juliet\'s Confidante',
+            startingCoins: 50,
+            startingWeapons: ['wisdom'],
+            startingMercenaries: 1,
+            startingCastles: 1,
+            personality: 'caring',
+            quotes: [
+              "What, lamb! what, ladybird!",
+              "Thou wast the prettiest babe that e'er I nursed.",
+              "Hie to your chamber: I'll find Romeo to comfort you.",
+              "O, he is even in my mistress' case.",
+              "I think it best you married with the county."
+            ],
+            description: 'Juliet\'s loyal nurse and confidante.'
+          }
+        ]
+      }
+    },
+    neutralTerritories: [
+      { name: 'Verona Streets', cost: 15, description: 'City streets where conflicts occur' },
+      { name: 'Friar Laurence\'s Cell', cost: 12, description: 'Where Romeo and Juliet marry' },
+      { name: 'Capulet\'s Orchard', cost: 10, description: 'Where Romeo and Juliet meet' },
+      { name: 'Mantua', cost: 8, description: 'Where Romeo is exiled' },
+      { name: 'The Tomb', cost: 20, description: 'Where the lovers die' }
+    ]
+  },
+
+  // PERSONALITY TYPES FOR AI
   strategic: {
     name: 'Strategic',
     description: 'Makes calculated moves based on long-term goals',
@@ -13116,23 +13274,23 @@ window.SCENARIOS = {
   }
 },
 
-  // ROMEO AND JULIET SCENARIO
-  romeoAndJuliet: {
-    id: 'romeoAndJuliet',
-    name: 'Romeo and Juliet (Shakespeare)',
+  // LORD OF THE RINGS SCENARIO
+  lordOfTheRings: {
+    id: 'lordOfTheRings',
+    name: 'The Lord of the Rings (J.R.R. Tolkien)',
     type: 'literary',
-    description: 'The tragic tale of star-crossed lovers caught between feuding families in Verona.',
+    description: 'The epic struggle between the forces of good and evil in Middle-earth.',
     inspirationalQuote: {
-      text: "What's in a name? That which we call a rose by any other name would smell as sweet.",
-      author: "William Shakespeare",
-      context: "Romeo and Juliet, Act II, Scene II"
+      text: "Even the smallest person can change the course of the future.",
+      author: "J.R.R. Tolkien",
+      context: "The Lord of the Rings"
     },
-    factionOrder: ['montagues', 'capulets'],
+    factionOrder: ['fellowship','mordor'],
     factions: {
-      montagues: {
-        name: 'House of Montague',
+      fellowship: {
+        name: 'Fellowship of the Ring',
         color: '#1e40af', // Blue
-        description: 'Noble family seeking peace and reconciliation',
+        description: 'The forces of good fighting against Sauron\'s evil',
         territories: [
           { name: 'Montague Manor', cost: 80, description: 'Family estate and headquarters' },
           { name: "Romeo's Balcony Overlook", cost: 75, description: "Where Romeo gazes toward Juliet's home" },
