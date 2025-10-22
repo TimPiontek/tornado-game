@@ -8702,7 +8702,6 @@
         if (settings.roleAssignment === 'random') {
           // Random assignment with AI - proceed directly (participants vs AI)
           initializeScenario(scenarioData);
-          resetGameToDefaults();
           showScenarioInfo(scenarioData);
         } else {
           // Manual assignment with AI - show modal
@@ -8711,12 +8710,11 @@
       } else if (settings.roleAssignment === 'manual') {
         // Manual assignment without AI
         showRoleAssignmentModal(scenario);
-      } else {
-        // Random assignment without AI - proceed directly
-        initializeScenario(scenarioData);
-        resetGameToDefaults();
-        showScenarioInfo(scenarioData);
-      }
+        } else {
+          // Random assignment without AI - proceed directly
+          initializeScenario(scenarioData);
+          showScenarioInfo(scenarioData);
+        }
     }
   }
 
@@ -9113,9 +9111,6 @@
     
     // Initialize scenario
     initializeScenario(scenarioData);
-    
-    // Reset game with scenario
-    resetGameToDefaults();
     
     // Show scenario info
     showScenarioInfo(scenarioData);
@@ -10064,9 +10059,6 @@ REQUIREMENTS:
     // Initialize scenario
     initializeScenario(scenarioData);
     
-    // Reset game with scenario
-    resetGameToDefaults();
-    
     // Show scenario info
     showScenarioInfo(scenarioData);
   }
@@ -10414,9 +10406,6 @@ REQUIREMENTS:
     
     // Close modal
     closeRoleAssignmentModal();
-    
-    // Reset game with scenario
-    resetGameToDefaults();
     
     // Show scenario info
     showScenarioInfo(scenarioData);
