@@ -20359,7 +20359,570 @@ const EVENT_CARDS = {
       { name: 'The Garden', cost: 40, description: 'Where the old king was poisoned' },
       { name: 'The Churchyard', cost: 35, description: 'Where Ophelia is buried' },
       { name: 'The Ship', cost: 50, description: 'Taking Hamlet to England' }
-    ]
+    ],
+    // Scene-by-scene assignments with educational content
+    sceneAssignments: {
+      'Act I, Scene I': {
+        title: 'The Ghost Appears',
+        description: 'Marcellus and Bernardo encounter the ghost of the old king',
+        triggerEvent: 'ghost_sighting',
+        assignments: [
+          {
+            type: 'multiple_choice',
+            question: 'What is the primary purpose of the opening scene in Hamlet?',
+            options: [
+              'To establish the romantic subplot',
+              'To introduce the supernatural element and create atmosphere',
+              'To show Hamlet\'s madness',
+              'To introduce the political conflict with Norway'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'The opening scene establishes the supernatural atmosphere and introduces the ghost, which drives the entire plot.'
+          },
+          {
+            type: 'short_answer',
+            question: 'Explain how Shakespeare uses the setting of midnight and winter to create mood in Act I, Scene I.',
+            rubric: 'Student should mention: darkness creates mystery/suspense, winter suggests death/decay, midnight is supernatural time',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.4',
+            points: 10
+          },
+          {
+            type: 'multiple_choice',
+            question: 'What does the ghost\'s appearance suggest about the state of Denmark?',
+            options: [
+              'Everything is peaceful and well-ordered',
+              'Something is wrong and unnatural has occurred',
+              'The country is at war',
+              'The royal family is happy'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'The ghost\'s appearance indicates that something unnatural has happened, foreshadowing the murder of the old king.'
+          }
+        ]
+      },
+      'Act I, Scene II': {
+        title: 'The Court Scene',
+        description: 'Claudius addresses the court and Hamlet\'s first soliloquy',
+        triggerEvent: 'court_assembly',
+        assignments: [
+          {
+            type: 'multiple_choice',
+            question: 'In Hamlet\'s first soliloquy, what does he reveal about his feelings toward his mother?',
+            options: [
+              'He admires her strength',
+              'He is angry at her quick remarriage',
+              'He feels sorry for her',
+              'He is indifferent to her'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Hamlet expresses anger and disgust at his mother\'s hasty remarriage to his uncle.'
+          },
+          {
+            type: 'short_answer',
+            question: 'Analyze Claudius\'s speech in Act I, Scene II. How does he justify his marriage to Gertrude?',
+            rubric: 'Student should identify: balancing grief with practical needs, political stability, family unity',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.6',
+            points: 15
+          },
+          {
+            type: 'multiple_choice',
+            question: 'What literary device does Shakespeare use in the phrase "Though yet of Hamlet our dear brother\'s death"?',
+            options: [
+              'Metaphor',
+              'Alliteration',
+              'Irony',
+              'Personification'
+            ],
+            correct: 2,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.4',
+            explanation: 'This is dramatic irony because Claudius calls Hamlet "dear" while having murdered him.'
+          }
+        ]
+      },
+      'Act I, Scene III': {
+        title: 'Polonius\'s Advice',
+        description: 'Laertes departs and Polonius gives advice to Ophelia',
+        triggerEvent: 'family_counsel',
+        assignments: [
+          {
+            type: 'multiple_choice',
+            question: 'What is Polonius\'s main concern regarding Ophelia\'s relationship with Hamlet?',
+            options: [
+              'That Hamlet will hurt Ophelia emotionally',
+              'That Hamlet is not good enough for Ophelia',
+              'That the relationship will damage Polonius\'s reputation',
+              'That Hamlet will abandon Ophelia'
+            ],
+            correct: 0,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'Polonius warns Ophelia that Hamlet\'s love may not be genuine and could hurt her.'
+          },
+          {
+            type: 'short_answer',
+            question: 'Compare and contrast the advice Polonius gives to Laertes versus Ophelia. What does this reveal about Elizabethan gender roles?',
+            rubric: 'Student should note: Laertes gets worldly advice, Ophelia gets restrictive warnings; shows different expectations for men vs women',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.6',
+            points: 20
+          },
+          {
+            type: 'multiple_choice',
+            question: 'Which of Polonius\'s famous sayings best represents his character?',
+            options: [
+              '"To thine own self be true"',
+              '"Neither a borrower nor a lender be"',
+              '"This above all: to thine own self be true"',
+              'All of the above'
+            ],
+            correct: 3,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'All these sayings reflect Polonius\'s tendency to give lengthy, often contradictory advice.'
+          }
+        ]
+      },
+      'Act I, Scene IV': {
+        title: 'The Ghost Speaks',
+        description: 'Hamlet encounters the ghost and learns of the murder',
+        triggerEvent: 'ghost_revelation',
+        assignments: [
+          {
+            type: 'multiple_choice',
+            question: 'What does the ghost reveal about how the old king died?',
+            options: [
+              'He died in battle',
+              'He was poisoned by Claudius',
+              'He died of natural causes',
+              'He was killed by Fortinbras'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'The ghost reveals that Claudius poisoned him by pouring poison in his ear while he slept.'
+          },
+          {
+            type: 'short_answer',
+            question: 'How does Hamlet\'s reaction to the ghost\'s revelation set up the central conflict of the play?',
+            rubric: 'Student should discuss: Hamlet\'s vow for revenge, his internal conflict about action vs inaction, moral questions about murder',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            points: 15
+          },
+          {
+            type: 'multiple_choice',
+            question: 'What does the ghost\'s command "Remember me" mean for Hamlet?',
+            options: [
+              'Hamlet should forget about the murder',
+              'Hamlet should seek revenge',
+              'Hamlet should tell everyone about the ghost',
+              'Hamlet should become king'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.4',
+            explanation: 'The ghost\'s command to "remember me" is a call for Hamlet to avenge his murder.'
+          }
+        ]
+      },
+      'Act II, Scene I': {
+        title: 'Ophelia\'s Report',
+        description: 'Ophelia reports Hamlet\'s strange behavior to Polonius',
+        triggerEvent: 'madness_report',
+        assignments: [
+          {
+            type: 'multiple_choice',
+            question: 'How does Ophelia describe Hamlet\'s appearance when he visits her?',
+            options: [
+              'Well-dressed and composed',
+              'Disheveled and wild-eyed',
+              'Angry and threatening',
+              'Happy and cheerful'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Ophelia describes Hamlet as appearing disheveled and wild-eyed, suggesting madness.'
+          },
+          {
+            type: 'short_answer',
+            question: 'Analyze the significance of Hamlet\'s gesture of holding Ophelia\'s wrist and staring at her face. What might this symbolize?',
+            rubric: 'Student should consider: examining her face for truth, physical connection, intensity of emotion, possible manipulation',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.4',
+            points: 12
+          },
+          {
+            type: 'multiple_choice',
+            question: 'What does Polonius conclude about Hamlet\'s behavior?',
+            options: [
+              'Hamlet is plotting against Claudius',
+              'Hamlet is mad with love for Ophelia',
+              'Hamlet is possessed by the devil',
+              'Hamlet is testing Ophelia'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'Polonius concludes that Hamlet\'s strange behavior is caused by love for Ophelia.'
+          }
+        ]
+      },
+      'Act II, Scene II': {
+        title: 'The Spies Arrive',
+        description: 'Rosencrantz and Guildenstern arrive, and Hamlet\'s "antic disposition"',
+        triggerEvent: 'spy_arrival',
+        assignments: [
+          {
+            type: 'multiple_choice',
+            question: 'Why does Claudius summon Rosencrantz and Guildenstern?',
+            options: [
+              'To entertain Hamlet',
+              'To spy on Hamlet and discover the cause of his madness',
+              'To help Hamlet with his studies',
+              'To prepare for war with Norway'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'Claudius summons them to spy on Hamlet and discover why he\'s acting strangely.'
+          },
+          {
+            type: 'short_answer',
+            question: 'How does Hamlet\'s treatment of Rosencrantz and Guildenstern reveal his intelligence and awareness?',
+            rubric: 'Student should note: Hamlet sees through their deception, uses wordplay to mock them, shows he\'s not truly mad',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            points: 15
+          },
+          {
+            type: 'multiple_choice',
+            question: 'What does Hamlet\'s line "I am but mad north-north-west" suggest?',
+            options: [
+              'He is completely insane',
+              'He is only pretending to be mad',
+              'He is confused about directions',
+              'He is lost'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.4',
+            explanation: 'This suggests Hamlet\'s madness is calculated and selective, not genuine insanity.'
+          }
+        ]
+      },
+      'Act III, Scene I': {
+        title: 'To Be or Not To Be',
+        description: 'Hamlet\'s famous soliloquy and the "nunnery scene"',
+        triggerEvent: 'famous_soliloquy',
+        assignments: [
+          {
+            type: 'multiple_choice',
+            question: 'What is the central question Hamlet explores in his "To be or not to be" soliloquy?',
+            options: [
+              'Whether to kill Claudius',
+              'Whether to marry Ophelia',
+              'Whether to live or die',
+              'Whether to return to Wittenberg'
+            ],
+            correct: 2,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'The soliloquy explores the fundamental question of whether it\'s better to live or die.'
+          },
+          {
+            type: 'short_answer',
+            question: 'Analyze Hamlet\'s treatment of Ophelia in the "nunnery scene." Is he being cruel or protective? Support your answer with evidence.',
+            rubric: 'Student should provide evidence for either interpretation: cruel (harsh words) or protective (warning her away from court corruption)',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            points: 20
+          },
+          {
+            type: 'multiple_choice',
+            question: 'What does Hamlet\'s command "Get thee to a nunnery" mean?',
+            options: [
+              'He wants Ophelia to become a nun',
+              'He is telling her to go away',
+              'He is protecting her from the corrupt court',
+              'All of the above'
+            ],
+            correct: 3,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.4',
+            explanation: 'The phrase has multiple meanings: literal (become a nun), metaphorical (go away), and protective (escape corruption).'
+          }
+        ]
+      },
+      'Act III, Scene II': {
+        title: 'The Mousetrap',
+        description: 'The play-within-the-play and Claudius\'s reaction',
+        triggerEvent: 'mousetrap_performance',
+        assignments: [
+          {
+            type: 'multiple_choice',
+            question: 'What is Hamlet\'s purpose in staging "The Mousetrap"?',
+            options: [
+              'To entertain the court',
+              'To catch Claudius\'s conscience and confirm the ghost\'s story',
+              'To impress Ophelia',
+              'To show off his acting skills'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'Hamlet stages the play to test Claudius\'s guilt and confirm the ghost\'s accusation.'
+          },
+          {
+            type: 'short_answer',
+            question: 'How does Claudius\'s reaction to the play confirm Hamlet\'s suspicions? What does this reveal about Claudius\'s character?',
+            rubric: 'Student should discuss: Claudius\'s guilty reaction, his attempt to stop the play, his vulnerability',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            points: 15
+          },
+          {
+            type: 'multiple_choice',
+            question: 'What does Hamlet\'s line "The play\'s the thing wherein I\'ll catch the conscience of the king" mean?',
+            options: [
+              'The play will entertain Claudius',
+              'The play will reveal Claudius\'s guilt',
+              'The play will make Claudius laugh',
+              'The play will confuse Claudius'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.4',
+            explanation: 'Hamlet plans to use the play as a trap to reveal Claudius\'s guilty conscience.'
+          }
+        ]
+      },
+      'Act III, Scene III': {
+        title: 'Claudius Attempts Prayer',
+        description: 'Claudius tries to pray and Hamlet considers killing him',
+        triggerEvent: 'prayer_scene',
+        assignments: [
+          {
+            type: 'multiple_choice',
+            question: 'Why does Hamlet decide not to kill Claudius while he\'s praying?',
+            options: [
+              'He feels sorry for Claudius',
+              'He fears being caught',
+              'He doesn\'t want Claudius to go to heaven',
+              'He has lost his nerve'
+            ],
+            correct: 2,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'Hamlet doesn\'t want to kill Claudius while praying because he would go to heaven, not hell.'
+          },
+          {
+            type: 'short_answer',
+            question: 'Analyze Claudius\'s prayer scene. What does it reveal about his character and moral state?',
+            rubric: 'Student should discuss: Claudius\'s inability to truly repent, his awareness of his sin, his conflicted nature',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            points: 18
+          },
+          {
+            type: 'multiple_choice',
+            question: 'What does Claudius\'s line "My words fly up, my thoughts remain below" mean?',
+            options: [
+              'He is confused',
+              'He cannot truly repent',
+              'He is tired',
+              'He is happy'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.4',
+            explanation: 'This reveals that Claudius\'s prayers are empty - his words go up but his thoughts remain sinful.'
+          }
+        ]
+      },
+      'Act III, Scene IV': {
+        title: 'The Closet Scene',
+        description: 'Hamlet confronts Gertrude and kills Polonius',
+        triggerEvent: 'closet_confrontation',
+        assignments: [
+          {
+            type: 'multiple_choice',
+            question: 'Why does Hamlet kill Polonius?',
+            options: [
+              'He mistakes Polonius for Claudius',
+              'He hates Polonius',
+              'He is completely mad',
+              'He wants to protect Gertrude'
+            ],
+            correct: 0,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Hamlet kills Polonius because he mistakes him for Claudius hiding behind the arras.'
+          },
+          {
+            type: 'short_answer',
+            question: 'How does the closet scene reveal the complex relationship between Hamlet and Gertrude?',
+            rubric: 'Student should discuss: Hamlet\'s anger and love, Gertrude\'s confusion and fear, their emotional connection',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            points: 20
+          },
+          {
+            type: 'multiple_choice',
+            question: 'What does the ghost\'s appearance in the closet scene suggest?',
+            options: [
+              'Hamlet is hallucinating',
+              'The ghost is real and watching over Hamlet',
+              'Gertrude can see the ghost too',
+              'The ghost is angry with Hamlet'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.4',
+            explanation: 'The ghost\'s appearance suggests it\'s real and watching over Hamlet, reminding him of his mission.'
+          }
+        ]
+      },
+      'Act IV, Scene I': {
+        title: 'Gertrude Reports to Claudius',
+        description: 'Gertrude tells Claudius about Polonius\'s death',
+        triggerEvent: 'death_report',
+        assignments: [
+          {
+            type: 'multiple_choice',
+            question: 'How does Gertrude describe Hamlet\'s state to Claudius?',
+            options: [
+              'Calm and rational',
+              'Mad and dangerous',
+              'Sad and depressed',
+              'Happy and cheerful'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Gertrude describes Hamlet as mad and dangerous after killing Polonius.'
+          },
+          {
+            type: 'short_answer',
+            question: 'What does Claudius\'s reaction to Polonius\'s death reveal about his priorities and character?',
+            rubric: 'Student should discuss: Claudius\'s concern for his own safety, his political calculations, his lack of genuine grief',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            points: 15
+          },
+          {
+            type: 'multiple_choice',
+            question: 'What does Claudius decide to do about Hamlet?',
+            options: [
+              'Forgive him',
+              'Send him to England',
+              'Kill him immediately',
+              'Lock him up'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Claudius decides to send Hamlet to England, ostensibly for his safety but actually to have him killed.'
+          }
+        ]
+      },
+      'Act IV, Scene V': {
+        title: 'Ophelia\'s Madness',
+        description: 'Ophelia appears mad and Laertes returns',
+        triggerEvent: 'ophelia_madness',
+        assignments: [
+          {
+            type: 'multiple_choice',
+            question: 'What causes Ophelia\'s madness?',
+            options: [
+              'Hamlet\'s rejection',
+              'Her father\'s death',
+              'Both Hamlet\'s rejection and her father\'s death',
+              'A physical illness'
+            ],
+            correct: 2,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'Ophelia\'s madness is caused by both Hamlet\'s harsh treatment and her father\'s death.'
+          },
+          {
+            type: 'short_answer',
+            question: 'Analyze Ophelia\'s mad songs and flowers. What do they symbolize and what do they reveal about her state of mind?',
+            rubric: 'Student should discuss: flowers as symbols of lost innocence, songs as expressions of grief, her fragmented mental state',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.4',
+            points: 18
+          },
+          {
+            type: 'multiple_choice',
+            question: 'How does Laertes react when he sees Ophelia\'s madness?',
+            options: [
+              'He is indifferent',
+              'He is angry and wants revenge',
+              'He is happy',
+              'He is confused'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'Laertes is furious and immediately wants revenge for what has happened to his sister.'
+          }
+        ]
+      },
+      'Act V, Scene I': {
+        title: 'The Graveyard Scene',
+        description: 'Hamlet and Horatio encounter the gravediggers and Ophelia\'s funeral',
+        triggerEvent: 'graveyard_philosophy',
+        assignments: [
+          {
+            type: 'multiple_choice',
+            question: 'What does Hamlet\'s meditation on death in the graveyard reveal about his character development?',
+            options: [
+              'He has become more philosophical',
+              'He has given up on life',
+              'He is more accepting of mortality',
+              'All of the above'
+            ],
+            correct: 3,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'The graveyard scene shows Hamlet\'s philosophical growth and acceptance of mortality.'
+          },
+          {
+            type: 'short_answer',
+            question: 'Compare Hamlet\'s reaction to Ophelia\'s death with Laertes\'. How do their different responses reflect their characters?',
+            rubric: 'Student should contrast: Hamlet\'s philosophical acceptance vs Laertes\' emotional outburst, different ways of grieving',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            points: 20
+          },
+          {
+            type: 'multiple_choice',
+            question: 'What does the gravedigger\'s song about death symbolize?',
+            options: [
+              'The inevitability of death',
+              'The equality of all people in death',
+              'The futility of life',
+              'All of the above'
+            ],
+            correct: 3,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.4',
+            explanation: 'The gravedigger\'s song symbolizes the universal and equalizing nature of death.'
+          }
+        ]
+      },
+      'Act V, Scene II': {
+        title: 'The Final Scene',
+        description: 'The duel, multiple deaths, and Fortinbras\'s arrival',
+        triggerEvent: 'final_confrontation',
+        assignments: [
+          {
+            type: 'multiple_choice',
+            question: 'How does Hamlet finally achieve his revenge?',
+            options: [
+              'He kills Claudius in a duel',
+              'He poisons Claudius',
+              'He forces Claudius to drink poison',
+              'He stabs Claudius with a poisoned sword'
+            ],
+            correct: 2,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Hamlet forces Claudius to drink the poisoned wine that was meant for him.'
+          },
+          {
+            type: 'short_answer',
+            question: 'Analyze the significance of Fortinbras\'s arrival at the end of the play. What does he represent and why is he important?',
+            rubric: 'Student should discuss: Fortinbras as foil to Hamlet, restoration of order, new leadership, contrast between action and inaction',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            points: 25
+          },
+          {
+            type: 'multiple_choice',
+            question: 'What does Hamlet\'s final request to Horatio reveal about their friendship?',
+            options: [
+              'Hamlet doesn\'t trust Horatio',
+              'Hamlet wants Horatio to tell his story',
+              'Hamlet wants Horatio to become king',
+              'Hamlet wants Horatio to forget him'
+            ],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'Hamlet asks Horatio to tell his story, showing the depth of their friendship and Hamlet\'s desire for his truth to be known.'
+          }
+        ]
+      }
+    }
   },
 
   // THE CRUCIBLE SCENARIO
