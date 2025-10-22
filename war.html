@@ -2722,8 +2722,10 @@
     state.truces = [];
     state.truceInvitations = [];
     
-    // Clear scenario and AI data
-    state.scenario = null;
+    // Clear scenario and AI data only if no saved scenario in roster
+    if (!state.currentRoster.scenario) {
+      state.scenario = null;
+    }
     state.aiPlayers = [];
 
     // Reset board to fresh state
