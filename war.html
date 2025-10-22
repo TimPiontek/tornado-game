@@ -4514,9 +4514,9 @@
       return;
     }
     
-    if (state.scenario && state.scenario.scenarioName) {
-      console.log('[DEBUG] Updating theme title to:', state.scenario.scenarioName);
-      const scenarioName = state.scenario.scenarioName;
+    if (state.scenario && (state.scenario.scenarioName || state.scenario.name)) {
+      const scenarioName = state.scenario.scenarioName || state.scenario.name;
+      console.log('[DEBUG] Updating theme title to:', scenarioName);
       const scenarioData = SCENARIOS[state.scenario.scenarioId];
       
       // Get theme-specific emoji and styling
@@ -4559,6 +4559,9 @@
       } else if (scenarioName.includes('Hunger Games')) {
         emoji = '🏹';
         gradient = 'linear-gradient(135deg, #ff4500, #8b0000)';
+      } else if (scenarioName.includes('Dune')) {
+        emoji = '🏜️';
+        gradient = 'linear-gradient(135deg, #d2691e, #8b4513)';
       }
       
       themeTitle.innerHTML = `${emoji} ${scenarioName}`;
