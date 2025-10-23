@@ -4839,9 +4839,15 @@
             });
 
             // Use quiz if selected, otherwise use textarea
+            console.log("DEBUG: selectedQuizId =", selectedQuizId);
+            console.log("DEBUG: quizLibrary length =", quizLibrary.length);
+            console.log("DEBUG: Hamlet quizzes =", quizLibrary.filter(q => q.folder === 'Hamlet').map(q => ({id: q.id, title: q.title})));
+            
             if (selectedQuizId !== null) {
               const quiz = quizLibrary.find((q) => q.id === selectedQuizId);
               if (!quiz) {
+                console.error("Selected quiz not found:", selectedQuizId);
+                console.error("Available quiz IDs:", quizLibrary.map(q => q.id));
                 return alert("Selected quiz not found.");
               }
               // Only support the new format: questions as array of objects
@@ -4854,16 +4860,18 @@
                   question: q.question,
                   answer: q.answer || null,
                 }));
+                console.log(
+                  "DEBUG: Selected quiz:",
+                  quiz.title,
+                  "Questions loaded:",
+                  questions.length,
+                  "First question:",
+                  questions[0]?.question
+                );
               } else {
                 questions = [];
+                console.error("Quiz has no questions or wrong format:", quiz);
               }
-              console.log(
-                "DEBUG: Selected quiz:",
-                quiz.title,
-                "Questions loaded:",
-                questions.length,
-                questions
-              );
             } else if (questionsInputEl && questionsInputEl.value.trim() !== "") {
               // Parse custom questions from textarea
               const raw = questionsInputEl.value;
