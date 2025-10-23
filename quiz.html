@@ -3577,14 +3577,24 @@
               '<div id="publicLibraryList" style="width:100%;max-width:700px;text-align:left;margin:0 auto;">';
             html += '<div style="text-align:center;margin-bottom:1.5em;color:#666;font-size:0.9em;">📚 Quizzes sorted alphabetically by title</div>';
             Object.keys(categories)
-              .sort((a, b) => a.localeCompare(b))
+              .sort((a, b) => {
+                if (a === "Literature") return -1;
+                if (b === "Literature") return 1;
+                return a.localeCompare(b);
+              })
               .forEach((cat) => {
                 html += `<details style="margin-bottom:1.2em;">
               <summary style="font-size:1.2em;font-weight:700;cursor:pointer;background:#eee;padding:0.6em 1em;border-radius:8px;">${cat}</summary>
               <ul style="list-style:none;padding-left:1.2em;">`;
                 // Folders first
                 const folderNames = Object.keys(categories[cat].folders).sort(
-                  (a, b) => a.localeCompare(b)
+                  (a, b) => {
+                    if (cat === "Literature") {
+                      if (a === "Hamlet") return -1;
+                      if (b === "Hamlet") return 1;
+                    }
+                    return a.localeCompare(b);
+                  }
                 );
                 folderNames.forEach((folder) => {
                   html += `<details style="margin-bottom:0.7em;">
@@ -6431,7 +6441,11 @@
           customQuizDropdownList = document.createElement("div");
           customQuizDropdownList.className = "custom-quiz-dropdown-list";
           Object.keys(categories)
-            .sort((a, b) => a.localeCompare(b))
+            .sort((a, b) => {
+              if (a === "Literature") return -1;
+              if (b === "Literature") return 1;
+              return a.localeCompare(b);
+            })
             .forEach((cat) => {
               // Category header
               const catDiv = document.createElement("div");
@@ -6444,7 +6458,13 @@
               quizList.style.display = "none";
               // Folders
               const folderNames = Object.keys(categories[cat].folders).sort(
-                (a, b) => a.localeCompare(b)
+                (a, b) => {
+                  if (cat === "Literature") {
+                    if (a === "Hamlet") return -1;
+                    if (b === "Hamlet") return 1;
+                  }
+                  return a.localeCompare(b);
+                }
               );
               folderNames.forEach((folder) => {
                 const folderDiv = document.createElement("div");
