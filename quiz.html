@@ -1695,17 +1695,17 @@
       .custom-quiz-category,
       .custom-quiz-folder {
         font-weight: 700;
-        font-size: 1.08em;
+        font-size: 1.1em;
         cursor: pointer;
         background: #eee;
-        padding: 0.6em 1em;
+        padding: 0.8em 1em;
         border-radius: 6px;
-        margin-bottom: 0.3em;
+        margin-bottom: 0.4em;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        min-height: 2.5em;
-        line-height: 1.3;
+        min-height: 3em;
+        line-height: 1.5;
       }
 
       /* Special styling for Hamlet folder */
@@ -1742,17 +1742,19 @@
 
       .custom-quiz-quizlist li,
       .custom-quiz-folderlist li {
-        margin-bottom: 0.4em;
+        margin-bottom: 0.6em;
         cursor: pointer;
-        padding: 0.4em 0.8em;
+        padding: 0.6em 0.8em;
         border-radius: 4px;
         white-space: normal;
         word-break: break-word;
         background: none;
-        line-height: 1.4;
-        min-height: 2em;
+        line-height: 1.6;
+        min-height: 2.8em;
         display: flex;
         align-items: center;
+        font-size: 1em;
+        font-weight: 500;
       }
 
       .custom-quiz-quizlist li.selected,
@@ -6537,6 +6539,19 @@
                     e.stopPropagation();
                     customQuizDropdown.textContent = quiz.title;
                     selectedQuizId = quiz.id;
+                    
+                    // Immediately load the quiz questions into the textarea
+                    if (quiz.questions && Array.isArray(quiz.questions)) {
+                      const questionsTextarea = document.getElementById('questionsInput');
+                      if (questionsTextarea) {
+                        const formattedQuestions = quiz.questions.map(q => 
+                          `${q.question}\n${q.answer}`
+                        ).join('\n\n');
+                        questionsTextarea.value = formattedQuestions;
+                        console.log(`Loaded ${quiz.questions.length} questions from ${quiz.title}`);
+                      }
+                    }
+                    
                     closeCustomQuizDropdown();
                   };
                   if (selectedQuizId === quiz.id) li.classList.add("selected");
@@ -6559,6 +6574,19 @@
                   e.stopPropagation();
                   customQuizDropdown.textContent = quiz.title;
                   selectedQuizId = quiz.id;
+                  
+                  // Immediately load the quiz questions into the textarea
+                  if (quiz.questions && Array.isArray(quiz.questions)) {
+                    const questionsTextarea = document.getElementById('questionsInput');
+                    if (questionsTextarea) {
+                      const formattedQuestions = quiz.questions.map(q => 
+                        `${q.question}\n${q.answer}`
+                      ).join('\n\n');
+                      questionsTextarea.value = formattedQuestions;
+                      console.log(`Loaded ${quiz.questions.length} questions from ${quiz.title}`);
+                    }
+                  }
+                  
                   closeCustomQuizDropdown();
                 };
                 if (selectedQuizId === quiz.id) li.classList.add("selected");
