@@ -2005,14 +2005,56 @@
     "work": "Hamlet",
     "act_scenes": "Act 1, Scene 1",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "In response to seeing the Ghost, Horatio says, \"This bodes some strange eruption to our state.\" What does this line suggest about the theme of the supernatural in relation to political instability?",
+        "choices": [
+          "The ghost is merely a personal omen for Hamlet.",
+          "The appearance of the ghost foreshadows a disruption in the kingdom.",
+          "Horatio believes the ghost is a trick played by soldiers.",
+          "The ghost symbolizes Denmark's military success."
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "Why is Horatio initially skeptical about the ghost's appearance?",
+        "choices": [
+          "He does not believe in ghosts or spirits.",
+          "He thinks the soldiers are trying to frighten him.",
+          "He believes the ghost is a foreign spy.",
+          "He is distracted by the threat of war with Norway."
+        ],
+        "answer": "A",
+        "points": 5
+      },
+      {
+        "q": "When Marcellus says, \"Something is rotten in the state of Denmark,\" what tone is being conveyed?",
+        "choices": [
+          "Hopeful and patriotic",
+          "Ironic and humorous",
+          "Foreboding and distrustful",
+          "Confused and uncertain"
+        ],
+        "answer": "C",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does the ghost's silence contribute to the theme of uncertainty in this scene? Use evidence from the text.",
+        "maxPoints": 10
+      },
+      {
+        "q": "What does the watchmen's insistence on bringing Horatio to witness the ghost reveal about their beliefs and fears?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act1-scene1.html"
   },
   {
@@ -2023,14 +2065,56 @@
     "work": "Hamlet",
     "act_scenes": "Act 1, Scene 2",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "In Claudius's speech, he says: \"Though yet of Hamlet our dear brother's death The memory be green…\" What is Claudius attempting to achieve with this opening?",
+        "choices": [
+          "He is sincerely mourning the late king.",
+          "He is publicly acknowledging grief to justify his swift marriage to Gertrude.",
+          "He is warning Denmark of an impending war.",
+          "He is accusing Hamlet of disloyalty."
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "Claudius speaks of young Fortinbras as \"puffed with divine ambition.\" What does this line reveal about Claudius's view of Fortinbras?",
+        "choices": [
+          "Claudius sees him as weak and harmless.",
+          "Claudius admires Fortinbras's determination.",
+          "Claudius believes Fortinbras is overly confident and a threat.",
+          "Claudius wants to ally with Fortinbras."
+        ],
+        "answer": "C",
+        "points": 5
+      },
+      {
+        "q": "Hamlet responds to Gertrude: \"Seems, madam? Nay, it is. I know not 'seems.'\" What is Hamlet criticizing?",
+        "choices": [
+          "The concept of mourning altogether",
+          "The idea that grief can be performed as a display",
+          "His mother's marriage choice",
+          "His lack of power"
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does Hamlet's first soliloquy (\"O that this too too solid flesh would melt…\") reveal his internal conflict? Use a direct quote.",
+        "maxPoints": 10
+      },
+      {
+        "q": "What contrast does Shakespeare establish between Claudius and Hamlet's perspectives on grief?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act1-scene2.html"
   },
   {
