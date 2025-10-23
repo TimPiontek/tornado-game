@@ -1259,7 +1259,7 @@
           if (error) {
             console.error('Error loading rosters from Supabase:', error);
           } else if (data && data.length > 0) {
-            // Merge Supabase rosters with local ones
+            // Merge Supabase rosters with local ones intelligently
             const supabaseRosters = data.map(row => ({
               id: row.id,
               name: row.name,
@@ -1267,13 +1267,51 @@
               lastModified: row.last_modified
             }));
             
-            // Replace local rosters with Supabase ones (they're more up-to-date)
-            state.rosters = supabaseRosters;
+            // Merge Supabase data with local data, preserving local game state
+            const mergedRosters = [];
             
-            // Update localStorage with the latest data
+            // First, add all Supabase rosters
+            supabaseRosters.forEach(supabaseRoster => {
+              const localRoster = state.rosters.find(local => local.id === supabaseRoster.id);
+              
+              if (localRoster) {
+                // Merge: use Supabase metadata but preserve local game state if it's newer
+                const localLastModified = new Date(localRoster.lastModified || 0);
+                const supabaseLastModified = new Date(supabaseRoster.lastModified || 0);
+                
+                if (localLastModified > supabaseLastModified && localRoster.gameState) {
+                  // Local game state is newer, merge it with Supabase data
+                  mergedRosters.push({
+                    ...supabaseRoster,
+                    gameState: localRoster.gameState,
+                    scenario: localRoster.scenario || supabaseRoster.scenario,
+                    lastModified: localRoster.lastModified
+                  });
+                  console.log(`Preserved local game state for roster: ${supabaseRoster.name}`);
+                } else {
+                  // Use Supabase data
+                  mergedRosters.push(supabaseRoster);
+                }
+              } else {
+                // New roster from Supabase
+                mergedRosters.push(supabaseRoster);
+              }
+            });
+            
+            // Add any local-only rosters that aren't in Supabase
+            state.rosters.forEach(localRoster => {
+              if (!supabaseRosters.find(supabase => supabase.id === localRoster.id)) {
+                mergedRosters.push(localRoster);
+                console.log(`Preserved local-only roster: ${localRoster.name}`);
+              }
+            });
+            
+            state.rosters = mergedRosters;
+            
+            // Update localStorage with the merged data
             localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
             
-            console.log('Loaded rosters from Supabase:', supabaseRosters.length);
+            console.log('Merged rosters from Supabase and local:', mergedRosters.length);
           }
         } catch (error) {
           console.error('Error loading from Supabase:', error);
@@ -5252,16 +5290,9 @@
               } else {
                 throw error;
               }
+            } else {
+              console.log('Auto-saved war points to Supabase');
             }
-            if (error) {
-              console.error('Supabase error:', error);
-              if (error.code === 'PGRST205' || /Could not find the table 'public.rosters'/.test(error.message||'')) {
-                console.warn("Supabase 'rosters' table missing. Saved locally only.");
-              } else {
-                throw error;
-              }
-            }
-            console.log('Auto-saved war points to Supabase');
           } catch (error) {
             console.error('Error auto-saving to Supabase:', error);
             // Continue with local save even if Supabase fails
@@ -7413,6 +7444,53 @@
         state.truces = rosters[rosterIndex].truces || [];
         state.truceInvitations = rosters[rosterIndex].truceInvitations || [];
         console.log('Truce data reloaded:', { truces: state.truces.length, invitations: state.truceInvitations.length });
+      }
+    }
+  });
+
+  // Aggressive auto-save before page unload
+  window.addEventListener('beforeunload', function(e) {
+    if (state.currentRoster && state.currentRosterId) {
+      // Force immediate save to localStorage
+      try {
+        const updatedRoster = {
+          ...state.currentRoster,
+          roster: state.roster.map(student => ({
+            id: student.gsId,
+            name: student.name,
+            startingPoints: student.startingPoints || 0,
+            earnedPoints: student.earnedPoints || 0,
+            points: (student.startingPoints || 0) + (student.earnedPoints || 0),
+            tilesOwned: student.tilesOwned,
+            teamId: student.teamId,
+            teamName: student.teamName,
+            teamColor: student.teamColor,
+            characterName: student.characterName,
+            characterRole: student.characterRole,
+            characterFaction: student.characterFaction,
+            startingCastles: student.startingCastles,
+            weapons: student.weapons,
+            mercenaries: student.mercenaries
+          })),
+          gameState: {
+            board: state.board,
+            tiles: state.board.tiles,
+            truces: state.truces || []
+          },
+          scenario: state.scenario,
+          victoryGoals: state.victoryGoals,
+          economy: state.economy || __activeEconomy || ECONOMY,
+          lastModified: new Date().toISOString()
+        };
+        
+        const rosterIndex = state.rosters.findIndex(r => r.id === state.currentRosterId);
+        if (rosterIndex >= 0) {
+          state.rosters[rosterIndex] = updatedRoster;
+          localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+          console.log('Emergency save before page unload');
+        }
+      } catch (error) {
+        console.error('Error in emergency save:', error);
       }
     }
   });
