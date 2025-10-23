@@ -2418,237 +2418,783 @@
     "file_path": "hamlet-unit/assignments/act2-scene2.html"
   },
   {
-    "id": "act3_scene1",
+    "id": "hamlet_act3_scene1",
     "title": "Hamlet - Act 3, Scene 1 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 3, Scene 1 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 3, Scene 1",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "In Hamlet's famous soliloquy, \"To be or not to be,\" what is the central question he is contemplating?",
+        "choices": [
+          "Whether to marry Ophelia",
+          "Whether to kill Claudius immediately",
+          "Whether to continue living or to die",
+          "Whether to trust his friends"
+        ],
+        "answer": "C",
+        "points": 5
+      },
+      {
+        "q": "What does Hamlet's treatment of Ophelia in this scene reveal about his state of mind?",
+        "choices": [
+          "He is genuinely in love with her",
+          "He is using her as part of his act to appear mad",
+          "He wants to marry her",
+          "He is completely indifferent to her"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "When Hamlet says, \"Get thee to a nunnery,\" what does this reveal about his feelings toward women?",
+        "choices": [
+          "He wants Ophelia to become a nun",
+          "He is expressing his disillusionment with women and marriage",
+          "He is giving her good advice",
+          "He is testing her loyalty"
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does Hamlet's \"To be or not to be\" soliloquy reflect his internal conflict about taking action?",
+        "maxPoints": 10
+      },
+      {
+        "q": "What does Hamlet's harsh treatment of Ophelia suggest about his psychological state?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act3-scene1.html"
   },
   {
-    "id": "act3_scene2",
+    "id": "hamlet_act3_scene2",
     "title": "Hamlet - Act 3, Scene 2 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 3, Scene 2 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 3, Scene 2",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "What is the purpose of the play within the play (The Murder of Gonzago)?",
+        "choices": [
+          "To entertain the court",
+          "To test Claudius's guilt by observing his reaction",
+          "To showcase Hamlet's acting skills",
+          "To impress Ophelia"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "How does Claudius react to the play?",
+        "choices": [
+          "He laughs and enjoys it",
+          "He becomes angry and leaves abruptly",
+          "He falls asleep",
+          "He applauds enthusiastically"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What does Hamlet's behavior during the play reveal about his strategy?",
+        "choices": [
+          "He is trying to be entertaining",
+          "He is using the play as a psychological weapon",
+          "He is showing off his knowledge",
+          "He is trying to impress his mother"
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does the play within the play serve as a turning point in the drama?",
+        "maxPoints": 10
+      },
+      {
+        "q": "What does Claudius's reaction to the play confirm for Hamlet?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act3-scene2.html"
   },
   {
-    "id": "act3_scene3",
+    "id": "hamlet_act3_scene3",
     "title": "Hamlet - Act 3, Scene 3 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 3, Scene 3 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 3, Scene 3",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "Why does Hamlet not kill Claudius when he finds him praying?",
+        "choices": [
+          "He is afraid of being caught",
+          "He believes killing Claudius while praying would send him to heaven",
+          "He has changed his mind about revenge",
+          "He wants to talk to Claudius first"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What does Claudius's soliloquy reveal about his character?",
+        "choices": [
+          "He is completely innocent",
+          "He feels guilty about killing his brother",
+          "He is planning to kill Hamlet",
+          "He is happy with his situation"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "How does this scene demonstrate Hamlet's moral complexity?",
+        "choices": [
+          "He shows no moral consideration",
+          "He struggles between revenge and moral principles",
+          "He acts without thinking",
+          "He is completely immoral"
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "What does Hamlet's decision not to kill Claudius while praying reveal about his character?",
+        "maxPoints": 10
+      },
+      {
+        "q": "How does Claudius's soliloquy humanize him as a character?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act3-scene3.html"
   },
   {
-    "id": "act3_scene4",
+    "id": "hamlet_act3_scene4",
     "title": "Hamlet - Act 3, Scene 4 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 3, Scene 4 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 3, Scene 4",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "What happens when Hamlet confronts his mother in her closet?",
+        "choices": [
+          "They have a calm conversation",
+          "Hamlet kills Polonius, thinking he is Claudius",
+          "Gertrude apologizes immediately",
+          "They plan to kill Claudius together"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "How does Hamlet's treatment of his mother in this scene reflect his emotional state?",
+        "choices": [
+          "He is calm and rational",
+          "He is filled with rage and disgust",
+          "He is indifferent",
+          "He is loving and supportive"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What does the appearance of the ghost in this scene suggest?",
+        "choices": [
+          "The ghost is imaginary",
+          "The ghost is real and appears to remind Hamlet of his purpose",
+          "The ghost is trying to stop Hamlet",
+          "The ghost is angry with Hamlet"
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does Hamlet's accidental killing of Polonius change the course of the play?",
+        "maxPoints": 10
+      },
+      {
+        "q": "What does Hamlet's confrontation with his mother reveal about their relationship?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act3-scene4.html"
   },
   {
-    "id": "act4_scene1",
+    "id": "hamlet_act4_scene1",
     "title": "Hamlet - Act 4, Scene 1 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 4, Scene 1 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 4, Scene 1",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "How does Gertrude describe Hamlet's behavior to Claudius?",
+        "choices": [
+          "He is completely sane",
+          "He is mad and violent",
+          "He is happy and content",
+          "He is planning to leave"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What does Claudius decide to do about Hamlet?",
+        "choices": [
+          "Send him to a mental hospital",
+          "Send him to England with Rosencrantz and Guildenstern",
+          "Kill him immediately",
+          "Marry him to Ophelia"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What does this scene reveal about Claudius's character?",
+        "choices": [
+          "He is genuinely concerned for Hamlet",
+          "He is manipulative and calculating",
+          "He is confused and helpless",
+          "He wants to help Hamlet"
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does Claudius's plan to send Hamlet to England reflect his political strategy?",
+        "maxPoints": 10
+      },
+      {
+        "q": "What does Gertrude's loyalty to Hamlet reveal about her character?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act4-scene1.html"
   },
   {
-    "id": "act4_scene2",
+    "id": "hamlet_act4_scene2",
     "title": "Hamlet - Act 4, Scene 2 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 4, Scene 2 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 4, Scene 2",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "How does Hamlet treat Rosencrantz and Guildenstern in this scene?",
+        "choices": [
+          "He welcomes them warmly",
+          "He is hostile and mocking",
+          "He ignores them completely",
+          "He asks for their help"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What does Hamlet's behavior toward his former friends reveal?",
+        "choices": [
+          "He has forgiven them",
+          "He feels betrayed and is angry",
+          "He wants to be friends again",
+          "He is indifferent to them"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What literary device does Hamlet use when he says, \"A knavish speech sleeps in a foolish ear\"?",
+        "choices": [
+          "Metaphor",
+          "Alliteration",
+          "Irony",
+          "Simile"
+        ],
+        "answer": "A",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does Hamlet's treatment of Rosencrantz and Guildenstern reflect his growing isolation?",
+        "maxPoints": 10
+      },
+      {
+        "q": "What does this scene reveal about the theme of betrayal in the play?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act4-scene2.html"
   },
   {
-    "id": "act4_scene3",
+    "id": "hamlet_act4_scene3",
     "title": "Hamlet - Act 4, Scene 3 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 4, Scene 3 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 4, Scene 3",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "What does Hamlet's conversation with Claudius reveal about his mental state?",
+        "choices": [
+          "He is completely sane",
+          "He is using wordplay and wit to mock Claudius",
+          "He is confused and incoherent",
+          "He is planning to apologize"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "How does Hamlet's wordplay in this scene serve his purpose?",
+        "choices": [
+          "It entertains the court",
+          "It allows him to express his anger indirectly",
+          "It shows his intelligence",
+          "It confuses everyone"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What does Claudius's reaction to Hamlet's behavior reveal?",
+        "choices": [
+          "He finds Hamlet amusing",
+          "He is frustrated and wants to get rid of Hamlet",
+          "He is proud of Hamlet",
+          "He doesn't understand Hamlet"
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does Hamlet's use of wordplay in this scene reflect his intelligence and wit?",
+        "maxPoints": 10
+      },
+      {
+        "q": "What does this scene reveal about the power dynamic between Hamlet and Claudius?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act4-scene3.html"
   },
   {
-    "id": "act4_scene4",
+    "id": "hamlet_act4_scene4",
     "title": "Hamlet - Act 4, Scene 4 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 4, Scene 4 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 4, Scene 4",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "What does Hamlet observe about Fortinbras's army?",
+        "choices": [
+          "They are weak and poorly equipped",
+          "They are marching to fight for a worthless piece of land",
+          "They are going home",
+          "They are planning to attack Denmark"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "How does Fortinbras's action affect Hamlet?",
+        "choices": [
+          "It makes him want to join the army",
+          "It makes him reflect on his own inaction",
+          "It makes him angry",
+          "It makes him happy"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What does Hamlet's soliloquy in this scene reveal about his character development?",
+        "choices": [
+          "He has given up on revenge",
+          "He is inspired to take action",
+          "He is more confused than ever",
+          "He wants to leave Denmark"
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does Fortinbras serve as a foil to Hamlet in this scene?",
+        "maxPoints": 10
+      },
+      {
+        "q": "What does Hamlet's reflection on Fortinbras reveal about his internal conflict?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act4-scene4.html"
   },
   {
-    "id": "act4_scene5",
+    "id": "hamlet_act4_scene5",
     "title": "Hamlet - Act 4, Scene 5 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 4, Scene 5 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 4, Scene 5",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "How does Ophelia's behavior in this scene reflect her mental state?",
+        "choices": [
+          "She is completely sane",
+          "She has gone mad with grief",
+          "She is pretending to be mad",
+          "She is happy and carefree"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What do Ophelia's songs and flowers symbolize?",
+        "choices": [
+          "Her happiness",
+          "Her madness and lost innocence",
+          "Her love for Hamlet",
+          "Her desire to marry"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "How does Laertes react to Ophelia's madness?",
+        "choices": [
+          "He is indifferent",
+          "He is angry and wants revenge",
+          "He is happy for her",
+          "He doesn't recognize her"
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does Ophelia's madness reflect the theme of the destructive effects of revenge?",
+        "maxPoints": 10
+      },
+      {
+        "q": "What does Ophelia's symbolic use of flowers reveal about her character?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act4-scene5.html"
   },
   {
-    "id": "act4_scene6",
+    "id": "hamlet_act4_scene6",
     "title": "Hamlet - Act 4, Scene 6 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 4, Scene 6 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 4, Scene 6",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "What does Horatio's letter from Hamlet reveal?",
+        "choices": [
+          "Hamlet is dead",
+          "Hamlet has been captured by pirates",
+          "Hamlet is returning to Denmark",
+          "Hamlet is happy in England"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "How does Hamlet's encounter with the pirates affect the plot?",
+        "choices": [
+          "It delays his return",
+          "It allows him to return to Denmark",
+          "It kills him",
+          "It makes him give up on revenge"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What does this scene reveal about Hamlet's resourcefulness?",
+        "choices": [
+          "He is helpless",
+          "He is clever and adaptable",
+          "He is lucky",
+          "He is foolish"
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does Hamlet's letter to Horatio demonstrate his continued trust in his friend?",
+        "maxPoints": 10
+      },
+      {
+        "q": "What does Hamlet's return to Denmark set up for the final act?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act4-scene6.html"
   },
   {
-    "id": "act4_scene7",
+    "id": "hamlet_act4_scene7",
     "title": "Hamlet - Act 4, Scene 7 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 4, Scene 7 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 4, Scene 7",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "What does Claudius tell Laertes about Hamlet's return?",
+        "choices": [
+          "Hamlet is innocent",
+          "Hamlet killed Polonius and must be punished",
+          "Hamlet is mad and harmless",
+          "Hamlet should be welcomed back"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What plan do Claudius and Laertes devise to kill Hamlet?",
+        "choices": [
+          "Poison his food",
+          "Challenge him to a duel with a poisoned sword",
+          "Push him off a cliff",
+          "Burn down his house"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What does this scene reveal about Claudius's manipulative nature?",
+        "choices": [
+          "He is honest and direct",
+          "He uses others to do his dirty work",
+          "He is afraid of Hamlet",
+          "He wants to help Laertes"
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does Claudius manipulate Laertes into becoming his ally against Hamlet?",
+        "maxPoints": 10
+      },
+      {
+        "q": "What does the plan to poison Hamlet reveal about the characters' desperation?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act4-scene7.html"
   },
   {
-    "id": "act5_scene1",
+    "id": "hamlet_act5_scene1",
     "title": "Hamlet - Act 5, Scene 1 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 5, Scene 1 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 5, Scene 1",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "What do the gravediggers' conversation reveal about death?",
+        "choices": [
+          "Death is frightening",
+          "Death is a natural part of life that can be discussed casually",
+          "Death is mysterious",
+          "Death is avoidable"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "How does Hamlet react when he learns that Ophelia is dead?",
+        "choices": [
+          "He is indifferent",
+          "He is devastated and jumps into her grave",
+          "He is happy",
+          "He doesn't believe it"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What does Hamlet's confrontation with Laertes at Ophelia's grave reveal?",
+        "choices": [
+          "They are friends",
+          "They are bitter enemies competing for Ophelia's love",
+          "They are indifferent to each other",
+          "They want to work together"
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does the gravediggers' scene provide comic relief while also addressing serious themes?",
+        "maxPoints": 10
+      },
+      {
+        "q": "What does Hamlet's reaction to Ophelia's death reveal about his true feelings for her?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act5-scene1.html"
   },
   {
-    "id": "act5_scene2",
+    "id": "hamlet_act5_scene2",
     "title": "Hamlet - Act 5, Scene 2 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 5, Scene 2 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 5, Scene 2",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "What happens during the final duel between Hamlet and Laertes?",
+        "choices": [
+          "Hamlet wins easily",
+          "Both are wounded by the poisoned sword, and Gertrude drinks poisoned wine",
+          "Laertes wins",
+          "The duel is called off"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "How does Hamlet finally achieve his revenge against Claudius?",
+        "choices": [
+          "He stabs him with the poisoned sword",
+          "He forces him to drink the poisoned wine",
+          "He kills him with his bare hands",
+          "He doesn't kill him"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What does Hamlet's final speech reveal about his character?",
+        "choices": [
+          "He regrets everything",
+          "He accepts his fate and asks Horatio to tell his story",
+          "He is angry and bitter",
+          "He is happy to die"
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does the final scene resolve the major conflicts of the play?",
+        "maxPoints": 10
+      },
+      {
+        "q": "What does Hamlet's request to Horatio reveal about the importance of storytelling and memory?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act5-scene2.html"
   }
 ]
