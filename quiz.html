@@ -7651,8 +7651,36 @@
                                             <h4 style="margin: 0 0 0.25rem 0; color: #6f5c91;">${roster.name}</h4>
                                             <p style="margin: 0; color: #666; font-size: 0.9rem;">
                                                 ${roster.roster ? roster.roster.length : 0} students • 
-                                                ${roster.teamMode === 'individual' ? 'Individual Mode' : 
-                                                  roster.teams ? `${roster.teams.length} Teams` : 'No Teams'}
+                                                ${(() => {
+                                                    // Check for explicit teams array
+                                                    if (roster.teams && roster.teams.length > 0) {
+                                                        return `${roster.teams.length} Teams`;
+                                                    }
+                                                    
+                                                    // Check for scenario-based teams
+                                                    if (roster.roster && roster.roster.length > 0) {
+                                                        const studentsWithTeams = roster.roster.filter(student => 
+                                                            student.teamId && student.teamName && student.teamColor
+                                                        );
+                                                        
+                                                        if (studentsWithTeams.length > 0) {
+                                                            const teamGroups = {};
+                                                            studentsWithTeams.forEach(student => {
+                                                                if (!teamGroups[student.teamId]) {
+                                                                    teamGroups[student.teamId] = [];
+                                                                }
+                                                                teamGroups[student.teamId].push(student);
+                                                            });
+                                                            
+                                                            const teamCount = Object.keys(teamGroups).length;
+                                                            if (teamCount >= 2) {
+                                                                return `${teamCount} Teams (Scenario)`;
+                                                            }
+                                                        }
+                                                    }
+                                                    
+                                                    return 'Individual Mode';
+                                                })()}
                                             </p>
                                             <p style="margin: 0; color: #999; font-size: 0.8rem;">
                                                 Last modified: ${roster.lastModified ? new Date(roster.lastModified).toLocaleString() : 'Unknown'}
@@ -7807,9 +7835,38 @@
         function showWarTeamMigrationModal() {
             // Get all rosters that have teams from Tornado War
             const allRosters = getAllQuizRosters();
-            const warRosters = allRosters.filter(roster => 
-                roster.teams && roster.teams.length > 0
-            );
+            
+            // Check for teams in two ways:
+            // 1. Explicit teams array (manual teams)
+            // 2. Scenario-based teams (students with teamId/teamName/teamColor)
+            const warRosters = allRosters.filter(roster => {
+                // Check for explicit teams array
+                if (roster.teams && roster.teams.length > 0) {
+                    return true;
+                }
+                
+                // Check for scenario-based teams (students with team assignments)
+                if (roster.roster && roster.roster.length > 0) {
+                    const studentsWithTeams = roster.roster.filter(student => 
+                        student.teamId && student.teamName && student.teamColor
+                    );
+                    
+                    // Group students by team to see if we have multiple teams
+                    const teamGroups = {};
+                    studentsWithTeams.forEach(student => {
+                        if (!teamGroups[student.teamId]) {
+                            teamGroups[student.teamId] = [];
+                        }
+                        teamGroups[student.teamId].push(student);
+                    });
+                    
+                    // Only consider it a team roster if we have 2+ teams with students
+                    const teamCount = Object.keys(teamGroups).length;
+                    return teamCount >= 2;
+                }
+                
+                return false;
+            });
             
             if (warRosters.length === 0) {
                 alert('No Tornado War rosters with teams found. Please create teams in Tornado War first!');
@@ -7933,21 +7990,51 @@
             const allRosters = getAllQuizRosters();
             const warRoster = allRosters.find(r => r.id === rosterId);
             
-            if (!warRoster || !warRoster.teams || warRoster.teams.length === 0) {
+            if (!warRoster) {
+                alert('Roster not found!');
+                return;
+            }
+            
+            let teams = [];
+            
+            // Check for explicit teams array first
+            if (warRoster.teams && warRoster.teams.length > 0) {
+                teams = warRoster.teams;
+            } else if (warRoster.roster && warRoster.roster.length > 0) {
+                // Create teams from scenario-based team assignments
+                const teamGroups = {};
+                warRoster.roster.forEach(student => {
+                    if (student.teamId && student.teamName && student.teamColor) {
+                        if (!teamGroups[student.teamId]) {
+                            teamGroups[student.teamId] = {
+                                id: student.teamId,
+                                name: student.teamName,
+                                color: student.teamColor,
+                                students: []
+                            };
+                        }
+                        teamGroups[student.teamId].students.push(student.name);
+                    }
+                });
+                
+                teams = Object.values(teamGroups);
+            }
+            
+            if (teams.length === 0) {
                 alert('No teams found in this roster!');
                 return;
             }
             
             // Update the current quiz roster data with team information
             if (quizRosterData) {
-                quizRosterData.teams = warRoster.teams;
+                quizRosterData.teams = teams;
                 quizRosterData.teamMode = true;
                 quizRosterData.migratedFrom = rosterId;
                 quizRosterData.lastModified = new Date().toISOString();
                 
                 // Assign students to teams based on the war roster
                 quizRosterData.roster.forEach(student => {
-                    const team = warRoster.teams.find(t => 
+                    const team = teams.find(t => 
                         t.students && t.students.includes(student.name)
                     );
                     if (team) {
@@ -7962,7 +8049,7 @@
             const teamAssignment = {
                 mode: 'teams',
                 rosterData: quizRosterData,
-                teams: warRoster.teams
+                teams: teams
             };
             
             // Apply the team assignment
@@ -7970,7 +8057,7 @@
             applyTeamAssignment();
             
             // Show success message
-            alert(`✅ Successfully imported ${warRoster.teams.length} teams from "${warRoster.name}"!\n\nTeams: ${warRoster.teams.map(t => t.name).join(', ')}`);
+            alert(`✅ Successfully imported ${teams.length} teams from "${warRoster.name}"!\n\nTeams: ${teams.map(t => t.name).join(', ')}`);
         }
         
         function showNoRostersModal() {
