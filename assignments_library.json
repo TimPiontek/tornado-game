@@ -2058,7 +2058,7 @@
     "file_path": "hamlet-unit/assignments/act1-scene1.html"
   },
   {
-    "id": "act1_scene2",
+    "id": "hamlet_act1_scene2",
     "title": "Hamlet - Act 1, Scene 2 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 1, Scene 2 covering key concepts and analysis.",
     "subject": "ELA",
@@ -2118,39 +2118,123 @@
     "file_path": "hamlet-unit/assignments/act1-scene2.html"
   },
   {
-    "id": "act1_scene3",
+    "id": "hamlet_act1_scene3",
     "title": "Hamlet - Act 1, Scene 3 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 1, Scene 3 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 1, Scene 3",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.9"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "Laertes warns Ophelia that Hamlet's \"will is not his own.\" What does he mean?",
+        "choices": [
+          "Hamlet is too immature to love.",
+          "Hamlet must marry for political reasons, not personal desire.",
+          "Hamlet is insane.",
+          "Hamlet is under Claudius's control."
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "Polonius tells Ophelia to \"tender yourself more dearly.\" What figurative technique is Shakespeare using?",
+        "choices": [
+          "Simile",
+          "Metaphor comparing Ophelia to an object of value",
+          "Hyperbole",
+          "Irony"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "When Polonius says to Laertes, \"To thine own self be true,\" what theme is being emphasized?",
+        "choices": [
+          "Honesty is always easy.",
+          "Personal integrity is central to navigating the world successfully.",
+          "Truth is subjective.",
+          "Only family loyalty matters."
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does Laertes's advice to Ophelia reflect gender expectations during the Elizabethan era?",
+        "maxPoints": 10
+      },
+      {
+        "q": "In what way does Polonius's treatment of Ophelia reveal his character?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act1-scene3.html"
   },
   {
-    "id": "act1_scene4",
+    "id": "hamlet_act1_scene4",
     "title": "Hamlet - Act 1, Scene 4 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 1, Scene 4 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 1, Scene 4",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "When Hamlet says, \"Something is rotten in the state of Denmark,\" what literary device is being used?",
+        "choices": [
+          "Metaphor",
+          "Simile",
+          "Alliteration",
+          "Personification"
+        ],
+        "answer": "A",
+        "points": 5
+      },
+      {
+        "q": "What does the ghost's appearance at midnight symbolize?",
+        "choices": [
+          "The end of the day",
+          "The supernatural and moral corruption",
+          "Hamlet's imagination",
+          "A practical joke"
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "How does Horatio's reaction to the ghost differ from Hamlet's?",
+        "choices": [
+          "Horatio is more excited than Hamlet.",
+          "Horatio is more skeptical and rational.",
+          "Horatio doesn't see the ghost.",
+          "Horatio is more frightened."
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "What does the ghost's silence suggest about its purpose?",
+        "maxPoints": 10
+      },
+      {
+        "q": "How does this scene establish the theme of appearance vs. reality?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act1-scene4.html"
   },
   {
