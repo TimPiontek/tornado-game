@@ -19994,6 +19994,414 @@ window.SCENARIOS = {
       { name: 'The Tavern', cost: 40, description: 'Where commoners gather and plot' },
       { name: 'The Crossroads', cost: 20, description: 'Where paths converge and decisions are made' }
     ],
+    sceneAssignments: {
+      'Act 1, Scene 1': {
+        title: 'The Ghost Appears',
+        description: 'The opening scene where the ghost of King Hamlet first appears to the guards.',
+        questions: [
+          {
+            type: 'multiple_choice',
+            question: 'Who first sees the ghost of King Hamlet?',
+            options: ['Horatio', 'Marcellus', 'Bernardo', 'Francisco'],
+            correct: 2,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Bernardo is the first to see the ghost, as he is on guard duty when the scene opens.'
+          },
+          {
+            type: 'short_answer',
+            question: 'What does the ghost\'s appearance suggest about the state of Denmark?',
+            answer: 'The ghost\'s appearance suggests that something is rotten in the state of Denmark, indicating political corruption and moral decay.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'The ghost\'s appearance is a supernatural sign that the natural order has been disrupted by Claudius\' murder of King Hamlet.'
+          },
+          {
+            type: 'analysis',
+            question: 'How does Shakespeare establish the atmosphere of mystery and foreboding in this opening scene?',
+            answer: 'Shakespeare uses darkness, cold weather, and the supernatural appearance of the ghost to create an atmosphere of mystery and foreboding.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'The setting of midnight, the cold weather, and the ghost\'s appearance all contribute to the ominous atmosphere that foreshadows the tragedy to come.'
+          }
+        ],
+        triggerEvent: 'The ghost appears and beckons to the guards, setting the supernatural tone for the play.'
+      },
+      'Act 1, Scene 2': {
+        title: 'The Court Scene',
+        description: 'Claudius addresses the court and Hamlet\'s first soliloquy reveals his inner turmoil.',
+        questions: [
+          {
+            type: 'multiple_choice',
+            question: 'What does Claudius announce in his first speech to the court?',
+            options: ['His marriage to Gertrude', 'His plan to invade Norway', 'His grief over King Hamlet\'s death', 'His suspicion of Hamlet'],
+            correct: 0,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Claudius announces his marriage to Gertrude, which is the source of Hamlet\'s distress.'
+          },
+          {
+            type: 'short_answer',
+            question: 'What does Hamlet\'s first soliloquy reveal about his state of mind?',
+            answer: 'Hamlet\'s soliloquy reveals his deep depression, disgust with the world, and suicidal thoughts.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'Hamlet expresses his desire to die and his disgust with the world, showing his psychological state after his father\'s death and mother\'s remarriage.'
+          },
+          {
+            type: 'analysis',
+            question: 'How does Shakespeare contrast Claudius\' public persona with Hamlet\'s private thoughts?',
+            answer: 'Claudius presents a confident, political facade while Hamlet reveals deep emotional turmoil and philosophical despair.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'The contrast between Claudius\' smooth political speech and Hamlet\'s raw emotional soliloquy highlights the difference between appearance and reality.'
+          }
+        ],
+        triggerEvent: 'Hamlet\'s soliloquy reveals his suicidal thoughts and disgust with the world.'
+      },
+      'Act 1, Scene 3': {
+        title: 'Polonius\' Advice',
+        description: 'Laertes departs for France and Polonius gives advice to both his children.',
+        questions: [
+          {
+            type: 'multiple_choice',
+            question: 'What advice does Polonius give to Laertes before he leaves for France?',
+            options: ['Be true to yourself', 'Neither a borrower nor a lender be', 'To thine own self be true', 'All of the above'],
+            correct: 3,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Polonius gives extensive advice including "Neither a borrower nor a lender be" and "To thine own self be true."'
+          },
+          {
+            type: 'short_answer',
+            question: 'How does Ophelia\'s relationship with Hamlet change in this scene?',
+            answer: 'Polonius forbids Ophelia from seeing Hamlet, claiming his love is not genuine.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'Polonius orders Ophelia to reject Hamlet\'s advances, believing Hamlet\'s love is false and will harm her reputation.'
+          },
+          {
+            type: 'analysis',
+            question: 'What does Polonius\' character reveal about his parenting style?',
+            answer: 'Polonius is overbearing and controlling, giving lengthy advice and making decisions for his children.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'His long-winded advice and immediate forbidding of Ophelia\'s relationship shows his controlling nature.'
+          }
+        ],
+        triggerEvent: 'Polonius forbids Ophelia from seeing Hamlet, creating a barrier between the lovers.'
+      },
+      'Act 1, Scene 4': {
+        title: 'The Ghost Speaks',
+        description: 'Hamlet meets the ghost of his father, who reveals the truth about his murder.',
+        questions: [
+          {
+            type: 'multiple_choice',
+            question: 'What does the ghost reveal to Hamlet about his death?',
+            options: ['He died of natural causes', 'He was murdered by Claudius', 'He committed suicide', 'He was killed in battle'],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'The ghost reveals that Claudius murdered him by pouring poison in his ear while he slept.'
+          },
+          {
+            type: 'short_answer',
+            question: 'What does the ghost ask Hamlet to do?',
+            answer: 'The ghost asks Hamlet to avenge his murder but to leave Gertrude to heaven.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'The ghost wants revenge against Claudius but tells Hamlet not to harm his mother.'
+          },
+          {
+            type: 'analysis',
+            question: 'How does this scene change Hamlet\'s understanding of his situation?',
+            answer: 'Hamlet now knows his father was murdered and feels compelled to seek revenge.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'This revelation transforms Hamlet from a grieving son to a man with a mission of revenge.'
+          }
+        ],
+        triggerEvent: 'The ghost reveals the truth about King Hamlet\'s murder, setting Hamlet on the path of revenge.'
+      },
+      'Act 1, Scene 5': {
+        title: 'Hamlet\'s Vow',
+        description: 'Hamlet swears his friends to secrecy and vows to avenge his father.',
+        questions: [
+          {
+            type: 'multiple_choice',
+            question: 'What does Hamlet make Horatio and Marcellus swear?',
+            options: ['To help him kill Claudius', 'To never speak of what they\'ve seen', 'To protect Ophelia', 'To leave Denmark'],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Hamlet makes them swear never to reveal what they\'ve seen with the ghost.'
+          },
+          {
+            type: 'short_answer',
+            question: 'How does Hamlet\'s behavior change after meeting the ghost?',
+            answer: 'Hamlet becomes secretive, paranoid, and begins to act strangely.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'He adopts an "antic disposition" and becomes suspicious of everyone around him.'
+          },
+          {
+            type: 'analysis',
+            question: 'What does Hamlet\'s vow reveal about his character?',
+            answer: 'Hamlet is deeply committed to justice and honor, willing to take on a dangerous mission.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'His willingness to seek revenge despite the risks shows his strong sense of duty and honor.'
+          }
+        ],
+        triggerEvent: 'Hamlet vows revenge and begins to act strangely, adopting an "antic disposition."'
+      },
+      'Act 2, Scene 1': {
+        title: 'Ophelia\'s Report',
+        description: 'Ophelia reports Hamlet\'s strange behavior to Polonius.',
+        questions: [
+          {
+            type: 'multiple_choice',
+            question: 'How does Hamlet appear when he visits Ophelia?',
+            options: ['Happy and cheerful', 'Disheveled and wild-eyed', 'Angry and violent', 'Calm and collected'],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Ophelia describes Hamlet as appearing disheveled and wild-eyed, suggesting madness.'
+          },
+          {
+            type: 'short_answer',
+            question: 'What does Polonius conclude about Hamlet\'s behavior?',
+            answer: 'Polonius believes Hamlet is mad with love for Ophelia.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'Polonius interprets Hamlet\'s strange behavior as love-sickness.'
+          },
+          {
+            type: 'analysis',
+            question: 'How does this scene contribute to the theme of appearance vs. reality?',
+            answer: 'Hamlet\'s feigned madness creates confusion about what is real and what is pretense.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'The audience knows Hamlet is pretending, but other characters believe he\'s truly mad.'
+          }
+        ],
+        triggerEvent: 'Ophelia reports Hamlet\'s strange behavior, convincing Polonius he\'s love-sick.'
+      },
+      'Act 2, Scene 2': {
+        title: 'The Spies Arrive',
+        description: 'Rosencrantz and Guildenstern arrive to spy on Hamlet.',
+        questions: [
+          {
+            type: 'multiple_choice',
+            question: 'Why do Rosencrantz and Guildenstern come to Elsinore?',
+            options: ['To visit Hamlet', 'To spy on Hamlet for Claudius', 'To attend the wedding', 'To study at the university'],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Claudius and Gertrude summon them to spy on Hamlet and discover the cause of his madness.'
+          },
+          {
+            type: 'short_answer',
+            question: 'How does Hamlet react to seeing his old friends?',
+            answer: 'Hamlet is initially happy to see them but quickly becomes suspicious of their motives.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'He welcomes them warmly but then questions why they\'ve come, showing his growing paranoia.'
+          },
+          {
+            type: 'analysis',
+            question: 'What does this scene reveal about the corruption in Denmark?',
+            answer: 'Even friendship is corrupted by political intrigue and spying.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'The fact that Hamlet\'s closest friends are willing to spy on him shows how pervasive the corruption is.'
+          }
+        ],
+        triggerEvent: 'Rosencrantz and Guildenstern arrive as spies, further isolating Hamlet.'
+      },
+      'Act 3, Scene 1': {
+        title: 'To Be or Not To Be',
+        description: 'Hamlet\'s famous soliloquy on life and death, followed by the "nunnery" scene with Ophelia.',
+        questions: [
+          {
+            type: 'multiple_choice',
+            question: 'What is the main question Hamlet poses in his "To be or not to be" soliloquy?',
+            options: ['Whether to kill Claudius', 'Whether to marry Ophelia', 'Whether to live or die', 'Whether to leave Denmark'],
+            correct: 2,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'The soliloquy is about the fundamental question of whether life is worth living.'
+          },
+          {
+            type: 'short_answer',
+            question: 'How does Hamlet treat Ophelia in the "nunnery" scene?',
+            answer: 'Hamlet is cruel and harsh to Ophelia, telling her to go to a nunnery.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'He rejects her love and tells her to become a nun, showing his growing misanthropy.'
+          },
+          {
+            type: 'analysis',
+            question: 'What does this scene reveal about Hamlet\'s psychological state?',
+            answer: 'Hamlet is deeply conflicted about life, death, and human relationships.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'His philosophical musings and cruel treatment of Ophelia show his inner turmoil.'
+          }
+        ],
+        triggerEvent: 'Hamlet delivers his most famous soliloquy and cruelly rejects Ophelia.'
+      },
+      'Act 3, Scene 2': {
+        title: 'The Mousetrap',
+        description: 'Hamlet stages a play to test Claudius\' guilt.',
+        questions: [
+          {
+            type: 'multiple_choice',
+            question: 'What is the name of the play Hamlet stages?',
+            options: ['The Murder of Gonzago', 'The Mousetrap', 'Both A and B', 'Neither A nor B'],
+            correct: 2,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'The play is called "The Murder of Gonzago" but Hamlet refers to it as "The Mousetrap."'
+          },
+          {
+            type: 'short_answer',
+            question: 'How does Claudius react to the play?',
+            answer: 'Claudius becomes agitated and leaves the play, confirming his guilt.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'His reaction proves to Hamlet that the ghost was telling the truth about the murder.'
+          },
+          {
+            type: 'analysis',
+            question: 'What does this scene demonstrate about Hamlet\'s intelligence?',
+            answer: 'Hamlet uses his intelligence and knowledge of theater to expose Claudius\' guilt.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'He cleverly uses art to reveal truth, showing his strategic thinking.'
+          }
+        ],
+        triggerEvent: 'The play confirms Claudius\' guilt, giving Hamlet proof to act.'
+      },
+      'Act 3, Scene 3': {
+        title: 'The Prayer Scene',
+        description: 'Hamlet finds Claudius praying and considers killing him.',
+        questions: [
+          {
+            type: 'multiple_choice',
+            question: 'Why doesn\'t Hamlet kill Claudius while he\'s praying?',
+            options: ['He\'s afraid', 'He wants Claudius to go to hell', 'He\'s interrupted', 'He changes his mind'],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Hamlet believes killing Claudius while praying would send him to heaven, not hell.'
+          },
+          {
+            type: 'short_answer',
+            question: 'What does this scene reveal about Hamlet\'s moral complexity?',
+            answer: 'Hamlet struggles with the moral implications of revenge and murder.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'His hesitation shows he\'s not simply a cold-blooded killer but someone wrestling with ethics.'
+          },
+          {
+            type: 'analysis',
+            question: 'How does this scene contribute to the play\'s themes?',
+            answer: 'It explores the complexity of justice, revenge, and moral action.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'The scene raises questions about when revenge is justified and what constitutes true justice.'
+          }
+        ],
+        triggerEvent: 'Hamlet hesitates to kill Claudius, missing his best opportunity for revenge.'
+      },
+      'Act 3, Scene 4': {
+        title: 'The Closet Scene',
+        description: 'Hamlet confronts Gertrude and accidentally kills Polonius.',
+        questions: [
+          {
+            type: 'multiple_choice',
+            question: 'Who does Hamlet kill in this scene?',
+            options: ['Claudius', 'Gertrude', 'Polonius', 'Ophelia'],
+            correct: 2,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Hamlet kills Polonius, thinking he\'s Claudius hiding behind the arras.'
+          },
+          {
+            type: 'short_answer',
+            question: 'What does Hamlet reveal to Gertrude about Claudius?',
+            answer: 'Hamlet tells Gertrude that Claudius murdered King Hamlet.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'He confronts her with the truth about her new husband\'s crime.'
+          },
+          {
+            type: 'analysis',
+            question: 'How does this scene escalate the conflict?',
+            answer: 'Polonius\' death makes Hamlet a murderer and gives Claudius justification to act against him.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'This accidental killing changes the dynamics and makes Hamlet\'s situation more dangerous.'
+          }
+        ],
+        triggerEvent: 'Hamlet accidentally kills Polonius, becoming a murderer himself.'
+      },
+      'Act 4, Scene 7': {
+        title: 'Ophelia\'s Death',
+        description: 'The news of Ophelia\'s drowning is reported.',
+        questions: [
+          {
+            type: 'multiple_choice',
+            question: 'How does Ophelia die?',
+            options: ['She is murdered', 'She drowns', 'She commits suicide', 'She dies of grief'],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Ophelia drowns after falling into a brook while gathering flowers.'
+          },
+          {
+            type: 'short_answer',
+            question: 'What does Ophelia\'s death symbolize?',
+            answer: 'Ophelia\'s death symbolizes the destruction of innocence and purity.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'Her death represents the loss of innocence in the corrupt world of the play.'
+          },
+          {
+            type: 'analysis',
+            question: 'How does Ophelia\'s death affect the other characters?',
+            answer: 'Her death deepens Laertes\' desire for revenge and adds to the play\'s tragic atmosphere.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'Her death becomes another catalyst for violence and revenge in the final act.'
+          }
+        ],
+        triggerEvent: 'Ophelia\'s death intensifies Laertes\' desire for revenge against Hamlet.'
+      },
+      'Act 5, Scene 1': {
+        title: 'The Graveyard Scene',
+        description: 'Hamlet and Horatio encounter gravediggers and Hamlet reflects on mortality.',
+        questions: [
+          {
+            type: 'multiple_choice',
+            question: 'What does Hamlet discover in the graveyard?',
+            options: ['His father\'s grave', 'Ophelia\'s grave', 'Yorick\'s skull', 'All of the above'],
+            correct: 3,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Hamlet encounters gravediggers, sees Yorick\'s skull, and learns of Ophelia\'s death.'
+          },
+          {
+            type: 'short_answer',
+            question: 'What does Yorick\'s skull represent to Hamlet?',
+            answer: 'Yorick\'s skull represents the inevitability of death and the futility of human existence.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'The skull of the court jester reminds Hamlet that death comes to everyone, regardless of status.'
+          },
+          {
+            type: 'analysis',
+            question: 'How does this scene prepare for the play\'s conclusion?',
+            answer: 'The scene emphasizes mortality and prepares the audience for the final tragedy.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'The meditation on death sets the philosophical tone for the final act\'s violence.'
+          }
+        ],
+        triggerEvent: 'Hamlet\'s encounter with Yorick\'s skull deepens his understanding of mortality.'
+      },
+      'Act 5, Scene 2': {
+        title: 'The Final Duel',
+        description: 'The climactic scene where Hamlet, Laertes, Claudius, and Gertrude all die.',
+        questions: [
+          {
+            type: 'multiple_choice',
+            question: 'How does Hamlet finally kill Claudius?',
+            options: ['With a sword', 'With poison', 'With a dagger', 'He doesn\'t kill him'],
+            correct: 1,
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.1',
+            explanation: 'Hamlet forces Claudius to drink the poisoned wine that was meant for him.'
+          },
+          {
+            type: 'short_answer',
+            question: 'What does Hamlet\'s final act accomplish?',
+            answer: 'Hamlet achieves his revenge but at the cost of his own life and many others.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.2',
+            explanation: 'He fulfills his duty to his father but the cost is the destruction of the entire royal family.'
+          },
+          {
+            type: 'analysis',
+            question: 'How does the play\'s ending reflect its themes?',
+            answer: 'The ending shows that revenge leads to destruction and that corruption spreads to all.',
+            standard: 'CCSS.ELA-LITERACY.RL.11-12.3',
+            explanation: 'The tragic ending demonstrates the destructive power of revenge and the inevitability of consequences.'
+          }
+        ],
+        triggerEvent: 'The final duel results in the death of all major characters, completing the tragedy.'
+      }
+    },
     economy: {
       startingMoney: 1000,
       incomePerTurn: 100,

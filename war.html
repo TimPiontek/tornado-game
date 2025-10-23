@@ -633,6 +633,233 @@
           }
         }
       ]
+    },
+    'hamlet': {
+      name: 'Hamlet',
+      scenes: [
+        {
+          id: 'act1_scene1',
+          name: 'Act 1, Scene 1: The Ghost Appears',
+          description: 'The ghost of King Hamlet appears to the guards, setting the supernatural tone for the play.',
+          effects: {
+            character_points: [
+              { character: 'Bernardo', points: 15, reason: 'First to see the ghost and report it' },
+              { character: 'Marcellus', points: 12, reason: 'Witnessed the ghost and confirmed its appearance' },
+              { character: 'Horatio', points: 10, reason: 'Skeptical scholar who confirms the supernatural event' }
+            ],
+            team_points: [
+              { team: 'Hamlet\'s Loyalists', points: 25, reason: 'Supernatural confirmation of King Hamlet\'s murder' },
+              { team: 'Claudius\' Court', points: -10, reason: 'Ghost\'s appearance threatens their secret' }
+            ]
+          }
+        },
+        {
+          id: 'act1_scene2',
+          name: 'Act 1, Scene 2: The Court Scene',
+          description: 'Claudius addresses the court and Hamlet\'s first soliloquy reveals his inner turmoil.',
+          effects: {
+            character_points: [
+              { character: 'Claudius', points: 20, reason: 'Successfully addresses the court and announces marriage' },
+              { character: 'Hamlet', points: 15, reason: 'Expresses deep philosophical thoughts in soliloquy' },
+              { character: 'Gertrude', points: 8, reason: 'Shows concern for Hamlet\'s wellbeing' }
+            ],
+            team_points: [
+              { team: 'Claudius\' Court', points: 28, reason: 'Successful court address and political maneuvering' },
+              { team: 'Hamlet\'s Loyalists', points: 15, reason: 'Hamlet\'s intellectual depth and moral awareness' }
+            ]
+          }
+        },
+        {
+          id: 'act1_scene3',
+          name: 'Act 1, Scene 3: Polonius\' Advice',
+          description: 'Laertes departs for France and Polonius gives advice to both his children.',
+          effects: {
+            character_points: [
+              { character: 'Polonius', points: 18, reason: 'Provides extensive fatherly advice and wisdom' },
+              { character: 'Laertes', points: 12, reason: 'Receives guidance for his journey to France' },
+              { character: 'Ophelia', points: 8, reason: 'Follows her father\'s instructions obediently' }
+            ],
+            team_points: [
+              { team: 'Claudius\' Court', points: 20, reason: 'Polonius\' wisdom strengthens court stability' }
+            ]
+          }
+        },
+        {
+          id: 'act1_scene4',
+          name: 'Act 1, Scene 4: The Ghost Speaks',
+          description: 'Hamlet meets the ghost of his father, who reveals the truth about his murder.',
+          effects: {
+            character_points: [
+              { character: 'Hamlet', points: 25, reason: 'Learns the truth about his father\'s murder' },
+              { character: 'The Ghost', points: 20, reason: 'Reveals crucial information about the murder' },
+              { character: 'Horatio', points: 10, reason: 'Supports Hamlet during the supernatural encounter' }
+            ],
+            team_points: [
+              { team: 'Hamlet\'s Loyalists', points: 35, reason: 'Truth revealed, mission of revenge begins' },
+              { team: 'Claudius\' Court', points: -20, reason: 'Secret exposed, threat to power revealed' }
+            ]
+          }
+        },
+        {
+          id: 'act1_scene5',
+          name: 'Act 1, Scene 5: Hamlet\'s Vow',
+          description: 'Hamlet swears his friends to secrecy and vows to avenge his father.',
+          effects: {
+            character_points: [
+              { character: 'Hamlet', points: 22, reason: 'Makes solemn vow of revenge and adopts antic disposition' },
+              { character: 'Horatio', points: 15, reason: 'Swears loyalty and secrecy to Hamlet' },
+              { character: 'Marcellus', points: 12, reason: 'Pledges support to Hamlet\'s cause' }
+            ],
+            team_points: [
+              { team: 'Hamlet\'s Loyalists', points: 30, reason: 'Unified in the mission of revenge' }
+            ]
+          }
+        },
+        {
+          id: 'act2_scene1',
+          name: 'Act 2, Scene 1: Ophelia\'s Report',
+          description: 'Ophelia reports Hamlet\'s strange behavior to Polonius.',
+          effects: {
+            character_points: [
+              { character: 'Ophelia', points: 15, reason: 'Reports Hamlet\'s strange behavior accurately' },
+              { character: 'Polonius', points: 12, reason: 'Interprets Hamlet\'s behavior as love-sickness' },
+              { character: 'Hamlet', points: 8, reason: 'Successfully feigns madness to confuse enemies' }
+            ],
+            team_points: [
+              { team: 'Claudius\' Court', points: 18, reason: 'Gains intelligence about Hamlet\'s condition' }
+            ]
+          }
+        },
+        {
+          id: 'act2_scene2',
+          name: 'Act 2, Scene 2: The Spies Arrive',
+          description: 'Rosencrantz and Guildenstern arrive to spy on Hamlet.',
+          effects: {
+            character_points: [
+              { character: 'Rosencrantz', points: 15, reason: 'Arrives to spy on Hamlet for the king' },
+              { character: 'Guildenstern', points: 15, reason: 'Supports Rosencrantz in spying mission' },
+              { character: 'Hamlet', points: 10, reason: 'Becomes suspicious of his old friends' }
+            ],
+            team_points: [
+              { team: 'Claudius\' Court', points: 20, reason: 'Deploys spies to gather intelligence' },
+              { team: 'Hamlet\'s Loyalists', points: -5, reason: 'Hamlet becomes more isolated' }
+            ]
+          }
+        },
+        {
+          id: 'act3_scene1',
+          name: 'Act 3, Scene 1: To Be or Not To Be',
+          description: 'Hamlet\'s famous soliloquy on life and death, followed by the "nunnery" scene with Ophelia.',
+          effects: {
+            character_points: [
+              { character: 'Hamlet', points: 30, reason: 'Delivers the most famous soliloquy in literature' },
+              { character: 'Ophelia', points: 8, reason: 'Endures Hamlet\'s cruel rejection' },
+              { character: 'Polonius', points: 5, reason: 'Witnesses Hamlet\'s strange behavior' }
+            ],
+            team_points: [
+              { team: 'Hamlet\'s Loyalists', points: 25, reason: 'Hamlet\'s philosophical depth and intelligence' },
+              { team: 'Claudius\' Court', points: 8, reason: 'Gains evidence of Hamlet\'s madness' }
+            ]
+          }
+        },
+        {
+          id: 'act3_scene2',
+          name: 'Act 3, Scene 2: The Mousetrap',
+          description: 'Hamlet stages a play to test Claudius\' guilt.',
+          effects: {
+            character_points: [
+              { character: 'Hamlet', points: 28, reason: 'Successfully uses theater to expose Claudius' },
+              { character: 'The Players', points: 15, reason: 'Perform the play that reveals the truth' },
+              { character: 'Claudius', points: -10, reason: 'Reveals guilt through his reaction to the play' }
+            ],
+            team_points: [
+              { team: 'Hamlet\'s Loyalists', points: 35, reason: 'Successfully exposes Claudius\' guilt' },
+              { team: 'Claudius\' Court', points: -15, reason: 'King\'s guilt exposed, power threatened' }
+            ]
+          }
+        },
+        {
+          id: 'act3_scene3',
+          name: 'Act 3, Scene 3: The Prayer Scene',
+          description: 'Hamlet finds Claudius praying and considers killing him.',
+          effects: {
+            character_points: [
+              { character: 'Hamlet', points: 20, reason: 'Shows moral complexity by hesitating to kill Claudius' },
+              { character: 'Claudius', points: 12, reason: 'Attempts to pray and seek forgiveness' }
+            ],
+            team_points: [
+              { team: 'Hamlet\'s Loyalists', points: 15, reason: 'Hamlet\'s moral integrity and strategic thinking' },
+              { team: 'Claudius\' Court', points: 8, reason: 'Claudius survives the assassination attempt' }
+            ]
+          }
+        },
+        {
+          id: 'act3_scene4',
+          name: 'Act 3, Scene 4: The Closet Scene',
+          description: 'Hamlet confronts Gertrude and accidentally kills Polonius.',
+          effects: {
+            character_points: [
+              { character: 'Hamlet', points: 25, reason: 'Confronts Gertrude with the truth about Claudius' },
+              { character: 'Polonius', points: -20, reason: 'Killed while spying on Hamlet' },
+              { character: 'Gertrude', points: 10, reason: 'Learns the truth about Claudius\' crime' }
+            ],
+            team_points: [
+              { team: 'Hamlet\'s Loyalists', points: 20, reason: 'Hamlet reveals truth to Gertrude' },
+              { team: 'Claudius\' Court', points: -15, reason: 'Polonius killed, court weakened' }
+            ]
+          }
+        },
+        {
+          id: 'act4_scene7',
+          name: 'Act 4, Scene 7: Ophelia\'s Death',
+          description: 'The news of Ophelia\'s drowning is reported.',
+          effects: {
+            character_points: [
+              { character: 'Ophelia', points: 15, reason: 'Her death symbolizes the loss of innocence' },
+              { character: 'Laertes', points: 20, reason: 'Grief and rage fuel his desire for revenge' },
+              { character: 'Gertrude', points: 8, reason: 'Reports Ophelia\'s death with poetic beauty' }
+            ],
+            team_points: [
+              { team: 'Claudius\' Court', points: 25, reason: 'Ophelia\'s death gives Laertes motive for revenge' },
+              { team: 'Hamlet\'s Loyalists', points: -10, reason: 'Hamlet loses his love and gains a new enemy' }
+            ]
+          }
+        },
+        {
+          id: 'act5_scene1',
+          name: 'Act 5, Scene 1: The Graveyard Scene',
+          description: 'Hamlet and Horatio encounter gravediggers and Hamlet reflects on mortality.',
+          effects: {
+            character_points: [
+              { character: 'Hamlet', points: 25, reason: 'Deep philosophical reflection on mortality with Yorick\'s skull' },
+              { character: 'Horatio', points: 12, reason: 'Supports Hamlet during his meditation on death' },
+              { character: 'Laertes', points: 15, reason: 'Confronts Hamlet at Ophelia\'s grave' }
+            ],
+            team_points: [
+              { team: 'Hamlet\'s Loyalists', points: 20, reason: 'Hamlet\'s philosophical depth and acceptance of mortality' },
+              { team: 'Claudius\' Court', points: 15, reason: 'Laertes\' confrontation escalates tensions' }
+            ]
+          }
+        },
+        {
+          id: 'act5_scene2',
+          name: 'Act 5, Scene 2: The Final Duel',
+          description: 'The climactic scene where Hamlet, Laertes, Claudius, and Gertrude all die.',
+          effects: {
+            character_points: [
+              { character: 'Hamlet', points: 35, reason: 'Achieves revenge but sacrifices his own life' },
+              { character: 'Claudius', points: -30, reason: 'Finally killed by Hamlet, justice served' },
+              { character: 'Laertes', points: 20, reason: 'Dies seeking revenge for his family' },
+              { character: 'Gertrude', points: 15, reason: 'Dies from poisoned wine meant for Hamlet' },
+              { character: 'Horatio', points: 25, reason: 'Survives to tell the story and honor Hamlet' }
+            ],
+            team_points: [
+              { team: 'Hamlet\'s Loyalists', points: 40, reason: 'Hamlet achieves his mission, Horatio survives to tell the tale' },
+              { team: 'Claudius\' Court', points: -35, reason: 'All major court figures die, corruption ends' }
+            ]
+          }
+        }
+      ]
     }
   };
 
