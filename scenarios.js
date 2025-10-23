@@ -12922,6 +12922,199 @@ window.SCENARIOS = {
 
   // ROMEO AND JULIET SCENARIO
   romeoAndJuliet: {
+  strategic: {
+    name: 'Strategic',
+    description: 'Makes calculated moves based on long-term goals',
+    behaviors: ['defensive', 'economic', 'expansion'],
+    moveFrequency: 0.8
+  },
+  aggressive: {
+    name: 'Aggressive',
+    description: 'Prefers attacking and taking risks',
+    behaviors: ['offensive', 'expansion', 'military'],
+    moveFrequency: 0.9
+  },
+  defensive: {
+    name: 'Defensive',
+    description: 'Focuses on protecting existing territories',
+    behaviors: ['defensive', 'economic', 'fortification'],
+    moveFrequency: 0.6
+  },
+  diplomatic: {
+    name: 'Diplomatic',
+    description: 'Prefers negotiation and alliances',
+    behaviors: ['economic', 'diplomatic', 'defensive'],
+    moveFrequency: 0.7
+  },
+  intellectual: {
+    name: 'Intellectual',
+    description: 'Makes thoughtful, well-reasoned decisions',
+    behaviors: ['economic', 'strategic', 'defensive'],
+    moveFrequency: 0.75
+  },
+  swift: {
+    name: 'Swift',
+    description: 'Acts quickly and decisively',
+    behaviors: ['offensive', 'expansion', 'military'],
+    moveFrequency: 0.95
+  },
+  argumentative: {
+    name: 'Argumentative',
+    description: 'Challenges others and defends positions',
+    behaviors: ['offensive', 'defensive', 'military'],
+    moveFrequency: 0.8
+  },
+  authoritarian: {
+    name: 'Authoritarian',
+    description: 'Seeks to control and dominate',
+    behaviors: ['offensive', 'military', 'expansion'],
+    moveFrequency: 0.85
+  },
+  military: {
+    name: 'Military',
+    description: 'Focuses on military strength and conquest',
+    behaviors: ['offensive', 'military', 'expansion'],
+    moveFrequency: 0.9
+  },
+  naval: {
+    name: 'Naval',
+    description: 'Prefers naval strategies and coastal control',
+    behaviors: ['naval', 'expansion', 'defensive'],
+    moveFrequency: 0.8
+  },
+  political: {
+    name: 'Political',
+    description: 'Uses political maneuvering and policy',
+    behaviors: ['diplomatic', 'economic', 'defensive'],
+    moveFrequency: 0.7
+  },
+  treacherous: {
+    name: 'Treacherous',
+    description: 'Unpredictable and willing to betray',
+    behaviors: ['offensive', 'military', 'unpredictable'],
+    moveFrequency: 0.6
+  },
+  unifying: {
+    name: 'Unifying',
+    description: 'Brings people together and builds consensus',
+    behaviors: ['diplomatic', 'defensive', 'economic'],
+    moveFrequency: 0.75
+  },
+  persistent: {
+    name: 'Persistent',
+    description: 'Never gives up and keeps trying',
+    behaviors: ['offensive', 'military', 'defensive'],
+    moveFrequency: 0.85
+  },
+  destructive: {
+    name: 'Destructive',
+    description: 'Seeks to destroy enemy capabilities',
+    behaviors: ['offensive', 'military', 'aggressive'],
+    moveFrequency: 0.9
+  },
+  brave: {
+    name: 'Brave',
+    description: 'Takes risks for noble causes',
+    behaviors: ['offensive', 'military', 'expansion'],
+    moveFrequency: 0.8
+  },
+  eloquent: {
+    name: 'Eloquent',
+    description: 'Uses words as weapons',
+    behaviors: ['diplomatic', 'economic', 'defensive'],
+    moveFrequency: 0.7
+  },
+  honorable: {
+    name: 'Honorable',
+    description: 'Fights with honor and integrity',
+    behaviors: ['defensive', 'military', 'diplomatic'],
+    moveFrequency: 0.75
+  },
+  dashing: {
+    name: 'Dashing',
+    description: 'Bold and flamboyant in tactics',
+    behaviors: ['offensive', 'military', 'expansion'],
+    moveFrequency: 0.85
+  },
+  ruthless: {
+    name: 'Ruthless',
+    description: 'Shows no mercy to enemies',
+    behaviors: ['offensive', 'military', 'aggressive'],
+    moveFrequency: 0.9
+  },
+  ambitious: {
+    name: 'Ambitious',
+    description: 'Seeks power and glory',
+    behaviors: ['offensive', 'expansion', 'military'],
+    moveFrequency: 0.85
+  },
+  passionate: {
+    name: 'Passionate',
+    description: 'Fights with emotion and intensity',
+    behaviors: ['offensive', 'military', 'expansion'],
+    moveFrequency: 0.8
+  },
+  cunning: {
+    name: 'Cunning',
+    description: 'Uses clever tactics and deception',
+    behaviors: ['strategic', 'offensive', 'military'],
+    moveFrequency: 0.8
+  },
+  calculating: {
+    name: 'Calculating',
+    description: 'Makes precise, measured decisions',
+    behaviors: ['strategic', 'economic', 'defensive'],
+    moveFrequency: 0.75
+  },
+  idealistic: {
+    name: 'Idealistic',
+    description: 'Fights for principles and ideals',
+    behaviors: ['defensive', 'diplomatic', 'economic'],
+    moveFrequency: 0.7
+  },
+  envious: {
+    name: 'Envious',
+    description: 'Motivated by jealousy and resentment',
+    behaviors: ['offensive', 'military', 'aggressive'],
+    moveFrequency: 0.8
+  },
+  tyrannical: {
+    name: 'Tyrannical',
+    description: 'Rules through fear and oppression',
+    behaviors: ['offensive', 'military', 'authoritarian'],
+    moveFrequency: 0.9
+  },
+  manipulative: {
+    name: 'Manipulative',
+    description: 'Controls others through deception',
+    behaviors: ['diplomatic', 'strategic', 'offensive'],
+    moveFrequency: 0.8
+  },
+  loyal: {
+    name: 'Loyal',
+    description: 'Faithful to allies and causes',
+    behaviors: ['defensive', 'military', 'economic'],
+    moveFrequency: 0.75
+  },
+  cynical: {
+    name: 'Cynical',
+    description: 'Distrustful and pessimistic',
+    behaviors: ['defensive', 'economic', 'strategic'],
+    moveFrequency: 0.6
+  },
+  caring: {
+    name: 'Caring',
+    description: 'Protects and nurtures others',
+    behaviors: ['defensive', 'economic', 'diplomatic'],
+    moveFrequency: 0.7
+  },
+  selfish: {
+    name: 'Selfish',
+    description: 'Pursues personal gain above all',
+    behaviors: ['economic', 'offensive', 'strategic'],
+    moveFrequency: 0.8
+  }
+},
 
   // ROMEO AND JULIET SCENARIO
   romeoAndJuliet: {
@@ -18926,104 +19119,8 @@ window.SCENARIOS = {
       { name: 'Billboard', cost: 80, description: 'Charts' },
       { name: 'MTV', cost: 75, description: 'TV' }
     ]
-  }
-};
+  },
 
-console.log('SCENARIOS object defined with', Object.keys(SCENARIOS).length, 'scenarios');
-console.log('Available scenarios:', Object.keys(SCENARIOS).slice(0, 10));
-
-// AI Personality Types and Behaviors
-const AI_PERSONALITIES = {
-  strategic: {
-    name: 'Strategic',
-    description: 'Makes calculated moves based on long-term goals',
-    behaviors: ['defensive', 'economic', 'expansion'],
-    moveFrequency: 0.8
-  },
-  aggressive: {
-    name: 'Aggressive',
-    description: 'Attacks frequently and takes risks',
-    behaviors: ['offensive', 'military', 'expansion'],
-    moveFrequency: 0.9
-  },
-  defensive: {
-    name: 'Defensive',
-    description: 'Focuses on protecting territory and building up',
-    behaviors: ['defensive', 'economic', 'diplomatic'],
-    moveFrequency: 0.6
-  },
-  economic: {
-    name: 'Economic',
-    description: 'Prioritizes resource gathering and trade',
-    behaviors: ['economic', 'defensive', 'diplomatic'],
-    moveFrequency: 0.7
-  },
-  diplomatic: {
-    name: 'Diplomatic',
-    description: 'Seeks alliances and avoids conflict when possible',
-    behaviors: ['diplomatic', 'defensive', 'economic'],
-    moveFrequency: 0.5
-  },
-  military: {
-    name: 'Military',
-    description: 'Focuses on building armies and conquest',
-    behaviors: ['military', 'offensive', 'expansion'],
-    moveFrequency: 0.8
-  },
-  expansionist: {
-    name: 'Expansionist',
-    description: 'Seeks to control as much territory as possible',
-    behaviors: ['expansion', 'offensive', 'military'],
-    moveFrequency: 0.9
-  },
-  cautious: {
-    name: 'Cautious',
-    description: 'Makes conservative moves and avoids risks',
-    behaviors: ['defensive', 'economic', 'diplomatic'],
-    moveFrequency: 0.4
-  },
-  opportunistic: {
-    name: 'Opportunistic',
-    description: 'Takes advantage of weaknesses and opportunities',
-    behaviors: ['offensive', 'economic', 'strategic'],
-    moveFrequency: 0.7
-  },
-  idealistic: {
-    name: 'Idealistic',
-    description: 'Fights for principles and ideals',
-    behaviors: ['defensive', 'diplomatic', 'economic'],
-    moveFrequency: 0.7
-  },
-  envious: {
-    name: 'Envious',
-    description: 'Motivated by jealousy and resentment',
-    behaviors: ['offensive', 'military', 'aggressive'],
-    moveFrequency: 0.8
-  },
-  tyrannical: {
-    name: 'Tyrannical',
-    description: 'Rules through fear and oppression',
-    behaviors: ['offensive', 'military', 'authoritarian'],
-    moveFrequency: 0.9
-  },
-  manipulative: {
-    name: 'Manipulative',
-    description: 'Controls others through deception',
-    behaviors: ['diplomatic', 'economic', 'strategic'],
-    moveFrequency: 0.8
-  },
-  caring: {
-    name: 'Caring',
-    description: 'Protects and nurtures others',
-    behaviors: ['defensive', 'economic', 'diplomatic'],
-    moveFrequency: 0.7
-  },
-  selfish: {
-    name: 'Selfish',
-    description: 'Pursues personal gain above all',
-    behaviors: ['economic', 'offensive', 'strategic'],
-    moveFrequency: 0.8
-  },
 
   // FORTNITE VS MINECRAFT
   fortniteVsMinecraft: {
@@ -19680,20 +19777,7 @@ const AI_PERSONALITIES = {
       { name: 'Empire State Building', cost: 80, description: 'Olympus entrance' },
       { name: 'Underworld Gates', cost: 75, description: 'Death\'s door' }
     ]
-  }
-};
-
-// EVENT CARDS SYSTEM
-const EVENT_CARDS = {
-  historical: {
-    americanRevolution: [
-      {
-        id: 'boston_tea_party',
-        name: 'Boston Tea Party',
-      }
-    ]
   },
-
   // MACBETH SCENARIO
   macbeth: {
     id: 'macbeth',
@@ -19823,133 +19907,106 @@ const EVENT_CARDS = {
     ]
   },
 
-  // HAMLET SCENARIO
   hamlet: {
     id: 'hamlet',
-    name: 'Hamlet (William Shakespeare)',
+    name: 'Hamlet',
+    scenarioName: 'Hamlet',
     type: 'literary',
-    description: 'A Danish prince\'s quest for revenge and justice in a corrupt court filled with deception and madness.',
+    description: 'The tragedy of Prince Hamlet\'s quest for revenge and truth in the court of Denmark',
     inspirationalQuote: {
       text: "To be, or not to be, that is the question.",
       author: "William Shakespeare",
-      context: "Hamlet"
+      context: "Hamlet, Act III, Scene I"
     },
-    factionOrder: ['hamlet', 'claudius'],
+    factionOrder: ['hamletLoyalists', 'claudiusCourt'],
     factions: {
-      hamlet: {
-        name: 'Hamlet\'s Forces',
-        color: '#1e40af', // Blue
-        description: 'The prince and his allies seeking justice',
+      hamletLoyalists: {
+        name: 'Hamlet\'s Loyalists',
+        color: '#1e40af',
+        description: 'Aligned with truth, legacy, and justice',
         territories: [
-          { name: 'Elsinore Castle', cost: 25, description: 'Royal fortress' },
-          { name: 'Hamlet\'s Chamber', cost: 20, description: 'Prince\'s quarters' },
-          { name: 'Ophelia\'s Garden', cost: 15, description: 'Flower garden' },
-          { name: 'Hamlet\'s Study', cost: 18, description: 'Philosophy room' },
-          { name: 'Hamlet\'s Armory', cost: 16, description: 'Weapons & armor' },
-          { name: 'Hamlet\'s Library', cost: 14, description: 'Books & scrolls' },
-          { name: 'Hamlet\'s Theater', cost: 12, description: 'Play within play' },
-          { name: 'Hamlet\'s Crypt', cost: 10, description: 'Graveyard' },
-          { name: 'Hamlet\'s Chapel', cost: 8, description: 'Prayer room' },
-          { name: 'Hamlet\'s Courtyard', cost: 6, description: 'Outdoor space' }
+          { name: 'Hamlet\'s Quarters', cost: 85, description: 'Hamlet\'s private space - psychological center of resistance' },
+          { name: 'The Ghost\'s Platform', cost: 90, description: 'Where the truth is revealed; tied to the old king' },
+          { name: 'Graveyard', cost: 80, description: 'Symbol of mortality and philosophical power' },
+          { name: 'Wittenberg University', cost: 75, description: 'Represents Hamlet\'s intellect and allies abroad' },
+          { name: 'Old King\'s Mausoleum', cost: 88, description: 'Legacy and spiritual power of his father' },
+          { name: 'Forest Path Outside Elsinore', cost: 70, description: 'Space of reflection and plotting' },
+          { name: 'Horatio\'s Study', cost: 65, description: 'Hamlet\'s trusted friend and confidant' },
+          { name: 'Fortinbras\' Camp', cost: 60, description: 'External threat and foil to Hamlet' },
+          { name: 'Ophelia\'s Garden', cost: 55, description: 'Symbol of innocence and lost love' },
+          { name: 'The Players\' Stage', cost: 50, description: 'Where truth is performed and revealed' },
+          { name: 'Polonius\' Library', cost: 45, description: 'Wisdom and foolishness intertwined' },
+          { name: 'The Chapel', cost: 40, description: 'Spiritual refuge and moral center' },
+          { name: 'The Armory', cost: 35, description: 'Weapons and preparation for conflict' },
+          { name: 'The Observatory', cost: 30, description: 'Philosophical contemplation and stargazing' },
+          { name: 'The Courtyard', cost: 25, description: 'Public space where tensions play out' },
+          { name: 'The Secret Passage', cost: 20, description: 'Hidden routes and covert operations' }
         ],
         characters: [
-          {
-            name: 'Hamlet',
-            role: 'Melancholy Prince',
-            startingCoins: 95,
-            startingWeapons: ['sword'],
-            startingMercenaries: 5,
-            startingCastles: 2,
-            personality: 'melancholic',
-            quotes: [
-              "To be, or not to be, that is the question.",
-              "Something is rotten in the state of Denmark.",
-              "The lady doth protest too much.",
-              "There are more things in heaven and earth.",
-              "The rest is silence."
-            ],
-            description: 'A Danish prince consumed by grief and seeking revenge for his father\'s murder.'
-          },
-          {
-            name: 'Horatio',
-            role: 'Loyal Friend',
-            startingCoins: 70,
-            startingWeapons: ['dagger'],
-            startingMercenaries: 3,
-            startingCastles: 1,
-            personality: 'loyal',
-            quotes: [
-              "There are more things in heaven and earth, Horatio.",
-              "Now cracks a noble heart.",
-              "Good night, sweet prince.",
-              "I am more an antique Roman than a Dane.",
-              "He was a man, take him for all in all."
-            ],
-            description: 'Hamlet\'s loyal friend and confidant.'
-          }
+          { name: 'Hamlet', role: 'Prince', startingCoins: 100, startingWeapons: ['sword'], startingMercenaries: 3, startingCastles: 1, personality: 'intellectual', quotes: ['To be or not to be!'], description: 'The melancholy prince seeking truth and justice' },
+          { name: 'Horatio', role: 'Friend', startingCoins: 90, startingWeapons: ['dagger'], startingMercenaries: 2, startingCastles: 1, personality: 'loyal', quotes: ['Goodnight, sweet prince'], description: 'Hamlet\'s loyal friend and confidant' },
+          { name: 'The Ghost', role: 'Spirit', startingCoins: 85, startingWeapons: ['specter'], startingMercenaries: 1, startingCastles: 1, personality: 'persistent', quotes: ['Remember me!'], description: 'Hamlet\'s father seeking justice from beyond' },
+          { name: 'Fortinbras', role: 'Prince', startingCoins: 80, startingWeapons: ['army'], startingMercenaries: 3, startingCastles: 1, personality: 'military', quotes: ['Forward to Denmark!'], description: 'Norwegian prince - external threat and foil' },
+          { name: 'The Players', role: 'Actors', startingCoins: 75, startingWeapons: ['performance'], startingMercenaries: 2, startingCastles: 1, personality: 'eloquent', quotes: ['The play\'s the thing!'], description: 'Actors who help reveal truth through performance' },
+          { name: 'Ophelia', role: 'Lady', startingCoins: 70, startingWeapons: ['flowers'], startingMercenaries: 1, startingCastles: 1, personality: 'caring', quotes: ['Goodnight ladies'], description: 'Hamlet\'s love - innocent victim of court intrigue' },
+          { name: 'Polonius', role: 'Chamberlain', startingCoins: 65, startingWeapons: ['counsel'], startingMercenaries: 2, startingCastles: 1, personality: 'argumentative', quotes: ['To thine own self be true'], description: 'Lord Chamberlain - wise but foolish' },
+          { name: 'Laertes', role: 'Noble', startingCoins: 60, startingWeapons: ['rapier'], startingMercenaries: 2, startingCastles: 1, personality: 'passionate', quotes: ['I am satisfied in nature'], description: 'Ophelia\'s brother - seeks revenge' }
         ]
       },
-      claudius: {
-        name: 'Claudius\' Forces',
-        color: '#dc2626', // Red
-        description: 'The usurper king and his court',
+      claudiusCourt: {
+        name: 'Claudius\' Court',
+        color: '#dc2626',
+        description: 'The corrupt court seeking to maintain power',
         territories: [
-          { name: 'Claudius\' Throne Room', cost: 25, description: 'Royal court' },
-          { name: 'Gertrude\'s Chamber', cost: 20, description: 'Queen\'s quarters' },
-          { name: 'Claudius\' Council', cost: 18, description: 'Political meetings' },
-          { name: 'Claudius\' Armory', cost: 16, description: 'Royal weapons' },
-          { name: 'Claudius\' Treasury', cost: 14, description: 'Kingdom wealth' },
-          { name: 'Claudius\' Dungeons', cost: 12, description: 'Political prisoners' },
-          { name: 'Claudius\' Chapel', cost: 10, description: 'False piety' },
-          { name: 'Claudius\' Gardens', cost: 8, description: 'Court gardens' },
-          { name: 'Claudius\' Guards', cost: 6, description: 'Royal protection' },
-          { name: 'Claudius\' Spies', cost: 4, description: 'Intelligence' }
+          { name: 'Claudius\' Throne Room', cost: 95, description: 'Center of power and corruption' },
+          { name: 'Gertrude\'s Chamber', cost: 85, description: 'Queen\'s private space - conflicted loyalties' },
+          { name: 'The Banquet Hall', cost: 80, description: 'Where celebrations mask underlying tensions' },
+          { name: 'The Treasury', cost: 75, description: 'Financial power and corruption' },
+          { name: 'The Guard Tower', cost: 70, description: 'Military control and surveillance' },
+          { name: 'The Wine Cellar', cost: 65, description: 'Where poison is stored and plots are hatched' },
+          { name: 'The Council Chamber', cost: 60, description: 'Political decision-making and manipulation' },
+          { name: 'The Royal Bedroom', cost: 55, description: 'Private space where secrets are kept' },
+          { name: 'The Servants\' Quarters', cost: 50, description: 'Lower court members and spies' },
+          { name: 'The Stables', cost: 45, description: 'Transportation and escape routes' },
+          { name: 'The Kitchen', cost: 40, description: 'Where poison is prepared' },
+          { name: 'The Courtyard Gate', cost: 35, description: 'Entry point and security checkpoint' },
+          { name: 'The Royal Gardens', cost: 30, description: 'Beautiful facade hiding corruption' },
+          { name: 'The Servants\' Hall', cost: 25, description: 'Gossip and information gathering' },
+          { name: 'The Royal Chapel', cost: 20, description: 'False piety and moral pretense' },
+          { name: 'The Secret Chamber', cost: 15, description: 'Hidden room for plotting and poison' }
         ],
         characters: [
-          {
-            name: 'Claudius',
-            role: 'Usurper King',
-            startingCoins: 100,
-            startingWeapons: ['poison'],
-            startingMercenaries: 6,
-            startingCastles: 3,
-            personality: 'deceitful',
-            quotes: [
-              "My words fly up, my thoughts remain below.",
-              "O, my offence is rank, it smells to heaven.",
-              "Do it, England.",
-              "The present death of Hamlet.",
-              "O, yet defend me, friends."
-            ],
-            description: 'Hamlet\'s uncle who murdered his brother to become king.'
-          },
-          {
-            name: 'Polonius',
-            role: 'Spymaster',
-            startingCoins: 75,
-            startingWeapons: ['words'],
-            startingMercenaries: 4,
-            startingCastles: 2,
-            personality: 'scheming',
-            quotes: [
-              "Neither a borrower nor a lender be.",
-              "To thine own self be true.",
-              "Brevity is the soul of wit.",
-              "Though this be madness, yet there is method in it.",
-              "I will be brief."
-            ],
-            description: 'The king\'s chief counselor and father of Ophelia.'
-          }
+          { name: 'Claudius', role: 'King', startingCoins: 110, startingWeapons: ['poison'], startingMercenaries: 3, startingCastles: 1, personality: 'treacherous', quotes: ['O, my offense is rank!'], description: 'The usurping king - corrupt and manipulative' },
+          { name: 'Gertrude', role: 'Queen', startingCoins: 95, startingWeapons: ['influence'], startingMercenaries: 2, startingCastles: 1, personality: 'manipulative', quotes: ['The lady doth protest too much'], description: 'Hamlet\'s mother - conflicted between son and husband' },
+          { name: 'Rosencrantz', role: 'Courtier', startingCoins: 85, startingWeapons: ['deception'], startingMercenaries: 2, startingCastles: 1, personality: 'treacherous', quotes: ['At your service'], description: 'Claudius\' spy - Hamlet\'s false friend' },
+          { name: 'Guildenstern', role: 'Courtier', startingCoins: 85, startingWeapons: ['deception'], startingMercenaries: 2, startingCastles: 1, personality: 'treacherous', quotes: ['Command us'], description: 'Claudius\' spy - Hamlet\'s false friend' },
+          { name: 'Osric', role: 'Courtier', startingCoins: 75, startingWeapons: ['flattery'], startingMercenaries: 1, startingCastles: 1, personality: 'selfish', quotes: ['Your lordship is right welcome'], description: 'Courtier - sycophantic and shallow' },
+          { name: 'Voltemand', role: 'Ambassador', startingCoins: 70, startingWeapons: ['diplomacy'], startingMercenaries: 2, startingCastles: 1, personality: 'diplomatic', quotes: ['News from Norway'], description: 'Ambassador to Norway - diplomatic tool' },
+          { name: 'Cornelius', role: 'Ambassador', startingCoins: 70, startingWeapons: ['diplomacy'], startingMercenaries: 2, startingCastles: 1, personality: 'diplomatic', quotes: ['At your service'], description: 'Ambassador to Norway - diplomatic tool' },
+          { name: 'Marcellus', role: 'Guard', startingCoins: 60, startingWeapons: ['halberd'], startingMercenaries: 1, startingCastles: 1, personality: 'loyal', quotes: ['Something is rotten in Denmark'], description: 'Guard who sees the ghost - loyal to old king' }
         ]
       }
     },
     neutralTerritories: [
-      { name: 'Wittenberg', cost: 15, description: 'Hamlet\'s university' },
-      { name: 'Norway', cost: 12, description: 'Fortinbras\' kingdom' },
-      { name: 'England', cost: 10, description: 'Exile destination' },
-      { name: 'The Graveyard', cost: 8, description: 'Yorick\'s skull' },
-      { name: 'The Ghost\'s Haunt', cost: 6, description: 'Spirit realm' }
-    ]
+      { name: 'Elsinore Castle', cost: 100, description: 'The main setting - contested ground' },
+      { name: 'The Harbor', cost: 80, description: 'Entry point for external forces' },
+      { name: 'The Marketplace', cost: 60, description: 'Public space where information flows' },
+      { name: 'The Tavern', cost: 40, description: 'Where commoners gather and plot' },
+      { name: 'The Crossroads', cost: 20, description: 'Where paths converge and decisions are made' }
+    ],
+    economy: {
+      startingMoney: 1000,
+      incomePerTurn: 100,
+      costMultiplier: 1.0
+    },
+    victoryConditions: {
+      type: 'territory_control',
+      requiredTerritories: 20,
+      description: 'Control 20 territories to win'
+    },
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
   },
 
   // THE CRUCIBLE SCENARIO
@@ -20081,6 +20138,9 @@ const EVENT_CARDS = {
     ]
   }
 };
+
+console.log('SCENARIOS object defined with', Object.keys(window.SCENARIOS).length, 'scenarios');
+console.log('Available scenarios:', Object.keys(window.SCENARIOS).slice(0, 10));
 
 // Provide legacy global for pages that reference SCENARIOS directly
 // without going through window.SCENARIOS
