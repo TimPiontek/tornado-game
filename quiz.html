@@ -9829,13 +9829,26 @@
         function initializeStudentPoints() {
             if (!rosterData || !rosterData.roster) return;
             
-            // Initialize all students with 0 points
+            // Initialize student points tracking, but preserve existing points from War game
             rosterData.roster.forEach(student => {
+                // Only initialize quiz session points to 0, don't reset total points
                 studentPoints[student.name] = 0;
-                student.points = 0;
+                
+                // Preserve existing points from War game
+                if (student.points === undefined) {
+                    student.points = 0;
+                }
+                if (student.balance === undefined) {
+                    student.balance = student.points;
+                }
+                if (student.earnedPoints === undefined) {
+                    student.earnedPoints = 0;
+                }
+                
+                console.log(`Preserved points for ${student.name}: ${student.points} total, ${student.earnedPoints} earned`);
             });
             
-            console.log('Initialized student points:', studentPoints);
+            console.log('Initialized student points (preserved War game points):', studentPoints);
         }
         
         function awardStudentPoints(studentName, points, isCorrect = true) {
@@ -10212,14 +10225,14 @@
 
         // Function to reset game state for new games
         function resetGameState() {
-          // Only clear roster data, not the assignment (that gets cleared when starting fresh)
-          rosterData = null;
+          // Don't clear rosterData - it contains the points we need to preserve!
+          // Only reset game-specific state
           teamMode = false;
           currentStudentIndex = 0;
           currentTeamStudents = [];
-          studentPoints = {};
+          studentPoints = {}; // This is just for tracking quiz session points
           
-          console.log('Game state reset for new game');
+          console.log('Game state reset for new game (preserved roster data)');
         }
         
         // Function to start game with specific settings
