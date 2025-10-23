@@ -7165,10 +7165,14 @@
         // === GAME INTEGRATION ===
         async function savePointsToWarGame(studentPoints, teamVictoryBonus) {
             try {
+                console.log('💾 savePointsToWarGame called with:', { studentPoints, teamVictoryBonus });
+                
                 // Get existing rosters
                 const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                console.log('Found rosters:', rosters.length);
                 
                 if (rosters.length === 0) {
+                    console.log('No rosters found, creating auto roster');
                     // Create a new roster automatically
                     createAutoRoster(studentPoints, teamVictoryBonus);
                     return;
@@ -7178,6 +7182,7 @@
                 let targetRoster = null;
                 if (rosterData && rosterData.id) {
                     targetRoster = rosters.find(r => r.id === rosterData.id);
+                    console.log('Found matching roster by ID:', targetRoster ? targetRoster.name : 'none');
                 }
                 
                 // If no matching roster found, use the most recent one
@@ -7185,6 +7190,7 @@
                     targetRoster = rosters.reduce((latest, roster) => {
                         return new Date(roster.lastModified || roster.created_at) > new Date(latest.lastModified || latest.created_at) ? roster : latest;
                     });
+                    console.log('Using most recent roster:', targetRoster.name);
                 }
                 
                 // For quick rosters, create or update the roster
@@ -7201,14 +7207,23 @@
                 
                 // Add points to students in the roster using centralized system
                 if (targetRoster && targetRoster.roster) {
+                    console.log('Updating points for roster:', targetRoster.name);
+                    console.log('Target roster students:', targetRoster.roster.map(s => s.name));
+                    
                     targetRoster.roster.forEach(student => {
                         if (studentPoints[student.name]) {
-                            // CRITICAL FIX: Update both points and balance for war game compatibility
-                            student.points = (student.points || 0) + studentPoints[student.name];
-                            student.balance = student.points; // Ensure balance matches points
-                            student.earnedPoints = (student.earnedPoints || 0) + studentPoints[student.name];
+                            const oldPoints = student.points || 0;
+                            const oldBalance = student.balance || 0;
+                            const oldEarnedPoints = student.earnedPoints || 0;
                             
-                            console.log(`Updated ${student.name}: +${studentPoints[student.name]} points (total: ${student.points})`);
+                            // CRITICAL FIX: Update both points and balance for war game compatibility
+                            student.points = oldPoints + studentPoints[student.name];
+                            student.balance = student.points; // Ensure balance matches points
+                            student.earnedPoints = oldEarnedPoints + studentPoints[student.name];
+                            
+                            console.log(`Updated ${student.name}: +${studentPoints[student.name]} points (${oldPoints} → ${student.points})`);
+                        } else {
+                            console.log(`No points to transfer for ${student.name}`);
                         }
                     });
                     
@@ -7465,15 +7480,26 @@
         }
         
         async function transferIndividualQuizPointsToWar() {
-            if (!rosterData) return;
+            if (!rosterData) {
+                console.error('No rosterData available for point transfer');
+                return;
+            }
+            
+            console.log('🔄 Starting individual quiz point transfer...');
+            console.log('Current studentPoints:', studentPoints);
+            console.log('Current rosterData:', rosterData);
             
             // Use the actual individual points students earned during the quiz
             const pointsToTransfer = {};
             
             // Transfer actual points earned by each student during the quiz
             rosterData.roster.forEach(student => {
-                pointsToTransfer[student.name] = studentPoints[student.name] || 0;
+                const earnedPoints = studentPoints[student.name] || 0;
+                pointsToTransfer[student.name] = earnedPoints;
+                console.log(`Student ${student.name}: earned ${earnedPoints} points during quiz`);
             });
+            
+            console.log('Points to transfer:', pointsToTransfer);
             
             // Save points to war game (no team victory bonus in individual mode)
             await savePointsToWarGame(pointsToTransfer, {});
