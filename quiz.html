@@ -3377,28 +3377,37 @@
             teams: teams
           };
           
-          // Auto-select Romeo & Juliet quiz
-          console.log('[Quiz] Available quizzes:', quizLibrary.map(q => ({ title: q.title, category: q.category })));
-          console.log('[Quiz] Looking for Romeo quizzes:', quizLibrary.filter(q => q.title.toLowerCase().includes('romeo')));
-          const romeoQuiz = quizLibrary.find(q => 
-            q.title === 'Romeo and Juliet Act 1 Scene 1 Tornado Quiz'
-          ) || quizLibrary.find(q => 
-            q.title === 'Romeo & Juliet (Updated)' ||
-            q.title === 'Romeo & Juliet' || 
-            q.category === 'romeo-juliet' || 
-            q.name?.toLowerCase().includes('romeo')
-          );
-          console.log('[Quiz] Found Romeo quiz:', romeoQuiz);
+          // Auto-select Hamlet quiz if available, otherwise Romeo & Juliet
+          console.log('[Quiz] Available quizzes:', quizLibrary.map(q => ({ title: q.title, category: q.category, folder: q.folder })));
+          console.log('[Quiz] Looking for Hamlet quizzes:', quizLibrary.filter(q => q.folder === 'Hamlet'));
           
-          if (romeoQuiz) {
-            console.log('[Quiz] Starting Romeo & Juliet quiz automatically');
-            console.log('[Quiz] Quiz questions:', romeoQuiz.questions?.length || 'no questions');
+          // First try to find a Hamlet quiz
+          let selectedQuiz = quizLibrary.find(q => q.folder === 'Hamlet' && q.title.includes('Act 1, Scene 1'));
+          
+          // If no Hamlet quiz found, try Romeo & Juliet as fallback
+          if (!selectedQuiz) {
+            console.log('[Quiz] No Hamlet quiz found, looking for Romeo quizzes');
+            selectedQuiz = quizLibrary.find(q => 
+              q.title === 'Romeo and Juliet Act 1 Scene 1 Tornado Quiz'
+            ) || quizLibrary.find(q => 
+              q.title === 'Romeo & Juliet (Updated)' ||
+              q.title === 'Romeo & Juliet' || 
+              q.category === 'romeo-juliet' || 
+              q.name?.toLowerCase().includes('romeo')
+            );
+          }
+          
+          console.log('[Quiz] Found quiz:', selectedQuiz);
+          
+          if (selectedQuiz) {
+            console.log('[Quiz] Starting quiz automatically:', selectedQuiz.title);
+            console.log('[Quiz] Quiz questions:', selectedQuiz.questions?.length || 'no questions');
             
-            // Populate the Questions & Answers textarea with Romeo & Juliet questions
+            // Populate the Questions & Answers textarea with quiz questions
             const populateQuestions = () => {
               const questionsTextarea = document.getElementById('questionsInput');
-              if (questionsTextarea && romeoQuiz.questions) {
-                const formattedQuestions = romeoQuiz.questions.map(q => 
+              if (questionsTextarea && selectedQuiz.questions) {
+                const formattedQuestions = selectedQuiz.questions.map(q => 
                   `${q.question}\n${q.answer}`
                 ).join('\n\n');
                 questionsTextarea.value = formattedQuestions;
@@ -3416,15 +3425,15 @@
             }
             
             // Update roster status but don't auto-start - let teacher review and start manually
-            updateRosterStatus(`Loaded: ${roster.name} (${(roster.roster||[]).length} students) - Ready to start Romeo & Juliet quiz`);
+            updateRosterStatus(`Loaded: ${roster.name} (${(roster.roster||[]).length} students) - Ready to start ${selectedQuiz.title}`);
             
             // Show a notification that questions are loaded
             setTimeout(() => {
-              alert('Romeo & Juliet quiz questions loaded! Review them in the Questions & Answers box, then click Start Game when ready.');
+              alert(`${selectedQuiz.title} quiz questions loaded! Review them in the Questions & Answers box, then click Start Game when ready.`);
             }, 500);
             
           } else {
-            console.warn('[Quiz] Romeo & Juliet quiz not found in library');
+            console.warn('[Quiz] No suitable quiz found in library');
             console.log('[Quiz] Available quiz titles:', quizLibrary.map(q => q.title));
           }
         }
@@ -8059,7 +8068,11 @@
                                 students: []
                             };
                         }
-                        teamGroups[student.teamId].students.push(student.name);
+                        // Create proper student objects with name property
+                        teamGroups[student.teamId].students.push({
+                            id: student.id || student.name,
+                            name: student.name
+                        });
                     }
                 });
                 
@@ -8081,7 +8094,7 @@
                 // Assign students to teams based on the war roster
                 quizRosterData.roster.forEach(student => {
                     const team = teams.find(t => 
-                        t.students && t.students.includes(student.name)
+                        t.students && t.students.some(s => s.name === student.name)
                     );
                     if (team) {
                         student.teamId = team.id;
