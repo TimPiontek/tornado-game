@@ -247,6 +247,168 @@ window.SCENARIOS = {
     randomAssignment: true,
     manualRoleAssignments: false,
     aiAssignments: false
+  },
+
+  // HARRY POTTER SCENARIO
+  harryPotter: {
+    id: 'harryPotter',
+    name: 'Harry Potter',
+    type: 'literary',
+    description: 'The battle between Harry Potter and his friends against Voldemort and the Death Eaters',
+    inspirationalQuote: {
+      text: "It is our choices, Harry, that show what we truly are, far more than our abilities.",
+      author: "J.K. Rowling",
+      context: "Harry Potter and the Chamber of Secrets"
+    },
+    factionOrder: ['harryPotter', 'deathEaters'],
+    factions: {
+      harryPotter: {
+        name: 'Dumbledore\'s Army',
+        color: '#dc143c',
+        description: 'Fighting for love, friendship, and the protection of the wizarding world',
+        territories: [
+          { name: 'Hogwarts', cost: 100, description: 'Central fortress and headquarters of the resistance' },
+          { name: 'Gryffindor Tower', cost: 80, description: 'Defensive stronghold within Hogwarts' },
+          { name: 'Quidditch Pitch', cost: 70, description: 'Hogwarts\' stadium for house matches and practice' },
+          { name: 'Hogwarts Library', cost: 70, description: 'Stacks of magical tomes and study tables' },
+          { name: 'Forbidden Forest', cost: 65, description: 'Perilous grounds' },
+          { name: 'Hogsmeade', cost: 70, description: 'Strategic village and supply base' },
+          { name: 'The Burrow', cost: 60, description: 'Weasley family home' },
+          { name: 'Grimmauld Place', cost: 55, description: 'Order of the Phoenix headquarters' }
+        ]
+      },
+      deathEaters: {
+        name: 'Death Eaters',
+        color: '#8b0000',
+        description: 'Followers of Voldemort seeking pure-blood supremacy',
+        territories: [
+          { name: 'Malfoy Manor', cost: 90, description: 'Death Eater headquarters' },
+          { name: 'Azkaban', cost: 85, description: 'Wizarding prison' },
+          { name: 'Knockturn Alley', cost: 75, description: 'Dark magic marketplace' },
+          { name: 'Borgin and Burkes', cost: 70, description: 'Dark artifacts shop' },
+          { name: 'The Ministry of Magic', cost: 80, description: 'Government building' },
+          { name: 'Diagon Alley', cost: 65, description: 'Wizarding shopping district' },
+          { name: 'Gringotts Bank', cost: 60, description: 'Wizarding bank' },
+          { name: 'Platform 9¾', cost: 55, description: 'Hogwarts Express station' }
+        ]
+      }
+    },
+    victoryConditions: {
+      type: 'territory_control',
+      requiredTerritories: 8,
+      description: 'Control 8 territories to win'
+    },
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // STAR WARS SCENARIO
+  starWars: {
+    id: 'starWars',
+    name: 'Star Wars',
+    type: 'popculture',
+    description: 'The eternal battle between the light and dark sides of the Force',
+    inspirationalQuote: {
+      text: "Do or do not, there is no try.",
+      author: "Yoda",
+      context: "Star Wars: The Empire Strikes Back"
+    },
+    factionOrder: ['rebels', 'empire'],
+    factions: {
+      rebels: {
+        name: 'Rebel Alliance',
+        color: '#1e40af',
+        description: 'Fighting for freedom and justice across the galaxy',
+        territories: [
+          { name: 'Yavin 4', cost: 80, description: 'Rebel base and headquarters' },
+          { name: 'Hoth', cost: 70, description: 'Ice planet rebel base' },
+          { name: 'Endor', cost: 60, description: 'Forest moon with shield generator' },
+          { name: 'Dagobah', cost: 50, description: 'Swamp planet where Yoda trained Luke' },
+          { name: 'Tatooine', cost: 40, description: 'Desert planet, Luke\'s homeworld' },
+          { name: 'Alderaan', cost: 30, description: 'Princess Leia\'s homeworld' },
+          { name: 'Coruscant', cost: 20, description: 'Galactic capital' },
+          { name: 'Naboo', cost: 10, description: 'Queen Amidala\'s homeworld' }
+        ]
+      },
+      empire: {
+        name: 'Galactic Empire',
+        color: '#dc2626',
+        description: 'Maintaining order through fear and military might',
+        territories: [
+          { name: 'Death Star', cost: 100, description: 'Ultimate weapon of the Empire' },
+          { name: 'Imperial Palace', cost: 90, description: 'Emperor\'s throne room' },
+          { name: 'Star Destroyer', cost: 80, description: 'Imperial warship' },
+          { name: 'Bespin', cost: 70, description: 'Cloud City, Lando\'s domain' },
+          { name: 'Mustafar', cost: 60, description: 'Volcanic planet where Anakin fell' },
+          { name: 'Kamino', cost: 50, description: 'Clone production facility' },
+          { name: 'Geonosis', cost: 40, description: 'Droid factory planet' },
+          { name: 'Utapau', cost: 30, description: 'Separatist stronghold' }
+        ]
+      }
+    },
+    victoryConditions: {
+      type: 'territory_control',
+      requiredTerritories: 8,
+      description: 'Control 8 territories to win'
+    },
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
+  },
+
+  // DUNE SCENARIO
+  dune: {
+    id: 'dune',
+    name: 'Dune',
+    type: 'literary',
+    description: 'The epic struggle for control of the desert planet Arrakis and its precious spice',
+    inspirationalQuote: {
+      text: "Fear is the mind-killer.",
+      author: "Frank Herbert",
+      context: "Dune"
+    },
+    factionOrder: ['atriedes', 'harkonnen'],
+    factions: {
+      atriedes: {
+        name: 'House Atreides',
+        color: '#1e40af',
+        description: 'Noble house seeking to rule Arrakis justly',
+        territories: [
+          { name: 'Arrakeen', cost: 80, description: 'Capital city of Arrakis' },
+          { name: 'Atreides Keep', cost: 70, description: 'Duke Leto\'s stronghold' },
+          { name: 'Spice Harvester', cost: 60, description: 'Spice mining equipment' },
+          { name: 'Fremen Sietch', cost: 50, description: 'Fremen stronghold' },
+          { name: 'Desert Base', cost: 40, description: 'Hidden desert outpost' },
+          { name: 'Water Storage', cost: 30, description: 'Precious water reserves' },
+          { name: 'Shield Generator', cost: 20, description: 'Defensive shield' },
+          { name: 'Communications Array', cost: 10, description: 'Long-range communications' }
+        ]
+      },
+      harkonnen: {
+        name: 'House Harkonnen',
+        color: '#dc2626',
+        description: 'Ruthless house seeking to exploit Arrakis for profit',
+        territories: [
+          { name: 'Harkonnen Keep', cost: 90, description: 'Baron Harkonnen\'s fortress' },
+          { name: 'Spice Refinery', cost: 80, description: 'Spice processing facility' },
+          { name: 'Slave Quarters', cost: 70, description: 'Worker housing' },
+          { name: 'Torture Chamber', cost: 60, description: 'Interrogation facility' },
+          { name: 'Weapon Cache', cost: 50, description: 'Arms storage' },
+          { name: 'Prison Cells', cost: 40, description: 'Captive holding area' },
+          { name: 'Command Center', cost: 30, description: 'Military headquarters' },
+          { name: 'Supply Depot', cost: 20, description: 'Resource storage' }
+        ]
+      }
+    },
+    victoryConditions: {
+      type: 'territory_control',
+      requiredTerritories: 8,
+      description: 'Control 8 territories to win'
+    },
+    randomAssignment: true,
+    manualRoleAssignments: false,
+    aiAssignments: false
   }
 };
 
