@@ -426,6 +426,17 @@
             const container = document.getElementById('questionsContainer');
             const questionId = index !== null ? `mc-${index}` : `mc-${Date.now()}`;
             
+            // Convert letter answer (A, B, C, D) to index (0, 1, 2, 3)
+            let correctAnswerIndex = 0;
+            if (question && question.answer) {
+                if (typeof question.answer === 'string') {
+                    // Convert letter to index: A=0, B=1, C=2, D=3
+                    correctAnswerIndex = question.answer.charCodeAt(0) - 65; // A=65, B=66, etc.
+                } else {
+                    correctAnswerIndex = question.answer;
+                }
+            }
+            
             const questionHtml = `
                 <div class="question-section" id="${questionId}">
                     <div class="question-header">
@@ -443,7 +454,7 @@
                         <div id="choices-${questionId}">
                             ${question ? question.choices.map((choice, i) => `
                                 <div class="choice-item">
-                                    <input type="radio" name="correct-${questionId}" value="${i}" ${i === question.answer ? 'checked' : ''}>
+                                    <input type="radio" name="correct-${questionId}" value="${i}" ${i === correctAnswerIndex ? 'checked' : ''}>
                                     <input type="text" placeholder="Choice ${i + 1}" value="${choice}">
                                     <button type="button" class="btn btn-danger" onclick="removeChoice('${questionId}', this)">×</button>
                                 </div>
@@ -734,10 +745,13 @@
                 const points = parseInt(questionEl.querySelector('input[type="number"]').value) || 5;
                 
                 if (choices.length >= 2 && correctAnswer) {
+                    // Convert index back to letter: 0=A, 1=B, 2=C, 3=D
+                    const answerLetter = String.fromCharCode(65 + parseInt(correctAnswer.value));
+                    
                     questions.push({
                         q: questionText,
                         choices: choices,
-                        answer: correctAnswer.value,
+                        answer: answerLetter,
                         points: points
                     });
                 }
