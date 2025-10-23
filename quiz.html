@@ -4846,7 +4846,7 @@
             
             let quizLoadedFromLibrary = false;
             
-            if (selectedQuizId !== null) {
+            if (selectedQuizId !== null && selectedQuizId !== undefined) {
               const quiz = quizLibrary.find((q) => q.id === selectedQuizId);
               if (!quiz) {
                 console.error("Selected quiz not found:", selectedQuizId);
@@ -4960,7 +4960,7 @@
               if (teamBNameContainer) teamBNameContainer.classList.remove("single-player");
             }
             // Use startGameWithSettings to properly load roster data
-            const quiz = selectedQuizId ? quizLibrary.find(q => q.id === selectedQuizId) : { questions: [] };
+            // Don't pass a quiz object if we want to use textarea content
             const settings = {
               teamA: names.A || "Team A",
               teamB: names.B || "Team B", 
@@ -4970,7 +4970,14 @@
               shieldCount, hotStreakCount, coinFlipCount
             };
             
-            startGameWithSettings(quiz, settings);
+            // Only pass quiz if we have a valid selectedQuizId, otherwise let it use textarea
+            if (selectedQuizId) {
+              const quiz = quizLibrary.find(q => q.id === selectedQuizId);
+              startGameWithSettings(quiz, settings);
+            } else {
+              // Pass null to indicate we want to use textarea content
+              startGameWithSettings(null, settings);
+            }
           };
         }
 
@@ -10271,12 +10278,48 @@
           // Set up game state
           // Only overwrite questions if we don't already have them loaded
           if (!questions || questions.length === 0) {
-            questions = quiz.questions && Array.isArray(quiz.questions)
-              ? quiz.questions.map((q) => ({
-                  question: q.question,
-                  answer: q.answer || null,
-                }))
-              : [];
+            if (quiz && quiz.questions && Array.isArray(quiz.questions)) {
+              // Use quiz from library
+              questions = quiz.questions.map((q) => ({
+                question: q.question,
+                answer: q.answer || null,
+              }));
+              console.log('[startGameWithSettings] Loaded questions from quiz:', quiz.title, questions.length);
+            } else {
+              // Use textarea content
+              const questionsTextarea = document.getElementById('questionsInput');
+              if (questionsTextarea && questionsTextarea.value.trim() !== "") {
+                const raw = questionsTextarea.value;
+                console.log('[startGameWithSettings] Loading questions from textarea, length:', raw.length);
+                
+                // Parse Q&A blocks
+                const blocks = raw
+                  .split(/\n\s*\n/)
+                  .map((b) => b.trim())
+                  .filter((b) => b);
+                
+                if (blocks.some((b) => b.split("\n").length > 1)) {
+                  questions = blocks.map((b) => {
+                    const [q, a] = b.split("\n");
+                    return { question: q.trim(), answer: a?.trim() || null };
+                  });
+                  console.log('[startGameWithSettings] Parsed Q&A blocks:', questions.length);
+                } else {
+                  questions = raw
+                    .split("\n")
+                    .map((l) => l.trim())
+                    .filter((l) => l)
+                    .map((q) => ({
+                      question: q.replace(/^\d+\.\s*/, ""),
+                      answer: null,
+                    }));
+                  console.log('[startGameWithSettings] Parsed question-only format:', questions.length);
+                }
+              } else {
+                questions = [];
+                console.log('[startGameWithSettings] No questions available');
+              }
+            }
           }
           
           console.log('[Quiz] Questions array before creating indices:', questions.length, questions.slice(0, 2));
