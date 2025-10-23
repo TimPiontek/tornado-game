@@ -4842,37 +4842,44 @@
             console.log("DEBUG: selectedQuizId =", selectedQuizId);
             console.log("DEBUG: quizLibrary length =", quizLibrary.length);
             console.log("DEBUG: Hamlet quizzes =", quizLibrary.filter(q => q.folder === 'Hamlet').map(q => ({id: q.id, title: q.title})));
+            console.log("DEBUG: textarea content length =", questionsInputEl?.value?.length || 0);
+            
+            let quizLoadedFromLibrary = false;
             
             if (selectedQuizId !== null) {
               const quiz = quizLibrary.find((q) => q.id === selectedQuizId);
               if (!quiz) {
                 console.error("Selected quiz not found:", selectedQuizId);
                 console.error("Available quiz IDs:", quizLibrary.map(q => q.id));
-                return alert("Selected quiz not found.");
-              }
-              // Only support the new format: questions as array of objects
-              if (
-                quiz.questions &&
-                Array.isArray(quiz.questions) &&
-                typeof quiz.questions[0] === "object"
-              ) {
-                questions = quiz.questions.map((q) => ({
-                  question: q.question,
-                  answer: q.answer || null,
-                }));
-                console.log(
-                  "DEBUG: Selected quiz:",
-                  quiz.title,
-                  "Questions loaded:",
-                  questions.length,
-                  "First question:",
-                  questions[0]?.question
-                );
+                // Don't return error, fall through to textarea
               } else {
-                questions = [];
-                console.error("Quiz has no questions or wrong format:", quiz);
+                // Only support the new format: questions as array of objects
+                if (
+                  quiz.questions &&
+                  Array.isArray(quiz.questions) &&
+                  typeof quiz.questions[0] === "object"
+                ) {
+                  questions = quiz.questions.map((q) => ({
+                    question: q.question,
+                    answer: q.answer || null,
+                  }));
+                  quizLoadedFromLibrary = true;
+                  console.log(
+                    "DEBUG: Selected quiz:",
+                    quiz.title,
+                    "Questions loaded:",
+                    questions.length,
+                    "First question:",
+                    questions[0]?.question
+                  );
+                } else {
+                  console.error("Quiz has no questions or wrong format:", quiz);
+                }
               }
-            } else if (questionsInputEl && questionsInputEl.value.trim() !== "") {
+            }
+            
+            // If no quiz loaded from library, use textarea
+            if (!quizLoadedFromLibrary && questionsInputEl && questionsInputEl.value.trim() !== "") {
               // Parse custom questions from textarea
               const raw = questionsInputEl.value;
               console.log('[Quiz] Parsing questions from textarea, length:', raw.length);
@@ -4888,6 +4895,7 @@
                   return { question: q.trim(), answer: a?.trim() || null };
                 });
                 console.log('[Quiz] Parsed Q&A blocks:', questions.length);
+                console.log('[Quiz] First parsed question:', questions[0]?.question);
               } else {
                 questions = raw
                   .split("\n")
@@ -4898,6 +4906,7 @@
                     answer: null,
                   }));
                 console.log('[Quiz] Parsed question-only format:', questions.length);
+                console.log('[Quiz] First parsed question:', questions[0]?.question);
               }
             } else {
               // No questions provided - grid-only mode
