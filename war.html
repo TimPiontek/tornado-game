@@ -8566,7 +8566,18 @@
       z-index: 1005;
     `;
 
-    const effectsHtml = scene.effects.map(effect => {
+    // Handle both old format (effects as array) and new format (effects as object)
+    let allEffects = [];
+    if (Array.isArray(scene.effects)) {
+      allEffects = scene.effects;
+    } else if (scene.effects && typeof scene.effects === 'object') {
+      allEffects = [
+        ...(scene.effects.character_points || []),
+        ...(scene.effects.team_points || [])
+      ];
+    }
+
+    const effectsHtml = allEffects.map(effect => {
       const pointsText = effect.points > 0 ? `+${effect.points}` : `${effect.points}`;
       const characterName = effect.character || effect.team;
       const bg = effect.points > 0 ? '#dcfce7' : '#fee2e2';
@@ -8593,7 +8604,7 @@
       <h2 style="margin: 0 0 12px 0; color: #111827;">${scene.name}</h2>
       <div style="margin-bottom: 16px; padding: 12px; background: #f3f4f6; border-radius: 8px; border-left: 4px solid #6f5c91; color:#111827;">
         <strong>Scene Summary:</strong><br>
-        ${scene.summary}
+        ${scene.description || scene.summary || 'No description available'}
       </div>
       <div style="margin-bottom: 16px;">
         <strong>Point Effects:</strong>
@@ -8651,48 +8662,68 @@
       }
     }
     
-    if (!currentScene) return;
+    if (!currentScene) {
+      console.error('Scene not found:', sceneId);
+      return;
+    }
+    
+    console.log('Applying story event:', currentScene.name, 'for scenario:', currentScenario);
+    
+    // Handle both old format (effects as array) and new format (effects as object)
+    let characterEffects = [];
+    let teamEffects = [];
+    
+    if (Array.isArray(currentScene.effects)) {
+      // Old format: effects as array with type property
+      currentScene.effects.forEach(effect => {
+        if (effect.type === 'character_points') {
+          characterEffects.push(effect);
+        } else if (effect.type === 'team_points') {
+          teamEffects.push(effect);
+        }
+      });
+    } else if (currentScene.effects && typeof currentScene.effects === 'object') {
+      // New format: effects as object with character_points and team_points arrays
+      characterEffects = currentScene.effects.character_points || [];
+      teamEffects = currentScene.effects.team_points || [];
+    }
+    
+    console.log('Character effects:', characterEffects);
+    console.log('Team effects:', teamEffects);
     
     // Merge duplicate character effects so the same character is not rewarded twice
     const mergedCharacterEffects = {};
-    const teamEffects = [];
-    currentScene.effects.forEach(effect => {
-      if (effect.type === 'character_points') {
-        const key = (effect.character || '').toLowerCase();
-        if (!mergedCharacterEffects[key]) {
-          mergedCharacterEffects[key] = { ...effect };
-        } else {
-          mergedCharacterEffects[key].points += effect.points;
-        }
-      } else if (effect.type === 'team_points') {
-        teamEffects.push(effect);
+    characterEffects.forEach(effect => {
+      const key = (effect.character || '').toLowerCase();
+      if (!mergedCharacterEffects[key]) {
+        mergedCharacterEffects[key] = { ...effect };
+      } else {
+        mergedCharacterEffects[key].points += effect.points;
       }
     });
-
-    const finalEffects = [
-      ...Object.values(mergedCharacterEffects),
-      ...teamEffects
-    ];
 
     // Ensure factions are set before applying
     try { normalizeFactionsForScenario(currentScenario); } catch(_) {}
 
-    // Apply each final effect
-    finalEffects.forEach(effect => {
-      if (effect.type === 'character_points') {
-        applyCharacterPoints(effect.character, effect.points, effect.reason);
-      } else if (effect.type === 'team_points') {
-        applyTeamPoints(effect.team, effect.points, effect.reason);
-      }
+    // Apply character effects
+    Object.values(mergedCharacterEffects).forEach(effect => {
+      console.log('Applying character effect:', effect);
+      applyCharacterPoints(effect.character, effect.points, effect.reason);
+    });
+    
+    // Apply team effects
+    teamEffects.forEach(effect => {
+      console.log('Applying team effect:', effect);
+      applyTeamPoints(effect.team, effect.points, effect.reason);
     });
     
     // Re-render UI and persist
     try { renderRoster(); } catch(e) { console.warn('renderRoster not available yet', e); }
     // Save roster changes
-    saveRoster();
+    try { autoSaveWarPoints(); } catch(e) { console.warn('autoSaveWarPoints error', e); }
     
-    // Optional feedback (non-blocking)
-    try {
+    // Show success message
+    console.log('Story event applied successfully!');
       const notice = document.createElement('div');
       notice.textContent = `Applied: ${currentScene.name}`;
       notice.style.cssText = 'position:fixed;bottom:16px;right:16px;background:#111827;color:#fff;padding:10px 14px;border-radius:8px;z-index:1006;opacity:0.95';
@@ -8725,21 +8756,41 @@
     if (!state.roster || state.roster.length === 0) return;
     const isMatch = (student) => {
       const faction = (student.characterFaction || '').toLowerCase();
+      const teamName_lower = (student.teamName || '').toLowerCase();
       const cname = (student.characterName || '').toLowerCase();
       const t = (teamName || '').toLowerCase();
       if (!t) return false;
+      
+      // Direct team name match
+      if (teamName_lower && teamName_lower.includes(t)) return true;
       if (faction && faction.toLowerCase().includes(t)) return true;
+      
       // Heuristics: characterName contains team keyword
       if (t === 'montague' && cname.includes('montague')) return true;
       if (t === 'capulet' && cname.includes('capulet')) return true;
+      
+      // Hamlet-specific team matching
+      if (t.includes('hamlet') && t.includes('loyalist')) {
+        return faction.includes('hamlet') || teamName_lower.includes('hamlet') || 
+               ['hamlet', 'horatio', 'the ghost', 'fortinbras', 'the players', 'ophelia', 'polonius'].some(name => cname.includes(name));
+      }
+      if (t.includes('claudius') && t.includes('court')) {
+        return faction.includes('claudius') || teamName_lower.includes('claudius') || 
+               ['claudius', 'gertrude', 'rosencrantz', 'guildenstern', 'osric', 'voltemand', 'cornelius', 'marcellus'].some(name => cname.includes(name));
+      }
+      
       return false;
     };
 
-    state.roster.filter(isMatch).forEach(student => {
+    const matchingStudents = state.roster.filter(isMatch);
+    console.log(`Found ${matchingStudents.length} students matching team "${teamName}":`, matchingStudents.map(s => s.name));
+
+    matchingStudents.forEach(student => {
       const oldEarned = student.earnedPoints || 0;
       const newEarned = Math.max(0, oldEarned + points);
       student.earnedPoints = newEarned;
       student.balance = (student.startingPoints || 0) + (student.earnedPoints || 0);
+      console.log(`Applied ${points} to ${student.name} (${student.characterName}): ${oldEarned} → ${newEarned}`);
     });
     
     console.log(`Applied ${points} points to team ${teamName}: ${reason}`);
