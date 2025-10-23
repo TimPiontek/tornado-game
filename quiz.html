@@ -7515,6 +7515,68 @@
             }, 2000);
         }
         
+        // === AGGRESSIVE AUTO-SAVE SYSTEM FOR QUIZ ===
+        
+        // Auto-save quiz points every 3 seconds
+        setInterval(() => {
+            if (rosterData && rosterData.id) {
+                console.log('⏰ Auto-saving quiz points every 3 seconds...');
+                autoSaveQuizPoints();
+            }
+        }, 3000);
+        
+        // Force save on page unload
+        window.addEventListener('beforeunload', () => {
+            if (rosterData && rosterData.id) {
+                console.log('🚪 Quiz page unloading - force saving points...');
+                try {
+                    // Get current roster data
+                    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                    let targetRoster = rosters.find(r => r.id === rosterData.id);
+                    
+                    if (!targetRoster) {
+                        targetRoster = rosters.reduce((latest, roster) => {
+                            return new Date(roster.lastModified || roster.created_at) > new Date(latest.lastModified || latest.created_at) ? roster : latest;
+                        });
+                    }
+                    
+                    if (targetRoster && targetRoster.roster) {
+                        // Update individual student points
+                        rosterData.roster.forEach(student => {
+                            const quizPoints = studentPoints[student.name] || 0;
+                            if (quizPoints > 0) {
+                                const targetStudent = targetRoster.roster.find(s => s.name === student.name);
+                                if (targetStudent) {
+                                    const oldPoints = targetStudent.points || 0;
+                                    const oldBalance = targetStudent.balance || 0;
+                                    const oldEarnedPoints = targetStudent.earnedPoints || 0;
+                                    
+                                    targetStudent.points = oldPoints + quizPoints;
+                                    targetStudent.balance = targetStudent.points; // Ensure balance matches points
+                                    targetStudent.earnedPoints = oldEarnedPoints + quizPoints;
+                                    
+                                    console.log(`Quiz unload save: ${student.name} +${quizPoints} points (${oldPoints} → ${targetStudent.points})`);
+                                }
+                            }
+                        });
+                        
+                        // Update last modified timestamp
+                        targetRoster.lastModified = new Date().toISOString();
+                        
+                        // Save updated roster
+                        const rosterIndex = rosters.findIndex(r => r.id === targetRoster.id);
+                        if (rosterIndex >= 0) {
+                            rosters[rosterIndex] = targetRoster;
+                            localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+                            console.log('✅ Quiz points saved on page unload');
+                        }
+                    }
+                } catch (error) {
+                    console.error('❌ Error saving quiz points on page unload:', error);
+                }
+            }
+        });
+        
         // === AUTO-SAVE SYSTEM ===
         function autoSaveQuizPoints() {
             if (!rosterData) return;

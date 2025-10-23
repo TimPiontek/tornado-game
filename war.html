@@ -4393,10 +4393,19 @@
         startingPoints: student.startingPoints || 0,
         earnedPoints: student.earnedPoints || 0,
         points: (student.startingPoints || 0) + (student.earnedPoints || 0),
+        balance: student.balance || (student.startingPoints || 0) + (student.earnedPoints || 0), // CRITICAL: Save balance field
         tilesOwned: student.tilesOwned,
         teamId: student.teamId,
         teamName: student.teamName,
-        teamColor: student.teamColor
+        teamColor: student.teamColor,
+        // Preserve character data
+        characterName: student.characterName,
+        characterRole: student.characterRole,
+        characterFaction: student.characterFaction,
+        startingCastles: student.startingCastles,
+        weapons: student.weapons,
+        mercenaries: student.mercenaries,
+        purchasedItems: student.purchasedItems
       })),
       gameState: {
         board: state.board,
@@ -5221,6 +5230,100 @@
     return true;
   }
 
+  // === COMPREHENSIVE POINTS PERSISTENCE SYSTEM ===
+  
+  // Force save points whenever they change
+  function forceSavePoints() {
+    console.log('🔄 Force saving points due to change...');
+    autoSaveWarPoints();
+  }
+  
+  // Override the existing updateStudentPoints function to auto-save
+  const originalUpdateStudentPoints = window.updateStudentPoints;
+  window.updateStudentPoints = function(studentId, points, reason) {
+    const result = originalUpdateStudentPoints(studentId, points, reason);
+    // Force save after any point change
+    setTimeout(() => forceSavePoints(), 100);
+    return result;
+  };
+  
+  // Override the existing addPoints function to auto-save
+  const originalAddPoints = window.addPoints;
+  window.addPoints = function(studentId, points, reason) {
+    const result = originalAddPoints(studentId, points, reason);
+    // Force save after any point change
+    setTimeout(() => forceSavePoints(), 100);
+    return result;
+  };
+  
+  // Override the existing subtractPoints function to auto-save
+  const originalSubtractPoints = window.subtractPoints;
+  window.subtractPoints = function(studentId, points, reason) {
+    const result = originalSubtractPoints(studentId, points, reason);
+    // Force save after any point change
+    setTimeout(() => forceSavePoints(), 100);
+    return result;
+  };
+  
+  // === AGGRESSIVE AUTO-SAVE SYSTEM ===
+  
+  // Auto-save every 5 seconds
+  setInterval(() => {
+    if (state.currentRoster && state.currentRosterId) {
+      console.log('⏰ Auto-saving points every 5 seconds...');
+      autoSaveWarPoints();
+    }
+  }, 5000);
+  
+  // Force save on page unload
+  window.addEventListener('beforeunload', () => {
+    if (state.currentRoster && state.currentRosterId) {
+      console.log('🚪 Page unloading - force saving points...');
+      // Use synchronous localStorage save for immediate persistence
+      try {
+        const updatedRoster = {
+          ...state.currentRoster,
+          roster: state.roster.map(student => ({
+            id: student.gsId,
+            name: student.name,
+            startingPoints: student.startingPoints || 0,
+            earnedPoints: student.earnedPoints || 0,
+            points: (student.startingPoints || 0) + (student.earnedPoints || 0),
+            balance: student.balance || (student.startingPoints || 0) + (student.earnedPoints || 0),
+            tilesOwned: student.tilesOwned,
+            teamId: student.teamId,
+            teamName: student.teamName,
+            teamColor: student.teamColor,
+            characterName: student.characterName,
+            characterRole: student.characterRole,
+            characterFaction: student.characterFaction,
+            startingCastles: student.startingCastles,
+            weapons: student.weapons,
+            mercenaries: student.mercenaries
+          })),
+          gameState: {
+            board: state.board,
+            tiles: state.board.tiles,
+            truces: state.truces || []
+          },
+          scenario: state.scenario,
+          victoryGoals: state.victoryGoals,
+          economy: state.economy || __activeEconomy || ECONOMY,
+          lastModified: new Date().toISOString()
+        };
+        
+        const rosterIndex = state.rosters.findIndex(r => r.id === state.currentRosterId);
+        if (rosterIndex >= 0) {
+          state.rosters[rosterIndex] = updatedRoster;
+          localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+          console.log('✅ Points saved on page unload');
+        }
+      } catch (error) {
+        console.error('❌ Error saving points on page unload:', error);
+      }
+    }
+  });
+  
   // === AUTO-SAVE SYSTEM ===
   async function autoSaveWarPoints() {
     if (!state.currentRoster || !state.currentRosterId) return;
@@ -5236,6 +5339,7 @@
           startingPoints: student.startingPoints || 0,
           earnedPoints: student.earnedPoints || 0,
           points: (student.startingPoints || 0) + (student.earnedPoints || 0),
+          balance: student.balance || (student.startingPoints || 0) + (student.earnedPoints || 0), // CRITICAL: Save balance field
           tilesOwned: student.tilesOwned,
           teamId: student.teamId,
           teamName: student.teamName,
