@@ -3390,7 +3390,7 @@
           console.log('[Quiz] Looking for Hamlet quizzes:', quizLibrary.filter(q => q.folder === 'Hamlet'));
           
           // First try to find a Hamlet quiz
-          let selectedQuiz = quizLibrary.find(q => q.folder === 'Hamlet' && q.title.includes('Act 1, Scene 1'));
+          let selectedQuiz = quizLibrary.find(q => q.folder === 'Hamlet' && q.title.includes('1.1 Ghost Appears'));
           
           // If no Hamlet quiz found, try Romeo & Juliet as fallback
           if (!selectedQuiz) {
