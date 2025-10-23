@@ -1742,19 +1742,22 @@
 
       .custom-quiz-quizlist li,
       .custom-quiz-folderlist li {
-        margin-bottom: 0.6em;
+        margin-bottom: 0.3em;
         cursor: pointer;
-        padding: 0.6em 0.8em;
+        padding: 0.4em 0.6em;
         border-radius: 4px;
-        white-space: normal;
-        word-break: break-word;
+        white-space: nowrap;
         background: none;
-        line-height: 1.6;
-        min-height: 2.8em;
+        line-height: 1.2;
+        min-height: 1.8em;
         display: flex;
         align-items: center;
+        justify-content: flex-start;
         font-size: 1em;
         font-weight: 500;
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .custom-quiz-quizlist li.selected,
@@ -3392,7 +3395,7 @@
           console.log('[Quiz] Looking for Hamlet quizzes:', quizLibrary.filter(q => q.folder === 'Hamlet'));
           
           // First try to find a Hamlet quiz
-          let selectedQuiz = quizLibrary.find(q => q.folder === 'Hamlet' && q.title.includes('1.1 Ghost Appears'));
+          let selectedQuiz = quizLibrary.find(q => q.folder === 'Hamlet' && q.title === '1.1');
           
           // If no Hamlet quiz found, try Romeo & Juliet as fallback
           if (!selectedQuiz) {
