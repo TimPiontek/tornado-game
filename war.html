@@ -8724,6 +8724,7 @@
     
     // Show success message
     console.log('Story event applied successfully!');
+    try {
       const notice = document.createElement('div');
       notice.textContent = `Applied: ${currentScene.name}`;
       notice.style.cssText = 'position:fixed;bottom:16px;right:16px;background:#111827;color:#fff;padding:10px 14px;border-radius:8px;z-index:1006;opacity:0.95';
