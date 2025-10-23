@@ -2238,57 +2238,183 @@
     "file_path": "hamlet-unit/assignments/act1-scene4.html"
   },
   {
-    "id": "act1_scene5",
+    "id": "hamlet_act1_scene5",
     "title": "Hamlet - Act 1, Scene 5 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 1, Scene 5 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 1, Scene 5",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "The ghost reveals that he was murdered by Claudius. What does this revelation do to the plot?",
+        "choices": [
+          "It resolves all conflicts.",
+          "It creates the central conflict and driving force of the play.",
+          "It makes Hamlet happy.",
+          "It has no impact on the story."
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "When the ghost says, \"The serpent that did sting thy father's life Now wears his crown,\" what literary device is used?",
+        "choices": [
+          "Metaphor comparing Claudius to a serpent",
+          "Simile",
+          "Alliteration",
+          "Hyperbole"
+        ],
+        "answer": "A",
+        "points": 5
+      },
+      {
+        "q": "What does Hamlet's promise to \"remember\" the ghost suggest about his character?",
+        "choices": [
+          "He will forget the ghost's words.",
+          "He will seek revenge for his father's murder.",
+          "He will ignore the ghost's request.",
+          "He will tell everyone about the ghost."
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does the ghost's revelation change Hamlet's understanding of his situation?",
+        "maxPoints": 10
+      },
+      {
+        "q": "What does Hamlet's vow to avenge his father reveal about his moral character?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act1-scene5.html"
   },
   {
-    "id": "act2_scene1",
+    "id": "hamlet_act2_scene1",
     "title": "Hamlet - Act 2, Scene 1 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 2, Scene 1 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 2, Scene 1",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "Why does Polonius send Reynaldo to spy on Laertes?",
+        "choices": [
+          "He wants to protect Laertes from danger.",
+          "He wants to gather information about Laertes's behavior.",
+          "He wants to send Laertes money.",
+          "He wants to bring Laertes home."
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What does Ophelia's report about Hamlet's behavior reveal?",
+        "choices": [
+          "Hamlet is completely sane.",
+          "Hamlet appears to be losing his mind.",
+          "Hamlet is happy and content.",
+          "Hamlet is planning to leave Denmark."
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "How does Polonius interpret Hamlet's strange behavior toward Ophelia?",
+        "choices": [
+          "Hamlet is genuinely in love with Ophelia.",
+          "Hamlet is pretending to be mad.",
+          "Hamlet is mad because Ophelia rejected him.",
+          "Hamlet is plotting against the king."
+        ],
+        "answer": "C",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "What does Polonius's spying on his children reveal about his character?",
+        "maxPoints": 10
+      },
+      {
+        "q": "How does Ophelia's description of Hamlet's behavior contribute to the theme of madness?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act2-scene1.html"
   },
   {
-    "id": "act2_scene2",
+    "id": "hamlet_act2_scene2",
     "title": "Hamlet - Act 2, Scene 2 | Classroom Assignment",
     "description": "Comprehensive assignment for Act 2, Scene 2 covering key concepts and analysis.",
     "subject": "ELA",
     "work": "Hamlet",
     "act_scenes": "Act 2, Scene 2",
     "standards": [
-      "RL.11-12.1",
-      "RL.11-12.2",
-      "RL.11-12.3",
-      "RL.11-12.4",
-      "RL.11-12.5"
+      "RL.9-10.2",
+      "RL.9-10.3",
+      "RL.9-10.4",
+      "RL.9-10.6"
     ],
-    "multiple_choice": [],
-    "short_answer": [],
+    "multiple_choice": [
+      {
+        "q": "What is the purpose of Rosencrantz and Guildenstern's visit to Hamlet?",
+        "choices": [
+          "They want to help Hamlet with his studies.",
+          "They are sent by Claudius to spy on Hamlet.",
+          "They want to invite Hamlet to a party.",
+          "They are delivering a message from Fortinbras."
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "How does Hamlet react when he realizes his friends are spying on him?",
+        "choices": [
+          "He is angry and confronts them directly.",
+          "He pretends to be mad to confuse them.",
+          "He welcomes them warmly.",
+          "He ignores them completely."
+        ],
+        "answer": "B",
+        "points": 5
+      },
+      {
+        "q": "What does Hamlet's \"What a piece of work is a man\" speech reveal about his worldview?",
+        "choices": [
+          "He has a positive view of humanity.",
+          "He is disillusioned with human nature.",
+          "He believes humans are perfect.",
+          "He thinks humans are unimportant."
+        ],
+        "answer": "B",
+        "points": 5
+      }
+    ],
+    "short_answer": [
+      {
+        "q": "How does Hamlet's treatment of Rosencrantz and Guildenstern reflect his growing paranoia?",
+        "maxPoints": 10
+      },
+      {
+        "q": "What does Hamlet's philosophical speech reveal about his state of mind?",
+        "maxPoints": 10
+      }
+    ],
     "file_path": "hamlet-unit/assignments/act2-scene2.html"
   },
   {
