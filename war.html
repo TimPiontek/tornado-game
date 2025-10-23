@@ -1087,9 +1087,39 @@
       `<option value="${r.id}">${r.name} (${r.roster ? r.roster.length : 0} participants)${r.isQuickRoster ? ' 🎮' : ''}</option>`
     ).join(""));
     
-    if (selectNewest && state.rosters.length) {
-      rosterList.value = state.rosters[0].id;
-      selectRoster(state.rosters[0].id);
+    // Auto-select roster based on priority:
+    // 1. Last selected roster (from localStorage)
+    // 2. Newest roster if requested
+    // 3. First roster with scenario data
+    let rosterToSelect = null;
+    
+    // Check for last selected roster
+    const lastSelectedRosterId = localStorage.getItem('lastSelectedRosterId');
+    if (lastSelectedRosterId) {
+      rosterToSelect = state.rosters.find(r => r.id === lastSelectedRosterId);
+      if (rosterToSelect) {
+        console.log('[DEBUG] Restoring last selected roster:', rosterToSelect.name);
+      }
+    }
+    
+    // Fallback to newest roster if requested
+    if (!rosterToSelect && selectNewest && state.rosters.length > 0) {
+      rosterToSelect = state.rosters[0]; // Already sorted by last_modified desc
+      console.log('[DEBUG] Auto-selecting newest roster:', rosterToSelect.name);
+    }
+    
+    // Fallback to first roster with scenario data
+    if (!rosterToSelect && state.rosters.length > 0) {
+      rosterToSelect = state.rosters.find(r => r.scenario);
+      if (rosterToSelect) {
+        console.log('[DEBUG] Auto-selecting roster with scenario:', rosterToSelect.name);
+      }
+    }
+    
+    // Select the roster
+    if (rosterToSelect) {
+      rosterList.value = rosterToSelect.id;
+      selectRoster(rosterToSelect.id);
     }
   }
   // === ROSTER SELECTION ===
@@ -1103,6 +1133,9 @@
     
     state.currentRoster = roster;
     state.currentRosterId = rosterId;
+    
+    // Remember this roster selection for next page load
+    localStorage.setItem('lastSelectedRosterId', rosterId);
     
     // Convert roster to war game format, preserving existing scores
     state.roster = roster.roster.map((student, i) => {
