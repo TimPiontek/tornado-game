@@ -4418,8 +4418,25 @@ The Beatles
         document.addEventListener('DOMContentLoaded', function() {
           console.log('DOM loaded, initializing auth state...');
           
-          // Attach login button handler
+          // Attach login button handler immediately
           attachLoginButtonHandler();
+          
+          // Listen for auth state changes to update button in real-time
+          if (supabaseClient && supabaseClient.auth) {
+            supabaseClient.auth.onAuthStateChange((event, session) => {
+              console.log('Auth state changed:', event, session?.user?.email);
+              if (session?.user) {
+                updateLoginBtn(session.user);
+                updateHomepageForUser();
+              } else {
+                updateLoginBtn(null);
+                updateHomepageForUser();
+              }
+            });
+          }
+          
+          // Also check auth state immediately in case session is already available
+          updateHomepageForUser();
           
           // Check auth state with longer delays to ensure Supabase has time to restore session
           setTimeout(() => {
@@ -4451,7 +4468,12 @@ The Beatles
               e.preventDefault();
               console.log('Login button clicked, text:', this.textContent);
               
-              if (this.textContent === "👨‍🏫 Teacher Login" || this.textContent === "Login") {
+              // Check if button is in login or logout state
+              const isLoginState = this.textContent.includes("Teacher Login") || 
+                                   this.textContent === "Login" ||
+                                   this.textContent.trim() === "👨‍🏫 Teacher Login";
+              
+              if (isLoginState) {
                 console.log('Showing auth modal...');
                 showAuthModal();
               } else {
