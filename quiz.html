@@ -4664,6 +4664,24 @@
           console.error('[Quiz] Error in fetchQuizzes:', error);
         });
 
+        // Grid size change handler - track manual user selection
+        const gridSizeInput = document.getElementById("gridSizeInput");
+        if (gridSizeInput) {
+          console.log("Grid size input found, adding event listener");
+          gridSizeInput.addEventListener('change', function() {
+            // Mark as manually set when user changes it
+            this.dataset.manual = 'true';
+            this.dataset.autoAdjusted = 'false';
+            console.log('User manually selected grid size:', this.value);
+            
+            // Update info text
+            const gridSizeInfo = document.getElementById('gridSizeInfo');
+            if (gridSizeInfo) {
+              gridSizeInfo.textContent = `Grid size set to ${this.value} tiles`;
+            }
+          });
+        }
+
         // Team count change handler
         const teamCountInput = document.getElementById("teamCountInput");
         if (teamCountInput) {
@@ -8597,25 +8615,38 @@
         }
         
         function updateGridSizeForRoster(studentCount) {
-            // Calculate optimal grid size: student count + 1 for odd numbers, or student count for even
-            let optimalSize = studentCount;
-            if (studentCount % 2 === 1) {
-                optimalSize = studentCount + 1;
-            }
-            
-            // Ensure minimum size of 8 and maximum of 40
-            optimalSize = Math.max(8, Math.min(40, optimalSize));
-            
-            // Update the grid size select
             const gridSizeInput = document.getElementById('gridSizeInput');
-            if (gridSizeInput) {
+            if (!gridSizeInput) return;
+            
+            // Check if user has manually changed the grid size (not the default auto-adjusted value)
+            const currentValue = parseInt(gridSizeInput.value) || 0;
+            const wasManuallySet = gridSizeInput.dataset.manual === 'true';
+            
+            // Only auto-adjust if user hasn't manually set it
+            if (!wasManuallySet) {
+                // Calculate optimal grid size: student count + 1 for odd numbers, or student count for even
+                let optimalSize = studentCount;
+                if (studentCount % 2 === 1) {
+                    optimalSize = studentCount + 1;
+                }
+                
+                // Ensure minimum size of 8 and maximum of 40
+                optimalSize = Math.max(8, Math.min(40, optimalSize));
+                
                 // Set the value
                 gridSizeInput.value = optimalSize;
+                gridSizeInput.dataset.autoAdjusted = 'true';
                 
                 // Update the info text
                 const gridSizeInfo = document.getElementById('gridSizeInfo');
                 if (gridSizeInfo) {
-                    gridSizeInfo.textContent = `Auto-adjusted to ${optimalSize} tiles for ${studentCount} students`;
+                    gridSizeInfo.textContent = `Suggested: ${optimalSize} tiles (${studentCount} students). You can change this.`;
+                }
+            } else {
+                // User has manually set it - just show info
+                const gridSizeInfo = document.getElementById('gridSizeInfo');
+                if (gridSizeInfo) {
+                    gridSizeInfo.textContent = `Grid size: ${currentValue} tiles (${studentCount} students in roster)`;
                 }
             }
         }
@@ -10696,15 +10727,22 @@
           
           singlePlayer = settings.singlePlayer;
           
-          // Use dynamic grid sizing if roster is available
-          if (rosterData && rosterData.roster && rosterData.roster.length > 0) {
+          // ALWAYS check user's selected grid size first (respects manual selection)
+          const gridSizeInput = document.getElementById("gridSizeInput");
+          const userSelectedSize = gridSizeInput ? parseInt(gridSizeInput.value) : null;
+          
+          if (userSelectedSize && userSelectedSize > 0) {
+            // User has manually selected a grid size - use it!
+            total = userSelectedSize;
+            console.log('Using user-selected grid size:', total);
+          } else if (rosterData && rosterData.roster && rosterData.roster.length > 0) {
+            // No user selection, but roster available - use optimal size
             total = calculateOptimalGridSize();
-            console.log('Using dynamic grid size:', total, 'for', rosterData.roster.length, 'students');
+            console.log('Using auto-calculated grid size:', total, 'for', rosterData.roster.length, 'students');
           } else {
-            // Fallback to grid size input or default
-            const gridSizeInput = document.getElementById("gridSizeInput");
-            total = gridSizeInput ? parseInt(gridSizeInput.value) || 20 : (settings.gridSize || 20);
-            console.log('Using grid size:', total, 'from input:', gridSizeInput?.value, 'or settings:', settings.gridSize);
+            // Fallback to settings or default
+            total = settings.gridSize || 20;
+            console.log('Using default grid size:', total, 'from settings:', settings.gridSize);
           }
           
           // Ensure total is always a valid number
