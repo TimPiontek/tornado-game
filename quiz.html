@@ -6005,14 +6005,13 @@
         }
 
         function advanceTurn() {
-          // Save current turn state to history before advancing
+          // Save current turn state to history before advancing (just for navigation, not score restoration)
           const currentState = {
             turn: turn,
             turnCount: turnCount,
             qIndex: qIndex,
-            currentStudentIndex: currentStudentIndex,
-            scores: {...scores}, // Deep copy scores
-            picks: {...picks} // Deep copy picks
+            currentStudentIndex: currentStudentIndex
+            // Don't save scores or picks - we just want to go back to previous student
           };
           turnHistory.push(currentState);
           
@@ -6101,29 +6100,31 @@
             return;
           }
           
-          // Get the previous turn state
+          // Get the previous turn state (just to restore which student it was)
           const previousState = turnHistory.pop();
           
-          // Restore previous state
+          // Only restore turn/student information, NOT scores or picks
+          // This allows the previous student to have another turn without affecting game balance
           turn = previousState.turn;
           turnCount = previousState.turnCount;
           qIndex = previousState.qIndex;
           currentStudentIndex = previousState.currentStudentIndex;
-          scores = previousState.scores;
-          picks = previousState.picks;
           
-          // Reset the resolving flag
+          // Reset the resolving flag so buttons work again
           isResolvingTurn = false;
           
-          // Update displays
+          // Reset button states in case they were frozen
+          resetAllButtonStates();
+          
+          // Update displays with current state (scores remain unchanged)
           updateTurn();
           updateScores();
           updateTeamDisplay();
           
-          // Show the previous question
+          // Show the previous question so they can try again
           showQuestion();
           
-          console.log('Went back to previous turn:', previousState);
+          console.log('Went back to previous student/turn (scores unchanged):', previousState);
         }
 
         function showNextQuestionButton() {
