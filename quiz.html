@@ -5439,6 +5439,24 @@
           }
           
           console.log("Final shuffled rewards:", rewards.map(r => r.type));
+          
+          // If rewards array is empty, fill it with empty tiles to match grid size
+          if (rewards.length === 0 && n > 0) {
+            console.warn(`Rewards array is empty but grid size is ${n}. Creating empty placeholder rewards.`);
+            for (let i = 0; i < n; i++) {
+              rewards.push({ type: "empty", value: 0 });
+            }
+          } else if (rewards.length < n) {
+            // Pad rewards array if it's shorter than grid size
+            console.warn(`Rewards array (${rewards.length}) is shorter than grid size (${n}). Padding with empty tiles.`);
+            while (rewards.length < n) {
+              rewards.push({ type: "empty", value: 0 });
+            }
+          } else if (rewards.length > n) {
+            // Trim rewards array if it's longer than grid size
+            console.warn(`Rewards array (${rewards.length}) is longer than grid size (${n}). Trimming.`);
+            rewards = rewards.slice(0, n);
+          }
         }
 
         function buildGrid(n) {
@@ -5582,6 +5600,15 @@
           
           console.log(`Team ${me} picked position ${i}:`, r);
           
+          // Check if reward exists
+          if (!r) {
+            console.error(`No reward at position ${i}. Rewards array length: ${rewards.length}`);
+            alert(`No reward available at this position. The game may not have questions loaded.`);
+            resetAllButtonStates();
+            isResolvingTurn = false;
+            return;
+          }
+          
           // Special effects should work on first pick - don't convert them to points
           picks[me]++;
           let out = "";
@@ -5589,6 +5616,14 @@
           
           // Check if team has points for certain special effects
           const hasPoints = scores[me] > 0;
+          
+          // Handle empty tiles (when no questions/rewards available)
+          if (r.type === "empty") {
+            alert('This tile is empty. No questions are loaded for this game.');
+            resetAllButtonStates();
+            isResolvingTurn = false;
+            return;
+          }
           
           // Handle points first
           if (r.type === "points") {
