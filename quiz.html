@@ -7648,21 +7648,27 @@
                     }
                     
                     if (targetRoster && targetRoster.roster) {
-                        // Update individual student points
+                        // Update individual student points - use tracking to prevent double-counting
                         rosterData.roster.forEach(student => {
-                            const quizPoints = studentPoints[student.name] || 0;
-                            if (quizPoints > 0) {
+                            const currentQuizPoints = studentPoints[student.name] || 0;
+                            const lastSavedPoints = lastSavedStudentPoints[student.name] || 0;
+                            const newPointsEarned = currentQuizPoints - lastSavedPoints;
+                            
+                            if (newPointsEarned > 0) {
                                 const targetStudent = targetRoster.roster.find(s => s.name === student.name);
                                 if (targetStudent) {
                                     const oldPoints = targetStudent.points || 0;
                                     const oldBalance = targetStudent.balance || 0;
                                     const oldEarnedPoints = targetStudent.earnedPoints || 0;
                                     
-                                    targetStudent.points = oldPoints + quizPoints;
+                                    targetStudent.points = oldPoints + newPointsEarned;
                                     targetStudent.balance = targetStudent.points; // Ensure balance matches points
-                                    targetStudent.earnedPoints = oldEarnedPoints + quizPoints;
+                                    targetStudent.earnedPoints = oldEarnedPoints + newPointsEarned;
                                     
-                                    console.log(`Quiz unload save: ${student.name} +${quizPoints} points (${oldPoints} → ${targetStudent.points})`);
+                                    // Update tracking
+                                    lastSavedStudentPoints[student.name] = currentQuizPoints;
+                                    
+                                    console.log(`Quiz unload save: ${student.name} +${newPointsEarned} NEW points (${oldPoints} → ${targetStudent.points})`);
                                 }
                             }
                         });
