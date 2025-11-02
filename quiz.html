@@ -7313,24 +7313,32 @@
                 }
                 
                 // Add points to students in the roster using centralized system
+                // CRITICAL: Only add points that haven't been saved to war game yet
                 if (targetRoster && targetRoster.roster) {
                     console.log('Updating points for roster:', targetRoster.name);
                     console.log('Target roster students:', targetRoster.roster.map(s => s.name));
                     
                     targetRoster.roster.forEach(student => {
-                        if (studentPoints[student.name]) {
+                        const currentQuizPoints = studentPoints[student.name] || 0;
+                        const alreadySavedToWar = pointsSavedToWarGame[student.name] || 0;
+                        const newPointsToAdd = currentQuizPoints - alreadySavedToWar;
+                        
+                        if (newPointsToAdd > 0) {
                             const oldPoints = student.points || 0;
                             const oldBalance = student.balance || 0;
                             const oldEarnedPoints = student.earnedPoints || 0;
                             
-                            // CRITICAL FIX: Update both points and balance for war game compatibility
-                            student.points = oldPoints + studentPoints[student.name];
+                            // Only add NEW points that haven't been saved to war game yet
+                            student.points = oldPoints + newPointsToAdd;
                             student.balance = student.points; // Ensure balance matches points
-                            student.earnedPoints = oldEarnedPoints + studentPoints[student.name];
+                            student.earnedPoints = oldEarnedPoints + newPointsToAdd;
                             
-                            console.log(`Updated ${student.name}: +${studentPoints[student.name]} points (${oldPoints} → ${student.points})`);
+                            // Update tracking
+                            pointsSavedToWarGame[student.name] = currentQuizPoints;
+                            
+                            console.log(`Updated ${student.name}: +${newPointsToAdd} NEW points (${oldPoints} → ${student.points}, already saved: ${alreadySavedToWar})`);
                         } else {
-                            console.log(`No points to transfer for ${student.name}`);
+                            console.log(`No new points to transfer for ${student.name} (already saved: ${alreadySavedToWar})`);
                         }
                     });
                     
@@ -7693,13 +7701,16 @@
         // === AUTO-SAVE SYSTEM ===
         // Track last saved state to prevent double-counting
         let lastSavedStudentPoints = {};
+        let pointsSavedToWarGame = {}; // Track points already saved to war game via savePointsToWarGame
         
         // Initialize tracking when student points are first initialized
         function initializeAutoSaveTracking() {
             lastSavedStudentPoints = {};
+            pointsSavedToWarGame = {};
             if (rosterData && rosterData.roster) {
                 rosterData.roster.forEach(student => {
                     lastSavedStudentPoints[student.name] = 0;
+                    pointsSavedToWarGame[student.name] = 0;
                 });
             }
             console.log('📊 Auto-save tracking initialized:', lastSavedStudentPoints);
@@ -10121,6 +10132,7 @@
                 
                 // Initialize auto-save tracking
                 lastSavedStudentPoints[student.name] = 0;
+                pointsSavedToWarGame[student.name] = 0;
                 
                 // CRITICAL: Preserve existing points from War game - don't let them get overwritten
                 if (student.points === undefined) {

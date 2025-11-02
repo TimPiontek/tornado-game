@@ -2764,11 +2764,19 @@
         roster: state.roster.map(student => ({
           id: student.gsId,
           name: student.name,
-          points: student.balance, // Save current balance as points
-          tilesOwned: student.tilesOwned,
+          // Save both points and balance for compatibility
+          points: student.balance || student.points || 0,
+          balance: student.balance || student.points || 0,
+          earnedPoints: student.earnedPoints || 0,
+          startingPoints: student.startingPoints || 0,
+          tilesOwned: student.tilesOwned || 0,
           teamId: student.teamId,
           teamName: student.teamName,
-          teamColor: student.teamColor
+          teamColor: student.teamColor,
+          // Save game assets
+          weapons: student.weapons || [],
+          mercenaries: student.mercenaries || 0,
+          wizard: student.wizard || false
         })),
         gameState: {
           board: state.board,
@@ -2778,24 +2786,48 @@
         lastModified: new Date().toISOString()
       };
       
+      // Validate roster before saving
+      if (!updatedRoster.roster || !Array.isArray(updatedRoster.roster)) {
+        console.error('Invalid roster structure, skipping save');
+        return;
+      }
+      
       // Update in the rosters array
       const rosterIndex = state.rosters.findIndex(r => r.id === state.currentRosterId);
       if (rosterIndex >= 0) {
         state.rosters[rosterIndex] = updatedRoster;
         
-        // Save to localStorage
-        localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
-        
-        // Also update individual student record if logged in
-        updateStudentRecord();
-        
-        // Notify other tabs/windows of the change
-        notifyRosterChange();
-        
-        console.log('Auto-saved war points to roster');
+        // Save to localStorage with error handling
+        try {
+          localStorage.setItem('tornadoRosters', JSON.stringify(state.rosters));
+          
+          // Also update individual student record if logged in
+          updateStudentRecord();
+          
+          // Notify other tabs/windows of the change
+          notifyRosterChange();
+          
+          console.log('✅ Auto-saved war points to roster');
+        } catch (storageError) {
+          console.error('❌ localStorage error:', storageError);
+          // Check if quota exceeded
+          if (storageError.name === 'QuotaExceededError') {
+            console.warn('⚠️ localStorage quota exceeded - data may not be saved');
+            alert('Warning: Storage space is full. Some data may not be saved. Please clear browser cache.');
+          }
+          throw storageError;
+        }
+      } else {
+        console.error('❌ Roster not found in state.rosters, cannot save');
       }
     } catch (error) {
-      console.error('Error auto-saving war points:', error);
+      console.error('❌ Error auto-saving war points:', error);
+      // Try to recover - at least log the state
+      console.error('Current state snapshot:', {
+        currentRosterId: state.currentRosterId,
+        rosterCount: state.rosters?.length,
+        studentCount: state.roster?.length
+      });
     }
   }
 
