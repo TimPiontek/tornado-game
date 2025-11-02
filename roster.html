@@ -1002,9 +1002,10 @@
         window.scrollToNewRoster = scrollToNewRoster;
         
         // === INITIALIZATION ===
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is logged in (this would be replaced with actual auth check)
-            checkAuthStatus();
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check if user is logged in and load rosters from cloud if logged in
+            await checkAuthStatus();
+            // Load existing rosters (will show local-only if not logged in, or merged if logged in)
             loadExistingRosters();
             
             // Listen for roster updates from student war game
@@ -1456,9 +1457,10 @@
             updateCustomFactions();
         }
         
-        function checkAuthStatus() {
+        async function checkAuthStatus() {
             // Check actual authentication status
-            supabaseClient.auth.getUser().then(({ data: { user } }) => {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
                 isLoggedIn = !!user;
                 
                 if (!isLoggedIn) {
@@ -1469,8 +1471,96 @@
                     document.getElementById('loginSection').style.display = 'none';
                     document.getElementById('rostersGrid').style.display = 'grid';
                     document.querySelector('.create-new-section').style.display = 'block';
+                    
+                    // Load rosters from Supabase for logged-in user
+                    await loadRostersFromSupabase();
                 }
-            });
+            } catch (error) {
+                console.error('Error checking auth status:', error);
+                isLoggedIn = false;
+                document.getElementById('loginSection').style.display = 'block';
+                document.getElementById('rostersGrid').style.display = 'none';
+                document.querySelector('.create-new-section').style.display = 'none';
+            }
+        }
+        
+        async function loadRostersFromSupabase() {
+            if (!supabaseClient || !supabaseClient.auth) {
+                console.log('Supabase client not available, skipping cloud load');
+                return;
+            }
+            
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (!session) {
+                    console.log('No session, skipping cloud load');
+                    return;
+                }
+                
+                console.log('Loading rosters from Supabase for user:', session.user.id);
+                const { data: cloudRosters, error } = await supabaseClient
+                    .from('rosters')
+                    .select('*')
+                    .eq('teacher_id', session.user.id)
+                    .order('last_modified', { ascending: false });
+                
+                if (error) {
+                    console.error('Error loading rosters from Supabase:', error);
+                    // If table doesn't exist, that's okay - user might not have set it up yet
+                    if (error.code === 'PGRST205' || /Could not find the table 'public.rosters'/.test(error.message || '')) {
+                        console.log("Supabase 'rosters' table not found, using local storage only");
+                    }
+                    return;
+                }
+                
+                if (cloudRosters && cloudRosters.length > 0) {
+                    console.log(`Loaded ${cloudRosters.length} rosters from Supabase`);
+                    
+                    // Extract the actual roster data from the 'data' column
+                    const extractedRosters = cloudRosters.map(dbRoster => {
+                        // The roster data is stored in the 'data' column
+                        const rosterData = dbRoster.data || dbRoster;
+                        return rosterData;
+                    });
+                    
+                    // Get local rosters
+                    const localRosters = getAllRosters();
+                    
+                    // Merge: prioritize Supabase (cloud) rosters, but keep local-only rosters
+                    // Create a map of cloud rosters by ID
+                    const cloudRosterMap = new Map();
+                    extractedRosters.forEach(roster => {
+                        cloudRosterMap.set(roster.id, roster);
+                    });
+                    
+                    // Keep local rosters that aren't in cloud (in case they're offline-only)
+                    // But prioritize cloud versions when IDs match
+                    const mergedRosters = [];
+                    
+                    // First, add all cloud rosters
+                    extractedRosters.forEach(roster => {
+                        mergedRosters.push(roster);
+                    });
+                    
+                    // Then, add local-only rosters (not in cloud)
+                    localRosters.forEach(localRoster => {
+                        if (!cloudRosterMap.has(localRoster.id)) {
+                            mergedRosters.push(localRoster);
+                        }
+                    });
+                    
+                    // Save merged rosters to localStorage for offline access
+                    localStorage.setItem('tornadoRosters', JSON.stringify(mergedRosters));
+                    console.log(`Merged ${mergedRosters.length} rosters (${extractedRosters.length} from cloud, ${localRosters.filter(r => !cloudRosterMap.has(r.id)).length} local-only)`);
+                    
+                    // Refresh the display
+                    loadExistingRosters();
+                } else {
+                    console.log('No rosters found in Supabase');
+                }
+            } catch (error) {
+                console.error('Error in loadRostersFromSupabase:', error);
+            }
         }
         
         function login() {
@@ -1734,40 +1824,9 @@
             // Save all rosters
             localStorage.setItem('tornadoRosters', JSON.stringify(existingRosters));
             
-            // Save to Supabase if logged in
+            // Sync to Supabase if logged in
             console.log('Attempting to save roster to cloud...');
-            if (supabaseClient && supabaseClient.auth && supabaseClient.auth.getSession) {
-                try {
-                    const { data: { session } } = await supabaseClient.auth.getSession();
-                    console.log('Session check result:', session ? 'Found session' : 'No session');
-                    if (session) {
-                        console.log('Saving roster to Supabase with teacher_id:', session.user.id);
-                        const { error } = await supabaseClient.from('rosters').upsert({
-                            id: rosterData.id,
-                            teacher_id: session.user.id,
-                            name: rosterData.name,
-                            data: rosterData,
-                            last_modified: new Date().toISOString()
-                        });
-                        if (error) {
-                            console.error('Supabase error in createNewRoster:', error);
-                            // Graceful fallback if table missing
-                            if (error.code === 'PGRST205' || /Could not find the table 'public.rosters'/.test(error.message||'')) {
-                                console.warn("Supabase 'rosters' table missing. Saved locally only.");
-                            }
-                        } else {
-                            console.log('✅ New roster saved to Supabase successfully!');
-                        }
-                    } else {
-                        console.log('❌ No active session - roster saved locally only');
-                    }
-                } catch (error) {
-                    console.error('Error saving new roster to Supabase:', error);
-                    // Continue with local save even if Supabase fails
-                }
-            } else {
-                console.log('❌ Supabase client not available - roster saved locally only');
-            }
+            await syncRosterToSupabase(rosterData);
             
             // Reset form
             rosterNameInput.value = '';
@@ -1923,21 +1982,62 @@
             }
             
             // Update roster
-            allRosters[rosterIndex] = {
+            const updatedRoster = {
                 ...allRosters[rosterIndex],
                 name: rosterName,
                 roster: editingRosterStudents,
                 lastModified: new Date().toISOString()
             };
+            allRosters[rosterIndex] = updatedRoster;
             
             // Save to localStorage
             localStorage.setItem('tornadoRosters', JSON.stringify(allRosters));
+            
+            // Sync to Supabase if logged in
+            syncRosterToSupabase(updatedRoster);
             
             // Close modal and refresh display
             closeEditModal();
             loadExistingRosters();
             
             alert(`Roster "${rosterName}" updated successfully!`);
+        }
+        
+        async function syncRosterToSupabase(rosterData) {
+            if (!supabaseClient || !supabaseClient.auth) {
+                console.log('❌ Supabase client not available - roster saved locally only');
+                return;
+            }
+            
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (!session) {
+                    console.log('❌ No active session - roster saved locally only');
+                    return;
+                }
+                
+                console.log('Saving roster to Supabase with teacher_id:', session.user.id);
+                const { error } = await supabaseClient.from('rosters').upsert({
+                    id: rosterData.id,
+                    teacher_id: session.user.id,
+                    name: rosterData.name,
+                    data: rosterData,
+                    last_modified: new Date().toISOString()
+                });
+                
+                if (error) {
+                    console.error('Supabase error:', error);
+                    // Graceful fallback if table missing
+                    if (error.code === 'PGRST205' || /Could not find the table 'public.rosters'/.test(error.message || '')) {
+                        console.warn("Supabase 'rosters' table missing. Saved locally only.");
+                    }
+                } else {
+                    console.log('✅ Roster synced to Supabase successfully!');
+                }
+            } catch (error) {
+                console.error('Error syncing roster to Supabase:', error);
+                // Continue - roster is saved locally even if Supabase fails
+            }
         }
         
         function duplicateRoster(rosterId) {
@@ -1955,6 +2055,9 @@
             
             allRosters.push(newRoster);
             localStorage.setItem('tornadoRosters', JSON.stringify(allRosters));
+            
+            // Sync to Supabase if logged in
+            syncRosterToSupabase(newRoster);
             
             loadExistingRosters();
             alert(`Roster "${newRoster.name}" created successfully!`);
