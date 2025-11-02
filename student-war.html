@@ -67,6 +67,9 @@
               <div class="bar">
                 <h1 style="cursor: pointer;" onclick="window.location.href = '/student-login.html'">TORNADO WAR - STUDENT</h1>
                 <button class="pill" id="btnTruces">Truces</button>
+                <button class="pill" id="btnBattleInbox">📬 Battle Inbox <span id="inboxBadge" style="display:none; background:#f87171; color:white; padding:2px 6px; border-radius:10px; font-size:11px; margin-left:4px;">0</span></button>
+                <button class="pill" id="btnNotifications" title="View battle result notifications">🔔 Notifications</button>
+                <button class="pill" id="btnMyRequests">📤 My Requests <span id="requestsBadge" style="display:none; background:#60a5fa; color:white; padding:2px 6px; border-radius:10px; font-size:11px; margin-left:4px;">0</span></button>
                 <button class="pill" id="btnHelp">How to Play</button>
                 <div style="flex:1"></div>
                 <span id="who" class="muted">Student Mode</span>
@@ -483,6 +486,26 @@
 
   const helpModal = el("#helpModal");
   el("#btnHelp").onclick = () => helpModal.classList.add("show");
+  
+  // Wire up battle inbox buttons
+  const inboxBtn = document.getElementById('btnBattleInbox');
+  if (inboxBtn) {
+    inboxBtn.onclick = () => showBattleInbox();
+  }
+  
+  const requestsBtn = document.getElementById('btnMyRequests');
+  if (requestsBtn) {
+    requestsBtn.onclick = () => showBattleInbox(); // Same modal shows both
+  }
+  
+  const notificationsBtn = document.getElementById('btnNotifications');
+  if (notificationsBtn) {
+    notificationsBtn.onclick = () => showNotifications();
+  }
+  
+  // Update badges on load and periodically
+  setTimeout(() => updateBattleRequestBadges(), 1000);
+  setInterval(() => updateBattleRequestBadges(), 5000);
   el("#helpClose").onclick = () => helpModal.classList.remove("show");
   helpModal.addEventListener("click", (e)=>{ if(e.target===helpModal) helpModal.classList.remove("show"); });
 
@@ -1771,6 +1794,14 @@
 
     if (!tile.owner_game_student_id) {
       // Empty tile - buy it (check adjacency)
+      
+      // Check if student has pending battle requests (block purchase if so)
+      const pendingCount = getPendingBattleRequestsCount(selectedStudent.name);
+      if (pendingCount > 0) {
+        alert(`You have ${pendingCount} pending battle request${pendingCount > 1 ? 's' : ''}! You cannot purchase new territories while you have pending battle requests. Please wait for responses or withdraw your requests.`);
+        return;
+      }
+      
       if (!canStudentAttackTile(selectedStudent.gsId, tile)) {
         alert(`Cannot claim this territory! You can only claim territories that are adjacent to your own territories or your truce partners' territories.`);
         return;
@@ -1843,7 +1874,7 @@
         }
       }
     } else {
-      // Enemy tile - check if it's a teammate (for scenario games)
+      // Enemy tile - offer to send battle request
       const defender = state.roster.find(r => r.gsId === tile.owner_game_student_id);
       if (defender) {
         // Check if students are teammates (automatic truce in scenario games)
@@ -1854,8 +1885,22 @@
           return;
         }
         
-        // Students cannot attack other territories
-        alert(`This territory belongs to ${defender.name}. Students cannot attack other territories.`);
+        // Check for pending requests
+        const pendingCount = getPendingBattleRequestsCount(selectedStudent.name);
+        if (pendingCount >= 2) {
+          alert(`You already have 2 pending battle requests! Please wait for responses or withdraw a request before sending another.`);
+          return;
+        }
+        
+        // Check if there's already a pending request for this territory
+        const existingRequest = getPendingBattleRequestForTile(tile.id, selectedStudent.name);
+        if (existingRequest) {
+          alert(`You already have a pending battle request for this territory. Please wait for a response or withdraw it first.`);
+          return;
+        }
+        
+        // Show battle request modal
+        showBattleRequestModal(tile, selectedStudent, defender);
       }
     }
   };
@@ -2784,6 +2829,601 @@
     localStorage.setItem('rosterUpdateTrigger', Date.now().toString());
   }
 
+  // === BATTLE REQUEST SYSTEM ===
+  
+  // Get all battle requests for current roster
+  function getBattleRequests() {
+    if (!state.currentRosterId) return [];
+    const key = `battleRequests_${state.currentRosterId}`;
+    try {
+      const stored = localStorage.getItem(key);
+      return stored ? JSON.parse(stored) : [];
+    } catch (error) {
+      console.error('Error loading battle requests:', error);
+      return [];
+    }
+  }
+  
+  // Save battle requests
+  function saveBattleRequests(requests) {
+    if (!state.currentRosterId) return;
+    const key = `battleRequests_${state.currentRosterId}`;
+    localStorage.setItem(key, JSON.stringify(requests));
+    updateBattleRequestBadges();
+  }
+  
+  // Get pending battle requests count for a student
+  function getPendingBattleRequestsCount(studentName) {
+    const requests = getBattleRequests();
+    return requests.filter(r => r.attacker_student_name === studentName && r.status === 'pending').length;
+  }
+  
+  // Get pending battle request for a specific tile
+  function getPendingBattleRequestForTile(tileId, attackerName) {
+    const requests = getBattleRequests();
+    return requests.find(r => r.tile_id === tileId && r.attacker_student_name === attackerName && r.status === 'pending');
+  }
+  
+  // Get incoming battle requests for a student
+  function getIncomingBattleRequests(studentName) {
+    const requests = getBattleRequests();
+    return requests.filter(r => r.defender_student_name === studentName && r.status === 'pending');
+  }
+  
+  // Update badge counts
+  function updateBattleRequestBadges() {
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    if (!currentStudent) return;
+    
+    const studentName = currentStudent.username;
+    const incomingCount = getIncomingBattleRequests(studentName).length;
+    const outgoingCount = getPendingBattleRequestsCount(studentName);
+    
+    const inboxBadge = document.getElementById('inboxBadge');
+    const requestsBadge = document.getElementById('requestsBadge');
+    
+    if (inboxBadge) {
+      if (incomingCount > 0) {
+        inboxBadge.textContent = incomingCount;
+        inboxBadge.style.display = 'inline-block';
+      } else {
+        inboxBadge.style.display = 'none';
+      }
+    }
+    
+    if (requestsBadge) {
+      if (outgoingCount > 0) {
+        requestsBadge.textContent = outgoingCount;
+        requestsBadge.style.display = 'inline-block';
+      } else {
+        requestsBadge.style.display = 'none';
+      }
+    }
+  }
+  
+  // Show battle request modal
+  function showBattleRequestModal(tile, attacker, defender) {
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    if (!currentStudent || currentStudent.username !== attacker.name) {
+      alert('You can only send battle requests as yourself.');
+      return;
+    }
+    
+    const mercenaries = attacker.mercenaries || 0;
+    const weapons = (attacker.weapons || []).length;
+    const maxMercenaries = mercenaries;
+    const maxWeapons = weapons;
+    
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.cssText = 'position: fixed; inset: 0; background: #0009; display: grid; place-items: center; z-index: 100;';
+    modal.innerHTML = `
+      <div class="card" style="width: min(600px, 90vw); max-height: 90vh; overflow: auto; background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 style="margin: 0;">⚔️ Request Battle for Territory</h2>
+          <button onclick="this.closest('.modal').remove()" class="closeX" style="float: none;">✕</button>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+          <p><strong>Territory:</strong> Tile at (${tile.x}, ${tile.y})</p>
+          <p><strong>Defender:</strong> ${defender.name}</p>
+          <p><strong>Your Available:</strong> ${mercenaries} mercenaries, ${weapons} weapons</p>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 8px;"><strong>Mercenaries to Use (0-${maxMercenaries}):</strong></label>
+          <input type="number" id="battleMercenaries" min="0" max="${maxMercenaries}" value="0" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 8px;"><strong>Weapons to Use (0-${maxWeapons}):</strong></label>
+          <input type="number" id="battleWeapons" min="0" max="${maxWeapons}" value="0" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="checkbox" id="battleBlind" style="width: 20px; height: 20px;">
+            <span><strong>Blind Attack (500 points)</strong> - Hide your mercenaries and weapons from opponent</span>
+          </label>
+          <p style="font-size: 12px; color: var(--muted); margin-top: 4px;">This expensive option prevents your opponent from seeing how many resources you're using.</p>
+        </div>
+        
+        <div style="display: flex; gap: 12px; justify-content: flex-end;">
+          <button class="pill" onclick="this.closest('.modal').remove()" style="background: var(--panel);">Cancel</button>
+          <button class="pill" id="submitBattleRequest" style="background: #e57373; color: white;">Send Battle Request</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    document.getElementById('submitBattleRequest').onclick = () => {
+      const mercs = parseInt(document.getElementById('battleMercenaries').value) || 0;
+      const weapons = parseInt(document.getElementById('battleWeapons').value) || 0;
+      const blind = document.getElementById('battleBlind').checked;
+      
+      if (mercs < 0 || mercs > maxMercenaries) {
+        alert(`Invalid mercenaries count. You have ${maxMercenaries} available.`);
+        return;
+      }
+      
+      if (weapons < 0 || weapons > maxWeapons) {
+        alert(`Invalid weapons count. You have ${maxWeapons} available.`);
+        return;
+      }
+      
+      // Check blind option cost
+      if (blind && attacker.balance < 500) {
+        alert(`Insufficient funds! Blind attack costs 500 points but you only have ${attacker.balance}.`);
+        return;
+      }
+      
+      // Create battle request
+      const request = {
+        id: 'br_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+        roster_id: state.currentRosterId,
+        attacker_student_name: attacker.name,
+        defender_student_name: defender.name,
+        tile_id: tile.id,
+        attacker_mercenaries: mercs,
+        attacker_weapons: weapons,
+        attacker_blind: blind,
+        status: 'pending',
+        created_at: new Date().toISOString()
+      };
+      
+      // Deduct blind cost if applicable
+      if (blind) {
+        attacker.balance -= 500;
+        renderRoster();
+        autoSaveWarPoints();
+      }
+      
+      // Save request
+      const requests = getBattleRequests();
+      requests.push(request);
+      saveBattleRequests(requests);
+      
+      modal.remove();
+      alert(`Battle request sent to ${defender.name}! They will see it in their inbox.`);
+      updateBattleRequestBadges();
+    };
+  }
+  
+  // Show battle inbox
+  function showBattleInbox() {
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    if (!currentStudent) {
+      alert('Please log in first.');
+      return;
+    }
+    
+    const studentName = currentStudent.username;
+    const incoming = getIncomingBattleRequests(studentName);
+    const outgoing = getBattleRequests().filter(r => r.attacker_student_name === studentName && r.status === 'pending');
+    
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.cssText = 'position: fixed; inset: 0; background: #0009; display: grid; place-items: center; z-index: 100;';
+    modal.innerHTML = `
+      <div class="card" style="width: min(800px, 90vw); max-height: 90vh; overflow: auto; background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 style="margin: 0;">📬 Battle Requests</h2>
+          <button onclick="this.closest('.modal').remove()" class="closeX" style="float: none;">✕</button>
+        </div>
+        
+        <div style="margin-bottom: 24px;">
+          <h3 style="margin-bottom: 12px;">Incoming Requests (${incoming.length})</h3>
+          <div id="incomingRequests">
+            ${incoming.length === 0 ? '<p style="color: var(--muted);">No incoming battle requests.</p>' : ''}
+            ${incoming.map(req => {
+              const tile = state.board.tiles.find(t => t.id === req.tile_id);
+              const attacker = state.roster.find(s => s.name === req.attacker_student_name);
+              const defender = state.roster.find(s => s.name === req.defender_student_name);
+              return `
+                <div style="border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+                  <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                    <div>
+                      <strong>${req.attacker_student_name}</strong> wants to battle for territory at (${tile ? tile.x : '?'}, ${tile ? tile.y : '?'})
+                      <br>
+                      ${req.attacker_blind ? 
+                        '<span style="color: #facc15;">🔒 BLIND ATTACK - Mercenaries and weapons hidden</span>' :
+                        `<span>Mercenaries: ${req.attacker_mercenaries}, Weapons: ${req.attacker_weapons}</span>`
+                      }
+                    </div>
+                    <button class="pill" onclick="respondToBattleRequest('${req.id}')" style="background: #10b981; color: white;">Respond</button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+        
+        <div>
+          <h3 style="margin-bottom: 12px;">My Requests (${outgoing.length}/2)</h3>
+          <div id="outgoingRequests">
+            ${outgoing.length === 0 ? '<p style="color: var(--muted);">No pending battle requests.</p>' : ''}
+            ${outgoing.map(req => {
+              const tile = state.board.tiles.find(t => t.id === req.tile_id);
+              return `
+                <div style="border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+                  <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                      <strong>Waiting for ${req.defender_student_name}</strong> to respond
+                      <br>
+                      Territory: (${tile ? tile.x : '?'}, ${tile ? tile.y : '?'})
+                      <br>
+                      Sent: ${new Date(req.created_at).toLocaleString()}
+                    </div>
+                    <button class="pill" onclick="withdrawBattleRequest('${req.id}')" style="background: #f87171; color: white;">Withdraw</button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Make functions globally accessible
+    window.respondToBattleRequest = (requestId) => {
+      respondToBattleRequest(requestId);
+    };
+    
+    window.withdrawBattleRequest = (requestId) => {
+      withdrawBattleRequest(requestId);
+    };
+  }
+  
+  // Respond to battle request
+  function respondToBattleRequest(requestId) {
+    const requests = getBattleRequests();
+    const request = requests.find(r => r.id === requestId);
+    if (!request || request.status !== 'pending') {
+      alert('Request not found or already responded to.');
+      return;
+    }
+    
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    if (!currentStudent || currentStudent.username !== request.defender_student_name) {
+      alert('You can only respond to requests sent to you.');
+      return;
+    }
+    
+    const defender = state.roster.find(s => s.name === request.defender_student_name);
+    if (!defender) {
+      alert('Student not found in roster.');
+      return;
+    }
+    
+    const mercenaries = defender.mercenaries || 0;
+    const weapons = (defender.weapons || []).length;
+    const castles = state.board.tiles.filter(t => t.owner_game_student_id === defender.gsId && t.castle_level > 0).length;
+    
+    // Show response modal
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.cssText = 'position: fixed; inset: 0; background: #0009; display: grid; place-items: center; z-index: 100;';
+    modal.innerHTML = `
+      <div class="card" style="width: min(600px, 90vw); max-height: 90vh; overflow: auto; background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 style="margin: 0;">⚔️ Respond to Battle</h2>
+          <button onclick="this.closest('.modal').remove()" class="closeX" style="float: none;">✕</button>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+          <p><strong>Attacker:</strong> ${request.attacker_student_name}</p>
+          <p><strong>Attacker's Forces:</strong> 
+            ${request.attacker_blind ? 
+              '<span style="color: #facc15;">🔒 BLIND - Hidden from view</span>' :
+              `${request.attacker_mercenaries} mercenaries, ${request.attacker_weapons} weapons`
+            }
+          </p>
+          <p><strong>Your Available:</strong> ${mercenaries} mercenaries, ${weapons} weapons, ${castles} castles</p>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 8px;"><strong>Your Mercenaries (0-${mercenaries}):</strong></label>
+          <input type="number" id="defMercenaries" min="0" max="${mercenaries}" value="0" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 8px;"><strong>Your Weapons (0-${weapons}):</strong></label>
+          <input type="number" id="defWeapons" min="0" max="${weapons}" value="0" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; margin-bottom: 8px;"><strong>Castles to Use (0-${castles}):</strong></label>
+          <input type="number" id="defCastles" min="0" max="${castles}" value="0" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
+        </div>
+        
+        <div style="display: flex; gap: 12px; justify-content: flex-end;">
+          <button class="pill" onclick="this.closest('.modal').remove()" style="background: var(--panel);">Cancel</button>
+          <button class="pill" id="submitBattleResponse" style="background: #e57373; color: white;">Submit Battle</button>
+        </div>
+      </div>
+    `;
+    
+    // Remove the inbox modal first
+    document.querySelectorAll('.modal').forEach(m => m.remove());
+    document.body.appendChild(modal);
+    
+    document.getElementById('submitBattleResponse').onclick = () => {
+      const defMercs = parseInt(document.getElementById('defMercenaries').value) || 0;
+      const defWeapons = parseInt(document.getElementById('defWeapons').value) || 0;
+      const defCastles = parseInt(document.getElementById('defCastles').value) || 0;
+      
+      if (defMercs < 0 || defMercs > mercenaries) {
+        alert(`Invalid mercenaries count. You have ${mercenaries} available.`);
+        return;
+      }
+      
+      if (defWeapons < 0 || defWeapons > weapons) {
+        alert(`Invalid weapons count. You have ${weapons} available.`);
+        return;
+      }
+      
+      if (defCastles < 0 || defCastles > castles) {
+        alert(`Invalid castles count. You have ${castles} available.`);
+        return;
+      }
+      
+      // Resolve battle
+      resolveBattle(requestId, defMercs, defWeapons, defCastles);
+      modal.remove();
+    };
+  }
+  
+  // Resolve battle
+  function resolveBattle(requestId, defMercenaries, defWeapons, defCastles) {
+    const requests = getBattleRequests();
+    const request = requests.find(r => r.id === requestId);
+    if (!request) {
+      alert('Battle request not found.');
+      return;
+    }
+    
+    const tile = state.board.tiles.find(t => t.id === request.tile_id);
+    const attacker = state.roster.find(s => s.name === request.attacker_student_name);
+    const defender = state.roster.find(s => s.name === request.defender_student_name);
+    
+    if (!tile || !attacker || !defender) {
+      alert('Battle participants not found.');
+      return;
+    }
+    
+    // Update request with defender's choices
+    request.defender_mercenaries = defMercenaries;
+    request.defender_weapons = defWeapons;
+    request.defender_castles = defCastles;
+    request.status = 'responded';
+    request.responded_at = new Date().toISOString();
+    
+    // Calculate battle odds
+    // Attacker advantage: +0.05 per mercenary, +0.1 per weapon
+    // Defender advantage: +0.1 per castle level, +0.05 per mercenary
+    const attackerBonus = (request.attacker_mercenaries * 0.05) + (request.attacker_weapons * 0.1);
+    const defenderBonus = (defCastles * 0.1) + (defMercenaries * 0.05);
+    
+    // Base odds: 50% + attacker bonus - defender bonus
+    let odds = 0.5 + attackerBonus - defenderBonus;
+    odds = Math.max(0.1, Math.min(0.9, odds)); // Clamp between 10% and 90%
+    
+    // Roll for result
+    const roll = Math.random();
+    const attackerWins = roll < odds;
+    
+    // Calculate costs
+    const attackerCost = (request.attacker_mercenaries * 10) + (request.attacker_weapons * 20);
+    const defenderCost = defMercenaries * 10;
+    
+    // Deduct costs
+    attacker.balance = Math.max(0, attacker.balance - attackerCost);
+    defender.balance = Math.max(0, defender.balance - defenderCost);
+    
+    // Deduct items used
+    if (request.attacker_mercenaries > 0) {
+      attacker.mercenaries = Math.max(0, (attacker.mercenaries || 0) - request.attacker_mercenaries);
+    }
+    if (request.attacker_weapons > 0) {
+      const weaponsToRemove = request.attacker_weapons;
+      for (let i = 0; i < weaponsToRemove && (attacker.weapons || []).length > 0; i++) {
+        attacker.weapons.pop();
+      }
+    }
+    if (defMercenaries > 0) {
+      defender.mercenaries = Math.max(0, (defender.mercenaries || 0) - defMercenaries);
+    }
+    if (defWeapons > 0) {
+      const weaponsToRemove = defWeapons;
+      for (let i = 0; i < weaponsToRemove && (defender.weapons || []).length > 0; i++) {
+        defender.weapons.pop();
+      }
+    }
+    
+    // Transfer territory if attacker wins
+    if (attackerWins) {
+      tile.owner_game_student_id = attacker.gsId;
+      tile.castle_level = 0; // Reset castle
+      attacker.tilesOwned += 1;
+      defender.tilesOwned = Math.max(0, defender.tilesOwned - 1);
+      request.result = 'attacker_wins';
+    } else {
+      request.result = 'defender_wins';
+    }
+    
+    request.status = 'completed';
+    request.completed_at = new Date().toISOString();
+    
+    // Save updated requests
+    const requestIndex = requests.findIndex(r => r.id === requestId);
+    if (requestIndex >= 0) {
+      requests[requestIndex] = request;
+      saveBattleRequests(requests);
+    }
+    
+    // Update display
+    updateGridDisplay();
+    renderRoster();
+    autoSaveWarPoints();
+    
+    // Show result
+    const resultMessage = attackerWins 
+      ? `🎉 ${attacker.name} WON! Territory captured.` 
+      : `🛡️ ${defender.name} DEFENDED! Territory remains theirs.`;
+    
+    alert(`${resultMessage}\n\nBattle Details:\n- Attacker used: ${request.attacker_mercenaries} mercenaries, ${request.attacker_weapons} weapons\n- Defender used: ${defMercenaries} mercenaries, ${defWeapons} weapons, ${defCastles} castles\n- Odds: ${(odds * 100).toFixed(1)}% attacker win\n- Roll: ${(roll * 100).toFixed(1)}%`);
+    
+    // Create notification for attacker
+    createBattleNotification(attacker.name, request, attackerWins);
+    
+    updateBattleRequestBadges();
+  }
+  
+  // Withdraw battle request
+  function withdrawBattleRequest(requestId) {
+    const requests = getBattleRequests();
+    const request = requests.find(r => r.id === requestId);
+    
+    if (!request || request.status !== 'pending') {
+      alert('Request not found or already completed.');
+      return;
+    }
+    
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    if (!currentStudent || currentStudent.username !== request.attacker_student_name) {
+      alert('You can only withdraw your own requests.');
+      return;
+    }
+    
+    if (!confirm(`Withdraw battle request against ${request.defender_student_name}?`)) {
+      return;
+    }
+    
+    // Refund blind cost if it was used
+    if (request.attacker_blind) {
+      const attacker = state.roster.find(s => s.name === request.attacker_student_name);
+      if (attacker) {
+        attacker.balance += 500;
+        renderRoster();
+        autoSaveWarPoints();
+      }
+    }
+    
+    // Remove request
+    const filtered = requests.filter(r => r.id !== requestId);
+    saveBattleRequests(filtered);
+    
+    alert('Battle request withdrawn.');
+    updateBattleRequestBadges();
+    
+    // Refresh inbox if open
+    const inboxModal = document.querySelector('.modal');
+    if (inboxModal && inboxModal.innerHTML.includes('Battle Requests')) {
+      inboxModal.remove();
+      showBattleInbox();
+    }
+  }
+  
+  // Create battle notification
+  function createBattleNotification(studentName, request, attackerWon) {
+    const notifications = JSON.parse(localStorage.getItem(`battleNotifications_${state.currentRosterId}`) || '[]');
+    const tile = state.board.tiles.find(t => t.id === request.tile_id);
+    const notification = {
+      id: 'notif_' + Date.now(),
+      student_name: studentName,
+      type: 'battle_result',
+      message: attackerWon 
+        ? `🎉 You WON the battle for territory at (${tile ? tile.x : '?'}, ${tile ? tile.y : '?'})! Captured from ${request.defender_student_name}.`
+        : `💥 You LOST the battle for territory at (${tile ? tile.x : '?'}, ${tile ? tile.y : '?'}). ${request.defender_student_name} defended successfully.`,
+      request: request,
+      created_at: new Date().toISOString(),
+      read: false
+    };
+    
+    notifications.push(notification);
+    localStorage.setItem(`battleNotifications_${state.currentRosterId}`, JSON.stringify(notifications));
+    
+    // Update inbox badge to include notifications
+    updateBattleRequestBadges();
+  }
+  
+  // Show notifications
+  function showNotifications() {
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    if (!currentStudent) return;
+    
+    const notifications = JSON.parse(localStorage.getItem(`battleNotifications_${state.currentRosterId}`) || '[]');
+    const unreadCount = notifications.filter(n => !n.read && n.student_name === currentStudent.username).length;
+    
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.cssText = 'position: fixed; inset: 0; background: #0009; display: grid; place-items: center; z-index: 100;';
+    modal.innerHTML = `
+      <div class="card" style="width: min(600px, 90vw); max-height: 90vh; overflow: auto; background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 style="margin: 0;">📬 Notifications</h2>
+          <button onclick="this.closest('.modal').remove()" class="closeX" style="float: none;">✕</button>
+        </div>
+        
+        <div id="notificationsList">
+          ${notifications.filter(n => n.student_name === currentStudent.username).length === 0 
+            ? '<p style="color: var(--muted);">No notifications.</p>' 
+            : notifications.filter(n => n.student_name === currentStudent.username)
+                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                .map(notif => `
+                  <div style="border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 12px; ${!notif.read ? 'background: rgba(60, 165, 250, 0.1);' : ''}">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                      <div style="flex: 1;">
+                        <p style="margin: 0; ${!notif.read ? 'font-weight: 600;' : ''}">${notif.message}</p>
+                        <p style="margin: 4px 0 0; font-size: 12px; color: var(--muted);">${new Date(notif.created_at).toLocaleString()}</p>
+                      </div>
+                      ${!notif.read ? '<button class="pill" onclick="markNotificationRead(\'' + notif.id + '\')" style="background: var(--panel); font-size: 12px;">Mark Read</button>' : ''}
+                    </div>
+                  </div>
+                `).join('')
+          }
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    window.markNotificationRead = (notifId) => {
+      const notifs = JSON.parse(localStorage.getItem(`battleNotifications_${state.currentRosterId}`) || '[]');
+      const notif = notifs.find(n => n.id === notifId);
+      if (notif) {
+        notif.read = true;
+        localStorage.setItem(`battleNotifications_${state.currentRosterId}`, JSON.stringify(notifs));
+        modal.remove();
+        showNotifications(); // Refresh
+      }
+    };
+  }
+  
+  
   // Tornado button removed - tornado functionality moved to Student Market
   // Truces button handled above - calls showTruceModal() for student truce management
 
