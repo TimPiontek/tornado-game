@@ -947,8 +947,7 @@
     <script src="/lib/supabaseClient.js"></script>
     <script>
         // === SUPABASE CLIENT ===
-        // Get supabaseClient from centralized module (already declared in supabaseClient.js)
-        // Create a local reference to avoid redeclaration conflict
+        // Get supabaseClient from centralized module (now wrapped in IIFE, so no conflict)
         const supabaseClient = (function() {
             if (typeof getSupabaseClient !== 'undefined') {
                 return getSupabaseClient();
