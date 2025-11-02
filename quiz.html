@@ -10219,18 +10219,28 @@
             
             // First try to load from quizTeamAssignment (set during roster selection)
             if (window.quizTeamAssignment && window.quizTeamAssignment.rosterData) {
-                rosterData = window.quizTeamAssignment.rosterData;
-                console.log('Roster loaded from quizTeamAssignment:', rosterData);
+                // CRITICAL: Reload roster from localStorage to get latest points before using it
+                const allRosters = getAllQuizRosters();
+                const latestRoster = allRosters.find(r => r.id === window.quizTeamAssignment.rosterData.id);
+                if (latestRoster) {
+                    // Use latest roster data (has updated points from war game)
+                    rosterData = latestRoster;
+                    console.log('Roster reloaded from localStorage with latest points:', rosterData);
+                } else {
+                    rosterData = window.quizTeamAssignment.rosterData;
+                    console.log('Roster loaded from quizTeamAssignment (no update found):', rosterData);
+                }
                 return true;
             }
 
           // Try to load a specific roster by ID from URL params
           if (window.quizConfig && window.quizConfig.rosterId) {
+            // CRITICAL: Always reload from localStorage to get latest points
             const all = getAllQuizRosters();
             const found = all.find(r => r.id === window.quizConfig.rosterId);
             if (found) {
               rosterData = found;
-              console.log('Roster loaded from URL rosterId:', rosterData);
+              console.log('Roster loaded from URL rosterId with latest points:', rosterData);
               return true;
             }
           }

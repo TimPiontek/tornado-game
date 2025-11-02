@@ -1238,9 +1238,49 @@
   // === LOAD ROSTERS ===
   async function loadRosters(selectNewest=false) {
     try {
-      // Load from localStorage first
+      // CRITICAL: Always reload from localStorage first to get latest data (including quiz points)
       const saved = localStorage.getItem('tornadoRosters');
-      state.rosters = saved ? JSON.parse(saved) : [];
+      const loaded = saved ? JSON.parse(saved) : [];
+      
+      // Merge with existing state.rosters, prioritizing loaded data (has latest points)
+      if (loaded.length > 0) {
+        const loadedMap = new Map(loaded.map(r => [r.id, r]));
+        // Update existing rosters with latest data
+        state.rosters.forEach((existing, index) => {
+          const loadedRoster = loadedMap.get(existing.id);
+          if (loadedRoster) {
+            // Merge: prioritize loaded data (has latest points from quiz/war)
+            // But preserve local gameState if it exists and is more recent
+            const existingLastModified = new Date(existing.lastModified || 0);
+            const loadedLastModified = new Date(loadedRoster.lastModified || 0);
+            
+            if (existing.gameState && existingLastModified > loadedLastModified) {
+              // Keep local gameState but update roster points
+              state.rosters[index] = {
+                ...existing,
+                ...loadedRoster,
+                gameState: existing.gameState // Preserve local gameState
+              };
+            } else {
+              // Use loaded data (has latest points)
+              state.rosters[index] = loadedRoster;
+            }
+            loadedMap.delete(existing.id);
+          }
+        });
+        // Add any new rosters
+        loadedMap.forEach(newRoster => {
+          state.rosters.push(newRoster);
+        });
+        // If state.rosters was empty, use loaded directly
+        if (state.rosters.length === 0) {
+          state.rosters = loaded;
+        }
+      } else {
+        state.rosters = loaded;
+      }
+      
+      console.log(`✅ Loaded ${state.rosters.length} rosters from localStorage`);
       
       // Load from Supabase if logged in
       if (state.session && !state.offlineMode) {
@@ -1398,21 +1438,34 @@
     localStorage.setItem('lastSelectedRosterId', rosterId);
     
     // Convert roster to war game format, preserving existing scores
+    // CRITICAL: Always use the LATEST saved data from the roster, not stale state.roster
+    const savedGameState = roster.gameState || {};
+    const savedRoster = savedGameState.roster || [];
+    
     state.roster = roster.roster.map((student, i) => {
-      // Check if student already has war game data
-      const existingStudent = state.roster.find(s => s.name === student.name);
+      // Find saved student data from game state (for tiles, etc.)
+      const savedStudent = savedRoster.find(s => s.name === student.name);
+      
+      // CRITICAL: Use saved points from roster (includes quiz points), prioritize balance
+      // The roster.roster array has the latest saved points from all games
+      const savedBalance = student.balance !== undefined ? student.balance : (student.points || 0);
+      const savedEarnedPoints = student.earnedPoints !== undefined ? student.earnedPoints : 0;
+      const savedStartingPoints = student.startingPoints !== undefined ? student.startingPoints : 10;
       
       const studentData = {
         gsId: student.id || `student_${i}`,
         name: student.name,
-        tilesOwned: existingStudent?.tilesOwned || 0,
-        // Split starting vs earned points - prioritize quiz points
-        startingPoints: existingStudent?.startingPoints ?? existingStudent?.startPoints ?? 10,
-        earnedPoints: existingStudent?.earnedPoints ?? 0,
-        balance: student.points ?? student.balance ?? (existingStudent?.startingPoints ?? existingStudent?.startPoints ?? 10) + (existingStudent?.earnedPoints ?? 0),
-        teamId: existingStudent?.teamId || null,
-        teamName: existingStudent?.teamName || null,
-        teamColor: existingStudent?.teamColor || null,
+        // Preserve tiles owned from saved game state
+        tilesOwned: savedStudent?.tilesOwned || student.tilesOwned || 0,
+        // Use saved points from roster (these are the latest from all games)
+        startingPoints: savedStartingPoints,
+        earnedPoints: savedEarnedPoints,
+        // CRITICAL: balance should include all points (starting + earned), or use saved balance
+        balance: savedBalance || (savedStartingPoints + savedEarnedPoints),
+        // Use team info from roster (latest saved data)
+        teamId: student.teamId || savedStudent?.teamId || null,
+        teamName: student.teamName || savedStudent?.teamName || null,
+        teamColor: student.teamColor || savedStudent?.teamColor || null,
         // Preserve character data from saved roster
         characterName: student.characterName || null,
         characterRole: student.characterRole || null,
@@ -5332,14 +5385,22 @@
       // Update the roster data with current scores and game state
       const updatedRoster = {
         ...state.currentRoster,
-        roster: state.roster.map(student => ({
-          id: student.gsId,
-          name: student.name,
-          // Persist split points
-          startingPoints: student.startingPoints || 0,
-          earnedPoints: student.earnedPoints || 0,
-          points: (student.startingPoints || 0) + (student.earnedPoints || 0),
-          balance: student.balance || (student.startingPoints || 0) + (student.earnedPoints || 0), // CRITICAL: Save balance field
+        roster: state.roster.map(student => {
+          // CRITICAL: Calculate points from current in-memory state
+          const currentStartingPoints = student.startingPoints || 0;
+          const currentEarnedPoints = student.earnedPoints || 0;
+          const calculatedPoints = currentStartingPoints + currentEarnedPoints;
+          const currentBalance = student.balance !== undefined ? student.balance : calculatedPoints;
+          
+          return {
+            id: student.gsId,
+            name: student.name,
+            // Persist split points (from current state)
+            startingPoints: currentStartingPoints,
+            earnedPoints: currentEarnedPoints,
+            // CRITICAL: Save both calculated and actual balance
+            points: calculatedPoints,
+            balance: currentBalance, // This is the actual current balance (includes all points)
           tilesOwned: student.tilesOwned,
           teamId: student.teamId,
           teamName: student.teamName,
@@ -7518,18 +7579,44 @@
     await initializeApp();
   })();
 
-  // Listen for roster updates from student war game
+  // Listen for roster updates from other pages/tabs
   window.addEventListener('storage', async function(e) {
     if (e.key === 'tornadoRosters' || e.key === 'rosterUpdateTrigger') {
-      // Reload rosters when they're updated
+      console.log('🔄 Storage event detected - reloading rosters from localStorage...');
       await loadRosters(true);
+      // If a roster is currently selected, reload it to get latest points
+      if (state.currentRosterId) {
+        const updatedRoster = state.rosters.find(r => r.id === state.currentRosterId);
+        if (updatedRoster) {
+          console.log('🔄 Reloading current roster with latest data...');
+          selectRoster(state.currentRosterId);
+        }
+      }
     }
   });
 
   // Listen for custom roster update events
   window.addEventListener('rosterUpdated', async function(e) {
-    console.log('Roster updated from another tab:', e.detail);
+    console.log('🔄 Roster update event received:', e.detail);
     await loadRosters(true);
+    if (state.currentRosterId) {
+      const updatedRoster = state.rosters.find(r => r.id === state.currentRosterId);
+      if (updatedRoster) {
+        selectRoster(state.currentRosterId);
+      }
+    }
+  });
+
+  // Reload rosters when page becomes visible (user navigated back to this tab)
+  document.addEventListener('visibilitychange', async function() {
+    if (!document.hidden && state.currentRosterId) {
+      console.log('🔄 Page became visible - reloading rosters to get latest points...');
+      await loadRosters(true);
+      const updatedRoster = state.rosters.find(r => r.id === state.currentRosterId);
+      if (updatedRoster) {
+        selectRoster(state.currentRosterId);
+      }
+    }
   });
 
   // Listen for truce updates from other tabs

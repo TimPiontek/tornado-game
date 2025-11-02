@@ -545,8 +545,31 @@
   // === LOAD ROSTERS ===
   function loadRosters(selectNewest=false) {
     try {
+      // CRITICAL: Always reload from localStorage to get latest data (including quiz points)
       const saved = localStorage.getItem('tornadoRosters');
-      state.rosters = saved ? JSON.parse(saved) : [];
+      const loaded = saved ? JSON.parse(saved) : [];
+      
+      // Merge with existing state.rosters, prioritizing loaded data
+      if (loaded.length > 0) {
+        const loadedMap = new Map(loaded.map(r => [r.id, r]));
+        // Update existing rosters with latest data
+        state.rosters.forEach(existing => {
+          const loadedRoster = loadedMap.get(existing.id);
+          if (loadedRoster) {
+            // Merge: prioritize loaded data (has latest points)
+            Object.assign(existing, loadedRoster);
+            loadedMap.delete(existing.id);
+          }
+        });
+        // Add any new rosters
+        loadedMap.forEach(newRoster => {
+          state.rosters.push(newRoster);
+        });
+      } else {
+        state.rosters = loaded;
+      }
+      
+      console.log(`✅ Loaded ${state.rosters.length} rosters from localStorage`);
     } catch (e) {
       console.error('Error loading rosters:', e);
       state.rosters = [];
@@ -576,20 +599,40 @@
     state.currentRosterId = rosterId;
     
     // Convert roster to war game format, preserving existing scores
+    // CRITICAL: Always use the LATEST saved data from the roster, not stale state.roster
     state.roster = roster.roster.map((student, i) => {
-      // Check if student already has war game data
-      const existingStudent = state.roster.find(s => s.name === student.name);
+      // Load game state from roster if it exists (preserves tiles, etc.)
+      const savedGameState = roster.gameState || {};
+      const savedStudent = savedGameState.roster?.find(s => s.name === student.name);
+      
+      // CRITICAL: Use saved points from roster (includes quiz points), but preserve war game assets
+      const savedBalance = student.balance !== undefined ? student.balance : (student.points || 0);
+      const savedEarnedPoints = student.earnedPoints !== undefined ? student.earnedPoints : 0;
+      const savedStartingPoints = student.startingPoints !== undefined ? student.startingPoints : 10;
       
       const studentData = {
         gsId: student.id || `student_${i}`,
         name: student.name,
-        tilesOwned: existingStudent?.tilesOwned || 0,
-        startPoints: existingStudent?.startPoints || 10,
-        balance: existingStudent?.balance || student.points || 10, // Use saved points or default (10 coins for mercenary)
-        teamId: existingStudent?.teamId || null,
-        teamName: existingStudent?.teamName || null,
-        teamColor: existingStudent?.teamColor || null
+        // Preserve tiles owned from saved game state
+        tilesOwned: savedStudent?.tilesOwned || student.tilesOwned || 0,
+        // Use saved starting points or default
+        startingPoints: savedStartingPoints,
+        startPoints: savedStartingPoints, // Alias for compatibility
+        // CRITICAL: Use saved balance/points (includes quiz points), prioritize balance
+        earnedPoints: savedEarnedPoints,
+        balance: savedBalance, // This should include all accumulated points from quiz and war
+        points: savedBalance, // Alias for compatibility
+        // Preserve team info from roster
+        teamId: student.teamId || savedStudent?.teamId || null,
+        teamName: student.teamName || savedStudent?.teamName || null,
+        teamColor: student.teamColor || savedStudent?.teamColor || null,
+        // Preserve game assets
+        weapons: student.weapons || savedStudent?.weapons || [],
+        mercenaries: student.mercenaries !== undefined ? student.mercenaries : (savedStudent?.mercenaries || 0),
+        wizard: student.wizard || savedStudent?.wizard || false
       };
+      
+      console.log(`Loaded ${student.name}: balance=${studentData.balance}, earned=${studentData.earnedPoints}, starting=${studentData.startingPoints}`);
       
       // Assign color to student
       colorFor(studentData.gsId, i, roster.roster.length);
@@ -4087,6 +4130,46 @@
 
   // No scenario selector for students - scenarios are auto-detected from teacher's roster
 
+  // Listen for roster updates from other pages/tabs
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'tornadoRosters' || e.key === 'rosterUpdateTrigger') {
+      console.log('🔄 Storage event detected - reloading rosters from localStorage...');
+      loadRosters();
+      // If a roster is currently selected, reload it to get latest points
+      if (state.currentRosterId) {
+        const updatedRoster = state.rosters.find(r => r.id === state.currentRosterId);
+        if (updatedRoster) {
+          console.log('🔄 Reloading current roster with latest data...');
+          selectRoster(state.currentRosterId);
+        }
+      }
+    }
+  });
+
+  // Listen for custom roster update events
+  window.addEventListener('rosterUpdated', function(e) {
+    console.log('🔄 Roster update event received:', e.detail);
+    loadRosters();
+    if (state.currentRosterId) {
+      const updatedRoster = state.rosters.find(r => r.id === state.currentRosterId);
+      if (updatedRoster) {
+        selectRoster(state.currentRosterId);
+      }
+    }
+  });
+
+  // Reload rosters when page becomes visible (user navigated back to this tab)
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden && state.currentRosterId) {
+      console.log('🔄 Page became visible - reloading rosters to get latest points...');
+      loadRosters();
+      const updatedRoster = state.rosters.find(r => r.id === state.currentRosterId);
+      if (updatedRoster) {
+        selectRoster(state.currentRosterId);
+      }
+    }
+  });
+
   // Auto-load student's roster
   function loadStudentRoster() {
     console.log('Loading student roster...');
@@ -4113,10 +4196,13 @@
       }
     }
 
-    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
-    console.log('Available rosters:', rosters);
+    // CRITICAL: Reload rosters to get latest data before selecting
+    loadRosters();
+    
+    const rosters = state.rosters; // Use loaded rosters from state
+    console.log('Available rosters:', rosters.length);
     const studentRoster = rosters.find(r => r.id === currentStudent.rosterId);
-    console.log('Found student roster:', studentRoster);
+    console.log('Found student roster:', studentRoster?.name, 'with latest points');
     
     if (!studentRoster) {
       alert('Your class roster not found!');
