@@ -7685,6 +7685,20 @@
         });
         
         // === AUTO-SAVE SYSTEM ===
+        // Track last saved state to prevent double-counting
+        let lastSavedStudentPoints = {};
+        
+        // Initialize tracking when student points are first initialized
+        function initializeAutoSaveTracking() {
+            lastSavedStudentPoints = {};
+            if (rosterData && rosterData.roster) {
+                rosterData.roster.forEach(student => {
+                    lastSavedStudentPoints[student.name] = 0;
+                });
+            }
+            console.log('📊 Auto-save tracking initialized:', lastSavedStudentPoints);
+        }
+        
         function autoSaveQuizPoints() {
             if (!rosterData) return;
             
@@ -7701,17 +7715,26 @@
                 }
                 
                 if (targetRoster && targetRoster.roster) {
-                    // Update individual student points - ADD quiz points to existing war game points
+                    // Calculate NEW points earned since last save (to prevent double-counting)
                     targetRoster.roster.forEach(student => {
-                        const quizPoints = (studentPoints[student.name] !== undefined) ? (studentPoints[student.name] || 0) : 0;
-                        const existingPoints = student.points || 0;
-                        const existingEarnedPoints = student.earnedPoints || 0;
+                        const currentQuizPoints = (studentPoints[student.name] !== undefined) ? (studentPoints[student.name] || 0) : 0;
+                        const lastSavedPoints = lastSavedStudentPoints[student.name] || 0;
+                        const newPointsEarned = currentQuizPoints - lastSavedPoints;
                         
-                        // Always preserve existing points and add quiz points (even if quizPoints is 0)
-                        // This ensures war game points are never lost
-                        student.points = existingPoints + quizPoints;
-                        student.balance = student.points; // Keep balance in sync
-                        student.earnedPoints = existingEarnedPoints + quizPoints;
+                        if (newPointsEarned > 0) {
+                            const existingPoints = student.points || 0;
+                            const existingEarnedPoints = student.earnedPoints || 0;
+                            
+                            // Only add NEW points earned since last save
+                            student.points = existingPoints + newPointsEarned;
+                            student.balance = student.points; // Keep balance in sync
+                            student.earnedPoints = existingEarnedPoints + newPointsEarned;
+                            
+                            console.log(`Auto-save: ${student.name} +${newPointsEarned} new points (${existingPoints} → ${student.points})`);
+                        }
+                        
+                        // Update last saved state
+                        lastSavedStudentPoints[student.name] = currentQuizPoints;
                     });
                     
                     // Update last modified
@@ -7722,9 +7745,9 @@
                     if (rosterIndex >= 0) {
                         rosters[rosterIndex] = targetRoster;
                         localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+                        
+                        console.log('✅ Auto-saved NEW quiz points to roster (prevented double-counting)');
                     }
-                    
-                    console.log('Auto-saved quiz points to roster (added to existing points)');
                 }
             } catch (error) {
                 console.error('Error auto-saving quiz points:', error);
@@ -7761,7 +7784,52 @@
             });
           }
           
-          // Transfer points to roster immediately
+          // Final save before showing results - ensure all points are saved
+          console.log('💾 Final save before showing end game results...');
+          
+          // Force final save with all accumulated points
+          const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+          let targetRoster = rosters.find(r => r.id === rosterData.id);
+          
+          if (!targetRoster) {
+            targetRoster = rosters.reduce((latest, roster) => {
+              return new Date(roster.lastModified || roster.created_at) > new Date(latest.lastModified || latest.created_at) ? roster : latest;
+            });
+          }
+          
+          if (targetRoster && targetRoster.roster) {
+            let totalSaved = 0;
+            targetRoster.roster.forEach(student => {
+              const currentQuizPoints = (studentPoints[student.name] !== undefined) ? (studentPoints[student.name] || 0) : 0;
+              const lastSavedPoints = lastSavedStudentPoints[student.name] || 0;
+              const newPointsEarned = currentQuizPoints - lastSavedPoints;
+              
+              if (newPointsEarned > 0 || currentQuizPoints > 0) {
+                const existingPoints = student.points || 0;
+                const existingEarnedPoints = student.earnedPoints || 0;
+                
+                // Add any remaining unsaved points
+                student.points = existingPoints + newPointsEarned;
+                student.balance = student.points;
+                student.earnedPoints = existingEarnedPoints + newPointsEarned;
+                
+                lastSavedStudentPoints[student.name] = currentQuizPoints;
+                totalSaved += newPointsEarned;
+                
+                console.log(`Final save: ${student.name} +${newPointsEarned} points (${existingPoints} → ${student.points})`);
+              }
+            });
+            
+            targetRoster.lastModified = new Date().toISOString();
+            const rosterIndex = rosters.findIndex(r => r.id === targetRoster.id);
+            if (rosterIndex >= 0) {
+              rosters[rosterIndex] = targetRoster;
+              localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+              console.log(`✅ Final save complete: ${totalSaved} total points saved to roster`);
+            }
+          }
+          
+          // Transfer points to roster immediately (for team victory bonuses)
           if (winner && rosterData) {
             console.log(`💰 Transferring points to roster for winner: ${winner}`);
             if (teamMode) {
@@ -10044,6 +10112,9 @@
                 
                 // Only initialize quiz session points to 0, don't reset total points
                 studentPoints[student.name] = 0;
+                
+                // Initialize auto-save tracking
+                lastSavedStudentPoints[student.name] = 0;
                 
                 // CRITICAL: Preserve existing points from War game - don't let them get overwritten
                 if (student.points === undefined) {
