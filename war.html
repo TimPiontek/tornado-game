@@ -5401,18 +5401,19 @@
             // CRITICAL: Save both calculated and actual balance
             points: calculatedPoints,
             balance: currentBalance, // This is the actual current balance (includes all points)
-          tilesOwned: student.tilesOwned,
-          teamId: student.teamId,
-          teamName: student.teamName,
-          teamColor: student.teamColor,
-          // Save character data
-          characterName: student.characterName,
-          characterRole: student.characterRole,
-          characterFaction: student.characterFaction,
-          startingCastles: student.startingCastles,
-          weapons: student.weapons,
-          mercenaries: student.mercenaries
-        })),
+            tilesOwned: student.tilesOwned,
+            teamId: student.teamId,
+            teamName: student.teamName,
+            teamColor: student.teamColor,
+            // Save character data
+            characterName: student.characterName,
+            characterRole: student.characterRole,
+            characterFaction: student.characterFaction,
+            startingCastles: student.startingCastles,
+            weapons: student.weapons || [],
+            mercenaries: student.mercenaries || 0
+          };
+        }),
         gameState: {
           board: state.board,
           tiles: state.board.tiles,
