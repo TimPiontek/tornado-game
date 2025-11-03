@@ -7832,7 +7832,10 @@
         }
         
         function autoSaveQuizPoints() {
-            if (!rosterData) return;
+            if (!rosterData) {
+                console.warn('⚠️ autoSaveQuizPoints: No rosterData available');
+                return;
+            }
             
             try {
                 // Get current roster data
@@ -7840,13 +7843,21 @@
                 let targetRoster = rosters.find(r => r.id === rosterData.id);
                 
                 if (!targetRoster) {
+                    console.warn(`⚠️ Roster ${rosterData.id} not found in localStorage. Available rosters:`, rosters.map(r => ({ id: r.id, name: r.name })));
                     // Use most recent roster if current one not found
-                    targetRoster = rosters.reduce((latest, roster) => {
-                        return new Date(roster.lastModified || roster.created_at) > new Date(latest.lastModified || latest.created_at) ? roster : latest;
-                    });
+                    if (rosters.length > 0) {
+                        targetRoster = rosters.reduce((latest, roster) => {
+                            return new Date(roster.lastModified || roster.created_at) > new Date(latest.lastModified || latest.created_at) ? roster : latest;
+                        });
+                        console.log(`⚠️ Using most recent roster instead: ${targetRoster.name} (${targetRoster.id})`);
+                    } else {
+                        console.error('❌ No rosters found in localStorage!');
+                        return;
+                    }
                 }
                 
                 if (targetRoster && targetRoster.roster) {
+                    let anyPointsSaved = false;
                     // Calculate NEW points earned since last save (to prevent double-counting)
                     targetRoster.roster.forEach(student => {
                         const currentQuizPoints = (studentPoints[student.name] !== undefined) ? (studentPoints[student.name] || 0) : 0;
@@ -7854,6 +7865,7 @@
                         const newPointsEarned = currentQuizPoints - lastSavedPoints;
                         
                         if (newPointsEarned > 0) {
+                            anyPointsSaved = true;
                             const existingPoints = student.points || 0;
                             const existingEarnedPoints = student.earnedPoints || 0;
                             
@@ -7862,10 +7874,12 @@
                             student.balance = student.points; // Keep balance in sync
                             student.earnedPoints = existingEarnedPoints + newPointsEarned;
                             
-                            console.log(`Auto-save: ${student.name} +${newPointsEarned} new points (${existingPoints} → ${student.points})`);
+                            console.log(`💾 Auto-save: ${student.name} +${newPointsEarned} new points (${existingPoints} → ${student.points})`);
+                        } else if (currentQuizPoints > 0 && newPointsEarned === 0) {
+                            console.log(`⏸️ Auto-save: ${student.name} has ${currentQuizPoints} points but already saved (no new points)`);
                         }
                         
-                        // Update last saved state
+                        // Update last saved state (even if no new points, to keep tracking accurate)
                         lastSavedStudentPoints[student.name] = currentQuizPoints;
                     });
                     
@@ -7878,11 +7892,26 @@
                         rosters[rosterIndex] = targetRoster;
                         localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
                         
-                        console.log('✅ Auto-saved NEW quiz points to roster (prevented double-counting)');
+                        if (anyPointsSaved) {
+                            console.log('✅ Auto-saved NEW quiz points to roster (prevented double-counting)');
+                        } else {
+                            console.log('ℹ️ Auto-save: No new points to save (all points already saved)');
+                        }
+                        
+                        // Trigger storage event for cross-page sync
+                        window.dispatchEvent(new StorageEvent('storage', {
+                            key: 'tornadoRosters',
+                            newValue: JSON.stringify(rosters),
+                            oldValue: localStorage.getItem('tornadoRosters')
+                        }));
+                    } else {
+                        console.error('❌ Could not find roster index to update!');
                     }
+                } else {
+                    console.error('❌ Target roster found but has no roster array!', targetRoster);
                 }
             } catch (error) {
-                console.error('Error auto-saving quiz points:', error);
+                console.error('❌ Error auto-saving quiz points:', error);
             }
         }
         
