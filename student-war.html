@@ -2146,82 +2146,82 @@
         row.style.borderLeft = "3px solid #3b82f6";
       }
     }
+    
+    // Count castles, mercenaries, and weapons for this student
+    const castles = state.board.tiles.filter(tile => 
+      tile.owner_game_student_id === student.gsId && tile.castle_level > 0
+    ).length;
+    
+    const mercenaries = student.mercenaries || 0;
+    const weapons = student.weapons ? student.weapons.length : 0;
+    
+    // Get character information if scenario is active
+    let characterName = '';
+    if (state.scenario) {
+      const scenario = state.scenario;
       
-      // Count castles, mercenaries, and weapons for this student
-      const castles = state.board.tiles.filter(tile => 
-        tile.owner_game_student_id === student.gsId && tile.castle_level > 0
-      ).length;
-      
-      const mercenaries = student.mercenaries || 0;
-      const weapons = student.weapons ? student.weapons.length : 0;
-      
-      // Get character information if scenario is active
+      // First check if student has characterName property
+      if (student.characterName) {
+        characterName = student.characterName;
+      } else if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[student.gsId]) {
+        characterName = scenario.manualRoleAssignments[student.gsId];
+      } else if (scenario.aiAssignments) {
+        const aiRole = Object.values(scenario.aiAssignments).find(ai => ai.studentId === student.gsId);
+        if (aiRole) {
+          characterName = aiRole.roleName || 'AI Character';
+        }
+      }
+    }
+    
+    // Get team color - prioritize team color over individual color
+    let teamColor = student.teamColor;
+    if (!teamColor && state.scenario) {
+      // Try to get team color from scenario assignments if not set
+      const scenario = state.scenario;
       let characterName = '';
-      if (state.scenario) {
-        const scenario = state.scenario;
-        
-        // First check if student has characterName property
-        if (student.characterName) {
-          characterName = student.characterName;
-        } else if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[student.gsId]) {
-          characterName = scenario.manualRoleAssignments[student.gsId];
-        } else if (scenario.aiAssignments) {
-          const aiRole = Object.values(scenario.aiAssignments).find(ai => ai.studentId === student.gsId);
-          if (aiRole) {
-            characterName = aiRole.roleName || 'AI Character';
-          }
+      
+      if (student.characterName) {
+        characterName = student.characterName;
+      } else if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[student.gsId]) {
+        characterName = scenario.manualRoleAssignments[student.gsId];
+      } else if (scenario.aiAssignments) {
+        const aiRole = Object.values(scenario.aiAssignments).find(ai => ai.studentId === student.gsId);
+        if (aiRole) {
+          characterName = aiRole.roleName || 'AI Character';
         }
       }
       
-      // Get team color - prioritize team color over individual color
-      let teamColor = student.teamColor;
-      if (!teamColor && state.scenario) {
-        // Try to get team color from scenario assignments if not set
-        const scenario = state.scenario;
-        let characterName = '';
-        
-        if (student.characterName) {
-          characterName = student.characterName;
-        } else if (scenario.manualRoleAssignments && scenario.manualRoleAssignments[student.gsId]) {
-          characterName = scenario.manualRoleAssignments[student.gsId];
-        } else if (scenario.aiAssignments) {
-          const aiRole = Object.values(scenario.aiAssignments).find(ai => ai.studentId === student.gsId);
-          if (aiRole) {
-            characterName = aiRole.roleName || 'AI Character';
-          }
-        }
-        
-        if (characterName && scenario.scenarioId) {
-          const scenarioData = SCENARIOS[scenario.scenarioId];
-          if (scenarioData && scenarioData.factions) {
-            for (const [key, faction] of Object.entries(scenarioData.factions)) {
-              if (faction.characters) {
-                const character = faction.characters.find(char => char.name === characterName);
-                if (character) {
-                  teamColor = faction.color;
-                  break;
-                }
+      if (characterName && scenario.scenarioId) {
+        const scenarioData = SCENARIOS[scenario.scenarioId];
+        if (scenarioData && scenarioData.factions) {
+          for (const [key, faction] of Object.entries(scenarioData.factions)) {
+            if (faction.characters) {
+              const character = faction.characters.find(char => char.name === characterName);
+              if (character) {
+                teamColor = faction.color;
+                break;
               }
-              if (faction.generalRoles) {
-                const generalRole = faction.generalRoles.find(role => role.name === characterName);
-                if (generalRole) {
-                  teamColor = faction.color;
-                  break;
-                }
+            }
+            if (faction.generalRoles) {
+              const generalRole = faction.generalRoles.find(role => role.name === characterName);
+              if (generalRole) {
+                teamColor = faction.color;
+                break;
               }
             }
           }
         }
       }
-      
-      // Fallback to individual color if no team color found
-      if (!teamColor) {
-        teamColor = state.colors.get(student.gsId);
-      }
-      const teamName = student.teamName || 'Student Mode';
-      
-      // Different layouts for profile vs leaderboard
-      if (isLoggedInProfile) {
+    }
+    
+    // Fallback to individual color if no team color found
+    if (!teamColor) {
+      teamColor = state.colors.get(student.gsId);
+    }
+    const teamName = student.teamName || 'Student Mode';
+    
+    // Different layouts for profile vs leaderboard
+    if (isLoggedInProfile) {
         // Full profile layout for logged-in student
         row.innerHTML = `
           <div style="display:flex; gap:8px; align-items:center; margin-bottom: 8px;">
@@ -2263,29 +2263,29 @@
             </div>
           </div>
         `;
+    }
+    
+    // Don't allow clicking to change selection for logged-in student
+    if (isLoggedIn) {
+      row.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        // Do nothing - student is always selected
+      };
+    }
+    
+    rosterEl.appendChild(row);
+    
+    // Add character profile section only for logged-in student's profile
+    if (isLoggedInProfile && state.scenario) {
+      let profileCharacterName = '';
+      if (student.characterName) {
+        profileCharacterName = student.characterName;
+      } else if (state.scenario.manualRoleAssignments && state.scenario.manualRoleAssignments[student.gsId]) {
+        profileCharacterName = state.scenario.manualRoleAssignments[student.gsId];
       }
       
-      // Don't allow clicking to change selection for logged-in student
-      if (isLoggedIn) {
-        row.onclick = (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          // Do nothing - student is always selected
-        };
-      }
-      
-      rosterEl.appendChild(row);
-      
-      // Add character profile section only for logged-in student's profile
-      if (isLoggedInProfile && state.scenario) {
-        let profileCharacterName = '';
-        if (student.characterName) {
-          profileCharacterName = student.characterName;
-        } else if (state.scenario.manualRoleAssignments && state.scenario.manualRoleAssignments[student.gsId]) {
-          profileCharacterName = state.scenario.manualRoleAssignments[student.gsId];
-        }
-        
-        if (profileCharacterName) {
+      if (profileCharacterName) {
         const profileSection = document.createElement("div");
         profileSection.className = "panel";
         profileSection.style.marginTop = "12px";
@@ -2316,8 +2316,8 @@
           '</div>';
         
         rosterEl.appendChild(profileSection);
-        }
       }
+    }
   }
 
   // === BOARD ===
