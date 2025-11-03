@@ -3485,6 +3485,8 @@
           "https://dmbbsrcwqpmdxqtzvtqj.supabase.co",
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w"
         );
+        // Store on window for global access
+        window.quizSupabaseClient = supabaseClient;
 
         // Show navigation for quiz page
         document.getElementById('mainNav').style.display = 'flex';
@@ -8062,15 +8064,24 @@
                         // CRITICAL: Sync to Supabase during game (throttled to avoid too many API calls)
                         const now = Date.now();
                         const timeSinceLastSync = now - lastSupabaseSyncTime;
-                        const shouldSyncToCloud = anyPointsSaved && (timeSinceLastSync >= SUPABASE_SYNC_INTERVAL);
+                        const shouldSyncToCloud = anyPointsSaved && (timeSinceLastSync >= SUPABASE_SYNC_INTERVAL || lastSupabaseSyncTime === 0);
                         
                         if (shouldSyncToCloud) {
                             lastSupabaseSyncTime = now;
+                            console.log(`🌐 Auto-sync to Supabase triggered (${timeSinceLastSync}ms since last sync)`);
                             // Sync to Supabase in background (don't block game)
-                            syncRosterToSupabase(targetRoster).catch(error => {
+                            syncRosterToSupabase(targetRoster, false).then(success => {
+                                if (success) {
+                                    console.log('✅ Auto-sync to Supabase completed successfully');
+                                } else {
+                                    console.warn('⚠️ Auto-sync to Supabase failed, but points are saved locally');
+                                }
+                            }).catch(error => {
                                 console.error('❌ Error syncing auto-saved points to Supabase:', error);
                                 // Continue - points are saved locally
                             });
+                        } else if (anyPointsSaved) {
+                            console.log(`⏳ Points saved locally, will sync to Supabase in ${Math.max(0, SUPABASE_SYNC_INTERVAL - timeSinceLastSync)}ms`);
                         }
                         
                         // Trigger storage event for cross-page sync
@@ -8091,47 +8102,94 @@
         }
         
         // Helper function to sync roster to Supabase
-        async function syncRosterToSupabase(rosterData) {
+        async function syncRosterToSupabase(rosterData, forceSync = false) {
+            console.log(`🔄 syncRosterToSupabase called for roster: ${rosterData?.name} (ID: ${rosterData?.id}), forceSync: ${forceSync}`);
+            
             try {
-                // Try to use the Supabase client from window (quiz.html uses this)
-                let supabaseClient = window.supabase;
-                if (!supabaseClient && window.getSupabaseClient) {
-                    supabaseClient = window.getSupabaseClient();
-                }
-                if (!supabaseClient || !supabaseClient.createClient) {
-                    // Try importing the module
-                    const { getSupabaseClient } = await import('/lib/supabaseClient.js');
-                    supabaseClient = getSupabaseClient();
+                // Priority 1: Use the quiz page's Supabase client (stored on window)
+                let supabaseClient = window.quizSupabaseClient;
+                
+                // Priority 2: Try to get it from window.supabase (the library itself)
+                if (!supabaseClient && window.supabase && window.supabase.createClient) {
+                    console.log('⚠️ quizSupabaseClient not found, creating new client');
+                    supabaseClient = window.supabase.createClient(
+                        "https://dmbbsrcwqpmdxqtzvtqj.supabase.co",
+                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w"
+                    );
                 }
                 
-                if (supabaseClient && supabaseClient.auth) {
-                    const { data: { session } } = await supabaseClient.auth.getSession();
-                    if (session && session.user) {
-                        const { error } = await supabaseClient.from('rosters').upsert({
-                            id: rosterData.id,
-                            teacher_id: session.user.id,
-                            name: rosterData.name,
-                            data: rosterData,
-                            last_modified: new Date().toISOString()
-                        });
-                        
-                        if (error) {
-                            console.error('❌ Error syncing points to Supabase:', error);
-                            return false;
-                        } else {
-                            console.log('✅ Points synced to Supabase during game');
-                            return true;
-                        }
-                    } else {
-                        console.log('⚠️ No active session - points saved locally only');
-                        return false;
+                // Priority 3: Try getSupabaseClient from window
+                if (!supabaseClient && window.getSupabaseClient) {
+                    console.log('⚠️ Trying getSupabaseClient from window');
+                    supabaseClient = window.getSupabaseClient();
+                }
+                
+                // Priority 4: Import the module
+                if (!supabaseClient) {
+                    console.log('⚠️ Importing Supabase client module');
+                    try {
+                        const { getSupabaseClient } = await import('/lib/supabaseClient.js');
+                        supabaseClient = getSupabaseClient();
+                    } catch (importError) {
+                        console.error('❌ Failed to import Supabase client:', importError);
                     }
-                } else {
-                    console.log('⚠️ Supabase client not available - points saved locally only');
+                }
+                
+                if (!supabaseClient) {
+                    console.error('❌ No Supabase client available at all - points saved locally only');
                     return false;
                 }
+                
+                if (!supabaseClient.auth) {
+                    console.error('❌ Supabase client exists but auth is missing');
+                    return false;
+                }
+                
+                console.log('🔐 Checking auth session...');
+                const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
+                
+                if (sessionError) {
+                    console.error('❌ Error getting session:', sessionError);
+                    return false;
+                }
+                
+                if (!session || !session.user) {
+                    console.warn('⚠️ No active session - user is not logged in. Points saved locally only.');
+                    console.log('Session data:', session);
+                    return false;
+                }
+                
+                console.log(`✅ Session found for user: ${session.user.email || session.user.id}`);
+                console.log(`💾 Attempting to upsert roster ${rosterData.id} to Supabase...`);
+                
+                const { error } = await supabaseClient.from('rosters').upsert({
+                    id: rosterData.id,
+                    teacher_id: session.user.id,
+                    name: rosterData.name,
+                    data: rosterData,
+                    last_modified: new Date().toISOString()
+                }, {
+                    onConflict: 'id'
+                });
+                
+                if (error) {
+                    console.error('❌ Supabase upsert error:', error);
+                    console.error('Error details:', {
+                        code: error.code,
+                        message: error.message,
+                        details: error.details,
+                        hint: error.hint
+                    });
+                    return false;
+                } else {
+                    console.log('✅ Points synced to Supabase successfully!');
+                    console.log(`   Roster: ${rosterData.name}`);
+                    console.log(`   Students with points: ${rosterData.roster?.filter(s => (s.points || 0) > 0).length || 0}`);
+                    return true;
+                }
             } catch (error) {
-                console.error('❌ Error syncing to Supabase:', error);
+                console.error('❌ Exception in syncRosterToSupabase:', error);
+                console.error('Error stack:', error.stack);
                 return false;
             }
         }
@@ -8218,41 +8276,23 @@
               localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
               console.log(`✅ Final save complete: ${totalSaved} total points saved to roster`);
               
-              // CRITICAL: Sync to Supabase for cloud persistence
-              try {
-                // Try to use the Supabase client from window (quiz.html uses this)
-                let supabaseClient = window.supabase;
-                if (!supabaseClient && window.getSupabaseClient) {
-                  supabaseClient = window.getSupabaseClient();
-                }
-                if (!supabaseClient) {
-                  const { getSupabaseClient } = await import('/lib/supabaseClient.js');
-                  supabaseClient = getSupabaseClient();
-                }
-                
-                if (supabaseClient && supabaseClient.auth) {
-                  const { data: { session } } = await supabaseClient.auth.getSession();
-                  if (session && session.user) {
-                    const { error } = await supabaseClient.from('rosters').upsert({
-                      id: targetRoster.id,
-                      teacher_id: session.user.id,
-                      name: targetRoster.name,
-                      data: targetRoster,
-                      last_modified: new Date().toISOString()
-                    });
-                    
-                    if (error) {
-                      console.error('❌ Error syncing final points to Supabase:', error);
-                    } else {
-                      console.log('✅ Final points synced to Supabase successfully!');
-                    }
+              // CRITICAL: Force sync to Supabase at game end (no throttling)
+              console.log('🌐 Forcing final sync to Supabase...');
+              const syncSuccess = await syncRosterToSupabase(targetRoster, true);
+              if (syncSuccess) {
+                console.log('✅ Final sync to Supabase completed successfully');
+              } else {
+                console.error('❌ Final sync to Supabase failed - points are saved locally but may not sync to cloud');
+                // Try one more time after a short delay
+                setTimeout(async () => {
+                  console.log('🔄 Retrying final sync to Supabase...');
+                  const retrySuccess = await syncRosterToSupabase(targetRoster, true);
+                  if (retrySuccess) {
+                    console.log('✅ Retry sync successful');
                   } else {
-                    console.log('⚠️ No active session - points saved locally only');
+                    console.error('❌ Retry sync also failed');
                   }
-                }
-              } catch (error) {
-                console.error('❌ Error syncing to Supabase:', error);
-                // Continue - points are saved locally
+                }, 2000);
               }
               
               // Trigger storage event for cross-page sync
