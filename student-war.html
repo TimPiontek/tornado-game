@@ -3451,6 +3451,11 @@
             }
           </p>
           <p><strong>Your Available:</strong> ${mercenaries} mercenaries, ${weapons} weapons, ${castles} castles</p>
+          <div style="margin-top: 12px; padding: 12px; background: #1e3a8a; border-radius: 8px;">
+            <p style="margin: 0; color: white;"><strong>💰 Your Balance:</strong> <span id="currentBalance" style="font-size: 1.2em; font-weight: bold;">${defender.balance}</span> points</p>
+            <p id="battleCost" style="margin: 4px 0 0 0; color: #93c5fd;">Battle Cost: <span id="costAmount">0</span> points</p>
+            <p id="remainingBalance" style="margin: 4px 0 0 0; color: #60a5fa; font-weight: 600;">Remaining: <span id="remainingAmount">${defender.balance}</span> points</p>
+          </div>
         </div>
         
         <div style="margin-bottom: 16px;">
@@ -3489,13 +3494,74 @@
     document.querySelectorAll('.modal').forEach(m => m.remove());
     document.body.appendChild(modal);
     
-    // Calculate and display battle odds
-    function calculateBattleOdds() {
+    // Store initial balance
+    const initialBalance = defender.balance;
+    
+    // Calculate and display battle costs and odds
+    function calculateBattleCostsAndOdds() {
       const defMercs = parseInt(document.getElementById('defMercenaries').value) || 0;
       const defWeapons = parseInt(document.getElementById('defWeapons').value) || 0;
       const defCastles = parseInt(document.getElementById('defCastles').value) || 0;
       
-      // Use same calculation as resolveBattle
+      // Calculate costs (same as resolveBattle)
+      // Defender cost: mercenaries only (weapons and castles don't cost points, just resources)
+      const defenderCost = defMercs * 10;
+      const totalCost = defenderCost;
+      const remaining = initialBalance - totalCost;
+      
+      // Update cost display
+      const costAmountEl = document.getElementById('costAmount');
+      const remainingAmountEl = document.getElementById('remainingAmount');
+      const battleCostEl = document.getElementById('battleCost');
+      const remainingBalanceEl = document.getElementById('remainingBalance');
+      
+      if (costAmountEl) costAmountEl.textContent = totalCost;
+      if (remainingAmountEl) {
+        remainingAmountEl.textContent = remaining;
+        // Color code based on remaining balance
+        if (remaining < 0) {
+          remainingAmountEl.style.color = '#ef4444'; // Red if negative
+          remainingBalanceEl.style.color = '#ef4444';
+        } else if (remaining < 50) {
+          remainingAmountEl.style.color = '#fbbf24'; // Yellow if low
+          remainingBalanceEl.style.color = '#fbbf24';
+        } else {
+          remainingAmountEl.style.color = '#60a5fa'; // Blue if OK
+          remainingBalanceEl.style.color = '#60a5fa';
+        }
+      }
+      
+      // Show warning if can't afford
+      if (remaining < 0) {
+        if (battleCostEl) battleCostEl.style.color = '#ef4444';
+        if (remainingBalanceEl) remainingBalanceEl.innerHTML = `<span style="color: #ef4444; font-weight: bold;">⚠️ Insufficient funds! Need ${Math.abs(remaining)} more points</span>`;
+      } else {
+        if (battleCostEl) battleCostEl.style.color = '#93c5fd';
+      }
+      
+      // Validate input max values based on what they can afford
+      const defMercInput = document.getElementById('defMercenaries');
+      const defWeaponInput = document.getElementById('defWeapons');
+      const defCastleInput = document.getElementById('defCastles');
+      
+      // Calculate max mercenaries they can afford
+      const maxAffordableMercs = Math.floor(initialBalance / 10);
+      const actualMaxMercs = Math.min(mercenaries, maxAffordableMercs);
+      
+      if (defMercInput) {
+        // Adjust max if they can't afford all their mercenaries
+        const currentMax = parseInt(defMercInput.max) || mercenaries;
+        if (actualMaxMercs < currentMax) {
+          defMercInput.max = actualMaxMercs;
+          if (parseInt(defMercInput.value) > actualMaxMercs) {
+            defMercInput.value = actualMaxMercs;
+            // Recalculate after adjusting
+            setTimeout(calculateBattleCostsAndOdds, 0);
+          }
+        }
+      }
+      
+      // Calculate battle odds (same as before)
       const attackerBonus = (request.attacker_mercenaries * 0.05) + (request.attacker_weapons * 0.1);
       const defenderBonus = (defCastles * 0.1) + (defMercs * 0.05);
       
@@ -3506,7 +3572,7 @@
       const attackerWinOdds = (odds * 100).toFixed(1);
       const defenderWinOdds = ((1 - odds) * 100).toFixed(1);
       
-      // Update display
+      // Update odds display
       const defenderOddsEl = document.getElementById('defenderOdds');
       const attackerOddsEl = document.getElementById('attackerOdds');
       const defenderOddsPercentEl = document.getElementById('defenderOddsPercent');
@@ -3525,18 +3591,34 @@
           defenderOddsEl.style.color = '#ef4444'; // Red for poor odds
         }
       }
+      
+      // Disable submit button if can't afford
+      const submitBtn = document.getElementById('submitBattleResponse');
+      if (submitBtn) {
+        if (remaining < 0 || defMercs > actualMaxMercs) {
+          submitBtn.disabled = true;
+          submitBtn.style.opacity = '0.5';
+          submitBtn.style.cursor = 'not-allowed';
+          submitBtn.title = remaining < 0 ? 'Insufficient funds!' : 'Cannot afford selected resources!';
+        } else {
+          submitBtn.disabled = false;
+          submitBtn.style.opacity = '1';
+          submitBtn.style.cursor = 'pointer';
+          submitBtn.title = '';
+        }
+      }
     }
     
-    // Update odds in real-time as user changes inputs
-    document.getElementById('defMercenaries').addEventListener('input', calculateBattleOdds);
-    document.getElementById('defMercenaries').addEventListener('change', calculateBattleOdds);
-    document.getElementById('defWeapons').addEventListener('input', calculateBattleOdds);
-    document.getElementById('defWeapons').addEventListener('change', calculateBattleOdds);
-    document.getElementById('defCastles').addEventListener('input', calculateBattleOdds);
-    document.getElementById('defCastles').addEventListener('change', calculateBattleOdds);
+    // Update costs and odds in real-time as user changes inputs
+    document.getElementById('defMercenaries').addEventListener('input', calculateBattleCostsAndOdds);
+    document.getElementById('defMercenaries').addEventListener('change', calculateBattleCostsAndOdds);
+    document.getElementById('defWeapons').addEventListener('input', calculateBattleCostsAndOdds);
+    document.getElementById('defWeapons').addEventListener('change', calculateBattleCostsAndOdds);
+    document.getElementById('defCastles').addEventListener('input', calculateBattleCostsAndOdds);
+    document.getElementById('defCastles').addEventListener('change', calculateBattleCostsAndOdds);
     
-    // Calculate initial odds
-    calculateBattleOdds();
+    // Calculate initial costs and odds
+    calculateBattleCostsAndOdds();
     
     document.getElementById('submitBattleResponse').onclick = () => {
       const defMercs = parseInt(document.getElementById('defMercenaries').value) || 0;
@@ -3555,6 +3637,13 @@
       
       if (defCastles < 0 || defCastles > castles) {
         alert(`Invalid castles count. You have ${castles} available.`);
+        return;
+      }
+      
+      // Check if they can afford it
+      const defenderCost = defMercs * 10;
+      if (initialBalance < defenderCost) {
+        alert(`Insufficient funds! This battle costs ${defenderCost} points but you only have ${initialBalance}.`);
         return;
       }
       
