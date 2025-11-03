@@ -1026,18 +1026,30 @@
 
             currentRoster = roster;
             
-            // ALWAYS show roster selection screen, even if student is already logged in
-            // This allows students to link their profile to a roster name or switch classes
-            // Check if student is already linked to this roster
-            if (currentStudent && currentStudent.rosterId === roster.id && currentStudent.rosterName) {
-                // Already linked to this roster - go to dashboard
+            // ALWAYS show roster selection screen when joining a class
+            // This ensures students link their profile to a roster name
+            // Only skip if they're already linked to THIS roster with a rosterName
+            const isAlreadyLinked = currentStudent && 
+                                    currentStudent.rosterId === roster.id && 
+                                    currentStudent.rosterName &&
+                                    currentRoster.roster.some(s => s.name === currentStudent.rosterName);
+            
+            if (isAlreadyLinked) {
+                // Already linked to this roster with a valid roster name - go to dashboard
                 console.log('Student already linked to this roster:', currentStudent.rosterName);
-                // Update roster reference
+                // Update roster reference and sync points
                 currentStudent.rosterId = roster.id;
+                const rosterStudent = currentRoster.roster.find(s => s.name === currentStudent.rosterName);
+                if (rosterStudent) {
+                    const rosterPoints = rosterStudent.balance !== undefined ? rosterStudent.balance : (rosterStudent.points || 0);
+                    currentStudent.totalPoints = rosterPoints;
+                }
                 localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
                 showDashboard();
             } else {
-                // Not linked yet - show roster selection to link profile
+                // Not linked yet or linking to a different roster - show roster selection
+                console.log('Showing roster selection - student not linked or switching rosters');
+                
                 // If no currentStudent exists, create a temporary one for linking
                 if (!currentStudent) {
                     currentStudent = {
