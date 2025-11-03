@@ -5628,6 +5628,13 @@
             return;
           }
           
+          // CRITICAL: Disable button IMMEDIATELY to prevent multiple clicks
+          if (btn && !btn.disabled) {
+            btn.disabled = true;
+            btn.style.pointerEvents = 'none';
+            btn.style.opacity = '0.6';
+          }
+          
           // Wrap in try-catch to ensure isResolvingTurn gets reset even on errors
           try {
           isResolvingTurn = true;
@@ -5707,9 +5714,8 @@
               }
             }
             
-            // CRITICAL: Update button and scores IMMEDIATELY for all points
+            // CRITICAL: Update button display (already disabled above)
             btn.innerHTML = `<span>${out}</span>`;
-            btn.disabled = true;
             updateScores();
             updateTeamDisplay();
             
@@ -8148,6 +8154,43 @@
               rosters[rosterIndex] = targetRoster;
               localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
               console.log(`✅ Final save complete: ${totalSaved} total points saved to roster`);
+              
+              // CRITICAL: Sync to Supabase for cloud persistence
+              try {
+                // Try to use the Supabase client from window (quiz.html uses this)
+                let supabaseClient = window.supabase;
+                if (!supabaseClient && window.getSupabaseClient) {
+                  supabaseClient = window.getSupabaseClient();
+                }
+                if (!supabaseClient) {
+                  const { getSupabaseClient } = await import('/lib/supabaseClient.js');
+                  supabaseClient = getSupabaseClient();
+                }
+                
+                if (supabaseClient && supabaseClient.auth) {
+                  const { data: { session } } = await supabaseClient.auth.getSession();
+                  if (session && session.user) {
+                    const { error } = await supabaseClient.from('rosters').upsert({
+                      id: targetRoster.id,
+                      teacher_id: session.user.id,
+                      name: targetRoster.name,
+                      data: targetRoster,
+                      last_modified: new Date().toISOString()
+                    });
+                    
+                    if (error) {
+                      console.error('❌ Error syncing final points to Supabase:', error);
+                    } else {
+                      console.log('✅ Final points synced to Supabase successfully!');
+                    }
+                  } else {
+                    console.log('⚠️ No active session - points saved locally only');
+                  }
+                }
+              } catch (error) {
+                console.error('❌ Error syncing to Supabase:', error);
+                // Continue - points are saved locally
+              }
               
               // Trigger storage event for cross-page sync
               window.dispatchEvent(new StorageEvent('storage', {
