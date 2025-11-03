@@ -5630,7 +5630,7 @@
           
           // Wrap in try-catch to ensure isResolvingTurn gets reset even on errors
           try {
-            isResolvingTurn = true;
+          isResolvingTurn = true;
           
           let r = rewards[i],
             me = turn;
@@ -5727,25 +5727,13 @@
                   // CRITICAL: Advance turn AFTER breakdown is dismissed
                   advanceTurn();
                   isResolvingTurn = false; // Reset flag
-                  
-                  // Automatically show next question
-                  setTimeout(() => {
-                    if (typeof showQuestion === 'function') {
-                      showQuestion();
-                    }
-                  }, 500);
+                  // Teacher will click "Next Question" button when ready
                 });
               } else {
                 // Fallback if no promise returned - breakdown is already in the popup
                 advanceTurn();
                 isResolvingTurn = false; // Reset flag
-                
-                // Automatically show next question
-                setTimeout(() => {
-                  if (typeof showQuestion === 'function') {
-                    showQuestion();
-                  }
-                }, 500);
+                // Teacher will click "Next Question" button when ready
               }
               
               return; // Important: return here to prevent further execution
@@ -5762,13 +5750,7 @@
               // Don't wait for popup to dismiss - it's non-blocking
               advanceTurn();
               isResolvingTurn = false; // Reset flag immediately after advancing
-              
-              // Automatically show next question
-              setTimeout(() => {
-                if (typeof showQuestion === 'function') {
-                  showQuestion();
-                }
-              }, 500);
+              // Teacher will click "Next Question" button when ready
               
               return; // Return early to prevent double-advance
             }
@@ -5800,13 +5782,7 @@
               // CRITICAL: Advance turn before returning
               advanceTurn();
               isResolvingTurn = false; // Reset flag
-              
-              // Automatically show next question
-              setTimeout(() => {
-                if (typeof showQuestion === 'function') {
-                  showQuestion();
-                }
-              }, 500);
+              // Teacher will click "Next Question" button when ready
               return;
             }
             
@@ -5880,13 +5856,7 @@
               // CRITICAL: Advance turn before returning
               advanceTurn();
               isResolvingTurn = false; // Reset flag
-              
-              // Automatically show next question
-              setTimeout(() => {
-                if (typeof showQuestion === 'function') {
-                  showQuestion();
-                }
-              }, 500);
+              // Teacher will click "Next Question" button when ready
               return;
             }
             
@@ -5973,13 +5943,7 @@
               // CRITICAL: Advance turn before returning
               advanceTurn();
               isResolvingTurn = false; // Reset flag
-              
-              // Automatically show next question
-              setTimeout(() => {
-                if (typeof showQuestion === 'function') {
-                  showQuestion();
-                }
-              }, 500);
+              // Teacher will click "Next Question" button when ready
               return;
             }
             
@@ -6069,12 +6033,7 @@
               
               advanceTurn();
               isResolvingTurn = false;
-              
-              setTimeout(() => {
-                if (typeof showQuestion === 'function') {
-                  showQuestion();
-                }
-              }, 500);
+              // Teacher will click "Next Question" button when ready
               return;
             }
             
@@ -6102,13 +6061,7 @@
                 // Advance turn after breakdown is dismissed
                 advanceTurn();
                 isResolvingTurn = false; // Reset flag
-                
-                // Automatically show next question
-                setTimeout(() => {
-                  if (typeof showQuestion === 'function') {
-                    showQuestion();
-                  }
-                }, 500);
+                // Teacher will click "Next Question" button when ready
               });
             } else {
               // No breakdown, show simple double effect
@@ -6126,13 +6079,7 @@
               // Advance turn immediately
               advanceTurn();
               isResolvingTurn = false; // Reset flag
-              
-              // Automatically show next question
-              setTimeout(() => {
-                if (typeof showQuestion === 'function') {
-                  showQuestion();
-                }
-              }, 500);
+              // Teacher will click "Next Question" button when ready
             }
             
             // Double effect handled - return to prevent continuing
@@ -6170,13 +6117,7 @@
             // Advance turn after shield activation
             advanceTurn();
             isResolvingTurn = false; // Reset flag
-            
-            // Automatically show next question
-            setTimeout(() => {
-              if (typeof showQuestion === 'function') {
-                showQuestion();
-              }
-            }, 500);
+            // Teacher will click "Next Question" button when ready
             return;
                     } else if (r.type === "hotStreak") {
             // Hot Streak effect - give points AND hot streak
@@ -6298,15 +6239,9 @@
             // Use the centralized advanceTurn function
             advanceTurn();
             
-            // CRITICAL: Reset the resolving flag and show next question automatically
+            // CRITICAL: Reset the resolving flag
             isResolvingTurn = false;
-            
-            // Automatically show the next question after turn advances
-            setTimeout(() => {
-              if (typeof showQuestion === 'function') {
-                showQuestion();
-              }
-            }, 500); // Small delay to ensure UI is ready
+            // Teacher will click "Next Question" button when ready
           }
           } catch (error) {
             console.error('Error in handlePick:', error);
@@ -6708,10 +6643,10 @@
           
           if (tornadoMode) {
             popupHTML = `
-              <div class="special-popup-3d">
-                <span class="emoji">🌪️</span>
-                <div class="slogan">TORNADO!</div>
-              </div>`;
+            <div class="special-popup-3d">
+              <span class="emoji">🌪️</span>
+              <div class="slogan">TORNADO!</div>
+            </div>`;
             specialPopup.classList.add("tornado-mode");
           } else if (breakdown) {
             // Points breakdown with math - unified display
@@ -6788,19 +6723,19 @@
           const specialPopup = document.getElementById("specialPopup");
           if (!specialPopup) return;
           
-          specialPopup.classList.remove("show");
+              specialPopup.classList.remove("show");
           specialPopup.classList.remove("tornado-mode", "points-mode");
-          setTimeout(() => {
-            if (specialPopup) {
-              specialPopup.classList.add("hidden");
+              setTimeout(() => {
+                if (specialPopup) {
+                  specialPopup.classList.add("hidden");
               specialPopup.innerHTML = '';
               specialPopup.onclick = null;
               if (specialPopup._timeout) {
                 clearTimeout(specialPopup._timeout);
                 specialPopup._timeout = null;
               }
-            }
-          }, 400);
+                }
+              }, 400);
         }
         
         function processNextPopup() {
@@ -8063,9 +7998,9 @@
                     console.warn(`⚠️ Roster ${rosterData.id} not found in localStorage. Available rosters:`, rosters.map(r => ({ id: r.id, name: r.name })));
                     // Use most recent roster if current one not found
                     if (rosters.length > 0) {
-                        targetRoster = rosters.reduce((latest, roster) => {
-                            return new Date(roster.lastModified || roster.created_at) > new Date(latest.lastModified || latest.created_at) ? roster : latest;
-                        });
+                    targetRoster = rosters.reduce((latest, roster) => {
+                        return new Date(roster.lastModified || roster.created_at) > new Date(latest.lastModified || latest.created_at) ? roster : latest;
+                    });
                         console.log(`⚠️ Using most recent roster instead: ${targetRoster.name} (${targetRoster.id})`);
                     } else {
                         console.error('❌ No rosters found in localStorage!');
@@ -8987,15 +8922,15 @@
             
             // Only auto-adjust if user hasn't manually set it
             if (!wasManuallySet) {
-                // Calculate optimal grid size: student count + 1 for odd numbers, or student count for even
-                let optimalSize = studentCount;
-                if (studentCount % 2 === 1) {
-                    optimalSize = studentCount + 1;
-                }
-                
-                // Ensure minimum size of 8 and maximum of 40
-                optimalSize = Math.max(8, Math.min(40, optimalSize));
-                
+            // Calculate optimal grid size: student count + 1 for odd numbers, or student count for even
+            let optimalSize = studentCount;
+            if (studentCount % 2 === 1) {
+                optimalSize = studentCount + 1;
+            }
+            
+            // Ensure minimum size of 8 and maximum of 40
+            optimalSize = Math.max(8, Math.min(40, optimalSize));
+            
                 // Set the value
                 gridSizeInput.value = optimalSize;
                 gridSizeInput.dataset.autoAdjusted = 'true';
@@ -10621,7 +10556,7 @@
                     rosterData = latestRoster;
                     console.log('Roster reloaded from localStorage with latest points:', rosterData);
                 } else {
-                    rosterData = window.quizTeamAssignment.rosterData;
+                rosterData = window.quizTeamAssignment.rosterData;
                     console.log('Roster loaded from quizTeamAssignment (no update found):', rosterData);
                 }
                 return true;
