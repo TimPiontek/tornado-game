@@ -2111,6 +2111,11 @@
         renderStudentProfile(student, false, index + 1);
       });
     }
+    
+    // Update context to show student is selected
+    if (loggedInStudent) {
+      contextEl.textContent = `Selected: ${loggedInStudent.name}. Click a tile to buy/upgrade/attack.`;
+    }
   }
   
   function renderStudentProfile(student, isLoggedInProfile = false, leaderboardPosition = null) {
@@ -2313,11 +2318,6 @@
         rosterEl.appendChild(profileSection);
         }
       }
-    }
-    
-    // Update context to show student is selected
-    if (loggedInStudent) {
-      contextEl.textContent = `Selected: ${loggedInStudent.name}. Click a tile to buy/upgrade/attack.`;
     }
   }
 
