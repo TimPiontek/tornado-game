@@ -3142,16 +3142,27 @@
         <div style="margin-bottom: 20px;">
           <p><strong>Territory:</strong> Tile at (${tile.x}, ${tile.y})</p>
           <p><strong>Defender:</strong> ${defender.name}</p>
-          <p><strong>Your Available:</strong> ${mercenaries} mercenaries, ${weapons} weapons</p>
+          <p><strong>Your Balance:</strong> <span id="battleBalance">${formatMoney(attacker.balance)}</span></p>
+          <p><strong>Your Available:</strong> <span id="battleMercenariesCount">${mercenaries}</span> mercenaries, <span id="battleWeaponsCount">${weapons}</span> weapons</p>
         </div>
         
         <div style="margin-bottom: 16px;">
-          <label style="display: block; margin-bottom: 8px;"><strong>Mercenaries to Use (0-${maxMercenaries}):</strong></label>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <label style="display: block; margin: 0;"><strong>Mercenaries to Use (0-<span id="battleMaxMercenaries">${maxMercenaries}</span>):</strong></label>
+            <button onclick="buyBattleItem('mercenary', 10)" style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;">Buy Mercenary (10)</button>
+          </div>
           <input type="number" id="battleMercenaries" min="0" max="${maxMercenaries}" value="0" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
         </div>
         
         <div style="margin-bottom: 16px;">
-          <label style="display: block; margin-bottom: 8px;"><strong>Weapons to Use (0-${maxWeapons}):</strong></label>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <label style="display: block; margin: 0;"><strong>Weapons to Use (0-<span id="battleMaxWeapons">${maxWeapons}</span>):</strong></label>
+            <div style="display: flex; gap: 6px;">
+              <button onclick="buyBattleItem('spear', 30)" style="background: #3b82f6; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 11px;">Spear (30)</button>
+              <button onclick="buyBattleItem('crossbow', 60)" style="background: #3b82f6; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 11px;">Crossbow (60)</button>
+              <button onclick="buyBattleItem('catapult', 100)" style="background: #3b82f6; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 11px;">Catapult (100)</button>
+            </div>
+          </div>
           <input type="number" id="battleWeapons" min="0" max="${maxWeapons}" value="0" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
         </div>
         
