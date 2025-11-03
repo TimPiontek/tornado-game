@@ -3149,7 +3149,7 @@
         <div style="margin-bottom: 16px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <label style="display: block; margin: 0;"><strong>Mercenaries to Use (0-<span id="battleMaxMercenaries">${maxMercenaries}</span>):</strong></label>
-            <button onclick="buyBattleItem('mercenary', 10)" style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;">Buy Mercenary (10)</button>
+            <button id="buyMercenaryBtn" onclick="buyBattleItem('mercenary', 10, this)" style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;">Buy Mercenary (10)</button>
           </div>
           <input type="number" id="battleMercenaries" min="0" max="${maxMercenaries}" value="0" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
         </div>
@@ -3158,9 +3158,9 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <label style="display: block; margin: 0;"><strong>Weapons to Use (0-<span id="battleMaxWeapons">${maxWeapons}</span>):</strong></label>
             <div style="display: flex; gap: 6px;">
-              <button onclick="buyBattleItem('spear', 30)" style="background: #3b82f6; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 11px;">Spear (30)</button>
-              <button onclick="buyBattleItem('crossbow', 60)" style="background: #3b82f6; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 11px;">Crossbow (60)</button>
-              <button onclick="buyBattleItem('catapult', 100)" style="background: #3b82f6; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 11px;">Catapult (100)</button>
+              <button onclick="buyBattleItem('spear', 30, this)" style="background: #3b82f6; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 11px;">Spear (30)</button>
+              <button onclick="buyBattleItem('crossbow', 60, this)" style="background: #3b82f6; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 11px;">Crossbow (60)</button>
+              <button onclick="buyBattleItem('catapult', 100, this)" style="background: #3b82f6; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 11px;">Catapult (100)</button>
             </div>
           </div>
           <input type="number" id="battleWeapons" min="0" max="${maxWeapons}" value="0" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
@@ -3220,7 +3220,7 @@
     };
     
     // Function to buy items from battle modal
-    window.buyBattleItem = function(itemType, cost) {
+    window.buyBattleItem = function(itemType, cost, btnElement) {
       if (attacker.balance < cost) {
         alert(`Insufficient funds! You need ${cost} points but only have ${attacker.balance}.`);
         return;
@@ -3245,14 +3245,15 @@
       updateBattleModalDisplay();
       
       // Show temporary success indicator
-      const btn = event.target;
-      const originalText = btn.textContent;
-      btn.textContent = '✓ Purchased!';
-      btn.style.background = '#10b981';
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = itemType === 'mercenary' ? '#10b981' : '#3b82f6';
-      }, 1500);
+      if (btnElement) {
+        const originalText = btnElement.textContent;
+        btnElement.textContent = '✓ Purchased!';
+        btnElement.style.background = '#10b981';
+        setTimeout(() => {
+          btnElement.textContent = originalText;
+          btnElement.style.background = itemType === 'mercenary' ? '#10b981' : '#3b82f6';
+        }, 1500);
+      }
     };
     
     document.getElementById('submitBattleRequest').onclick = () => {
