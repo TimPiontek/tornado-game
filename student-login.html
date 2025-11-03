@@ -1026,20 +1026,33 @@
 
             currentRoster = roster;
             
-            // If no currentStudent exists, create a temporary one for linking
-            if (!currentStudent) {
-                currentStudent = {
-                    id: `temp_${Date.now()}`,
-                    username: null,
-                    totalPoints: 0,
-                    rosterId: null,
-                    rosterName: null,
-                    isTemporary: true
-                };
+            // ALWAYS show roster selection screen, even if student is already logged in
+            // This allows students to link their profile to a roster name or switch classes
+            // Check if student is already linked to this roster
+            if (currentStudent && currentStudent.rosterId === roster.id && currentStudent.rosterName) {
+                // Already linked to this roster - go to dashboard
+                console.log('Student already linked to this roster:', currentStudent.rosterName);
+                // Update roster reference
+                currentStudent.rosterId = roster.id;
+                localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+                showDashboard();
+            } else {
+                // Not linked yet - show roster selection to link profile
+                // If no currentStudent exists, create a temporary one for linking
+                if (!currentStudent) {
+                    currentStudent = {
+                        id: `temp_${Date.now()}`,
+                        username: null,
+                        totalPoints: 0,
+                        rosterId: null,
+                        rosterName: null,
+                        isTemporary: true
+                    };
+                }
+                
+                populateRosterList();
+                showRoster();
             }
-            
-            populateRosterList();
-            showRoster();
         }
 
         function populateRosterList() {
@@ -1172,8 +1185,13 @@
                 console.log('❌ Supabase client not available - student progress saved locally only');
             }
 
+            // Show success message and then dashboard
             showSuccess(`Welcome to ${currentRoster ? currentRoster.name : 'your class'}! You've joined as ${studentName}.`);
-            showDashboard();
+            
+            // Small delay to show the success message
+            setTimeout(() => {
+                showDashboard();
+            }, 500);
         }
 
         function addStudentName() {
