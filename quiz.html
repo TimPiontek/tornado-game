@@ -5732,16 +5732,24 @@
                 pendingPromises.push(breakdownPromise); // Track this promise
                 breakdownPromise.then(() => {
                   // Breakdown already showed the points and effect, just advance turn
+                  // CRITICAL: Check for game completion BEFORE advancing turn
+                  if (checkGameCompletion()) {
+                    return; // Game ended, don't advance turn
+                  }
                   // CRITICAL: Advance turn AFTER breakdown is dismissed
                   advanceTurn();
                   isResolvingTurn = false; // Reset flag
                   // Teacher will click "Next Question" button when ready
                 });
               } else {
-                // Fallback if no promise returned - breakdown is already in the popup
-                advanceTurn();
-                isResolvingTurn = false; // Reset flag
-                // Teacher will click "Next Question" button when ready
+              // Fallback if no promise returned - breakdown is already in the popup
+              // CRITICAL: Check for game completion BEFORE advancing turn
+              if (checkGameCompletion()) {
+                return; // Game ended, don't advance turn
+              }
+              advanceTurn();
+              isResolvingTurn = false; // Reset flag
+              // Teacher will click "Next Question" button when ready
               }
               
               return; // Important: return here to prevent further execution
@@ -5753,6 +5761,11 @@
                 autoHide: true,
                 duration: 2500
               });
+              
+              // CRITICAL: Check for game completion BEFORE advancing turn
+              if (checkGameCompletion()) {
+                return; // Game ended, don't advance turn
+              }
               
               // CRITICAL: For simple points, advance turn immediately and reset flag
               // Don't wait for popup to dismiss - it's non-blocking
@@ -5787,6 +5800,10 @@
                 duration: 2500
               });
               
+              // CRITICAL: Check for game completion BEFORE advancing turn
+              if (checkGameCompletion()) {
+                return; // Game ended, don't advance turn
+              }
               // CRITICAL: Advance turn before returning
               advanceTurn();
               isResolvingTurn = false; // Reset flag
@@ -5861,6 +5878,10 @@
                 duration: 2500
               });
               
+              // CRITICAL: Check for game completion BEFORE advancing turn
+              if (checkGameCompletion()) {
+                return; // Game ended, don't advance turn
+              }
               // CRITICAL: Advance turn before returning
               advanceTurn();
               isResolvingTurn = false; // Reset flag
@@ -5948,6 +5969,10 @@
                 duration: 2500
               });
               
+              // CRITICAL: Check for game completion BEFORE advancing turn
+              if (checkGameCompletion()) {
+                return; // Game ended, don't advance turn
+              }
               // CRITICAL: Advance turn before returning
               advanceTurn();
               isResolvingTurn = false; // Reset flag
@@ -6066,6 +6091,10 @@
                 // Breakdown already showed everything, just advance
                 animateScore(me, "double-bounce");
                 
+                // CRITICAL: Check for game completion BEFORE advancing turn
+                if (checkGameCompletion()) {
+                  return; // Game ended, don't advance turn
+                }
                 // Advance turn after breakdown is dismissed
                 advanceTurn();
                 isResolvingTurn = false; // Reset flag
@@ -6084,6 +6113,10 @@
               });
               animateScore(me, "double-bounce");
               
+              // CRITICAL: Check for game completion BEFORE advancing turn
+              if (checkGameCompletion()) {
+                return; // Game ended, don't advance turn
+              }
               // Advance turn immediately
               advanceTurn();
               isResolvingTurn = false; // Reset flag
@@ -6122,6 +6155,10 @@
             teamStatus[me].shieldUsed = false; // Mark as not used yet
             updateTeamDisplay(); // Show shield icon immediately
             
+            // CRITICAL: Check for game completion BEFORE advancing turn
+            if (checkGameCompletion()) {
+              return; // Game ended
+            }
             // Advance turn after shield activation
             advanceTurn();
             isResolvingTurn = false; // Reset flag
@@ -6186,6 +6223,11 @@
             updateScores();
             updateTeamDisplay();
             
+            // CRITICAL: Check for game completion immediately after disabling button
+            if (checkGameCompletion()) {
+              return; // Game ended
+            }
+            
             // Show points, then coin flip modal
             showAwardPopup({
               points: out,
@@ -6194,17 +6236,10 @@
               duration: 2500
             });
             
-            // Check if this is the last block in the game
-            const done = document.querySelectorAll("#grid button:disabled").length + 1; // +1 because this button isn't disabled yet
-            const isLastBlock = done === total;
-            
             // Then show coin flip modal
             setTimeout(() => {
-              if (isLastBlock) {
-                // If this is the last block, don't show coin flip modal - just end the game
-                console.log("Last block is coin flip - ending game immediately");
-                // The game will end naturally when the button is disabled below
-              } else {
+              // Double-check game completion (in case something changed)
+              if (!checkGameCompletion()) {
                 showCoinFlipModal();
               }
             }, 1000);
@@ -6236,21 +6271,17 @@
           updateScores();
           updateTeamDisplay();
           
-          const done = document.querySelectorAll("#grid button:disabled").length;
-          console.log(`Grid completion check: ${done}/${total} buttons disabled`);
-          if (done === total) {
-            // Game over - show end game screen
-            console.log('🎉 Grid complete! Triggering victory screen...');
-            isResolvingTurn = false; // Reset flag before ending
-            showEndGameResults();
-          } else {
-            // Use the centralized advanceTurn function
-            advanceTurn();
-            
-            // CRITICAL: Reset the resolving flag
-            isResolvingTurn = false;
-            // Teacher will click "Next Question" button when ready
+          // CRITICAL: Check for game completion using centralized function
+          if (checkGameCompletion()) {
+            return; // Game ended, don't advance turn
           }
+          
+          // Use the centralized advanceTurn function
+          advanceTurn();
+          
+          // CRITICAL: Reset the resolving flag
+          isResolvingTurn = false;
+          // Teacher will click "Next Question" button when ready
           } catch (error) {
             console.error('Error in handlePick:', error);
             // Ensure isResolvingTurn is reset even on error
@@ -6259,6 +6290,20 @@
             resetAllButtonStates();
             alert('An error occurred. The board has been reset. Please try again.');
           }
+        }
+        
+        // Helper function to check if game is complete and trigger end screen
+        function checkGameCompletion() {
+          const done = document.querySelectorAll("#grid button:disabled").length;
+          console.log(`Grid completion check: ${done}/${total} buttons disabled`);
+          if (done === total) {
+            // Game over - show end game screen
+            console.log('🎉 Grid complete! Triggering victory screen...');
+            isResolvingTurn = false; // Reset flag before ending
+            showEndGameResults();
+            return true; // Game is complete
+          }
+          return false; // Game continues
         }
 
         function advanceTurn() {
