@@ -1025,6 +1025,19 @@
             }
 
             currentRoster = roster;
+            
+            // If no currentStudent exists, create a temporary one for linking
+            if (!currentStudent) {
+                currentStudent = {
+                    id: `temp_${Date.now()}`,
+                    username: null,
+                    totalPoints: 0,
+                    rosterId: null,
+                    rosterName: null,
+                    isTemporary: true
+                };
+            }
+            
             populateRosterList();
             showRoster();
         }
@@ -1033,25 +1046,89 @@
             const rosterList = document.getElementById('rosterList');
             rosterList.innerHTML = '';
 
+            if (!currentRoster || !currentRoster.roster || currentRoster.roster.length === 0) {
+                rosterList.innerHTML = '<p style="color: var(--muted); text-align: center; padding: 20px;">No students in this roster yet.</p>';
+                return;
+            }
+
             currentRoster.roster.forEach((student, index) => {
                 const rosterItem = document.createElement('div');
                 rosterItem.className = 'roster-item';
-                rosterItem.textContent = student.name;
+                
+                // Show student name and their current points
+                const balance = student.balance !== undefined ? student.balance : (student.points || 0);
+                rosterItem.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight: 600;">${student.name}</span>
+                        <span style="color: var(--muted); font-size: 0.9em;">💰 ${balance} points</span>
+                    </div>
+                `;
+                
                 rosterItem.onclick = () => selectStudentName(student.name, index);
                 rosterList.appendChild(rosterItem);
             });
         }
 
         async function selectStudentName(studentName, index) {
-            // Update student with roster info
+            // If currentStudent is temporary or doesn't exist, check if there's an existing student profile
+            if (!currentStudent || currentStudent.isTemporary) {
+                // Check if there's an existing student profile with this name or username
+                const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+                let existingStudent = students.find(s => 
+                    s.username === studentName || 
+                    s.rosterName === studentName ||
+                    (s.rosterId === currentRoster.id && s.rosterName === studentName)
+                );
+                
+                // If found, use existing profile; otherwise create a new one
+                if (existingStudent) {
+                    console.log('Linking to existing student profile:', existingStudent.username);
+                    currentStudent = existingStudent;
+                } else {
+                    // Create a new student profile linked to this roster name
+                    console.log('Creating new student profile for roster name:', studentName);
+                    currentStudent = {
+                        id: generateId(),
+                        username: studentName, // Use roster name as username initially
+                        totalPoints: 0,
+                        quizGamesPlayed: 0,
+                        warGamesPlayed: 0,
+                        questionsAnswered: 0,
+                        correctAnswers: 0,
+                        lastLogin: new Date().toISOString(),
+                        createdAt: new Date().toISOString(),
+                        rosterId: currentRoster.id,
+                        rosterName: studentName,
+                        rosterIndex: index,
+                        isTemporary: false
+                    };
+                    
+                    // Add to students list
+                    students.push(currentStudent);
+                    localStorage.setItem('tornadoStudents', JSON.stringify(students));
+                }
+            }
+            
+            // Update student with roster info and latest points from roster
             currentStudent.rosterId = currentRoster.id;
             currentStudent.rosterName = studentName;
             currentStudent.rosterIndex = index;
+            
+            // Sync points from roster to student profile
+            if (currentRoster && currentRoster.roster && currentRoster.roster[index]) {
+                const rosterStudent = currentRoster.roster[index];
+                const rosterPoints = rosterStudent.balance !== undefined ? rosterStudent.balance : (rosterStudent.points || 0);
+                currentStudent.totalPoints = rosterPoints;
+            }
 
             // Update in localStorage
             const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
             const studentIndex = students.findIndex(s => s.id === currentStudent.id);
-            students[studentIndex] = currentStudent;
+            if (studentIndex >= 0) {
+                students[studentIndex] = currentStudent;
+            } else {
+                students.push(currentStudent);
+            }
             localStorage.setItem('tornadoStudents', JSON.stringify(students));
             localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
             
