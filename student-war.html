@@ -489,8 +489,13 @@
     }
   });
 
-  await updateAuth();
-  supabase.auth.onAuthStateChange(() => updateAuth());
+  // Initialize auth - use async IIFE to allow await
+  (async () => {
+    await updateAuth();
+    if (supabase) {
+      supabase.auth.onAuthStateChange(() => updateAuth());
+    }
+  })();
 
 
 
