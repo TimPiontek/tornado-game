@@ -2529,7 +2529,7 @@
                       </div>
                       <div>
                         <label style="display:block; margin-bottom:0.3em; font-size:0.9em;">Team Victory Bonus:</label>
-                        <input type="number" id="teamVictoryPoints" min="0" max="5000" value="500" style="width:100%;">
+                        <input type="number" id="teamVictoryPoints" min="0" max="5000" value="200" style="width:100%;">
                       </div>
                     </div>
                   </div>
@@ -3029,7 +3029,7 @@
           <div id="gameStatusBar" style="background: white; border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
             <!-- Turn Indicator -->
             <div id="mainTurnDisplay" style="font-size: 1.2rem; font-weight: 600; color: #6f5c91; flex: 1; min-width: 200px;">
-              <span id="currentTurnText">Team A's turn</span>
+              <span id="currentTurnText">Team 1's turn</span>
             </div>
             
             <!-- Game Controls -->
@@ -3397,8 +3397,8 @@
             const students = roster.roster || [];
             const mid = Math.ceil(students.length / 2);
             teams = [
-              { name: 'Team A', students: students.slice(0, mid) },
-              { name: 'Team B', students: students.slice(mid) }
+              { name: 'Team 1', students: students.slice(0, mid) },
+              { name: 'Team 2', students: students.slice(mid) }
             ];
           } else {
             console.log('[Quiz] Using existing teams from roster');
@@ -4796,22 +4796,22 @@
             
             // In single player mode, we need both Team A and Android
             if (singlePlayer) {
-              // Team A
+              // Team 1
               const teamAInput = document.getElementById("teamANameInput");
-              names.A = teamAInput ? teamAInput.value.trim() || "Team A" : "Team A";
+              names.A = teamAInput ? teamAInput.value.trim() || "Team 1" : "Team 1";
               // Android
               names.B = "Android";
-              console.log("Single player mode - Team A:", names.A, "Android:", names.B);
+              console.log("Single player mode - Team 1:", names.A, "Android:", names.B);
             } else {
               // Multiplayer mode - use the normal loop
               for (let i = 0; i < teamCount; i++) {
                 const teamId = teamOrder[i];
                 if (i === 0) {
                   const teamAInput = document.getElementById("teamANameInput");
-                  names[teamId] = teamAInput ? teamAInput.value.trim() || "Team A" : "Team A";
+                  names[teamId] = teamAInput ? teamAInput.value.trim() || "Team 1" : "Team 1";
                 } else if (i === 1) {
                   const teamBInput = document.getElementById("teamBNameInput");
-                  names[teamId] = teamBInput ? teamBInput.value.trim() || "Team B" : "Team B";
+                  names[teamId] = teamBInput ? teamBInput.value.trim() || "Team 2" : "Team 2";
                 } else if (i === 2) {
                   const teamCInput = document.getElementById("teamCNameInput");
                   names[teamId] = teamCInput ? teamCInput.value.trim() || "Team C" : "Team C";
@@ -5747,7 +5747,7 @@
               if (checkGameCompletion()) {
                 return; // Game ended, don't advance turn
               }
-              advanceTurn();
+                advanceTurn();
               isResolvingTurn = false; // Reset flag
               // Teacher will click "Next Question" button when ready
               }
@@ -7577,7 +7577,7 @@
         
         // === POINT CONFIGURATION ===
         let individualPoints = 100;
-        let teamVictoryPoints = 500;
+        let teamVictoryPoints = 200;
         
         // === STUDENT LOGIN CHECK ===
         function checkStudentLogin() {
@@ -8353,10 +8353,30 @@
             console.error('❌ Target roster not found or has no roster array for final save!', targetRoster);
           }
           
+          // Calculate team victory bonus for display
+          let teamVictoryBonusDisplay = null;
+          let winningTeamName = null;
+          
           // Transfer points to roster immediately (for team victory bonuses)
           if (winner && rosterData) {
             console.log(`💰 Transferring points to roster for winner: ${winner}`);
             if (teamMode) {
+              winningTeamName = names[winner] || `Team ${winner}`;
+              // Calculate victory bonus for display
+              const winningTeamData = rosterData.teams?.find(team => team.name === winningTeamName);
+              const bonusAmount = teamVictoryPoints;
+              const bonusRecipients = winningTeamData ? winningTeamData.students.length : 0;
+              const totalBonus = bonusAmount * bonusRecipients;
+              
+              if (bonusAmount > 0 && bonusRecipients > 0) {
+                teamVictoryBonusDisplay = {
+                  teamName: winningTeamName,
+                  amount: bonusAmount,
+                  recipients: bonusRecipients,
+                  total: totalBonus
+                };
+              }
+              
               await transferQuizPointsToWar(winner);
             } else {
               await transferIndividualQuizPointsToWar();
@@ -8388,8 +8408,24 @@
             `;
           });
           
-          resultsHTML += `
+          // Add team victory bonus display if applicable
+          if (teamVictoryBonusDisplay) {
+            resultsHTML += `
               </div>
+              <div style="background: rgba(16,185,129,0.2); padding: 15px; border-radius: 10px; margin: 20px 0; border: 2px solid rgba(16,185,129,0.5);">
+                <h3 style="margin: 0 0 10px 0; color: #10b981; font-size: 1.3rem;">🎉 Team Victory Bonus</h3>
+                <div style="font-size: 1.1rem; line-height: 1.6;">
+                  <div style="margin: 5px 0;"><strong>${teamVictoryBonusDisplay.teamName}</strong> wins!</div>
+                  <div style="margin: 5px 0;">Each team member receives: <strong style="color: #ffd700;">${teamVictoryBonusDisplay.amount.toLocaleString()} points</strong></div>
+                  <div style="margin: 5px 0;">Total bonus awarded: <strong style="color: #ffd700;">${teamVictoryBonusDisplay.total.toLocaleString()} points</strong></div>
+                </div>
+              </div>
+            `;
+          } else {
+            resultsHTML += `</div>`;
+          }
+          
+          resultsHTML += `
               <div style="margin: 20px 0;">
                 <button id="saveAndReturnBtn" style="background: #10b981; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin: 10px;">
                   💾 Save Points & Return Home
@@ -10953,11 +10989,17 @@
                 teamScoresContainer.innerHTML = rosterData.teams.map((team, index) => {
                     const teamLetter = String.fromCharCode(65 + index); // A, B, C, D, etc.
                     const isActive = currentTeam === teamLetter;
+                    const hasHotStreak = teamStatus[teamLetter]?.hotStreak;
+                    const hasShield = teamStatus[teamLetter]?.shield;
                     
                     return `
                         <div class="team-score-item ${isActive ? "active" : ""}">
                             <div class="team-header">
-                                <span class="team-name">${team.name || `Team ${teamLetter}`}</span>
+                                <span class="team-name">
+                                  ${team.name || `Team ${teamLetter}`}
+                                  ${hasHotStreak ? ' 🔥' : ''}
+                                  ${hasShield ? ' 🛡️' : ''}
+                                </span>
                                 <span class="team-score">${teamScoreMap[teamLetter] || 0}</span>
                             </div>
                             <div class="student-list">
@@ -10993,11 +11035,19 @@
                 // Fallback to team-only display
                 teamScoresContainer.innerHTML = `
                     <div class="team-score-item ${currentTeam === "A" ? "active" : ""}">
-                        <span class="team-name">${names.A || "Team A"}</span>
+                        <span class="team-name">
+                          ${names.A || "Team 1"}
+                          ${teamStatus['A']?.hotStreak ? ' 🔥' : ''}
+                          ${teamStatus['A']?.shield ? ' 🛡️' : ''}
+                        </span>
                         <span class="team-score">${scores.A || 0}</span>
                     </div>
                     <div class="team-score-item ${currentTeam === "B" ? "active" : ""}">
-                        <span class="team-name">${names.B || "Team B"}</span>
+                        <span class="team-name">
+                          ${names.B || "Team 2"}
+                          ${teamStatus['B']?.hotStreak ? ' 🔥' : ''}
+                          ${teamStatus['B']?.shield ? ' 🛡️' : ''}
+                        </span>
                         <span class="team-score">${scores.B || 0}</span>
                     </div>
                 `;
@@ -11029,10 +11079,17 @@
                     const teamScore = scores[teamLetter] || 0;
                     const isActive = turn === teamLetter;
                     
+                    const hasHotStreak = teamStatus[teamLetter]?.hotStreak;
+                    const hasShield = teamStatus[teamLetter]?.shield;
+                    
                     return `
                         <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 8px; background: ${isActive ? '#f0f8ff' : '#f8f9fa'}; border: 2px solid ${isActive ? '#6f5c91' : '#e9ecef'};">
                             <div style="width: 12px; height: 12px; border-radius: 50%; background: ${team.color || '#6f5c91'};"></div>
-                            <span style="font-weight: 600; color: #333;">${team.name || `Team ${teamLetter}`}</span>
+                            <span style="font-weight: 600; color: #333;">
+                              ${team.name || `Team ${teamLetter}`}
+                              ${hasHotStreak ? ' 🔥' : ''}
+                              ${hasShield ? ' 🛡️' : ''}
+                            </span>
                             <span style="font-weight: 700; color: #6f5c91; font-size: 1.1rem;">${teamScore}</span>
                         </div>
                     `;
@@ -11050,11 +11107,19 @@
                 // Fallback - show Team A and B
                 mainTeamScoresEl.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 8px; background: ${turn === 'A' ? '#f0f8ff' : '#f8f9fa'}; border: 2px solid ${turn === 'A' ? '#6f5c91' : '#e9ecef'};">
-                        <span style="font-weight: 600; color: #333;">${names.A || 'Team A'}</span>
+                        <span style="font-weight: 600; color: #333;">
+                          ${names.A || 'Team 1'}
+                          ${teamStatus['A']?.hotStreak ? ' 🔥' : ''}
+                          ${teamStatus['A']?.shield ? ' 🛡️' : ''}
+                        </span>
                         <span style="font-weight: 700; color: #6f5c91; font-size: 1.1rem;">${scores.A || 0}</span>
                     </div>
                     <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 8px; background: ${turn === 'B' ? '#f0f8ff' : '#f8f9fa'}; border: 2px solid ${turn === 'B' ? '#6f5c91' : '#e9ecef'};">
-                        <span style="font-weight: 600; color: #333;">${names.B || 'Team B'}</span>
+                        <span style="font-weight: 600; color: #333;">
+                          ${names.B || 'Team 2'}
+                          ${teamStatus['B']?.hotStreak ? ' 🔥' : ''}
+                          ${teamStatus['B']?.shield ? ' 🛡️' : ''}
+                        </span>
                         <span style="font-weight: 700; color: #6f5c91; font-size: 1.1rem;">${scores.B || 0}</span>
                     </div>
                 `;
@@ -11115,7 +11180,7 @@
           individualPoints = parseInt(individualPointsInput.value) || 100;
         }
         if (teamVictoryPointsInput) {
-          teamVictoryPoints = parseInt(teamVictoryPointsInput.value) || 500;
+          teamVictoryPoints = parseInt(teamVictoryPointsInput.value) || 200;
         }
         if (window.quizConfig && typeof window.quizConfig.perCorrect === 'number' && !Number.isNaN(window.quizConfig.perCorrect)) {
           individualPoints = window.quizConfig.perCorrect;
