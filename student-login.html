@@ -1608,65 +1608,8 @@
             window.location.href = 'student-assignments.html';
         }
 
-        function joinClassFromDashboard() {
-            const classCode = document.getElementById('dashboardClassCode').value.trim().toUpperCase();
-
-            if (!classCode) {
-                showError('Please enter a class code.');
-                return;
-            }
-
-            if (classCode.length !== 6) {
-                showError('Class code must be 6 characters long.');
-                return;
-            }
-
-            // Find roster with matching class code
-            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
-            const roster = rosters.find(r => r.classCode === classCode);
-
-            if (!roster) {
-                showError('Invalid class code. Please check with your teacher.');
-                return;
-            }
-
-            // Add student to roster
-            const newStudentEntry = {
-                name: currentStudent.username,
-                points: currentStudent.totalPoints || 0,
-                id: currentStudent.id
-            };
-
-            roster.roster.push(newStudentEntry);
-            
-            // Update roster in storage
-            const rosterIndex = rosters.findIndex(r => r.id === roster.id);
-            rosters[rosterIndex] = roster;
-            localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
-
-            // Update student record
-            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
-            const studentIndex = students.findIndex(s => s.id === currentStudent.id);
-            
-            if (studentIndex >= 0) {
-                students[studentIndex].rosterId = roster.id;
-                students[studentIndex].rosterName = currentStudent.username;
-                students[studentIndex].rosterIndex = roster.roster.length - 1;
-                localStorage.setItem('tornadoStudents', JSON.stringify(students));
-                
-                // Update current student
-                currentStudent = students[studentIndex];
-                localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
-            }
-
-            // Set current roster
-            currentRoster = roster;
-
-            showSuccess(`Welcome to ${roster.name}! You've joined the class successfully.`);
-            
-            // Refresh dashboard
-            updateDashboard();
-        }
+        // REMOVED: Duplicate joinClassFromDashboard function that was bypassing roster selection
+        // The correct version at line 1406 already handles roster selection properly
 
         function leaveClass() {
             if (!currentStudent || !currentStudent.rosterId) {
