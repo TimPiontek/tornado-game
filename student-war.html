@@ -854,6 +854,9 @@
     console.log('About to call updateGridDisplay');
     updateGridDisplay();
     console.log('updateGridDisplay completed');
+    
+    // Sync tile counts again after grid is displayed to ensure accuracy
+    syncTileCounts();
   }
   
   // Helper function to determine if a team is "good guys" based on scenario
