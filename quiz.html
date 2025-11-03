@@ -5669,6 +5669,25 @@
             out = pointsEarned;
             btn.style.color = teamColors[me];
             
+            // CRITICAL: Also award individual student points for points tiles
+            if (teamMode && rosterData) {
+              const currentStudent = getCurrentStudent();
+              if (currentStudent && currentStudent.name) {
+                // Award points to the current student
+                awardStudentPoints(currentStudent.name, pointsEarned, true);
+                console.log(`Awarded ${pointsEarned} points to ${currentStudent.name} from points tile`);
+              }
+            } else if (!teamMode && rosterData && rosterData.roster) {
+              // Individual mode - award to the student whose turn it is
+              const studentIndex = turn.charCodeAt(0) - 65;
+              const student = rosterData.roster[studentIndex];
+              if (student) {
+                const studentName = student.name || student;
+                awardStudentPoints(studentName, pointsEarned, true);
+                console.log(`Awarded ${pointsEarned} points to ${studentName} from points tile`);
+              }
+            }
+            
             // CRITICAL: Update button and scores IMMEDIATELY for all points
             btn.innerHTML = `<span>${out}</span>`;
             btn.disabled = true;
@@ -5715,10 +5734,23 @@
               
               return; // Important: return here to prevent further execution
             } else {
-              // No breakdown, show simple points and continue to end where advanceTurn is called
+              // No breakdown, show simple points
               showPointsPopup(out, me);
+              
+              // CRITICAL: For simple points, advance turn immediately and reset flag
+              // Don't wait for popup to dismiss - it's non-blocking
+              advanceTurn();
+              isResolvingTurn = false; // Reset flag immediately after advancing
+              
+              // Automatically show next question
+              setTimeout(() => {
+                if (typeof showQuestion === 'function') {
+                  showQuestion();
+                }
+              }, 500);
+              
+              return; // Return early to prevent double-advance
             }
-            // Points continue to end of function where advanceTurn is called
           }
           
           // Handle special effects
