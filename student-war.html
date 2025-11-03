@@ -3355,7 +3355,7 @@
                         `<span>Mercenaries: ${req.attacker_mercenaries}, Weapons: ${req.attacker_weapons}</span>`
                       }
                     </div>
-                    <button class="pill" onclick="respondToBattleRequest('${req.id}')" style="background: #10b981; color: white;">Respond</button>
+                    <button class="pill" onclick="window.handleRespondToBattle('${req.id}')" style="background: #10b981; color: white;">Respond</button>
                   </div>
                 </div>
               `;
@@ -3379,7 +3379,7 @@
                       <br>
                       Sent: ${new Date(req.created_at).toLocaleString()}
                     </div>
-                    <button class="pill" onclick="withdrawBattleRequest('${req.id}')" style="background: #f87171; color: white;">Withdraw</button>
+                    <button class="pill" onclick="window.handleWithdrawBattle('${req.id}')" style="background: #f87171; color: white;">Withdraw</button>
                   </div>
                 </div>
               `;
@@ -3391,12 +3391,15 @@
     
     document.body.appendChild(modal);
     
-    // Make functions globally accessible
-    window.respondToBattleRequest = (requestId) => {
+    // Create a safe wrapper function that doesn't cause infinite recursion
+    window.handleRespondToBattle = (requestId) => {
+      // Close the inbox modal first
+      modal.remove();
+      // Call the actual function
       respondToBattleRequest(requestId);
     };
     
-    window.withdrawBattleRequest = (requestId) => {
+    window.handleWithdrawBattle = (requestId) => {
       withdrawBattleRequest(requestId);
     };
   }
@@ -3411,7 +3414,9 @@
     }
     
     const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
-    if (!currentStudent || currentStudent.username !== request.defender_student_name) {
+    // Use rosterName for matching (battle requests use roster names, not usernames)
+    const defenderName = currentStudent.rosterName || currentStudent.username;
+    if (!currentStudent || defenderName !== request.defender_student_name) {
       alert('You can only respond to requests sent to you.');
       return;
     }
@@ -3617,7 +3622,9 @@
     }
     
     const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
-    if (!currentStudent || currentStudent.username !== request.attacker_student_name) {
+    // Use rosterName for matching (battle requests use roster names, not usernames)
+    const attackerName = currentStudent.rosterName || currentStudent.username;
+    if (!currentStudent || attackerName !== request.attacker_student_name) {
       alert('You can only withdraw your own requests.');
       return;
     }
