@@ -92,18 +92,9 @@
           </div>
         </div>
       </div>
-      <div style="background: #1e3a8a; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
-        <h4 style="margin: 0 0 8px; color: #60a5fa;">🎓 Student Permissions</h4>
-        <ul style="margin: 0 0 12px; padding-left: 16px; font-size: 12px; color: #93c5fd;">
-          <li>✅ Purchase available territories</li>
-          <li>✅ Build castles and defenses</li>
-          <li>✅ Buy weapons and mercenaries</li>
-          <li>❌ Cannot attack other territories</li>
-          <li>❌ Cannot add/take points</li>
-          <li>❌ Cannot modify other students' data</li>
-        </ul>
-        <button class="pill" onclick="showPurchaseGuide()" style="background: #3b82f6; color: white; font-size: 12px; width: 100%; margin-bottom: 8px;">📖 Purchase Guide</button>
-        <button class="pill" onclick="showStudentMarket()" style="background: #10b981; color: white; font-size: 12px; width: 100%;">🛒 Student Market</button>
+      <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+        <button class="pill" onclick="showPurchaseGuide()" style="background: #3b82f6; color: white; font-size: 12px; flex: 1;">📖 Purchase Guide</button>
+        <button class="pill" onclick="showStudentMarket()" style="background: #10b981; color: white; font-size: 12px; flex: 1;">🛒 Student Market</button>
       </div>
     </div>
 
@@ -769,11 +760,25 @@
     
     // Check if roster has saved game state
     if (state.currentRoster.gameState && state.currentRoster.gameState.tiles) {
-      console.log('Loading saved game state');
-      // Load saved game state
-      state.board = state.currentRoster.gameState.board;
-      state.board.tiles = state.currentRoster.gameState.tiles;
+      console.log('Loading saved game state from roster');
+      console.log('GameState tiles count:', state.currentRoster.gameState.tiles.length);
+      // Load saved game state - ensure we copy the board structure properly
+      if (state.currentRoster.gameState.board) {
+        state.board = {
+          w: state.currentRoster.gameState.board.w || w,
+          h: state.currentRoster.gameState.board.h || h,
+          tiles: [...state.currentRoster.gameState.tiles] // Create a copy of the tiles array
+        };
+      } else {
+        // Fallback if board structure isn't saved
+        state.board = {
+          w: w,
+          h: h,
+          tiles: [...state.currentRoster.gameState.tiles]
+        };
+      }
       state.truces = state.currentRoster.gameState.truces || [];
+      console.log('Loaded game state:', { w: state.board.w, h: state.board.h, tilesCount: state.board.tiles.length });
       
       // --- Start of gsId remapping logic ---
       const oldIdToNewIdMap = new Map();
