@@ -7960,24 +7960,33 @@
           
           if (targetRoster && targetRoster.roster) {
             let totalSaved = 0;
+            console.log('💾 Final save: studentPoints object:', studentPoints);
+            console.log('💾 Final save: rosterData.roster students:', rosterData.roster.map(s => s.name));
+            console.log('💾 Final save: targetRoster.roster students:', targetRoster.roster.map(s => s.name));
+            
             targetRoster.roster.forEach(student => {
               const currentQuizPoints = (studentPoints[student.name] !== undefined) ? (studentPoints[student.name] || 0) : 0;
               const lastSavedPoints = lastSavedStudentPoints[student.name] || 0;
               const newPointsEarned = currentQuizPoints - lastSavedPoints;
               
-              if (newPointsEarned > 0 || currentQuizPoints > 0) {
+              console.log(`💾 Final save check: ${student.name} - currentQuizPoints=${currentQuizPoints}, lastSaved=${lastSavedPoints}, newPoints=${newPointsEarned}`);
+              
+              if (newPointsEarned > 0 || (currentQuizPoints > 0 && lastSavedPoints === 0)) {
                 const existingPoints = student.points || 0;
                 const existingEarnedPoints = student.earnedPoints || 0;
                 
-                // Add any remaining unsaved points
-                student.points = existingPoints + newPointsEarned;
+                // Add any remaining unsaved points (or all points if never saved)
+                const pointsToAdd = newPointsEarned > 0 ? newPointsEarned : currentQuizPoints;
+                student.points = existingPoints + pointsToAdd;
                 student.balance = student.points;
-                student.earnedPoints = existingEarnedPoints + newPointsEarned;
+                student.earnedPoints = existingEarnedPoints + pointsToAdd;
                 
                 lastSavedStudentPoints[student.name] = currentQuizPoints;
-                totalSaved += newPointsEarned;
+                totalSaved += pointsToAdd;
                 
-                console.log(`Final save: ${student.name} +${newPointsEarned} points (${existingPoints} → ${student.points})`);
+                console.log(`✅ Final save: ${student.name} +${pointsToAdd} points (${existingPoints} → ${student.points})`);
+              } else {
+                console.log(`⏸️ Final save: ${student.name} - no new points (current=${currentQuizPoints}, saved=${lastSavedPoints})`);
               }
             });
             
@@ -7987,7 +7996,18 @@
               rosters[rosterIndex] = targetRoster;
               localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
               console.log(`✅ Final save complete: ${totalSaved} total points saved to roster`);
+              
+              // Trigger storage event for cross-page sync
+              window.dispatchEvent(new StorageEvent('storage', {
+                key: 'tornadoRosters',
+                newValue: JSON.stringify(rosters),
+                oldValue: localStorage.getItem('tornadoRosters')
+              }));
+            } else {
+              console.error('❌ Could not find roster index for final save!');
             }
+          } else {
+            console.error('❌ Target roster not found or has no roster array for final save!', targetRoster);
           }
           
           // Transfer points to roster immediately (for team victory bonuses)
