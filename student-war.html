@@ -83,6 +83,15 @@
 
     <div class="section">
       <div class="title">Student Mode</div>
+      <div id="studentNameDisplay" style="background: #10b981; padding: 10px; border-radius: 8px; margin-bottom: 12px; display: none;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.2em;">👤</span>
+          <div>
+            <div style="font-weight: 600; color: white; font-size: 14px;">Logged in as:</div>
+            <div id="studentNameValue" style="font-weight: bold; color: white; font-size: 16px;">-</div>
+          </div>
+        </div>
+      </div>
       <div style="background: #1e3a8a; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
         <h4 style="margin: 0 0 8px; color: #60a5fa;">🎓 Student Permissions</h4>
         <ul style="margin: 0 0 12px; padding-left: 16px; font-size: 12px; color: #93c5fd;">
@@ -701,15 +710,41 @@
     initializeGameBoard();
     console.log('initializeGameBoard completed');
     
-    // Auto-select the logged-in student
+    // Auto-select the logged-in student and display their name
     const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
-    if (currentStudent && currentStudent.username) {
-      const loggedInStudent = state.roster.find(s => s.name === currentStudent.username);
+    if (currentStudent) {
+      // Try to match by username first, then by rosterName
+      const loggedInStudent = state.roster.find(s => 
+        s.name === currentStudent.username || 
+        s.name === currentStudent.rosterName
+      );
+      
       if (loggedInStudent) {
         state.selectedGsId = loggedInStudent.gsId;
-        console.log('Auto-selected logged-in student:', currentStudent.username);
+        console.log('Auto-selected logged-in student:', loggedInStudent.name);
+        
+        // Display student name
+        const studentNameDisplay = document.getElementById('studentNameDisplay');
+        const studentNameValue = document.getElementById('studentNameValue');
+        if (studentNameDisplay && studentNameValue) {
+          studentNameValue.textContent = loggedInStudent.name;
+          studentNameDisplay.style.display = 'block';
+        }
+      } else {
+        // Still show name even if not found in roster (they might be new)
+        const studentNameDisplay = document.getElementById('studentNameDisplay');
+        const studentNameValue = document.getElementById('studentNameValue');
+        if (studentNameDisplay && studentNameValue) {
+          studentNameValue.textContent = currentStudent.rosterName || currentStudent.username || 'Student';
+          studentNameDisplay.style.display = 'block';
+        }
       }
     }
+    
+    // Load scenario from roster
+    console.log('About to call autoSelectScenarioFromRoster');
+    autoSelectScenarioFromRoster();
+    console.log('autoSelectScenarioFromRoster completed');
     
     // Update UI
     console.log('About to call renderRoster');
