@@ -6714,20 +6714,22 @@
               </div>`;
             specialPopup.classList.add("tornado-mode");
           } else if (breakdown) {
-            // Points breakdown with math
+            // Points breakdown with math - unified display
+            const teamColor = team === "A" ? "var(--teamA)" : (team === "B" ? "var(--teamB)" : "#6f5c91");
             popupHTML = `
-              <div style="text-align: center; padding: 1.5rem;">
+              <div style="text-align: center; padding: 2rem;">
                 ${emoji ? `<span class="emoji">${emoji}</span>` : ''}
-                ${title ? `<div class="effect-name">${title}</div>` : ''}
-                <div style="font-size: 1.3rem; margin: 1rem 0; color: #666; font-weight: 600;">Points Breakdown:</div>
-                <div style="font-size: 2rem; font-weight: bold; color: #4caf50; margin: 0.5rem 0;">Base: +${breakdown.basePoints}</div>
-                <div style="font-size: 1.2rem; color: #666; margin: 0.8rem 0; font-style: italic;">${breakdown.effect}</div>
-                <div class="points-display" style="font-size: 3.5rem; font-weight: 900; color: #6f5c91; border-top: 3px solid #ddd; padding-top: 1rem; margin-top: 1rem;">= +${breakdown.finalTotal}</div>
-                <div style="margin-top: 2rem; padding: 1em 2em; background: #6f5c91; color: white; border-radius: 12px; font-weight: 700; font-size: 1.2rem; cursor: pointer; display: inline-block; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+                ${title ? `<div class="effect-name" style="margin-bottom: 1.5rem;">${title}</div>` : ''}
+                <div style="font-size: 1.4rem; margin: 1.5rem 0 0.8rem 0; color: #666; font-weight: 700;">Points Breakdown</div>
+                <div style="font-size: 2.5rem; font-weight: bold; color: #4caf50; margin: 0.8rem 0;">Base: +${breakdown.basePoints}</div>
+                <div style="font-size: 1.3rem; color: #555; margin: 1rem 0; font-weight: 500; line-height: 1.4;">${breakdown.effect}</div>
+                <div class="points-display" style="font-size: 4.5rem; font-weight: 900; color: ${teamColor}; border-top: 4px solid #ddd; padding-top: 1.5rem; margin-top: 1.5rem;">= +${breakdown.finalTotal}</div>
+                <div style="margin-top: 2.5rem; padding: 1.2em 2.5em; background: #6f5c91; color: white; border-radius: 12px; font-weight: 700; font-size: 1.3rem; cursor: pointer; display: inline-block; box-shadow: 0 4px 16px rgba(0,0,0,0.4); transition: transform 0.2s;">
                   Click to Continue
                 </div>
               </div>`;
             specialPopup.classList.add("points-mode");
+            specialPopup.style.color = teamColor;
           } else if (points !== null) {
             // Simple points display
             const teamColor = team === "A" ? "var(--teamA)" : (team === "B" ? "var(--teamB)" : "#6f5c91");
