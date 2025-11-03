@@ -2502,7 +2502,26 @@
     console.log('Students with characters:', studentsWithCharacters.map(s => `${s.name}: ${s.characterName}`));
     
     if (studentsWithCharacters.length === 0) {
-      updateScenarioDisplay('No characters assigned - playing in normal mode');
+      // No characters assigned - check if roster has a scenarioName set
+      if (state.currentRoster && state.currentRoster.scenario && state.currentRoster.scenario.scenarioName) {
+        const scenarioName = state.currentRoster.scenario.scenarioName;
+        // If scenarioName is "Tornado War" or empty/null, show as normal mode
+        if (scenarioName && scenarioName.toLowerCase() !== 'tornado war') {
+          // Try to find the scenario
+          const scenarioId = Object.keys(SCENARIOS).find(id => 
+            SCENARIOS[id].name === scenarioName || 
+            SCENARIOS[id].scenarioName === scenarioName
+          );
+          if (scenarioId) {
+            const scenario = SCENARIOS[scenarioId];
+            state.scenario = { ...scenario, scenarioId: scenarioId };
+            updateScenarioDisplay(scenario.name, scenario.description, scenario.factions);
+            return;
+          }
+        }
+      }
+      // Default to "Tornado War" (normal mode) if no scenario assigned
+      updateScenarioDisplay('Tornado War', 'Standard war game mode - no special scenario');
       return;
     }
     
