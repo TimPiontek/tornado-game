@@ -7989,7 +7989,10 @@
             console.log('📊 Auto-save tracking initialized:', lastSavedStudentPoints);
         }
         
-        function autoSaveQuizPoints() {
+        let lastSupabaseSyncTime = 0;
+        const SUPABASE_SYNC_INTERVAL = 10000; // Sync to Supabase every 10 seconds during auto-save
+        
+        async function autoSaveQuizPoints() {
             if (!rosterData) {
                 console.warn('⚠️ autoSaveQuizPoints: No rosterData available');
                 return;
@@ -8056,6 +8059,20 @@
                             console.log('ℹ️ Auto-save: No new points to save (all points already saved)');
                         }
                         
+                        // CRITICAL: Sync to Supabase during game (throttled to avoid too many API calls)
+                        const now = Date.now();
+                        const timeSinceLastSync = now - lastSupabaseSyncTime;
+                        const shouldSyncToCloud = anyPointsSaved && (timeSinceLastSync >= SUPABASE_SYNC_INTERVAL);
+                        
+                        if (shouldSyncToCloud) {
+                            lastSupabaseSyncTime = now;
+                            // Sync to Supabase in background (don't block game)
+                            syncRosterToSupabase(targetRoster).catch(error => {
+                                console.error('❌ Error syncing auto-saved points to Supabase:', error);
+                                // Continue - points are saved locally
+                            });
+                        }
+                        
                         // Trigger storage event for cross-page sync
                         window.dispatchEvent(new StorageEvent('storage', {
                             key: 'tornadoRosters',
@@ -8070,6 +8087,52 @@
                 }
             } catch (error) {
                 console.error('❌ Error auto-saving quiz points:', error);
+            }
+        }
+        
+        // Helper function to sync roster to Supabase
+        async function syncRosterToSupabase(rosterData) {
+            try {
+                // Try to use the Supabase client from window (quiz.html uses this)
+                let supabaseClient = window.supabase;
+                if (!supabaseClient && window.getSupabaseClient) {
+                    supabaseClient = window.getSupabaseClient();
+                }
+                if (!supabaseClient || !supabaseClient.createClient) {
+                    // Try importing the module
+                    const { getSupabaseClient } = await import('/lib/supabaseClient.js');
+                    supabaseClient = getSupabaseClient();
+                }
+                
+                if (supabaseClient && supabaseClient.auth) {
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    if (session && session.user) {
+                        const { error } = await supabaseClient.from('rosters').upsert({
+                            id: rosterData.id,
+                            teacher_id: session.user.id,
+                            name: rosterData.name,
+                            data: rosterData,
+                            last_modified: new Date().toISOString()
+                        });
+                        
+                        if (error) {
+                            console.error('❌ Error syncing points to Supabase:', error);
+                            return false;
+                        } else {
+                            console.log('✅ Points synced to Supabase during game');
+                            return true;
+                        }
+                    } else {
+                        console.log('⚠️ No active session - points saved locally only');
+                        return false;
+                    }
+                } else {
+                    console.log('⚠️ Supabase client not available - points saved locally only');
+                    return false;
+                }
+            } catch (error) {
+                console.error('❌ Error syncing to Supabase:', error);
+                return false;
             }
         }
         
