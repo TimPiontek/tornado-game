@@ -1270,15 +1270,20 @@
             
             // Update student profile
             const studentProfile = document.getElementById('studentProfile');
-            studentProfile.innerHTML = `
+            // Display roster name prominently if available, otherwise fall back to username
+            const displayName = currentStudent.rosterName || currentStudent.username;
+            const studentProfileHTML = `
                 <div class="student-info">
-                    <h3>👤 ${currentStudent.username}</h3>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--primary);">👤 ${displayName}</h3>
+                    ${currentStudent.rosterName && currentStudent.rosterName !== currentStudent.username ? 
+                        `<p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 0.75rem;">Login: ${currentStudent.username}</p>` : ''}
                     <p><strong>Grade:</strong> ${currentStudent.grade || 'Not specified'}</p>
-                    <p><strong>Class:</strong> ${currentStudent.rosterName && currentRoster ? currentRoster.name : 'Not joined'}</p>
+                    <p><strong>Class:</strong> ${currentRoster ? currentRoster.name : 'Not joined'}</p>
                     <p><strong>Member since:</strong> ${new Date(currentStudent.createdAt).toLocaleDateString()}</p>
                     <p><strong>Last login:</strong> ${new Date(currentStudent.lastLogin).toLocaleDateString()}</p>
                 </div>
             `;
+            studentProfile.innerHTML = studentProfileHTML;
 
             // Update stats - get current points from roster if student is in a class
             const studentStats = document.getElementById('studentStats');
@@ -1287,11 +1292,13 @@
                 : 0;
 
             // Get current points from roster if student is in a class
+            // Use rosterName to find the student, not username
             let currentPoints = currentStudent.totalPoints || 0;
-            if (currentRoster && currentStudent.rosterId) {
-                const rosterStudent = currentRoster.roster.find(s => s.name === currentStudent.username);
+            if (currentRoster && currentStudent.rosterId && currentStudent.rosterName) {
+                const rosterStudent = currentRoster.roster.find(s => s.name === currentStudent.rosterName);
                 if (rosterStudent) {
-                    currentPoints = rosterStudent.points || 0;
+                    const rosterPoints = rosterStudent.balance !== undefined ? rosterStudent.balance : (rosterStudent.points || 0);
+                    currentPoints = rosterPoints;
                     // Update student's stored points to match roster
                     currentStudent.totalPoints = currentPoints;
                     localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
