@@ -1245,10 +1245,20 @@
   }
 
   function updateGridDisplay() {
-    console.log('updateGridDisplay called', { gridEl, tiles: state.board.tiles, board: state.board });
+    console.log('updateGridDisplay called', { gridEl, tiles: state.board?.tiles, board: state.board });
     
-    if (!gridEl || !state.board.tiles) {
-      console.log('updateGridDisplay: gridEl or tiles not found', { gridEl, tiles: state.board.tiles });
+    if (!gridEl) {
+      console.error('updateGridDisplay: gridEl not found! Grid element missing from DOM.');
+      return;
+    }
+    
+    if (!state.board) {
+      console.error('updateGridDisplay: state.board not defined!');
+      return;
+    }
+    
+    if (!state.board.tiles) {
+      console.error('updateGridDisplay: state.board.tiles not found!', { board: state.board });
       return;
     }
     
