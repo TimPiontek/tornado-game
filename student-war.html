@@ -3088,7 +3088,8 @@
     const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
     if (!currentStudent) return;
     
-    const studentName = currentStudent.username;
+    // Use rosterName for matching battle requests (battle requests use roster names, not usernames)
+    const studentName = currentStudent.rosterName || currentStudent.username;
     const incomingCount = getIncomingBattleRequests(studentName).length;
     const outgoingCount = getPendingBattleRequestsCount(studentName);
     
@@ -3320,7 +3321,8 @@
       return;
     }
     
-    const studentName = currentStudent.username;
+    // Use rosterName for matching battle requests (battle requests use roster names, not usernames)
+    const studentName = currentStudent.rosterName || currentStudent.username;
     const incoming = getIncomingBattleRequests(studentName);
     const outgoing = getBattleRequests().filter(r => r.attacker_student_name === studentName && r.status === 'pending');
     

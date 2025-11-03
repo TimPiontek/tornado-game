@@ -1329,7 +1329,75 @@
                 addJoinClassSection();
             } else {
                 addClassFeatures();
+                addBattleNotifications();
             }
+        }
+        
+        // Add battle notifications to dashboard
+        function addBattleNotifications() {
+            const dashboard = document.getElementById('dashboardSection');
+            
+            // Remove existing notifications section if it exists
+            const existingNotifications = document.getElementById('battleNotificationsSection');
+            if (existingNotifications) {
+                existingNotifications.remove();
+            }
+            
+            // Get battle requests for this student
+            if (!currentStudent.rosterId) return;
+            
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            const roster = rosters.find(r => r.id === currentStudent.rosterId);
+            if (!roster) return;
+            
+            // Get battle requests
+            const battleRequestsKey = `battleRequests_${currentStudent.rosterId}`;
+            let allRequests = [];
+            try {
+                const stored = localStorage.getItem(battleRequestsKey);
+                allRequests = stored ? JSON.parse(stored) : [];
+            } catch (e) {
+                console.error('Error loading battle requests:', e);
+            }
+            
+            // Use rosterName for matching
+            const studentName = currentStudent.rosterName || currentStudent.username;
+            const incoming = allRequests.filter(r => 
+                r.defender_student_name === studentName && r.status === 'pending'
+            );
+            
+            if (incoming.length === 0) return; // Don't show section if no notifications
+            
+            // Create notifications section
+            const notificationsHTML = `
+                <div class="battle-notifications" id="battleNotificationsSection" style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="margin: 0; color: white; font-size: 1.25rem;">⚔️ Battle Notifications (${incoming.length})</h3>
+                        <button onclick="window.location.href='student-war.html'" style="background: white; color: #ee5a6f; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600;">View Inbox</button>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        ${incoming.slice(0, 3).map(req => {
+                            return `
+                                <div style="background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <strong style="color: #ee5a6f;">${req.attacker_student_name}</strong> wants to battle for your territory!
+                                            ${req.attacker_blind ? 
+                                                '<br><span style="color: #facc15; font-size: 0.875rem;">🔒 BLIND ATTACK</span>' :
+                                                `<br><span style="color: #666; font-size: 0.875rem;">Mercenaries: ${req.attacker_mercenaries}, Weapons: ${req.attacker_weapons}</span>`
+                                            }
+                                        </div>
+                                        <button onclick="window.location.href='student-war.html'" style="background: #ee5a6f; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600;">Respond</button>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                        ${incoming.length > 3 ? `<p style="color: white; text-align: center; margin-top: 0.5rem; font-size: 0.9rem;">+ ${incoming.length - 3} more battle request${incoming.length - 3 > 1 ? 's' : ''}</p>` : ''}
+                    </div>
+                </div>
+            `;
+            
+            dashboard.insertAdjacentHTML('beforeend', notificationsHTML);
         }
 
         function addJoinClassSection() {
