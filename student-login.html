@@ -648,9 +648,34 @@
                 if (currentStudent.rosterId) {
                     const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
                     currentRoster = rosters.find(r => r.id === currentStudent.rosterId);
+                    
+                    // Verify that rosterName exists in the roster - if not, need to re-link
+                    if (currentRoster && currentStudent.rosterName) {
+                        const nameExists = currentRoster.roster.some(s => s.name === currentStudent.rosterName);
+                        if (!nameExists) {
+                            console.log('Student rosterName not found in roster - will need to re-link');
+                            // Clear rosterName to force re-linking
+                            currentStudent.rosterName = null;
+                            localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+                            // Don't show dashboard - let them select their name
+                            return;
+                        }
+                    } else if (currentRoster && !currentStudent.rosterName) {
+                        // Has rosterId but no rosterName - need to link
+                        console.log('Student has rosterId but no rosterName - will need to link');
+                        // Show class code screen so they can re-join and select name
+                        showClassCode();
+                        return;
+                    }
                 }
                 
-                showDashboard();
+                // Only show dashboard if properly linked
+                if (currentStudent.rosterId && currentStudent.rosterName && currentRoster) {
+                    showDashboard();
+                } else {
+                    // Not fully linked - show class code screen
+                    showClassCode();
+                }
             }
         });
 
