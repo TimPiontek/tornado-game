@@ -5690,18 +5690,35 @@
                   
                   // CRITICAL: Advance turn AFTER breakdown is dismissed
                   advanceTurn();
+                  isResolvingTurn = false; // Reset flag
+                  
+                  // Automatically show next question
+                  setTimeout(() => {
+                    if (typeof showQuestion === 'function') {
+                      showQuestion();
+                    }
+                  }, 500);
                 });
               } else {
                 // Fallback if no promise returned
                 showSpecialPopup("🔥", `Hot Streak! +${pointsEarned} points!`);
                 advanceTurn();
+                isResolvingTurn = false; // Reset flag
+                
+                // Automatically show next question
+                setTimeout(() => {
+                  if (typeof showQuestion === 'function') {
+                    showQuestion();
+                  }
+                }, 500);
               }
               
               return; // Important: return here to prevent further execution
             } else {
-              // No breakdown, show simple points
+              // No breakdown, show simple points and continue to end where advanceTurn is called
               showPointsPopup(out, me);
             }
+            // Points continue to end of function where advanceTurn is called
           }
           
           // Handle special effects
@@ -5724,6 +5741,14 @@
               
               // CRITICAL: Advance turn before returning
               advanceTurn();
+              isResolvingTurn = false; // Reset flag
+              
+              // Automatically show next question
+              setTimeout(() => {
+                if (typeof showQuestion === 'function') {
+                  showQuestion();
+                }
+              }, 500);
               return;
             }
             
@@ -5732,6 +5757,8 @@
               teamStatus[me].shield = false;
               teamStatus[me].shieldUsed = true;
               out = "🛡️";
+              btn.innerHTML = `<span>${out}</span>`;
+              btn.disabled = true;
               showSpecialPopup("🛡️", "Shield blocked the Skunk effect!");
               animateShieldBlock(me);
             } else {
@@ -5747,6 +5774,8 @@
               animateSkunk(me);
               playSad();
             }
+            
+            // These effects continue to end of function where advanceTurn is called
           } else if (r.type === "steal") {
             // Tornado effect - only if there are points to steal
             let targetTeam = null;
@@ -5775,6 +5804,14 @@
               
               // CRITICAL: Advance turn before returning
               advanceTurn();
+              isResolvingTurn = false; // Reset flag
+              
+              // Automatically show next question
+              setTimeout(() => {
+                if (typeof showQuestion === 'function') {
+                  showQuestion();
+                }
+              }, 500);
               return;
             }
             
@@ -5783,12 +5820,16 @@
               teamStatus[targetTeam].shield = false;
               teamStatus[targetTeam].shieldUsed = true;
               out = "🛡️";
+              btn.innerHTML = `<span>${out}</span>`;
+              btn.disabled = true;
               showSpecialPopup("🛡️", `${names[targetTeam]}'s Shield blocked the Tornado!`);
               animateShieldBlock(targetTeam);
             } else {
               // If more than 2 teams, let the player choose which team to steal from
               if (teamCount > 2) {
                 showTeamSelectionModal(me, "steal");
+                // Modal will handle turn advancement
+                return;
               } else {
                 // Just 2 teams, steal directly
                 scores[me] += scores[targetTeam];
@@ -5808,6 +5849,8 @@
                 animateKangarooSwap();
               }
             }
+            
+            // These effects continue to end of function where advanceTurn is called
           } else if (r.type === "swap") {
             // Kangaroo swap - only if there are points to swap
             let targetTeam = null;
@@ -5836,6 +5879,14 @@
               
               // CRITICAL: Advance turn before returning
               advanceTurn();
+              isResolvingTurn = false; // Reset flag
+              
+              // Automatically show next question
+              setTimeout(() => {
+                if (typeof showQuestion === 'function') {
+                  showQuestion();
+                }
+              }, 500);
               return;
             }
             
@@ -5879,6 +5930,8 @@
             
             showSpecialPopup("🦘", "Kangaroo Hop Swap! Teams swap points!");
             animateKangarooSwap();
+            
+            // This effect continues to end of function where advanceTurn is called
           } else if (r.type === "double") {
             // Double effect - only if team has points to double
             if (!hasPoints) {
@@ -5911,11 +5964,36 @@
               breakdownPromise.then(() => {
                 showSpecialPopup("🦁🦁", "Double Lion Roar! Double your points!");
                 animateScore(me, "double-bounce");
+                
+                // Advance turn after breakdown and popup
+                advanceTurn();
+                isResolvingTurn = false; // Reset flag
+                
+                // Automatically show next question
+                setTimeout(() => {
+                  if (typeof showQuestion === 'function') {
+                    showQuestion();
+                  }
+                }, 500);
               });
             } else {
               showSpecialPopup("🦁🦁", "Double Lion Roar! Double your points!");
               animateScore(me, "double-bounce");
+              
+              // Advance turn immediately
+              advanceTurn();
+              isResolvingTurn = false; // Reset flag
+              
+              // Automatically show next question
+              setTimeout(() => {
+                if (typeof showQuestion === 'function') {
+                  showQuestion();
+                }
+              }, 500);
             }
+            
+            // Double effect handled - return to prevent continuing
+            return;
           } else if (r.type === "shield") {
             // Shield effect - give points AND shield
             pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
@@ -5945,6 +6023,14 @@
             
             // Advance turn after shield activation
             advanceTurn();
+            isResolvingTurn = false; // Reset flag
+            
+            // Automatically show next question
+            setTimeout(() => {
+              if (typeof showQuestion === 'function') {
+                showQuestion();
+              }
+            }, 500);
             return;
                     } else if (r.type === "hotStreak") {
             // Hot Streak effect - give points AND hot streak
@@ -6042,10 +6128,21 @@
           if (done === total) {
             // Game over - show end game screen
             console.log('🎉 Grid complete! Triggering victory screen...');
+            isResolvingTurn = false; // Reset flag before ending
             showEndGameResults();
           } else {
             // Use the centralized advanceTurn function
             advanceTurn();
+            
+            // CRITICAL: Reset the resolving flag and show next question automatically
+            isResolvingTurn = false;
+            
+            // Automatically show the next question after turn advances
+            setTimeout(() => {
+              if (typeof showQuestion === 'function') {
+                showQuestion();
+              }
+            }, 500); // Small delay to ensure UI is ready
           }
           } catch (error) {
             console.error('Error in handlePick:', error);
