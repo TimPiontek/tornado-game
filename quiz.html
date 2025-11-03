@@ -461,23 +461,24 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: rgba(111, 92, 145, 0.95);
-        color: #fff;
+        background: rgba(255, 255, 255, 0.98);
+        color: #333;
         font-size: 2.5rem;
         font-weight: 900;
-        border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
-        padding: 2rem 3rem;
-        z-index: 1000;
+        border-radius: 24px;
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+        padding: 3rem 4rem;
+        z-index: 10000;
         text-align: center;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        pointer-events: none;
+        pointer-events: auto;
         opacity: 0;
-        transition: opacity 0.3s;
+        transition: opacity 0.3s ease-in-out;
         max-width: 90vw;
+        border: 3px solid #6f5c91;
       }
 
       .special-popup.show {
@@ -485,15 +486,33 @@
       }
 
       .special-popup .emoji {
-        font-size: 4rem;
-        margin-bottom: 1rem;
+        font-size: 5rem;
+        margin-bottom: 1.5rem;
         display: block;
+        line-height: 1;
       }
 
       .special-popup .slogan {
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1.3;
+        margin: 0.5rem 0;
+        color: #333;
+      }
+
+      .special-popup .points-display {
+        font-size: 4.5rem;
+        font-weight: 900;
+        margin: 1rem 0;
+        color: #4caf50;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .special-popup .effect-name {
         font-size: 1.8rem;
-        line-height: 1.2;
-        margin: 0;
+        font-weight: 600;
+        color: #6f5c91;
+        margin-top: 1rem;
       }
 
       /* Game Info */
@@ -5704,9 +5723,7 @@
               if (breakdownPromise) {
                 pendingPromises.push(breakdownPromise); // Track this promise
                 breakdownPromise.then(() => {
-                  // After breakdown is dismissed, show the special effect popup
-                  showSpecialPopup("🔥", `Hot Streak! +${pointsEarned} points!`);
-                  
+                  // Breakdown already showed the points and effect, just advance turn
                   // CRITICAL: Advance turn AFTER breakdown is dismissed
                   advanceTurn();
                   isResolvingTurn = false; // Reset flag
@@ -5719,8 +5736,7 @@
                   }, 500);
                 });
               } else {
-                // Fallback if no promise returned
-                showSpecialPopup("🔥", `Hot Streak! +${pointsEarned} points!`);
+                // Fallback if no promise returned - breakdown is already in the popup
                 advanceTurn();
                 isResolvingTurn = false; // Reset flag
                 
@@ -5734,8 +5750,13 @@
               
               return; // Important: return here to prevent further execution
             } else {
-              // No breakdown, show simple points
-              showPointsPopup(out, me);
+              // No breakdown, show simple points with clear display
+              showAwardPopup({
+                points: out,
+                team: me,
+                autoHide: true,
+                duration: 2500
+              });
               
               // CRITICAL: For simple points, advance turn immediately and reset flag
               // Don't wait for popup to dismiss - it's non-blocking
@@ -5769,7 +5790,12 @@
               updateScores();
               updateTeamDisplay();
               
-              showPointsPopup(out, me);
+              showAwardPopup({
+                points: out,
+                team: me,
+                autoHide: true,
+                duration: 2500
+              });
               
               // CRITICAL: Advance turn before returning
               advanceTurn();
@@ -5791,7 +5817,13 @@
               out = "🛡️";
               btn.innerHTML = `<span>${out}</span>`;
               btn.disabled = true;
-              showSpecialPopup("🛡️", "Shield blocked the Skunk effect!");
+              showAwardPopup({
+                emoji: "🛡️",
+                title: "Shield Blocked!",
+                effect: "The Skunk effect was blocked",
+                autoHide: true,
+                duration: 3000
+              });
               animateShieldBlock(me);
             } else {
               scores[me] = 0;
@@ -5802,7 +5834,13 @@
               btn.innerHTML = `<span>${out}</span>`;
               btn.disabled = true;
               
-              showSpecialPopup("🦨", "Skunked! Lose all your points!");
+              showAwardPopup({
+                emoji: "🦨",
+                title: "Skunked!",
+                effect: "You lost all your points!",
+                autoHide: true,
+                duration: 3500
+              });
               animateSkunk(me);
               playSad();
             }
@@ -5832,7 +5870,12 @@
               updateScores();
               updateTeamDisplay();
               
-              showPointsPopup(out, me);
+              showAwardPopup({
+                points: out,
+                team: me,
+                autoHide: true,
+                duration: 2500
+              });
               
               // CRITICAL: Advance turn before returning
               advanceTurn();
@@ -5854,7 +5897,13 @@
               out = "🛡️";
               btn.innerHTML = `<span>${out}</span>`;
               btn.disabled = true;
-              showSpecialPopup("🛡️", `${names[targetTeam]}'s Shield blocked the Tornado!`);
+              showAwardPopup({
+                emoji: "🛡️",
+                title: "Shield Blocked!",
+                effect: `${names[targetTeam]}'s shield blocked the Tornado!`,
+                autoHide: true,
+                duration: 3000
+              });
               animateShieldBlock(targetTeam);
             } else {
               // If more than 2 teams, let the player choose which team to steal from
@@ -5877,7 +5926,14 @@
                 btn.disabled = true;
                 
                 btn.classList.add("tornado-animation");
-                showSpecialPopup("🌪️", "Tornado! Steal the other team's points!", true);
+                showAwardPopup({
+                  emoji: "🌪️",
+                  title: "TORNADO!",
+                  effect: "Stole the other team's points!",
+                  tornadoMode: true,
+                  autoHide: true,
+                  duration: 4000
+                });
                 animateKangarooSwap();
               }
             }
@@ -5907,7 +5963,12 @@
               updateScores();
               updateTeamDisplay();
               
-              showPointsPopup(out, me);
+              showAwardPopup({
+                points: out,
+                team: me,
+                autoHide: true,
+                duration: 2500
+              });
               
               // CRITICAL: Advance turn before returning
               advanceTurn();
@@ -5942,11 +6003,27 @@
               teamStatus[me].shieldUsed = true;
               updateTeamDisplay();
               
-              showPointsPopup(out, me);
-              showSpecialPopup("🛡️", "Shield protected you from negative swap! +100 bonus points!", false, false);
+              // Show combined popup with points and effect
+              showAwardPopup({
+                emoji: "🛡️",
+                title: "Shield Protected!",
+                points: out,
+                effect: "Bonus points for negative swap protection",
+                team: me,
+                autoHide: true,
+                duration: 3000
+              });
               
               // CRITICAL: Advance turn before returning
               advanceTurn();
+              isResolvingTurn = false;
+              
+              // Automatically show next question
+              setTimeout(() => {
+                if (typeof showQuestion === 'function') {
+                  showQuestion();
+                }
+              }, 500);
               return;
             }
             
@@ -5960,7 +6037,13 @@
             btn.innerHTML = `<span>${out}</span>`;
             btn.disabled = true;
             
-            showSpecialPopup("🦘", "Kangaroo Hop Swap! Teams swap points!");
+            showAwardPopup({
+              emoji: "🦘",
+              title: "Kangaroo Hop Swap!",
+              effect: "Teams swapped points!",
+              autoHide: true,
+              duration: 3500
+            });
             animateKangarooSwap();
             
             // This effect continues to end of function where advanceTurn is called
@@ -5972,7 +6055,26 @@
               scores[me] += pointsEarned;
               out = pointsEarned;
               btn.style.color = teamColors[me];
-              showPointsPopup(out, me);
+              btn.innerHTML = `<span>${out}</span>`;
+              btn.disabled = true;
+              updateScores();
+              updateTeamDisplay();
+              
+              showAwardPopup({
+                points: out,
+                team: me,
+                autoHide: true,
+                duration: 2500
+              });
+              
+              advanceTurn();
+              isResolvingTurn = false;
+              
+              setTimeout(() => {
+                if (typeof showQuestion === 'function') {
+                  showQuestion();
+                }
+              }, 500);
               return;
             }
             
@@ -5994,10 +6096,10 @@
             if (breakdownPromise) {
               pendingPromises.push(breakdownPromise); // Track this promise
               breakdownPromise.then(() => {
-                showSpecialPopup("🦁🦁", "Double Lion Roar! Double your points!");
+                // Breakdown already showed everything, just advance
                 animateScore(me, "double-bounce");
                 
-                // Advance turn after breakdown and popup
+                // Advance turn after breakdown is dismissed
                 advanceTurn();
                 isResolvingTurn = false; // Reset flag
                 
@@ -6009,7 +6111,16 @@
                 }, 500);
               });
             } else {
-              showSpecialPopup("🦁🦁", "Double Lion Roar! Double your points!");
+              // No breakdown, show simple double effect
+              showAwardPopup({
+                emoji: "🦁🦁",
+                title: "Double Lion Roar!",
+                points: finalTotal,
+                effect: "Your points have been doubled!",
+                team: me,
+                autoHide: true,
+                duration: 3500
+              });
               animateScore(me, "double-bounce");
               
               // Advance turn immediately
@@ -6039,19 +6150,22 @@
             updateScores();
             updateTeamDisplay();
             
-            // Show points first, then shield effect (no math breakdown needed)
-            showPointsPopup(out, me);
+            // Show combined popup with points and shield activation
+            showAwardPopup({
+              emoji: "🛡️",
+              title: "Shield Activated!",
+              points: out,
+              effect: "Protects from negative effects until used",
+              team: me,
+              autoHide: true,
+              duration: 3500
+            });
             
             // Activate shield immediately and update display
             teamStatus[me] = teamStatus[me] || {};
             teamStatus[me].shield = true;
             teamStatus[me].shieldUsed = false; // Mark as not used yet
             updateTeamDisplay(); // Show shield icon immediately
-            
-            // Then show shield effect
-            setTimeout(() => {
-              showSpecialPopup("🛡️", `Shield activated! +${out} points! Protects from negative effects until used.`, false, false);
-            }, 1000);
             
             // Advance turn after shield activation
             advanceTurn();
@@ -6077,22 +6191,35 @@
             updateScores();
             updateTeamDisplay();
             
-            // Show points first, then hot streak effect (no math breakdown needed for activation)
-            showPointsPopup(out, me);
-            
             // Activate hot streak immediately and update display
             if (teamStatus[me]?.hotStreak) {
               scores[me] += 100;
               updateScores();
               updateTeamDisplay();
-              showSpecialPopup("🔥", "Hot Streak already active! +100 bonus points!", false, false);
+              showAwardPopup({
+                emoji: "🔥",
+                title: "Hot Streak Already Active!",
+                points: out + 100,
+                effect: "+100 bonus points",
+                team: me,
+                autoHide: true,
+                duration: 3000
+              });
               animateScore(me, "hot-streak-bounce");
             } else {
               teamStatus[me] = teamStatus[me] || {};
               teamStatus[me].hotStreak = true;
               teamStatus[me].hotStreakUsed = false; // Mark as not used yet
               updateTeamDisplay(); // Show hot streak icon immediately
-              showSpecialPopup("🔥", "Hot Streak! Next correct answer worth 3x points!", false, false);
+              showAwardPopup({
+                emoji: "🔥",
+                title: "Hot Streak!",
+                points: out,
+                effect: "Next correct answer worth 3x points!",
+                team: me,
+                autoHide: true,
+                duration: 3500
+              });
             }
             
             // CRITICAL: Don't return here - let the turn advance normally
@@ -6110,8 +6237,13 @@
             updateScores();
             updateTeamDisplay();
             
-            // Show points first, then coin flip modal (no math breakdown needed for activation)
-            showPointsPopup(out, me);
+            // Show points, then coin flip modal
+            showAwardPopup({
+              points: out,
+              team: me,
+              autoHide: true,
+              duration: 2500
+            });
             
             // Check if this is the last block in the game
             const done = document.querySelectorAll("#grid button:disabled").length + 1; // +1 because this button isn't disabled yet
@@ -6534,60 +6666,160 @@
           setTimeout(() => o.stop(), 800);
         }
 
-        function showSpecialPopup(emoji, slogan, tornadoMode = false, persistent = false) {
+        // Unified award popup system - prevents overlapping and ensures consistency
+        let popupQueue = [];
+        let isShowingPopup = false;
+        
+        function showAwardPopup(config) {
+          const specialPopup = document.getElementById("specialPopup");
           if (!specialPopup) return;
           
-          if (tornadoMode) {
-            specialPopup.innerHTML = `
-            <div class="special-popup-3d">
-              <span class="emoji">🌪️</span>
-              <div class="slogan">TORNADO!</div>
-            </div>`;
-            specialPopup.classList.add("show", "tornado-mode");
-            specialPopup.classList.remove("hidden");
-            setTimeout(() => {
-              if (specialPopup) {
-                specialPopup.classList.remove("show");
-                setTimeout(() => {
-                  if (specialPopup) specialPopup.classList.add("hidden");
-                }, 400);
-                specialPopup.classList.remove("tornado-mode");
-              }
-            }, 5000);
-            return;
+          // Default config
+          const {
+            emoji = '',
+            title = '',
+            points = null,
+            effect = null,
+            breakdown = null,
+            team = null,
+            persistent = false,
+            autoHide = !persistent,
+            duration = persistent ? null : 3500,
+            tornadoMode = false
+          } = config;
+          
+          // If a popup is already showing, queue this one
+          if (isShowingPopup) {
+            popupQueue.push(config);
+            return Promise.resolve();
           }
           
-          specialPopup.innerHTML = `
-          <div class="special-popup-3d" style="background: rgba(255, 255, 255, 0.98); padding: 2rem; border-radius: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);">
-            <span class="emoji" style="font-size: 3rem; margin-bottom: 1rem;">${emoji}</span>
-            <div class="slogan" style="font-size: 1.5rem; font-weight: 600; color: #333; line-height: 1.3;">${slogan}</div>
-            ${persistent ? '<div style="margin-top: 1.5rem; padding: 0.8em 1.5em; background: #6f5c91; color: white; border-radius: 8px; font-weight: 600; cursor: pointer; display: inline-block; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">Click to Continue</div>' : ''}
-          </div>`;
+          isShowingPopup = true;
+          
+          // Clear any existing timeouts or handlers
+          if (specialPopup._timeout) {
+            clearTimeout(specialPopup._timeout);
+            specialPopup._timeout = null;
+          }
+          specialPopup.onclick = null;
+          
+          // Build the popup content
+          let popupHTML = '';
+          
+          if (tornadoMode) {
+            popupHTML = `
+              <div class="special-popup-3d">
+                <span class="emoji">🌪️</span>
+                <div class="slogan">TORNADO!</div>
+              </div>`;
+            specialPopup.classList.add("tornado-mode");
+          } else if (breakdown) {
+            // Points breakdown with math
+            popupHTML = `
+              <div style="text-align: center; padding: 1.5rem;">
+                ${emoji ? `<span class="emoji">${emoji}</span>` : ''}
+                ${title ? `<div class="effect-name">${title}</div>` : ''}
+                <div style="font-size: 1.3rem; margin: 1rem 0; color: #666; font-weight: 600;">Points Breakdown:</div>
+                <div style="font-size: 2rem; font-weight: bold; color: #4caf50; margin: 0.5rem 0;">Base: +${breakdown.basePoints}</div>
+                <div style="font-size: 1.2rem; color: #666; margin: 0.8rem 0; font-style: italic;">${breakdown.effect}</div>
+                <div class="points-display" style="font-size: 3.5rem; font-weight: 900; color: #6f5c91; border-top: 3px solid #ddd; padding-top: 1rem; margin-top: 1rem;">= +${breakdown.finalTotal}</div>
+                <div style="margin-top: 2rem; padding: 1em 2em; background: #6f5c91; color: white; border-radius: 12px; font-weight: 700; font-size: 1.2rem; cursor: pointer; display: inline-block; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+                  Click to Continue
+                </div>
+              </div>`;
+            specialPopup.classList.add("points-mode");
+          } else if (points !== null) {
+            // Simple points display
+            const teamColor = team === "A" ? "var(--teamA)" : (team === "B" ? "var(--teamB)" : "#6f5c91");
+            popupHTML = `
+              <div style="text-align: center;">
+                ${emoji ? `<span class="emoji">${emoji}</span>` : ''}
+                ${title ? `<div class="effect-name">${title}</div>` : ''}
+                <div class="points-display" style="color: ${teamColor};">+${points}</div>
+                ${effect ? `<div class="effect-name">${effect}</div>` : ''}
+              </div>`;
+            specialPopup.classList.add("points-mode");
+            specialPopup.style.color = teamColor;
+          } else {
+            // Special effect only (no points)
+            popupHTML = `
+              <div style="text-align: center;">
+                <span class="emoji">${emoji}</span>
+                <div class="slogan">${title}</div>
+                ${effect ? `<div class="effect-name">${effect}</div>` : ''}
+              </div>`;
+          }
+          
+          specialPopup.innerHTML = popupHTML;
           specialPopup.classList.add("show");
           specialPopup.classList.remove("hidden");
           
-          // Only auto-hide if not persistent
-          if (!persistent) {
-            setTimeout(() => {
-              if (specialPopup) {
-                specialPopup.classList.remove("show");
-                setTimeout(() => {
-                  if (specialPopup) specialPopup.classList.add("hidden");
-                }, 400);
-              }
-            }, 4000);
-          } else {
-            // For persistent popups, add click handler to dismiss
+          // Return promise for breakdown popups (click to dismiss)
+          if (breakdown) {
+            return new Promise((resolve) => {
+              specialPopup.onclick = () => {
+                hideAwardPopup();
+                resolve();
+                processNextPopup();
+              };
+            });
+          }
+          
+          // Auto-hide for non-persistent popups
+          if (autoHide && duration) {
+            specialPopup._timeout = setTimeout(() => {
+              hideAwardPopup();
+              processNextPopup();
+            }, duration);
+          } else if (persistent) {
+            // Click to dismiss persistent popups
             specialPopup.onclick = () => {
-              specialPopup.classList.remove("show");
-              setTimeout(() => {
-                if (specialPopup) {
-                  specialPopup.classList.add("hidden");
-                  specialPopup.onclick = null; // Remove click handler
-                }
-              }, 400);
+              hideAwardPopup();
+              processNextPopup();
             };
           }
+          
+          return Promise.resolve();
+        }
+        
+        function hideAwardPopup() {
+          const specialPopup = document.getElementById("specialPopup");
+          if (!specialPopup) return;
+          
+          specialPopup.classList.remove("show");
+          specialPopup.classList.remove("tornado-mode", "points-mode");
+          setTimeout(() => {
+            if (specialPopup) {
+              specialPopup.classList.add("hidden");
+              specialPopup.innerHTML = '';
+              specialPopup.onclick = null;
+              if (specialPopup._timeout) {
+                clearTimeout(specialPopup._timeout);
+                specialPopup._timeout = null;
+              }
+            }
+          }, 400);
+        }
+        
+        function processNextPopup() {
+          isShowingPopup = false;
+          if (popupQueue.length > 0) {
+            const nextConfig = popupQueue.shift();
+            setTimeout(() => {
+              showAwardPopup(nextConfig);
+            }, 500); // Small delay between popups
+          }
+        }
+        
+        // Legacy function for backward compatibility - now uses unified system
+        function showSpecialPopup(emoji, slogan, tornadoMode = false, persistent = false) {
+          showAwardPopup({
+            emoji: emoji,
+            title: slogan,
+            tornadoMode: tornadoMode,
+            persistent: persistent,
+            autoHide: !persistent
+          });
         }
 
         function animateScore(team, animationClass) {
@@ -6902,75 +7134,26 @@
         // Remove old quizSelect logic (dropdown and onchange)
         // ... existing code ...
 
+        // Legacy function for backward compatibility - now uses unified system
         function showPointsPopup(points, team, breakdown = null) {
-          const specialPopup = document.getElementById("specialPopup");
-          if (!specialPopup) return;
-          
-          // Clear any existing timeouts or click handlers
-          if (specialPopup._timeout) {
-            clearTimeout(specialPopup._timeout);
-            specialPopup._timeout = null;
-          }
-          specialPopup.onclick = null;
-          
           if (breakdown) {
-            // Show detailed breakdown with click to continue
-            specialPopup.innerHTML = `
-              <div class="points-breakdown-animation" style="text-align:center;padding:1rem;">
-                <div style="font-size:1.1rem;margin-bottom:0.8rem;color:#666;font-weight:600;">Points Breakdown:</div>
-                <div style="font-size:1.4rem;font-weight:bold;color:#4caf50;margin-bottom:0.5rem;">+${breakdown.basePoints}</div>
-                <div style="font-size:1rem;color:#666;margin-bottom:0.8rem;font-style:italic;">${breakdown.effect}</div>
-                <div style="font-size:1.6rem;font-weight:bold;color:#6f5c91;border-top:2px solid #ddd;padding-top:0.8rem;margin-top:0.8rem;">= +${breakdown.finalTotal}</div>
-                <div style="margin-top:1.5rem;padding:0.8em 1.5em;background:#6f5c91;color:white;border-radius:8px;font-weight:600;cursor:pointer;display:inline-block;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
-                  Click to Continue
-                </div>
-              </div>
-            `;
-            
-            // Return a promise that resolves when the popup is dismissed
-            return new Promise((resolve) => {
-              specialPopup.onclick = () => {
-                console.log("Points breakdown clicked - hiding popup");
-                specialPopup.classList.remove("show");
-                setTimeout(() => {
-                  if (specialPopup) {
-                    specialPopup.classList.add("hidden");
-                    specialPopup.classList.remove("points-mode");
-                    specialPopup.onclick = null; // Remove click handler
-                    console.log("Points breakdown hidden");
-                    resolve(); // Resolve the promise when dismissed
-                  }
-                }, 400);
-              };
+            // Show points breakdown with math
+            return showAwardPopup({
+              points: breakdown.finalTotal,
+              breakdown: breakdown,
+              team: team,
+              persistent: true // Click to continue
             });
           } else {
             // Show simple points
-            specialPopup.innerHTML = `<div class="points-reveal-animation points-text-glow">${points}</div>`;
+            showAwardPopup({
+              points: points,
+              team: team,
+              autoHide: true,
+              duration: 3000
+            });
+            return undefined; // No promise for simple points
           }
-          
-          specialPopup.classList.add("show", "points-mode");
-          specialPopup.classList.remove("hidden");
-          specialPopup.style.color =
-            team === "A" ? "var(--teamA)" : "var(--teamB)";
-          
-          // For simple points, auto-hide after 3.5 seconds
-          if (!breakdown) {
-            specialPopup._timeout = setTimeout(() => {
-              if (specialPopup) {
-                specialPopup.classList.remove("show");
-                specialPopup._timeout = setTimeout(() => {
-                  if (specialPopup) {
-                    specialPopup.classList.add("hidden");
-                    specialPopup.classList.remove("points-mode");
-                    specialPopup._timeout = null;
-                  }
-                }, 400);
-              }
-            }, 3500);
-          }
-          
-          // Return undefined for simple points (no promise needed)
-          return undefined;
         }
 
         // 1. Make quiz titles in 'My Library' clickable and add detail page
