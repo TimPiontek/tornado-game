@@ -838,8 +838,16 @@
       state.board = { w, h, tiles };
       state.truces = [];
       
+      console.log('Created fresh board:', { w, h, tilesCount: tiles.length });
+      
       // Assign starting tiles to students (2 tiles each on outer edges)
       assignStartingTiles();
+    }
+    
+    // Ensure board exists before proceeding
+    if (!state.board || !state.board.tiles) {
+      console.error('CRITICAL: Board not initialized properly!', { board: state.board });
+      return;
     }
     
     console.log('Board created:', { board: state.board, tilesCount: state.board.tiles.length });
