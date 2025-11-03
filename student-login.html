@@ -1421,8 +1421,32 @@
             }
 
             currentRoster = roster;
-            populateRosterList();
-            showRoster();
+            
+            // ALWAYS show roster selection screen when joining a class
+            // This ensures students link their profile to a roster name
+            // Only skip if they're already linked to THIS roster with a rosterName
+            const isAlreadyLinked = currentStudent && 
+                                    currentStudent.rosterId === roster.id && 
+                                    currentStudent.rosterName &&
+                                    currentRoster.roster.some(s => s.name === currentStudent.rosterName);
+            
+            if (isAlreadyLinked) {
+                // Already linked to this roster with a valid roster name - sync points and show dashboard
+                console.log('Student already linked to this roster:', currentStudent.rosterName);
+                const rosterStudent = currentRoster.roster.find(s => s.name === currentStudent.rosterName);
+                if (rosterStudent) {
+                    const rosterPoints = rosterStudent.balance !== undefined ? rosterStudent.balance : (rosterStudent.points || 0);
+                    currentStudent.totalPoints = rosterPoints;
+                }
+                localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+                showSuccess(`Welcome to ${roster.name}! You've joined the class successfully.`);
+                updateDashboard();
+            } else {
+                // Not linked yet or linking to a different roster - show roster selection
+                console.log('Showing roster selection - student not linked or switching rosters');
+                populateRosterList();
+                showRoster();
+            }
         }
 
         function logoutStudent() {
