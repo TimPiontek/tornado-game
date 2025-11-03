@@ -3446,8 +3446,8 @@
           <p><strong>Attacker:</strong> ${request.attacker_student_name}</p>
           <p><strong>Attacker's Forces:</strong> 
             ${request.attacker_blind ? 
-              '<span style="color: #facc15;">🔒 BLIND - Hidden from view</span>' :
-              `${request.attacker_mercenaries} mercenaries, ${request.attacker_weapons} weapons`
+              '<span style="color: #facc15; font-weight: bold;">🔒 BLIND ATTACK - Forces hidden from view</span>' :
+              `<span style="font-weight: 600;">${request.attacker_mercenaries} mercenaries, ${request.attacker_weapons} weapons</span>`
             }
           </p>
           <p><strong>Your Available:</strong> ${mercenaries} mercenaries, ${weapons} weapons, ${castles} castles</p>
@@ -3468,6 +3468,16 @@
           <input type="number" id="defCastles" min="0" max="${castles}" value="0" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
         </div>
         
+        <div id="battleOddsDisplay" style="margin-bottom: 20px; padding: 16px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 12px; border: 2px solid #1e40af;">
+          <div style="color: white; text-align: center;">
+            <div style="font-size: 0.9rem; margin-bottom: 8px; opacity: 0.9;">Your Victory Odds</div>
+            <div id="defenderOdds" style="font-size: 2rem; font-weight: bold; margin-bottom: 4px;">--</div>
+            <div style="font-size: 0.85rem; opacity: 0.8;">
+              Attacker: <span id="attackerOdds">--</span> | Defender: <span id="defenderOddsPercent">--</span>
+            </div>
+          </div>
+        </div>
+        
         <div style="display: flex; gap: 12px; justify-content: flex-end;">
           <button class="pill" onclick="this.closest('.modal').remove()" style="background: var(--panel);">Cancel</button>
           <button class="pill" id="submitBattleResponse" style="background: #e57373; color: white;">Submit Battle</button>
@@ -3478,6 +3488,55 @@
     // Remove the inbox modal first
     document.querySelectorAll('.modal').forEach(m => m.remove());
     document.body.appendChild(modal);
+    
+    // Calculate and display battle odds
+    function calculateBattleOdds() {
+      const defMercs = parseInt(document.getElementById('defMercenaries').value) || 0;
+      const defWeapons = parseInt(document.getElementById('defWeapons').value) || 0;
+      const defCastles = parseInt(document.getElementById('defCastles').value) || 0;
+      
+      // Use same calculation as resolveBattle
+      const attackerBonus = (request.attacker_mercenaries * 0.05) + (request.attacker_weapons * 0.1);
+      const defenderBonus = (defCastles * 0.1) + (defMercs * 0.05);
+      
+      // Base odds: 50% + attacker bonus - defender bonus
+      let odds = 0.5 + attackerBonus - defenderBonus;
+      odds = Math.max(0.1, Math.min(0.9, odds)); // Clamp between 10% and 90%
+      
+      const attackerWinOdds = (odds * 100).toFixed(1);
+      const defenderWinOdds = ((1 - odds) * 100).toFixed(1);
+      
+      // Update display
+      const defenderOddsEl = document.getElementById('defenderOdds');
+      const attackerOddsEl = document.getElementById('attackerOdds');
+      const defenderOddsPercentEl = document.getElementById('defenderOddsPercent');
+      
+      if (defenderOddsEl) defenderOddsEl.textContent = `${defenderWinOdds}%`;
+      if (attackerOddsEl) attackerOddsEl.textContent = `${attackerWinOdds}%`;
+      if (defenderOddsPercentEl) defenderOddsPercentEl.textContent = `${defenderWinOdds}%`;
+      
+      // Color coding based on odds
+      if (defenderOddsEl) {
+        if (parseFloat(defenderWinOdds) >= 60) {
+          defenderOddsEl.style.color = '#10b981'; // Green for good odds
+        } else if (parseFloat(defenderWinOdds) >= 40) {
+          defenderOddsEl.style.color = '#fbbf24'; // Yellow for even odds
+        } else {
+          defenderOddsEl.style.color = '#ef4444'; // Red for poor odds
+        }
+      }
+    }
+    
+    // Update odds in real-time as user changes inputs
+    document.getElementById('defMercenaries').addEventListener('input', calculateBattleOdds);
+    document.getElementById('defMercenaries').addEventListener('change', calculateBattleOdds);
+    document.getElementById('defWeapons').addEventListener('input', calculateBattleOdds);
+    document.getElementById('defWeapons').addEventListener('change', calculateBattleOdds);
+    document.getElementById('defCastles').addEventListener('input', calculateBattleOdds);
+    document.getElementById('defCastles').addEventListener('change', calculateBattleOdds);
+    
+    // Calculate initial odds
+    calculateBattleOdds();
     
     document.getElementById('submitBattleResponse').onclick = () => {
       const defMercs = parseInt(document.getElementById('defMercenaries').value) || 0;
