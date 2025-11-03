@@ -681,6 +681,12 @@
 
         // Listen for roster updates to refresh dashboard
         window.addEventListener('storage', function(e) {
+            // Also refresh battle notifications if battle requests changed
+            if (e.key && e.key.startsWith('battleRequests_')) {
+                if (currentStudent && currentStudent.rosterId && document.getElementById('dashboardSection')) {
+                    addBattleNotifications();
+                }
+            }
             if (e.key === 'tornadoRosters' && currentStudent && currentStudent.rosterId) {
                 // Reload roster data
                 const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
