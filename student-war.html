@@ -3183,18 +3183,93 @@
     
     document.body.appendChild(modal);
     
+    // Function to update battle modal display after purchases
+    window.updateBattleModalDisplay = function() {
+      const currentMercenaries = attacker.mercenaries || 0;
+      const currentWeapons = (attacker.weapons || []).length;
+      const currentBalance = attacker.balance;
+      
+      // Update display
+      const balanceEl = document.getElementById('battleBalance');
+      const mercCountEl = document.getElementById('battleMercenariesCount');
+      const weaponCountEl = document.getElementById('battleWeaponsCount');
+      const mercMaxEl = document.getElementById('battleMaxMercenaries');
+      const weaponMaxEl = document.getElementById('battleMaxWeapons');
+      
+      if (balanceEl) balanceEl.textContent = formatMoney(currentBalance);
+      if (mercCountEl) mercCountEl.textContent = currentMercenaries;
+      if (weaponCountEl) weaponCountEl.textContent = currentWeapons;
+      if (mercMaxEl) mercMaxEl.textContent = currentMercenaries;
+      if (weaponMaxEl) weaponMaxEl.textContent = currentWeapons;
+      
+      // Update input max values
+      const mercInput = document.getElementById('battleMercenaries');
+      const weaponInput = document.getElementById('battleWeapons');
+      if (mercInput) {
+        mercInput.max = currentMercenaries;
+        if (parseInt(mercInput.value) > currentMercenaries) {
+          mercInput.value = currentMercenaries;
+        }
+      }
+      if (weaponInput) {
+        weaponInput.max = currentWeapons;
+        if (parseInt(weaponInput.value) > currentWeapons) {
+          weaponInput.value = currentWeapons;
+        }
+      }
+    };
+    
+    // Function to buy items from battle modal
+    window.buyBattleItem = function(itemType, cost) {
+      if (attacker.balance < cost) {
+        alert(`Insufficient funds! You need ${cost} points but only have ${attacker.balance}.`);
+        return;
+      }
+      
+      // Deduct cost
+      attacker.balance -= cost;
+      
+      // Add item
+      if (itemType === 'mercenary') {
+        attacker.mercenaries = (attacker.mercenaries || 0) + 1;
+      } else {
+        // Weapon
+        if (!attacker.weapons) attacker.weapons = [];
+        attacker.weapons.push(itemType);
+      }
+      
+      // Save to roster
+      autoSaveWarPoints();
+      
+      // Update display
+      updateBattleModalDisplay();
+      
+      // Show temporary success indicator
+      const btn = event.target;
+      const originalText = btn.textContent;
+      btn.textContent = '✓ Purchased!';
+      btn.style.background = '#10b981';
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = itemType === 'mercenary' ? '#10b981' : '#3b82f6';
+      }, 1500);
+    };
+    
     document.getElementById('submitBattleRequest').onclick = () => {
+      const currentMercenaries = attacker.mercenaries || 0;
+      const currentWeapons = (attacker.weapons || []).length;
+      
       const mercs = parseInt(document.getElementById('battleMercenaries').value) || 0;
       const weapons = parseInt(document.getElementById('battleWeapons').value) || 0;
       const blind = document.getElementById('battleBlind').checked;
       
-      if (mercs < 0 || mercs > maxMercenaries) {
-        alert(`Invalid mercenaries count. You have ${maxMercenaries} available.`);
+      if (mercs < 0 || mercs > currentMercenaries) {
+        alert(`Invalid mercenaries count. You have ${currentMercenaries} available.`);
         return;
       }
       
-      if (weapons < 0 || weapons > maxWeapons) {
-        alert(`Invalid weapons count. You have ${maxWeapons} available.`);
+      if (weapons < 0 || weapons > currentWeapons) {
+        alert(`Invalid weapons count. You have ${currentWeapons} available.`);
         return;
       }
       
