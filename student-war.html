@@ -3116,9 +3116,11 @@
   
   // Show battle request modal
   function showBattleRequestModal(tile, attacker, defender) {
+    // In student mode, the attacker is always the logged-in student
+    // No need to validate - student mode doesn't allow switching perspectives
     const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
-    if (!currentStudent || currentStudent.username !== attacker.name) {
-      alert('You can only send battle requests as yourself.');
+    if (!currentStudent) {
+      alert('Please log in first.');
       return;
     }
     
