@@ -643,40 +643,49 @@
         window.addEventListener('load', () => {
             const savedStudent = localStorage.getItem('currentStudent');
             if (savedStudent) {
-                currentStudent = JSON.parse(savedStudent);
-                
-                // Load roster if student is part of one
-                if (currentStudent.rosterId) {
-                    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
-                    currentRoster = rosters.find(r => r.id === currentStudent.rosterId);
+                try {
+                    currentStudent = JSON.parse(savedStudent);
                     
-                    // Verify that rosterName exists in the roster - if not, need to re-link
-                    if (currentRoster && currentStudent.rosterName) {
-                        const nameExists = currentRoster.roster.some(s => s.name === currentStudent.rosterName);
-                        if (!nameExists) {
-                            console.log('Student rosterName not found in roster - will need to re-link');
-                            // Clear rosterName to force re-linking
-                            currentStudent.rosterName = null;
-                            localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
-                            // Don't show dashboard - let them select their name
+                    // Load roster if student is part of one
+                    if (currentStudent.rosterId) {
+                        const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                        currentRoster = rosters.find(r => r.id === currentStudent.rosterId);
+                        
+                        // Verify that rosterName exists in the roster - if not, need to re-link
+                        if (currentRoster && currentStudent.rosterName) {
+                            const nameExists = currentRoster.roster.some(s => s.name === currentStudent.rosterName);
+                            if (!nameExists) {
+                                console.log('Student rosterName not found in roster - will need to re-link');
+                                // Clear rosterName to force re-linking
+                                currentStudent.rosterName = null;
+                                localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+                                // Show login screen to re-authenticate
+                                showLogin();
+                                return;
+                            }
+                        } else if (currentRoster && !currentStudent.rosterName) {
+                            // Has rosterId but no rosterName - need to link
+                            console.log('Student has rosterId but no rosterName - will need to link');
+                            // Show login screen first
+                            showLogin();
                             return;
                         }
-                    } else if (currentRoster && !currentStudent.rosterName) {
-                        // Has rosterId but no rosterName - need to link
-                        console.log('Student has rosterId but no rosterName - will need to link');
-                        // Show class code screen so they can re-join and select name
-                        showClassCode();
-                        return;
                     }
+                    
+                    // Only show dashboard if properly linked
+                    if (currentStudent.rosterId && currentStudent.rosterName && currentRoster) {
+                        showDashboard();
+                    } else {
+                        // Not fully linked - show login screen
+                        showLogin();
+                    }
+                } catch (error) {
+                    console.error('Error loading saved student:', error);
+                    showLogin();
                 }
-                
-                // Only show dashboard if properly linked
-                if (currentStudent.rosterId && currentStudent.rosterName && currentRoster) {
-                    showDashboard();
-                } else {
-                    // Not fully linked - show class code screen
-                    showClassCode();
-                }
+            } else {
+                // No saved student - show login screen
+                showLogin();
             }
         });
 
@@ -1125,20 +1134,62 @@
                 }
                 
                 console.log('Populating roster list and showing roster selection...');
+                
+                // Ensure roster list element exists
+                const rosterListEl = document.getElementById('rosterList');
+                if (!rosterListEl) {
+                    console.error('rosterList element not found!');
+                    alert('Error: Roster list element not found. Please refresh the page.');
+                    return;
+                }
+                
+                // Populate and show
                 populateRosterList();
+                
+                // Double-check roster list was populated
+                if (rosterListEl.innerHTML.trim() === '') {
+                    console.error('Roster list is empty after populateRosterList!');
+                    alert('Error: Could not load roster. Please try again.');
+                    return;
+                }
+                
                 showRoster();
-                console.log('Roster selection should be visible now');
+                
+                // Verify roster section is visible
+                const rosterSection = document.getElementById('rosterSection');
+                if (rosterSection && rosterSection.classList.contains('active')) {
+                    console.log('✅ Roster selection is now visible');
+                } else {
+                    console.error('❌ Roster section is not active!');
+                    // Force show it
+                    hideAllSections();
+                    rosterSection.classList.add('active');
+                }
             }
         }
 
         function populateRosterList() {
             const rosterList = document.getElementById('rosterList');
+            if (!rosterList) {
+                console.error('rosterList element not found in populateRosterList!');
+                return;
+            }
+            
             rosterList.innerHTML = '';
 
-            if (!currentRoster || !currentRoster.roster || currentRoster.roster.length === 0) {
+            if (!currentRoster) {
+                console.error('currentRoster is null in populateRosterList!');
+                rosterList.innerHTML = '<p style="color: var(--muted); text-align: center; padding: 20px;">Error: No roster loaded.</p>';
+                return;
+            }
+            
+            if (!currentRoster.roster || currentRoster.roster.length === 0) {
+                console.log('Roster has no students');
                 rosterList.innerHTML = '<p style="color: var(--muted); text-align: center; padding: 20px;">No students in this roster yet.</p>';
                 return;
             }
+            
+            console.log(`Populating roster list with ${currentRoster.roster.length} students`);
 
             currentRoster.roster.forEach((student, index) => {
                 const rosterItem = document.createElement('div');
@@ -1153,7 +1204,11 @@
                     </div>
                 `;
                 
-                rosterItem.onclick = () => selectStudentName(student.name, index);
+                rosterItem.style.cursor = 'pointer';
+                rosterItem.onclick = function() {
+                    console.log('Student name clicked:', student.name);
+                    selectStudentName(student.name, index);
+                };
                 rosterList.appendChild(rosterItem);
             });
         }
@@ -1650,7 +1705,8 @@
         // Make functions globally accessible for onclick handlers
         window.joinClass = joinClass;
         window.joinClassFromDashboard = joinClassFromDashboard;
-        window.selectStudentFromRoster = selectStudentFromRoster;
+        window.selectStudentFromRoster = selectStudentName; // Alias for compatibility
+        window.selectStudentName = selectStudentName;
         window.addStudentName = addStudentName;
         window.logoutStudent = logoutStudent;
         window.refreshDashboard = refreshDashboard;
