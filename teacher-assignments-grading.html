@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Assignments - Tornado Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --background: #f9fafb;
+            --card: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .back-btn {
+            background: var(--muted);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background: #4b5563;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--primary);
+        }
+
+        .tab-badge {
+            background: var(--danger);
+            color: white;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            margin-left: 8px;
+            font-weight: bold;
+        }
+
+        .tab.active .tab-badge {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .content-area {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            min-height: 400px;
+        }
+
+        .roster-group {
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .roster-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .roster-stats {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .assignments-list {
+            padding: 1rem;
+        }
+
+        .assignment-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: box-shadow 0.2s;
+        }
+
+        .assignment-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .assignment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .assignment-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .assignment-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .submissions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .submission-card {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .submission-card.ungraded {
+            border-left: 4px solid var(--warning);
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .submission-card.graded {
+            border-left: 4px solid var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .submission-status {
+            font-size: 0.875rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .status-submitted {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .status-graded {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .submission-score {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .submission-date {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #7c3aed;
+        }
+
+        .btn-secondary {
+            background: var(--muted);
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
+        .btn-small {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--muted);
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            width: 100%;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: var(--primary);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--muted);
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .close-btn:hover {
+            background: var(--border);
+        }
+
+        .question-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--background);
+            border-radius: 8px;
+        }
+
+        .question-item.short-answer {
+            border-left: 4px solid var(--info);
+        }
+
+        .question-item.multiple-choice {
+            border-left: 4px solid var(--success);
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .student-answer {
+            margin: 0.75rem 0;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .student-answer-label {
+            font-size: 0.875rem;
+            color: var(--muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .student-answer-text {
+            color: var(--text);
+        }
+
+        .grading-input {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .grading-input input {
+            width: 80px;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .grading-input span {
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✅ Grade Completed Assignments</h1>
+            <div style="display:flex; gap:8px; align-items:center;">
+                <a href="/teacher-assignments.html" class="btn btn-secondary">+ Create Assignment</a>
+                <a href="/teacher-assignments-manage.html" class="btn btn-secondary">Manage Assignments</a>
+                <a href="/" class="back-btn">← Back to Home</a>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" id="ungradedTab" onclick="switchTab('ungraded')">
+                ⚠️ Needs Grading
+                <span class="tab-badge" id="ungradedBadge">0</span>
+            </button>
+            <button class="tab" id="gradedTab" onclick="switchTab('graded')">
+                ✅ Already Graded
+                <span class="tab-badge" id="gradedBadge">0</span>
+            </button>
+        </div>
+
+        <div class="content-area">
+            <div id="assignmentsContent">
+                <div class="empty-state">
+                    <div class="icon">📋</div>
+                    <h2>Loading Assignments...</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grade Submission Modal -->
+    <div id="gradeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Grade Assignment</h2>
+                <button class="close-btn" onclick="closeGradeModal()">×</button>
+            </div>
+            <div id="gradeModalContent">
+                <!-- Content populated by JavaScript -->
+            </div>
+            <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem;">
+                <button class="btn btn-secondary" onclick="closeGradeModal()">Cancel</button>
+                <button class="btn" onclick="saveGrades()">Save Grades</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="/lib/supabaseClient.js"></script>
+    <script>
+        const supabaseClient = getSupabaseClient();
+        let currentTab = 'ungraded';
+        let currentAssignment = null;
+        let currentSubmission = null;
+        let currentStudentName = null;
+
+        // Load assignments from Supabase and localStorage
+        async function loadAssignments() {
+            let allAssignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+            
+            // Also load from Supabase if available
+            if (supabaseClient) {
+                try {
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    if (session) {
+                        const { data: supabaseAssignments, error } = await supabaseClient
+                            .from('assignments')
+                            .select('*');
+                        
+                        if (!error && supabaseAssignments) {
+                            // Merge Supabase assignments with local ones
+                            const assignmentsMap = new Map();
+                            allAssignments.forEach(a => assignmentsMap.set(a.id, a));
+                            
+                            supabaseAssignments.forEach(a => {
+                                assignmentsMap.set(a.id, {
+                                    id: a.id,
+                                    title: a.title,
+                                    description: a.description,
+                                    type: a.type,
+                                    rosterId: a.roster_id,
+                                    createdAt: a.created_at,
+                                    questions: a.questions || [],
+                                    submissions: a.submissions || {}
+                                });
+                            });
+                            
+                            allAssignments = Array.from(assignmentsMap.values());
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading from Supabase:', error);
+                }
+            }
+            
+            // Load rosters
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            
+            // Filter assignments to only those with completed submissions
+            const assignmentsWithSubmissions = allAssignments.filter(assignment => {
+                const submissions = Object.keys(assignment.submissions || {});
+                return submissions.some(studentName => {
+                    const submission = assignment.submissions[studentName];
+                    return submission && submission.submittedAt;
+                });
+            });
+            
+            // Group by roster
+            const rosterGroups = {};
+            assignmentsWithSubmissions.forEach(assignment => {
+                const roster = rosters.find(r => r.id === assignment.rosterId);
+                if (!roster) return;
+                
+                if (!rosterGroups[roster.id]) {
+                    rosterGroups[roster.id] = {
+                        roster: roster,
+                        assignments: []
+                    };
+                }
+                
+                rosterGroups[roster.id].assignments.push(assignment);
+            });
+            
+            // Count ungraded and graded
+            let ungradedCount = 0;
+            let gradedCount = 0;
+            
+            Object.values(rosterGroups).forEach(group => {
+                group.assignments.forEach(assignment => {
+                    const submissions = Object.keys(assignment.submissions || {});
+                    submissions.forEach(studentName => {
+                        const submission = assignment.submissions[studentName];
+                        if (submission && submission.submittedAt) {
+                            if (submission.gradedAt) {
+                                gradedCount++;
+                            } else {
+                                ungradedCount++;
+                            }
+                        }
+                    });
+                });
+            });
+            
+            document.getElementById('ungradedBadge').textContent = ungradedCount;
+            document.getElementById('gradedBadge').textContent = gradedCount;
+            
+            renderAssignments(rosterGroups);
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.getElementById('ungradedTab').classList.toggle('active', tab === 'ungraded');
+            document.getElementById('gradedTab').classList.toggle('active', tab === 'graded');
+            loadAssignments();
+        }
+
+        function renderAssignments(rosterGroups) {
+            const content = document.getElementById('assignmentsContent');
+            
+            const rosterIds = Object.keys(rosterGroups);
+            if (rosterIds.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📋</div>
+                        <h2>No Completed Assignments</h2>
+                        <p>Students haven't submitted any assignments yet.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            content.innerHTML = rosterIds.map(rosterId => {
+                const group = rosterGroups[rosterId];
+                const assignments = group.assignments;
+                
+                // Filter assignments based on current tab
+                const filteredAssignments = assignments.map(assignment => {
+                    const submissions = Object.keys(assignment.submissions || {})
+                        .filter(studentName => {
+                            const submission = assignment.submissions[studentName];
+                            return submission && submission.submittedAt;
+                        })
+                        .map(studentName => {
+                            const submission = assignment.submissions[studentName];
+                            const isGraded = !!submission.gradedAt;
+                            return { studentName, submission, isGraded };
+                        });
+                    
+                    // Filter based on tab
+                    const tabSubmissions = currentTab === 'ungraded' 
+                        ? submissions.filter(s => !s.isGraded)
+                        : submissions.filter(s => s.isGraded);
+                    
+                    return { assignment, submissions: tabSubmissions };
+                }).filter(item => item.submissions.length > 0);
+                
+                if (filteredAssignments.length === 0) {
+                    return '';
+                }
+                
+                const totalCount = filteredAssignments.reduce((sum, item) => sum + item.submissions.length, 0);
+                
+                return `
+                    <div class="roster-group">
+                        <div class="roster-header">
+                            <span>${group.roster.name}</span>
+                            <span class="roster-stats">${totalCount} ${currentTab === 'ungraded' ? 'ungraded' : 'graded'} submission${totalCount !== 1 ? 's' : ''}</span>
+                        </div>
+                        <div class="assignments-list">
+                            ${filteredAssignments.map(({ assignment, submissions }) => {
+                                const score = getAssignmentScore(assignment);
+                                
+                                return `
+                                    <div class="assignment-card">
+                                        <div class="assignment-header">
+                                            <h3 class="assignment-title">${assignment.title}</h3>
+                                        </div>
+                                        ${assignment.description ? `<p style="color: var(--muted); margin-bottom: 0.5rem;">${assignment.description}</p>` : ''}
+                                        <div class="assignment-meta">
+                                            <span>${assignment.questions.length} questions</span>
+                                            <span>${assignment.type}</span>
+                                            ${score ? `<span>Total Points: ${score.total}</span>` : ''}
+                                        </div>
+                                        <div class="submissions-grid">
+                                            ${submissions.map(({ studentName, submission, isGraded }) => {
+                                                const studentScore = getSubmissionScore(assignment, submission);
+                                                const submittedDate = submission.submittedAt ? new Date(submission.submittedAt).toLocaleDateString() : '';
+                                                const gradedDate = submission.gradedAt ? new Date(submission.gradedAt).toLocaleDateString() : '';
+                                                
+                                                return `
+                                                    <div class="submission-card ${isGraded ? 'graded' : 'ungraded'}">
+                                                        <div class="student-name">${studentName}</div>
+                                                        <div class="submission-status status-${isGraded ? 'graded' : 'submitted'}">
+                                                            ${isGraded ? '✅ Graded' : '⚠️ Needs Grading'}
+                                                        </div>
+                                                        ${studentScore ? `<div class="submission-score">${studentScore.points}/${studentScore.total} points</div>` : ''}
+                                                        ${submittedDate ? `<div class="submission-date">Submitted: ${submittedDate}</div>` : ''}
+                                                        ${gradedDate ? `<div class="submission-date">Graded: ${gradedDate}</div>` : ''}
+                                                        <button class="btn btn-small ${isGraded ? 'btn-secondary' : 'btn-warning'}" 
+                                                                onclick="gradeSubmission('${assignment.id}', '${studentName}')">
+                                                            ${isGraded ? 'View/Regrade' : 'Grade Now'}
+                                                        </button>
+                                                    </div>
+                                                `;
+                                            }).join('')}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getAssignmentScore(assignment) {
+            let total = 0;
+            assignment.questions.forEach(q => {
+                if (q.type === 'multiple_choice') {
+                    total += q.points || 5;
+                } else {
+                    total += q.maxPoints || 10;
+                }
+            });
+            return { total };
+        }
+
+        function getSubmissionScore(assignment, submission) {
+            if (!submission || !submission.submittedAt) return null;
+            
+            let totalPoints = 0;
+            let earnedPoints = 0;
+            
+            assignment.questions.forEach(question => {
+                if (question.type === 'multiple_choice') {
+                    totalPoints += question.points || 5;
+                    if (submission.answers && submission.answers[question.id] === question.correctAnswer) {
+                        earnedPoints += question.points || 5;
+                    }
+                } else {
+                    totalPoints += question.maxPoints || 10;
+                    if (submission.grades && submission.grades[question.id] !== undefined) {
+                        earnedPoints += submission.grades[question.id];
+                    }
+                }
+            });
+            
+            return { points: earnedPoints, total: totalPoints };
+        }
+
+        function gradeSubmission(assignmentId, studentName) {
+            const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+            const assignment = assignments.find(a => a.id === assignmentId);
+            
+            if (!assignment) {
+                alert('Assignment not found!');
+                return;
+            }
+            
+            const submission = assignment.submissions[studentName];
+            if (!submission || !submission.submittedAt) {
+                alert('No submission found for this student');
+                return;
+            }
+            
+            currentAssignment = assignment;
+            currentSubmission = submission;
+            currentStudentName = studentName;
+            
+            // Populate modal
+            const modalContent = document.getElementById('gradeModalContent');
+            modalContent.innerHTML = `
+                <div style="margin-bottom: 1rem; padding: 1rem; background: var(--background); border-radius: 8px;">
+                    <div style="font-weight: 600; margin-bottom: 0.5rem;">Assignment: ${assignment.title}</div>
+                    <div style="color: var(--muted); font-size: 0.875rem;">Student: ${studentName}</div>
+                </div>
+                ${assignment.questions.map((question, index) => {
+                    const answer = submission.answers?.[question.id] || '';
+                    const currentGrade = submission.grades?.[question.id];
+                    
+                    if (question.type === 'multiple_choice') {
+                        const isCorrect = answer === question.correctAnswer;
+                        const autoGrade = question.points || 5;
+                        
+                        return `
+                            <div class="question-item multiple-choice">
+                                <div class="question-text">Question ${index + 1}: ${question.question}</div>
+                                <div class="student-answer">
+                                    <div class="student-answer-label">Student's Answer:</div>
+                                    <div class="student-answer-text">${question.choices[answer] || answer || 'No answer'}</div>
+                                    <div style="margin-top: 0.5rem; color: ${isCorrect ? 'var(--success)' : 'var(--danger)'}; font-weight: 600;">
+                                        ${isCorrect ? '✓ Correct' : '✗ Incorrect'} (Auto-graded: ${isCorrect ? autoGrade : 0}/${autoGrade} points)
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        const maxPoints = question.maxPoints || 10;
+                        const gradeValue = currentGrade !== undefined ? currentGrade : '';
+                        
+                        return `
+                            <div class="question-item short-answer">
+                                <div class="question-text">Question ${index + 1}: ${question.question}</div>
+                                <div class="student-answer">
+                                    <div class="student-answer-label">Student's Answer:</div>
+                                    <div class="student-answer-text">${answer || 'No answer provided'}</div>
+                                </div>
+                                <div class="grading-input">
+                                    <label style="font-weight: 500;">Grade:</label>
+                                    <input type="number" 
+                                           id="grade_${question.id}" 
+                                           min="0" 
+                                           max="${maxPoints}" 
+                                           value="${gradeValue}" 
+                                           step="0.5">
+                                    <span>/ ${maxPoints} points</span>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }).join('')}
+            `;
+            
+            document.getElementById('gradeModal').classList.add('show');
+        }
+
+        function closeGradeModal() {
+            document.getElementById('gradeModal').classList.remove('show');
+            currentAssignment = null;
+            currentSubmission = null;
+            currentStudentName = null;
+        }
+
+        async function saveGrades() {
+            if (!currentAssignment || !currentSubmission || !currentStudentName) {
+                alert('Error: Missing assignment or submission data');
+                return;
+            }
+            
+            // Get grades for short answer questions
+            if (!currentSubmission.grades) {
+                currentSubmission.grades = {};
+            }
+            
+            currentAssignment.questions.forEach(question => {
+                if (question.type === 'short_answer') {
+                    const gradeInput = document.getElementById(`grade_${question.id}`);
+                    if (gradeInput) {
+                        const grade = parseFloat(gradeInput.value) || 0;
+                        const maxPoints = question.maxPoints || 10;
+                        currentSubmission.grades[question.id] = Math.min(maxPoints, Math.max(0, grade));
+                    }
+                }
+            });
+            
+            // Mark as graded
+            currentSubmission.gradedAt = new Date().toISOString();
+            
+            // Save to localStorage
+            const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+            const assignmentIndex = assignments.findIndex(a => a.id === currentAssignment.id);
+            
+            if (assignmentIndex >= 0) {
+                assignments[assignmentIndex].submissions[currentStudentName] = currentSubmission;
+                localStorage.setItem('tornadoAssignments', JSON.stringify(assignments));
+                
+                // Also update currentAssignment for immediate UI update
+                currentAssignment.submissions[currentStudentName] = currentSubmission;
+            }
+            
+            // Save to Supabase if available
+            if (supabaseClient) {
+                try {
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    if (session) {
+                        const { error } = await supabaseClient.from('assignments').upsert({
+                            id: currentAssignment.id,
+                            teacher_id: session.user.id,
+                            title: currentAssignment.title,
+                            description: currentAssignment.description,
+                            type: currentAssignment.type,
+                            roster_id: currentAssignment.rosterId,
+                            questions: currentAssignment.questions,
+                            submissions: assignments[assignmentIndex].submissions,
+                            last_modified: new Date().toISOString()
+                        });
+                        
+                        if (error) {
+                            console.error('Error saving to Supabase:', error);
+                        } else {
+                            console.log('✅ Grades saved to Supabase');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Exception saving to Supabase:', error);
+                }
+            }
+            
+            // Update student points in roster
+            updateStudentPoints();
+            
+            closeGradeModal();
+            loadAssignments(); // Reload to show updated status
+        }
+
+        function updateStudentPoints() {
+            const score = getSubmissionScore(currentAssignment, currentSubmission);
+            if (!score || score.points === 0) return;
+            
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            const rosterIndex = rosters.findIndex(r => r.id === currentAssignment.rosterId);
+            
+            if (rosterIndex >= 0) {
+                const studentIndex = rosters[rosterIndex].roster.findIndex(s => s.name === currentStudentName);
+                if (studentIndex >= 0) {
+                    const student = rosters[rosterIndex].roster[studentIndex];
+                    const oldBalance = student.balance !== undefined ? student.balance : (student.points || 0);
+                    const newBalance = oldBalance + score.points;
+                    
+                    student.balance = newBalance;
+                    student.points = newBalance;
+                    student.earnedPoints = (student.earnedPoints || 0) + score.points;
+                    
+                    localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+                    
+                    // Sync to Supabase if available
+                    if (supabaseClient) {
+                        try {
+                            const { data: { session } } = await supabaseClient.auth.getSession();
+                            if (session) {
+                                // Sync roster to Supabase
+                                const rosterData = rosters[rosterIndex];
+                                const { error } = await supabaseClient.from('rosters').upsert({
+                                    id: rosterData.id,
+                                    teacher_id: session.user.id,
+                                    name: rosterData.name,
+                                    class_code: rosterData.classCode,
+                                    roster: rosterData.roster,
+                                    game_state: rosterData.gameState,
+                                    last_modified: new Date().toISOString()
+                                });
+                                
+                                if (error) {
+                                    console.error('Error syncing roster to Supabase:', error);
+                                }
+                            }
+                        } catch (error) {
+                            console.error('Exception syncing roster:', error);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            loadAssignments();
+        });
+
+        // Make functions globally accessible
+        window.switchTab = switchTab;
+        window.gradeSubmission = gradeSubmission;
+        window.closeGradeModal = closeGradeModal;
+        window.saveGrades = saveGrades;
+    </script>
+</body>
+</html>
+
