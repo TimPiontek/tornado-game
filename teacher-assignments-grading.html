@@ -522,6 +522,14 @@
                 });
             });
             
+            // Expand roster data to include all student names for matching
+            rosters.forEach(roster => {
+                roster.roster.forEach(student => {
+                    if (!roster.allStudentNames) roster.allStudentNames = [];
+                    if (student.name) roster.allStudentNames.push(student.name);
+                });
+            });
+            
             // Group by roster
             const rosterGroups = {};
             assignmentsWithSubmissions.forEach(assignment => {
@@ -592,16 +600,24 @@
                 
                 // Filter assignments based on current tab
                 const filteredAssignments = assignments.map(assignment => {
-                    const submissions = Object.keys(assignment.submissions || {})
-                        .filter(studentName => {
-                            const submission = assignment.submissions[studentName];
-                            return submission && submission.submittedAt;
-                        })
-                        .map(studentName => {
-                            const submission = assignment.submissions[studentName];
-                            const isGraded = !!submission.gradedAt;
-                            return { studentName, submission, isGraded };
-                        });
+                    // Get all submissions (handle both rosterName and username keys)
+                    const allSubmissions = [];
+                    Object.keys(assignment.submissions || {}).forEach(key => {
+                        const submission = assignment.submissions[key];
+                        if (submission && submission.submittedAt) {
+                            // Check if this key matches a student in the roster
+                            const student = group.roster.roster.find(s => s.name === key);
+                            if (student || group.roster.allStudentNames?.includes(key)) {
+                                allSubmissions.push({
+                                    studentName: key,
+                                    submission,
+                                    isGraded: !!submission.gradedAt
+                                });
+                            }
+                        }
+                    });
+                    
+                    const submissions = allSubmissions;
                     
                     // Filter based on tab
                     const tabSubmissions = currentTab === 'ungraded' 
