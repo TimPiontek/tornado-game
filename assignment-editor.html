@@ -674,24 +674,77 @@
             }
 
             try {
-                // Collect assignment data
-                const assignmentData = {
-                    id: currentAssignment.id + '_' + Date.now(), // Unique ID for this assignment instance
-                    originalId: currentAssignment.id,
-                    title: document.getElementById('assignmentTitle').value,
-                    description: document.getElementById('assignmentDescription').value,
-                    standards: currentStandards,
-                    multiple_choice: collectMultipleChoiceQuestions(),
-                    short_answer: collectShortAnswerQuestions(),
-                    assignedRosters: Array.from(selectedRosters),
-                    assignedAt: new Date().toISOString(),
-                    dueDate: document.getElementById('dueDate').value || null,
-                    status: 'assigned'
-                };
+                // Collect assignment data in the correct format (matching teacher-assignments.html)
+                const questions = [
+                    ...collectMultipleChoiceQuestions(),
+                    ...collectShortAnswerQuestions()
+                ];
 
-                // Send assignment to students
-                await sendAssignmentToStudents(assignmentData);
+                if (questions.length === 0) {
+                    showStatus('Please add at least one question', 'error');
+                    return;
+                }
+
+                // Save assignment to each selected roster (matching teacher-assignments.html format)
+                const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
                 
+                selectedRosters.forEach(rosterId => {
+                    const assignment = {
+                        id: generateAssignmentId(), // Unique ID for each roster assignment
+                        title: document.getElementById('assignmentTitle').value,
+                        description: document.getElementById('assignmentDescription').value,
+                        type: 'mixed', // Has both multiple choice and short answer
+                        rosterId: rosterId,
+                        createdAt: new Date().toISOString(),
+                        questions: questions,
+                        submissions: {}
+                    };
+                    
+                    assignments.push(assignment);
+                });
+
+                // Save to localStorage
+                localStorage.setItem('tornadoAssignments', JSON.stringify(assignments));
+
+                // Save to Supabase if available
+                console.log('Attempting to save assignments to Supabase...');
+                if (window.supabase && window.supabase.createClient) {
+                    try {
+                        const supabaseClient = window.supabase.createClient(
+                            'https://dmbbsrcwqpmdxqtzvtqj.supabase.co',
+                            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w'
+                        );
+                        
+                        const { data: { session } } = await supabaseClient.auth.getSession();
+                        if (session) {
+                            console.log('Saving assignments to Supabase with teacher_id:', session.user.id);
+                            for (const assignment of assignments.slice(-selectedRosters.size)) {
+                                const { error } = await supabaseClient.from('assignments').upsert({
+                                    id: assignment.id,
+                                    teacher_id: session.user.id,
+                                    title: assignment.title,
+                                    description: assignment.description,
+                                    type: assignment.type,
+                                    roster_id: assignment.rosterId,
+                                    questions: assignment.questions,
+                                    submissions: assignment.submissions,
+                                    created_at: assignment.createdAt,
+                                    last_modified: new Date().toISOString()
+                                });
+                                if (error) {
+                                    console.error('Supabase error:', error);
+                                } else {
+                                    console.log('✅ Assignment saved to Supabase successfully!');
+                                }
+                            }
+                        } else {
+                            console.log('❌ No active session - assignments saved locally only');
+                        }
+                    } catch (error) {
+                        console.error('Error saving to Supabase:', error);
+                    }
+                }
+
                 showStatus(`Assignment sent to ${selectedRosters.size} roster(s) successfully!`, 'success');
                 
                 // Redirect back to library after a delay
@@ -703,6 +756,10 @@
                 console.error('Error assigning to students:', error);
                 showStatus('Failed to assign to students', 'error');
             }
+        }
+
+        function generateAssignmentId() {
+            return 'assignment_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         }
 
         async function saveAssignment() {
@@ -733,7 +790,7 @@
 
         function collectMultipleChoiceQuestions() {
             const questions = [];
-            document.querySelectorAll('[id^="mc-"]').forEach(questionEl => {
+            document.querySelectorAll('[id^="mc-"]').forEach((questionEl, index) => {
                 const questionText = questionEl.querySelector('textarea').value;
                 if (!questionText.trim()) return;
                 
@@ -749,9 +806,11 @@
                     const answerLetter = String.fromCharCode(65 + parseInt(correctAnswer.value));
                     
                     questions.push({
-                        q: questionText,
+                        id: `mc_${index}`,
+                        type: 'multiple_choice',
+                        question: questionText,
                         choices: choices,
-                        answer: answerLetter,
+                        correctAnswer: answerLetter,
                         points: points
                     });
                 }
@@ -761,16 +820,18 @@
 
         function collectShortAnswerQuestions() {
             const questions = [];
-            document.querySelectorAll('[id^="sa-"]').forEach(questionEl => {
+            document.querySelectorAll('[id^="sa-"]').forEach((questionEl, index) => {
                 const questionText = questionEl.querySelector('textarea').value;
+                if (!questionText.trim()) return;
+                
                 const maxPoints = parseInt(questionEl.querySelector('input[type="number"]').value) || 10;
                 
-                if (questionText.trim()) {
-                    questions.push({
-                        q: questionText,
-                        maxPoints: maxPoints
-                    });
-                }
+                questions.push({
+                    id: `sa_${index}`,
+                    type: 'short_answer',
+                    question: questionText,
+                    maxPoints: maxPoints
+                });
             });
             return questions;
         }
