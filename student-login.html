@@ -1058,7 +1058,14 @@
             
             // Dispatch event to notify homepage of student login
             window.dispatchEvent(new CustomEvent('studentLoginChange'));
-            showDashboard();
+            
+            // Show dashboard if fully linked, otherwise show class code screen to join a class
+            if (currentStudent.rosterId && currentStudent.rosterName && currentRoster) {
+                showDashboard();
+            } else {
+                // Not in a class yet or not fully linked - show class code screen
+                showClassCode();
+            }
         }
 
         function joinClass() {
