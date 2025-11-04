@@ -955,54 +955,57 @@
                 return;
             }
 
-            // Try Supabase authentication first
-            try {
-                console.log('🔍 Attempting Supabase login...');
-                const { data, error } = await supabaseClient.auth.signInWithPassword({
-                    email: `${username}@gmail.com`, // Use a real email domain
-                    password: password
-                });
+            // Try Supabase authentication if student has an email stored
+            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            const student = students.find(s => s.username.toLowerCase() === username.toLowerCase());
+            
+            if (student && student.email && student.email.includes('@') && student.isSupabaseUser) {
+                // Student has a real email and is a Supabase user - try Supabase login
+                try {
+                    console.log('🔍 Attempting Supabase login with stored email...');
+                    const { data, error } = await supabaseClient.auth.signInWithPassword({
+                        email: student.email,
+                        password: password
+                    });
 
-                if (error) {
-                    console.log('Supabase login failed:', error.message);
-                    // Fall back to localStorage for backward compatibility
-                    await loginStudentLocalStorage(username, password);
-                } else {
-                    console.log('Supabase login successful:', data.user);
-                    // Create student object from Supabase user
-                    currentStudent = {
-                        id: data.user.id,
-                        username: username,
-                        email: data.user.email,
-                        createdAt: data.user.created_at,
-                        lastLogin: new Date().toISOString(),
-                        totalPoints: 0,
-                        quizGamesPlayed: 0,
-                        warGamesPlayed: 0,
-                        questionsAnswered: 0,
-                        correctAnswers: 0,
-                        rosterId: null,
-                        rosterName: null,
-                        isSupabaseUser: true
-                    };
-                    
-                    localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
-                    
-                    // Load roster if student is part of one
-                    if (currentStudent.rosterId) {
-                        const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
-                        currentRoster = rosters.find(r => r.id === currentStudent.rosterId);
+                    if (!error && data && data.user) {
+                        console.log('Supabase login successful:', data.user);
+                        // Update student with latest Supabase data
+                        currentStudent = {
+                            ...student,
+                            id: data.user.id,
+                            lastLogin: new Date().toISOString(),
+                            isSupabaseUser: true
+                        };
+                        
+                        localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+                        
+                        // Load roster if student is part of one
+                        if (currentStudent.rosterId) {
+                            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                            currentRoster = rosters.find(r => r.id === currentStudent.rosterId);
+                        }
+                        
+                        // Dispatch event to notify homepage of student login
+                        window.dispatchEvent(new CustomEvent('studentLoginChange'));
+                        
+                        // Show dashboard if fully linked, otherwise show class code screen
+                        if (currentStudent.rosterId && currentStudent.rosterName && currentRoster) {
+                            showDashboard();
+                        } else {
+                            showClassCode();
+                        }
+                        return;
+                    } else {
+                        console.log('Supabase login failed, falling back to localStorage');
                     }
-                    
-                    // Dispatch event to notify homepage of student login
-                    window.dispatchEvent(new CustomEvent('studentLoginChange'));
-                    showDashboard();
+                } catch (error) {
+                    console.error('Supabase login error:', error);
                 }
-            } catch (error) {
-                console.error('Supabase login error:', error);
-                // Fall back to localStorage
-                await loginStudentLocalStorage(username, password);
             }
+            
+            // Fall back to localStorage login (always works)
+            await loginStudentLocalStorage(username, password);
         }
 
         async function loginStudentLocalStorage(username, password) {
