@@ -1646,6 +1646,20 @@
         function generateId() {
             return Date.now().toString(36) + Math.random().toString(36).substr(2);
         }
+        
+        // Make functions globally accessible for onclick handlers
+        window.joinClass = joinClass;
+        window.joinClassFromDashboard = joinClassFromDashboard;
+        window.selectStudentFromRoster = selectStudentFromRoster;
+        window.addStudentName = addStudentName;
+        window.logoutStudent = logoutStudent;
+        window.refreshDashboard = refreshDashboard;
+        window.viewLeaderboard = viewLeaderboard;
+        window.viewTornadoWar = viewTornadoWar;
+        window.viewAssignments = viewAssignments;
+        window.leaveClass = leaveClass;
+        window.startAssignment = startAssignment;
+        window.viewAssignmentResults = viewAssignmentResults;
 
         // Function to create a test student account
         async function createTestStudent() {
