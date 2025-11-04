@@ -507,9 +507,15 @@
         let currentAssignment = null;
         let currentSubmission = null;
         let isReviewMode = false;
+        
+        // Helper function to get student identifier for submissions
+        function getStudentIdentifier() {
+            // Use rosterName if available, otherwise fall back to username
+            return currentStudent?.rosterName || currentStudent?.username || 'unknown';
+        }
 
         // === INITIALIZATION ===
-        function init() {
+        async function init() {
             // Check if student is logged in
             const studentData = localStorage.getItem('currentStudent');
             if (!studentData) {
@@ -520,12 +526,76 @@
 
             currentStudent = JSON.parse(studentData);
             
+            // Load assignments from Supabase first, then from localStorage
+            await loadAssignmentsFromSupabase();
+            
             // Load assignment
             loadAssignment();
             
             // Update UI
             updateStudentInfo();
             renderStandardsProgress();
+        }
+        
+        // Load assignments from Supabase
+        async function loadAssignmentsFromSupabase() {
+            if (!supabaseClient || !currentStudent || !currentStudent.rosterId) {
+                console.log('Skipping Supabase load - missing client or student rosterId');
+                return;
+            }
+            
+            try {
+                console.log('Loading assignments from Supabase for roster:', currentStudent.rosterId);
+                const { data: assignments, error } = await supabaseClient
+                    .from('assignments')
+                    .select('*')
+                    .eq('roster_id', currentStudent.rosterId);
+                
+                if (error) {
+                    console.error('Error loading assignments from Supabase:', error);
+                    // Graceful fallback - continue with localStorage
+                    return;
+                }
+                
+                if (assignments && assignments.length > 0) {
+                    console.log(`Loaded ${assignments.length} assignments from Supabase`);
+                    
+                    // Convert Supabase format to localStorage format
+                    const formattedAssignments = assignments.map(a => ({
+                        id: a.id,
+                        title: a.title,
+                        description: a.description,
+                        type: a.type,
+                        rosterId: a.roster_id,
+                        createdAt: a.created_at,
+                        questions: a.questions || [],
+                        submissions: a.submissions || {}
+                    }));
+                    
+                    // Merge with existing localStorage assignments
+                    const localAssignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+                    
+                    // Create a map of existing assignments by ID
+                    const assignmentsMap = new Map();
+                    localAssignments.forEach(a => assignmentsMap.set(a.id, a));
+                    
+                    // Update/add assignments from Supabase (prioritize Supabase data)
+                    formattedAssignments.forEach(a => {
+                        assignmentsMap.set(a.id, a);
+                    });
+                    
+                    // Convert back to array and save
+                    const mergedAssignments = Array.from(assignmentsMap.values());
+                    localStorage.setItem('tornadoAssignments', JSON.stringify(mergedAssignments));
+                    
+                    console.log(`Merged assignments: ${mergedAssignments.length} total`);
+                } else {
+                    console.log('No assignments found in Supabase for this roster');
+                }
+            } catch (error) {
+                console.error('Exception loading assignments from Supabase:', error);
+                // Continue with localStorage
+            }
         }
 
         function loadAssignment() {
@@ -544,8 +614,11 @@
                 return;
             }
 
-            // Load submission if exists
-            currentSubmission = currentAssignment.submissions[currentStudent.username] || null;
+            // Load submission if exists - use rosterName for matching, fallback to username
+            const studentId = getStudentIdentifier();
+            currentSubmission = currentAssignment.submissions[studentId] || 
+                               currentAssignment.submissions[currentStudent.username] || 
+                               null;
             isReviewMode = currentSubmission && currentSubmission.submittedAt;
 
             renderAssignment();
@@ -555,9 +628,27 @@
 
         function showAssignmentsList() {
             const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
-            const studentAssignments = assignments.filter(assignment => 
-                assignment.rosterId === currentStudent.rosterId
-            );
+            
+            // Filter by rosterId - use rosterName as fallback if rosterId doesn't match
+            const studentAssignments = assignments.filter(assignment => {
+                // Primary match: rosterId
+                if (assignment.rosterId === currentStudent.rosterId) {
+                    return true;
+                }
+                // Fallback: if rosterId doesn't match, check if student's rosterName matches
+                // This handles cases where assignment was created before student linked their profile
+                if (currentStudent.rosterName && assignment.rosterId) {
+                    // Check if the assignment's rosterId matches any roster the student is in
+                    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                    const roster = rosters.find(r => r.id === assignment.rosterId);
+                    if (roster && roster.roster.some(s => s.name === currentStudent.rosterName)) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+
+            console.log(`Found ${studentAssignments.length} assignments for student (rosterId: ${currentStudent.rosterId}, rosterName: ${currentStudent.rosterName})`);
 
             if (studentAssignments.length === 0) {
                 document.getElementById('assignmentsContent').innerHTML = `
@@ -577,7 +668,10 @@
                     <p>Select an assignment to get started</p>
                 </div>
                 ${studentAssignments.map(assignment => {
-                    const submission = assignment.submissions[currentStudent.username] || null;
+                    const studentId = getStudentIdentifier();
+                    const submission = assignment.submissions[studentId] || 
+                                      assignment.submissions[currentStudent.username] || 
+                                      null;
                     const status = getAssignmentStatus(assignment, submission);
                     const score = submission ? getAssignmentScore(assignment, submission) : null;
 
@@ -762,7 +856,13 @@
             // Save to assignment
             const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
             const assignmentIndex = assignments.findIndex(a => a.id === currentAssignment.id);
-            assignments[assignmentIndex].submissions[currentStudent.username] = currentSubmission;
+            const studentId = getStudentIdentifier();
+            // Save with rosterName if available, otherwise username
+            assignments[assignmentIndex].submissions[studentId] = currentSubmission;
+            // Also save with username for backward compatibility
+            if (currentStudent.username && studentId !== currentStudent.username) {
+                assignments[assignmentIndex].submissions[currentStudent.username] = currentSubmission;
+            }
             localStorage.setItem('tornadoAssignments', JSON.stringify(assignments));
             
             // Save to Supabase if logged in
@@ -836,7 +936,13 @@
             
             const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
             const assignmentIndex = assignments.findIndex(a => a.id === currentAssignment.id);
-            assignments[assignmentIndex].submissions[currentStudent.username] = currentSubmission;
+            const studentId = getStudentIdentifier();
+            // Save with rosterName if available, otherwise username
+            assignments[assignmentIndex].submissions[studentId] = currentSubmission;
+            // Also save with username for backward compatibility
+            if (currentStudent.username && studentId !== currentStudent.username) {
+                assignments[assignmentIndex].submissions[currentStudent.username] = currentSubmission;
+            }
             localStorage.setItem('tornadoAssignments', JSON.stringify(assignments));
             
             // Auto-grade multiple choice questions
@@ -908,7 +1014,10 @@
             const rosterIndex = rosters.findIndex(r => r.id === currentStudent.rosterId);
             
             if (rosterIndex !== -1) {
-                const studentIndex = rosters[rosterIndex].roster.findIndex(s => s.name === currentStudent.username);
+                // Find student by rosterName first, then username
+                const studentIndex = rosters[rosterIndex].roster.findIndex(s => 
+                    s.name === (currentStudent.rosterName || currentStudent.username)
+                );
                 if (studentIndex !== -1) {
                     const rstu = rosters[rosterIndex].roster[studentIndex];
                     // Prefer split model if present
@@ -945,7 +1054,8 @@
 
         // === UI UPDATES ===
         function updateStudentInfo() {
-            document.getElementById('studentBadge').textContent = `${currentStudent.username} (Student)`;
+            const displayName = currentStudent.rosterName || currentStudent.username || 'Student';
+            document.getElementById('studentBadge').textContent = `${displayName} (Student)`;
         }
 
         function updateProgress() {
@@ -1021,7 +1131,10 @@
             const standardsMap = {};
 
             studentAssignments.forEach(assignment => {
-                const submission = assignment.submissions?.[currentStudent.username] || null;
+                const studentId = getStudentIdentifier();
+                const submission = assignment.submissions?.[studentId] || 
+                                  assignment.submissions?.[currentStudent.username] || 
+                                  null;
                 (assignment.questions || []).forEach(q => {
                     const standards = Array.isArray(q.standards) ? q.standards : [];
                     if (standards.length === 0) return;
