@@ -529,7 +529,10 @@
             // Load assignments from Supabase first, then from localStorage
             await loadAssignmentsFromSupabase();
             
-            // Load assignment
+            // Show assignments list on initial load
+            await showAssignmentsList();
+            
+            // Load assignment if there's a current one
             loadAssignment();
             
             // Update UI
