@@ -524,8 +524,9 @@
             </div>
             
             <div class="form-group">
-                <label for="signupEmail">Email (optional)</label>
+                <label for="signupEmail">Email (optional - for cloud sync)</label>
                 <input type="email" id="signupEmail" placeholder="Enter your email">
+                <small style="color: var(--muted); font-size: 0.875rem;">If you provide an email, your account will sync across devices. Otherwise, account is local only.</small>
             </div>
             
             <div class="form-group">
@@ -827,66 +828,76 @@
                 return;
             }
 
-            // Try to create Supabase account first
-            try {
-                console.log('🔍 Creating Supabase account...');
-                const studentEmail = `${username}@gmail.com`;
-                
-                const { data, error } = await supabaseClient.auth.signUp({
-                    email: studentEmail,
-                    password: password,
-                    options: {
-                        data: {
-                            username: username,
-                            grade: grade,
-                            user_type: 'student'
+            // Try to create Supabase account if email is provided
+            if (email && email.includes('@')) {
+                try {
+                    console.log('🔍 Creating Supabase account...');
+                    
+                    const { data, error } = await supabaseClient.auth.signUp({
+                        email: email,
+                        password: password,
+                        options: {
+                            data: {
+                                username: username,
+                                grade: grade,
+                                user_type: 'student'
+                            },
+                            emailRedirectTo: window.location.origin
                         }
+                    });
+
+                    if (error) {
+                        console.log('Supabase signup failed:', error.message);
+                        // Show error but continue with localStorage signup
+                        showError(`Note: Account created locally only. Supabase signup failed: ${error.message}`);
+                        await createStudentAccountLocalStorage(username, password, email, grade);
+                        return;
+                    } else {
+                        console.log('Supabase signup successful:', data.user);
+                        
+                        // Create student object from Supabase user
+                        const student = {
+                            id: data.user.id,
+                            username: username,
+                            password: password, // Store locally for fallback
+                            email: email,
+                            grade: grade,
+                            createdAt: data.user.created_at,
+                            totalPoints: 0,
+                            quizGamesPlayed: 0,
+                            warGamesPlayed: 0,
+                            questionsAnswered: 0,
+                            correctAnswers: 0,
+                            lastLogin: new Date().toISOString(),
+                            rosterId: null,
+                            rosterName: null,
+                            isSupabaseUser: true
+                        };
+
+                        // Also store in localStorage for backward compatibility
+                        existingStudents.push(student);
+                        localStorage.setItem('tornadoStudents', JSON.stringify(existingStudents));
+
+                        // Auto-login the student
+                        currentStudent = student;
+                        localStorage.setItem('currentStudent', JSON.stringify(student));
+                        
+                        // Dispatch event to notify homepage of student login
+                        window.dispatchEvent(new CustomEvent('studentLoginChange'));
+                        showDashboard();
+
+                        showSuccess(`Welcome ${username}! Your account has been created successfully and is accessible from any device.`);
+                        return;
                     }
-                });
-
-                if (error) {
-                    console.log('Supabase signup failed:', error.message);
+                } catch (error) {
+                    console.error('Supabase signup error:', error);
                     // Fall back to localStorage
+                    showError(`Note: Account created locally only. ${error.message}`);
                     await createStudentAccountLocalStorage(username, password, email, grade);
-                } else {
-                    console.log('Supabase signup successful:', data.user);
-                    
-                    // Create student object from Supabase user
-                    const student = {
-                        id: data.user.id,
-                        username: username,
-                        password: password, // Store locally for fallback
-                        email: studentEmail,
-                        grade: grade,
-                        createdAt: data.user.created_at,
-                        totalPoints: 0,
-                        quizGamesPlayed: 0,
-                        warGamesPlayed: 0,
-                        questionsAnswered: 0,
-                        correctAnswers: 0,
-                        lastLogin: new Date().toISOString(),
-                        rosterId: null,
-                        rosterName: null,
-                        isSupabaseUser: true
-                    };
-
-                    // Also store in localStorage for backward compatibility
-                    existingStudents.push(student);
-                    localStorage.setItem('tornadoStudents', JSON.stringify(existingStudents));
-
-                    // Auto-login the student
-                    currentStudent = student;
-                    localStorage.setItem('currentStudent', JSON.stringify(student));
-                    
-                    // Dispatch event to notify homepage of student login
-                    window.dispatchEvent(new CustomEvent('studentLoginChange'));
-                    showDashboard();
-
-                    showSuccess(`Welcome ${username}! Your account has been created successfully and is accessible from any device.`);
+                    return;
                 }
-            } catch (error) {
-                console.error('Supabase signup error:', error);
-                // Fall back to localStorage
+            } else {
+                // No email provided, just create localStorage account
                 await createStudentAccountLocalStorage(username, password, email, grade);
             }
         }
