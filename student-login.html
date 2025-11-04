@@ -1766,14 +1766,98 @@
             updateDashboard();
         }
 
-        function loadStudentAssignments() {
+        async function loadStudentAssignments() {
             const assignmentsList = document.getElementById('assignmentsList');
             if (!assignmentsList) return;
 
+            // Load from Supabase first
+            if (window.supabase && window.supabase.createClient && currentStudent) {
+                try {
+                    const supabaseClient = window.supabase.createClient(
+                        'https://dmbbsrcwqpmdxqtzvtqj.supabase.co',
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w'
+                    );
+                    
+                    const { data: assignments, error } = await supabaseClient
+                        .from('assignments')
+                        .select('*');
+                    
+                    if (!error && assignments && assignments.length > 0) {
+                        // Get all rosters to match assignments
+                        const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                        
+                        // Find rosters where this student is a member
+                        const studentRosterIds = [];
+                        rosters.forEach(roster => {
+                            if (roster.roster && roster.roster.some(s => 
+                                s.name === currentStudent.rosterName || 
+                                s.name === currentStudent.username
+                            )) {
+                                studentRosterIds.push(roster.id);
+                            }
+                        });
+                        
+                        // Also add currentStudent.rosterId if it exists
+                        if (currentStudent.rosterId && !studentRosterIds.includes(currentStudent.rosterId)) {
+                            studentRosterIds.push(currentStudent.rosterId);
+                        }
+                        
+                        // Filter assignments to only those for this student's rosters
+                        const studentAssignmentsFromSupabase = assignments
+                            .filter(a => studentRosterIds.includes(a.roster_id))
+                            .map(a => ({
+                                id: a.id,
+                                title: a.title,
+                                description: a.description,
+                                type: a.type,
+                                rosterId: a.roster_id,
+                                createdAt: a.created_at,
+                                questions: a.questions || [],
+                                submissions: a.submissions || {}
+                            }));
+                        
+                        // Merge with localStorage assignments
+                        const localAssignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+                        const assignmentsMap = new Map();
+                        localAssignments.forEach(a => assignmentsMap.set(a.id, a));
+                        studentAssignmentsFromSupabase.forEach(a => assignmentsMap.set(a.id, a));
+                        
+                        // Update localStorage
+                        localStorage.setItem('tornadoAssignments', JSON.stringify(Array.from(assignmentsMap.values())));
+                    }
+                } catch (error) {
+                    console.error('Error loading assignments from Supabase:', error);
+                }
+            }
+
             const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
-            const studentAssignments = assignments.filter(assignment => 
-                assignment.rosterId === currentStudent.rosterId
-            );
+            
+            // Filter assignments with multiple fallbacks (same logic as student-assignments.html)
+            const studentAssignments = assignments.filter(assignment => {
+                // Primary match: rosterId
+                if (assignment.rosterId === currentStudent.rosterId) {
+                    return true;
+                }
+                // Fallback: if rosterId doesn't match, check if student's rosterName matches
+                if (currentStudent.rosterName && assignment.rosterId) {
+                    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                    const roster = rosters.find(r => r.id === assignment.rosterId);
+                    if (roster && roster.roster.some(s => s.name === currentStudent.rosterName)) {
+                        return true;
+                    }
+                }
+                // Additional fallback: check if student's rosterName matches any roster ID
+                if (currentStudent.rosterName) {
+                    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                    const matchingRoster = rosters.find(r => 
+                        r.roster && r.roster.some(s => s.name === currentStudent.rosterName)
+                    );
+                    if (matchingRoster && assignment.rosterId === matchingRoster.id) {
+                        return true;
+                    }
+                }
+                return false;
+            });
 
             if (studentAssignments.length === 0) {
                 assignmentsList.innerHTML = `
@@ -1787,7 +1871,10 @@
             }
 
             assignmentsList.innerHTML = studentAssignments.map(assignment => {
-                const submission = assignment.submissions[currentStudent.username] || null;
+                const studentId = currentStudent.rosterName || currentStudent.username;
+                const submission = assignment.submissions?.[studentId] || 
+                                  assignment.submissions?.[currentStudent.username] || 
+                                  null;
                 const status = getAssignmentStatus(assignment, submission);
                 const score = submission ? getAssignmentScore(assignment, submission) : null;
 
