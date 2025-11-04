@@ -848,7 +848,7 @@
             <div class="modal-content">
                 <div class="form-group">
                     <label for="editPointsStudentName">Student</label>
-                    <input type="text" id="editPointsStudentName" readonly>
+                    <input type="text" id="editPointsStudentName" placeholder="Enter student name">
                 </div>
                 <div class="form-group">
                     <label for="editPointsValue">Points</label>
@@ -2693,23 +2693,56 @@
         }
         
         function saveStudentPoints() {
+            const newName = document.getElementById('editPointsStudentName').value.trim();
             const newPoints = parseInt(document.getElementById('editPointsValue').value) || 0;
             const newVictories = parseInt(document.getElementById('editVictoriesValue').value) || 0;
             
+            if (!newName) {
+                alert('Please enter a student name');
+                return;
+            }
+            
             const allRosters = getAllRosters();
             const rosterIndex = allRosters.findIndex(r => r.id === editingPointsRosterId);
+            
+            if (rosterIndex === -1) {
+                alert('Roster not found');
+                return;
+            }
+            
             const studentIndex = allRosters[rosterIndex].roster.findIndex(s => s.id === editingPointsStudentId);
             
+            if (studentIndex === -1) {
+                alert('Student not found');
+                return;
+            }
+            
+            // Check for duplicate names (case-insensitive) excluding current student
+            const duplicateStudent = allRosters[rosterIndex].roster.find((s, idx) => 
+                idx !== studentIndex && s.name.toLowerCase() === newName.toLowerCase()
+            );
+            
+            if (duplicateStudent) {
+                alert('A student with this name already exists in this roster');
+                return;
+            }
+            
+            // Update student name, points, and victories
+            allRosters[rosterIndex].roster[studentIndex].name = newName;
             allRosters[rosterIndex].roster[studentIndex].points = newPoints;
             allRosters[rosterIndex].roster[studentIndex].victories = newVictories;
             allRosters[rosterIndex].lastModified = new Date().toISOString();
             
+            // Save to localStorage
             localStorage.setItem('tornadoRosters', JSON.stringify(allRosters));
+            
+            // Sync to Supabase if available
+            syncRosterToSupabase(allRosters[rosterIndex]);
             
             closeEditPointsModal();
             loadExistingRosters();
             
-            alert(`Stats updated for ${allRosters[rosterIndex].roster[studentIndex].name}: ${newPoints} points, ${newVictories} victories`);
+            alert(`Stats updated for ${newName}: ${newPoints} points, ${newVictories} victories`);
         }
         
         // === POINT SYNC FUNCTIONS ===
