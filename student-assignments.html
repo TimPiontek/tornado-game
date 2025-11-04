@@ -539,17 +539,22 @@
         
         // Load assignments from Supabase
         async function loadAssignmentsFromSupabase() {
-            if (!supabaseClient || !currentStudent || !currentStudent.rosterId) {
-                console.log('Skipping Supabase load - missing client or student rosterId');
+            if (!supabaseClient) {
+                console.log('Skipping Supabase load - supabaseClient not available');
+                return;
+            }
+            
+            if (!currentStudent) {
+                console.log('Skipping Supabase load - no currentStudent');
                 return;
             }
             
             try {
-                console.log('Loading assignments from Supabase for roster:', currentStudent.rosterId);
+                // Get all assignments for this teacher (we'll filter by roster below)
+                console.log('Loading assignments from Supabase...');
                 const { data: assignments, error } = await supabaseClient
                     .from('assignments')
-                    .select('*')
-                    .eq('roster_id', currentStudent.rosterId);
+                    .select('*');
                 
                 if (error) {
                     console.error('Error loading assignments from Supabase:', error);
@@ -560,37 +565,69 @@
                 if (assignments && assignments.length > 0) {
                     console.log(`Loaded ${assignments.length} assignments from Supabase`);
                     
-                    // Convert Supabase format to localStorage format
-                    const formattedAssignments = assignments.map(a => ({
-                        id: a.id,
-                        title: a.title,
-                        description: a.description,
-                        type: a.type,
-                        rosterId: a.roster_id,
-                        createdAt: a.created_at,
-                        questions: a.questions || [],
-                        submissions: a.submissions || {}
-                    }));
+                    // Get all rosters to match assignments
+                    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
                     
-                    // Merge with existing localStorage assignments
-                    const localAssignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
-                    
-                    // Create a map of existing assignments by ID
-                    const assignmentsMap = new Map();
-                    localAssignments.forEach(a => assignmentsMap.set(a.id, a));
-                    
-                    // Update/add assignments from Supabase (prioritize Supabase data)
-                    formattedAssignments.forEach(a => {
-                        assignmentsMap.set(a.id, a);
+                    // Find rosters where this student is a member
+                    const studentRosterIds = [];
+                    rosters.forEach(roster => {
+                        if (roster.roster && roster.roster.some(s => 
+                            s.name === currentStudent.rosterName || 
+                            s.name === currentStudent.username
+                        )) {
+                            studentRosterIds.push(roster.id);
+                        }
                     });
                     
-                    // Convert back to array and save
-                    const mergedAssignments = Array.from(assignmentsMap.values());
-                    localStorage.setItem('tornadoAssignments', JSON.stringify(mergedAssignments));
+                    // Also add currentStudent.rosterId if it exists
+                    if (currentStudent.rosterId && !studentRosterIds.includes(currentStudent.rosterId)) {
+                        studentRosterIds.push(currentStudent.rosterId);
+                    }
                     
-                    console.log(`Merged assignments: ${mergedAssignments.length} total`);
+                    console.log(`Student roster IDs: ${JSON.stringify(studentRosterIds)}`);
+                    
+                    // Filter assignments to only those for this student's rosters
+                    const studentAssignments = assignments.filter(a => 
+                        studentRosterIds.includes(a.roster_id)
+                    );
+                    
+                    console.log(`Found ${studentAssignments.length} assignments for student`);
+                    
+                    if (studentAssignments.length > 0) {
+                        // Convert Supabase format to localStorage format
+                        const formattedAssignments = studentAssignments.map(a => ({
+                            id: a.id,
+                            title: a.title,
+                            description: a.description,
+                            type: a.type,
+                            rosterId: a.roster_id,
+                            createdAt: a.created_at,
+                            questions: a.questions || [],
+                            submissions: a.submissions || {}
+                        }));
+                        
+                        // Merge with existing localStorage assignments
+                        const localAssignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
+                        
+                        // Create a map of existing assignments by ID
+                        const assignmentsMap = new Map();
+                        localAssignments.forEach(a => assignmentsMap.set(a.id, a));
+                        
+                        // Update/add assignments from Supabase (prioritize Supabase data)
+                        formattedAssignments.forEach(a => {
+                            assignmentsMap.set(a.id, a);
+                        });
+                        
+                        // Convert back to array and save
+                        const mergedAssignments = Array.from(assignmentsMap.values());
+                        localStorage.setItem('tornadoAssignments', JSON.stringify(mergedAssignments));
+                        
+                        console.log(`Merged assignments: ${mergedAssignments.length} total`);
+                    } else {
+                        console.log('No assignments found in Supabase for this student\'s rosters');
+                    }
                 } else {
-                    console.log('No assignments found in Supabase for this roster');
+                    console.log('No assignments found in Supabase');
                 }
             } catch (error) {
                 console.error('Exception loading assignments from Supabase:', error);
@@ -626,7 +663,12 @@
             renderStandardsProgress();
         }
 
-        function showAssignmentsList() {
+        async function showAssignmentsList() {
+            // Reload assignments from Supabase first to ensure we have the latest
+            if (currentStudent && currentStudent.rosterId) {
+                await loadAssignmentsFromSupabase();
+            }
+            
             const assignments = JSON.parse(localStorage.getItem('tornadoAssignments') || '[]');
             
             // Filter by rosterId - use rosterName as fallback if rosterId doesn't match
@@ -642,6 +684,17 @@
                     const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
                     const roster = rosters.find(r => r.id === assignment.rosterId);
                     if (roster && roster.roster.some(s => s.name === currentStudent.rosterName)) {
+                        return true;
+                    }
+                }
+                // Additional fallback: check if student's rosterName matches any roster ID
+                // This helps when rosterId in currentStudent is outdated
+                if (currentStudent.rosterName) {
+                    const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+                    const matchingRoster = rosters.find(r => 
+                        r.roster && r.roster.some(s => s.name === currentStudent.rosterName)
+                    );
+                    if (matchingRoster && assignment.rosterId === matchingRoster.id) {
                         return true;
                     }
                 }

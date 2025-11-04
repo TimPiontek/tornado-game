@@ -480,12 +480,16 @@
                 try {
                     const { data: { session } } = await supabaseClient.auth.getSession();
                     if (session) {
+                        console.log('Loading assignments from Supabase for teacher:', session.user.id);
                         const { data: supabaseAssignments, error } = await supabaseClient
                             .from('assignments')
-                            .select('*');
+                            .select('*')
+                            .eq('teacher_id', session.user.id);
                         
                         if (!error && supabaseAssignments) {
-                            // Merge Supabase assignments with local ones
+                            console.log(`Loaded ${supabaseAssignments.length} assignments from Supabase`);
+                            
+                            // Merge Supabase assignments with local ones (prioritize Supabase)
                             const assignmentsMap = new Map();
                             allAssignments.forEach(a => assignmentsMap.set(a.id, a));
                             
@@ -503,10 +507,19 @@
                             });
                             
                             allAssignments = Array.from(assignmentsMap.values());
+                            
+                            // Update localStorage with merged data
+                            localStorage.setItem('tornadoAssignments', JSON.stringify(allAssignments));
+                            
+                            console.log(`Total assignments after merge: ${allAssignments.length}`);
+                        } else if (error) {
+                            console.error('Error loading assignments from Supabase:', error);
                         }
+                    } else {
+                        console.log('No active session - using localStorage only');
                     }
                 } catch (error) {
-                    console.error('Error loading from Supabase:', error);
+                    console.error('Exception loading from Supabase:', error);
                 }
             }
             
