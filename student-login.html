@@ -1050,7 +1050,17 @@
         }
 
         function joinClass() {
-            const classCode = document.getElementById('classCode').value.trim().toUpperCase();
+            console.log('joinClass() called');
+            
+            const classCodeInput = document.getElementById('classCode');
+            if (!classCodeInput) {
+                console.error('Class code input not found!');
+                alert('Error: Class code input not found. Please refresh the page.');
+                return;
+            }
+            
+            const classCode = classCodeInput.value.trim().toUpperCase();
+            console.log('Class code entered:', classCode);
 
             if (!classCode) {
                 showError('Please enter a class code!');
@@ -1059,7 +1069,11 @@
 
             // Find roster with matching class code
             const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            console.log('Total rosters found:', rosters.length);
+            console.log('Roster class codes:', rosters.map(r => r.classCode));
+            
             const roster = rosters.find(r => r.classCode === classCode);
+            console.log('Matching roster:', roster ? roster.name : 'None');
 
             if (!roster) {
                 showError('Invalid class code! Please check with your teacher.');
@@ -1067,6 +1081,7 @@
             }
 
             currentRoster = roster;
+            console.log('Current roster set:', currentRoster.name);
             
             // ALWAYS show roster selection screen when joining a class
             // This ensures students link their profile to a roster name
@@ -1075,6 +1090,9 @@
                                     currentStudent.rosterId === roster.id && 
                                     currentStudent.rosterName &&
                                     currentRoster.roster.some(s => s.name === currentStudent.rosterName);
+            
+            console.log('Is already linked?', isAlreadyLinked);
+            console.log('Current student:', currentStudent);
             
             if (isAlreadyLinked) {
                 // Already linked to this roster with a valid roster name - go to dashboard
@@ -1094,6 +1112,7 @@
                 
                 // If no currentStudent exists, create a temporary one for linking
                 if (!currentStudent) {
+                    console.log('Creating temporary student for linking');
                     currentStudent = {
                         id: `temp_${Date.now()}`,
                         username: null,
@@ -1102,10 +1121,13 @@
                         rosterName: null,
                         isTemporary: true
                     };
+                    localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
                 }
                 
+                console.log('Populating roster list and showing roster selection...');
                 populateRosterList();
                 showRoster();
+                console.log('Roster selection should be visible now');
             }
         }
 
@@ -1572,7 +1594,25 @@
             const errorDiv = document.createElement('div');
             errorDiv.className = 'error';
             errorDiv.textContent = message;
-            document.querySelector('.container').insertBefore(errorDiv, document.querySelector('.section.active'));
+            
+            // Find the active section or the class code section
+            const activeSection = document.querySelector('.section.active') || document.getElementById('classCodeSection');
+            const container = document.querySelector('.container');
+            
+            if (activeSection && container) {
+                container.insertBefore(errorDiv, activeSection);
+            } else if (container) {
+                // Fallback: append to container
+                container.insertBefore(errorDiv, container.firstChild);
+            } else {
+                // Last resort: use alert
+                alert(message);
+            }
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 5000);
         }
 
         function showSuccess(message) {
@@ -1582,7 +1622,25 @@
             const successDiv = document.createElement('div');
             successDiv.className = 'success';
             successDiv.textContent = message;
-            document.querySelector('.container').insertBefore(successDiv, document.querySelector('.section.active'));
+            
+            // Find the active section or the class code section
+            const activeSection = document.querySelector('.section.active') || document.getElementById('classCodeSection');
+            const container = document.querySelector('.container');
+            
+            if (activeSection && container) {
+                container.insertBefore(successDiv, activeSection);
+            } else if (container) {
+                // Fallback: append to container
+                container.insertBefore(successDiv, container.firstChild);
+            } else {
+                // Last resort: use alert
+                alert(message);
+            }
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                successDiv.remove();
+            }, 5000);
         }
 
         function generateId() {
