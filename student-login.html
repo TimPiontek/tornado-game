@@ -1101,15 +1101,34 @@
             let roster = rosters.find(r => r.classCode && r.classCode.toUpperCase() === classCode);
             
             // If not found locally, try to load from Supabase (students can query by class_code)
-            if (!roster && supabaseClient) {
+            if (!roster) {
+                if (!supabaseClient) {
+                    console.error('❌ Supabase client not available');
+                    showError('Unable to connect to server. Please refresh the page and try again.');
+                    return;
+                }
+                
                 try {
                     console.log('🔍 Searching Supabase for roster with class code:', classCode);
+                    console.log('🔧 Supabase client check:', {
+                        exists: !!supabaseClient,
+                        hasFrom: typeof supabaseClient.from === 'function',
+                        hasAuth: !!supabaseClient.auth
+                    });
                     
                     // Query rosters (classCode is in data.classCode, not a separate column)
                     // Use same query structure as diagnostic tool
+                    console.log('📡 Executing Supabase query...');
                     const { data: altRosters, error: altError } = await supabaseClient
                         .from('rosters')
                         .select('id, name, data, last_modified, teacher_id');
+                    
+                    console.log('📡 Query completed. Response:', {
+                        hasData: !!altRosters,
+                        dataIsArray: Array.isArray(altRosters),
+                        dataLength: altRosters?.length || 0,
+                        hasError: !!altError
+                    });
                     
                     console.log('🔍 Supabase query result:', {
                         hasData: !!altRosters,
