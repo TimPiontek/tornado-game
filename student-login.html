@@ -1461,12 +1461,57 @@
                     } else {
                         console.log('⚠️ No rosters found in Supabase');
                         console.log('This could mean:\n1. No rosters exist in the database\n2. The rosters table is empty\n3. The query returned no results');
-                        // Show the RLS banner to guide the fix
+                        // Try REST fallback identical to checker
+                        let restMatched = false;
                         try {
-                            var rlsEl2 = document.getElementById('rlsWarning');
-                            if (rlsEl2) rlsEl2.style.display = 'block';
-                        } catch (e) {}
-                        showError(`No rosters could be read from the cloud.\n\nMost likely the database policy needs to allow students to read rosters.\n\nUse: Apply Student Read Access (link above).`);
+                            const SUPABASE_URL = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+                            const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+                            const resp = await fetch(`${SUPABASE_URL}/rest/v1/rosters?select=id,name,data,last_modified,teacher_id`, {
+                                headers: {
+                                    'apikey': SUPABASE_ANON,
+                                    'Authorization': `Bearer ${SUPABASE_ANON}`,
+                                }
+                            });
+                            const restData = await resp.json();
+                            console.log('🌐 REST fallback (0-rows case) count:', Array.isArray(restData) ? restData.length : 'n/a');
+                            if (Array.isArray(restData) && restData.length > 0) {
+                                const match = restData.find(r => {
+                                    let d = r.data;
+                                    if (typeof d === 'string') { try { d = JSON.parse(d); } catch(_) { d = {}; } }
+                                    return (d?.classCode || '').toUpperCase() === classCode;
+                                });
+                                if (match) {
+                                    let d = match.data;
+                                    if (typeof d === 'string') { try { d = JSON.parse(d); } catch(_) { d = {}; } }
+                                    roster = {
+                                        id: match.id,
+                                        name: match.name,
+                                        classCode: d.classCode || classCode,
+                                        roster: d.roster || [],
+                                        teams: d.teams,
+                                        teamMode: d.teamMode,
+                                        scenario: d.scenario,
+                                        gameState: d.gameState,
+                                        lastModified: match.last_modified || d.lastModified
+                                    };
+                                    rosters.push(roster);
+                                    localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+                                    console.log('🌐 REST matched roster in 0-rows case; proceeding');
+                                    restMatched = true;
+                                }
+                            }
+                        } catch (restErr) {
+                            console.log('REST fallback (0-rows) failed:', restErr);
+                        }
+                        
+                        if (!restMatched && !roster) {
+                            // Show the RLS banner to guide the fix
+                            try {
+                                var rlsEl2 = document.getElementById('rlsWarning');
+                                if (rlsEl2) rlsEl2.style.display = 'block';
+                            } catch (e) {}
+                            showError(`No rosters could be read from the cloud.\n\nMost likely the database policy needs to allow students to read rosters.\n\nUse: Apply Student Read Access (link above).`);
+                        }
                     }
                 } catch (error) {
                     console.error('Error loading from Supabase:', error);
