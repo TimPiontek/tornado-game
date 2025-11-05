@@ -1069,7 +1069,7 @@
             }
         }
 
-        function joinClass() {
+        async function joinClass() {
             console.log('joinClass() called');
             
             const classCodeInput = document.getElementById('classCode');
@@ -1087,16 +1087,73 @@
                 return;
             }
 
-            // Find roster with matching class code
-            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
-            console.log('Total rosters found:', rosters.length);
-            console.log('Roster class codes:', rosters.map(r => r.classCode));
+            // First, try to find roster in localStorage
+            let rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            console.log('📦 Local rosters found:', rosters.length);
+            console.log('📦 Local roster class codes:', rosters.map(r => ({ name: r.name, code: r.classCode })));
             
-            const roster = rosters.find(r => r.classCode === classCode);
-            console.log('Matching roster:', roster ? roster.name : 'None');
+            let roster = rosters.find(r => r.classCode && r.classCode.toUpperCase() === classCode);
+            
+            // If not found locally, try to load from Supabase (students can query by class_code)
+            if (!roster && supabaseClient) {
+                try {
+                    console.log('🔍 Searching Supabase for roster with class code:', classCode);
+                    
+                    // Try to query rosters by class_code (if it's a column) or search in data JSONB
+                    const { data: altRosters, error: altError } = await supabaseClient
+                        .from('rosters')
+                        .select('*');
+                    
+                    if (!altError && altRosters && altRosters.length > 0) {
+                        console.log('📦 All Supabase rosters found:', altRosters.length);
+                        const matchingRoster = altRosters.find(r => {
+                            // Check multiple possible locations for classCode
+                            const classCode1 = r.data?.classCode || '';
+                            const classCode2 = r.class_code || '';
+                            const classCode3 = (r.data && typeof r.data === 'string') ? JSON.parse(r.data)?.classCode : '';
+                            const codes = [classCode1, classCode2, classCode3].filter(Boolean);
+                            return codes.some(code => code.toUpperCase() === classCode);
+                        });
+                        
+                        if (matchingRoster) {
+                            console.log('✅ Found roster in Supabase:', matchingRoster.name);
+                            // Convert Supabase format to local format
+                            const rosterData = matchingRoster.data || (typeof matchingRoster.data === 'string' ? JSON.parse(matchingRoster.data) : {});
+                            roster = {
+                                id: matchingRoster.id,
+                                name: matchingRoster.name,
+                                classCode: rosterData.classCode || matchingRoster.class_code || classCode,
+                                roster: rosterData.roster || matchingRoster.roster || [],
+                                teams: rosterData.teams,
+                                teamMode: rosterData.teamMode,
+                                scenario: rosterData.scenario,
+                                gameState: rosterData.gameState,
+                                lastModified: matchingRoster.last_modified || rosterData.lastModified
+                            };
+                            
+                            // Save to localStorage for future use
+                            rosters.push(roster);
+                            localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+                        } else {
+                            console.log('❌ No matching roster found in Supabase');
+                            console.log('Available class codes in Supabase:', altRosters.map(r => {
+                                const d = r.data || (typeof r.data === 'string' ? JSON.parse(r.data) : {});
+                                return d.classCode || r.class_code || 'N/A';
+                            }));
+                        }
+                    } else if (altError) {
+                        console.log('⚠️ Supabase query error (students may not have permission):', altError.message);
+                    }
+                } catch (error) {
+                    console.error('Error loading from Supabase:', error);
+                }
+            }
+            
+            console.log('Final roster match:', roster ? roster.name : 'None');
+            console.log('All available class codes:', rosters.map(r => ({ name: r.name, code: r.classCode })));
 
             if (!roster) {
-                showError('Invalid class code! Please check with your teacher.');
+                showError(`Invalid class code "${classCode}"! Please check with your teacher.\n\nAvailable class codes: ${rosters.map(r => r.classCode).filter(Boolean).join(', ') || 'None found'}`);
                 return;
             }
 
@@ -1583,7 +1640,7 @@
             loadStudentAssignments();
         }
 
-        function joinClassFromDashboard() {
+        async function joinClassFromDashboard() {
             const classCode = document.getElementById('dashboardClassCode').value.trim().toUpperCase();
 
             if (!classCode) {
@@ -1591,12 +1648,55 @@
                 return;
             }
 
-            // Find roster with matching class code
-            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
-            const roster = rosters.find(r => r.classCode === classCode);
-
+            // Use the same logic as joinClass
+            await joinClassWithCode(classCode);
+        }
+        
+        async function joinClassWithCode(classCode) {
+            // First, try to find roster in localStorage
+            let rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            let roster = rosters.find(r => r.classCode && r.classCode.toUpperCase() === classCode);
+            
+            // If not found locally, try to load from Supabase
+            if (!roster && supabaseClient) {
+                try {
+                    const { data: altRosters, error: altError } = await supabaseClient
+                        .from('rosters')
+                        .select('*');
+                    
+                    if (!altError && altRosters && altRosters.length > 0) {
+                        const matchingRoster = altRosters.find(r => {
+                            const rosterData = r.data || (typeof r.data === 'string' ? JSON.parse(r.data) : {});
+                            const classCode1 = rosterData.classCode || '';
+                            const classCode2 = r.class_code || '';
+                            return classCode1.toUpperCase() === classCode || classCode2.toUpperCase() === classCode;
+                        });
+                        
+                        if (matchingRoster) {
+                            const rosterData = matchingRoster.data || (typeof matchingRoster.data === 'string' ? JSON.parse(matchingRoster.data) : {});
+                            roster = {
+                                id: matchingRoster.id,
+                                name: matchingRoster.name,
+                                classCode: rosterData.classCode || matchingRoster.class_code || classCode,
+                                roster: rosterData.roster || matchingRoster.roster || [],
+                                teams: rosterData.teams,
+                                teamMode: rosterData.teamMode,
+                                scenario: rosterData.scenario,
+                                gameState: rosterData.gameState,
+                                lastModified: matchingRoster.last_modified || rosterData.lastModified
+                            };
+                            
+                            rosters.push(roster);
+                            localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading from Supabase:', error);
+                }
+            }
+            
             if (!roster) {
-                showError('Invalid class code! Please check with your teacher.');
+                showError(`Invalid class code "${classCode}"! Please check with your teacher.`);
                 return;
             }
 
