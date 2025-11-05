@@ -1165,9 +1165,27 @@
             console.log('All available class codes:', rosters.map(r => ({ name: r.name, code: r.classCode })));
 
             if (!roster) {
-                showError(`Invalid class code "${classCode}"! Please check with your teacher.\n\nAvailable class codes: ${rosters.map(r => r.classCode).filter(Boolean).join(', ') || 'None found'}`);
+                const availableCodes = rosters.map(r => r.classCode).filter(Boolean);
+                console.error('❌ No roster found for class code:', classCode);
+                console.error('Available codes:', availableCodes);
+                console.error('Total rosters checked:', rosters.length);
+                
+                // Show detailed error with suggestions
+                let errorMsg = `Invalid class code "${classCode}"!\n\n`;
+                if (availableCodes.length > 0) {
+                    errorMsg += `Available class codes: ${availableCodes.join(', ')}\n\n`;
+                } else {
+                    errorMsg += `No rosters found. Make sure:\n`;
+                    errorMsg += `1. The teacher has created a roster\n`;
+                    errorMsg += `2. The roster has been saved to Supabase\n`;
+                    errorMsg += `3. You're using the correct class code (case-insensitive)\n\n`;
+                }
+                errorMsg += `Check the browser console (F12) for more details.`;
+                showError(errorMsg);
                 return;
             }
+            
+            console.log('✅ Roster found successfully:', roster.name);
 
             currentRoster = roster;
             console.log('Current roster set:', currentRoster.name);
