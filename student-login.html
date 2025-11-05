@@ -486,6 +486,19 @@
     <a href="index.html" class="back-link">← Back to Home</a>
     
     <div class="container">
+        <!-- RLS / Connectivity Warning Banner (hidden by default) -->
+        <div id="rlsWarning" style="display:none; margin-bottom:12px; padding:12px 14px; border-radius:8px; background:#fff3cd; color:#856404; border:1px solid #ffeeba;">
+            <div style="font-weight:700; margin-bottom:6px;">Can’t load class rosters</div>
+            <div style="font-size:0.95rem; line-height:1.4;">
+                This device can’t read rosters from the cloud right now. This usually means database read permissions aren’t enabled for students yet.
+                <div style="margin-top:8px;">
+                    <a href="/check-rosters-in-supabase.html" target="_blank" style="color:#0c5460; text-decoration:underline;">Open Roster Checker</a>
+                    ·
+                    <a href="/apply-rosters-rls-migration.html" target="_blank" style="color:#0c5460; text-decoration:underline;">Enable Student Read Access</a>
+                </div>
+            </div>
+        </div>
+
         <div class="logo">🎓</div>
         <h1>Student Login</h1>
         <p class="subtitle">Join your class and track your progress!</p>
@@ -693,6 +706,13 @@
                     } else {
                         console.warn('⚠️ Test query returned 0 rosters (but diagnostic tool shows 4)');
                         console.warn('⚠️ This suggests an RLS policy or query difference');
+                    // Show inline warning banner with links to fix
+                    try {
+                        var rlsEl = document.getElementById('rlsWarning');
+                        if (rlsEl) rlsEl.style.display = 'block';
+                    } catch (e) {
+                        console.log('Could not display RLS banner:', e);
+                    }
                     }
                 }
             } catch (err) {
@@ -1388,7 +1408,12 @@
                     } else {
                         console.log('⚠️ No rosters found in Supabase');
                         console.log('This could mean:\n1. No rosters exist in the database\n2. The rosters table is empty\n3. The query returned no results');
-                        showError(`No rosters found in the database.\n\nPlease ask your teacher to:\n1. Create a roster\n2. Save it to Supabase\n3. Share the class code with you`);
+                        // Show the RLS banner to guide the fix
+                        try {
+                            var rlsEl2 = document.getElementById('rlsWarning');
+                            if (rlsEl2) rlsEl2.style.display = 'block';
+                        } catch (e) {}
+                        showError(`No rosters could be read from the cloud.\n\nMost likely the database policy needs to allow students to read rosters.\n\nUse: Apply Student Read Access (link above).`);
                     }
                 } catch (error) {
                     console.error('Error loading from Supabase:', error);
