@@ -1162,9 +1162,9 @@
                 try {
                     console.log('🔍 Searching Supabase for roster with class code:', classCode);
                     console.log('🔧 Supabase client check:', {
-                        exists: !!supabaseClient,
-                        hasFrom: typeof supabaseClient.from === 'function',
-                        hasAuth: !!supabaseClient.auth
+                        exists: !!client,
+                        hasFrom: typeof client.from === 'function',
+                        hasAuth: !!client.auth
                     });
                     
                     // Query rosters (classCode is in data.classCode, not a separate column)
