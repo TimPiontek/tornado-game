@@ -96,9 +96,9 @@
         <div id="status" class="status info">Ready to apply migration</div>
         
         <div>
-            <button id="checkBtn" onclick="checkPolicy()">Check Current Policy</button>
-            <button id="applyBtn" onclick="applyMigration()">Apply Migration</button>
-            <button onclick="window.location.reload()">Refresh</button>
+            <button id="checkBtn">Check Current Policy</button>
+            <button id="applyBtn">Apply Migration</button>
+            <button id="refreshBtn">Refresh</button>
         </div>
 
         <div>
@@ -212,6 +212,14 @@ CREATE POLICY "Anyone can read rosters for class joining" ON rosters
             applyBtn.disabled = false;
             applyBtn.textContent = 'Apply Migration';
         }
+
+        // Make functions globally accessible and attach event listeners
+        window.checkPolicy = checkPolicy;
+        window.applyMigration = applyMigration;
+        
+        document.getElementById('checkBtn').addEventListener('click', checkPolicy);
+        document.getElementById('applyBtn').addEventListener('click', applyMigration);
+        document.getElementById('refreshBtn').addEventListener('click', () => window.location.reload());
 
         // Check on page load
         window.addEventListener('load', () => {
