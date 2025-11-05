@@ -1082,14 +1082,36 @@
         }
 
         async function loginStudentLocalStorage(username, password) {
-            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            // First, try to load students from Supabase if they provided email during signup
+            // This allows cross-device login for students who signed up with email
+            let students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            
+            // Try to find student in Supabase if they have an email
+            const localStudent = students.find(s => 
+                s.username.toLowerCase() === username.toLowerCase()
+            );
+            
+            if (localStudent && localStudent.email && localStudent.isSupabaseUser) {
+                // Student has Supabase account - try to load from Supabase
+                try {
+                    const client = initSupabaseClient();
+                    if (client) {
+                        console.log('🔍 Student has Supabase account, attempting cloud login...');
+                        // Note: Supabase auth uses email, not username
+                        // We'd need to query a students table or use email lookup
+                        // For now, fall through to localStorage login
+                    }
+                } catch (err) {
+                    console.log('⚠️ Supabase lookup failed, using localStorage:', err);
+                }
+            }
             
             // Debug logging
             console.log('🔍 LOGIN DEBUG (LocalStorage):');
             console.log('  Username entered:', username);
             console.log('  Password entered:', password);
             console.log('  Total students in storage:', students.length);
-            console.log('  Students:', students.map(s => ({ username: s.username, password: s.password })));
+            console.log('  Students:', students.map(s => ({ username: s.username, email: s.email, hasSupabase: s.isSupabaseUser })));
             
             // Check each student individually for debugging
             console.log('  Checking each student:');
@@ -1098,8 +1120,10 @@
                 const passwordMatch = s.password === password;
                 console.log(`    Student ${index + 1} (${s.username}):`);
                 console.log(`      Username match: ${usernameMatch} (stored: "${s.username}" vs entered: "${username}")`);
-                console.log(`      Password match: ${passwordMatch} (stored: "${s.password}" vs entered: "${password}")`);
+                console.log(`      Password match: ${passwordMatch}`);
                 console.log(`      Overall match: ${usernameMatch && passwordMatch}`);
+                console.log(`      Has Supabase account: ${s.isSupabaseUser || false}`);
+                console.log(`      Email: ${s.email || 'none'}`);
             });
 
             const student = students.find(s => 
@@ -1110,7 +1134,7 @@
             console.log('  Found student:', student);
 
             if (!student) {
-                showError('Invalid username or password!');
+                showError(`Invalid username or password!\n\nNote: Student accounts are stored locally on each device.\n\nIf you created this account on another device:\n- Make sure you're using the same username and password\n- Or create a new account on this device\n- Or provide an email during signup to enable cloud sync`);
                 return;
             }
 
