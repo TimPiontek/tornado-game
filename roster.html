@@ -1647,9 +1647,29 @@
                         <button class="btn btn-small btn-secondary" onclick="duplicateRoster('${roster.id}')">Duplicate</button>
                         <button class="btn btn-small btn-danger" onclick="deleteRoster('${roster.id}')">Delete</button>
                         <button class="btn btn-small btn-secondary" onclick="openStandardsDashboard('${roster.id}')">Standards</button>
+                        <button class="btn btn-small btn-secondary" onclick="generateJoinCode('${roster.id}')">Generate Join Code</button>
                     </div>
                 </div>
             `).join('');
+        }
+
+        function generateJoinCode(rosterId) {
+            try {
+                const all = getAllRosters();
+                const roster = all.find(r => r.id === rosterId);
+                if (!roster) { alert('Roster not found'); return; }
+                const payload = {
+                    name: roster.name,
+                    classCode: roster.classCode || '',
+                    roster: (roster.roster || []).map(s => ({ name: s.name, points: s.points || 0, balance: s.balance || s.points || 0 }))
+                };
+                const code = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+                navigator.clipboard?.writeText(code).catch(()=>{});
+                alert('Join code copied to clipboard. Share with students to paste into Join Class.');
+            } catch (e) {
+                console.error('Error generating join code', e);
+                alert('Could not generate join code. See console.');
+            }
         }
         
         // === NEW ROSTER MANAGEMENT ===

@@ -486,18 +486,7 @@
     <a href="index.html" class="back-link">← Back to Home</a>
     
     <div class="container">
-        <!-- RLS / Connectivity Warning Banner (hidden by default) -->
-        <div id="rlsWarning" style="display:none; margin-bottom:12px; padding:12px 14px; border-radius:8px; background:#fff3cd; color:#856404; border:1px solid #ffeeba;">
-            <div style="font-weight:700; margin-bottom:6px;">Can’t load class rosters</div>
-            <div style="font-size:0.95rem; line-height:1.4;">
-                This device can’t read rosters from the cloud right now. This usually means database read permissions aren’t enabled for students yet.
-                <div style="margin-top:8px;">
-                    <a href="/check-rosters-in-supabase.html" target="_blank" style="color:#0c5460; text-decoration:underline;">Open Roster Checker</a>
-                    ·
-                    <a href="/apply-rosters-rls-migration.html" target="_blank" style="color:#0c5460; text-decoration:underline;">Enable Student Read Access</a>
-                </div>
-            </div>
-        </div>
+        
 
         <div class="logo">🎓</div>
         <h1>Student Login</h1>
@@ -1244,6 +1233,24 @@
             console.log('📦 Local roster class codes:', rosters.map(r => ({ name: r.name, code: r.classCode })));
             
             let roster = rosters.find(r => r.classCode && r.classCode.toUpperCase() === classCode);
+            // If not found and input looks like a join code (base64 JSON), try to decode
+            if (!roster && classCode.length > 12) {
+                try {
+                    const decoded = JSON.parse(decodeURIComponent(escape(atob(classCode))));
+                    if (decoded && decoded.roster && decoded.classCode) {
+                        roster = {
+                            id: generateId(),
+                            name: decoded.name || 'Class',
+                            classCode: decoded.classCode,
+                            roster: decoded.roster.map((s, i) => ({ id: generateId(), name: s.name, points: s.points || 0, balance: s.balance || s.points || 0 })),
+                            lastModified: new Date().toISOString()
+                        };
+                        rosters.push(roster);
+                        localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+                        console.log('✅ Joined via offline join code');
+                    }
+                } catch (e) { /* not a join code */ }
+            }
             
             // If not found locally, try to load from Supabase (students can query by class_code)
             if (!roster) {
