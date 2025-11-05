@@ -1403,11 +1403,53 @@
                             rosters.push(roster);
                             localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
                             console.log('✅ Roster saved to localStorage');
-                        } else {
-                            console.log('❌ No matching roster found in Supabase');
-                            console.log('Searched for class code:', classCode);
-                            console.log('Available class codes:', allCodes.map(c => c.code || 'N/A').filter(c => c !== 'N/A'));
-                            
+                    } else {
+                        console.log('❌ No matching roster found in Supabase');
+                        console.log('Searched for class code:', classCode);
+                        console.log('Available class codes:', allCodes.map(c => c.code || 'N/A').filter(c => c !== 'N/A'));
+                        
+                        // Fallback: REST fetch identical to checker
+                        try {
+                            const SUPABASE_URL = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+                            const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+                            const resp = await fetch(`${SUPABASE_URL}/rest/v1/rosters?select=id,name,data,last_modified,teacher_id`, {
+                                headers: {
+                                    'apikey': SUPABASE_ANON,
+                                    'Authorization': `Bearer ${SUPABASE_ANON}`,
+                                }
+                            });
+                            const restData = await resp.json();
+                            console.log('🌐 REST fallback rosters:', Array.isArray(restData) ? restData.length : 'n/a');
+                            if (Array.isArray(restData) && restData.length > 0) {
+                                const match = restData.find(r => {
+                                    let d = r.data;
+                                    if (typeof d === 'string') { try { d = JSON.parse(d); } catch(_) { d = {}; } }
+                                    return (d?.classCode || '').toUpperCase() === classCode;
+                                });
+                                if (match) {
+                                    let d = match.data;
+                                    if (typeof d === 'string') { try { d = JSON.parse(d); } catch(_) { d = {}; } }
+                                    roster = {
+                                        id: match.id,
+                                        name: match.name,
+                                        classCode: d.classCode || classCode,
+                                        roster: d.roster || [],
+                                        teams: d.teams,
+                                        teamMode: d.teamMode,
+                                        scenario: d.scenario,
+                                        gameState: d.gameState,
+                                        lastModified: match.last_modified || d.lastModified
+                                    };
+                                    rosters.push(roster);
+                                    localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+                                    console.log('🌐 REST matched and saved roster; proceeding');
+                                }
+                            }
+                        } catch (restErr) {
+                            console.log('REST fallback failed:', restErr);
+                        }
+                        
+                        if (!roster) {
                             if (allCodes.length > 0) {
                                 const availableCodes = allCodes.map(c => c.code).filter(c => c);
                                 showError(`Class code "${classCode}" not found.\n\nAvailable class codes: ${availableCodes.join(', ') || 'None'}`);
@@ -1415,6 +1457,7 @@
                                 showError(`No rosters found in database.\n\nPlease make sure:\n1. The teacher has created a roster\n2. The teacher is logged in when creating it\n3. The roster has been saved to Supabase\n4. The class code is correct`);
                             }
                         }
+                    }
                     } else {
                         console.log('⚠️ No rosters found in Supabase');
                         console.log('This could mean:\n1. No rosters exist in the database\n2. The rosters table is empty\n3. The query returned no results');
