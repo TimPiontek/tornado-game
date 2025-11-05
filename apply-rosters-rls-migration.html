@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply Roster RLS Migration</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .status {
+            padding: 12px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        button {
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #7c3aed;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        .output {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Apply Roster RLS Migration</h1>
+        <p>This migration allows students to read rosters by class code so they can join classes.</p>
+        
+        <div id="status" class="status info">Ready to apply migration</div>
+        
+        <div>
+            <button id="checkBtn" onclick="checkPolicy()">Check Current Policy</button>
+            <button id="applyBtn" onclick="applyMigration()">Apply Migration</button>
+            <button onclick="window.location.reload()">Refresh</button>
+        </div>
+
+        <div>
+            <h3>Migration SQL</h3>
+            <textarea id="migrationSQL" readonly></textarea>
+        </div>
+
+        <div>
+            <h3>Output</h3>
+            <div id="output" class="output"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+        const SUPABASE_URL = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+        const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+        const migrationSQL = `-- Allow students to read rosters by class code
+-- This enables students to join classes using the class code
+
+-- Drop existing policy if it exists (we'll recreate it)
+DROP POLICY IF EXISTS "Teachers can manage their own rosters" ON rosters;
+
+-- Recreate policy for teachers to manage their own rosters
+CREATE POLICY "Teachers can manage their own rosters" ON rosters
+    FOR ALL USING (auth.uid() = teacher_id);
+
+-- New policy: Allow anyone (including students) to SELECT rosters
+-- This is safe because students can only see the roster data, not modify it
+-- Teachers can still manage their own rosters via the policy above
+CREATE POLICY "Anyone can read rosters for class joining" ON rosters
+    FOR SELECT USING (true);`;
+
+        document.getElementById('migrationSQL').value = migrationSQL;
+
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+
+        function showOutput(text) {
+            const outputEl = document.getElementById('output');
+            outputEl.textContent += text + '\n';
+            outputEl.scrollTop = outputEl.scrollHeight;
+        }
+
+        async function checkPolicy() {
+            showStatus('Checking current RLS policies...', 'info');
+            showOutput('Checking if rosters table exists and current policies...\n');
+
+            try {
+                // Try to query rosters to see if we can read them
+                const { data, error } = await supabase
+                    .from('rosters')
+                    .select('id, name')
+                    .limit(1);
+
+                if (error) {
+                    if (error.code === '42501' || error.message?.includes('permission') || error.message?.includes('policy')) {
+                        showStatus('❌ Students cannot read rosters - migration needed!', 'error');
+                        showOutput('Current status: RLS policy prevents students from reading rosters.\n');
+                        showOutput('Error: ' + error.message + '\n');
+                        showOutput('This migration will fix this issue.\n');
+                    } else if (error.code === 'PGRST205') {
+                        showStatus('❌ Rosters table does not exist', 'error');
+                        showOutput('Error: ' + error.message + '\n');
+                    } else {
+                        showStatus('⚠️ Error checking policies: ' + error.message, 'warning');
+                        showOutput('Error: ' + JSON.stringify(error, null, 2) + '\n');
+                    }
+                } else {
+                    showStatus('✅ Students can read rosters - migration may already be applied!', 'success');
+                    showOutput('Current status: Students can read rosters.\n');
+                    showOutput('Found ' + (data?.length || 0) + ' roster(s).\n');
+                }
+            } catch (err) {
+                showStatus('❌ Error: ' + err.message, 'error');
+                showOutput('Error: ' + err.toString() + '\n');
+            }
+        }
+
+        async function applyMigration() {
+            const applyBtn = document.getElementById('applyBtn');
+            applyBtn.disabled = true;
+            applyBtn.textContent = 'Applying...';
+
+            showStatus('Applying migration...', 'info');
+            showOutput('Attempting to apply migration...\n');
+            showOutput('Note: This requires executing SQL directly.\n');
+            showOutput('Supabase client libraries cannot execute arbitrary DDL statements.\n');
+            showOutput('You need to run this SQL in the Supabase SQL Editor.\n\n');
+
+            // Show instructions
+            showOutput('=== INSTRUCTIONS ===\n');
+            showOutput('1. Go to: https://supabase.com/dashboard/project/dmbbsrcwqpmdxqtzvtqj/sql/new\n');
+            showOutput('2. Copy and paste the SQL from the textarea above\n');
+            showOutput('3. Click "Run" to execute the migration\n');
+            showOutput('4. Come back here and click "Check Current Policy" to verify\n\n');
+
+            showOutput('=== MIGRATION SQL ===\n');
+            showOutput(migrationSQL + '\n\n');
+
+            showStatus('⚠️ Manual migration required', 'warning');
+            showOutput('Please follow the instructions above to apply the migration.\n');
+
+            applyBtn.disabled = false;
+            applyBtn.textContent = 'Apply Migration';
+        }
+
+        // Check on page load
+        window.addEventListener('load', () => {
+            showOutput('Page loaded. Click "Check Current Policy" to see if migration is needed.\n');
+        });
+    </script>
+</body>
+</html>
+
