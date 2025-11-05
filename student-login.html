@@ -906,8 +906,9 @@
                     return;
                 }
             } else {
-                // No email provided, just create localStorage account
-                await createStudentAccountLocalStorage(username, password, email, grade);
+                // No email provided or invalid email - just create localStorage account
+                // Email is completely optional - students can use the system without it
+                await createStudentAccountLocalStorage(username, password, email || null, grade);
             }
         }
 
@@ -1731,67 +1732,74 @@
         async function createTestStudent() {
             const username = 'timpiontek';
             const password = 'StudentLogin';
-            const email = 'test@example.com';
+            const email = 'test@example.com'; // Optional - only used if you want cloud sync
             const grade = '12';
 
-            try {
-                console.log('🔍 Creating test Supabase account...');
-                const studentEmail = `${username}@gmail.com`;
-                
-                const { data, error } = await supabaseClient.auth.signUp({
-                    email: studentEmail,
-                    password: password,
-                    options: {
-                        data: {
-                            username: username,
-                            grade: grade,
-                            user_type: 'student'
+            // Only try Supabase if a real email is provided
+            if (email && email.includes('@')) {
+                try {
+                    console.log('🔍 Creating test Supabase account with email:', email);
+                    
+                    const { data, error } = await supabaseClient.auth.signUp({
+                        email: email,
+                        password: password,
+                        options: {
+                            data: {
+                                username: username,
+                                grade: grade,
+                                user_type: 'student'
+                            }
                         }
-                    }
-                });
+                    });
 
-                if (error) {
-                    console.log('Supabase signup failed:', error.message);
+                    if (error) {
+                        console.log('Supabase signup failed:', error.message);
+                        // Fall back to localStorage
+                        await createTestStudentLocalStorage(username, password, email, grade);
+                    } else {
+                        console.log('Supabase signup successful:', data.user);
+                        
+                        // Create student object from Supabase user
+                        const testStudent = {
+                            id: data.user.id,
+                            username: username,
+                            password: password,
+                            email: email,
+                            grade: grade,
+                            createdAt: data.user.created_at,
+                            totalPoints: 0,
+                            quizGamesPlayed: 0,
+                            warGamesPlayed: 0,
+                            questionsAnswered: 0,
+                            correctAnswers: 0,
+                            lastLogin: new Date().toISOString(),
+                            rosterId: null,
+                            rosterName: null,
+                            isSupabaseUser: true
+                        };
+
+                        const existingStudents = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+                        
+                        // Remove any existing test student with same username
+                        const filteredStudents = existingStudents.filter(s => s.username !== username);
+                        filteredStudents.push(testStudent);
+                        
+                        localStorage.setItem('tornadoStudents', JSON.stringify(filteredStudents));
+                        
+                        console.log('Test student created:', testStudent);
+                        alert('Test student account created in Supabase! Username: timpiontek, Password: StudentLogin\n\nThis account is accessible from any device!');
+                        return;
+                    }
+                } catch (error) {
+                    console.error('Supabase signup error:', error);
                     // Fall back to localStorage
                     await createTestStudentLocalStorage(username, password, email, grade);
-                } else {
-                    console.log('Supabase signup successful:', data.user);
-                    
-                    // Create student object from Supabase user
-                    const testStudent = {
-                        id: data.user.id,
-                        username: username,
-                        password: password,
-                        email: studentEmail,
-                        grade: grade,
-                        createdAt: data.user.created_at,
-                        totalPoints: 0,
-                        quizGamesPlayed: 0,
-                        warGamesPlayed: 0,
-                        questionsAnswered: 0,
-                        correctAnswers: 0,
-                        lastLogin: new Date().toISOString(),
-                        rosterId: null,
-                        rosterName: null,
-                        isSupabaseUser: true
-                    };
-
-                    const existingStudents = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
-                    
-                    // Remove any existing test student with same username
-                    const filteredStudents = existingStudents.filter(s => s.username !== username);
-                    filteredStudents.push(testStudent);
-                    
-                    localStorage.setItem('tornadoStudents', JSON.stringify(filteredStudents));
-                    
-                    console.log('Test student created:', testStudent);
-                    alert('Test student account created in Supabase! Username: timpiontek, Password: StudentLogin\n\nThis account is accessible from any device!');
+                    return;
                 }
-            } catch (error) {
-                console.error('Supabase signup error:', error);
-                // Fall back to localStorage
-                await createTestStudentLocalStorage(username, password, email, grade);
             }
+            
+            // No email provided or Supabase failed - create localStorage account
+            await createTestStudentLocalStorage(username, password, email, grade);
         }
 
         async function createTestStudentLocalStorage(username, password, email, grade) {
