@@ -1826,7 +1826,14 @@
             
             // Sync to Supabase if logged in
             console.log('Attempting to save roster to cloud...');
-            await syncRosterToSupabase(rosterData);
+            const syncResult = await syncRosterToSupabase(rosterData);
+            
+            if (syncResult) {
+                console.log('✅ Roster successfully saved to Supabase - students can join from any device!');
+            } else {
+                console.warn('⚠️ Roster saved locally only - students may not be able to join from other devices');
+                alert(`⚠️ Roster "${rosterName}" created locally!\n\nClass Code: ${rosterData.classCode}\n\n⚠️ WARNING: This roster was NOT saved to Supabase. Students on other devices may not be able to join.\n\nPlease ensure you are logged in as a teacher to enable cloud sync.`);
+            }
             
             // Reset form
             rosterNameInput.value = '';
@@ -1838,7 +1845,9 @@
             // Reload rosters display
             loadExistingRosters();
             
-            alert(`Roster "${rosterName}" created successfully!\n\nClass Code: ${rosterData.classCode}\n\nShare this code with your students so they can join your class!`);
+            if (syncResult) {
+                alert(`Roster "${rosterName}" created successfully!\n\nClass Code: ${rosterData.classCode}\n\n✅ Saved to cloud - students can join from any device!\n\nShare this code with your students so they can join your class!`);
+            }
         }
         
         // === ROSTER ACTIONS ===
@@ -2006,37 +2015,49 @@
         async function syncRosterToSupabase(rosterData) {
             if (!supabaseClient || !supabaseClient.auth) {
                 console.log('❌ Supabase client not available - roster saved locally only');
-                return;
+                return false;
             }
             
             try {
                 const { data: { session } } = await supabaseClient.auth.getSession();
                 if (!session) {
                     console.log('❌ No active session - roster saved locally only');
-                    return;
+                    console.log('⚠️ Teacher must be logged in to save rosters to cloud');
+                    return false;
                 }
                 
-                console.log('Saving roster to Supabase with teacher_id:', session.user.id);
-                const { error } = await supabaseClient.from('rosters').upsert({
+                console.log('💾 Saving roster to Supabase with teacher_id:', session.user.id);
+                console.log('💾 Roster name:', rosterData.name);
+                console.log('💾 Class code:', rosterData.classCode);
+                console.log('💾 Students:', rosterData.roster?.length || 0);
+                
+                const { data, error } = await supabaseClient.from('rosters').upsert({
                     id: rosterData.id,
                     teacher_id: session.user.id,
                     name: rosterData.name,
                     data: rosterData,
                     last_modified: new Date().toISOString()
+                }, {
+                    onConflict: 'id'
                 });
                 
                 if (error) {
-                    console.error('Supabase error:', error);
+                    console.error('❌ Supabase error:', error);
+                    console.error('Error code:', error.code);
+                    console.error('Error message:', error.message);
                     // Graceful fallback if table missing
                     if (error.code === 'PGRST205' || /Could not find the table 'public.rosters'/.test(error.message || '')) {
-                        console.warn("Supabase 'rosters' table missing. Saved locally only.");
+                        console.warn("⚠️ Supabase 'rosters' table missing. Saved locally only.");
                     }
+                    return false;
                 } else {
                     console.log('✅ Roster synced to Supabase successfully!');
+                    console.log('✅ Students can now join from any device using class code:', rosterData.classCode);
+                    return true;
                 }
             } catch (error) {
-                console.error('Error syncing roster to Supabase:', error);
-                // Continue - roster is saved locally even if Supabase fails
+                console.error('❌ Exception syncing roster to Supabase:', error);
+                return false;
             }
         }
         
