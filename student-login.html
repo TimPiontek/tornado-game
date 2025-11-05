@@ -659,6 +659,8 @@
                 
                 // Create client EXACTLY like diagnostic tool - no auth options
                 supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+                // Expose globally so other scripts and console can use the exact same instance
+                window.supabaseClient = supabaseClient;
                 
                 console.log('🔧 Supabase client initialized:', {
                     url: SUPABASE_URL,
@@ -683,6 +685,10 @@
             try {
                 console.log('🧪 Testing Supabase connection...');
                 console.log('🧪 Using same query as diagnostic tool...');
+                // Ensure anonymous read (avoid teacher session leaking into student page)
+                if (supabaseClient?.auth?.signOut) {
+                    try { await supabaseClient.auth.signOut(); console.log('🔓 Ensured anon session before test read'); } catch (e) { /* ignore */ }
+                }
                 
                 const { data, error } = await supabaseClient
                     .from('rosters')
@@ -1248,6 +1254,10 @@
                         hasFrom: typeof client.from === 'function',
                         hasAuth: !!client.auth
                     });
+                    // Force anonymous read prior to SELECT
+                    if (client?.auth?.signOut) {
+                        try { await client.auth.signOut(); console.log('🔓 Ensured anon session before join read'); } catch (e) { /* ignore */ }
+                    }
                     
                     // Query rosters (classCode is in data.classCode, not a separate column)
                     // Use EXACT same query structure as diagnostic tool and test query
