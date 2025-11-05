@@ -1106,9 +1106,10 @@
                     console.log('🔍 Searching Supabase for roster with class code:', classCode);
                     
                     // Query rosters (classCode is in data.classCode, not a separate column)
+                    // Use same query structure as diagnostic tool
                     const { data: altRosters, error: altError } = await supabaseClient
                         .from('rosters')
-                        .select('id, name, data, last_modified');
+                        .select('id, name, data, last_modified, teacher_id');
                     
                     console.log('🔍 Supabase query result:', {
                         hasData: !!altRosters,
