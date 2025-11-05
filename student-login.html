@@ -628,19 +628,68 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Initialize Supabase client
-        const supabaseClient = window.supabase.createClient(
-            "https://dmbbsrcwqpmdxqtzvtqj.supabase.co",
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w"
-        );
+        // Initialize Supabase client - wait for script to load
+        let supabaseClient = null;
         
-        console.log('🔧 Supabase client initialized:', {
-            url: "https://dmbbsrcwqpmdxqtzvtqj.supabase.co",
-            hasClient: !!supabaseClient,
-            hasAuth: !!supabaseClient?.auth
-        });
+        function initSupabaseClient() {
+            if (!window.supabase || !window.supabase.createClient) {
+                console.error('❌ Supabase library not loaded yet');
+                return null;
+            }
+            
+            if (!supabaseClient) {
+                supabaseClient = window.supabase.createClient(
+                    "https://dmbbsrcwqpmdxqtzvtqj.supabase.co",
+                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w"
+                );
+                
+                console.log('🔧 Supabase client initialized:', {
+                    url: "https://dmbbsrcwqpmdxqtzvtqj.supabase.co",
+                    hasClient: !!supabaseClient,
+                    hasAuth: !!supabaseClient?.auth,
+                    hasFrom: typeof supabaseClient?.from === 'function'
+                });
+                
+                // Test query immediately to verify it works
+                testSupabaseConnection();
+            }
+            
+            return supabaseClient;
+        }
+        
+        async function testSupabaseConnection() {
+            if (!supabaseClient) return;
+            
+            try {
+                console.log('🧪 Testing Supabase connection...');
+                const { data, error } = await supabaseClient
+                    .from('rosters')
+                    .select('id, name')
+                    .limit(1);
+                
+                if (error) {
+                    console.error('❌ Supabase test query failed:', error);
+                } else {
+                    console.log('✅ Supabase test query succeeded:', {
+                        foundRosters: data?.length || 0,
+                        sample: data?.[0]?.name || 'none'
+                    });
+                }
+            } catch (err) {
+                console.error('❌ Supabase test exception:', err);
+            }
+        }
+        
+        // Initialize when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(initSupabaseClient, 100); // Small delay to ensure script loaded
+            });
+        } else {
+            setTimeout(initSupabaseClient, 100);
+        }
 
         let currentStudent = null;
         let currentRoster = null;
@@ -1102,8 +1151,10 @@
             
             // If not found locally, try to load from Supabase (students can query by class_code)
             if (!roster) {
-                if (!supabaseClient) {
-                    console.error('❌ Supabase client not available');
+                // Ensure Supabase client is initialized
+                const client = initSupabaseClient();
+                if (!client) {
+                    console.error('❌ Supabase client not available - library may not be loaded');
                     showError('Unable to connect to server. Please refresh the page and try again.');
                     return;
                 }
@@ -1119,7 +1170,7 @@
                     // Query rosters (classCode is in data.classCode, not a separate column)
                     // Use same query structure as diagnostic tool
                     console.log('📡 Executing Supabase query...');
-                    const { data: altRosters, error: altError } = await supabaseClient
+                    const { data: altRosters, error: altError } = await client
                         .from('rosters')
                         .select('id, name, data, last_modified, teacher_id');
                     
