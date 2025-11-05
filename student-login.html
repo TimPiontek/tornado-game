@@ -1238,20 +1238,47 @@
                         
                         // Log all class codes found for debugging
                         const allCodes = altRosters.map(r => {
-                            const d = r.data || (typeof r.data === 'string' ? JSON.parse(r.data) : {});
-                            const code = d.classCode || '';
+                            let rosterData = {};
+                            if (r.data) {
+                                if (typeof r.data === 'string') {
+                                    try {
+                                        rosterData = JSON.parse(r.data);
+                                    } catch (e) {
+                                        console.error('Error parsing roster data:', e);
+                                        rosterData = {};
+                                    }
+                                } else {
+                                    rosterData = r.data;
+                                }
+                            }
+                            const code = rosterData.classCode || '';
                             return { name: r.name, code, hasData: !!r.data };
                         });
                         console.log('📦 All class codes in Supabase:', allCodes);
+                        console.log('📦 Searching for class code:', classCode);
                         
                         const matchingRoster = altRosters.find(r => {
                             // classCode is stored in data.classCode (JSONB field)
-                            const rosterData = r.data || (typeof r.data === 'string' ? JSON.parse(r.data) : {});
+                            let rosterData = {};
+                            if (r.data) {
+                                if (typeof r.data === 'string') {
+                                    try {
+                                        rosterData = JSON.parse(r.data);
+                                    } catch (e) {
+                                        console.error('Error parsing roster data in find:', e);
+                                        return false;
+                                    }
+                                } else {
+                                    rosterData = r.data;
+                                }
+                            }
                             const rosterClassCode = rosterData.classCode || '';
                             const matches = rosterClassCode.toUpperCase() === classCode;
                             
                             if (matches) {
                                 console.log('✅ Found matching roster:', r.name, 'with class code:', rosterClassCode);
+                            } else {
+                                console.log('   No match:', r.name, 'has code:', rosterClassCode, 'looking for:', classCode);
                             }
                             
                             return matches;
