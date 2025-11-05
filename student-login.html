@@ -1142,7 +1142,19 @@
                             }));
                         }
                     } else if (altError) {
-                        console.log('⚠️ Supabase query error (students may not have permission):', altError.message);
+                        console.error('❌ Supabase query error:', altError);
+                        console.error('Error code:', altError.code);
+                        console.error('Error message:', altError.message);
+                        console.error('Error details:', altError.details);
+                        
+                        // Show helpful error message to user
+                        if (altError.code === '42501' || altError.message?.includes('permission') || altError.message?.includes('policy')) {
+                            showError(`Unable to join class. The database may need a security policy update. Please contact your teacher.\n\nError: ${altError.message}`);
+                        } else {
+                            showError(`Unable to connect to server. Please check your internet connection and try again.\n\nError: ${altError.message}`);
+                        }
+                    } else {
+                        console.log('⚠️ No rosters found in Supabase');
                     }
                 } catch (error) {
                     console.error('Error loading from Supabase:', error);
