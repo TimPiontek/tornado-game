@@ -660,25 +660,42 @@
         }
         
         async function testSupabaseConnection() {
-            if (!supabaseClient) return;
+            if (!supabaseClient) {
+                console.warn('⚠️ Cannot test Supabase - client not initialized');
+                return;
+            }
             
             try {
                 console.log('🧪 Testing Supabase connection...');
+                console.log('🧪 Using same query as diagnostic tool...');
+                
                 const { data, error } = await supabaseClient
                     .from('rosters')
-                    .select('id, name')
-                    .limit(1);
+                    .select('id, name, data, last_modified, teacher_id');
                 
                 if (error) {
                     console.error('❌ Supabase test query failed:', error);
+                    console.error('Error code:', error.code);
+                    console.error('Error message:', error.message);
                 } else {
-                    console.log('✅ Supabase test query succeeded:', {
-                        foundRosters: data?.length || 0,
-                        sample: data?.[0]?.name || 'none'
-                    });
+                    console.log('✅ Supabase test query succeeded!');
+                    console.log('✅ Found rosters:', data?.length || 0);
+                    if (data && data.length > 0) {
+                        console.log('✅ Sample roster:', {
+                            name: data[0].name,
+                            id: data[0].id,
+                            hasData: !!data[0].data,
+                            classCode: data[0].data?.classCode || 'not found'
+                        });
+                        console.log('✅ All roster names:', data.map(r => r.name));
+                    } else {
+                        console.warn('⚠️ Test query returned 0 rosters (but diagnostic tool shows 4)');
+                        console.warn('⚠️ This suggests an RLS policy or query difference');
+                    }
                 }
             } catch (err) {
                 console.error('❌ Supabase test exception:', err);
+                console.error('Exception stack:', err.stack);
             }
         }
         
