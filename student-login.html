@@ -1102,17 +1102,53 @@
                     // Try to query rosters by class_code (if it's a column) or search in data JSONB
                     const { data: altRosters, error: altError } = await supabaseClient
                         .from('rosters')
-                        .select('*');
+                        .select('id, name, data, class_code, last_modified');
                     
-                    if (!altError && altRosters && altRosters.length > 0) {
+                    console.log('🔍 Supabase query result:', {
+                        hasData: !!altRosters,
+                        dataLength: altRosters?.length || 0,
+                        hasError: !!altError,
+                        error: altError
+                    });
+                    
+                    if (altError) {
+                        console.error('❌ Supabase query error:', altError);
+                        console.error('Error code:', altError.code);
+                        console.error('Error message:', altError.message);
+                        console.error('Error details:', altError.details);
+                        
+                        // Show helpful error message to user
+                        if (altError.code === '42501' || altError.message?.includes('permission') || altError.message?.includes('policy')) {
+                            showError(`Unable to join class. The database may need a security policy update. Please contact your teacher.\n\nError: ${altError.message}`);
+                        } else {
+                            showError(`Unable to connect to server. Please check your internet connection and try again.\n\nError: ${altError.message}`);
+                        }
+                    } else if (altRosters && altRosters.length > 0) {
                         console.log('📦 All Supabase rosters found:', altRosters.length);
+                        console.log('📦 Roster names:', altRosters.map(r => r.name));
+                        
+                        // Log all class codes found for debugging
+                        const allCodes = altRosters.map(r => {
+                            const d = r.data || (typeof r.data === 'string' ? JSON.parse(r.data) : {});
+                            const code1 = d.classCode || '';
+                            const code2 = r.class_code || '';
+                            return { name: r.name, code1, code2, hasData: !!r.data };
+                        });
+                        console.log('📦 All class codes in Supabase:', allCodes);
+                        
                         const matchingRoster = altRosters.find(r => {
                             // Check multiple possible locations for classCode
-                            const classCode1 = r.data?.classCode || '';
+                            const rosterData = r.data || (typeof r.data === 'string' ? JSON.parse(r.data) : {});
+                            const classCode1 = rosterData.classCode || '';
                             const classCode2 = r.class_code || '';
-                            const classCode3 = (r.data && typeof r.data === 'string') ? JSON.parse(r.data)?.classCode : '';
-                            const codes = [classCode1, classCode2, classCode3].filter(Boolean);
-                            return codes.some(code => code.toUpperCase() === classCode);
+                            const codes = [classCode1, classCode2].filter(Boolean);
+                            const matches = codes.some(code => code.toUpperCase() === classCode);
+                            
+                            if (matches) {
+                                console.log('✅ Found matching roster:', r.name, 'with codes:', codes);
+                            }
+                            
+                            return matches;
                         });
                         
                         if (matchingRoster) {
@@ -1134,27 +1170,22 @@
                             // Save to localStorage for future use
                             rosters.push(roster);
                             localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+                            console.log('✅ Roster saved to localStorage');
                         } else {
                             console.log('❌ No matching roster found in Supabase');
-                            console.log('Available class codes in Supabase:', altRosters.map(r => {
-                                const d = r.data || (typeof r.data === 'string' ? JSON.parse(r.data) : {});
-                                return d.classCode || r.class_code || 'N/A';
-                            }));
-                        }
-                    } else if (altError) {
-                        console.error('❌ Supabase query error:', altError);
-                        console.error('Error code:', altError.code);
-                        console.error('Error message:', altError.message);
-                        console.error('Error details:', altError.details);
-                        
-                        // Show helpful error message to user
-                        if (altError.code === '42501' || altError.message?.includes('permission') || altError.message?.includes('policy')) {
-                            showError(`Unable to join class. The database may need a security policy update. Please contact your teacher.\n\nError: ${altError.message}`);
-                        } else {
-                            showError(`Unable to connect to server. Please check your internet connection and try again.\n\nError: ${altError.message}`);
+                            console.log('Searched for class code:', classCode);
+                            console.log('Available class codes:', allCodes.map(c => c.code1 || c.code2 || 'N/A').filter(c => c !== 'N/A'));
+                            
+                            if (allCodes.length > 0) {
+                                showError(`Class code "${classCode}" not found.\n\nAvailable class codes: ${allCodes.map(c => c.code1 || c.code2 || 'N/A').filter(c => c !== 'N/A').join(', ') || 'None'}`);
+                            } else {
+                                showError(`No rosters found in database.\n\nPlease make sure:\n1. The teacher has created a roster\n2. The roster has been saved to Supabase\n3. The class code is correct`);
+                            }
                         }
                     } else {
                         console.log('⚠️ No rosters found in Supabase');
+                        console.log('This could mean:\n1. No rosters exist in the database\n2. The rosters table is empty\n3. The query returned no results');
+                        showError(`No rosters found in the database.\n\nPlease ask your teacher to:\n1. Create a roster\n2. Save it to Supabase\n3. Share the class code with you`);
                     }
                 } catch (error) {
                     console.error('Error loading from Supabase:', error);
