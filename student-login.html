@@ -640,16 +640,12 @@
             }
             
             if (!supabaseClient) {
-                // Use same configuration as diagnostic tool to avoid multiple client instances
+                // Use EXACT same configuration as diagnostic tool (no auth options)
                 const SUPABASE_URL = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
                 const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
                 
-                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
-                    auth: {
-                        persistSession: false, // Don't persist auth session to avoid multiple instances
-                        autoRefreshToken: false
-                    }
-                });
+                // Create client EXACTLY like diagnostic tool - no auth options
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
                 
                 console.log('🔧 Supabase client initialized:', {
                     url: SUPABASE_URL,
