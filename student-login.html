@@ -1099,10 +1099,10 @@
                 try {
                     console.log('🔍 Searching Supabase for roster with class code:', classCode);
                     
-                    // Try to query rosters by class_code (if it's a column) or search in data JSONB
+                    // Query rosters (classCode is in data.classCode, not a separate column)
                     const { data: altRosters, error: altError } = await supabaseClient
                         .from('rosters')
-                        .select('id, name, data, class_code, last_modified');
+                        .select('id, name, data, last_modified');
                     
                     console.log('🔍 Supabase query result:', {
                         hasData: !!altRosters,
@@ -1130,22 +1130,19 @@
                         // Log all class codes found for debugging
                         const allCodes = altRosters.map(r => {
                             const d = r.data || (typeof r.data === 'string' ? JSON.parse(r.data) : {});
-                            const code1 = d.classCode || '';
-                            const code2 = r.class_code || '';
-                            return { name: r.name, code1, code2, hasData: !!r.data };
+                            const code = d.classCode || '';
+                            return { name: r.name, code, hasData: !!r.data };
                         });
                         console.log('📦 All class codes in Supabase:', allCodes);
                         
                         const matchingRoster = altRosters.find(r => {
-                            // Check multiple possible locations for classCode
+                            // classCode is stored in data.classCode (JSONB field)
                             const rosterData = r.data || (typeof r.data === 'string' ? JSON.parse(r.data) : {});
-                            const classCode1 = rosterData.classCode || '';
-                            const classCode2 = r.class_code || '';
-                            const codes = [classCode1, classCode2].filter(Boolean);
-                            const matches = codes.some(code => code.toUpperCase() === classCode);
+                            const rosterClassCode = rosterData.classCode || '';
+                            const matches = rosterClassCode.toUpperCase() === classCode;
                             
                             if (matches) {
-                                console.log('✅ Found matching roster:', r.name, 'with codes:', codes);
+                                console.log('✅ Found matching roster:', r.name, 'with class code:', rosterClassCode);
                             }
                             
                             return matches;
@@ -1177,9 +1174,10 @@
                             console.log('Available class codes:', allCodes.map(c => c.code1 || c.code2 || 'N/A').filter(c => c !== 'N/A'));
                             
                             if (allCodes.length > 0) {
-                                showError(`Class code "${classCode}" not found.\n\nAvailable class codes: ${allCodes.map(c => c.code1 || c.code2 || 'N/A').filter(c => c !== 'N/A').join(', ') || 'None'}`);
+                                const availableCodes = allCodes.map(c => c.code).filter(c => c);
+                                showError(`Class code "${classCode}" not found.\n\nAvailable class codes: ${availableCodes.join(', ') || 'None'}`);
                             } else {
-                                showError(`No rosters found in database.\n\nPlease make sure:\n1. The teacher has created a roster\n2. The roster has been saved to Supabase\n3. The class code is correct`);
+                                showError(`No rosters found in database.\n\nPlease make sure:\n1. The teacher has created a roster\n2. The teacher is logged in when creating it\n3. The roster has been saved to Supabase\n4. The class code is correct`);
                             }
                         }
                     } else {
@@ -1728,9 +1726,8 @@
                     if (!altError && altRosters && altRosters.length > 0) {
                         const matchingRoster = altRosters.find(r => {
                             const rosterData = r.data || (typeof r.data === 'string' ? JSON.parse(r.data) : {});
-                            const classCode1 = rosterData.classCode || '';
-                            const classCode2 = r.class_code || '';
-                            return classCode1.toUpperCase() === classCode || classCode2.toUpperCase() === classCode;
+                            const rosterClassCode = rosterData.classCode || '';
+                            return rosterClassCode.toUpperCase() === classCode;
                         });
                         
                         if (matchingRoster) {
@@ -1738,8 +1735,8 @@
                             roster = {
                                 id: matchingRoster.id,
                                 name: matchingRoster.name,
-                                classCode: rosterData.classCode || matchingRoster.class_code || classCode,
-                                roster: rosterData.roster || matchingRoster.roster || [],
+                                classCode: rosterData.classCode || classCode,
+                                roster: rosterData.roster || [],
                                 teams: rosterData.teams,
                                 teamMode: rosterData.teamMode,
                                 scenario: rosterData.scenario,

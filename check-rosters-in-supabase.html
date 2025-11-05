@@ -78,10 +78,10 @@
             log('🔍 Checking rosters in Supabase...\n', 'info');
             
             try {
-                // Query all rosters
+                // Query all rosters (class_code is not a column, it's in data.classCode)
                 const { data: rosters, error } = await supabase
                     .from('rosters')
-                    .select('id, name, data, class_code, last_modified, teacher_id');
+                    .select('id, name, data, last_modified, teacher_id');
                 
                 if (error) {
                     log(`❌ Error querying rosters: ${error.message}`, 'error');
@@ -137,12 +137,7 @@
                         log(`⚠️ No data field found`, 'error');
                     }
                     
-                    // Check for class_code column
-                    if (roster.class_code) {
-                        log(`✅ Class Code (from class_code column): ${roster.class_code}`, 'success');
-                    } else {
-                        log(`⚠️ No class_code column found`, 'error');
-                    }
+                    // Note: class_code is not a separate column, it's only in data.classCode
                     
                     // Show student count
                     if (rosterData && rosterData.roster) {
@@ -155,7 +150,7 @@
                 log(`Total rosters: ${rosters.length}`, 'info');
                 const rostersWithCodes = rosters.filter(r => {
                     const d = r.data || (typeof r.data === 'string' ? JSON.parse(r.data) : {});
-                    return d.classCode || r.class_code;
+                    return d.classCode;
                 });
                 log(`Rosters with class codes: ${rostersWithCodes.length}`, 'info');
                 
@@ -163,7 +158,7 @@
                     log('\nAvailable class codes:', 'success');
                     rostersWithCodes.forEach(r => {
                         const d = r.data || (typeof r.data === 'string' ? JSON.parse(r.data) : {});
-                        const code = d.classCode || r.class_code;
+                        const code = d.classCode;
                         log(`  - ${r.name}: ${code}`, 'success');
                     });
                 }
