@@ -1171,7 +1171,7 @@
                         } else {
                             console.log('❌ No matching roster found in Supabase');
                             console.log('Searched for class code:', classCode);
-                            console.log('Available class codes:', allCodes.map(c => c.code1 || c.code2 || 'N/A').filter(c => c !== 'N/A'));
+                            console.log('Available class codes:', allCodes.map(c => c.code || 'N/A').filter(c => c !== 'N/A'));
                             
                             if (allCodes.length > 0) {
                                 const availableCodes = allCodes.map(c => c.code).filter(c => c);
