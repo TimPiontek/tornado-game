@@ -640,13 +640,19 @@
             }
             
             if (!supabaseClient) {
-                supabaseClient = window.supabase.createClient(
-                    "https://dmbbsrcwqpmdxqtzvtqj.supabase.co",
-                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w"
-                );
+                // Use same configuration as diagnostic tool to avoid multiple client instances
+                const SUPABASE_URL = "https://dmbbsrcwqpmdxqtzvtqj.supabase.co";
+                const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w";
+                
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+                    auth: {
+                        persistSession: false, // Don't persist auth session to avoid multiple instances
+                        autoRefreshToken: false
+                    }
+                });
                 
                 console.log('🔧 Supabase client initialized:', {
-                    url: "https://dmbbsrcwqpmdxqtzvtqj.supabase.co",
+                    url: SUPABASE_URL,
                     hasClient: !!supabaseClient,
                     hasAuth: !!supabaseClient?.auth,
                     hasFrom: typeof supabaseClient?.from === 'function'
@@ -1228,11 +1234,15 @@
                     });
                     
                     // Query rosters (classCode is in data.classCode, not a separate column)
-                    // Use same query structure as diagnostic tool
-                    console.log('📡 Executing Supabase query...');
+                    // Use EXACT same query structure as diagnostic tool and test query
+                    console.log('📡 Executing Supabase query (same as test query)...');
+                    console.log('📡 Using client:', !!client, 'has from method:', typeof client.from === 'function');
+                    
                     const { data: altRosters, error: altError } = await client
                         .from('rosters')
                         .select('id, name, data, last_modified, teacher_id');
+                    
+                    console.log('📡 Query executed, checking response...');
                     
                     console.log('📡 Query completed. Response:', {
                         hasData: !!altRosters,
@@ -1329,19 +1339,39 @@
                         
                         if (matchingRoster) {
                             console.log('✅ Found roster in Supabase:', matchingRoster.name);
+                            
                             // Convert Supabase format to local format
-                            const rosterData = matchingRoster.data || (typeof matchingRoster.data === 'string' ? JSON.parse(matchingRoster.data) : {});
+                            let rosterData = {};
+                            if (matchingRoster.data) {
+                                if (typeof matchingRoster.data === 'string') {
+                                    try {
+                                        rosterData = JSON.parse(matchingRoster.data);
+                                    } catch (e) {
+                                        console.error('Error parsing matching roster data:', e);
+                                        rosterData = {};
+                                    }
+                                } else {
+                                    rosterData = matchingRoster.data;
+                                }
+                            }
+                            
                             roster = {
                                 id: matchingRoster.id,
                                 name: matchingRoster.name,
-                                classCode: rosterData.classCode || matchingRoster.class_code || classCode,
-                                roster: rosterData.roster || matchingRoster.roster || [],
+                                classCode: rosterData.classCode || classCode,
+                                roster: rosterData.roster || [],
                                 teams: rosterData.teams,
                                 teamMode: rosterData.teamMode,
                                 scenario: rosterData.scenario,
                                 gameState: rosterData.gameState,
                                 lastModified: matchingRoster.last_modified || rosterData.lastModified
                             };
+                            
+                            console.log('✅ Roster converted:', {
+                                name: roster.name,
+                                classCode: roster.classCode,
+                                students: roster.roster.length
+                            });
                             
                             // Save to localStorage for future use
                             rosters.push(roster);
