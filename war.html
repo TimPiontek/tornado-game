@@ -8726,7 +8726,10 @@
       // Handle trigger button click
       triggerBtn.onclick = () => {
         if (!storyEventSelect.value) return;
-        triggerStoryEvent(scenarioId, storyEventSelect.value);
+        // Use the mapped scenarioId (handles aliases like romeoAndJuliet -> romeo_juliet)
+        const eventScenarioId = STORY_EVENTS[scenarioId] ? scenarioId : 
+          (scenarioId === 'romeoAndJuliet' ? 'romeo_juliet' : scenarioId);
+        triggerStoryEvent(eventScenarioId, storyEventSelect.value);
       };
       
     } else {
@@ -8737,17 +8740,24 @@
   // Trigger a story event
   function triggerStoryEvent(scenarioId, sceneId) {
     const scenario = STORY_EVENTS[scenarioId];
-    if (!scenario) return;
+    if (!scenario) {
+      console.warn('Story events not found for scenario:', scenarioId);
+      return;
+    }
     
     const scene = scenario.scenes.find(s => s.id === sceneId);
-    if (!scene) return;
+    if (!scene) {
+      console.warn('Scene not found:', sceneId, 'in scenario:', scenarioId);
+      return;
+    }
     
     // Show confirmation modal with scene summary and effects
-    showStoryEventModal(scene);
+    // Pass scenarioId so applyStoryEvent knows which scenario to use
+    showStoryEventModal(scene, scenarioId);
   }
 
   // Show story event confirmation modal
-  function showStoryEventModal(scene) {
+  function showStoryEventModal(scene, scenarioId) {
     const modal = document.createElement('div');
     modal.style.cssText = `
       position: fixed;
@@ -8835,7 +8845,8 @@
     container.querySelector('#storyModalCancel').addEventListener('click', closeModal);
     container.querySelector('#storyModalApply').addEventListener('click', () => {
       try {
-        applyStoryEvent(scene.id);
+        // Pass scenarioId to ensure we apply the correct scenario's events
+        applyStoryEvent(scene.id, scenarioId);
       } catch (err) {
         console.error('Error applying story event', err);
       }
@@ -8844,26 +8855,48 @@
   }
 
   // Apply story event effects to participants
-  function applyStoryEvent(sceneId) {
-    // Find the current scenario and scene
-    let currentScenario = null;
+  function applyStoryEvent(sceneId, scenarioId) {
+    // Use provided scenarioId, or fall back to current scenario, or search all scenarios
+    let currentScenario = scenarioId;
     let currentScene = null;
     
-    for (const [scenarioId, scenario] of Object.entries(STORY_EVENTS)) {
-      const scene = scenario.scenes.find(s => s.id === sceneId);
-      if (scene) {
-        currentScenario = scenarioId;
-        currentScene = scene;
-        break;
+    if (currentScenario && STORY_EVENTS[currentScenario]) {
+      // Use the provided scenarioId
+      currentScene = STORY_EVENTS[currentScenario].scenes.find(s => s.id === sceneId);
+    }
+    
+    // Fallback: use current game scenario if available
+    if (!currentScene && state.scenario && state.scenario.scenarioId) {
+      currentScenario = state.scenario.scenarioId;
+      // Handle scenario ID aliases
+      if (currentScenario === 'romeoAndJuliet' && STORY_EVENTS['romeo_juliet']) {
+        currentScenario = 'romeo_juliet';
+      }
+      if (STORY_EVENTS[currentScenario]) {
+        currentScene = STORY_EVENTS[currentScenario].scenes.find(s => s.id === sceneId);
+      }
+    }
+    
+    // Last resort: search all scenarios (but warn about potential mismatch)
+    if (!currentScene) {
+      console.warn('⚠️ Scene not found in specified scenario, searching all scenarios...');
+      for (const [scId, scenario] of Object.entries(STORY_EVENTS)) {
+        const scene = scenario.scenes.find(s => s.id === sceneId);
+        if (scene) {
+          currentScenario = scId;
+          currentScene = scene;
+          console.warn(`⚠️ Found scene in different scenario: ${scId} (expected: ${scenarioId || state.scenario?.scenarioId})`);
+          break;
+        }
       }
     }
     
     if (!currentScene) {
-      console.error('Scene not found:', sceneId);
+      console.error('Scene not found:', sceneId, 'in any scenario');
       return;
     }
     
-    console.log('Applying story event:', currentScene.name, 'for scenario:', currentScenario);
+    console.log('✅ Applying story event:', currentScene.name, 'for scenario:', currentScenario);
     
     // Handle both old format (effects as array) and new format (effects as object)
     let characterEffects = [];
