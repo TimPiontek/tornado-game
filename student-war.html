@@ -1960,7 +1960,16 @@
         return;
       }
       
-      const cost = calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h);
+      // Calculate cost - use territory cost if scenario has one, otherwise use calculated tile price
+      // This matches the display logic in updateGridDisplay
+      let cost = calculateTilePrice(tile.x, tile.y, state.board.w, state.board.h);
+      if (state.scenario) {
+        const territoryData = getTerritoryForTile(tile, state.scenario);
+        if (territoryData && territoryData.cost) {
+          cost = territoryData.cost;
+        }
+      }
+      
       if (selectedStudent.balance >= cost) {
         tile.owner_game_student_id = selectedStudent.gsId;
         selectedStudent.balance -= cost;

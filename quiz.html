@@ -7666,19 +7666,22 @@
                     if (teamVictoryBonus) {
                         if (targetRoster.teams) {
                             // Regular roster with teams
+                            // teamVictoryBonus is keyed by student name, not team name
                             targetRoster.teams.forEach(team => {
-                                if (teamVictoryBonus[team.name]) {
                                     team.students.forEach(studentName => {
+                                    // Check if this student has a victory bonus (keyed by student name)
+                                    if (teamVictoryBonus[studentName]) {
                                         const student = targetRoster.roster.find(s => s.name === studentName);
                                         if (student) {
-                                            student.points = (student.points || 0) + teamVictoryBonus[team.name];
+                                            const bonusAmount = teamVictoryBonus[studentName];
+                                            student.points = (student.points || 0) + bonusAmount;
                                             student.balance = student.points; // Ensure balance matches points
-                                            student.earnedPoints = (student.earnedPoints || 0) + teamVictoryBonus[team.name];
+                                            student.earnedPoints = (student.earnedPoints || 0) + bonusAmount;
                                             
-                                            console.log(`Team victory bonus: ${student.name} +${teamVictoryBonus[team.name]} points (total: ${student.points})`);
+                                            console.log(`Team victory bonus: ${student.name} +${bonusAmount} points (total: ${student.points})`);
                                         }
-                                    });
                                 }
+                                });
                             });
                         } else {
                             // Quick roster - add bonuses directly to students
@@ -8410,7 +8413,7 @@
           
           // Add team victory bonus display if applicable
           if (teamVictoryBonusDisplay) {
-            resultsHTML += `
+          resultsHTML += `
               </div>
               <div style="background: rgba(16,185,129,0.2); padding: 15px; border-radius: 10px; margin: 20px 0; border: 2px solid rgba(16,185,129,0.5);">
                 <h3 style="margin: 0 0 10px 0; color: #10b981; font-size: 1.3rem;">🎉 Team Victory Bonus</h3>
