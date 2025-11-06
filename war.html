@@ -8931,11 +8931,33 @@
 
   // Apply points to a specific character
   function applyCharacterPoints(characterName, points, reason) {
-    if (!state.roster || state.roster.length === 0) return;
-    const lower = (characterName || '').toLowerCase();
-    const student = state.roster.find(s => (s.characterName && s.characterName.toLowerCase() === lower) || (s.name && s.name === characterName));
+    if (!state.roster || state.roster.length === 0) {
+      console.warn('applyCharacterPoints: No roster available');
+      return;
+    }
+    
+    const lower = (characterName || '').toLowerCase().trim();
+    if (!lower) {
+      console.warn('applyCharacterPoints: No character name provided');
+      return;
+    }
+    
+    console.log(`🔍 Applying character points: "${characterName}" (${points} points) - ${reason}`);
+    console.log(`📋 Searching roster for character:`, state.roster.map(s => ({
+      name: s.name,
+      characterName: s.characterName,
+      match: s.characterName && s.characterName.toLowerCase().trim() === lower
+    })));
+    
+    const student = state.roster.find(s => {
+      const sCharName = (s.characterName || '').toLowerCase().trim();
+      const sName = (s.name || '').toLowerCase().trim();
+      return sCharName === lower || sName === characterName;
+    });
+    
     if (!student) {
-      console.warn(`Character "${characterName}" not found in roster`);
+      console.warn(`⚠️ Character "${characterName}" not found in roster. Available characters:`, 
+        state.roster.map(s => s.characterName).filter(Boolean));
       return;
     }
     
@@ -8945,52 +8967,97 @@
     const newEarned = Math.max(0, oldEarned + delta);
     student.earnedPoints = newEarned;
     student.balance = (student.startingPoints || 0) + (student.earnedPoints || 0);
-    console.log(`Applied ${points} to ${characterName}: earned ${oldEarned} → ${newEarned} (${reason})`);
+    console.log(`💰 Applied ${points > 0 ? '+' : ''}${points} to ${characterName} (${student.name}): earned ${oldEarned} → ${newEarned} (${reason})`);
   }
 
   // Apply points to all participants in a team/faction
   function applyTeamPoints(teamName, points, reason) {
-    if (!state.roster || state.roster.length === 0) return;
+    if (!state.roster || state.roster.length === 0) {
+      console.warn('applyTeamPoints: No roster available');
+      return;
+    }
+    
+    const t = (teamName || '').toLowerCase().trim();
+    if (!t) {
+      console.warn('applyTeamPoints: No team name provided');
+      return;
+    }
+    
+    console.log(`🔍 Applying team points: "${teamName}" (${points} points) - ${reason}`);
+    console.log(`📋 Current roster:`, state.roster.map(s => ({
+      name: s.name,
+      characterName: s.characterName,
+      teamName: s.teamName,
+      characterFaction: s.characterFaction
+    })));
+    
     const isMatch = (student) => {
-      const faction = (student.characterFaction || '').toLowerCase();
-      const teamName_lower = (student.teamName || '').toLowerCase();
-      const cname = (student.characterName || '').toLowerCase();
-      const t = (teamName || '').toLowerCase();
-      if (!t) return false;
+      const faction = (student.characterFaction || '').toLowerCase().trim();
+      const teamName_lower = (student.teamName || '').toLowerCase().trim();
+      const cname = (student.characterName || '').toLowerCase().trim();
       
-      // Direct team name match
-      if (teamName_lower && teamName_lower.includes(t)) return true;
-      if (faction && faction.toLowerCase().includes(t)) return true;
+      // 1. Exact match (normalized - remove apostrophes and extra spaces)
+      const normalize = (str) => str.replace(/'/g, '').replace(/\s+/g, ' ').trim();
+      if (normalize(teamName_lower) === normalize(t)) return true;
+      if (normalize(faction) === normalize(t)) return true;
       
-      // Heuristics: characterName contains team keyword
+      // 2. Bidirectional substring match (either contains the other)
+      if (teamName_lower && (teamName_lower.includes(t) || t.includes(teamName_lower))) return true;
+      if (faction && (faction.includes(t) || t.includes(faction))) return true;
+      
+      // 3. Heuristics: characterName contains team keyword (Romeo & Juliet)
       if (t === 'montague' && cname.includes('montague')) return true;
       if (t === 'capulet' && cname.includes('capulet')) return true;
       
-      // Hamlet-specific team matching
+      // 4. Hamlet-specific team matching - improved logic
       if (t.includes('hamlet') && t.includes('loyalist')) {
-        return faction.includes('hamlet') || teamName_lower.includes('hamlet') || 
-               ['hamlet', 'horatio', 'the ghost', 'fortinbras', 'ophelia', 'polonius'].some(name => cname.includes(name));
+        // Check if student belongs to Hamlet's Loyalists faction
+        const hamletLoyalistMatch = 
+          faction.includes('hamlet') && faction.includes('loyalist') ||
+          teamName_lower.includes('hamlet') && teamName_lower.includes('loyalist') ||
+          // Character-based matching for Hamlet's Loyalists
+          ['hamlet', 'horatio', 'the ghost', 'fortinbras'].some(name => cname.includes(name));
+        
+        if (hamletLoyalistMatch) {
+          console.log(`✅ Matched ${student.name} to Hamlet's Loyalists (character: ${cname}, team: ${teamName_lower}, faction: ${faction})`);
+          return true;
+        }
       }
+      
       if (t.includes('claudius') && t.includes('court')) {
-        return faction.includes('claudius') || teamName_lower.includes('claudius') || 
-               ['claudius', 'gertrude', 'rosencrantz', 'guildenstern', 'osric', 'voltemand', 'cornelius', 'marcellus'].some(name => cname.includes(name));
+        // Check if student belongs to Claudius' Court faction
+        const claudiusCourtMatch = 
+          faction.includes('claudius') && faction.includes('court') ||
+          teamName_lower.includes('claudius') && teamName_lower.includes('court') ||
+          // Character-based matching for Claudius' Court
+          ['claudius', 'gertrude', 'rosencrantz', 'guildenstern', 'osric', 'voltemand', 'cornelius', 'marcellus'].some(name => cname.includes(name));
+        
+        if (claudiusCourtMatch) {
+          console.log(`✅ Matched ${student.name} to Claudius' Court (character: ${cname}, team: ${teamName_lower}, faction: ${faction})`);
+          return true;
+        }
       }
       
       return false;
     };
 
     const matchingStudents = state.roster.filter(isMatch);
-    console.log(`Found ${matchingStudents.length} students matching team "${teamName}":`, matchingStudents.map(s => s.name));
+    console.log(`📊 Found ${matchingStudents.length} students matching team "${teamName}":`, matchingStudents.map(s => `${s.name} (${s.characterName || 'no character'})`));
+
+    if (matchingStudents.length === 0) {
+      console.warn(`⚠️ No students matched for team "${teamName}". Available teams:`, 
+        [...new Set(state.roster.map(s => s.teamName).filter(Boolean))]);
+    }
 
     matchingStudents.forEach(student => {
       const oldEarned = student.earnedPoints || 0;
       const newEarned = Math.max(0, oldEarned + points);
       student.earnedPoints = newEarned;
       student.balance = (student.startingPoints || 0) + (student.earnedPoints || 0);
-      console.log(`Applied ${points} to ${student.name} (${student.characterName}): ${oldEarned} → ${newEarned}`);
+      console.log(`💰 Applied ${points > 0 ? '+' : ''}${points} to ${student.name} (${student.characterName || 'no character'}): ${oldEarned} → ${newEarned}`);
     });
     
-    console.log(`Applied ${points} points to team ${teamName}: ${reason}`);
+    console.log(`✅ Applied ${points} points to team "${teamName}": ${reason}`);
   }
 
   // Ensure important story characters are present by assigning them to unassigned participants
@@ -9020,13 +9087,57 @@
   // Fill missing characterFaction using characterName heuristics for this scenario
   function normalizeFactionsForScenario(scenarioId){
     if (!state.roster) return;
+    
+    // Get scenario data to determine faction names
+    const scenario = SCENARIOS[scenarioId];
+    if (!scenario || !scenario.factions) return;
+    
     state.roster.forEach(s => {
       if (!s.characterFaction && s.characterName) {
         const cname = s.characterName.toLowerCase();
+        
+        // Romeo & Juliet factions
         if (cname.includes('montague')) s.characterFaction = 'Montague';
         else if (cname.includes('capulet')) s.characterFaction = 'Capulet';
+        
+        // Hamlet factions - match characters to their factions
+        else if (scenarioId === 'hamlet') {
+          // Hamlet's Loyalists characters
+          if (['hamlet', 'horatio', 'the ghost', 'fortinbras'].some(name => cname.includes(name))) {
+            s.characterFaction = scenario.factions.hamletLoyalists?.name || 'Hamlet\'s Loyalists';
+            if (!s.teamName) s.teamName = s.characterFaction;
+          }
+          // Claudius' Court characters
+          else if (['claudius', 'gertrude', 'rosencrantz', 'guildenstern', 'osric', 'voltemand', 'cornelius', 'marcellus'].some(name => cname.includes(name))) {
+            s.characterFaction = scenario.factions.claudiusCourt?.name || 'Claudius\' Court';
+            if (!s.teamName) s.teamName = s.characterFaction;
+          }
+          // Ambiguous characters - check if they're in a faction's character list
+          else {
+            // Try to find character in faction definitions
+            for (const [factionKey, faction] of Object.entries(scenario.factions)) {
+              if (faction.characters && faction.characters.some(char => char.name.toLowerCase() === cname)) {
+                s.characterFaction = faction.name;
+                if (!s.teamName) s.teamName = faction.name;
+                break;
+              }
+            }
+          }
+        }
+      }
+      
+      // Ensure teamName matches characterFaction if teamName is missing
+      if (s.characterFaction && !s.teamName) {
+        s.teamName = s.characterFaction;
       }
     });
+    
+    console.log('Normalized factions for scenario:', scenarioId, state.roster.map(s => ({
+      name: s.name,
+      characterName: s.characterName,
+      characterFaction: s.characterFaction,
+      teamName: s.teamName
+    })));
   }
 
   function showDifficultySelectionModal(gameType) {
