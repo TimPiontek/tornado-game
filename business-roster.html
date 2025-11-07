@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html>image.png
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -92,24 +92,110 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="/lib/supabaseClient.js"></script>
+
 <script>
+  const STORAGE_KEY = 'tornadoRosters';
+  const DELETED_ROSTERS_KEY = 'tornadoDeletedRosters';
   let businessRosters = [];
   let currentRoster = null;
   let teamMode = 'individual';
+  const supabaseClient = typeof window !== 'undefined' && window.getSupabaseClient ? window.getSupabaseClient() : null;
+
+  // Get list of deleted roster IDs (to prevent re-adding from Supabase)
+  function getDeletedRosterIds() {
+    try {
+      const deleted = localStorage.getItem(DELETED_ROSTERS_KEY);
+      return deleted ? JSON.parse(deleted) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  // Mark a roster as deleted
+  function markRosterAsDeleted(rosterId) {
+    const deleted = getDeletedRosterIds();
+    if (!deleted.includes(rosterId)) {
+      deleted.push(rosterId);
+      localStorage.setItem(DELETED_ROSTERS_KEY, JSON.stringify(deleted));
+    }
+  }
+
+  // Remove a roster from deleted list (if it gets recreated)
+  function unmarkRosterAsDeleted(rosterId) {
+    const deleted = getDeletedRosterIds();
+    const filtered = deleted.filter(id => id !== rosterId);
+    localStorage.setItem(DELETED_ROSTERS_KEY, JSON.stringify(filtered));
+  }
 
   // Load rosters from localStorage (compatible with main war game)
   async function loadRosters() {
     try {
       // Load from localStorage using the same key as main war game
-      const saved = localStorage.getItem('tornadoRosters');
+      const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         businessRosters = JSON.parse(saved);
+        if (!Array.isArray(businessRosters)) {
+          businessRosters = [];
+        }
         console.log('[DEBUG] Loaded rosters from localStorage:', businessRosters.length);
       } else {
         businessRosters = [];
         console.log('[DEBUG] No rosters found in localStorage');
       }
-      
+
+      // Filter out deleted rosters first
+      const deletedIds = getDeletedRosterIds();
+      businessRosters = businessRosters.filter(r => !deletedIds.includes(r.id));
+
+      // Merge in rosters from Supabase when available
+      if (supabaseClient && supabaseClient.auth && supabaseClient.auth.getSession) {
+        try {
+          const { data: { session } } = await supabaseClient.auth.getSession();
+          if (session) {
+            const { data: cloudRosters, error } = await supabaseClient
+              .from('rosters')
+              .select('id, data, last_modified')
+              .eq('teacher_id', session.user.id);
+
+            if (error) {
+              console.error('[DEBUG] Supabase error loading rosters:', error);
+            } else if (Array.isArray(cloudRosters)) {
+              const rosterMap = new Map((businessRosters || []).map(r => [r.id, r]));
+
+              cloudRosters.forEach(record => {
+                const cloudData = record?.data ? { ...record.data } : {};
+                const rosterId = cloudData.id || record.id;
+                if (!rosterId) return;
+                
+                // Skip if this roster was deleted
+                if (deletedIds.includes(rosterId)) {
+                  console.log('[DEBUG] Skipping deleted roster from Supabase:', rosterId);
+                  return;
+                }
+                
+                cloudData.id = rosterId;
+
+                const existing = rosterMap.get(rosterId);
+                const existingTimestamp = existing ? new Date(existing.lastModified || existing.last_modified || existing.created_at || 0).getTime() : 0;
+                const cloudTimestamp = new Date(cloudData.lastModified || cloudData.last_modified || record.last_modified || 0).getTime();
+
+                if (!existing || cloudTimestamp > existingTimestamp) {
+                  rosterMap.set(rosterId, cloudData);
+                }
+              });
+
+              businessRosters = Array.from(rosterMap.values());
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(businessRosters));
+              console.log('[DEBUG] Merged rosters from Supabase. Total:', businessRosters.length);
+            }
+          }
+        } catch (cloudError) {
+          console.error('Failed to merge Supabase rosters:', cloudError);
+        }
+      }
+
       renderRosters();
     } catch (error) {
       console.error('Failed to load rosters:', error);
@@ -119,15 +205,115 @@
   }
 
   // Save rosters to localStorage (compatible with main war game)
-  async function saveRosters() {
+  async function saveRosters(rostersToSync = null) {
     console.log('[DEBUG] saveRosters() called');
     try {
-      // Save to localStorage using the same key as main war game
+      const previousValue = localStorage.getItem(STORAGE_KEY);
+      const serialized = JSON.stringify(businessRosters);
+
       console.log('[DEBUG] Saving to localStorage:', businessRosters);
-      localStorage.setItem('tornadoRosters', JSON.stringify(businessRosters));
+      localStorage.setItem(STORAGE_KEY, serialized);
       console.log('[DEBUG] Successfully saved rosters to localStorage');
+
+      try {
+        window.dispatchEvent(new StorageEvent('storage', {
+          key: STORAGE_KEY,
+          oldValue: previousValue,
+          newValue: serialized
+        }));
+      } catch (eventError) {
+        console.warn('Failed to dispatch storage event for roster changes:', eventError);
+      }
+
+      const rostersArray = Array.isArray(rostersToSync)
+        ? rostersToSync.filter(Boolean)
+        : rostersToSync
+        ? [rostersToSync]
+        : [];
+
+      for (const roster of rostersArray) {
+        await syncRosterToSupabase(roster);
+      }
     } catch (error) {
       console.error('Failed to save rosters:', error);
+    }
+  }
+
+  async function syncRosterToSupabase(roster) {
+    if (!roster) {
+      return false;
+    }
+
+    if (!supabaseClient || !supabaseClient.auth || !supabaseClient.auth.getSession) {
+      console.log('[DEBUG] Supabase unavailable - roster saved locally only');
+      return false;
+    }
+
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (!session) {
+        console.log('[DEBUG] No active Supabase session - roster saved locally only');
+        return false;
+      }
+
+      const payload = {
+        id: roster.id,
+        teacher_id: session.user.id,
+        name: roster.name,
+        data: roster,
+        last_modified: new Date().toISOString()
+      };
+
+      const { error } = await supabaseClient.from('rosters').upsert(payload, { onConflict: 'id' });
+      if (error) {
+        console.error('Supabase error syncing roster:', error);
+        // Graceful fallback if table missing
+        if (error.code === 'PGRST205' || /Could not find the table 'public.rosters'/.test(error.message || '')) {
+          console.warn("Supabase 'rosters' table missing. Roster saved locally only.");
+        }
+        return false;
+      }
+
+      console.log(`[DEBUG] Roster "${roster.name}" synced to Supabase`);
+      return true;
+    } catch (error) {
+      console.error('Exception syncing roster to Supabase:', error);
+      return false;
+    }
+  }
+
+  async function deleteRosterFromSupabase(rosterId) {
+    if (!supabaseClient || !supabaseClient.auth || !supabaseClient.auth.getSession) {
+      console.log('[DEBUG] Supabase unavailable - roster deleted locally only');
+      return false;
+    }
+
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (!session) {
+        console.log('[DEBUG] No active Supabase session - roster deleted locally only');
+        return false;
+      }
+
+      const { error } = await supabaseClient
+        .from('rosters')
+        .delete()
+        .eq('id', rosterId)
+        .eq('teacher_id', session.user.id);
+
+      if (error) {
+        console.error('Supabase error deleting roster:', error);
+        if (error.code === 'PGRST205' || /Could not find the table 'public.rosters'/.test(error.message || '')) {
+          console.warn("Supabase 'rosters' table missing. Roster deleted locally only.");
+        }
+        return false;
+      }
+
+      console.log('[DEBUG] Roster deleted from Supabase:', rosterId);
+      return true;
+    } catch (error) {
+      console.error('Exception deleting roster from Supabase:', error);
+      return false;
     }
   }
 
@@ -154,21 +340,37 @@
       return;
     }
 
+    const timestamp = new Date().toISOString();
     const roster = {
       id: generateUUID(),
-      name: name,
+      name,
       roster: [], // Use 'roster' property to match main war game format
+      teams: [],
       teamMode: teamMode,
-      createdAt: new Date().toISOString()
+      created_at: timestamp,
+      createdAt: timestamp,
+      lastModified: timestamp,
+      last_modified: timestamp,
+      gameState: {
+        board: { w: 0, h: 0, tiles: [] },
+        tiles: [],
+        truces: []
+      },
+      isBusinessRoster: true
     };
 
+    // If recreating a previously deleted roster, unmark it
+    unmarkRosterAsDeleted(roster.id);
+    
     businessRosters.push(roster);
-    await saveRosters();
+    currentRoster = roster;
+    await saveRosters(roster);
     
     // Clear form
     document.getElementById('newRosterName').value = '';
     
     renderRosters();
+    updateSelectedRosterDetails();
     console.log('[DEBUG] Created new roster:', roster.name);
   }
 
@@ -195,7 +397,9 @@
     };
 
     currentRoster.roster.push(participant);
-    await saveRosters();
+    currentRoster.lastModified = new Date().toISOString();
+    currentRoster.last_modified = currentRoster.lastModified;
+    await saveRosters(currentRoster);
     
     // Clear form
     document.getElementById('newParticipantName').value = '';
@@ -234,7 +438,9 @@
       currentRoster.roster.push(participant);
     }
 
-    await saveRosters();
+    currentRoster.lastModified = new Date().toISOString();
+    currentRoster.last_modified = currentRoster.lastModified;
+    await saveRosters(currentRoster);
     
     // Clear form
     document.getElementById('bulkParticipants').value = '';
@@ -248,19 +454,23 @@
   function renderRosters() {
     const container = document.getElementById('rostersList');
     
-    if (businessRosters.length === 0) {
+    // Filter out deleted rosters as a safety measure
+    const deletedIds = getDeletedRosterIds();
+    const visibleRosters = businessRosters.filter(r => !deletedIds.includes(r.id));
+    
+    if (visibleRosters.length === 0) {
       container.innerHTML = '<p style="color:var(--muted);">No rosters created yet</p>';
       return;
     }
 
-    container.innerHTML = businessRosters.map(roster => `
+    container.innerHTML = visibleRosters.map(roster => `
       <div class="roster-card ${currentRoster?.id === roster.id ? 'active' : ''}" onclick="selectRoster('${roster.id}')">
         <h4>${roster.name}</h4>
         <p style="font-size:12px; color:var(--muted);">
           ${roster.roster?.length || 0} participants • ${roster.teamMode || 'individual'} mode
         </p>
         <div style="margin-top:8px;">
-          <button class="btn btn-danger" onclick="deleteRoster('${roster.id}')" style="font-size:10px;">Delete</button>
+          <button class="btn btn-danger" onclick="event.stopPropagation(); deleteRoster('${roster.id}')" style="font-size:10px;">Delete</button>
         </div>
       </div>
     `).join('');
@@ -307,16 +517,32 @@
       return;
     }
 
+    const rosterToDelete = businessRosters.find(r => r.id === rosterId);
+    
+    // Step 1: Delete from Supabase FIRST (before removing from local array)
+    const supabaseDeleted = await deleteRosterFromSupabase(rosterId);
+    if (!supabaseDeleted) {
+      console.warn('[DEBUG] Supabase deletion may have failed, but continuing with local deletion');
+    }
+    
+    // Step 2: Mark as deleted (prevents re-adding from Supabase)
+    markRosterAsDeleted(rosterId);
+    
+    // Step 3: Remove from local array
     businessRosters = businessRosters.filter(r => r.id !== rosterId);
     
+    // Step 4: Clear current roster if it was deleted
     if (currentRoster?.id === rosterId) {
       currentRoster = null;
     }
     
+    // Step 5: Save updated array to localStorage
     await saveRosters();
+    
+    // Step 6: Update UI
     renderRosters();
     updateSelectedRosterDetails();
-    console.log('[DEBUG] Deleted roster:', rosterId);
+    console.log('[DEBUG] Deleted roster:', rosterId, rosterToDelete ? rosterToDelete.name : 'unknown');
   }
 
   // Initialize on page load

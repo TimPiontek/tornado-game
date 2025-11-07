@@ -5059,6 +5059,11 @@
               questionModal.classList.add("hidden");
             }
             
+            // CRITICAL: Advance turn when skipping so same student doesn't get multiple questions
+            if (typeof advanceTurn === 'function') {
+              advanceTurn();
+            }
+            
             if (typeof showQuestion === 'function') {
               showQuestion();
             }
@@ -5074,6 +5079,10 @@
         if (document.getElementById("nextQuestionBtn"))
           document.getElementById("nextQuestionBtn").onclick = () => {
             hideNextQuestionButton();
+            // CRITICAL: Always advance turn when clicking Next Question to prevent same student getting multiple questions
+            if (typeof advanceTurn === 'function') {
+              advanceTurn();
+            }
             showQuestion();
           };
 
@@ -5697,24 +5706,9 @@
             out = pointsEarned;
             btn.style.color = teamColors[me];
             
-            // CRITICAL: Also award individual student points for points tiles
-            if (teamMode && rosterData) {
-              const currentStudent = getCurrentStudent();
-              if (currentStudent && currentStudent.name) {
-                // Award points to the current student
-                awardStudentPoints(currentStudent.name, pointsEarned, true);
-                console.log(`Awarded ${pointsEarned} points to ${currentStudent.name} from points tile`);
-              }
-            } else if (!teamMode && rosterData && rosterData.roster) {
-              // Individual mode - award to the student whose turn it is
-              const studentIndex = turn.charCodeAt(0) - 65;
-              const student = rosterData.roster[studentIndex];
-              if (student) {
-                const studentName = student.name || student;
-                awardStudentPoints(studentName, pointsEarned, true);
-                console.log(`Awarded ${pointsEarned} points to ${studentName} from points tile`);
-              }
-            }
+            // Points tiles now only affect team scores. Individual quiz totals
+            // remain tied to the teacher-configured per-question value so each
+            // correct answer is rewarded evenly, regardless of the tile picked.
             
             // CRITICAL: Update button display (already disabled above)
             btn.innerHTML = `<span>${out}</span>`;
@@ -6306,7 +6300,19 @@
           return false; // Game continues
         }
 
+        // Track last advance time to prevent rapid double-advancement
+        let lastAdvanceTime = 0;
+        const ADVANCE_DEBOUNCE_MS = 500; // Prevent double-advance within 500ms
+
         function advanceTurn() {
+          // Prevent rapid double-advancement (e.g., from tile pick + Next Question button)
+          const now = Date.now();
+          if (now - lastAdvanceTime < ADVANCE_DEBOUNCE_MS) {
+            console.log('⏸️ Advance turn debounced - too soon after last advance');
+            return;
+          }
+          lastAdvanceTime = now;
+          
           // Save current turn state to history before advancing (just for navigation, not score restoration)
           const currentState = {
             turn: turn,
@@ -6339,12 +6345,16 @@
               // In quiz mode, alternate between teams while keeping same student index
               // Only advance student when we've gone through all teams
               let currentIndex = teamOrder.indexOf(turn);
+              const previousIndex = currentIndex;
               currentIndex = (currentIndex + 1) % teamCount;
               turn = teamOrder[currentIndex];
               
-              // If we've cycled back to the first team, advance to next student
-              if (currentIndex === 0) {
-                advanceStudentTurn();
+              // If we've cycled back to the first team (went from last team to first), advance to next student
+              if (previousIndex === teamCount - 1 && currentIndex === 0) {
+                // Find the maximum team size to ensure we cycle through all students
+                const maxTeamSize = Math.max(...(rosterData.teams || []).map(t => (t.students || []).length));
+                currentStudentIndex = (currentStudentIndex + 1) % maxTeamSize;
+                console.log('Advanced to next student round:', currentStudentIndex, 'of', maxTeamSize);
               }
               
               // Update current team students but preserve the student index
@@ -7641,25 +7651,29 @@
                     targetRoster.roster.forEach(student => {
                         const currentQuizPoints = studentPoints[student.name] || 0;
                         const alreadySavedToWar = pointsSavedToWarGame[student.name] || 0;
-                        const newPointsToAdd = currentQuizPoints - alreadySavedToWar;
-                        
-                        if (newPointsToAdd > 0) {
+                        const lastSavedToRoster = lastSavedStudentPoints[student.name] || 0;
+                        const unsavedRosterPoints = Math.max(0, currentQuizPoints - lastSavedToRoster);
+
+                        if (unsavedRosterPoints > 0) {
                             const oldPoints = student.points || 0;
                             const oldBalance = student.balance || 0;
                             const oldEarnedPoints = student.earnedPoints || 0;
-                            
-                            // Only add NEW points that haven't been saved to war game yet
-                            student.points = oldPoints + newPointsToAdd;
+
+                            // Only add points that haven't already been written to the roster
+                            student.points = oldPoints + unsavedRosterPoints;
                             student.balance = student.points; // Ensure balance matches points
-                            student.earnedPoints = oldEarnedPoints + newPointsToAdd;
-                            
-                            // Update tracking
-                            pointsSavedToWarGame[student.name] = currentQuizPoints;
-                            
-                            console.log(`Updated ${student.name}: +${newPointsToAdd} NEW points (${oldPoints} → ${student.points}, already saved: ${alreadySavedToWar})`);
+                            student.earnedPoints = oldEarnedPoints + unsavedRosterPoints;
+
+                            // Keep tracking objects aligned with what is now saved
+                            lastSavedStudentPoints[student.name] = currentQuizPoints;
+
+                            console.log(`Updated ${student.name}: +${unsavedRosterPoints} roster points (${oldPoints} → ${student.points}, lastSaved=${lastSavedToRoster}, warSaved=${alreadySavedToWar})`);
                         } else {
-                            console.log(`No new points to transfer for ${student.name} (already saved: ${alreadySavedToWar})`);
+                            console.log(`Roster already up to date for ${student.name} (quiz=${currentQuizPoints}, lastSaved=${lastSavedToRoster})`);
                         }
+
+                        // Track the total saved to war game to prevent double transfers on repeated calls
+                        pointsSavedToWarGame[student.name] = currentQuizPoints;
                     });
                     
                     // Add team victory bonuses
@@ -7754,27 +7768,20 @@
                 
                 const student = students[studentIndex];
                 
-                // Calculate stats from this quiz session
-                let totalPointsEarned = 0;
-                let questionsAnswered = 0;
-                let correctAnswers = 0;
-                
-                // Count questions answered and points earned using accurate tracking
-                Object.keys(studentPoints).forEach(studentName => {
-                    const points = studentPoints[studentName] || 0;
-                    const correct = studentCorrectAnswers[studentName] || 0;
-                    const total = studentTotalQuestions[studentName] || 0;
-                    
-                    totalPointsEarned += points;
-                    questionsAnswered += total;
-                    correctAnswers += correct;
-                });
-                
-                // Update student stats
-                student.totalPoints += totalPointsEarned;
+                const studentNameKey = currentStudent.name || currentStudent.username || currentStudent.fullName || null;
+                const quizPointsForStudent = studentNameKey ? (studentPoints[studentNameKey] || 0) : 0;
+                const correctAnswersForStudent = studentNameKey ? (studentCorrectAnswers[studentNameKey] || 0) : 0;
+                const questionsAnsweredForStudent = studentNameKey ? (studentTotalQuestions[studentNameKey] || 0) : 0;
+
+                if (!studentNameKey) {
+                    console.warn('Unable to determine student key for progress update. currentStudent object:', currentStudent);
+                }
+
+                // Update student stats using their individual performance
+                student.totalPoints += quizPointsForStudent;
                 student.quizGamesPlayed += 1;
-                student.questionsAnswered += questionsAnswered;
-                student.correctAnswers += correctAnswers;
+                student.questionsAnswered += questionsAnsweredForStudent;
+                student.correctAnswers += correctAnswersForStudent;
                 student.lastLogin = new Date().toISOString();
                 
                 students[studentIndex] = student;
@@ -7817,7 +7824,7 @@
                     }
                 }
                 
-                console.log(`Updated student progress: +${totalPointsEarned} points, ${questionsAnswered} questions answered`);
+                console.log(`Updated student progress for ${student.username || student.name}: +${quizPointsForStudent} points, ${questionsAnsweredForStudent} questions answered`);
             } catch (error) {
                 console.error('Error updating student progress:', error);
             }
@@ -10824,6 +10831,16 @@
             return false;
         }
         
+        function shuffleArray(array) {
+            if (!Array.isArray(array)) return [];
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
         function initializeTeamMode() {
             console.log('=== INITIALIZE TEAM MODE ===');
             console.log('rosterData:', rosterData);
@@ -10836,6 +10853,19 @@
             }
             
             teamMode = true;
+            currentStudentIndex = 0;
+            
+            // Randomize student order within each team to keep turn order fair
+            rosterData.teams = rosterData.teams.map(team => ({
+                ...team,
+                students: shuffleArray(team?.students || [])
+            }));
+            if (window.quizTeamAssignment && Array.isArray(window.quizTeamAssignment.teams)) {
+                window.quizTeamAssignment.teams = rosterData.teams;
+            }
+            console.log('Teams randomized for fair turn order:', rosterData.teams);
+            
+            // Reset student index to start from first student of first team
             currentStudentIndex = 0;
             
             // Set up team names from roster and update team count
@@ -10891,7 +10921,9 @@
         
         function getCurrentStudent() {
             if (!teamMode || currentTeamStudents.length === 0) return null;
-            const student = currentTeamStudents[currentStudentIndex];
+            // Ensure index is within bounds for this team
+            const safeIndex = currentStudentIndex % currentTeamStudents.length;
+            const student = currentTeamStudents[safeIndex];
             // Handle both string and object formats
             if (typeof student === 'string') {
                 return { name: student, id: student };
@@ -11369,7 +11401,11 @@
           if (nextQuestionBtn) {
             nextQuestionBtn.onclick = () => {
               hideNextQuestionButton();
-              // Turn is already advanced from grid click, just show next question
+              // CRITICAL: Always advance turn when clicking Next Question to prevent same student getting multiple questions
+              // (Even if tile pick advanced it, this ensures it happens reliably)
+              if (typeof advanceTurn === 'function') {
+                advanceTurn();
+              }
               showQuestion();
             };
           }
