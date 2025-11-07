@@ -6344,24 +6344,45 @@
             if (teamMode) {
               // In quiz mode, alternate between teams while keeping same student index
               // Only advance student when we've gone through all teams
+              const previousTurn = turn;
               let currentIndex = teamOrder.indexOf(turn);
+              
+              if (currentIndex === -1) {
+                console.error('Current turn not found in teamOrder, resetting to Team A');
+                turn = teamOrder[0];
+                currentIndex = 0;
+              }
+              
               const previousIndex = currentIndex;
               currentIndex = (currentIndex + 1) % teamCount;
-              turn = teamOrder[currentIndex];
+              const newTurn = teamOrder[currentIndex];
+              
+              // CRITICAL: Ensure turn actually changes
+              if (newTurn === previousTurn && teamCount > 1) {
+                console.error('Turn did not change! Forcing to next team.');
+                currentIndex = (currentIndex + 1) % teamCount;
+                turn = teamOrder[currentIndex];
+              } else {
+                turn = newTurn;
+              }
               
               // If we've cycled back to the first team (went from last team to first), advance to next student
               if (previousIndex === teamCount - 1 && currentIndex === 0) {
                 // Find the maximum team size to ensure we cycle through all students
                 const maxTeamSize = Math.max(...(rosterData.teams || []).map(t => (t.students || []).length));
                 currentStudentIndex = (currentStudentIndex + 1) % maxTeamSize;
-                console.log('Advanced to next student round:', currentStudentIndex, 'of', maxTeamSize);
+                console.log('✅ Advanced to next student round:', currentStudentIndex, 'of', maxTeamSize);
               }
               
               // Update current team students but preserve the student index
+              // CRITICAL: Call this AFTER turn is updated so it uses the correct team
               updateCurrentTeamStudents(true);
               
-              console.log('Moved to next team:', {
+              console.log('🔄 Moved to next team:', {
+                previousTurn,
                 newTurn: turn,
+                previousIndex,
+                newIndex: currentIndex,
                 newTeamName: names[turn],
                 newTeamStudents: currentTeamStudents?.length,
                 preservedStudentIndex: currentStudentIndex,
@@ -10905,18 +10926,27 @@
             
             // Find the team index based on the turn letter (A=0, B=1, C=2, etc.)
             const teamIndex = turn.charCodeAt(0) - 65; // A=0, B=1, C=2, etc.
+            
+            // Validate team index is within bounds
+            if (teamIndex < 0 || teamIndex >= (rosterData.teams || []).length) {
+                console.error(`Invalid team index ${teamIndex} for turn ${turn}. Teams available:`, rosterData.teams?.length);
+                return;
+            }
+            
             const currentTeam = rosterData.teams[teamIndex];
-            currentTeamStudents = currentTeam ? currentTeam.students : [];
+            currentTeamStudents = currentTeam ? (currentTeam.students || []) : [];
             
             // Only reset index if not preserving it
             if (!preserveIndex) {
                 currentStudentIndex = 0;
             } else {
                 // If preserving index, make sure it's within bounds
-                if (currentStudentIndex >= currentTeamStudents.length) {
+                if (currentTeamStudents.length > 0 && currentStudentIndex >= currentTeamStudents.length) {
                     currentStudentIndex = currentStudentIndex % currentTeamStudents.length;
                 }
             }
+            
+            console.log(`📋 Updated team students for ${turn} (index ${teamIndex}): ${currentTeamStudents.length} students, student index: ${currentStudentIndex}`);
         }
         
         function getCurrentStudent() {
@@ -10955,7 +10985,10 @@
             // Get the current student directly from roster data
             const teamIndex = turn.charCodeAt(0) - 65; // A=0, B=1, C=2, etc.
             const currentTeam = rosterData?.teams?.[teamIndex];
-            const student = currentTeam?.students?.[currentStudentIndex];
+            const teamStudents = currentTeam?.students || [];
+            // Use safe index with modulo to handle teams of different sizes
+            const safeIndex = teamStudents.length > 0 ? (currentStudentIndex % teamStudents.length) : 0;
+            const student = teamStudents[safeIndex];
             const teamName = currentTeam?.name || names[turn] || `Team ${turn}`;
             
             if (student) {
