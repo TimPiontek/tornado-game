@@ -3223,8 +3223,9 @@ The Beatles
           }
         }
         
-        // Initialize navigation
-        updateNavigationDirect();
+        // Don't initialize navigation here - wait for DOMContentLoaded
+        // Navigation will be initialized in updateHomepageForUser() which is called
+        // after DOM is ready and Supabase has time to restore the session
 
         // // Debug: Log session on page load
         // supabaseClient.auth.getUser().then(({ data: { user }, error }) => {
@@ -4418,6 +4419,9 @@ The Beatles
         document.addEventListener('DOMContentLoaded', function() {
           console.log('DOM loaded, initializing auth state...');
           
+          // Initialize navigation immediately (will show guest state first)
+          updateNavigationDirect();
+          
           // Attach login button handler immediately
           attachLoginButtonHandler();
           
@@ -4425,6 +4429,8 @@ The Beatles
           if (supabaseClient && supabaseClient.auth) {
             supabaseClient.auth.onAuthStateChange((event, session) => {
               console.log('Auth state changed:', event, session?.user?.email);
+              // Update navigation immediately when auth state changes
+              updateNavigationDirect();
               if (session?.user) {
                 updateLoginBtn(session.user);
                 updateHomepageForUser();
@@ -4435,29 +4441,28 @@ The Beatles
             });
           }
           
-          // Also check auth state immediately in case session is already available
-          updateHomepageForUser();
-          
-          // Check auth state with longer delays to ensure Supabase has time to restore session
+          // Check auth state immediately in case session is already available
+          // Wait a bit for Supabase to restore session from localStorage
           setTimeout(() => {
-            console.log('First auth check (100ms)...');
+            console.log('Initial auth check (100ms)...');
             updateHomepageForUser();
           }, 100);
           
+          // Check auth state with longer delays to ensure Supabase has time to restore session
           setTimeout(() => {
-            console.log('Second auth check (1000ms)...');
+            console.log('Second auth check (500ms)...');
+            updateHomepageForUser();
+          }, 500);
+          
+          setTimeout(() => {
+            console.log('Third auth check (1000ms)...');
             updateHomepageForUser();
           }, 1000);
           
           setTimeout(() => {
-            console.log('Third auth check (2000ms)...');
+            console.log('Final auth check (2000ms)...');
             updateHomepageForUser();
           }, 2000);
-          
-          setTimeout(() => {
-            console.log('Final auth check (5000ms)...');
-            updateHomepageForUser();
-          }, 5000);
         });
         
         function attachLoginButtonHandler() {
