@@ -5079,7 +5079,7 @@
         if (document.getElementById("nextQuestionBtn"))
           document.getElementById("nextQuestionBtn").onclick = () => {
             hideNextQuestionButton();
-            // CRITICAL: Always advance turn when clicking Next Question to prevent same student getting multiple questions
+            // CRITICAL: Always advance turn when clicking Next Question
             if (typeof advanceTurn === 'function') {
               advanceTurn();
             }
@@ -5730,8 +5730,7 @@
                   if (checkGameCompletion()) {
                     return; // Game ended, don't advance turn
                   }
-                  // CRITICAL: Advance turn AFTER breakdown is dismissed
-                  advanceTurn();
+                  // Turn will be advanced when "Next Question" button is clicked
                   isResolvingTurn = false; // Reset flag
                   // Teacher will click "Next Question" button when ready
                 });
@@ -5741,7 +5740,7 @@
               if (checkGameCompletion()) {
                 return; // Game ended, don't advance turn
               }
-                advanceTurn();
+              // Turn will be advanced when "Next Question" button is clicked
               isResolvingTurn = false; // Reset flag
               // Teacher will click "Next Question" button when ready
               }
@@ -5761,10 +5760,8 @@
                 return; // Game ended, don't advance turn
               }
               
-              // CRITICAL: For simple points, advance turn immediately and reset flag
-              // Don't wait for popup to dismiss - it's non-blocking
-              advanceTurn();
-              isResolvingTurn = false; // Reset flag immediately after advancing
+              // Turn will be advanced when "Next Question" button is clicked
+              isResolvingTurn = false; // Reset flag
               // Teacher will click "Next Question" button when ready
               
               return; // Return early to prevent double-advance
@@ -5798,8 +5795,7 @@
               if (checkGameCompletion()) {
                 return; // Game ended, don't advance turn
               }
-              // CRITICAL: Advance turn before returning
-              advanceTurn();
+              // Turn will be advanced when "Next Question" button is clicked
               isResolvingTurn = false; // Reset flag
               // Teacher will click "Next Question" button when ready
               return;
@@ -5876,8 +5872,7 @@
               if (checkGameCompletion()) {
                 return; // Game ended, don't advance turn
               }
-              // CRITICAL: Advance turn before returning
-              advanceTurn();
+              // Turn will be advanced when "Next Question" button is clicked
               isResolvingTurn = false; // Reset flag
               // Teacher will click "Next Question" button when ready
               return;
@@ -5967,8 +5962,7 @@
               if (checkGameCompletion()) {
                 return; // Game ended, don't advance turn
               }
-              // CRITICAL: Advance turn before returning
-              advanceTurn();
+              // Turn will be advanced when "Next Question" button is clicked
               isResolvingTurn = false; // Reset flag
               // Teacher will click "Next Question" button when ready
               return;
@@ -6005,8 +5999,7 @@
                 duration: 3000
               });
               
-              // CRITICAL: Advance turn before returning
-              advanceTurn();
+              // Turn will be advanced when "Next Question" button is clicked
               isResolvingTurn = false;
               
               // Automatically show next question
@@ -6058,7 +6051,7 @@
                 duration: 2500
               });
               
-              advanceTurn();
+              // Turn will be advanced when "Next Question" button is clicked
               isResolvingTurn = false;
               // Teacher will click "Next Question" button when ready
               return;
@@ -6089,8 +6082,7 @@
                 if (checkGameCompletion()) {
                   return; // Game ended, don't advance turn
                 }
-                // Advance turn after breakdown is dismissed
-                advanceTurn();
+                // Turn will be advanced when "Next Question" button is clicked
                 isResolvingTurn = false; // Reset flag
                 // Teacher will click "Next Question" button when ready
               });
@@ -6111,8 +6103,7 @@
               if (checkGameCompletion()) {
                 return; // Game ended, don't advance turn
               }
-              // Advance turn immediately
-              advanceTurn();
+              // Turn will be advanced when "Next Question" button is clicked
               isResolvingTurn = false; // Reset flag
               // Teacher will click "Next Question" button when ready
             }
@@ -6153,8 +6144,7 @@
             if (checkGameCompletion()) {
               return; // Game ended
             }
-            // Advance turn after shield activation
-            advanceTurn();
+            // Turn will be advanced when "Next Question" button is clicked
             isResolvingTurn = false; // Reset flag
             // Teacher will click "Next Question" button when ready
             return;
@@ -6270,8 +6260,7 @@
             return; // Game ended, don't advance turn
           }
           
-          // Use the centralized advanceTurn function
-          advanceTurn();
+          // Turn will be advanced when "Next Question" button is clicked
           
           // CRITICAL: Reset the resolving flag
           isResolvingTurn = false;
