@@ -8573,9 +8573,11 @@
             showQuizRosterSelectionModal();
         }
         
-        function showQuizRosterSelectionModal() {
-            // Get all saved rosters
-            const allRosters = getAllQuizRosters();
+        async function showQuizRosterSelectionModal() {
+            // Get all saved rosters (from localStorage and Supabase)
+            const allRosters = await getAllQuizRosters();
+            
+            console.log('📋 Loaded rosters for quiz selection:', allRosters.length);
             
             if (allRosters.length === 0) {
                 showNoRostersModal();
@@ -8778,11 +8780,11 @@
             });
             
             document.querySelectorAll('.select-roster-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
+                btn.addEventListener('click', async (e) => {
                     e.stopPropagation();
                     const rosterId = btn.getAttribute('data-roster-id');
                     document.body.removeChild(modal);
-                    selectQuizRoster(rosterId);
+                    await selectQuizRoster(rosterId);
                 });
             });
             
@@ -8817,14 +8819,76 @@
             });
         }
         
-        function getAllQuizRosters() {
-            const saved = localStorage.getItem('tornadoRosters');
-            return saved ? JSON.parse(saved) : [];
+        async function getAllQuizRosters() {
+            // First, try to load from localStorage
+            let rosters = [];
+            try {
+                const saved = localStorage.getItem('tornadoRosters');
+                if (saved) {
+                    rosters = JSON.parse(saved);
+                    if (!Array.isArray(rosters)) {
+                        rosters = [];
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading rosters from localStorage:', error);
+                rosters = [];
+            }
+            
+            // Also try to load from Supabase if available and user is logged in
+            // Try multiple possible Supabase client locations
+            let supabaseClient = window.supabaseClient || window.quizSupabaseClient;
+            if (supabaseClient && supabaseClient.auth && supabaseClient.auth.getSession) {
+                try {
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    if (session) {
+                        const { data: cloudRosters, error } = await supabaseClient
+                            .from('rosters')
+                            .select('id, data, last_modified')
+                            .eq('teacher_id', session.user.id);
+                        
+                        if (error) {
+                            console.error('Error loading rosters from Supabase:', error);
+                        } else if (Array.isArray(cloudRosters) && cloudRosters.length > 0) {
+                            // Merge cloud rosters with local rosters
+                            const rosterMap = new Map((rosters || []).map(r => [r.id, r]));
+                            
+                            cloudRosters.forEach(record => {
+                                const cloudData = record?.data ? { ...record.data } : {};
+                                const rosterId = cloudData.id || record.id;
+                                if (!rosterId) return;
+                                
+                                cloudData.id = rosterId;
+                                
+                                const existing = rosterMap.get(rosterId);
+                                const existingTimestamp = existing ? new Date(existing.lastModified || existing.last_modified || existing.created_at || 0).getTime() : 0;
+                                const cloudTimestamp = new Date(cloudData.lastModified || cloudData.last_modified || record.last_modified || 0).getTime();
+                                
+                                // Use the most recent version
+                                if (!existing || cloudTimestamp > existingTimestamp) {
+                                    rosterMap.set(rosterId, cloudData);
+                                }
+                            });
+                            
+                            rosters = Array.from(rosterMap.values());
+                            
+                            // Update localStorage with merged rosters
+                            localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+                            console.log('✅ Merged rosters from Supabase. Total:', rosters.length);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error syncing rosters from Supabase:', error);
+                    // Continue with local rosters even if Supabase fails
+                }
+            }
+            
+            return rosters;
         }
 
-        function showWarTeamMigrationModal() {
+        async function showWarTeamMigrationModal() {
             // Get all rosters that have teams from Tornado War
-            const allRosters = getAllQuizRosters();
+            const allRosters = await getAllQuizRosters();
             
             // Check for teams in two ways:
             // 1. Explicit teams array (manual teams)
@@ -8960,11 +9024,11 @@
             });
             
             document.querySelectorAll('.migrate-teams-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
+                btn.addEventListener('click', async (e) => {
                     e.stopPropagation();
                     const rosterId = btn.getAttribute('data-roster-id');
                     document.body.removeChild(modal);
-                    migrateWarTeams(rosterId);
+                    await migrateWarTeams(rosterId);
                 });
             });
             
@@ -8976,8 +9040,8 @@
             });
         }
 
-        function migrateWarTeams(rosterId) {
-            const allRosters = getAllQuizRosters();
+        async function migrateWarTeams(rosterId) {
+            const allRosters = await getAllQuizRosters();
             const warRoster = allRosters.find(r => r.id === rosterId);
             
             if (!warRoster) {
@@ -9153,8 +9217,8 @@
             });
         }
         
-        function selectQuizRoster(rosterId) {
-            const allRosters = getAllQuizRosters();
+        async function selectQuizRoster(rosterId) {
+            const allRosters = await getAllQuizRosters();
             const selectedRoster = allRosters.find(r => r.id === rosterId);
             
             if (selectedRoster) {
@@ -10799,20 +10863,20 @@
             }
         }
         
-        function loadRosterData() {
+        async function loadRosterData() {
             console.log('=== LOAD ROSTER DATA ===');
             console.log('window.quizTeamAssignment:', window.quizTeamAssignment);
           console.log('window.quizConfig:', window.quizConfig);
             
             // First try to load from quizTeamAssignment (set during roster selection)
             if (window.quizTeamAssignment && window.quizTeamAssignment.rosterData) {
-                // CRITICAL: Reload roster from localStorage to get latest points before using it
-                const allRosters = getAllQuizRosters();
+                // CRITICAL: Reload roster from localStorage and Supabase to get latest points before using it
+                const allRosters = await getAllQuizRosters();
                 const latestRoster = allRosters.find(r => r.id === window.quizTeamAssignment.rosterData.id);
                 if (latestRoster) {
                     // Use latest roster data (has updated points from war game)
                     rosterData = latestRoster;
-                    console.log('Roster reloaded from localStorage with latest points:', rosterData);
+                    console.log('Roster reloaded from storage with latest points:', rosterData);
                 } else {
                 rosterData = window.quizTeamAssignment.rosterData;
                     console.log('Roster loaded from quizTeamAssignment (no update found):', rosterData);
@@ -10822,8 +10886,8 @@
 
           // Try to load a specific roster by ID from URL params
           if (window.quizConfig && window.quizConfig.rosterId) {
-            // CRITICAL: Always reload from localStorage to get latest points
-            const all = getAllQuizRosters();
+            // CRITICAL: Always reload from localStorage and Supabase to get latest points
+            const all = await getAllQuizRosters();
             const found = all.find(r => r.id === window.quizConfig.rosterId);
             if (found) {
               rosterData = found;
@@ -11212,7 +11276,7 @@
           resetGameState();
           
         // Load roster data only if explicitly selected (URL or selection)
-        loadRosterData();
+        await loadRosterData();
 
         // If a category param exists, auto-select the quiz and hide the library step
         try {
