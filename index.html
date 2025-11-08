@@ -2057,7 +2057,7 @@
             border-radius: 6px;
             transition: background 0.2s;
           "
-          >Manage Rosters</a
+          >📋 Manage Rosters</a
         >
         <a
           href="/teacher-assignments.html"
@@ -3201,14 +3201,14 @@ The Beatles
             if (session && session.user) {
               // Teacher is logged in - show teacher navigation
               navLinks.innerHTML += `
-                <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
-                <a href="/teacher-assignments-manage.html" style="color:#fff;text-decoration:none;padding:0.3em 0.7em;border-radius:6px;">📋 Assignments</a>
-                <button id=\"loginLogoutBtn\" class=\"login-btn\">Logout</button>
+                <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
+                <a href="/teacher-assignments-manage.html" style="color:#fff;text-decoration:none;padding:0.3em 0.7em;border-radius:6px;">📚 Assignments</a>
+                <button id=\"loginLogoutBtn\" class=\"login-btn\">🚪 Logout</button>
               `;
             } else {
               // Not logged in - show guest navigation
               navLinks.innerHTML += `
-                <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
+                <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
                 <a href="/student-login.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🎓 Student Login</a>
                 <a href="/employee-login.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">👤 Employee Login</a>
                 <button id="loginLogoutBtn" class="login-btn">👨‍🏫 Teacher Login</button>
@@ -4311,22 +4311,22 @@ The Beatles
           if (isTeacher) {
             // Teacher navigation (teacher takes priority over student)
             navLinks.innerHTML += `
-              <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
-              <a href="/teacher-assignments-manage.html" style="color:#fff;text-decoration:none;padding:0.3em 0.7em;border-radius:6px;">📋 Assignments</a>
-              <button id=\"loginLogoutBtn\" class=\"login-btn\">Logout</button>
+              <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
+              <a href="/teacher-assignments-manage.html" style="color:#fff;text-decoration:none;padding:0.3em 0.7em;border-radius:6px;">📚 Assignments</a>
+              <button id=\"loginLogoutBtn\" class=\"login-btn\">🚪 Logout</button>
             `;
           } else if (isStudent && !isTeacher) {
             // Student navigation
             navLinks.innerHTML += `
-              <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
+              <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
               <a href="/student-login.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🎓 Student Dashboard</a>
               <a href="/employee-login.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🏢 Employee Login</a>
-              <button id="loginLogoutBtn" class="login-btn">Logout</button>
+              <button id="loginLogoutBtn" class="login-btn">🚪 Logout</button>
             `;
           } else {
             // Guest navigation - NO Assignments link
             navLinks.innerHTML += `
-              <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">Manage Rosters</a>
+              <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
               <a href="/student-login.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🎓 Student Login</a>
               <a href="/business-home.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🏢 Business Home</a>
               <a href="/employee-login.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🏢 Employee Login</a>
@@ -4462,8 +4462,9 @@ The Beatles
         
         function attachLoginButtonHandler() {
           const loginBtn = document.getElementById("loginLogoutBtn");
-          if (loginBtn && !loginBtn.hasAttribute('data-handler-attached')) {
-            loginBtn.setAttribute('data-handler-attached', 'true');
+          if (loginBtn) {
+            // Remove old handler and attribute to allow re-attachment
+            loginBtn.removeAttribute('data-handler-attached');
             loginBtn.onclick = function (e) {
               e.preventDefault();
               console.log('Login button clicked, text:', this.textContent);
@@ -4479,14 +4480,19 @@ The Beatles
               } else {
                 console.log('Logging out...');
                 // Show confirmation dialog
-                if (confirm('Are you sure you want to logout?')) {
+                if (confirm('Are you sure you want to logout? You can switch accounts after logging out.')) {
                   // Clear all auth data
-                  supabaseClient.auth.signOut().then(() => {
+                  supabaseClient.auth.signOut().then(async () => {
                     localStorage.removeItem('currentStudent');
-                    localStorage.removeItem('tornadoRosters'); // Clear local rosters for security
+                    // Don't clear rosters - they should persist for the new account
+                    // localStorage.removeItem('tornadoRosters');
+                    
+                    // Update navigation immediately
+                    await updateNavigationDirect();
+                    updateHomepageForUser();
                     
                     // Show success message
-                    alert('Successfully logged out!');
+                    alert('Successfully logged out! You can now login with a different account.');
                     
                     // Refresh the page to ensure clean state
                     window.location.reload();
@@ -4497,6 +4503,7 @@ The Beatles
                 }
               }
             };
+            loginBtn.setAttribute('data-handler-attached', 'true');
             console.log('Login button handler attached');
           }
         }
