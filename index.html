@@ -3186,9 +3186,49 @@ The Beatles
         // Simple, direct navigation update
         async function updateNavigationDirect() {
           try {
-            const { data: { session } } = await supabaseClient.auth.getSession();
+            console.log('🔄 updateNavigationDirect called');
+            
+            // Try multiple methods to get session
+            let session = null;
+            try {
+              const sessionResult = await supabaseClient.auth.getSession();
+              session = sessionResult.data?.session;
+              console.log('📋 Session check:', session ? `Logged in as ${session.user?.email}` : 'No session');
+            } catch (error) {
+              console.error('⚠️ Error getting session:', error);
+            }
+            
+            // Also try getUser as backup
+            let user = null;
+            if (!session) {
+              try {
+                const userResult = await supabaseClient.auth.getUser();
+                user = userResult.data?.user;
+                if (user) {
+                  console.log('👤 Found user via getUser:', user.email);
+                  // Create a session-like object
+                  session = { user };
+                }
+              } catch (error) {
+                console.error('⚠️ Error getting user:', error);
+              }
+            }
+            
             const navLinks = document.querySelector('#mainNav > div:last-child');
-            if (!navLinks) return;
+            if (!navLinks) {
+              console.error('❌ Navigation links container not found!');
+              // Try to update button directly if it exists
+              const btn = document.getElementById('loginLogoutBtn');
+              if (btn && session && session.user) {
+                btn.textContent = '🚪 Logout';
+                btn.style.background = '#e57373';
+                btn.style.color = '#fff';
+                attachLoginButtonHandler();
+              }
+              return;
+            }
+            
+            console.log('✅ Found navigation container, updating...');
             
             // Clear navigation
             navLinks.innerHTML = '';
@@ -3199,6 +3239,7 @@ The Beatles
             `;
             
             if (session && session.user) {
+              console.log('✅ User is logged in, showing teacher navigation');
               // Teacher is logged in - show teacher navigation
               navLinks.innerHTML += `
                 <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
@@ -3206,6 +3247,7 @@ The Beatles
                 <button id=\"loginLogoutBtn\" class=\"login-btn\">🚪 Logout</button>
               `;
             } else {
+              console.log('ℹ️ User is not logged in, showing guest navigation');
               // Not logged in - show guest navigation
               navLinks.innerHTML += `
                 <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
@@ -3219,7 +3261,7 @@ The Beatles
             attachLoginButtonHandler();
             
           } catch (error) {
-            console.error('Error updating navigation:', error);
+            console.error('❌ Error updating navigation:', error);
           }
         }
         
@@ -4416,52 +4458,71 @@ The Beatles
         
         // Initialize homepage based on current user state
         // Initialize auth state and login button on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
           console.log('DOM loaded, initializing auth state...');
           
-          // Initialize navigation immediately (will show guest state first)
-          updateNavigationDirect();
-          
-          // Attach login button handler immediately
-          attachLoginButtonHandler();
-          
-          // Listen for auth state changes to update button in real-time
+          // Set up auth state change listener FIRST, before any checks
+          // This ensures we catch the session restoration event
           if (supabaseClient && supabaseClient.auth) {
-            supabaseClient.auth.onAuthStateChange((event, session) => {
-              console.log('Auth state changed:', event, session?.user?.email);
+            supabaseClient.auth.onAuthStateChange(async (event, session) => {
+              console.log('🔔 Auth state changed:', event, session?.user?.email);
+              
+              // INITIAL_SESSION is fired when Supabase restores a session on page load
+              // This is the key event we need to catch for returning users
+              if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+                console.log('✅ Session restored/refreshed, updating navigation...');
+              }
+              
               // Update navigation immediately when auth state changes
-              updateNavigationDirect();
+              await updateNavigationDirect();
               if (session?.user) {
+                console.log('✅ User session found, updating UI to logged-in state');
                 updateLoginBtn(session.user);
-                updateHomepageForUser();
+                await updateHomepageForUser();
               } else {
+                console.log('ℹ️ No user session, updating UI to guest state');
                 updateLoginBtn(null);
-                updateHomepageForUser();
+                await updateHomepageForUser();
               }
             });
           }
           
-          // Check auth state immediately in case session is already available
-          // Wait a bit for Supabase to restore session from localStorage
-          setTimeout(() => {
-            console.log('Initial auth check (100ms)...');
-            updateHomepageForUser();
-          }, 100);
+          // Initialize navigation with guest state first (will update when session is detected)
+          await updateNavigationDirect();
           
-          // Check auth state with longer delays to ensure Supabase has time to restore session
-          setTimeout(() => {
-            console.log('Second auth check (500ms)...');
-            updateHomepageForUser();
+          // Attach login button handler immediately
+          attachLoginButtonHandler();
+          
+          // Wait for Supabase to restore session from localStorage
+          // Supabase typically restores the session within 100-500ms
+          // We'll check multiple times to ensure we catch it
+          
+          // First check - give Supabase a moment to initialize
+          setTimeout(async () => {
+            console.log('⏱️ Initial auth check (200ms)...');
+            await updateNavigationDirect();
+            await updateHomepageForUser();
+          }, 200);
+          
+          // Second check - Supabase should have restored by now
+          setTimeout(async () => {
+            console.log('⏱️ Second auth check (500ms)...');
+            await updateNavigationDirect();
+            await updateHomepageForUser();
           }, 500);
           
-          setTimeout(() => {
-            console.log('Third auth check (1000ms)...');
-            updateHomepageForUser();
+          // Third check - backup in case it takes longer
+          setTimeout(async () => {
+            console.log('⏱️ Third auth check (1000ms)...');
+            await updateNavigationDirect();
+            await updateHomepageForUser();
           }, 1000);
           
-          setTimeout(() => {
-            console.log('Final auth check (2000ms)...');
-            updateHomepageForUser();
+          // Final check - last resort
+          setTimeout(async () => {
+            console.log('⏱️ Final auth check (2000ms)...');
+            await updateNavigationDirect();
+            await updateHomepageForUser();
           }, 2000);
         });
         
