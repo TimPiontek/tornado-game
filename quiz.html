@@ -4931,14 +4931,19 @@
                 .split(/\n\s*\n/)
                 .map((b) => b.trim())
                 .filter((b) => b);
+              console.log('[Quiz] Split into blocks:', blocks.length, 'blocks');
+              console.log('[Quiz] First block preview:', blocks[0]?.substring(0, 100));
               // detect Q&A blocks
               if (blocks.some((b) => b.split("\n").length > 1)) {
                 questions = blocks.map((b) => {
-                  const [q, a] = b.split("\n");
+                  const lines = b.split("\n");
+                  const q = lines[0];
+                  const a = lines.slice(1).join("\n"); // Handle multi-line answers
                   return { question: q.trim(), answer: a?.trim() || null };
                 });
                 console.log('[Quiz] Parsed Q&A blocks:', questions.length);
                 console.log('[Quiz] First parsed question:', questions[0]?.question);
+                console.log('[Quiz] First parsed answer:', questions[0]?.answer?.substring(0, 50));
               } else {
                 questions = raw
                   .split("\n")
@@ -5079,10 +5084,17 @@
         if (document.getElementById("nextQuestionBtn"))
           document.getElementById("nextQuestionBtn").onclick = () => {
             hideNextQuestionButton();
+            console.log('📝 Next Question clicked, qIndex before:', qIndex, 'of', usedQuestionIndices.length);
             // CRITICAL: Always advance turn when clicking Next Question
+            // advanceTurn() will increment qIndex
             if (typeof advanceTurn === 'function') {
               advanceTurn();
+            } else {
+              // Fallback: increment qIndex if advanceTurn doesn't exist
+              qIndex = (qIndex + 1) % usedQuestionIndices.length;
+              console.log('⚠️ advanceTurn not found, manually incrementing qIndex to:', qIndex);
             }
+            console.log('📝 qIndex after advanceTurn:', qIndex);
             showQuestion();
           };
 
@@ -11487,11 +11499,17 @@
           if (nextQuestionBtn) {
             nextQuestionBtn.onclick = () => {
               hideNextQuestionButton();
+              console.log('📝 Next Question clicked (duplicate handler), qIndex before:', qIndex, 'of', usedQuestionIndices.length);
               // CRITICAL: Always advance turn when clicking Next Question to prevent same student getting multiple questions
-              // (Even if tile pick advanced it, this ensures it happens reliably)
+              // advanceTurn() will increment qIndex
               if (typeof advanceTurn === 'function') {
                 advanceTurn();
+              } else {
+                // Fallback: increment qIndex if advanceTurn doesn't exist
+                qIndex = (qIndex + 1) % usedQuestionIndices.length;
+                console.log('⚠️ advanceTurn not found, manually incrementing qIndex to:', qIndex);
               }
+              console.log('📝 qIndex after advanceTurn:', qIndex);
               showQuestion();
             };
           }
