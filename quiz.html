@@ -5205,11 +5205,23 @@
           };
         }
 
-        // Skip question button
+        // Skip question button - advances question AND turn
         if (document.getElementById("skipQuestionBtn")) {
           document.getElementById("skipQuestionBtn").onclick = () => {
             // Go to next question
             qIndex = (qIndex + 1) % usedQuestionIndices.length;
+            console.log('⏭️ Skip Question clicked, qIndex now:', qIndex);
+            
+            // CRITICAL: Advance turn when skipping so same student doesn't get multiple questions
+            // Use advanceTurnOnly() to advance turn without incrementing qIndex again
+            if (typeof advanceTurnOnly === 'function') {
+              advanceTurnOnly();
+            } else if (typeof advanceTurn === 'function') {
+              // Fallback: use advanceTurn but restore qIndex
+              const savedQIndex = qIndex;
+              advanceTurn();
+              qIndex = savedQIndex;
+            }
             
             // Hide modal and show next question
             const questionModal = document.getElementById("questionModal");
@@ -5227,34 +5239,27 @@
           };
         }
 
-        // Change teams button
+        // Change teams button - only changes teams, does NOT advance question
         if (document.getElementById("changeTeamsBtn")) {
           document.getElementById("changeTeamsBtn").onclick = () => {
-            // Use the centralized advanceTurn function for consistency
-            advanceTurn();
+            // Only change teams, don't advance question
+            changeTeamOnly();
             
-            // Reduce freeze count
-            if (teamStatus[turn]?.frozen > 0) {
-              teamStatus[turn].frozen--;
+            // Update the question modal to show the new team name
+            const modalTeamName = document.getElementById("modalTeamName");
+            const modalStudentName = document.getElementById("modalStudentName");
+            if (modalTeamName) {
+              modalTeamName.textContent = `${names[turn] || `Team ${turn}`}'s turn`;
+              modalTeamName.style.color = teamColors[turn] || "#6f5c91";
             }
-            
-            if (typeof updateTurn === 'function') {
-              updateTurn();
-            }
-            
-            // Hide modal and show next question
-            const questionModal = document.getElementById("questionModal");
-            if (questionModal) {
-              questionModal.style.display = "none";
-              questionModal.classList.add("hidden");
-            }
-            
-            // Small delay for smooth transition
-            setTimeout(() => {
-              if (typeof showQuestion === 'function') {
-                showQuestion();
+            if (modalStudentName) {
+              const currentStudent = getCurrentStudent();
+              if (currentStudent) {
+                modalStudentName.textContent = `${currentStudent.name} (${names[turn] || `Team ${turn}`})`;
+              } else {
+                modalStudentName.textContent = `${names[turn] || `Team ${turn}`}'s turn`;
               }
-            }, 100);
+            }
           };
         }
 
@@ -6426,6 +6431,154 @@
           if (singlePlayer && turn === "B") {
             setTimeout(computerTurn, 2500);
           }
+        }
+        
+        // Advance turn only (without advancing question index)
+        function advanceTurnOnly() {
+          console.log('🔄 Advance Turn Only - not advancing question');
+          
+          // Move to next team or next student
+          do {
+            if (teamMode) {
+              // In quiz mode, alternate between teams while keeping same student index
+              // Only advance student when we've gone through all teams
+              const previousTurn = turn;
+              let currentIndex = teamOrder.indexOf(turn);
+              
+              if (currentIndex === -1) {
+                console.error('Current turn not found in teamOrder, resetting to Team A');
+                turn = teamOrder[0];
+                currentIndex = 0;
+              }
+              
+              const previousIndex = currentIndex;
+              currentIndex = (currentIndex + 1) % teamCount;
+              const newTurn = teamOrder[currentIndex];
+              
+              // CRITICAL: Ensure turn actually changes
+              if (newTurn === previousTurn && teamCount > 1) {
+                console.error('Turn did not change! Forcing to next team.');
+                currentIndex = (currentIndex + 1) % teamCount;
+                turn = teamOrder[currentIndex];
+              } else {
+                turn = newTurn;
+              }
+              
+              // If we've cycled back to the first team (went from last team to first), advance to next student
+              if (previousIndex === teamCount - 1 && currentIndex === 0) {
+                // Find the maximum team size to ensure we cycle through all students
+                const maxTeamSize = Math.max(...(rosterData.teams || []).map(t => (t.students || []).length));
+                currentStudentIndex = (currentStudentIndex + 1) % maxTeamSize;
+                console.log('✅ Advanced to next student round:', currentStudentIndex, 'of', maxTeamSize);
+              }
+              
+              // Update current team students but preserve the student index
+              updateCurrentTeamStudents(true);
+              
+              console.log('🔄 Moved to next team:', {
+                previousTurn,
+                newTurn: turn,
+                previousIndex,
+                newIndex: currentIndex,
+                newTeamName: names[turn],
+                currentStudent: getCurrentStudent()?.name
+              });
+            } else {
+              let currentIndex = teamOrder.indexOf(turn);
+              currentIndex = (currentIndex + 1) % teamCount;
+              turn = teamOrder[currentIndex];
+            }
+          } while (teamStatus[turn]?.frozen > 0);
+          
+          // Clear team status effects that should disappear after turn
+          clearTeamStatusEffects();
+          
+          // Update display but don't advance question
+          updateTurn();
+        }
+        
+        // Change teams only (without advancing question)
+        function changeTeamOnly() {
+          console.log('🔄 Change Teams Only - not advancing question');
+          
+          // Move to next team
+          do {
+            if (teamMode) {
+              const previousTurn = turn;
+              let currentIndex = teamOrder.indexOf(turn);
+              
+              if (currentIndex === -1) {
+                console.error('Current turn not found in teamOrder, resetting to Team A');
+                turn = teamOrder[0];
+                currentIndex = 0;
+              }
+              
+              currentIndex = (currentIndex + 1) % teamCount;
+              const newTurn = teamOrder[currentIndex];
+              
+              // CRITICAL: Ensure turn actually changes
+              if (newTurn === previousTurn && teamCount > 1) {
+                console.error('Turn did not change! Forcing to next team.');
+                currentIndex = (currentIndex + 1) % teamCount;
+                turn = teamOrder[currentIndex];
+              } else {
+                turn = newTurn;
+              }
+              
+              // Update current team students but preserve the student index
+              updateCurrentTeamStudents(true);
+              
+              console.log('🔄 Changed to team:', {
+                previousTurn,
+                newTurn: turn,
+                newTeamName: names[turn],
+                currentStudent: getCurrentStudent()?.name
+              });
+            } else {
+              let currentIndex = teamOrder.indexOf(turn);
+              currentIndex = (currentIndex + 1) % teamCount;
+              turn = teamOrder[currentIndex];
+            }
+          } while (teamStatus[turn]?.frozen > 0);
+          
+          // Reduce freeze count
+          if (teamStatus[turn]?.frozen > 0) {
+            teamStatus[turn].frozen--;
+          }
+          
+          // Update display but don't advance question
+          updateTurn();
+          updateTeamScores();
+        }
+        
+        // Change to next player only (without advancing question)
+        function changePlayerOnly() {
+          console.log('🔄 Change Player Only - not advancing question');
+          
+          if (teamMode) {
+            // Advance to next student within the current team
+            const teamIndex = turn.charCodeAt(0) - 65; // A=0, B=1, C=2, etc.
+            const currentTeam = rosterData?.teams?.[teamIndex];
+            const teamStudents = currentTeam?.students || [];
+            
+            if (teamStudents.length > 0) {
+              currentStudentIndex = (currentStudentIndex + 1) % teamStudents.length;
+              updateCurrentTeamStudents(true);
+              
+              console.log('🔄 Changed to next player:', {
+                team: names[turn],
+                newStudentIndex: currentStudentIndex,
+                currentStudent: getCurrentStudent()?.name
+              });
+            }
+          } else {
+            // Individual mode - change to next team (which is the next player)
+            changeTeamOnly();
+          }
+          
+          // Update display but don't advance question
+          updateTurn();
+          updateTeamScores();
         }
         
         function goBackTurn() {
