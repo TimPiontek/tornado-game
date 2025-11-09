@@ -6075,11 +6075,17 @@
             }
             
             const basePoints = scores[me];
-            pointsEarned = basePoints; // Points earned = original score (doubled)
-            scores[me] *= 2;
-            const finalTotal = pointsEarned; // Final total = points earned from doubling
-            out = pointsEarned; // Show actual points earned, not emoji
+            pointsEarned = basePoints; // Points earned = original score (this is what was doubled)
+            scores[me] *= 2; // Double the team's score
+            const finalTotal = scores[me]; // Final total = doubled score
+            out = "🦁🦁"; // Show double lion emoji on button
             btn.style.color = teamColors[me];
+            
+            // CRITICAL: Update button immediately before showing breakdown
+            btn.innerHTML = `<span>${out}</span>`;
+            btn.disabled = true;
+            updateScores();
+            updateTeamDisplay();
             
             const breakdown = {
               basePoints: basePoints,
