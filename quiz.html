@@ -11768,40 +11768,10 @@
             modal.classList.add("hidden");
           }
           
-          // After coin flip is completed, change to next team and continue game
-          // This is called after the coin flip result is shown
-          setTimeout(() => {
-            // Move to next team
-            do {
-              let currentIndex = teamOrder.indexOf(turn);
-              currentIndex = (currentIndex + 1) % teamCount;
-              turn = teamOrder[currentIndex];
-            } while (teamStatus[turn]?.frozen > 0);
-            
-            // Clear team status effects that should disappear after turn
-            clearTeamStatusEffects();
-            
-            // Advance to next unique question
-            qIndex++;
-            if (qIndex >= usedQuestionIndices.length) qIndex = 0;
-            updateTurn();
-            
-            // Wait for all pending promises (points breakdowns) to resolve before showing next question
-            if (pendingPromises.length > 0) {
-              Promise.all(pendingPromises).then(() => {
-                // Clear the promises array
-                pendingPromises = [];
-                // Next Question button is always visible, no need to show it
-              });
-            } else {
-              // No pending promises, Next Question button is always visible
-            }
-            
-            // If single player and it's now Android's turn, trigger computer move
-            if (singlePlayer && turn === "B") {
-              setTimeout(computerTurn, 2500);
-            }
-          }, 500); // Small delay to ensure modal is fully hidden
+          // Turn will be advanced when "Next Question" button is clicked
+          // Don't automatically advance turn here - let the teacher control when to move to next question
+          // This prevents double-advancement when "Next Question" is clicked after coin flip
+          isResolvingTurn = false;
         }
 
         // Coin Flip Event Handlers
