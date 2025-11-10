@@ -5415,24 +5415,13 @@
           };
         }
 
-        // Skip question button - advances question AND turn
+        // Skip question button - advances question but keeps same team
         if (document.getElementById("skipQuestionBtn")) {
           document.getElementById("skipQuestionBtn").onclick = () => {
-            // Go to next question
+            // Go to next question but keep current team turn
             qIndex = (qIndex + 1) % usedQuestionIndices.length;
-            console.log('⏭️ Skip Question clicked, qIndex now:', qIndex);
-            
-            // CRITICAL: Advance turn when skipping so same student doesn't get multiple questions
-            // Use advanceTurnOnly() to advance turn without incrementing qIndex again
-            if (typeof advanceTurnOnly === 'function') {
-              advanceTurnOnly();
-            } else if (typeof advanceTurn === 'function') {
-              // Fallback: use advanceTurn but restore qIndex
-              const savedQIndex = qIndex;
-              advanceTurn();
-              qIndex = savedQIndex;
-            }
-            
+            console.log('⏭️ Skip Question clicked, qIndex now:', qIndex, 'turn remains:', turn);
+
             // Hide modal and show next question
             const questionModal = document.getElementById("questionModal");
             if (questionModal) {
