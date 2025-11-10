@@ -8656,9 +8656,14 @@
             }
           }
           
+          if (!winner && allScores.length > 0) {
+            winner = allScores[0].id;
+            console.log('ℹ️ Winner inferred from fallback scores:', winner);
+          }
+          
           // Create results display
           let resultsHTML = `
-            <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; margin: 20px 0;">
+            <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; margin: 20px 0; box-shadow: 0 12px 48px rgba(0,0,0,0.25);">
               <h2 style="margin: 0 0 20px 0; font-size: 2.5rem;">🏆 GAME COMPLETE! 🏆</h2>
               <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
                 <h3 style="margin: 0 0 15px 0; color: #ffd700;">Final Results</h3>
@@ -8710,10 +8715,45 @@
             </div>
           `;
           
-          // Replace the main content with results
+          // Replace the main content with results (or show overlay if main content missing)
           const mainContent = document.querySelector('.wrap') || document.querySelector('#main-content');
           if (mainContent) {
             mainContent.innerHTML = resultsHTML;
+          } else {
+            console.warn('⚠️ Main content container not found - displaying end game overlay');
+            let overlay = document.getElementById('endGameResultsOverlay');
+            if (!overlay) {
+              overlay = document.createElement('div');
+              overlay.id = 'endGameResultsOverlay';
+              overlay.style.position = 'fixed';
+              overlay.style.top = '0';
+              overlay.style.left = '0';
+              overlay.style.width = '100vw';
+              overlay.style.height = '100vh';
+              overlay.style.background = 'rgba(13, 17, 23, 0.88)';
+              overlay.style.display = 'flex';
+              overlay.style.alignItems = 'center';
+              overlay.style.justifyContent = 'center';
+              overlay.style.padding = '30px';
+              overlay.style.zIndex = '99999';
+              document.body.appendChild(overlay);
+            }
+            
+            overlay.innerHTML = `
+              <div style="max-width: 760px; width: 100%; max-height: 90vh; overflow-y: auto;">
+                ${resultsHTML}
+                <div style="text-align: center; margin-top: 10px;">
+                  <button id="closeEndGameOverlayBtn" style="background: transparent; border: 2px solid #fff; color: #fff; padding: 10px 24px; border-radius: 6px; font-weight: 600; cursor: pointer;">Close</button>
+                </div>
+              </div>
+            `;
+            
+            const closeOverlayBtn = document.getElementById('closeEndGameOverlayBtn');
+            if (closeOverlayBtn) {
+              closeOverlayBtn.onclick = () => {
+                overlay.remove();
+              };
+            }
           }
           
           // Add click handler for save button
