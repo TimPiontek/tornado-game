@@ -5865,6 +5865,21 @@
               }
             }
             
+            // SAFETY: Ensure we never target ourselves
+            if (targetTeam === me) {
+              console.warn('⚠️ Tornado target resolved to current team; recalculating target...');
+              targetTeam = Object.keys(scores).find(t => t !== me && scores[t] > 0) || null;
+            }
+            
+            // Extra debug to trace shield logic
+            console.log('🌪️ Tornado about to resolve:', {
+              attacker: me,
+              targetTeam,
+              attackerShield: !!(teamStatus[me]?.shield),
+              targetShield: !!(teamStatus[targetTeam]?.shield),
+              scoresSnapshot: JSON.parse(JSON.stringify(scores))
+            });
+            
             if (!targetTeam || scores[targetTeam] <= 0) {
               // Give points instead of negative effect when no one has points to steal
               pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
@@ -5895,7 +5910,8 @@
               return;
             }
             
-            if (teamStatus[targetTeam]?.shield) {
+            // Only the TARGET team's shield should block a tornado. The attacker's shield MUST NOT block it.
+            if (targetTeam && teamStatus[targetTeam]?.shield) {
               // Shield blocks the effect
               teamStatus[targetTeam].shield = false;
               teamStatus[targetTeam].shieldUsed = true;
@@ -5918,6 +5934,19 @@
                 return;
               } else {
                 // Just 2 teams, steal directly
+                // Final safety: if targetTeam is still invalid or same as attacker, do nothing but show info
+                if (!targetTeam || targetTeam === me) {
+                  console.warn('⚠️ Invalid tornado target; skipping steal and awarding fallback points');
+                  pointsEarned = (Math.floor(Math.random() * 10) + 1) * 100;
+                  scores[me] += pointsEarned;
+                  out = pointsEarned;
+                  btn.style.color = teamColors[me];
+                  btn.innerHTML = `<span>${out}</span>`;
+                  btn.disabled = true;
+                  updateScores();
+                  updateTeamDisplay();
+                  showAwardPopup({ points: out, team: me, autoHide: true, duration: 2500 });
+                } else {
                 scores[me] += scores[targetTeam];
                 scores[targetTeam] = 0;
                 out = "🌪";
@@ -5940,6 +5969,7 @@
                   duration: 4000
                 });
                 animateKangarooSwap();
+                }
               }
             }
             
