@@ -6372,8 +6372,8 @@
               // CRITICAL: Ensure turn actually changes
               if (newTurn === previousTurn && teamCount > 1) {
                 console.error('Turn did not change! Forcing to next team.');
-                currentIndex = (currentIndex + 1) % teamCount;
-                turn = teamOrder[currentIndex];
+              currentIndex = (currentIndex + 1) % teamCount;
+              turn = teamOrder[currentIndex];
               } else {
                 turn = newTurn;
               }
@@ -7834,20 +7834,20 @@
                         const alreadySavedToWar = pointsSavedToWarGame[student.name] || 0;
                         const lastSavedToRoster = lastSavedStudentPoints[student.name] || 0;
                         const unsavedRosterPoints = Math.max(0, currentQuizPoints - lastSavedToRoster);
-
+                        
                         if (unsavedRosterPoints > 0) {
                             const oldPoints = student.points || 0;
                             const oldBalance = student.balance || 0;
                             const oldEarnedPoints = student.earnedPoints || 0;
-
+                            
                             // Only add points that haven't already been written to the roster
                             student.points = oldPoints + unsavedRosterPoints;
                             student.balance = student.points; // Ensure balance matches points
                             student.earnedPoints = oldEarnedPoints + unsavedRosterPoints;
-
+                            
                             // Keep tracking objects aligned with what is now saved
                             lastSavedStudentPoints[student.name] = currentQuizPoints;
-
+                            
                             console.log(`Updated ${student.name}: +${unsavedRosterPoints} roster points (${oldPoints} → ${student.points}, lastSaved=${lastSavedToRoster}, warSaved=${alreadySavedToWar})`);
                         } else {
                             console.log(`Roster already up to date for ${student.name} (quiz=${currentQuizPoints}, lastSaved=${lastSavedToRoster})`);
@@ -8437,8 +8437,12 @@
           let highestScore = -1;
           let allScores = [];
           
-          if (teamMode && rosterData && rosterData.teams) {
-            // Team mode - find winning team
+          // Check if roster is loaded
+          const hasRoster = rosterData && ((teamMode && rosterData.teams) || (!teamMode && rosterData.roster));
+          
+          if (teamMode) {
+            if (hasRoster && rosterData.teams) {
+              // Team mode with roster - find winning team from roster
             rosterData.teams.forEach((team, index) => {
               const teamLetter = String.fromCharCode(65 + index);
               const teamScore = scores[teamLetter] || 0;
@@ -8449,7 +8453,20 @@
               }
             });
           } else {
-            // Individual mode - find winning student
+              // Team mode without roster - find winning team from scores object
+              console.log('⚠️ No roster loaded - finding winner from scores object');
+              for (let teamId in scores) {
+                const teamScore = scores[teamId] || 0;
+                allScores.push({ name: names[teamId] || `Team ${teamId}`, score: teamScore, id: teamId });
+                if (teamScore > highestScore) {
+                  highestScore = teamScore;
+                  winner = teamId;
+                }
+              }
+            }
+          } else {
+            if (hasRoster && rosterData.roster) {
+              // Individual mode with roster - find winning student from roster
             rosterData.roster.forEach(student => {
               const studentScore = studentPoints[student.name] || 0;
               allScores.push({ name: student.name, score: studentScore, id: student.name });
@@ -8458,11 +8475,25 @@
                 winner = student.name;
               }
             });
+            } else {
+              // Individual mode without roster - find winning student from studentPoints
+              console.log('⚠️ No roster loaded - finding winner from studentPoints object');
+              for (let studentName in studentPoints) {
+                const studentScore = studentPoints[studentName] || 0;
+                allScores.push({ name: studentName, score: studentScore, id: studentName });
+                if (studentScore > highestScore) {
+                  highestScore = studentScore;
+                  winner = studentName;
+                }
+              }
+            }
           }
           
           // Final save before showing results - ensure all points are saved
           console.log('💾 Final save before showing end game results...');
           
+          // Only try to save points if we have a roster
+          if (rosterData && rosterData.id) {
           // Force final save with all accumulated points
           const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
           let targetRoster = rosters.find(r => r.id === rosterData.id);
@@ -8543,6 +8574,9 @@
           } else {
             console.error('❌ Target roster not found or has no roster array for final save!', targetRoster);
           }
+          } else {
+            console.log('ℹ️ No roster loaded - skipping point save (game played without roster)');
+          }
           
           // Calculate team victory bonus for display
           let teamVictoryBonusDisplay = null;
@@ -8579,6 +8613,19 @@
           // Sort scores for display
           allScores.sort((a, b) => b.score - a.score);
           
+          // Ensure we have scores to display
+          if (allScores.length === 0) {
+            console.warn('⚠️ No scores found to display! Creating fallback display from scores object.');
+            // Fallback: create scores from scores object directly
+            for (let teamId in scores) {
+              allScores.push({ name: names[teamId] || `Team ${teamId}`, score: scores[teamId] || 0, id: teamId });
+            }
+            allScores.sort((a, b) => b.score - a.score);
+            if (allScores.length > 0) {
+              winner = allScores[0].id;
+            }
+          }
+          
           // Create results display
           let resultsHTML = `
             <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; margin: 20px 0;">
@@ -8587,17 +8634,25 @@
                 <h3 style="margin: 0 0 15px 0; color: #ffd700;">Final Results</h3>
           `;
           
-          allScores.forEach((entry, index) => {
-            const isWinner = index === 0;
-            const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅';
+          if (allScores.length === 0) {
             resultsHTML += `
-              <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; margin: 5px 0; background: ${isWinner ? 'rgba(255,215,0,0.2)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px;">
-                <span style="font-size: 1.5rem;">${medal}</span>
-                <span style="font-weight: ${isWinner ? 'bold' : 'normal'}; font-size: ${isWinner ? '1.2rem' : '1rem'};">${entry.name}</span>
-                <span style="font-weight: bold; color: ${isWinner ? '#ffd700' : 'white'};">${entry.score} points</span>
+              <div style="padding: 20px; color: #ffd700;">
+                <p>No scores available to display.</p>
               </div>
             `;
-          });
+          } else {
+            allScores.forEach((entry, index) => {
+              const isWinner = index === 0;
+              const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅';
+              resultsHTML += `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; margin: 5px 0; background: ${isWinner ? 'rgba(255,215,0,0.2)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px;">
+                  <span style="font-size: 1.5rem;">${medal}</span>
+                  <span style="font-weight: ${isWinner ? 'bold' : 'normal'}; font-size: ${isWinner ? '1.2rem' : '1rem'};">${entry.name}</span>
+                  <span style="font-weight: bold; color: ${isWinner ? '#ffd700' : 'white'};">${entry.score} points</span>
+                </div>
+              `;
+            });
+          }
           
           // Add team victory bonus display if applicable
           if (teamVictoryBonusDisplay) {
@@ -8983,7 +9038,7 @@
             // First, try to load from localStorage
             let rosters = [];
             try {
-                const saved = localStorage.getItem('tornadoRosters');
+            const saved = localStorage.getItem('tornadoRosters');
                 if (saved) {
                     rosters = JSON.parse(saved);
                     if (!Array.isArray(rosters)) {
@@ -11085,7 +11140,7 @@
             }
             return arr;
         }
-
+        
         function initializeTeamMode() {
             console.log('=== INITIALIZE TEAM MODE ===');
             console.log('rosterData:', rosterData);
