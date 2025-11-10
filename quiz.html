@@ -456,6 +456,162 @@
         animation: specialPopup3D 2.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
       }
 
+      /* Responsive adjustments */
+      @media (max-width: 1100px) {
+        .game-layout {
+          grid-template-columns: 260px 1fr;
+          gap: 0.75rem;
+          padding: 1rem;
+        }
+        .game-sidebar {
+          max-height: none;
+        }
+      }
+
+      @media (max-width: 900px) {
+        #mainNav {
+          flex-direction: column !important;
+          align-items: flex-start !important;
+          gap: 1rem !important;
+          padding: 1rem !important;
+        }
+        #mainNav > div:last-child {
+          width: 100%;
+          flex-wrap: wrap !important;
+          gap: 0.75rem !important;
+          justify-content: flex-start !important;
+        }
+        #mainNav a,
+        #mainNav button {
+          font-size: 0.95rem !important;
+          padding: 0.4rem 0.75rem !important;
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 12px;
+        }
+        .game-layout {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+          padding: 0;
+        }
+        .game-sidebar {
+          order: 2;
+          width: 100%;
+          max-height: none;
+          padding: 1rem;
+        }
+        .game-main {
+          order: 1;
+          width: 100%;
+        }
+        #gameStatusBar {
+          flex-direction: column !important;
+          align-items: stretch !important;
+          gap: 0.75rem !important;
+        }
+        #mainTurnDisplay {
+          text-align: center;
+        }
+        #mainGameControls {
+          width: 100% !important;
+          display: grid !important;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 0.75rem !important;
+        }
+        #mainGameControls .btn,
+        #mainGameControls button {
+          width: 100%;
+          font-size: 1rem !important;
+          padding: 0.9rem 0.85rem !important;
+        }
+        #resetButtonsBtn {
+          grid-column: 1 / -1;
+        }
+        #mainTeamScores {
+          width: 100%;
+          gap: 0.75rem !important;
+          justify-content: space-between;
+        }
+        .team-scores {
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 0.75rem;
+        }
+        .team-score-item {
+          flex: 1 1 calc(50% - 0.75rem);
+        }
+        #grid {
+          padding: 0.75rem !important;
+          gap: 0.75rem !important;
+          grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)) !important;
+          min-height: auto !important;
+        }
+        #grid button {
+          min-height: 90px;
+          font-size: 1.4rem;
+        }
+        #questionModal {
+          left: 0 !important;
+          padding: 0 12px;
+        }
+        #questionModal > div {
+          padding: 2rem 1.5rem !important;
+          max-width: 100%;
+        }
+        #modalQuestion {
+          font-size: clamp(1.6rem, 5vw, 2rem) !important;
+        }
+        #modalAnswer {
+          font-size: clamp(1.4rem, 4.5vw, 1.8rem) !important;
+        }
+        #questionModal .question-action-btn.correct-btn,
+        #questionModal .question-action-btn.incorrect-btn {
+          padding: 1rem !important;
+          font-size: 1.2rem;
+        }
+        #questionModal .question-action-btn {
+          grid-column: 1 / -1;
+          width: 100%;
+        }
+        #questionModal .question-action-btn.correct-btn span:first-child,
+        #questionModal .question-action-btn.incorrect-btn span:first-child {
+          font-size: 1.3em !important;
+        }
+        #questionModal .question-action-btn.correct-btn span:last-child,
+        #questionModal .question-action-btn.incorrect-btn span:last-child {
+          font-size: 1em !important;
+        }
+        #questionModal .question-action-btn {
+          grid-template-columns: 1fr !important;
+        }
+      }
+
+      @media (max-width: 540px) {
+        #mainGameControls {
+          grid-template-columns: 1fr;
+        }
+        .team-score-item {
+          flex: 1 1 100%;
+        }
+        #grid {
+          grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)) !important;
+          gap: 0.6rem !important;
+        }
+        #grid button {
+          min-height: 80px;
+          font-size: 1.25rem;
+        }
+        #questionModal > div {
+          padding: 1.5rem 1.2rem !important;
+        }
+        #questionModal .question-action-btn.correct-btn,
+        #questionModal .question-action-btn.incorrect-btn {
+          font-size: 1.05rem;
+        }
+      }
       .special-popup {
         position: fixed;
         top: 50%;
