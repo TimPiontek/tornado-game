@@ -472,19 +472,35 @@
         #mainNav {
           flex-direction: column !important;
           align-items: flex-start !important;
-          gap: 1rem !important;
-          padding: 1rem !important;
+          gap: 0.75rem !important;
+          padding: 0.9rem 1rem !important;
+        }
+        #mobileNavToggle {
+          display: inline-flex !important;
+          align-items: center;
+          gap: 0.4rem;
+        }
+        #mobileNavToggle:focus,
+        #mobileNavToggle:hover {
+          background: rgba(255,255,255,0.22) !important;
+          transform: translateY(-1px);
         }
         #mainNav > div:last-child {
           width: 100%;
-          flex-wrap: wrap !important;
-          gap: 0.75rem !important;
-          justify-content: flex-start !important;
+          display: none;
+          flex-direction: column;
+          gap: 0.6rem;
+          padding: 0.25rem 0 0 0;
+        }
+        #mainNav.nav-open > div:last-child {
+          display: flex;
         }
         #mainNav a,
         #mainNav button {
           font-size: 0.95rem !important;
-          padding: 0.4rem 0.75rem !important;
+          padding: 0.55rem 0.85rem !important;
+          width: 100%;
+          text-align: left;
         }
       }
 
@@ -2411,6 +2427,25 @@
           >Play Tornado</span
         >
       </div>
+      <button
+        id="mobileNavToggle"
+        style="
+          display: none;
+          background: rgba(255, 255, 255, 0.12);
+          color: #fff;
+          border: 2px solid rgba(255, 255, 255, 0.25);
+          border-radius: 10px;
+          padding: 0.45rem 0.9rem;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background 0.2s, transform 0.2s;
+        "
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+      >
+        ☰ Menu
+      </button>
       <div
         style="
           display: flex;
@@ -3514,6 +3549,25 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        // Mobile navigation toggle
+        const mainNav = document.getElementById('mainNav');
+        const mobileToggle = document.getElementById('mobileNavToggle');
+        if (mainNav && mobileToggle) {
+          const navLinks = mainNav.querySelectorAll('a');
+          const closeNav = () => {
+            mainNav.classList.remove('nav-open');
+            mobileToggle.setAttribute('aria-expanded', 'false');
+          };
+          mobileToggle.addEventListener('click', () => {
+            const willOpen = !mainNav.classList.contains('nav-open');
+            mainNav.classList.toggle('nav-open', willOpen);
+            mobileToggle.setAttribute('aria-expanded', String(willOpen));
+          });
+          navLinks.forEach(link => {
+            link.addEventListener('click', closeNav);
+          });
+        }
+        
         // === QUIZ PAGE ===
         // This is the dedicated quiz page - no game selection needed
         
