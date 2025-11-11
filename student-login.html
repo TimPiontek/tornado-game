@@ -1957,7 +1957,8 @@
                 </div>
             `;
             
-            dashboard.insertAdjacentHTML('beforeend', notificationsHTML);
+            // Insert at the very top of the dashboard so it's immediately visible
+            dashboard.insertAdjacentHTML('afterbegin', notificationsHTML);
         }
 
         function addJoinClassSection() {

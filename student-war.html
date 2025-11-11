@@ -1945,6 +1945,14 @@
 
     console.log('Handling tile click:', { tile, selectedStudent });
 
+    // Rule: if you have incoming pending battle requests, you must respond first
+    const studentRosterName = selectedStudent.name;
+    const incomingPending = getIncomingBattleRequests(studentRosterName).length;
+    if (incomingPending > 0) {
+      alert(`You have ${incomingPending} incoming battle request${incomingPending > 1 ? 's' : ''} awaiting your response. Please respond to all battles in your inbox before purchasing territories or initiating new battles.`);
+      return;
+    }
+
     if (!tile.owner_game_student_id) {
       // Empty tile - buy it (check adjacency)
       
@@ -2047,7 +2055,7 @@
           return;
         }
         
-        // Check for pending requests
+        // Check for pending outgoing requests (cap) and enforce respond-first rule (already checked above)
         const pendingCount = getPendingBattleRequestsCount(selectedStudent.name);
         if (pendingCount >= 2) {
           alert(`You already have 2 pending battle requests! Please wait for responses or withdraw a request before sending another.`);
