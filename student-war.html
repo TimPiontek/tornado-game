@@ -3467,13 +3467,15 @@
         </div>
         
         <div style="margin-bottom: 16px;">
-          <label style="display: block; margin-bottom: 8px;"><strong>Your Mercenaries (0-${mercenaries}):</strong></label>
-          <input type="number" id="defMercenaries" min="0" max="${mercenaries}" value="0" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
+          <label style="display: block; margin-bottom: 8px;"><strong>Your Mercenaries (cost 10 pts each):</strong></label>
+          <input type="number" id="defMercenaries" min="0" max="9999" value="0" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);" inputmode="numeric">
+          <div style="margin-top:6px; font-size:12px; color:#93c5fd;">You have ${mercenaries} ready. You can also hire more with points.</div>
         </div>
         
         <div style="margin-bottom: 16px;">
-          <label style="display: block; margin-bottom: 8px;"><strong>Your Weapons (0-${weapons}):</strong></label>
-          <input type="number" id="defWeapons" min="0" max="${weapons}" value="0" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);">
+          <label style="display: block; margin-bottom: 8px;"><strong>Your Weapons (cost 40 pts each):</strong></label>
+          <input type="number" id="defWeapons" min="0" max="9999" value="0" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);" inputmode="numeric">
+          <div style="margin-top:6px; font-size:12px; color:#93c5fd;">You have ${weapons} available. You can also buy basic weapons with points.</div>
         </div>
         
         <div style="margin-bottom: 20px;">
@@ -3488,6 +3490,11 @@
             <div style="font-size: 0.85rem; opacity: 0.8;">
               Attacker: <span id="attackerOdds">--</span> | Defender: <span id="defenderOddsPercent">--</span>
             </div>
+          </div>
+          <div id="oddsExplanation" style="margin-top:10px; font-size:12px; color:#dbeafe;">
+            <div><strong>How odds are calculated</strong></div>
+            <div>Base 50% + (Attacker: 5% × mercs + 10% × weapons) − (Defender: 5% × mercs + 10% × castles)</div>
+            <div id="oddsTerms" style="opacity:0.9; margin-top:4px;"></div>
           </div>
         </div>
         
@@ -3504,6 +3511,8 @@
     
     // Store initial balance
     const initialBalance = defender.balance;
+    const MERC_COST = 10;
+    const WEAPON_UNIT_COST = 40; // basic weapon unit price for this quick-buy flow
     
     // Calculate and display battle costs and odds
     function calculateBattleCostsAndOdds() {
@@ -3511,9 +3520,8 @@
       const defWeapons = parseInt(document.getElementById('defWeapons').value) || 0;
       const defCastles = parseInt(document.getElementById('defCastles').value) || 0;
       
-      // Calculate costs (same as resolveBattle)
-      // Defender cost: mercenaries only (weapons and castles don't cost points, just resources)
-      const defenderCost = defMercs * 10;
+      // Calculate costs: allow hiring/buying beyond inventory based on points
+      const defenderCost = (defMercs * MERC_COST) + (defWeapons * WEAPON_UNIT_COST);
       const totalCost = defenderCost;
       const remaining = initialBalance - totalCost;
       
@@ -3547,29 +3555,24 @@
         if (battleCostEl) battleCostEl.style.color = '#93c5fd';
       }
       
-      // Validate input max values based on what they can afford
+      // Validate input max values based on what they can afford (points-driven)
       const defMercInput = document.getElementById('defMercenaries');
       const defWeaponInput = document.getElementById('defWeapons');
       const defCastleInput = document.getElementById('defCastles');
       
-      // Calculate max mercenaries they can afford
-      const maxAffordableMercs = Math.floor(initialBalance / 10);
-      const actualMaxMercs = Math.min(mercenaries, maxAffordableMercs);
+      // Calculate affordability caps
+      const maxAffordableMercs = Math.floor(initialBalance / MERC_COST);
+      const maxAffordableWeaponsIfNoMercs = Math.floor(initialBalance / WEAPON_UNIT_COST);
       
-      if (defMercInput) {
-        // Adjust max if they can't afford all their mercenaries
-        const currentMax = parseInt(defMercInput.max) || mercenaries;
-        if (actualMaxMercs < currentMax) {
-          defMercInput.max = actualMaxMercs;
-          if (parseInt(defMercInput.value) > actualMaxMercs) {
-            defMercInput.value = actualMaxMercs;
-            // Recalculate after adjusting
-            setTimeout(calculateBattleCostsAndOdds, 0);
-          }
-        }
+      if (defMercInput) defMercInput.max = Math.max(0, maxAffordableMercs);
+      if (defWeaponInput) {
+        // Remaining budget after chosen mercs
+        const budgetAfterMercs = Math.max(0, initialBalance - (defMercs * MERC_COST));
+        const maxAffordableWeapons = Math.floor(budgetAfterMercs / WEAPON_UNIT_COST);
+        defWeaponInput.max = Math.max(0, maxAffordableWeapons);
       }
       
-      // Calculate battle odds (same as before)
+      // Calculate battle odds (show explicit terms)
       const attackerBonus = (request.attacker_mercenaries * 0.05) + (request.attacker_weapons * 0.1);
       const defenderBonus = (defCastles * 0.1) + (defMercs * 0.05);
       
@@ -3588,6 +3591,10 @@
       if (defenderOddsEl) defenderOddsEl.textContent = `${defenderWinOdds}%`;
       if (attackerOddsEl) attackerOddsEl.textContent = `${attackerWinOdds}%`;
       if (defenderOddsPercentEl) defenderOddsPercentEl.textContent = `${defenderWinOdds}%`;
+      const terms = document.getElementById('oddsTerms');
+      if (terms) {
+        terms.textContent = `Attacker bonus = ${request.attacker_mercenaries}×5% + ${request.attacker_weapons}×10% = ${(attackerBonus*100).toFixed(1)}% | Defender bonus = ${defMercs}×5% + ${defCastles}×10% = ${(defenderBonus*100).toFixed(1)}%`;
+      }
       
       // Color coding based on odds
       if (defenderOddsEl) {
@@ -3603,11 +3610,14 @@
       // Disable submit button if can't afford
       const submitBtn = document.getElementById('submitBattleResponse');
       if (submitBtn) {
-        if (remaining < 0 || defMercs > actualMaxMercs) {
+        // Disallow negative balance or exceeding affordability
+        const budgetAfterMercs2 = initialBalance - (defMercs * MERC_COST);
+        const canAffordWeapons = budgetAfterMercs2 >= (defWeapons * WEAPON_UNIT_COST);
+        if (remaining < 0 || !canAffordWeapons) {
           submitBtn.disabled = true;
           submitBtn.style.opacity = '0.5';
           submitBtn.style.cursor = 'not-allowed';
-          submitBtn.title = remaining < 0 ? 'Insufficient funds!' : 'Cannot afford selected resources!';
+          submitBtn.title = 'Insufficient funds for this selection';
         } else {
           submitBtn.disabled = false;
           submitBtn.style.opacity = '1';
@@ -3638,18 +3648,15 @@
         return;
       }
       
-      if (defWeapons < 0 || defWeapons > weapons) {
-        alert(`Invalid weapons count. You have ${weapons} available.`);
-        return;
-      }
+      // weapons: allow buying beyond inventory, validate by affordability only
       
       if (defCastles < 0 || defCastles > castles) {
         alert(`Invalid castles count. You have ${castles} available.`);
         return;
       }
       
-      // Check if they can afford it
-      const defenderCost = defMercs * 10;
+      // Check if they can afford it (points-based)
+      const defenderCost = (defMercs * MERC_COST) + (defWeapons * WEAPON_UNIT_COST);
       if (initialBalance < defenderCost) {
         alert(`Insufficient funds! This battle costs ${defenderCost} points but you only have ${initialBalance}.`);
         return;
