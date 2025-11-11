@@ -823,11 +823,14 @@
 
         function showClassCode() {
             hideAllSections();
+            // Require an authenticated/local student before allowing class join
+            const existing = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+            if (!existing) {
+                showError('Please login or sign up before joining a class.');
+                showLogin();
+                return;
+            }
             document.getElementById('classCodeSection').classList.add('active');
-            
-            // Allow joining class even if not logged in
-            // Students can select their name from roster after joining
-            console.log('📋 Showing class code screen - students can join without logging in');
         }
 
         function showRoster() {
@@ -1164,21 +1167,12 @@
 
             if (!student) {
                 // Student account doesn't exist on this device
-                // Offer to create a new account or join class without account
+                // Require account creation/login; do not allow joining without an account
                 const message = `Account not found on this device.\n\n` +
-                    `Options:\n` +
-                    `1. Create a new account (click "Sign Up")\n` +
-                    `2. Join a class without logging in (use "Join Class" button)\n` +
-                    `3. If you created this account on another device, you'll need to create it again here\n\n` +
-                    `Note: To access your account from any device, provide an email during signup for cloud sync.`;
+                    `To continue, please create an account (Sign Up) or ask your teacher to confirm your username/password.\n\n` +
+                    `Tip: Use an email during signup to enable login from any device.`;
                 showError(message);
-                
-                // Show class code option
-                setTimeout(() => {
-                    if (confirm('Would you like to join a class without creating an account? You can create your account after joining.')) {
-                        showClassCode();
-                    }
-                }, 2000);
+                showSignup();
                 return;
             }
 
