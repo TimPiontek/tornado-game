@@ -624,12 +624,16 @@
       <p style="font-size:12px; color:var(--muted);">
         ${currentRoster.roster?.length || 0} participants • ${currentRoster.teamMode || 'individual'} mode
       </p>
-      <div style="margin:12px 0;">
-        <label style="display:flex; gap:8px; font-size:12px; align-items:center;">
+      <div style="margin:12px 0; border:1px solid var(--border); border-radius:8px; padding:10px; background:#081125;">
+        <div style="font-weight:600; margin-bottom:6px;">Student Join Security</div>
+        <label style="display:flex; gap:8px; font-size:12px; align-items:center; cursor:pointer;">
           <input type="checkbox" ${requireCodes ? 'checked' : ''} onchange="setJoinCodeRequirement(this.checked)">
-          Require one-time join codes for student login
+          Require one-time student join codes (not the class code)
         </label>
-        ${requireCodes ? `<p style="font-size:11px; color:var(--muted); margin:6px 0 0;">Students must enter their personal join code the first time they link their profile.</p>` : ''}
+        <p style="font-size:11px; color:var(--muted); margin:6px 0 0;">
+          When this is ON, each student gets a personal code shown below. They must enter their code the first time they join.
+          This is different from the <strong>Class Code</strong> used to find the roster.
+        </p>
       </div>
       <div class="employee-list">
         ${participantMarkup || '<div style="color:var(--muted);">No participants yet.</div>'}
