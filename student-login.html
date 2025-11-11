@@ -2010,6 +2010,21 @@
             dashboard.insertAdjacentHTML('afterbegin', notificationsHTML);
         }
 
+        // Refresh assignments when the tab becomes visible and every 15s while visible
+        (function setupAssignmentAutoRefresh() {
+            const maybeRefresh = async () => {
+                try {
+                    if (document.visibilityState === 'visible') {
+                        await loadStudentAssignments();
+                    }
+                } catch (e) {
+                    console.warn('Assignment auto-refresh failed:', e);
+                }
+            };
+            document.addEventListener('visibilitychange', maybeRefresh);
+            setInterval(maybeRefresh, 15000);
+        })();
+
         function addJoinClassSection() {
             const dashboard = document.getElementById('dashboardSection');
             
@@ -2521,13 +2536,8 @@
             if (!assignmentsList) return;
 
             // Load from Supabase first
-            if (window.supabase && window.supabase.createClient && currentStudent) {
+            if (supabaseClient && currentStudent) {
                 try {
-                    const supabaseClient = window.supabase.createClient(
-                        'https://dmbbsrcwqpmdxqtzvtqj.supabase.co',
-                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYmJzcmN3cXBtZHhxdHp2dHFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDg1OTYsImV4cCI6MjA2MjMyNDU5Nn0.E7EYSLCFXMYw5f4Wv7EXXj7-5yAT__BoYXklDB4uE2w'
-                    );
-                    
                     const { data: assignments, error } = await supabaseClient
                         .from('assignments')
                         .select('*');
