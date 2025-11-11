@@ -2105,7 +2105,7 @@
           >ℹ️ How It Works</a
         >
         <a
-          href="/business-roster.html"
+          href="/roster.html"
           style="
             color: #fff;
             text-decoration: none;
@@ -3316,7 +3316,7 @@ The Beatles
               console.log('✅ User is logged in, showing teacher navigation');
               // Teacher is logged in - show teacher navigation
               navLinks.innerHTML += `
-                <a href="/business-roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
+                <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
                 <a href="/teacher-assignments-manage.html" style="color:#fff;text-decoration:none;padding:0.3em 0.7em;border-radius:6px;">📚 Assignments</a>
                 <button id=\"loginLogoutBtn\" class=\"login-btn\">🚪 Logout</button>
               `;
@@ -3324,7 +3324,7 @@ The Beatles
               console.log('ℹ️ User is not logged in, showing guest navigation');
               // Not logged in - show guest navigation
               navLinks.innerHTML += `
-                <a href="/business-roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
+                <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
                 <a href="/student-login.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🎓 Student Login</a>
                 <a href="/employee-login.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">👤 Employee Login</a>
                 <button id="loginLogoutBtn" class="login-btn">👨‍🏫 Teacher Login</button>
@@ -4428,14 +4428,14 @@ The Beatles
           if (isTeacher) {
             // Teacher navigation (teacher takes priority over student)
             navLinks.innerHTML += `
-              <a href="/business-roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
+              <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
               <a href="/teacher-assignments-manage.html" style="color:#fff;text-decoration:none;padding:0.3em 0.7em;border-radius:6px;">📚 Assignments</a>
               <button id=\"loginLogoutBtn\" class=\"login-btn\">🚪 Logout</button>
             `;
           } else if (isStudent && !isTeacher) {
             // Student navigation
             navLinks.innerHTML += `
-              <a href="/business-roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
+              <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
               <a href="/student-login.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🎓 Student Dashboard</a>
               <a href="/employee-login.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🏢 Employee Login</a>
               <button id="loginLogoutBtn" class="login-btn">🚪 Logout</button>
@@ -4443,7 +4443,7 @@ The Beatles
           } else {
             // Guest navigation - NO Assignments link
             navLinks.innerHTML += `
-              <a href="/business-roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
+              <a href="/roster.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">📋 Manage Rosters</a>
               <a href="/student-login.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🎓 Student Login</a>
               <a href="/business-home.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🏢 Business Home</a>
               <a href="/employee-login.html" style="color: #fff; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; transition: background 0.2s;">🏢 Employee Login</a>

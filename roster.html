@@ -1,17 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
-    // Redirect legacy manager to new roster manager
-    (function() {
-      try {
-        const params = window.location.search || '';
-        if (!/noRedirect=1/.test(params)) {
-          window.location.replace('/business-roster.html');
-        }
-      } catch (e) {}
-    })();
-  </script>
+  <!-- Legacy roster manager (kept active). No redirect. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Roster - Tornado Game</title>
