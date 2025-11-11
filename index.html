@@ -4456,7 +4456,7 @@ The Beatles
         }
 
         function updateContentVisibility(isTeacher, isStudent) {
-          // Add welcome message for logged-in teachers
+          // Remove any previous inline banners and keep the game cards clean
           const gameSelectionSection = document.getElementById('gameSelectionSection');
           if (!gameSelectionSection) return;
           
@@ -4465,39 +4465,7 @@ The Beatles
           if (existingWelcome) {
             existingWelcome.remove();
           }
-          
-          if (isTeacher) {
-            // Add welcome message for logged-in teachers
-            const welcomeDiv = document.createElement('div');
-            welcomeDiv.id = 'welcomeMessage';
-            welcomeDiv.style.cssText = `
-              background: linear-gradient(135deg, #6f5c91, #8b7ba8);
-              color: white;
-              padding: 1.5rem;
-              border-radius: 12px;
-              margin-bottom: 2rem;
-              text-align: center;
-              box-shadow: 0 4px 16px rgba(111, 92, 145, 0.3);
-              max-width: 600px;
-              margin-left: auto;
-              margin-right: auto;
-            `;
-            
-            // Get user email from session
-            supabaseClient.auth.getUser().then(({ data: { user } }) => {
-              const userEmail = user?.email || 'Teacher';
-              welcomeDiv.innerHTML = `
-                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">👋 Welcome back!</div>
-                <div style="font-size: 1.1rem; opacity: 0.9;">Logged in as: <strong>${userEmail}</strong></div>
-                <div style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8;">
-                  Ready to create engaging learning experiences? Choose a game below to get started!
-                </div>
-              `;
-            });
-            
-            // Insert welcome message at the top of the game selection section
-            gameSelectionSection.insertBefore(welcomeDiv, gameSelectionSection.firstChild);
-          }
+          // No new banner added; keep interface uncluttered after login
         }
 
         // === LOGIN BUTTON STATE ===
