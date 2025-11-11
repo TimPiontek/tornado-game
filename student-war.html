@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0" />
   <title>Tornado War – Student</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="lib/supabaseClient.js"></script>
+  <script src="/lib/supabaseClient.js"></script>
   <script src="scenarios.js?v=20251017-4"></script>
   <style>
     :root { --bg:#0f172a; --panel:#0b1220; --border:#1f2a44; --text:#e5e7eb; --muted:#9aa3b2; --accent:#22d3ee; }
@@ -368,15 +368,26 @@
 </div>
 
 <script>
-  // Use the centralized Supabase client from lib/supabaseClient.js
-  // This avoids CSP issues with esm.sh imports
-  const getSupabaseClient = window.getSupabaseClient || (() => {
-    console.warn('Supabase client not available');
-    return null;
-  });
-  
-  // Get Supabase client instance
-  const supabase = getSupabaseClient();
+  // Resolve Supabase client (fallback aware)
+  let supabase = null;
+  try {
+    if (window.getSupabaseClient) {
+      supabase = window.getSupabaseClient();
+    }
+    if (!supabase && window.supabaseClient) {
+      supabase = window.supabaseClient;
+    }
+    if (!supabase && window.supabase?.createClient && window.SUPABASE_URL) {
+      supabase = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON);
+      window.supabaseClient = supabase;
+    }
+    if (!supabase) {
+      console.warn('Supabase client not available – running in offline mode');
+    }
+  } catch (err) {
+    console.error('Failed to initialize Supabase client:', err);
+    supabase = null;
+  }
 
   // === STATE ===
   const state = {
