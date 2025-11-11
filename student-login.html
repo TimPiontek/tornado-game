@@ -1680,67 +1680,112 @@
         }
 
         async function selectStudentName(studentName, index) {
-            // If currentStudent is temporary or doesn't exist, check if there's an existing student profile
-            if (!currentStudent || currentStudent.isTemporary) {
-                // Check if there's an existing student profile with this name or username
-                const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
-                let existingStudent = students.find(s => 
+            if (!currentRoster || !currentRoster.roster || !currentRoster.roster[index]) {
+                alert('Unable to join this roster entry. Please refresh and try again.');
+                return;
+            }
+            
+            const rosterStudent = currentRoster.roster[index];
+            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
+            
+            let selectedProfile = (currentStudent && !currentStudent.isTemporary) ? currentStudent : null;
+            if (!selectedProfile) {
+                const existingStudent = students.find(s => 
                     s.username === studentName || 
                     s.rosterName === studentName ||
                     (s.rosterId === currentRoster.id && s.rosterName === studentName)
                 );
-                
-                // If found, use existing profile; otherwise create a new one
                 if (existingStudent) {
                     console.log('Linking to existing student profile:', existingStudent.username);
-                    currentStudent = existingStudent;
-                } else {
-                    // Create a new student profile linked to this roster name
-                    console.log('Creating new student profile for roster name:', studentName);
-                    currentStudent = {
-                        id: generateId(),
-                        username: studentName, // Use roster name as username initially
-                        totalPoints: 0,
-                        quizGamesPlayed: 0,
-                        warGamesPlayed: 0,
-                        questionsAnswered: 0,
-                        correctAnswers: 0,
-                        lastLogin: new Date().toISOString(),
-                        createdAt: new Date().toISOString(),
-                        rosterId: currentRoster.id,
-                        rosterName: studentName,
-                        rosterIndex: index,
-                        isTemporary: false
-                    };
-                    
-                    // Add to students list
-                    students.push(currentStudent);
-                    localStorage.setItem('tornadoStudents', JSON.stringify(students));
+                    selectedProfile = { ...existingStudent };
                 }
             }
             
-            // Update student with roster info and latest points from roster
-            currentStudent.rosterId = currentRoster.id;
-            currentStudent.rosterName = studentName;
-            currentStudent.rosterIndex = index;
-            
-            // Sync points from roster to student profile
-            if (currentRoster && currentRoster.roster && currentRoster.roster[index]) {
-                const rosterStudent = currentRoster.roster[index];
-                const rosterPoints = rosterStudent.balance !== undefined ? rosterStudent.balance : (rosterStudent.points || 0);
-                currentStudent.totalPoints = rosterPoints;
+            let createdProfile = false;
+            if (!selectedProfile) {
+                console.log('Creating new student profile for roster name:', studentName);
+                selectedProfile = {
+                    id: generateId(),
+                    username: studentName,
+                    totalPoints: 0,
+                    quizGamesPlayed: 0,
+                    warGamesPlayed: 0,
+                    questionsAnswered: 0,
+                    correctAnswers: 0,
+                    lastLogin: new Date().toISOString(),
+                    createdAt: new Date().toISOString(),
+                    rosterId: currentRoster.id,
+                    rosterName: studentName,
+                    rosterIndex: index,
+                    isTemporary: false
+                };
+                createdProfile = true;
             }
-
-            // Update in localStorage
-            const students = JSON.parse(localStorage.getItem('tornadoStudents') || '[]');
-            const studentIndex = students.findIndex(s => s.id === currentStudent.id);
-            if (studentIndex >= 0) {
-            students[studentIndex] = currentStudent;
-            } else {
-                students.push(currentStudent);
+            
+            if (currentRoster.requireJoinCodes) {
+                if (!rosterStudent.joinCode) {
+                    alert('This roster requires join codes, but no code was found for this student. Please ask your teacher to refresh the roster.');
+                    return;
+                }
+                
+                const claimedBy = rosterStudent.joinCodeClaimedBy;
+                if (claimedBy && claimedBy !== selectedProfile.id) {
+                    alert('This student slot has already been claimed. Please contact your teacher for assistance.');
+                    return;
+                }
+                
+                let verified = false;
+                for (let attempt = 0; attempt < 3; attempt++) {
+                    const userInput = prompt(`Enter the join code for ${rosterStudent.name}:`);
+                    if (userInput === null) {
+                        // User cancelled
+                        return;
+                    }
+                    if (userInput.trim().toUpperCase() === String(rosterStudent.joinCode).toUpperCase()) {
+                        verified = true;
+                        break;
+                    }
+                    alert('Incorrect join code. Please try again.');
+                }
+                
+                if (!verified) {
+                    alert('Join code verification failed.');
+                    return;
+                }
+                
+                rosterStudent.joinCodeUsed = true;
+                rosterStudent.joinCodeClaimedBy = selectedProfile.id;
+                rosterStudent.joinCodeClaimedAt = new Date().toISOString();
+            }
+            
+            // Update profile with roster info and latest points
+            selectedProfile.rosterId = currentRoster.id;
+            selectedProfile.rosterName = studentName;
+            selectedProfile.rosterIndex = index;
+            selectedProfile.lastLogin = new Date().toISOString();
+            
+            const rosterPoints = rosterStudent.balance !== undefined ? rosterStudent.balance : (rosterStudent.points || 0);
+            selectedProfile.totalPoints = rosterPoints;
+            
+            // Persist student profile locally
+            const existingIndex = students.findIndex(s => s.id === selectedProfile.id);
+            if (existingIndex >= 0) {
+                students[existingIndex] = selectedProfile;
+            } else if (createdProfile) {
+                students.push(selectedProfile);
             }
             localStorage.setItem('tornadoStudents', JSON.stringify(students));
+            
+            currentStudent = selectedProfile;
             localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+            
+            // Persist roster updates (join code usage)
+            const rosters = JSON.parse(localStorage.getItem('tornadoRosters') || '[]');
+            const rosterIndex = rosters.findIndex(r => r.id === currentRoster.id);
+            if (rosterIndex >= 0) {
+                rosters[rosterIndex] = currentRoster;
+                localStorage.setItem('tornadoRosters', JSON.stringify(rosters));
+            }
             
             // Save to Supabase if logged in
             console.log('Attempting to save student progress to cloud...');
@@ -1796,6 +1841,10 @@
 
             if (!newName) {
                 showError('Please enter a name!');
+                return;
+            }
+            if (currentRoster && currentRoster.requireJoinCodes) {
+                showError('This class requires teacher-issued join codes. Please ask your teacher to add you to the roster.');
                 return;
             }
 

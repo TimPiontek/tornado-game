@@ -102,6 +102,89 @@
   let currentRoster = null;
   let teamMode = 'individual';
   const supabaseClient = typeof window !== 'undefined' && window.getSupabaseClient ? window.getSupabaseClient() : null;
+  const JOIN_CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+
+  function generateJoinCodeValue() {
+    let code = '';
+    for (let i = 0; i < 6; i++) {
+      code += JOIN_CODE_CHARS.charAt(Math.floor(Math.random() * JOIN_CODE_CHARS.length));
+    }
+    return code;
+  }
+
+  function generateUniqueJoinCodeForRoster(roster, excludeId = null) {
+    if (!roster || !Array.isArray(roster.roster)) return generateJoinCodeValue();
+    const usedCodes = new Set();
+    roster.roster.forEach(participant => {
+      if (!participant || participant.id === excludeId) return;
+      if (participant.joinCode) {
+        usedCodes.add(String(participant.joinCode).toUpperCase());
+      }
+    });
+    let code = generateJoinCodeValue();
+    let safety = 0;
+    while (usedCodes.has(code) && safety < 1000) {
+      code = generateJoinCodeValue();
+      safety++;
+    }
+    return code;
+  }
+
+  function ensureJoinCodesForRoster(roster) {
+    if (!roster || !Array.isArray(roster.roster)) return false;
+    let changed = false;
+    roster.roster.forEach(participant => {
+      if (!participant.joinCode) {
+        participant.joinCode = generateUniqueJoinCodeForRoster(roster, participant?.id);
+        participant.joinCodeUsed = participant.joinCodeUsed || false;
+        changed = true;
+      }
+    });
+    return changed;
+  }
+
+  async function setJoinCodeRequirement(enabled) {
+    if (!currentRoster) return;
+    currentRoster.requireJoinCodes = enabled;
+    if (enabled) {
+      if (ensureJoinCodesForRoster(currentRoster)) {
+        currentRoster.lastModified = new Date().toISOString();
+      }
+    }
+    currentRoster.lastModified = new Date().toISOString();
+    await saveRosters(currentRoster);
+    updateSelectedRosterDetails();
+  }
+  window.setJoinCodeRequirement = setJoinCodeRequirement;
+
+  function copyJoinCode(code, event) {
+    if (event) event.stopPropagation();
+    if (!code) return;
+    navigator.clipboard.writeText(code).then(() => {
+      alert(`Join code ${code} copied to clipboard`);
+    }).catch(() => {
+      alert(`Join code: ${code}`);
+    });
+  }
+  window.copyJoinCode = copyJoinCode;
+
+  async function regenerateJoinCode(participantId, event) {
+    if (event) event.stopPropagation();
+    if (!currentRoster) return;
+    const participant = currentRoster.roster?.find(p => p.id === participantId);
+    if (!participant) return;
+    if (!confirm(`Generate a new join code for ${participant.name}? The previous code will stop working.`)) {
+      return;
+    }
+    participant.joinCode = generateUniqueJoinCodeForRoster(currentRoster, participantId);
+    participant.joinCodeUsed = false;
+    participant.joinCodeClaimedBy = null;
+    participant.joinCodeClaimedAt = null;
+    currentRoster.lastModified = new Date().toISOString();
+    await saveRosters(currentRoster);
+    updateSelectedRosterDetails();
+  }
+  window.regenerateJoinCode = regenerateJoinCode;
 
   // Get list of deleted roster IDs (to prevent re-adding from Supabase)
   function getDeletedRosterIds() {
@@ -395,6 +478,12 @@
       tilesOwned: 0,
       team: teamMode === 'teams' ? `Team ${Math.floor(Math.random() * parseInt(document.getElementById('teamCount').value)) + 1}` : null
     };
+    if (currentRoster.requireJoinCodes) {
+      participant.joinCode = generateUniqueJoinCodeForRoster(currentRoster, participant.id);
+      participant.joinCodeUsed = false;
+      participant.joinCodeClaimedBy = null;
+      participant.joinCodeClaimedAt = null;
+    }
 
     currentRoster.roster.push(participant);
     currentRoster.lastModified = new Date().toISOString();
@@ -434,6 +523,12 @@
         tilesOwned: 0,
         team: teamMode === 'teams' ? `Team ${(i % teamCount) + 1}` : null
       };
+      if (currentRoster.requireJoinCodes) {
+        participant.joinCode = generateUniqueJoinCodeForRoster(currentRoster, participant.id);
+        participant.joinCodeUsed = false;
+        participant.joinCodeClaimedBy = null;
+        participant.joinCodeClaimedAt = null;
+      }
       
       currentRoster.roster.push(participant);
     }
@@ -469,6 +564,7 @@
         <p style="font-size:12px; color:var(--muted);">
           ${roster.roster?.length || 0} participants • ${roster.teamMode || 'individual'} mode
         </p>
+        ${roster.requireJoinCodes ? `<p style="font-size:11px; color:#facc15; margin:4px 0 0;">🔐 Join codes required</p>` : ''}
         <div style="margin-top:8px;">
           <button class="btn btn-danger" onclick="event.stopPropagation(); deleteRoster('${roster.id}')" style="font-size:10px;">Delete</button>
         </div>
@@ -493,20 +589,50 @@
       return;
     }
 
+    const requireCodes = !!currentRoster.requireJoinCodes;
+    if (requireCodes) {
+      ensureJoinCodesForRoster(currentRoster);
+    }
+
+    const participantMarkup = (currentRoster.roster || []).map(participant => {
+      const balance = participant.balance !== undefined ? participant.balance : (participant.points || 0);
+      const joinCodeBlock = requireCodes ? `
+        <div style="margin-top:6px; font-size:11px; color:var(--muted); display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+          <span>Join Code: <strong style="letter-spacing:1px;">${participant.joinCode || '— — — — — —'}</strong></span>
+          <button class="btn btn-secondary" style="padding:4px 8px; font-size:10px;" onclick="copyJoinCode('${participant.joinCode || ''}', event)">Copy</button>
+          <button class="btn btn-danger" style="padding:4px 8px; font-size:10px;" onclick="regenerateJoinCode('${participant.id}', event)">Reset</button>
+          <span style="font-size:10px; ${participant.joinCodeUsed ? 'color:#34d399;' : 'color:#facc15;'}">
+            ${participant.joinCodeUsed ? 'Claimed' : 'Not yet used'}
+          </span>
+        </div>
+      ` : '';
+      return `
+        <div class="employee-item" style="flex-direction:column; align-items:flex-start;">
+          <div style="width:100%; display:flex; justify-content:space-between; align-items:center;">
+            <span>${participant.name}</span>
+            <span style="font-size:11px; color:var(--muted);">
+              ${participant.team || 'Individual'} • ${balance} pts
+            </span>
+          </div>
+          ${joinCodeBlock}
+        </div>
+      `;
+    }).join('');
+
     container.innerHTML = `
       <h4>${currentRoster.name}</h4>
       <p style="font-size:12px; color:var(--muted);">
         ${currentRoster.roster?.length || 0} participants • ${currentRoster.teamMode || 'individual'} mode
       </p>
+      <div style="margin:12px 0;">
+        <label style="display:flex; gap:8px; font-size:12px; align-items:center;">
+          <input type="checkbox" ${requireCodes ? 'checked' : ''} onchange="setJoinCodeRequirement(this.checked)">
+          Require one-time join codes for student login
+        </label>
+        ${requireCodes ? `<p style="font-size:11px; color:var(--muted); margin:6px 0 0;">Students must enter their personal join code the first time they link their profile.</p>` : ''}
+      </div>
       <div class="employee-list">
-        ${(currentRoster.roster || []).map(participant => `
-          <div class="employee-item">
-            <span>${participant.name}</span>
-            <span style="font-size:11px; color:var(--muted);">
-              ${participant.team || 'Individual'} • ${participant.balance || 100} pts
-            </span>
-          </div>
-        `).join('')}
+        ${participantMarkup || '<div style="color:var(--muted);">No participants yet.</div>'}
       </div>
     `;
   }
